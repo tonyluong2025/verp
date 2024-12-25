@@ -1,3 +1,5 @@
+For Odoo/OpenERP lovers with a completely different experience using all Javascript/Typescript.
+
 Verp (Very-easy Enterprise Resource Planning) is an ERP server platform running on Nodejs written in Typescript/Javascript, the webclient side follows the standard of the Javascript/CSS/HTML trio.
 
 I need a platform that can act as both an ERP and a more multi-purpose platform to serve small and medium-sized organizations and businesses with the following criteria:
