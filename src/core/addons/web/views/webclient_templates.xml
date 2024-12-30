@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+  <!-- Call this template instead of "web.assetsTests" to have the proper conditional check -->
+  <template id="conditionalAssetsTests" name="Tests Assets Bundle">
+    <t t-call-assets="web.assetsTests" t-if="(debug || '').includes('tests') || testModeEnabled" deferLoad="true" />
+  </template>
+
+  <template id="web.layout" name="Web layout">&lt;!DOCTYPE html&gt;
+    <html t-att="htmlData ?? {}">
+      <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+        <title t-esc="title || 'Verp'"/>
+        <link type="image/x-icon" rel="shortcut icon" t-att-href="xIcon ?? '/web/static/img/favicon.ico'"/>
+        <link as="style" rel="stylesheet preload prefetch" type="text/css" href="/web/static/lib/fontawesome/fonts/fontawesome-webfont.woff2?v=4.7.0" crossorigin="anonymous"/>
+        <script id="web.layout.verpscript" type="text/javascript">
+          var verp = {
+            csrfToken: "<t t-esc="await request.csrfToken()"/>",
+            debug: "<t t-esc="debug"/>",
+          };
+        </script>
+
+        <t t-out="head || ''"/>
+      </head>
+      <body t-att-class="bodyClassname">
+        <t t-out="0"/>
+      </body>
+    </html>
+  </template>
+
+  <template id="web.frontendLayout" name="Frontend Layout" inheritId="web.layout" primary="true">
+    <xpath expr="//head/meta[last()]" position="after">
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </xpath>
+    <xpath expr="//head/link[last()]" position="after">
+      <!-- <link rel="preload" href="/web/static/lib/fontawesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" crossorigin=""/> -->
+      <t t-call-assets="web.assetsCommon" t-js="false"/>
+      <t t-call-assets="web.assetsFrontend" t-js="false"/>
+    </xpath>
+    <xpath expr="//head/script[@id='web.layout.verpscript']" position="after">
+      <script type="text/javascript">
+        verp.__session_info__ = <t t-out="JSON.stringify(await env.items('ir.http').getFrontendSessionInfo(request))"/>;
+        if (!/(^|;\s)tz=/.test(document.cookie)) {
+          var userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          document.cookie = \`tz=\x24{userTZ}; path=/\`;
+        }
+      </script>
+      <t t-call-assets="web.assetsCommonMinimal" t-css="false" deferLoad="true"/>
+      <t t-call-assets="web.assetsFrontendMinimal" t-css="false" deferLoad="true"/>
+      <!--t t-call="web.conditionalAssetsTests"/--> 
+      <!-- <t t-call-assets="web.assetsTests" t-css="false" deferLoad="true"/> -->
+      <t t-call-assets="web.assetsCommonLazy" t-css="false" lazyLoad="true"/>
+      <t t-call-assets="web.assetsFrontendLazy" t-css="false" lazyLoad="true"/>
+    </xpath>
+    <xpath expr="//t[@t-out='0']" position="replace">
+      <div id="wrapwrap" t-attf-class="#{pageName || ''}">
+        <header t-if="! noHeader" id="top" data-anchor="true">
+          <img class="img-responsive d-block mx-auto"
+            t-attf-src="/web/binary/companyLogo"
+            alt="Logo"/>
+        </header>
+        <main>
+          <t t-out="0"/>
+        </main>
+        <footer t-if="! noFooter" id="bottom" data-anchor="true" t-attf-class="bg-light o-footer">
+          <div id="footer"/>
+            <div t-if="! noCopyright" class="o-footer-copyright">
+              <div class="container py-3">
+                <div class="row">
+                  <div class="col-sm text-center text-sm-left text-muted">
+                    <t t-call="web.debugIcon"/>
+                    <span class="o-footer-copyright-name mr-2">Copyright &amp;copy; <span t-field="resCompany.label" itemprop="label">Company name</span></span>
+                  </div>
+                  <div class="col-sm text-center text-sm-right">
+                    <t t-call="web.brandPromotion"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </footer>
+      </div>
+    </xpath>
+  </template>
+
+  <template id="brandPromotionMessage" name="Brand Promotion Message">
+    <t t-set="verpLogo">
+      <a target="_blank"
+        t-attf-href="http://www.theverp.com?utmSource=db&amp;utmMedium=#{_utmMedium}"
+        class="badge badge-light">
+        <img alt="Verp"
+          src="/web/static/img/verp_logo_tiny.png"
+          style="height: 1em; vertical-align: baseline;"/>
+      </a>
+    </t>
+    <t t-set="finalMessage">Powered by %s%s</t>
+    <t t-out="format(finalMessage, verpLogo, _message &amp;&amp; ('- ' + _message) || '')"/>
+  </template>
+
+  <template id="brandPromotion" name="Brand Promotion">
+    <div class="o-brand-promotion">
+      <t t-call="web.brandPromotionMessage">
+        <t t-set="_message"></t>
+        <t t-set="_utmMedium" t-valuef="portal"/>
+      </t>
+    </div>
+  </template>
+
+  <template id="web.loginLayout" name="Login Layout">
+    <t t-call="web.frontendLayout">
+      <t t-set="htmlData" t-value="{'style': 'height: 100%;'}"/>
+      <t t-set="bodyClassname" t-value="'bg-100'"/>
+      <t t-set="noHeader" t-value="true"/>
+      <t t-set="noFooter" t-value="true"/>
+
+      <div class="container py-5">
+        <div t-attf-class="card border-0 mx-auto bg-100 {{loginCardClasses}} o-database-list" style="max-width: 300px;">
+          <div class="card-body">
+            <div t-attf-class="text-center pb-3 border-bottom {{formSmall ? 'mb-3' : 'mb-4'}}">
+              <img t-attf-src="/web/binary/companyLogo{{db ? '?dbName='+db : '' }}" alt="Logo" style="max-height:120px; max-width: 100%; width:auto"/>
+            </div>
+            <t t-out="0"/>
+            <div class="text-center small mt-4 pt-3 border-top" t-if="! disableFooter">
+              <t t-if="! disableDatabaseManager">
+                <a class="border-right pr-2 mr-1" href="/web/database/manager">Manage Databases</a>
+              </t>
+              <a href="https://www.theverp.com?utmSource=db&amp;utmMedium=auth" target="_blank">Powered by <span>Verp</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template> 
+
+  <template id="web.login" name="Login">
+    <t t-call="web.loginLayout">
+      <form class="oe-login-form" role="form" t-attf-action="/web/login" method="post" onsubmit="this.action = '/web/login' + location.hash">
+        <input type="hidden" name="csrfToken" t-att-value="await request.csrfToken()"/>
+
+        <div class="form-group field-db" t-if="databases &amp;&amp; databases.length &gt; 1">
+          <label for="db" class="col-form-label">Database</label>
+          <div t-attf-class="input-group {{formSmall ? 'input-group-sm' : ''}}">
+            <input type="text" name="db" t-att-value="request.db" id="db" t-attf-class="form-control #{formSmall ? 'form-control-sm' : ''}" required="required" readonly="readonly"/>
+            <span class="input-group-append">
+              <a role="button" href="/web/database/selector" class="btn btn-secondary">Select <i class="fa fa-database" role="img" aria-label="Database" title="Database"></i></a>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group field-login">
+          <label for="login">Email</label>
+          <input type="text" placeholder="Email" name="login" t-att-value="login" id="login" t-attf-class="form-control #{formSmall ? 'form-control-sm' : ''}" required="required" autofocus="autofocus" autocapitalize="off" autocomplete="current-login"/>
+        </div>
+
+        <div class="form-group field-password">
+          <label for="password">Password</label>
+          <input type="password" placeholder="Password" name="password" id="password" t-attf-class="form-control #{formSmall ? 'form-control-sm' : ''}" required="required" autocomplete="current-password" t-att-autofocus="login ? 'autofocus' : null" maxlength="4096"/>
+        </div>
+
+        <p class="alert alert-danger" t-if="error" role="alert">
+          <t t-esc="error"/>
+        </p>
+        <p class="alert alert-success" t-if="message" role="status">
+          <t t-esc="message"/>
+        </p>
+
+        <div t-attf-class="clearfix oe-login-buttons text-center mb-1 {{formSmall ? 'pt-2' : 'pt-3'}}">
+          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+          <t t-if="debug">
+            <button type="submit" name="redirect" value="/web/become" class="btn btn-link btn-sm btn-block">Log in as superuser</button>
+          </t>
+          <div class="o-login-auth"/>
+        </div>
+
+        <input type="hidden" name="redirect" t-att-value="redirect"/>
+      </form>
+    </t>
+  </template>
+
+  <template id="web.testHelpers">
+    <t t-call-assets="web.testsAssets" t-js="false"/>
+    <style>
+      body {
+        position: relative; // bootstrap-datepicker needs this
+      }
+      body:not(.debug) .modal-backdrop, body:not(.debug) .modal, body:not(.debug) .ui-autocomplete {
+        opacity: 0 !important;
+      }
+      #qunit-testrunner-toolbar label {
+        font-weight: inherit;
+        margin-bottom: inherit;
+      }
+      #qunit-testrunner-toolbar input[type=text] {
+        width: inherit;
+        display: inherit;
+      }
+    </style>
+    <t t-call-assets="web.testsAssets" t-css="false"/>
+  </template>
+
+  <template id="web.qunitSuite">
+    <t t-call="web.layout">
+      <t t-set="htmlData" t-value="{'style': 'height: 100%;'}"/>
+      <t t-set="title">Web Tests</t>
+      <t t-set="head">
+        <t t-call-assets="web.assetsCommon" t-js="false"/>
+        <t t-call-assets="web.assetsBackend" t-js="false"/>
+        <t t-call-assets="web.assetsCommon" t-css="false"/>
+        <t t-call-assets="web.assetsBackend" t-css="false"/>
+
+        <t t-call="web.testHelpers"/>
+
+        <t t-call-assets="web.qunitSuiteTests" t-js="false"/>
+        <t t-call-assets="web.qunitSuiteTests" t-css="false"/>
+      </t>
+      <div id="qunit"/>
+      <div id="qunit-fixture"/>
+    </t>
+  </template>
+
+  <template id="web.qunitMobileSuite">
+    <t t-call="web.layout">
+      <t t-set="htmlData" t-value="{'style': 'height: 100%;'}"/>
+      <t t-set="title">Web Mobile Tests</t>
+      <t t-set="head">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <t t-call-assets="web.assetsCommon" t-js="false"/>
+        <t t-call-assets="web.assetsBackend" t-js="false"/>
+        <t t-call-assets="web.assetsCommon" t-css="false"/>
+        <t t-call-assets="web.assetsBackend" t-css="false"/>
+
+        <t t-call="web.testHelpers"/>
+
+        <t t-call-assets="web.qunitMobileSuiteTests" t-js="false"/>
+        <t t-call-assets="web.qunitMobileSuiteTests" t-css="false"/>
+      </t>
+      <div id="qunit"/>
+      <div id="qunit-fixture"/>
+    </t>
+  </template>
+
+  <template id="web.benchmarkSuite">
+    <t t-call="web.layout">
+      <t t-set="htmlData" t-value="{'style': 'height: 100%;'}"/>
+      <t t-set="title">Web Benchmarks</t>
+      <t t-set="head">
+        <script type="text/javascript" src="/web/static/lib/benchmarkjs/lodash.js"></script>
+        <script type="text/javascript" src="/web/static/lib/benchmarkjs/benchmark.js"></script>
+
+        <t t-call-assets="web.assetsCommon" t-js="false"/>
+        <t t-call-assets="web.assetsBackend" t-js="false"/>
+        <t t-call-assets="web.assetsCommon" t-css="false"/>
+        <t t-call-assets="web.assetsBackend" t-css="false"/>
+
+        <t t-call="web.testHelpers"/>
+
+        <script type="text/javascript">
+          QUnit.config.hidepassed = false;
+        </script>
+
+        <style>
+          body:not(.debug) .modal-backdrop, body:not(.debug) .modal, body:not(.debug) .ui-autocomplete {
+            opacity: 0 !important;
+          }
+          #qunit-testrunner-toolbar label {
+            font-weight: inherit;
+            margin-bottom: inherit;
+          }
+          #qunit-testrunner-toolbar input[type=text] {
+            width: inherit;
+            display: inherit;
+          }
+        </style>
+
+        <script type="text/javascript" src="/web/static/tests/views/list_benchmarks.js"></script>
+        <script type="text/javascript" src="/web/static/tests/views/kanban_benchmarks.js"></script>
+        <script type="text/javascript" src="/web/static/tests/views/form_benchmarks.js"></script>
+
+      </t>
+
+      <div id="qunit"/>
+      <div id="qunit-fixture"/>
+    </t>
+  </template>
+
+  <template id="web.webclientBootstrap">
+    <t t-call="web.layout">
+      <t t-set="headWeb">
+        <script type="text/javascript">
+          verp.__session_info__ = <t t-out="JSON.stringify(sessionInfo)"/>
+          verp.reloadMenus = () => fetch(\`/web/webclient/loadMenus/\x24{verp.__session_info__.cacheHashes.loadMenus}\`).then(res => res.json());
+          verp.loadMenusPromise = verp.reloadMenus();
+          verp.loadTemplatesPromise = fetch(\`/web/webclient/qweb/\x24{verp.__session_info__.cacheHashes.qweb}?bundle=web.assetsQweb\`).then(doc => doc.text());
+          // Block to avoid leaking variables in the script scope
+          {
+              const { userContext,  cacheHashes } = verp.__session_info__;
+              // Prefetch translations to speedup webclient. This is done in JS because link rel="prefetch"
+              // is not yet supported on safari.
+              fetch(\`/web/webclient/translations/\x24{cacheHashes.translations}?lang=\x24{userContext.lang}\`);
+          }
+        </script>
+        <t t-call-assets="web.assetsCommon" t-js="false"/>
+        <t t-call-assets="web.assetsBackend" t-js="false"/>
+        <t t-call-assets="web.assetsCommon" t-css="false"/>
+        <t t-call-assets="web.assetsBackend" t-css="false"/>
+        <t t-call-assets="web.assetsBackendProdOnly" t-css="false"/>
+        <!-- <t t-call="web.conditionalAssetsTests"/>  -->
+        <!-- <t t-call-assets="web.assetsTests" t-css="false"/> -->
+      </t>
+      <t t-set="head" t-value="headWeb + (head || '')"/>
+      <t t-set="bodyClassname" t-value="'o-web-client'"/>
+    </t>
+  </template>
+
+  <template id="debugIcon" name="Debug Icon">
+    <t t-if="debug">
+      <t t-set="debugModeHelp" t-value="` (\x24{debug !== '1' ? debug : ''})`"/>
+      <a t-attf-href="?#{keepQuery(request, '*', {'debug': ''})}" t-attf-title="Debug mode is activated#{debugModeHelp}. Click here to exit debug mode." class="o-debug-mode"><span class="fa fa-bug"/></a>
+    </t>
+  </template>
+</verp>

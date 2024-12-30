@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewEmployeeCategoryForm" model="ir.ui.view">
+             <field name="label">hr.employee.category.form</field>
+             <field name="model">hr.employee.category</field>
+             <field name="arch" type="xml">
+                 <form string="Employee Tags">
+                     <sheet>
+                         <group>
+                             <field name="label"/>
+                         </group>
+                     </sheet>
+                 </form>
+             </field>
+         </record>
+
+         <record id="viewEmployeeCategoryList" model="ir.ui.view">
+             <field name="label">hr.employee.category.list</field>
+             <field name="model">hr.employee.category</field>
+             <field eval="8" name="priority"/>
+             <field name="arch" type="xml">
+                 <tree string="Employees Tags" editable="bottom">
+                     <field name="label"/>
+                 </tree>
+             </field>
+         </record>
+
+         <record id="openViewCategForm" model="ir.actions.actwindow">
+             <field name="label">Employee Tags</field>
+             <field name="resModel">hr.employee.category</field>
+             <field name="viewMode">tree,form</field>
+         </record>
+
+     </data>
+ </verp>

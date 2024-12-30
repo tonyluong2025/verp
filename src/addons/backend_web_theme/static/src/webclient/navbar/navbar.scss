@@ -1,0 +1,45 @@
+
+@include media-breakpoint-down(sm) {
+    .o-main-navbar {
+    	grid-template-areas: "apps brand systray sections";
+		grid-template-columns: minmax($o-navbar-height, max-content) max-content auto minmax($o-navbar-height, max-content);
+		.o-menu-brand {
+		    display: none;
+		}
+		.o-menu-sections {
+            width: $o-navbar-height;
+        }
+        .o-menu-sections-more {
+            .dropdown-toggle {
+                font-size: $font-size-lg;
+            }
+            .fa-plus:before {
+                content: "\f0c9";
+            }
+        }
+		.o-debug-manager, .o-user-menu, .o-switch-company-menu {
+			> .dropdown-toggle {
+				padding: 0 12px !important;
+			}
+		} 
+		.o-menu-systray {
+		    margin-left: auto;
+		}
+		.o-user-menu {
+			margin: 0;
+		}
+		.o-user-menu > .dropdown-toggle {
+			white-space: nowrap;
+			&::before, &::after {
+			    content: normal;
+			}
+			.oe-topbar-name {
+			    display: none;
+			}
+		}
+		.show .dropdown-menu {
+			@include bw-full-screen-menu();
+			font-size: $font-size-lg;
+		}
+    }
+}

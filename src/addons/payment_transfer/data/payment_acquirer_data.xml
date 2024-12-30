@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+
+    <record id="payment.paymentAcquirerTransfer" model="payment.acquirer">
+        <field name="provider">transfer</field>
+        <field name="state">enabled</field>
+        <field name="redirectFormViewId" ref="redirectForm"/>
+        <field name="supportAuthorization">false</field>
+        <field name="supportFeesComputation">false</field>
+        <field name="supportRefund"></field>
+        <field name="supportTokenization">false</field>
+        <!-- Clear the default value to trigger the computation of the message -->
+        <field name="pendingMsg" eval="false"/>
+    </record>
+
+</verp>

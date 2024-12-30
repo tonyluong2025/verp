@@ -1,0 +1,23 @@
+{
+    "label": "UTM Trackers",
+    "category": "Hidden",
+    "description": "Enable management of Urchin Tracking Module trackers: campaign, medium, source.",
+    "version": "1.1",
+    "depends": ["base", "web"],
+    "data": [
+        "data/utm_data.xml",
+        "views/utm_campaign_views.xml",
+        "views/utm_views.xml",
+        "security/ir.model.access.csv"
+    ],
+    "demo": [
+        "demo/utm_demo.xml"
+    ],
+    "autoInstall": false,
+    "assets": {
+        "web.assetsBackend": [
+            "utm/static/src/**/*"
+        ]
+    },
+    "license": "MIT Expat"
+}

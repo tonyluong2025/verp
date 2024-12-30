@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.hr</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="70"/>
+        <field name="inheritId" ref="base.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='settings']" position="inside">
+                <div class="app-settings-block" data-string="Employees" string="Employees" data-key="hr" groups="hr.groupHrManager">
+                    <h2>Employees</h2>
+                    <div class="row mt16 o-settings-container" name="employeesSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="presenceControlSetting" title="Presence of employees">
+
+                            <div class="o-setting-right-pane">
+                                <span class="o-form-label">Presence Control</span>
+                                <div class="content-group" name="hrPresenceOptions">
+                                    <div class="row">
+                                        <field name="moduleHrAttendance" class="col-lg-1 ml16"/>
+                                        <label for="moduleHrAttendance" class="o-light-label o-module"/>
+                                    </div>
+                                    <div class="row">
+                                        <field name="hrPresenceControlLogin" class="col-lg-1 ml16"/>
+                                        <label for="hrPresenceControlLogin" class="o-light-label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="presenceReportingSetting"
+                            title="Advanced presence of employees">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleHrPresence"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleHrPresence" class="o-module"/>
+                                <div class="text-muted" name="hrPresenceOptionsAdvanced">
+                                    Presence reporting screen, email and IP address control.
+                                </div>
+                                <div class="row mt-1" attrs="{'invisible': [['moduleHrPresence', '=', false]]}">
+                                    <field name="hrPresenceControlEmail" class="col-lg-1 ml16"/>
+                                    <label for="hrPresenceControlEmail" class="o-light-label"/>
+                                </div>
+                                <div class="row ml32" attrs="{'invisible': ['|', ['moduleHrPresence', '=', false], ['hrPresenceControlEmail', '=', false]]}">
+                                    <span class="ml8 mr-2">Minimum number of emails to sent </span>
+                                    <field name="hrPresenceControlEmailAmount" class="ml-2 oe-inline"/>
+                                </div>
+                                <div class="row" attrs="{'invisible': [['moduleHrPresence', '=', false]]}">
+                                    <field name="hrPresenceControlIp" class="col-lg-1 ml16"/>
+                                    <label for="hrPresenceControlIp" class="o-light-label"/>
+                                </div>
+                                <div class="row ml32" attrs="{'invisible': ['|', ['moduleHrPresence', '=', false], ['hrPresenceControlIp', '=', false]]}">
+                                    <span class="ml8 mr-2">IP Addresses (comma-separated)</span>
+                                    <field name="hrPresenceControlIpList" class="ml-2 oe-inline"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="enrichEmployeeSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleHrSkills"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleHrSkills" class="o-module"/>
+                                <div class="text-muted">
+                                        Enrich employee profiles with skills and resumes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Work Organization</h2>
+                    <div class="row mt16 o-settings-container" name="workOrganizationSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="defaultCompanyScheduleSetting">
+                            <div class="o-setting-right-pane">
+                                <label for="resourceCalendarId"/>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." role="img" aria-label="Values set here are company-specific." groups="base.groupMultiCompany"/>
+                                <div class="row">
+                                    <div class="text-muted col-lg-8">
+                                        Set default company schedule to manage your employees working time
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="resourceCalendarId" required="1"
+                                            class="o-light-label"
+                                            domain="[['companyId', '=', companyId]]"
+                                            context="{'default_companyId': companyId}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Employee Update Rights</h2>
+                    <div class="row mt16 o-settings-container" name="employeeRightsSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" title="Allow employees to update their own data.">
+                            <div class="o-setting-left-pane">
+                                <field name="hrEmployeeSelfEdit"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="hrEmployeeSelfEdit"/>
+                                <div class="text-muted">
+                                    Allow employees to update their own data
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hrConfigSettingsAction" model="ir.actions.actwindow">
+        <field name="label">Settings</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">res.config.settings</field>
+        <field name="viewMode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'hr', 'binSize': false}</field>
+    </record>
+
+    <menuitem id="hrMenuConfiguration"
+        name="Settings"
+        parent="menuHumanResourcesConfiguration"
+        sequence="0"
+        action="hrConfigSettingsAction"
+        groups="base.groupSystem"/>
+</verp>

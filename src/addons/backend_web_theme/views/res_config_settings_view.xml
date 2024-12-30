@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<verp>
+
+	<record id="resConfigSettingsViewForm" model="ir.ui.view">
+	    <field name="label">res.config.settings.view.form</field>
+	    <field name="model">res.config.settings</field>
+	    <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+	    <field name="arch" type="xml">
+	        <div id="companies" position="after">
+	            <h2 id="webThemeTitle">Backend Theme</h2>
+	            <div class="row mt16 o-settings-container" name="webTheme">
+	            	<div class="col-12 col-lg-6 o-setting-box">
+	                    <div class="o-setting-left-pane">
+	                    </div>
+	                    <div class="o-setting-right-pane">
+	                        <span class="o-form-label">Default Preferences</span>
+                            <div class="text-muted">
+                                Set the default theme preferences
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                	<label for="themeDefaultSidebarPreference" string="Sidebar" class="col-3 o-light-label"/>
+                                    <field name="themeDefaultSidebarPreference" class="col-5"/>
+                                    <div class="w-100"></div>
+                                	<label for="themeDefaultChatterPreference" string="Chatter" class="col-3 o-light-label"/>
+                                    <field name="themeDefaultChatterPreference" class="col-5"/>
+                                </div>
+                            </div>
+	                    </div>
+	                </div>
+	                <div class="col-12 col-lg-6 o-setting-box">
+	                    <div class="o-setting-left-pane">
+	                    </div>
+	                    <div class="o-setting-right-pane">
+	                        <span class="o-form-label">Favicon</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                            <div class="text-muted">
+                                Set the favicon for the system
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                    <field name="themeFavicon" widget="image" class="ml-4 oe-avatar" required="1"/>
+                                </div>
+                            </div>
+	                    </div>
+	                </div>
+	                <div class="col-12 col-lg-6 o-setting-box">
+	                    <div class="o-setting-left-pane">
+	                    </div>
+	                    <div class="o-setting-right-pane">
+	                        <span class="o-form-label">Theme Colors</span>
+                            <div class="text-muted">
+                                Set the main theme colors
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                	<label for="themeColorBrand" string="Brand" class="col-3 o-light-label"/>
+                                    <field name="themeColorBrand" widget="color" class="oe-inline"/>
+                                    <div class="w-100"></div>
+                                	<label for="themeColorPrimary" string="Primary" class="col-3 o-light-label"/>
+                                    <field name="themeColorPrimary" widget="color" class="oe-inline"/>
+                                    <div class="w-100"></div>
+                                	<label for="themeColorRequired" string="Required" class="col-3 o-light-label"/>
+                                    <field name="themeColorRequired" widget="color" class="oe-inline"/>
+                                </div>
+                            </div>
+	                    </div>
+	                </div>
+	                <div class="col-12 col-lg-6 o-setting-box">
+	                    <div class="o-setting-left-pane">
+	                    </div>
+	                    <div class="o-setting-right-pane">
+	                        <span class="o-form-label">Menu Colors</span>
+                            <div class="text-muted">
+                                Set the main menu colors
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                	<label for="themeColorAppbarColor" string="Menu Color" class="col-3 o-light-label"/>
+                                    <field name="themeColorAppbarColor" widget="color" class="oe-inline"/>
+                                    <div class="w-100"></div>
+                                	<label for="themeColorAppbarBackground" string="Background" class="col-3 o-light-label"/>
+                                    <field name="themeColorAppbarBackground" widget="color" class="oe-inline"/>
+                                    <div class="w-100"></div>
+                                	<label for="themeColorMenu" string="Apps Color" class="col-3 o-light-label"/>
+                                    <field name="themeColorMenu" widget="color" class="oe-inline"/>
+                                </div>
+                            </div>
+	                    </div>
+	                </div>
+	                <div class="col-12 col-lg-6 o-setting-box">
+	                    <div class="o-setting-left-pane">
+	                    </div>
+	                    <div class="o-setting-right-pane">
+	                        <span class="o-form-label">Background Image</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                            <div class="text-muted">
+                                Set the background image for the apps menu
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                	<label for="themeBackgroundBlendMode" string="Blend Mode" class="col-3 o-light-label"/>
+                                    <field name="themeBackgroundBlendMode" class="col-5"/>
+                                    <div class="w-100"></div>
+                                    <field name="themeBackgroundImage" widget="image" class="ml-4 w-75"/>
+                                </div>
+                            </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </field>
+	</record>
+	
+</verp>

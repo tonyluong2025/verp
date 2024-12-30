@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="resLangTree" model="ir.ui.view">
+            <field name="label">res.lang.tree</field>
+            <field name="model">res.lang</field>
+            <field name="arch" type="xml">
+                <tree string="Languages" limit="200">
+                    <field name="label"/>
+                    <field name="code" groups="base.groupNoOne"/>
+                    <field name="isoCode" groups="base.groupNoOne"/>
+                    <field name="urlCode" groups="base.groupNoOne" invisible="1"/>
+                    <field name="direction" groups="base.groupNoOne"/>
+                    <field name="active"/>
+                    <button name="%(base.actionViewBaseLanguageInstall)d"
+                        string="Activate"
+                        type="action"
+                        icon="fa-check"
+                        attrs="{'invisible': [['active', '=', true]]}"/>
+                    <button name="%(base.actionViewBaseLanguageInstall)d"
+                        string="Update"
+                        type="action"
+                        icon="fa-refresh"
+                        attrs="{'invisible': [['active', '!=', true]]}"/>
+                    <button name="actionArchive"
+                        string="Disable"
+                        type="object"
+                        icon="fa-times"
+                        attrs="{'invisible': [['active', '!=', true]]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="resLangForm" model="ir.ui.view">
+            <field name="label">res.lang.form</field>
+            <field name="model">res.lang</field>
+            <field name="arch" type="xml">
+                <form string="Languages">
+                    <sheet>
+                        <div class="oe-button-box" name="buttonBox">
+                            <button string="Activate and Translate"
+                                name="%(base.actionViewBaseLanguageInstall)d"
+                                type="action"
+                                class="oe-stat-button"
+                                icon="fa-refresh" />
+                        </div>
+                        <field name="flagImage" widget="image" class="oe-avatar"/>
+                        <div class="oe-title">
+                            <label for="label"/>
+                            <h1><field name="label" placeholder="e.g. French"/></h1>
+                        </div>
+                        <group col="3">
+                            <group>
+                                <field name="code"/>
+                                <field name="isoCode"/>
+                                <field name="urlCode" invisible="1" required="0"/>
+                                <field name="active" widget="booleanToggle"/>
+                            </group>
+                            <group>
+                                <field name="direction"/>
+                                <field name="grouping"/>
+                                <field name="decimalPoint"/>
+                                <field name="thousandsSep"/>
+                                <field name="dateFormat"/>
+                                <field name="timeFormat"/>
+                                <field name="weekStart"/>
+                            </group>
+                        </group>
+                        <group string="Legends for supported Date and Time Formats">
+                            <div>%a - Abbreviated day of the week.</div>
+                            <div>%A - Full day of the week.</div>
+                            <div>%b - Abbreviated month name.</div>
+                            <div>%B - Full month name.</div>
+                            <div>%d - Day of the month [01,31].</div>
+                            <div>%j - Day of the year [001,366].</div>
+                            <div>%H - Hour (24-hour clock) [00,23].</div>
+                            <div>%I - Hour (12-hour clock) [01,12].</div>
+                            <div>%M - Minute [00,59].</div>
+                            <div>%p - Equivalent of either AM or PM.</div>
+                            <div>%S - Seconds [00,61].</div>
+                            <div>%w - Day of the week number [0(Sunday),6].</div>
+                            <div>%y - Year without century [00,99].</div>
+                            <div>%Y - Year with century.</div>
+                            <div>%m - Month number [01,12].</div>
+                        </group>
+                        <group string="Examples">
+                            <div>1. %b, %B         ==> Dec, December</div>
+                            <div>2. %a, %A         ==> Fri, Friday</div>
+                            <div>3. %y, %Y         ==> 08, 2008</div>
+                            <div>4. %d, %m         ==> 05, 12</div>
+                            <div>5. %H:%M:%S       ==> 18:25:20</div>
+                            <div>6. %I:%M:%S %p    ==> 06:25:20 PM</div>
+                            <div>7. %j             ==> 340</div>
+                            <div>8. %S             ==> 20</div>
+                            <div>9. %w             ==> 5 (Friday is the 6th day)</div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="resLangSearch" model="ir.ui.view">
+            <field name="label">res.lang.search</field>
+            <field name="model">res.lang</field>
+            <field name="arch" type="xml">
+                <search string="Languages">
+                    <field name="label"
+                        filterDomain="['|', '|', ['label', 'ilike', self], ['code', 'ilike', self], ['isoCode', 'ilike', self]]"
+                        string="Language"/>
+                    <field name="direction"/>
+                    <separator/>
+                    <filter string="Active" name="active" domain="[['active', '=', true]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="resLangActwindow" model="ir.actions.actwindow">
+            <field name="label">Languages</field>
+            <field name="resModel">res.lang</field>
+            <field name="context">{'activeTest': false}</field>
+            <field name="searchViewId" ref="resLangSearch"/>
+        </record>
+
+        <menuitem action="resLangActwindow" id="menuResLangActwindow" parent="menuTranslation" sequence="1"/>
+    </data>
+</verp>

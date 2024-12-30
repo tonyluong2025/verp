@@ -1,0 +1,9 @@
+.o-web-client .o-deprec-lines-toggler {
+    color: theme-color('danger');
+    &.o-is-posted {
+        color: theme-color('success');
+    }
+    &.o-unposted {
+        color: theme-color('warning');
+    }
+}

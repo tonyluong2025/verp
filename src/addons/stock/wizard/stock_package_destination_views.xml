@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="stockPackageDestinationFormView" model="ir.ui.view">
+        <field name="label">stock.package.destination.view</field>
+        <field name="model">stock.package.destination</field>
+        <field name="arch" type="xml">
+            <form>
+                <div>
+                    You are trying to put products going to different locations into the same package
+                </div>
+                <div>
+                    <field name="moveLineIds" style="margin-top:10px;">
+                        <tree>
+                            <field name="productId"/>
+                            <field name="locationDestId"/>
+                            <field name="qtyDone" String="quantity"/>
+                            <field name="lotId" groups="stock.groupProductionLot"/>
+                        </tree>
+                        <kanban>
+                            <field name="productId"/>
+                            <field name="qtyDone"/>
+                            <field name="locationDestId"/>
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div class="container o-kanban-card-content">
+                                        <div class="row">
+                                            <div class="col-6 o-kanban-primary-left">
+                                                <field name="productId"/>
+                                            </div>
+                                            <div class="col-6 o-kanban-primary-right">
+                                                <field name="qtyDone" String="quantity"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <field name="locationDestId"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+                    </field>
+                </div>
+                <div>
+                    <strong>Where do you want to send the products ?</strong>
+                </div>
+                <div>
+                    <field name="filteredLocation" invisible="1"/>
+                    <field name="locationDestId" domain="[['id', 'in', filteredLocation]]" options="{'noCreate': true, 'noOpen': true}"/>
+                </div>
+                <footer>
+                    <button string="Confirm" name="actionDone" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Discard" name="cancelButton" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

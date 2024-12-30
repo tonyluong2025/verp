@@ -1,0 +1,243 @@
+id,label,code,userTypeId/id,chartTemplateId/id,reconcile
+chart111,Cash,111,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1111,Vietnamese Dong,1111,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1112,Foreign currencies,1112,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1113,Monetary Gold,1113,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart112,Cash equivalents,112,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1121,Vietnamese Dong,1121,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1122,Foreign currencies,1122,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1123,Monetary Gold,1123,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart113,Cash equivalents,113,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1131,Vietnamese Dong,1131,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1132,Foreign currencies,1132,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart121,Held for trading Securities,121,account.dataAccountTypeLiquidity,vnTemplate,FALSE
+chart1211,Shares,1211,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1212,Bonds,1212,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1218,Other securities and financial instruments,1218,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart122,Provision for devaluation of held for trading securities,122,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart128,Held To maturity Securities,128,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1281,Term deposits,1281,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1282,Bonds,1282,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1283,Lending loans,1283,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1288,Other held to maturity investments,1288,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart131,Trade receivables,131,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart132,Trade receivables(pos),132,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart133,Deductible VAT,133,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart1331,VAT on purchase of goods and services,1331,account.dataAccountTypeReceivable,vnTemplate,FALSE
+chart1332,VAT on purchase of fixed assets,1332,account.dataAccountTypeReceivable,vnTemplate,FALSE
+chart136,Intra-company receivables,136,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart1361,Working capital provided to sub-units,1361,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart1362,Intra-company receivables on foreign exchange,1362,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart1363,Intra-company receivables on borrowing costs eligible to be capitalized,1363,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart1368,Other intra-company receivables,1368,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart138,Other receivables,138,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart1381,Shortage of assets awaiting resolution,1381,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart1385,Receivables from privatization,1385,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart1388,Other receivables,1388,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart141,Advances,141,account.dataAccountTypeReceivable,vnTemplate,TRUE
+chart151,Goods in transit,151,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart152,Raw materials,152,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart153,Tools and supplies,153,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1531,Tools and supplies,1531,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1532,Reusable packaging materials,1532,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1533,Instruments for renting,1533,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1534,Equipment and spare parts for replacement,1534,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart154,Cost for work in process,154,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1541,Construction contracts,1541,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1542,Other products,1542,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1543,Services,1543,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1544,Warranty costs,1544,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart155,Finished products,155,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1551,Finished products - inventory,1551,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1557,Finished products - real estates,1557,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart156,Goods,156,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1561,Purchase rate,1561,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1562,Cost for purchase,1562,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1567,Properties held for sale,1567,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart157,Outward goods on consignment,157,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart158,Goods in bonded warehouse,158,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart161,Administrative expenses,161,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1611,Expenditure brought forward,1611,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart1612,Expenditure of current year,1612,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart171,Government bonds purchased for resale,171,account.dataAccountTypeCurrentAssets,vnTemplate,FALSE
+chart211,Tangible fixed assests,211,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2111,Buildings and architectonic models,2111,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2112,Machines and equipments,2112,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2113,Transportation and transmit instruments,2113,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2114,Instruments and tools for management,2114,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2115,"Perennial plants, working animals and farm livestocks",2115,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2118,Other fixed assets,2118,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart212,Fixed assets of financial leasing,212,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2121,Financial leasing tangible fixed assets,2121,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2122,Financial leasing intangible fixed assets,2122,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart213,Intangible fixed assets,213,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2131,Land using rights,2131,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2132,Copyrights,2132,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2133,Patents and inventions,2133,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2134,Product labels and trademarks,2134,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2135,Computer software,2135,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2136,Licenses and franchises,2136,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2138,Other intangible fixed assets,2138,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart214,Depreciation of fixed assets,214,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2141,Depreciation of tangible fixed assets,2141,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2142,Depreciation of financial leasing assets,2142,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2143,Depreciation of intangible assets,2143,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2147,Depreciation of investment real estates,2147,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart217,Investment real estates,217,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart221,Investment in subsidiaries,221,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart222,Investment in joint-ventures,222,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart228,Other long term investments,228,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2281,Equity investments in other entities,2281,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2282,Other investments,2282,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart229,Allowances for decline in properties,229,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2291,Allowances for decline in trading securities,2291,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2292,Allowances for impairment of investments in other entities,2292,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2293,Allowances for doubtful debts,2293,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2294,Allowances for inventories,2294,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart241,Capital construction in process,241,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2411,Fixed assets purchases,2411,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2412,Construction works,2412,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart2413,Major repairs of fixed assets,2413,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart242,Prepaid expenses,242,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart243,Deferred tax assets,243,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart244,"Mortgage, collaterals and deposits",244,account.dataAccountTypeNonCurrentAssets,vnTemplate,FALSE
+chart331,Trade payables,331,account.dataAccountTypePayable,vnTemplate,TRUE
+chart332,Amounts payable according to salary,332,account.dataAccountTypeCurrentLiabilities,vnTemplate,TRUE
+chart333,Taxes and Amounts payable,333,account.dataAccountTypeCurrentLiabilities,vnTemplate,TRUE
+chart3331,Value Added Tax (VAT),3331,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart33311,Output VAT,33311,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart33312,VAT on imported goods,33312,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3332,Special consumption tax,3332,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3333,Import and export tax,3333,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3334,Corporate profit tax,3334,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3335,Personal income tax,3335,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3336,Natural resource tax,3336,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3337,"Land and housing tax, and rental charges",3337,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3338,Environment protection tax and other taxes,3338,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart33381,Environment protection tax,33381,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart33382,Other taxes,33382,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3339,"Fees, charges and other payables",3339,account.dataAccountTypePayable,vnTemplate,TRUE
+chart334,Payables to employees,334,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3341,Payables to staffs,3341,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3348,Payables to others,3348,account.dataAccountTypePayable,vnTemplate,TRUE
+chart335,Accrued expenses,335,account.dataAccountTypePayable,vnTemplate,TRUE
+chart336,Intra-company payables,336,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3361,Intra-company payables for operating capital received,3361,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3362,Intra-company payables for foreign exchange differences,3362,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3363,Intra-company payables for borrowing costs eligible to be capitalized,3363,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3368,Other inter-company payables,3368,account.dataAccountTypePayable,vnTemplate,TRUE
+chart337,Progress billings for construction contracts,337,account.dataAccountTypePayable,vnTemplate,TRUE
+chart338,Other payables,338,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3381,Surplus assets awaiting for resolution,3381,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3382,Trade union fees,3382,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3383,Social insurance,3383,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3384,Health insurance,3384,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3385,Privatizations payable,3385,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3386,Unemployment insurance,3386,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3387,Unearned revenue,3387,account.dataAccountTypePayable,vnTemplate,TRUE
+chart3388,Other payables,3388,account.dataAccountTypePayable,vnTemplate,TRUE
+chart341,Loans and financial leasing liabilities,341,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3411,Loans liabilities,3411,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3412,Finance leasing liabilities,3412,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart343,Issued bonds,343,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3431,Ordinary bonds,3431,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart34311,Par value of bonds,34311,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart34312,Bond discounts,34312,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart34313,Bond premiums,34313,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3432,Convertible bonds,3432,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart344,Deposits received,344,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart347,Deferred tax liabilities,347,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart352,Provisions for payables,352,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3521,Product warranty provisions,3521,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3522,Construction warranty provisions,3522,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3523,Enterprise restructuring provisions,3523,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3524,Other provisions,3524,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart353,Bonus and welfare fund,353,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3531,Bonus fund,3531,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3532,Welfare fund,3532,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3533,Welfare fund used for fixed asset acquisitions,3533,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3534,Management bonus fund,3534,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart356,Science and technology development fund,356,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3561,Science and technology development fund,3561,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart3562,Science and technology development fund used for fixed asset acquisition,3562,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart357,Price stabilization fund,357,account.dataAccountTypeCurrentLiabilities,vnTemplate,FALSE
+chart411,Owner's investment equity,411,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4111,Owner's capital,4111,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart41111,Ordinary shares with voting rights,41111,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart41112,Preference shares,41112,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4112,Capital surplus,4112,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4113,Conversion options on convertible bonds,4113,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4118,Other capital,4118,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart412,Differences upon asset revaluation,412,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart413,Foreign exchange rate differences,413,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4131,Exchange rate differences on revaluation of monetary items denominated in foreign currency ,4131,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4132,Exchange rate differences in pre-operating period,4132,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart414,Investment and development fund,414,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart417,Enterprise reorganization assistance fund,417,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart418,Other equity funds,418,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart419,Treasury shares,419,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart421,Undistributed profit after tax,421,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4211,Undistributed profit after tax brought forward,4211,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4212,Undistributed profit after tax for the current year,4212,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart441,Capital expenditure funds,441,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart461,Non-business funds,461,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4611,Non-business funds bought forward,4611,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart4612,Non-business funds for current year,4612,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart466,Non-business funds used for fixed asset acquisitions,466,account.dataAccountTypeEquity,vnTemplate,FALSE
+chart511,Revenue from sales of goods,511,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5111,Revenue from sales of merchandises,5111,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5112,Revenue from sales of finished goods,5112,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5113,Revenue from services rendered,5113,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5114,Revenue from government subsidization,5114,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5117,Revenue from investment real estate,5117,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5118,Other revenue,5118,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart515,Financial activities income,515,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart521,Income discounts,521,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5211,Trade discounts,5211,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5212,Sales returns,5212,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart5213,Sales rebates,5213,account.dataAccountTypeRevenue,vnTemplate,FALSE
+chart611,Purchasing,611,account.dataAccountTypeDirectCosts,vnTemplate,FALSE
+chart6111,Purchases of raw materials,6111,account.dataAccountTypeDirectCosts,vnTemplate,FALSE
+chart6111,Purchases of goods,6111,account.dataAccountTypeDirectCosts,vnTemplate,FALSE
+chart621,Direct raw material costs,621,account.dataAccountTypeDirectCosts,vnTemplate,FALSE
+chart622,Direct labour costs,622,account.dataAccountTypeDirectCosts,vnTemplate,FALSE
+chart623,Executing machine using costs,623,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6231,Labour costs,6231,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6232,Material costs,6232,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6233,Production tool costs,6233,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6234,Depreciation costs,6234,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6237,Outside service costs,6237,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6238,Other monetory expenses,6238,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart627,General operation costs,627,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6271,Factory employees costs,6271,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6272,Material costs,6272,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6273,Production tools costs,6273,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6274,Fixed asset depreciation,6274,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6277,Outside purchasing service costs,6277,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6278,Other monetory expenses,6278,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart631,Production costs,631,account.dataAccountTypeDirectCosts,vnTemplate,FALSE
+chart632,Costs of goods sold,632,account.dataAccountTypeDirectCosts,vnTemplate,FALSE
+chart635,Financial activities expenses,635,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart641,Salling costs,641,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6411,Sale staff costs,6411,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6412,Materials and packing costs,6412,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6413,Tools and instruments costs,6413,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6414,Fixed asset deprecation,6414,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6415,Warranty costs,6415,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6417,Outside purchasing services costs,6417,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6418,Other costs,6418,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart642,General and administration expenses,642,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6421,Management staff expenses,6421,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6422,Management material expenses,6422,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6423,Office equipment expenses,6423,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6424,Fixed asset depreciation,6424,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6425,"Taxes, fees and charges",6425,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6426,Provision expenses,6426,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6427,Outside purchasing services costs,6427,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart6428,Other monetory expenses,6428,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart711,Other Incomes,711,account.dataAccountTypeOtherIncome,vnTemplate,FALSE
+chart811,Other Expenses,811,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart821,Income tax expense,821,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart8211,Current tax expense,8211,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart8212,Deferred tax expense,8212,account.dataAccountTypeExpenses,vnTemplate,FALSE
+chart911,Evaluation of business results,911,account.dataUnaffectedEarnings,vnTemplate,FALSE

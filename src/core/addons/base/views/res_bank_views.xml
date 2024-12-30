@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewResBankForm" model="ir.ui.view">
+            <field name="label">res.bank.form</field>
+            <field name="model">res.bank</field>
+            <field name="arch" type="xml">
+                <form string="Bank">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <group name="bankDetails" col="4">
+                            <field name="label"/>
+                            <field name="bic"/>
+                        </group>
+                        <group>
+                            <group name="addressDetails">
+                                <label for="street" string="Bank Address"/>
+                                <div class="o-address-format">
+                                    <field name="street" placeholder="Street..." class="o-address-street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o-address-street"/>
+                                    <field name="city" placeholder="City" class="o-address-city"/>
+                                    <field name="state" class="o-address-state" placeholder="State" options='{"noOpen": true}'/>
+                                    <field name="zip" placeholder="ZIP" class="o-address-zip"/>
+                                    <field name="country" placeholder="Country" class="o-address-country" options='{"noOpen": true, "noCreate": true}'/>
+                                </div>
+                            </group>
+                            <group name="communicationDetails">
+                                <field name="phone" class="o-force-ltr"/>
+                                <field name="email" widget="email"/>
+                                <field name="active" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewResBankTree" model="ir.ui.view">
+            <field name="label">res.bank.tree</field>
+            <field name="model">res.bank</field>
+            <field name="arch" type="xml">
+                <tree string="Banks">
+                    <field name="label"/>
+                    <field name="bic"/>
+                    <field name="country"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="resBankViewSearch" model="ir.ui.view">
+            <field name="label">res.bank.view.search</field>
+            <field name="model">res.bank</field>
+            <field name="arch" type="xml">
+                <search string="Search Bank">
+                    <field name="label"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionResBankForm" model="ir.actions.actwindow">
+            <field name="label">Banks</field>
+            <field name="resModel">res.bank</field>
+            <field name="viewMode">tree,form</field>
+            <field name="searchViewId" ref="resBankViewSearch"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a Bank
+              </p><p>
+                Banks are the financial institutions at which you and your contacts have their accounts.
+              </p>
+            </field>
+        </record>
+
+        <record id="viewPartnerBankForm" model="ir.ui.view">
+            <field name="label">res.partner.bank.form</field>
+            <field name="model">res.partner.bank</field>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <form string="Bank account">
+                <sheet>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <group>
+                        <group>
+                            <field name="sequence" invisible="1"/>
+                            <field name="accType" invisible="1"/>
+                            <field name="accNumber"/>
+                            <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                            <field name="partnerId"/>
+                        </group>
+                        <group>
+                            <field name="bankId"/>
+                            <field name="currencyId" groups="base.groupMultiCurrency" options="{'noCreate': true}"/>
+                            <field name="accHolderName"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewPartnerBankTree" model="ir.ui.view">
+            <field name="label">res.partner.bank.tree</field>
+            <field name="model">res.partner.bank</field>
+            <field name="arch" type="xml">
+                <tree string="Bank Accounts">
+                    <field name="sequence" widget="handle"/>
+                    <field name="accNumber"/>
+                    <field name="bankName"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <field name="partnerId"/>
+                    <field name="accHolderName" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewPartnerBankSearch" model="ir.ui.view">
+            <field name="label">res.partner.bank.search</field>
+            <field name="model">res.partner.bank</field>
+            <field name="arch" type="xml">
+                <search string="Bank Accounts">
+                    <field name="bankName" filterDomain="['|', ['bankName','ilike',self], ['accNumber','ilike',self]]" string="Bank Name"/>
+                    <field name="companyId" invisible="context['companyHide'] ?? true"/>
+                    <field name="partnerId"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionResPartnerBankAccountForm" model="ir.actions.actwindow">
+            <field name="label">Bank Accounts</field>
+            <field name="resModel">res.partner.bank</field>
+            <field name="viewMode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a Bank Account
+              </p><p>
+                From here you can manage all bank accounts linked to you and your contacts.
+              </p>
+            </field>
+        </record>
+
+    </data>
+</verp>

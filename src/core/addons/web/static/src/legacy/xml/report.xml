@@ -1,0 +1,14 @@
+<template>
+
+    <!-- Main layout (iframe) -->
+    <div t-name="report.clientAction">
+        <iframe class="o-report-iframe"/>
+    </div>
+
+    <!-- Buttons of the Control Panel -->
+    <t t-name="report.clientAction.ControlButtons">
+        <div class="o-report-buttons">
+            <button type="button" class="btn btn-primary o-report-print" title="Print">Print</button>
+        </div>
+    </t>
+</template>

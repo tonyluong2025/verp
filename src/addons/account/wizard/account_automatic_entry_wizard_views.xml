@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="accountAutomaticEntryWizardForm" model="ir.ui.view">
+            <field name="label">account.automatic.entry.wizard.form</field>
+            <field name="model">account.automatic.entry.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="accountType" invisible="1"/>
+                    <field name="companyId" invisible="1"/>
+                    <field name="moveLineIds" invisible="1"/>
+                    <field name="displayCurrencyHelper" invisible="1"/>
+                    <div attrs="{'invisible': [['displayCurrencyHelper', '=', false]]}"  class="alert alert-info text-center" role="status">
+                        The selected destination account is set to use a specific currency. Every entry transferred to it will be converted into this currency, causing
+                        the loss of any pre-existing foreign currency amount.
+                    </div>
+                    <field name="action" invisible="!!context['hideAutomaticOptions']" widget="radio" options="{'horizontal': true}"/>
+                    <group>
+                        <group attrs="{'invisible': [['action', '!=', 'changePeriod']]}">
+                            <field name="date" string="Recognition Date"/>
+                            <field name="expenseAccrualAccount" string="Accrued Account"
+                                   attrs="{'invisible': [['accountType', '!=', 'expense']], 'required': [['accountType', '=', 'expense'], ['action', '=', 'changePeriod']]}"/>
+                            <field name="revenueAccrualAccount" string="Accrued Account"
+                                   attrs="{'invisible': [['accountType', '!=', 'income']], 'required': [['accountType', '=', 'income'], ['action', '=', 'changePeriod']]}"/>
+                        </group>
+                        <group attrs="{'invisible': [['action', '!=', 'changeAccount']]}">
+                            <field name="date" string="Transfer Date"/>
+                            <field name="destinationAccountId" attrs="{'required': [['action', '=', 'changeAccount']]}" domain="[['companyId', '=', companyId]]"/>
+                        </group>
+                        <group>
+                            <label for="totalAmount" string="Adjusting Amount" attrs="{'invisible': [['action', '!=', 'changePeriod']]}"/>
+                            <div attrs="{'invisible': [['action', '!=', 'changePeriod']]}">
+                                <field name="percentage" style="width:40% !important" class="oe-inline" attrs="{'readonly': [['action', '!=', 'changePeriod']]}"/>%<span class="px-3"></span>(<field name="totalAmount" class="oe-inline"/>)
+                            </div>
+                            <field name="totalAmount" readonly="1" attrs="{'invisible': [['action', '=', 'changePeriod']]}"/>
+                            <field name="journalId"/>
+                        </group>
+                    </group>
+                    <label for="previewMoveData" string="The following Journal Entries will be generated"/>
+                    <field name="previewMoveData" widget="groupedViewWidget"/>
+                    <footer>
+                        <button string="Create Journal Entries" name="doAction" type="object" class="oe-highlight" data-hotkey="q"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="accountAutomaticEntryWizardAction" model="ir.actions.actwindow">
+            <field name="label">Create Automatic Entries for selected Journal Items</field>
+            <field name="resModel">account.automatic.entry.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</verp>

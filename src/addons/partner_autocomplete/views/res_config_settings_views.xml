@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.partner.autcomplete</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <div id="partnerAutocompleteSettings" position="inside">
+                <widget name="iapBuyMoreCredits" serviceName="partner_autocomplete" hideService="1"/>
+            </div>
+        </field>
+    </record>
+</verp>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+        <record id="barcodeRuleCashier" model="barcode.rule">
+            <field name="label">Cashier Barcodes</field>
+            <field name="barcodeNomenclatureId" ref="barcodes.defaultBarcodeNomenclature"/>
+            <field name="sequence">50</field>
+            <field name="type">cashier</field>
+            <field name="encoding">any</field>
+            <field name="pattern">041</field>
+        </record>
+
+        <record id="barcodeRuleClient" model="barcode.rule">
+            <field name="label">Customer Barcodes</field>
+            <field name="barcodeNomenclatureId" ref="barcodes.defaultBarcodeNomenclature"/>
+            <field name="sequence">40</field>
+            <field name="type">client</field>
+            <field name="encoding">any</field>
+            <field name="pattern">042</field>
+        </record>
+
+        <record id="barcodeRuleDiscount" model="barcode.rule">
+            <field name="label">Discount Barcodes</field>
+            <field name="barcodeNomenclatureId" ref="barcodes.defaultBarcodeNomenclature"/>
+            <field name="sequence">20</field>
+            <field name="type">discount</field>
+            <field name="encoding">any</field>
+            <field name="pattern">22{NN}</field>
+        </record>
+
+        <record id="barcodeRulePriceTwoDec" model="barcode.rule">
+            <field name="label">Price Barcodes 2 Decimals</field>
+            <field name="barcodeNomenclatureId" ref="barcodes.defaultBarcodeNomenclature"/>
+            <field name="sequence">14</field>
+            <field name="type">price</field>
+            <field name="encoding">ean13</field>
+            <field name="pattern">23.....{NNNDD}</field>
+        </record>
+</verp>

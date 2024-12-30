@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewBaseModuleUpgrade" model="ir.ui.view">
+            <field name="label">Module Upgrade</field>
+            <field name="model">base.module.upgrade</field>
+            <field name="arch" type="xml">
+                <form string="System Update">
+                    <p>This module will trigger the uninstallation of below modules.</p>
+                    <p><strong>This operation will permanently erase all data currently stored by the modules!</strong></p>
+                    <p>If you wish to cancel the process, press the cancel button below</p>
+                    <separator string="Impacted Apps"/>
+                    <field name="moduleInfo"/>
+                    <footer>
+                        <button name="upgradeModule" string="Confirm" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" name="upgradeModuleCancel" type="object" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionViewBaseModuleUpgrade" model="ir.actions.actwindow">
+            <field name="label">Apply Schedule Upgrade</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">base.module.upgrade</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+           name="Apply Scheduled Upgrades"
+           action="actionViewBaseModuleUpgrade"
+           groups="base.groupNoOne"
+           id="menuViewBaseModuleUpgrade"
+           parent="menuManagement"
+           sequence="50"/>
+
+       <record id="viewBaseModuleUpgradeInstall" model="ir.ui.view">
+            <field name="label">Module Upgrade Install</field>
+            <field name="model">base.module.upgrade</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Apply Schedule Upgrade">
+                    <div><span class="o-form-label">The selected modules have been updated / installed !</span></div>
+                    <div><span class="o-form-label">We suggest to reload the menu tab to see the new menus (Ctrl+T then Ctrl+R)."</span></div>
+                    <footer>
+                        <button name="config" string="Start configuration" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionViewBaseModuleUpgradeInstall" model="ir.actions.actwindow">
+            <field name="label">Module Upgrade Install</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">base.module.upgrade</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="viewBaseModuleUpgradeInstall"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</verp>

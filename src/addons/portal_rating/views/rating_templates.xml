@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!--
+        Rating widget static: show 5 stars (full or empty) regarding the given ratingAvg and ratingCount
+    -->
+    <template id="ratingWidgetStarsStatic" name="Rating: static star widget">
+        <t t-set="ratingAvg" t-value="round(ratingAvg * 100) / 100"/>
+        <t t-set="valDecimal" t-value="round(ratingAvg % 1, 1)"/>
+        <t t-set="valInteger" t-value="parseInt(ratingAvg)"/>
+        <t t-set="emptyStar" t-value="valDecimal ? 5 - (valInteger+1) : 5 - valInteger"/>
+        <div class="o-website-rating-static" t-att-style="inlineMode &amp;&amp; 'display:inline'" t-att-title="ratingAvg">
+            <t t-if="ratingStyleCompressed">
+                <t t-if="ratingAvg &lt;= 2">
+                    <i class="fa fa-star-o" role="img"></i>
+                </t>
+                <t t-elif="ratingAvg &gt;= 2.1 &amp;&amp; ratingAvg &lt;= 3.5">
+                    <i class="fa fa-star-half-o" role="img"></i>
+                </t>
+                <t t-else="">
+                    <i class="fa fa-star" role="img"></i>
+                </t>
+                <small class="text-muted ml-1">
+                    <t t-esc="ratingAvg"/>
+                </small>
+            </t>
+            <t t-else="">
+                <t t-foreach="range(0, valInteger)" t-as="num">
+                    <i class="fa fa-star" role="img"></i>
+                </t>
+                <t t-if="valDecimal">
+                    <i class="fa fa-star-half-o" role="img"></i>
+                </t>
+                <t t-foreach="range(0, emptyStar)" t-as="num">
+                    <i class="fa fa-star-o" role="img"></i>
+                </t>
+                <small class="text-muted ml-1">
+                    (<t t-esc="ratingCount"/>)
+                </small>
+            </t>
+        </div>
+    </template>
+
+    <!--
+        Display static star widget, and open rating composer on click
+        This template provide the container of the Popup Rating Composer. The rest is done in js.
+        To use this template, you need to call it after setting the following variable in your template or in your controller:
+            :float ratingAvg : average rating to be displayed with star widget
+            :object browserecord : the mail_thread object
+            :token string (optional): if you want your chatter to be available for non-logged user,
+                     you can use a token to verify the identity of the user;
+                     the message will be posted with the identity of the partnerId of the object
+    -->
+    <template id="ratingStarsStaticPopupComposer" name="Rating: rating composer in popup">
+        <t t-set="displayComposer" t-value="! disableComposer &amp;&amp; ! request.session.isWebsiteUser"/>
+
+        <div class="d-print-none o-rating-popup-composer o-not-editable p-0"
+            t-att-data-ratingAvg="ratingAvg or 0.0"
+            t-att-data-ratingCount="ratingCount or 0.0"
+            t-att-data-token="token"
+            t-att-data-hash="hash"
+            t-att-data-pid="pid"
+            t-att-data-resModel="object.cls._name"
+            t-att-data-resId="object.id"
+            t-att-data-partnerId="(await (await env.user()).partnerId).id"
+            t-att-data-defaultMessage="defaultMessage"
+            t-att-data-defaultMessageId="defaultMessageId"
+            t-att-data-defaultRatingValue="defaultRatingValue"
+            t-att-data-defaultAttachmentIds="defaultAttachmentIds"
+            t-att-data-forceSubmitUrl="forceSubmitUrl"
+            t-att-data-disableComposer="disableComposer"
+            t-att-data-displayComposer="displayComposer"
+            t-att-data-linkBtnClasses="_linkBtnClasses"
+            t-att-data-icon="icon"
+            t-att-data-textClasses="_textClasses"
+            t-att-data-hideRatingAvg="hideRatingAvg">
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="o-rating-popup-composer-stars text-nowrap"/>
+                <button t-if="displayComposer" type="button"
+                    t-att-class="'btn ' + _linkBtnClasses || 'btn-primary'"
+                    data-toggle="modal" data-target="#ratingpopupcomposer">
+                    <i t-if="icon" t-att-class="icon"/>
+                    <span t-attf-class="#{_textClasses} o-rating-popup-composer-text">
+                        <t t-if="defaultMessageId">Modify your review</t>
+                        <t t-else="">Write a review</t>
+                    </span>
+                </button>
+                <div class="o-rating-popup-composer-modal"/>
+            </div>
+        </div>
+    </template>
+</verp>

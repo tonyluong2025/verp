@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewChangeLockDate" model="ir.ui.view">
+            <field name="label">change.lock.date.form</field>
+            <field name="model">change.lock.date</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="Management Closing">
+                                <field name="companyId"
+                                       options="{'noCreate': true, 'noOpen': true}"
+                                       groups="base.groupMultiCompany"/>
+                                <field name="periodLockDate"/>
+                                <field name="taxLockDate"/>
+                            </group>
+                            <group string="Account Period Closing">
+                                <field name="fiscalyearLockDate"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Save" name="updateLockDate" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="actionViewChangeLockDate" model="ir.actions.actwindow">
+            <field name="label">Lock your Fiscal Period</field>
+            <field name="resModel">change.lock.date</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="viewChangeLockDate"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menuActionChangeLockDate"
+                  name="Lock Dates"
+                  action="actionViewChangeLockDate"
+                  parent="account.menuFinanceEntriesActions"
+                  sequence="55"
+                  groups="account.groupAccountManager"/>
+
+    </data>
+</verp>

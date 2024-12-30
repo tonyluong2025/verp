@@ -1,0 +1,25 @@
+{
+    "label": "Collaborative Pads",
+    "version": "2.0",
+    "category": "Hidden/Tools",
+    "description": "Adds enhanced support for (Ether)Pad attachments in the web client.\n===================================================================\n\nLets the company customize which Pad installation should be used to link to new pads (by default, http://etherpad.com/).",
+    "depends": ["web", "base_setup"],
+    "data": [
+        "views/res_config_settings_views.xml"
+    ],
+    "demo": ["data/pad_demo.xml"],
+    "web": true,
+    "assets": {
+        "web.assetsBackend": [
+            "pad/static/src/css/etherpad.css",
+            "pad/static/src/js/pad.js"
+        ],
+        "web.qunitSuiteTests": [
+            "pad/static/tests/**/*"
+        ],
+        "web.assetsQweb": [
+            "pad/static/src/xml/**/*"
+        ]
+    },
+    "license": "MIT Expat"
+}

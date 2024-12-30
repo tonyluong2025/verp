@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+        <record id="viewPartnerPropertyForm" model="ir.ui.view">
+            <field name="label">res.partner.pos.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewPartnerForm"/>
+            <field name="priority" eval="4"/>
+            <field name="groupsId" eval="[[4, refId('groupPosUser')]]"/>
+            <field name="arch" type="xml">
+                <div name="buttonBox" position="inside">
+                    <button class="oe-stat-button" type="object" name="actionViewPosOrder"
+                        context="{'default_partnerId': activeId}"
+                        attrs="{'invisible': [['posOrderCount', '=', 0]]}"
+                        icon="fa-shopping-bag">
+                        <field string="PoS Orders" name="posOrderCount" widget="statinfo"/>
+                    </button>
+                </div>
+                <xpath expr="//group[@name='purchase']" position="after">
+                    <group string="Point Of Sale" name="pointOfSale">
+                        <field name="barcode"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="viewPartnerPosKanban" model="ir.ui.view">
+            <field name="label">res.partner.pos.kanban.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.resPartnerKanbanView"/>
+            <field name="groupsId" eval="[[, refId('groupPosUser')]]"/>
+            <field name="arch" type="xml">
+                <field name="stateId" position="before">
+                    <field name="posOrderCount"/>
+                </field>
+                <xpath expr="//span[contains(@class,'oe-kanban-partner-links')]" position="inside">
+                    <span t-if="record.posOrderCount.value>0" class="badge badge-pill"><i class="fa fa-fw fa-shopping-bag" role="img" aria-label="Shopping cart" title="Shopping cart"/><t t-esc="record.posOrderCount.value"/></span>
+                </xpath>
+            </field>
+        </record>
+</verp>

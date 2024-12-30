@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="accountTagViewForm" model="ir.ui.view">
+            <field name="label">Tags</field>
+            <field name="model">account.account.tag</field>
+            <field name="arch" type="xml">
+                <form string="Tags">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="label"/>
+                            <field name="applicability"/>
+                            <field name="taxNegate" readonly="1" attrs="{'invisible': [['applicability', '!=', 'taxes']]}"/>
+                            <field name="countryId" options="{'noOpen': true, 'noCreate': true}" attrs="{'invisible': [['applicability', '!=', 'taxes']], 'readonly': [['taxReportLineIds', '!=', []]]}"/>
+                            <field name="taxReportLineIds" readonly="1" attrs="{'invisible': [['applicability', '!=', 'taxes']]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="accountTagViewTree" model="ir.ui.view">
+            <field name="label">Tags</field>
+            <field name="model">account.account.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Tags">
+                    <field name="label"/>
+                    <field name="applicability"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountTagViewSearch" model="ir.ui.view">
+            <field name="label">account.tag.view.search</field>
+            <field name="model">account.account.tag</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="label"/>
+                    <separator/>
+                    <filter name="archived" string="Archived" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</verp>

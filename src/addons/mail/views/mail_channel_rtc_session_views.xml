@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<verp>
+
+    <record id="mailChannelRtcSessionViewSearch" model="ir.ui.view">
+        <field name="label">mail.channel.rtc.session.search</field>
+        <field name="model">mail.channel.rtc.session</field>
+        <field name="arch" type="xml">
+            <search string="Search RTC session">
+                <field name="channelPartnerId"/>
+                <filter name="groupbyChannel" string="Channel" domain="[]" context="{'groupby':'channelId'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="mailChannelRtcSessionViewTree" model="ir.ui.view">
+        <field name="label">mail.channel.rtc.session.tree</field>
+        <field name="model">mail.channel.rtc.session</field>
+        <field name="arch" type="xml">
+            <tree string="RTC Session">
+                <header>
+                    <button name="actionDisconnect" type="object" string="Disconnect"/>
+                </header>
+                <field name="id"/>
+                <field name="channelPartnerId"/>
+                <field name="channelId"/>
+                <field name="updatedAt"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mailChannelRtcSessionViewForm" model="ir.ui.view">
+        <field name="label">mail.channel.rtc.session.form</field>
+        <field name="model">mail.channel.rtc.session</field>
+        <field name="arch" type="xml">
+            <form string="RTC Session">
+                <sheet>
+                    <div class="oe-title">
+                        <h1><field name="channelPartnerId"/></h1>
+                    </div>
+                    <group>
+                        <group string="Identity">
+                            <field name="channelId"/>
+                            <field name="partnerId"/>
+                            <field name="guestId"/>
+                        </group>
+                        <group string="State">
+                            <field name="isScreenSharingOn"/>
+                            <field name="isCameraOn"/>
+                            <field name="isMuted"/>
+                            <field name="isDeaf"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mailChannelRtcSessionAction" model="ir.actions.actwindow">
+        <field name="label">RTC sessions</field>
+        <field name="resModel">mail.channel.rtc.session</field>
+        <field name="context">{'searchDefault_groupbyChannel': true}</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+</verp>

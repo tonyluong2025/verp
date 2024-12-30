@@ -1,0 +1,6 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_snailmail_letter_user,snailmail.letter.user,model_snailmailLetter,base.groupUser,1,1,1,0
+access_snailmail_letter_system,snailmail.letter.system,model_snailmailLetter,base.groupSystem,1,1,1,1
+access_snailmail_letter_cancel,access.snailmail.letter.cancel,model_snailmailLetterCancel,base.groupUser,1,1,1,0
+access_snailmail_letter_format_error,access.snailmail.letter.format.error,model_snailmailLetterFormatError,base.groupUser,1,1,1,0
+access_snailmail_letter_missing_required_fields,access.snailmail.letter.missing.required.fields,model_snailmailLetterMissingRequiredFields,base.groupUser,1,1,1,0

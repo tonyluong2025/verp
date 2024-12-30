@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+
+    <record model="ir.rule" id="resourceCalendarLeavesRuleGroupUserCreate">
+        <field name="label">resource.calendar.leaves: employee reads own or global</field>
+        <field name="modelId" ref="model_resourceCalendarLeaves"/>
+        <field name="groups" eval="[[4, refId('base.groupUser')]]"/>
+        <field name="domainForce">['|', ['resourceId', '=', false], ['resourceId.userId', 'in', [false, user.id]]]</field>
+		<field name="permWrite" eval="false"/>
+		<field name="permCreate" eval="false"/>
+		<field name="permUnlink" eval="false"/>
+    </record>
+
+    <record model="ir.rule" id="resourceCalendarLeavesRuleGroupUserModify">
+        <field name="label">resource.calendar.leaves: employee modifies own</field>
+        <field name="modelId" ref="model_resourceCalendarLeaves"/>
+        <field name="groups" eval="[[4, refId('base.groupUser')]]"/>
+        <field name="domainForce">[['resourceId', '!=', false], ['resourceId.userId', 'in', [false, user.id]]]</field>
+		<field name="permRead" eval="false"/>
+    </record>
+
+    <record model="ir.rule" id="resourceCalendarLeavesRuleGroupAdminModify">
+        <field name="label">resource.calendar.leaves: admin modifies global</field>
+        <field name="modelId" ref="model_resourceCalendarLeaves"/>
+        <field name="groups" eval="[[4, refId('base.groupErpManager')]]"/>
+        <field name="domainForce">[['resourceId', '=', false]]</field>
+        <field name="permRead" eval="false"/>
+    </record>
+
+    <record id="resourceResourceMultiCompany" model="ir.rule">
+        <field name="label">resource.resource multi-company</field>
+        <field name="modelId" ref="model_resourceResource"/>
+        <field name="domainForce">['|', ['companyId', '=', false], ['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="resourceCalendarLeavesRuleMultiCompany">
+        <field name="label">resource.calendar.leaves: multi-company rule</field>
+        <field name="modelId" ref="model_resourceCalendarLeaves"/>
+        <field name="domainForce">['|', ['companyId', '=', false], ['companyId', 'in', companyIds]]</field>
+    </record>
+</verp>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<record model="ir.ui.view" id="stockPackageTypeForm">
+    <field name="label">stock.package.type.form</field>
+    <field name="model">stock.package.type</field>
+    <field name="arch" type="xml">
+        <form string="Package Type">
+            <sheet>
+                <label for="label"/>
+                <h1>
+                    <field name="label"/>
+                </h1>
+                <group name="delivery">
+                    <group>
+                        <label for="lengthUomName" string="Size"/>
+                        <div class="o-row" name="size">
+                            <field name="packagingLength" placeholder="Length"/>
+                            <span>&#215;</span>
+                            <field name="width" placeholder="Width"/>
+                            <span>&#215;</span>
+                            <field name="height" placeholder="Height"/>
+                            <span><field name="lengthUomName" help="Size: Length &#215; Width &#215; Height"/></span>
+                        </div>
+                        <label for="maxWeight"/>
+                        <div class="o-row" name="maxWeight">
+                            <field name="maxWeight"/>
+                            <span><field name="weightUomName"/></span>
+                        </div>
+                        <field name="barcode"/>
+                    </group>
+                </group>
+                <group name="storageCategories" groups="stock.groupStockStorageCategories">
+                    <group>
+                        <field name="storageCategoryCapacityIds" context="{'default_packageTypeId': id}">
+                            <tree editable="bottom">
+                                <field name="storageCategoryId"/>
+                                <field name="quantity"/>
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record model="ir.ui.view" id="stockPackageTypeTree">
+    <field name="label">stock.package.type.tree</field>
+    <field name="model">stock.package.type</field>
+    <field name="arch" type="xml">
+        <tree string="Package Types">
+            <field name="sequence" widget="handle"/>
+            <field name="label"/>
+            <field name="height"/>
+            <field name="width"/>
+            <field name="packagingLength"/>
+            <field name="maxWeight"/>
+            <field name="barcode" optional="hide"/>
+        </tree>
+    </field>
+</record>
+
+<record id="actionPackageTypeView" model="ir.actions.actwindow">
+    <field name="label">Package Types</field>
+    <field name="resModel">stock.package.type</field>
+    <field name="viewIds" eval="[[5, 0, 0],
+        [0, 0, {'viewMode': 'tree', 'viewId': refId('stock.stockPackageTypeTree')}],
+        [0, 0, {'viewMode': 'form', 'viewId': refId('stock.stockPackageTypeForm')}]]"/>
+</record>
+
+<menuitem id="menuDelivery" name="Delivery" parent="stock.menuStockConfigSettings" groups="stock.groupStockManager" sequence="50"/>
+<menuitem id="menuPackagingTypes" name="Package Types" parent="menuDelivery" action="actionPackageTypeView" groups="stock.groupTrackingLot"/>
+
+</verp>

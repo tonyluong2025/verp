@@ -1,0 +1,26 @@
+.o-searchpanel.account-root {
+    flex: 0 0 50px;
+    padding: 6px;
+    scrollbar-width: thin;
+    .o-searchpanel-section-header {
+        display: none;
+    }
+    .list-group-item span.o-searchpanel-label-title {
+        display: contents;
+    }
+    .o-searchpanel-category-value {
+        header {
+            margin-left: 0;
+            padding-left: 0;
+        }
+        .o-searchpanel-category-value .o-toggle-fold {
+            width: 0.3rem;
+        }
+    }
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: lightgray;
+    }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="productTemplateTreeView" model="ir.ui.view">
+            <field name="label">product.template.tree.inherit.stock.account</field>
+            <field name="model">product.template</field>
+            <field name="inheritId" ref="product.productTemplateTreeView"/>
+            <field name="arch" type="xml">
+                <field name="standardPrice" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="viewCategoryPropertyFormStock" model="ir.ui.view">
+            <field name="label">product.category.stock.property.form.inherit.stock</field>
+            <field name="model">product.category</field>
+            <field name="inheritId" ref="stock.productCategoryFormViewInherit"/>
+            <field name="arch" type="xml">
+                <group name="logistics" position="after">
+                    <group string="Inventory Valuation">
+                        <field name="propertyCostMethod"/>
+                        <field name="propertyValuation" groups="account.groupAccountReadonly,stock.groupStockManager"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+        <record id="viewCategoryPropertyForm" model="ir.ui.view">
+            <field name="label">product.category.stock.property.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="inheritId" ref="account.viewCategoryPropertyForm"/>
+            <field name="arch" type="xml">
+                <group name="accountProperty" position="inside">
+                    <group name="accountStockProperty" string="Account Stock Properties" groups="account.groupAccountReadonly" attrs="{'invisible':[['propertyValuation', '=', 'manual']]}">
+                        <field name="propertyStockValuationAccountId" options="{'noCreate': true}" attrs="{'required':[['propertyValuation', '=', 'auto']]}"/>
+                        <field name="propertyStockJournal" attrs="{'required':[['propertyValuation', '=', 'auto']]}" />
+                        <field name="propertyStockAccountInputCategId" attrs="{'required': [['propertyValuation', '=', 'auto']]}" />
+                        <field name="propertyStockAccountOutputCategId" attrs="{'required':[['propertyValuation', '=', 'auto']]}" />
+                        <div colspan="2" class="alert alert-info mt16" role="status">
+                            <b>Set other input/output accounts on specific </b><button name="%(stock.actionProdInvLocationForm)d" role="button" type="action" class="btn-link" style="padding: 0;vertical-align: baseline;" string="locations"/>.
+                        </div>
+                    </group>
+                </group>
+            </field>
+        </record>
+   </data>
+</verp>

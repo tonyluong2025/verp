@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="productTemplateTreeView" model="ir.ui.view">
+        <field name="label">product.template.product.tree</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <tree string="Product" multiEdit="1" sample="1">
+            <header>
+                <button string="Print Labels" type="object" name="actionOpenLabelLayout"/>
+            </header>
+                <field name="productVariantCount" invisible="1"/>
+                <field name="saleOk" invisible="1"/>
+                <field name="currencyId" invisible="1"/>
+                <field name="costCurrencyId" invisible="1"/>
+                <field name="priority" widget="priority" optional="show" nolabel="1"/>
+                <field name="label" string="Product Name"/>
+                <field name="defaultCode" optional="show"/>
+                <field name="barcode" optional="hide" attrs="{'readonly': [['productVariantCount', '>', 1]]}"/>
+                <field name="companyId" options="{'noCreate': true}"
+                    groups="base.groupMultiCompany" optional="hide"/>
+                <field name="listPrice" string="Sales Price" widget='monetary' options="{'currencyField': 'currencyId'}" optional="show" decoration-muted="! saleOk"/>
+                <field name="standardPrice" widget='monetary' options="{'currencyField': 'costCurrencyId'}" optional="show" readonly="1"/>
+                <field name="categId" optional="hide"/>
+                <field name="detailedType" optional="hide" readonly="1"/>
+                <field name="type" invisible="1"/>
+                <field name="uomId" readonly="1" optional="show" groups="uom.groupUom"/>
+                <field name="active" invisible="1"/>
+                <field name="activityExceptionDecoration" widget="activityException"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="productTemplateOnlyFormView" model="ir.ui.view">
+        <field name="label">product.template.product.form</field>
+        <field name="model">product.template</field>
+        <field name="mode">primary</field>
+        <field name="priority" eval="8" />
+        <field name="inheritId" ref="product.productTemplateFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="label">Product Template</attribute>
+            </xpath>
+            <field name="categId" position="after">
+                <field name="defaultCode" attrs="{'invisible': [['productVariantCount', '>', 1]]}"/>
+                <field name="barcode" attrs="{'invisible': [['productVariantCount', '>', 1]]}"/>
+            </field>
+
+            <div name="buttonBox" position="inside">
+                <button name="%(product.productVariantAction)s" type="action"
+                    icon="fa-sitemap" class="oe-stat-button"
+                    attrs="{'invisible': [['productVariantCount', '&lt;=', 1]]}"
+                    groups="product.groupProductVariant">
+                    <field string="Variants" name="productVariantCount" widget="statinfo" />
+                </button>
+            </div>
+
+            <xpath expr="//page[@name='generalInformation']" position="after">
+                <page name="variants" string="Attributes &amp; Variants" groups="product.groupProductVariant">
+                    <field name="attributeLineIds" widget="one2many" context="{'show_attribute': false}">
+                        <tree string="Variants" editable="bottom" decoration-info="valueCount &lt;= 1">
+                            <field name="valueCount" invisible="1"/>
+                            <field name="attributeId" attrs="{'readonly': [['id', '!=', false]]}"/>
+                            <field name="valueIds" widget="many2manyTags" options="{'noCreateEdit': true, 'colorField': 'color'}" context="{'default_attributeId': attributeId, 'show_attribute': false}"/>
+                            <button string="Configure" class="float-right btn-secondary"
+                                type="object" name="actionOpenAttributeValues"
+                                groups="product.groupProductVariant"/>
+                        </tree>
+                    </field>
+                        <p class="oe-grey oe-edit-only">
+                        <strong>Warning</strong>: adding or deleting attributes
+                        will delete and recreate existing variants and lead
+                        to the loss of their possible customizations.
+                    </p>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="productTemplateKanbanView" model="ir.ui.view">
+        <field name="label">Product.template.product.kanban</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <kanban sample="1">
+                <field name="id"/>
+                <field name="productVariantCount"/>
+                <field name="currencyId"/>
+                <field name="activityState"/>
+                <progressbar field="activityState" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe-kanban-card oe-kanban-global-click">
+                            <div class="o-kanban-image mr-1">
+                                <img t-att-src="kanbanImage('product.template', 'image128', record.id.rawValue)" alt="Product" class="o-image-64-contain"/>
+                            </div>
+                            <div class="oe-kanban-details">
+                                <div class="o-kanban-record-top mb-0">
+                                    <div class="o-kanban-record-headings">
+                                        <strong class="o-kanban-record-title">
+                                            <field name="label"/>
+                                        </strong>
+                                    </div>
+                                    <field name="priority" widget="priority"/>
+                                </div>
+                                <t t-if="record.defaultCode.value">[<field name="defaultCode"/>]</t>
+                                <div t-if="record.productVariantCount.value &gt; 1" groups="product.groupProductVariant">
+                                    <strong>
+                                        <t t-esc="record.productVariantCount.value"/> Variants
+                                    </strong>
+                                </div>
+                                <div name="productLstPrice" class="mt-1">
+                                    Price: <field name="listPrice" widget="monetary" options="{'currencyField': 'currencyId', 'fieldDigits': true}"></field>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="productTemplateViewActivity" model="ir.ui.view">
+        <field name="label">product.template.activity</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <activity string="Products">
+                <field name="id"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activityImage('product.template', 'image128', record.id.rawValue)" role="img" t-att-title="record.id.value" t-att-alt="record.id.value"/>
+                        <div>
+                            <field name="label" display="full"/>
+                            <div t-if="record.defaultCode.value" class="text-muted">
+                                [<field name="defaultCode"/>]
+                            </div>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <record id="productTemplateAction" model="ir.actions.actwindow">
+        <field name="label">Products</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.template</field>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="viewId" ref="productTemplateKanbanView"/>
+        <field name="searchViewId" ref="product.productTemplateSearchView"/>
+        <field name="context">{"searchDefault_filterToSell":1}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new product
+            </p><p>
+                You must define a product for everything you sell or purchase,
+                whether it's a storable product, a consumable or a service.
+            </p>
+        </field>
+    </record>
+
+    <record id="actionProductTemplatePriceListReport" model="ir.actions.server">
+        <field name="label">Generate Pricelist Report</field>
+        <field name="groupsId" eval="[[4, refId('product.groupProductPricelist')]]"/>
+        <field name="modelId" ref="product.model_productTemplate"/>
+        <field name="bindingModelId" ref="product.model_productTemplate"/>
+        <field name="state">code</field>
+        <field name="code">async () => {
+const ctx = env.context;
+Object.assign(ctx, {'default_pricelist': (await env.items('product.pricelist').search([], {limit: 1})).id});
+return {
+    'label': 'Pricelist Report',
+    'type': 'ir.actions.client',
+    'tag': 'generatePricelist',
+    'context': ctx,
+}
+        }
+        </field>
+    </record>
+
+</verp>

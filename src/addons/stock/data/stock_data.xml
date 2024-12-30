@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="removalFifo" model="product.removal">
+            <field name="label">First In First Out (FIFO)</field>
+            <field name="method">fifo</field>
+        </record>
+        <record id="removalLifo" model="product.removal">
+            <field name="label">Last In First Out (LIFO)</field>
+            <field name="method">lifo</field>
+        </record>
+        <record id="removalClosest" model="product.removal">
+            <field name="label">Closest Location</field>
+            <field name="method">closest</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <!-- Resource: stock.location -->
+        <record id="stockLocationLocations" model="stock.location">
+            <field name="label">Physical Locations</field>
+            <field name="usage">view</field>
+            <field name="companyId"></field>
+        </record>
+        <record id="stockLocationLocationsPartner" model="stock.location">
+            <field name="label">Partner Locations</field>
+            <field name="usage">view</field>
+            <field name="posz">1</field>
+            <field name="companyId"></field>
+        </record>
+        <record id="stockLocationLocationsVirtual" model="stock.location">
+            <field name="label">Virtual Locations</field>
+            <field name="usage">view</field>
+            <field name="posz">1</field>
+            <field name="companyId"></field>
+        </record>
+
+        <record id="stockLocationSuppliers" model="stock.location">
+            <field name="label">Vendors</field>
+            <field name="locationId" ref="stockLocationLocationsPartner"/>
+            <field name="usage">supplier</field>
+            <field name="companyId"></field>
+        </record>
+        <record id="stockLocationCustomers" model="stock.location">
+            <field name="label">Customers</field>
+            <field name="locationId" ref="stockLocationLocationsPartner"/>
+            <field name="usage">customer</field>
+            <field name="companyId"></field>
+        </record>
+        
+        <record id="stockLocationInterWh" model="stock.location">
+            <field name="label">Inter-company transit</field>
+            <field name="locationId" ref="stockLocationLocationsVirtual"/>
+            <field name="usage">transit</field>
+            <field name="companyId"></field>
+            <field name="active" eval="false"/>
+        </record>
+
+        <!-- set a lower sequence on the mto route than on the resupply routes -->
+        <record id="routeWarehouse0Mto" model='stock.location.route'>
+            <field name="label">Replenish on Order (MTO)</field>
+            <field name="companyId"></field>
+            <field name="active">false</field>
+            <field name="sequence">5</field>
+        </record>
+
+        <!-- Properties -->
+        <record forcecreate="true" id="propertyStockSupplier" model="ir.property">
+            <field name="label">propertyStockSupplier</field>
+            <field name="fieldsId" search="[['model','=','res.partner'],['label','=','propertyStockSupplier']]"/>
+            <field name="value" eval="'stock.location,'+refId('stock.stockLocationSuppliers')"/>
+        </record>
+        <record forcecreate="true" id="propertyStockCustomer" model="ir.property">
+            <field name="label">propertyStockCustomer</field>
+            <field name="fieldsId" search="[['model','=','res.partner'],['label','=','propertyStockCustomer']]"/>
+            <field name="value" eval="'stock.location,'+refId('stock.stockLocationCustomers')"/>
+        </record>
+
+        </record>
+
+        <!-- Resource: stock.warehouse -->
+        <record id="warehouse0" model="stock.warehouse">
+            <field name="partnerId" ref="base.mainPartner"/>
+            <field name="label">San Francisco</field>
+            <field name="code">WH</field>
+        </record>
+
+        <!-- create xml ids for demo data that are widely used in tests or in other codes, for more convenience -->
+        <function model="ir.model.data" name="_updateXmlids">
+            <value model="base" eval="[{
+                'xmlid': 'stock.stockLocationStock',
+                'record': await (await obj.env.ref('stock.warehouse0')).lotStockId,
+                'noupdate': true,
+            }, {
+                'xmlid': 'stock.stockLocationCompany',
+                'record': await (await obj.env.ref('stock.warehouse0')).whInputStockLocId,
+                'noupdate': true,
+            }, {
+                'xmlid': 'stock.stockLocationOutput',
+                'record': await (await obj.env.ref('stock.warehouse0')).whOutputStockLocId,
+                'noupdate': true,
+            }, {
+                'xmlid': 'stock.locationPackZone',
+                'record': await (await obj.env.ref('stock.warehouse0')).whPackStockLocId,
+                'noupdate': true,
+            }, {
+                'xmlid': 'stock.pickingTypeInternal',
+                'record': await (await obj.env.ref('stock.warehouse0')).intTypeId,
+                'noupdate': true,
+            }, {
+                'xmlid': 'stock.pickingTypeIn',
+                'record': await (await obj.env.ref('stock.warehouse0')).inTypeId,
+                'noupdate': true,
+            }, {
+                'xmlid': 'stock.pickingTypeOut',
+                'record': await (await obj.env.ref('stock.warehouse0')).outTypeId,
+                'noupdate': true,
+            }]"/>
+        </function>
+
+        <!-- create the transit location for each company existing -->
+        <function model="res.company" name="createMissingTransitLocation"/>
+        <function model="res.company" name="createMissingWarehouse"/>
+        <function model="res.company" name="createMissingInventoryLossLocation"/>
+        <function model="res.company" name="createMissingProductionLocation"/>
+        <function model="res.company" name="createMissingScrapLocation"/>
+        <function model="res.company" name="createMissingScrapSequence"/>
+    </data>
+</verp>

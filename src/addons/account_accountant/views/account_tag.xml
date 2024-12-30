@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<verp>
+
+    <record id="actionAccountAccountTag" model="ir.actions.actwindow">
+        <field name="label">Account Tags</field>
+        <field name="resModel">account.account.tag</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+    <menuitem id="menuAccountTag"
+              action="actionAccountAccountTag"
+              sequence="40"
+              parent="account.accountAccountMenu"/>
+
+</verp>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewBaseLanguageInstall" model="ir.ui.view">
+        <field name="label">viewBaseLanguageInstall.inherit</field>
+        <field name="model">base.language.install</field>
+        <field name="inheritId" ref="base.viewBaseLanguageInstall"/>
+        <field name="arch" type="xml">
+            <group states="init" position="inside">
+                <field name="websiteIds" widget="many2manyCheckboxes" groups="website.groupMultiWebsite"/>
+            </group>
+        </field>
+    </record>
+
+</verp>

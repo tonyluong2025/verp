@@ -1,0 +1,29 @@
+
+// The goal of this file is to contain CSS hacks related to allowing
+// section and note on sale order and invoice.
+
+table.o-section-and-note-list-view tr.o-data-row.o-is-line-note,
+table.o-section-and-note-list-view tr.o-data-row.o-is-line-note textarea[name="label"],
+div.oe-kanban-card.o-is-line-note {
+    font-style: italic;
+}
+table.o-section-and-note-list-view tr.o-data-row.o-is-line-section,
+div.oe-kanban-card.o-is-line-section {
+    font-weight: bold;
+    background-color: #DDDDDD;
+}
+table.o-section-and-note-list-view tr.o-data-row.o-is-line-section {
+    border-top: 1px solid #BBB;
+    border-bottom: 1px solid #BBB;
+}
+
+table.o-section-and-note-list-view tr.o-data-row {
+    &.o-is-line-note,
+    &.o-is-line-section {
+        td {
+            // There is an undeterministic CSS behaviour in Chrome related to
+            // the combination of the row's and its children's borders.
+            border: none !important;
+        }
+    }
+}

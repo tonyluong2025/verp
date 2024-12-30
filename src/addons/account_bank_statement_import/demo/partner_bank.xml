@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="ofxPartnerBank1" model="res.partner.bank">
+            <field name="accNumber">BE68539007547034</field>
+            <field name="partnerId" ref="base.resPartner_2"></field>
+            <field name="bankId" ref="base.resBank_1"/>
+        </record>
+
+        <record id="ofxPartnerBank2" model="res.partner.bank">
+            <field name="accNumber">00987654322</field>
+            <field name="partnerId" ref="base.resPartner_3"></field>
+            <field name="bankId" ref="base.resBank_1"/>
+        </record>
+
+        <record id="qifPartnerBank1" model="res.partner.bank">
+            <field name="accNumber">10987654320</field>
+            <field name="partnerId" ref="base.resPartner_4"></field>
+            <field name="bankId" ref="base.resBank_1"/>
+        </record>
+
+        <record id="qifPartnerBank2" model="res.partner.bank">
+            <field name="accNumber">10987654322</field>
+            <field name="partnerId" ref="base.resPartner_3"></field>
+            <field name="bankId" ref="base.resBank_1"/>
+        </record>
+
+    </data>
+</verp>

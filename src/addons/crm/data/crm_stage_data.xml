@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+    <record model="crm.stage" id="stageLead1">
+        <field name="label">New</field>
+        <field name="sequence">1</field>
+    </record>
+    <record model="crm.stage" id="stageLead2">
+        <field name="label">Qualified</field>
+        <field name="sequence">2</field>
+    </record>
+    <record model="crm.stage" id="stageLead3">
+        <field name="label">Proposition</field>
+        <field name="sequence">3</field>
+    </record>
+    <record model="crm.stage" id="stageLead4">
+        <field name="label">Won</field>
+        <field name="fold" eval="false"/>
+        <field name="isWon">true</field>
+        <field name="sequence">70</field>
+    </record>
+</verp>

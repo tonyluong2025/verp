@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="paymentAcquirerForm" model="ir.ui.view">
+        <field name="label">payment.acquirer.form</field>
+        <field name="model">payment.acquirer</field>
+        <field name="arch" type="xml">
+            <form string="Payment Acquirer">
+                <field name="supportAuthorization" invisible="1"/>
+                <field name="supportFeesComputation" invisible="1"/>
+                <field name="supportTokenization" invisible="1"/>
+                <field name="moduleId" invisible="1"/>
+                <field name="moduleState" invisible="1"/>
+                <field name="moduleToBuy" invisible="1"/>
+                <field name="showCredentialsPage" invisible="1"/>
+                <field name="showAllowTokenization" invisible="1"/>
+                <field name="showPaymentIconIds" invisible="1"/>
+                <field name="showPreMsg" invisible="1"/>
+                <field name="showPendingMsg" invisible="1"/>
+                <field name="showAuthMsg" invisible="1"/>
+                <field name="showDoneMsg" invisible="1"/>
+                <field name="showCancelMsg" invisible="1"/>
+                <sheet>
+                    <field name="image128" widget="image" class="oe-avatar"/>
+                    <widget name="webRibbon" title="Disabled" bgcolor="bg-danger" attrs="{'invisible': [['state', '!=', 'disabled']]}"/>
+                    <widget name="webRibbon" title="Test Mode" bgcolor="bg-warning" attrs="{'invisible': [['state', '!=', 'test']]}"/>
+                    <div class="oe-title">
+                        <h1><field name="label" placeholder="Name"/></h1>
+                        <div attrs="{'invisible': ['|', ['moduleState', '=', 'installed'], ['moduleId', '=', false]]}">
+                            <a attrs="{'invisible': [['moduleToBuy', '=', false]]}" href="https://theverp.com/pricing?utmSource=db&amp;utmMedium=module" target="_blank" class="btn btn-info" role="button">Upgrade</a>
+                            <button attrs="{'invisible': [['moduleToBuy', '=', true]]}" type="object" class="btn btn-primary" name="buttonImmediateInstall" string="Install"/>
+                        </div>
+                    </div>
+                    <div attrs="{'invisible': ['|', ['moduleState', '=', 'installed'], ['moduleId', '=', false]]}">
+                        <div class="o-payment-acquirer-desc">
+                            <field name="description"/>
+                        </div>
+                    </div>
+                    <div attrs="{'invisible': [['id', '!=', false]]}" class="alert alert-warning" role="alert">
+                        <strong>Warning</strong> Creating a payment acquirer from the <em>CREATE</em> button is not supported.
+                        Please use the <em>Duplicate</em> action instead.
+                    </div>
+                    <group>
+                        <group name="paymentState">
+                            <field name="provider" groups="base.groupNoOne" attrs="{'readonly': [['id', '!=', false]], 'invisible': [['moduleId', '!=', false], ['moduleState', '!=', 'installed']]}"/>
+                            <field name="state" widget="radio" attrs="{'invisible': [['moduleState', '=', 'uninstalled']]}"/>
+                            <field name="companyId" groups="base.groupMultiCompany" options='{"noOpen": true}'/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': ['&amp;', ['moduleId', '!=', false], ['moduleState', '!=', 'installed']]}">
+                        <page string="Credentials" name="acquirerCredentials" attrs="{'invisible': ['|', ['provider', '=', 'none'], ['showCredentialsPage', '=', false]]}">
+                            <group name="acquirer"/>
+                        </page>
+                        <page string="Configuration" name="configuration">
+                            <group name="acquirerConfig">
+                                <group string="Payment Form" name="paymentForm">
+                                    <field name="displayAs" placeholder="If not defined, the acquirer name will be used."/>
+                                    <field name="paymentIconIds" attrs="{'invisible': [['showPaymentIconIds', '=', false]]}" widget="many2manyTags"/>
+                                    <field name="allowTokenization" attrs="{'invisible': ['|', ['supportTokenization', '=', false], ['showAllowTokenization', '=', false]]}"/>
+                                    <field name="captureManually" attrs="{'invisible': [['supportAuthorization', '=', false]]}"/>
+                                </group>
+                                <group string="Availability" name="availability">
+                                    <field name="countryIds" widget="many2manyTags" placeholder="Select countries. Leave empty to use everywhere." options="{'noOpen': true, 'noCreate': true}"/>
+                                </group>
+                                <group string="Payment Followup" name="paymentFollowup">
+                                    <field name="journalId" context="{'default_type': 'bank'}"
+                                           attrs="{'required': [['state', '!=', 'disabled'], ['provider', 'not in', ['none', 'transfer']]]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Fees" name="fees" attrs="{'invisible': [['supportFeesComputation', '=', false]]}">
+                            <group name="paymentFees">
+                                <field name="feesActive"/>
+                                <field name="feesDomFixed" attrs="{'invisible': [['feesActive', '=', false]]}"/>
+                                <field name="feesDomVar" attrs="{'invisible': [['feesActive', '=', false]]}"/>
+                                <field name="feesIntFixed" attrs="{'invisible': [['feesActive', '=', false]]}"/>
+                                <field name="feesIntVar" attrs="{'invisible': [['feesActive', '=', false]]}"/>
+                            </group>
+                        </page>
+                        <page string="Messages"
+                            name="messages"
+                            attrs="{'invisible': [['moduleId', '=', true], ['moduleState', '!=', 'installed']]}">
+                            <group>
+                                <field name="preMsg" attrs="{'invisible': [['showPreMsg', '=', false]]}"/>
+                                <field name="pendingMsg" attrs="{'invisible': [['showPendingMsg', '=', false]]}"/>
+                                <field name="authMsg" attrs="{'invisible': ['|', ['supportAuthorization', '=', false], ['showAuthMsg', '=', false]]}"/>
+                                <field name="doneMsg" attrs="{'invisible': [['showDoneMsg', '=', false]]}"/>
+                                <field name="cancelMsg" attrs="{'invisible': [['showCancelMsg', '=', false]]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="paymentAcquirerList" model="ir.ui.view">
+        <field name="label">payment.acquirer.list</field>
+        <field name="model">payment.acquirer</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Acquirers" create="false">
+                <field name="sequence" widget="handle"/>
+                <field name="label"/>
+                <field name="provider"/>
+                <field name="state"/>
+                <field name="countryIds" widget="many2manyTags" optional="hide"/>
+                <field name="companyId" groups="base.groupMultiCompany" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="paymentAcquirerKanban" model="ir.ui.view">
+        <field name="label">payment.acquirer.kanban</field>
+        <field name="model">payment.acquirer</field>
+        <field name="arch" type="xml">
+            <kanban create="false" quick_create="false" class="o-kanban-payment-acquirer o-kanban-dashboard">
+                <field name="id"/>
+                <field name="label"/>
+                <field name="description"/>
+                <field name="provider"/>
+                <field name="moduleId"/>
+                <field name="moduleState"/>
+                <field name="moduleToBuy"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <t t-set="installed" t-value="!record.moduleId.value || (record.moduleId.value &amp;&amp; record.moduleState.rawValue === 'installed')"/>
+                        <t t-set="toBuy" t-value="record.moduleToBuy.rawValue === true"/>
+                        <div t-attf-class="oe-kanban-global-click #{kanbanColor(record.color.rawValue)}">
+                            <div class="o-payment-acquirer-desc">
+                                <div class="o-kanban-image">
+                                    <img type="open" t-att-src="kanbanImage('payment.acquirer', 'image128', record.id.rawValue)" alt="Acquirer"/>
+                                </div>
+                                <h3 class="mt4"><t t-esc="record.label.value"/></h3>
+                                <t t-if="record.description.rawValue" t-out="record.description.value"/>
+                            </div>
+                            <div class="o-payment-acquirer-bottom">
+                                <t t-if="installed">
+                                    <field name="state" widget="labelSelection" options="{'classes': {'enabled': 'success', 'test': 'warning', 'disabled' : 'danger'}}"/>
+                                </t>
+                                <button t-if="!installed and !selectionMode and !toBuy" type="object" class="btn btn-secondary float-right" name="buttonImmediateInstall">Install</button>
+                                <t t-if="!installed and toBuy">
+                                    <button href="https://theverp.com/pricing?utmSource=db&amp;utmMedium=module" target="_blank" class="btn btn-info btn-sm float-right">Upgrade</button>
+                                    <span class="badge badge-primary oe-inline o-enterprise-label">Enterprise</span>
+                                </t>
+                                <button t-if="installed and record.state.rawValue == 'disabled' and !selectionMode" type="edit" class="btn btn-primary float-right">Activate</button>
+                                <button t-if="installed and record.state.rawValue in ['enabled', 'test'] and !selectionMode" type="edit" class="btn btn-primary float-right">Configure</button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="paymentAcquirerSearch" model="ir.ui.view">
+        <field name="label">payment.acquirer.search</field>
+        <field name="model">payment.acquirer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="label" string="Acquirer" filterDomain="['|', ['label', 'ilike', self], ['description', 'ilike', self]]"/>
+                <field name="provider"/>
+                <filter name="acquirerInstalled" string="Installed" domain="[['moduleState', '=', 'installed']]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Provider" name="provider" context="{'groupby': 'provider'}"/>
+                    <filter string="State" name="state" context="{'groupby': 'state'}"/>
+                    <filter string="Company" name="company" context="{'groupby': 'companyId'}" groups="base.groupMultiCompany"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionPaymentAcquirer" model="ir.actions.actwindow">
+        <field name="label">Payment Acquirers</field>
+        <field name="resModel">payment.acquirer</field>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new payment acquirer
+            </p>
+        </field>
+    </record>
+
+    <menuitem action="actionPaymentAcquirer"
+              id="paymentAcquirerMenu"
+              parent="account.rootPaymentMenu"
+              sequence="10"/>
+
+</verp>

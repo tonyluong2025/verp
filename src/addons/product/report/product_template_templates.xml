@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<template id="reportProducttemplateLabel">
+    <t t-call="web.basicLayout">
+        <div class="page">
+            <t t-call="product.reportProductLabel">
+                <t t-set="products" t-value="products"/>
+            </t>
+        </div>
+    </t>
+</template>
+
+<template id="reportProducttemplateLabelDymo">
+    <t t-call="web.basicLayout">
+        <div class="page">
+            <t t-call="product.reportProductLabelDymo">
+                <t t-set="products" t-value="products"/>
+            </t>
+        </div>
+    </t>
+</template>
+
+</verp>

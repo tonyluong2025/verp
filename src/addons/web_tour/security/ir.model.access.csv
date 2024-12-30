@@ -1,0 +1,3 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_web_tour_tour_admin,access_web_tour_tour_admin,model_webTourTour,base.groupSystem,1,0,1,0
+access_web_tour_tour,access_web_tour_tour,model_webTourTour,,1,0,0,0

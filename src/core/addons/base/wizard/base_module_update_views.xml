@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewBaseModuleUpdate" model="ir.ui.view">
+            <field name="label">Module Update</field>
+            <field name="model">base.module.update</field>
+            <field name="arch" type="xml">
+                <form string="Update Module List">
+                    <field name="state" invisible="1"/>
+                    <separator string="Module Update Result"/>
+                    <group states="init">
+                        <span class="o-form-label">Click on Update below to start the process...</span>
+                    </group>
+                    <group states="done" >
+                        <field name="updated"/>
+                        <field name="added" />
+                    </group>
+                    <footer>
+                        <div states="init">
+                            <button name="updateModule" string="Update" type="object" class="btn-primary"/>
+                            <button special="cancel" data-hotkey="z" string="Cancel" class="btn-secondary"/>
+                        </div>
+                        <div states="done">
+                            <button name="actionModuleOpen" string="Open Apps" type="object" class="btn-primary" data-hotkey="q"/>
+                            <button special="cancel" data-hotkey="z" string="Close" class="btn-secondary"/>
+                        </div>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionViewBaseModuleUpdate" model="ir.actions.actwindow">
+            <field name="label">Module Update</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">base.module.update</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            name="Update Apps List"
+            action="actionViewBaseModuleUpdate"
+            id="menuViewBaseModuleUpdate"
+            groups="base.groupNoOne"
+            parent="menuManagement"
+            sequence="40"/>
+
+    </data>
+</verp>

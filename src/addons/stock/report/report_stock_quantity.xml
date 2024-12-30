@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="stockReportViewGraph" model="ir.ui.view">
+        <field name="label">stockReportViewGraph</field>
+        <field name="model">report.stock.quantity</field>
+        <field name="arch" type="xml">
+            <graph string="reportStockQuantityGraph" type="line" sample="1" disableLinking="1">
+                    <field name="date" interval="day"/>
+                    <field name="productId"/>
+                    <field name="productQty" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="stockReportViewSearch" model="ir.ui.view">
+        <field name="label">report.stock.quantity.search</field>
+        <field name="model">report.stock.quantity</field>
+        <field name="arch" type="xml">
+            <search string="Report Quantity">
+                <field name="productId"/>
+                <field name="state"/>
+                <field name="productTemplateId"/>
+                <field name="warehouseId"/>
+                <group expand="0" string="State">
+                    <filter string="Forecasted Stock" name="filterForecast" domain="[['state', '=', 'forecast']]"/>
+                    <filter string="Forecasted Receipts" name="filterIn" domain="[['state', '=', 'in']]"/>
+                    <filter string="Forecasted Deliveries" name="filter_out" domain="[['state', '=', 'out']]"/>
+                    <separator/>
+                    <filter string="Date" name="filterDate" date="date"/>
+                </group>
+                <group expand="0" string="Group By">
+                    <filter string="Date" name="groupbyDate" domain="[]" context="{'groupby':'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="reportStockQuantityActionProduct" model="ir.actions.actwindow">
+        <field name="label">Forecasted Inventory</field>
+        <field name="resModel">report.stock.quantity</field>
+        <field name="viewMode">graph</field>
+        <field name="context">{
+            'searchDefault_filterForecast': 1,
+            'graphGroupbys': ['date:day', 'state',  'productId'],
+        }</field>
+    </record>
+
+    <record id="reportStockQuantityAction" model="ir.actions.actwindow">
+        <field name="label">Forecasted Inventory</field>
+        <field name="resModel">report.stock.quantity</field>
+        <field name="viewMode">graph</field>
+        <field name="context">{
+            'searchDefault_filterForecast': 1,
+            'graphGroupbys': ['date:day', 'state', 'productId'],
+        }</field>
+    </record>
+</verp>
+

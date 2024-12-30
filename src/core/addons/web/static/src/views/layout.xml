@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.Layout" owl="1">
+        <div t-att-class="{ 'o-view-sample-data': props.useSampleModel }" t-attf-class="{{ props.viewType ? `o-${props.viewType}-view` : '' }}">
+            <t t-component="components.ControlPanel" t-if="display.controlPanel">
+                <!-- Empty body to assign slot id to control panel -->
+            </t>
+            <div class="o-content" t-att-class="{ 'o-component-with-searchpanel': display.searchpanel }">
+                <t t-component="components.Banner" t-if="components.Banner and display.banner" />
+                <t t-component="components.SearchPanel" t-if="display.searchpanel" />
+                <t t-slot="default" />
+            </div>
+        </div>
+    </t>
+
+</templates>

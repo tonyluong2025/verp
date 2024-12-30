@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data>
+
+    <record id="crmTeamMemberViewSearch" model="ir.ui.view">
+        <field name="label">crm.team.member.view.search</field>
+        <field name="model">crm.team.member</field>
+        <field name="arch" type="xml">
+            <search string="Sales Person">
+                <field name="userId"/>
+                <field name="crmTeamId"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[['active', '=', false]]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Sales Team" name="groupbyCrmTeamId" context="{'groupby': 'crmTeamId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberViewTree" model="ir.ui.view">
+        <field name="label">crm.team.member.view.tree</field>
+        <field name="model">crm.team.member</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Men" sample="1">
+                <field name="crmTeamId"/>
+                <field name="userId"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberViewTreeFromTeam" model="ir.ui.view">
+        <field name="label">crm.team.member.view.tree.from.team</field>
+        <field name="model">crm.team.member</field>
+        <field name="inheritId" ref="sales_team.crmTeamMemberViewTree"/>
+        <field name="mode">primary</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='crmTeamId']" position="replace">
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberViewKanban" model="ir.ui.view">
+        <field name="label">crm.team.member.view.kanban</field>
+        <field name="model">crm.team.member</field>
+        <field name="arch" type="xml">
+            <kanban quickCreate="false"
+                groupCreate="0"
+                recordsDraggable="0"
+                sample="1"
+                defaultGroupby="crmTeamId"
+                class="o-crm-team-member-kanban">
+                <field name="userId"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe-kanban-card oe-kanban-global-click">
+                            <div class="ribbon ribbon-top-right" attrs="{'invisible': [['active', '=', true]]}">
+                                <span class="bg-error">Archived</span>
+                            </div>
+                            <div class="o-kanban-card-content d-flex">
+                                <div>
+                                    <img t-att-src="kanbanImage('res.users', 'avatar128', record.userId.rawValue)" class="o-kanban-image o-image-64_cover" alt="Avatar"/>
+                                </div>
+                                <div class="oe-kanban-details d-flex flex-column ml-3">
+                                    <strong class="o-kanban-record-title oe-partner-heading"><field name="userId"/></strong>
+                                    <a type="open" class="nav-link p-0"><field name="crmTeamId"/></a>
+                                    <div class="d-flex align-items-baseline text-break">
+                                        <i class="fa fa-envelope mr-1" role="img" aria-label="Email" title="Email"/><field name="email"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberViewKanbanFromTeam" model="ir.ui.view">
+        <field name="label">crm.team.member.view.kanban.from.team</field>
+        <field name="model">crm.team.member</field>
+        <field name="inheritId" ref="sales_team.crmTeamMemberViewKanban"/>
+        <field name="mode">primary</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='crmTeamId']" position="replace">
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberViewForm" model="ir.ui.view">
+        <field name="label">crm.team.member.view.form</field>
+        <field name="model">crm.team.member</field>
+        <field name="arch" type="xml">
+            <form string="Sales Men">
+                <field name="active" invisible="1"/>
+                <field name="isMembershipMulti" invisible="1"/>
+                <field name="memberWarning" invisible="1"/>
+                <field name="userInTeamsIds" invisible="1"/>
+                <field name="userCompanyIds" invisible="1"/>
+                <sheet>
+                    <div class="alert alert-info text-center" role="alert"
+                        attrs="{'invisible': [['memberWarning', '=', false]]}">
+                        <field name="memberWarning"/>
+                    </div>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <field name="image1920" widget='image' class="oe-avatar"
+                        attrs="{'invisible': [['userId', '=', false]]}"
+                        options='{"previewImage": "image128"}'/>
+                    <div class="oe-title">
+                        <label for="userId" class="oe-edit-only"/>
+                        <h1 class="d-flex">
+                            <field name="userId" class="flex-grow-1"
+                                options="{'noQuickCreate': true}"/>
+                        </h1>
+                    </div>
+                    <group name="memberPartnerInfo">
+                        <group name="groupOwner">
+                            <field name="crmTeamId" kanbanViewRef="%(sales_team.crmTeamViewKanban)s"/>
+                        </group>
+                        <group name="groupUser">
+                            <field name="companyId" attrs="{'invisible': [['userId', '=', false]]}"
+                                groups="base.groupMultiCompany"/>
+                            <field name="email" attrs="{'invisible': [['userId', '=', false]]}"/>
+                            <field name="mobile" attrs="{'invisible': [['userId', '=', false]]}"/>
+                            <field name="phone" attrs="{'invisible': [['userId', '=', false]]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberViewFormFromTeam" model="ir.ui.view">
+        <field name="label">crm.team.member.view.form.from.team</field>
+        <field name="model">crm.team.member</field>
+        <field name="inheritId" ref="sales_team.crmTeamMemberViewForm"/>
+        <field name="mode">primary</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='groupOwner']" position="replace"/>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberAction" model="ir.actions.actwindow">
+        <field name="label">Team Members</field>
+        <field name="resModel">crm.team.member</field>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new salesman
+            </p><p>
+                Link salespersons to sales teams.
+            </p>
+        </field>
+    </record>
+
+</data></verp>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <template id="reportPicking">
+            <t t-call="web.htmlContainer">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.externalLayout">
+                        <t t-set="moveIdsWithoutPackage" t-value="await o.moveIdsWithoutPackage"/>
+                        <div class="page">
+                            <t t-set="pickingTypeId" t-value="await o.pickingTypeId"/>
+                            <t t-set="partnerOk" t-value="bool(await o.partnerId)"/>
+                            <t t-set="code" t-value="await pickingTypeId.code"/>
+                            <div class="row justify-content-end mb16">
+                                <div class="col-4" name="rightBox">
+                                    <div t-field="o.label" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'imgStyle': 'width:300px;height:50px;'}"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6" name="divOutgoingAddress">
+                                    <div t-if="bool(moveIdsWithoutPackage) &amp;&amp; bool(await moveIdsWithoutPackage(0).partnerId) &amp;&amp; (await moveIdsWithoutPackage(0).partnerId).id != (await o.partnerId).id">
+                                        <span><strong>Delivery Address:</strong></span>
+                                        <div t-field="moveIdsWithoutPackage(0).partnerId"
+                                            t-options='{"widget": "contact", "fields": ["address", "label", "phone"], "noMarker": true, "phoneIcons": true}'/>
+                                    </div>
+                                    <div t-if="code !== 'internal' &amp;&amp; (!bool(await o.moveIdsWithoutPackage) || !bool(await moveIdsWithoutPackage(0).partnerId)) &amp;&amp; await (await pickingTypeId.warehouseId).partnerId">
+                                        <span><strong>Warehouse Address:</strong></span>
+                                        <div t-field="pickingTypeId.warehouseId.partnerId"
+                                            t-options='{"widget": "contact", "fields": ["address", "label", "phone"], "noMarker": true, "phoneIcons": true}'/>
+                                    </div>
+                                </div>
+                                <div class="col-5 offset-1" name="divIncomingAddress">
+                                    <div t-if="code==='incoming' &amp;&amp; partnerOk">
+                                        <span><strong>Vendor Address:</strong></span>
+                                    </div>
+                                    <div t-if="code==='internal' &amp;&amp; partnerOk">
+                                        <span><strong>Warehouse Address:</strong></span>
+                                    </div>
+                                    <div t-if="code==='outgoing' &amp;&amp; partnerOk">
+                                        <span><strong>Customer Address:</strong></span>
+                                    </div>
+                                    <div t-if="partnerOk" name="partnerHeader">
+                                        <div t-field="partnerOk"
+                                           t-options='{"widget": "contact", "fields": ["label", "phone"], "noMarker": true, "phoneIcons": true}'/>
+                                        <p t-if="await (await (await o.sudo()).partnerId).vat"><t t-esc="await (await (await o.companyId).countryId).vatLabel || 'Tax ID'"/>: <span t-field="o.sudo().partnerId).vat"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <h1 t-field="o.label" class="mt0 float-left"/>
+                            <div class="row mt48 mb32">
+                                <div t-if="bool(await o.origin)" class="col-auto" name="divOrigin">
+                                    <strong>Order:</strong>
+                                    <p t-field="o.origin"/>
+                                </div>
+                                <div class="col-auto" name="divState">
+                                    <strong>Status:</strong>
+                                    <p t-field="o.state"/>
+                                </div>
+                                <div class="col-auto" name="divSchedDate">
+                                    <strong>Scheduled Date:</strong>
+                                    <p t-field="o.scheduledDate"/>
+                                </div>
+                            </div>
+                            <table class="table table-sm" t-if="bool(await o.moveLineIds) &amp;&amp; bool(await o.moveIdsWithoutPackage)">
+                                <t t-set="hasBarcode" t-value="await (await o.moveLineIds).some(async (moveLine) => bool(await moveLine.productId) &amp;&amp; await (await (await moveLine.productId).sudo()).barcode || bool(await moveLine.packageId))"/>
+                                <t t-set="hasSerialNumber" t-value="(await o.moveLineIds).some(async (moveLine) => (await moveLine.lotId) || await moveLine.lotName))" groups="stock.groupProductionLot"/>
+                                <thead>
+                                    <tr>
+                                        <th name="thProduct">
+                                            <strong>Product</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Quantity</strong>
+                                        </th>
+                                        <th name="thFrom" t-if="code !== 'incoming'" align="left" groups="stock.groupStockMultiLocations">
+                                            <strong>From</strong>
+                                        </th>
+                                        <th name="thTo" t-if="code !== 'outgoing'" groups="stock.groupStockMultiLocations">
+                                            <strong>To</strong>
+                                        </th>
+                                        <th name="thSerialNumber" class="text-center" t-if="hasSerialNumber">
+                                           <strong>Lot/Serial Number</strong>
+                                        </th>
+                                        <th name="thBarcode" class="text-center" t-if="hasBarcode">
+                                            <strong>Product Barcode</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="moveIdsWithoutPackage" t-as="move">
+                                        <!-- In case you come across duplicated lines, ask NIM or LAP -->
+                                        <t t-foreach="await (await move.moveLineIds).sorted(async (ml) => (await ml.locationId).id)" t-as="ml">
+                                            <tr>
+                                                <td>
+                                                    <span t-field="ml.productId.displayName"/><br/>
+                                                    <span t-field="ml.productId.descriptionPicking"/>
+                                                </td>
+                                                <td>
+                                                    <span t-if="await o.state !== 'done'" t-field="ml.productUomQty"/>
+                                                    <span t-if="await o.state === 'done'" t-field="ml.qtyDone"/>
+                                                    <span t-field="ml.productUomId" groups="uom.groupUom"/>
+
+                                                </td>
+                                                <td t-if="code !== 'incoming'" groups="stock.groupStockMultiLocations">
+                                                    <span t-esc="await (await ml.locationId).displayName"/>
+                                                        <t t-if="await ml.packageId">
+                                                            <span t-field="ml.packageId"/>
+                                                        </t>
+                                                </td>
+                                                <td t-if="code !== 'outgoing'" groups="stock.groupStockMultiLocations">
+                                                    <div>
+                                                        <span t-field="ml.locationDestId"/>
+                                                        <t t-if="await ml.resultPackageId">
+                                                            <span t-field="ml.resultPackageId"/>
+                                                        </t>
+                                                    </div>
+                                                </td>
+                                                <td class=" text-center h6" t-if="hasSerialNumber">
+                                                    <div t-if="hasSerialNumber &amp;&amp; (bool(await ml.lotId) || await ml.lotName)" t-esc="await (await ml.lotId).label || await ml.lotName" t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 400, 'height': 100, 'imgStyle': 'width:100%;height:35px;'}"/>
+                                                </td>
+                                                <td class="text-center" t-if="hasBarcode">
+                                                <t t-set="productId" t-value="await move.productId"/>
+                                                    <t t-if="productBarcode !== await productId.barcode">
+                                                        <span t-if="bool(productId) &amp;&amp; await productId.barcode">
+                                                            <div t-field="productId.barcode" t-options="{'widget': 'barcode', 'symbology': 'auto', 'width': 400, 'height': 100, 'quiet': 0, 'imgStyle': 'height:35px;'}"/>
+
+                                                        </span>
+                                                        <t t-set="productBarcode" t-value="await productId.barcode"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                  </tbody>
+                            </table>
+                            <table class="table table-sm" t-if="bool(await o.packageLevelIds) &amp;&amp; bool(await o.pickingTypeEntirePacks) &amp;&amp; ['assigned', 'done'].includes(await o.state)">
+                                <thead>
+                                    <tr>
+                                        <th name="thPackage">Package</th>
+                                        <th name="thPkoFrom" t-if="code !== 'incoming'" groups="stock.groupStockMultiLocations">From</th>
+                                        <th name="thPkiFrom" t-if="code !== 'outgoing'" groups="stock.groupStockMultiLocations">To</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="await (await o.packageLevelIds).sorted(async (p) => await (await p.packageId).label)" t-as="pack">
+                                        <t t-set="pack" t-value="await pack.withContext({pickingId: o.id})" />
+                                        <td name="tdPkBarcode">
+                                            <div t-field="pack.packageId.label" t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 600, 'height': 100, 'imgStyle': 'width:300px;height:50px;margin-left: -50px;'}"/><br/>
+                                        </td>
+                                        <td t-if="code !== 'incoming'" groups="stock.groupStockMultiLocations">
+                                            <span t-field="pack.locationId"/>
+                                        </td>
+                                        <td t-if="code !== 'outgoing'" groups="stock.groupStockMultiLocations">
+                                            <span t-field="pack.locationDestId"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <t t-set="noReservedProduct" t-value="await (await o.moveLines).filtered(async (x) => await x.productUomQty != await x.reservedAvailability &amp;&amp; bool(await x.moveLineIds) &amp;&amp; await x.state!=='done')"/>
+                            <p t-if="['draft', 'waiting', 'confirmed'].includes(await o.state) || noReservedProduct"><i class="fa fa-exclamation-triangle" />
+                                All products could not be reserved. Click on the "Check Availability" button to try to reserve products.
+                            </p>
+                            <p t-field="o.note"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="reportPickingTypeLabel">
+            <t t-set="title">Operation Types</t>
+            <t t-call="stock.reportGenericBarcode"/>
+        </template>
+    </data>
+</verp>

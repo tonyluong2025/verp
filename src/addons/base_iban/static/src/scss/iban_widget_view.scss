@@ -1,0 +1,16 @@
+.o-form-view {
+
+    // Iban widget warning
+    .o-iban {
+        display: inline-flex;
+        margin-left: -15px;
+        margin-top: 5px;
+    }
+    .o-iban-fail {
+        cursor: help;
+    }
+    .o-iban-input-with-validator {
+        padding-right: 20px!important;
+    }
+
+}

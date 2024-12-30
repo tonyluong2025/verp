@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="irDefaultFormView" model="ir.ui.view">
+        <field name="label">ir.default form view</field>
+        <field name="model">ir.default</field>
+        <field name="arch" type="xml">
+            <form string="User-defined Defaults">
+            <sheet>
+                <group>
+                    <group name="fieldValue">
+                        <field name="fieldId"/>
+                        <field name="jsonValue"/>
+                    </group>
+                    <group name="userCompanyDetails">
+                        <field name="userId"/>
+                        <field name="companyId" groups="base.groupMultiCompany"/>
+                    </group>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="irDefaultTreeView" model="ir.ui.view">
+        <field name="label">ir.default tree view</field>
+        <field name="model">ir.default</field>
+        <field name="arch" type="xml">
+            <tree string="User-defined Defaults">
+                <field name="fieldId"/>
+                <field name="jsonValue"/>
+                <field name="userId"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="irDefaultSearchView" model="ir.ui.view">
+        <field name="label">ir.default search view</field>
+        <field name="model">ir.default</field>
+        <field name="arch" type="xml">
+            <search string="User-defined Defaults">
+                <field name="fieldId"/>
+                <field name="userId"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+                <group expand="0" string="Group By">
+                    <filter string="User" name="groupbyUser" domain="[]" context="{'groupby':'userId'}"/>
+                    <filter string="Company" name="groupbyCompany" domain="[]" context="{'groupby':'companyId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="irDefaultMenuAction" model="ir.actions.actwindow">
+        <field name="label">User-defined Defaults</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">ir.default</field>
+        <field name="viewMode">tree,form</field>
+        <field name="searchViewId" ref="irDefaultSearchView"/>
+    </record>
+    <menuitem action="irDefaultMenuAction" id="menuIrDefault" parent="nextId6"/>
+
+</verp>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="stockWarnInsufficientQtyFormView" model="ir.ui.view">
+        <field name="label">stock.warn.insufficient.qty</field>
+        <field name="model">stock.warn.insufficient.qty</field>
+        <field name="arch" type="xml">
+            <form>
+                <div>
+                    The product is not available in sufficient quantity
+                    <span class="oe-inline" groups="stock.groupStockMultiLocations"> in
+                        <strong><field name="locationId" readonly="true"/></strong>.
+                    </span>
+                </div>
+                <div attrs="{'invisible': [['quantIds', '=', []]]}">
+                    <br/>
+                    <strong>Current Inventory: </strong>
+                    <field name="quantIds" style="margin-top:10px;">
+                        <tree>
+                            <field name="locationId" options="{'noCreate': true}"/>
+                            <field name="lotId" groups="stock.groupProductionLot"/>
+                            <field name="quantity"/>
+                        </tree>
+                    </field>
+                </div>
+                <div name="description">
+                </div>
+                <footer>
+                    <button name="cancelButton" string="Discard" class="btn-primary" special="cancel" data-hotkey="z"/>
+                    <button string="Confirm" name="actionDone" type="object" class="btn-secondary" data-hotkey="q"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="stockWarnInsufficientQtyScrapFormView" model="ir.ui.view">
+        <field name="label">stock.warn.insufficient.qty.scrap</field>
+        <field name="model">stock.warn.insufficient.qty.scrap</field>
+        <field name="inheritId" ref="stock.stockWarnInsufficientQtyFormView"/>
+         <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='description']" position="inside">
+                Do you confirm you want to scrap <strong><field name="quantity" readonly="true"/></strong><field name="productUomName" readonly="true" class="mx-1"/>from location <strong><field name="locationId" readonly="true"/></strong>? This may lead to inconsistencies in your inventory.
+            </xpath>
+            <xpath expr="//button[@name='cancelButton']" position="replace">
+                <button string="Discard" name="actionCancel" type="object" class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+</verp>

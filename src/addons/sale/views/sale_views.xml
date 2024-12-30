@@ -1,0 +1,1388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <!-- Top menu item -->
+        <menuitem id="saleMenuRoot"
+            name="Sales"
+            webIcon="sale_management,static/description/icon.png"
+            active="false"
+            sequence="30"/>
+
+        <menuitem id="saleOrderMenu"
+            name="Orders"
+            parent="saleMenuRoot"
+            sequence="2"/>
+
+        <menuitem id="reportSalesTeam"
+            name="Sales Teams"
+            parent="saleOrderMenu"
+            groups="sales_team.groupSaleManager"
+            action="sales_team.crmTeamActionSales"
+            sequence="3"/>
+
+        <menuitem id="resPartnerMenu"
+            parent="saleOrderMenu"
+            action="account.resPartnerActionCustomer"
+            sequence="4" groups="sales_team.groupSaleSalesman"/>
+
+        <menuitem id="menuSaleReport"
+            name="Reporting"
+            parent="saleMenuRoot"
+            sequence="5"
+            groups="sales_team.groupSaleManager"/>
+
+        <menuitem id="menuReportProductAll"
+            name="Sales"
+            action="actionOrderReportAll"
+            parent="menuSaleReport"
+            sequence="1"/>
+
+        <menuitem id="menuSaleConfig"
+            name="Configuration"
+            parent="saleMenuRoot"
+            sequence="35"
+            groups="sales_team.groupSaleManager"/>
+
+        <menuitem id="salesTeamConfig"
+            name="Sales Teams"
+            parent="sale.menuSaleConfig"
+            action="sales_team.crmTeamActionConfig"
+            sequence="2"/>
+
+        <menuitem id="menuSalesConfig"
+            parent="menuSaleConfig"
+            sequence="4"
+            name="Sales Orders"/>
+
+        <menuitem
+            id="menuTagConfig"
+            name="Tags"
+            parent="sale.menuSalesConfig"
+            action="sales_team.salesTeamCrmTagAction"
+            sequence="2"/>
+
+        <record id="productTemplateAction" model="ir.actions.actwindow">
+            <field name="label">Products</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">product.template</field>
+            <field name="viewMode">kanban,tree,form,activity</field>
+            <field name="viewId" ref="product.productTemplateKanbanView"/>
+            <field name="searchViewId" ref="product.productTemplateSearchView"/>
+            <field name="context">{"searchDefault_filterToSell":1, "saleMultiPricelistProductTemplate": 1}</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a new product
+                </p><p>
+                    You must define a product for everything you sell or purchase,
+                    whether it's a storable product, a consumable or a service.
+                </p>
+            </field>
+        </record>
+
+        <record id="productTemplateFormView" model="ir.ui.view">
+            <field name="label">product.template.product.website.form</field>
+            <field name="model">product.template</field>
+            <field name="inheritId" ref="product.productTemplateFormView"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='sales']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem id="productMenuCatalog" name="Products" parent="saleMenuRoot" sequence="4" groups="sales_team.groupSaleSalesman"/>
+        <menuitem id="menuProduct" name="Product Variants" parent="productMenuCatalog" sequence="2" groups="base.groupNoOne" active="false"/>
+        <menuitem action="productTemplateAction" id="menuProductTemplateAction" parent="productMenuCatalog" sequence="1" active="false"/>
+        <menuitem id="prodConfigMain" name="Products" parent="menuSaleConfig" sequence="5"/>
+        <menuitem id="menuProducts" action="product.productNormalActionSell" parent="productMenuCatalog" groups="product.groupProductVariant" sequence="2" active="false"/>
+        <menuitem id="nextId16" name="Units of Measure" parent="menuSaleConfig" sequence="6" groups="uom.groupUom" active="false"/>
+        <menuitem action="uom.productUomFormAction" id="menuProductUomFormAction" parent="nextId16" sequence="7" groups="base.groupNoOne" active="false"/>
+        <menuitem action="uom.productUomCategFormAction" id="menuProductUomCategFormAction" parent="nextId16" sequence="8" active="false"/>
+        <menuitem id="menuProductPricelistMain" name="Pricelists" parent="productMenuCatalog" action="product.productPricelistAction2" groups="product.groupProductPricelist" sequence="3" active="false"/>
+
+        <record id="saleOrderViewActivity" model="ir.ui.view">
+            <field name="label">sale.order.activity</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <activity string="Sales Orders">
+                    <templates>
+                        <div t-name="activity-box">
+                            <div>
+                                <field name="label" display="full"/>
+                                <field name="partnerId" muted="1" display="full"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record>
+
+        <record id="viewSaleOrderCalendar" model="ir.ui.view">
+            <field name="label">sale.order.calendar</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <calendar string="Sales Orders" dateStart="dateOrder" color="state" hideTime="true" eventLimit="5" quickAdd="false">
+                    <field name="currencyId" invisible="1"/>
+                    <field name="partnerId" avatarField="avatar128"/>
+                    <field name="amountTotal" widget="monetary"/>
+                    <field name="paymentTermId"/>
+                    <field name="state" filters="1" invisible="1"/>
+                </calendar>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="viewSaleOrderGraph">
+            <field name="label">sale.order.graph</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <graph string="Sales Orders" sample="1">
+                    <field name="partnerId"/>
+                    <field name="amountTotal" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="viewSaleOrderPivot">
+            <field name="label">sale.order.pivot</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <pivot string="Sales Orders" sample="1">
+                    <field name="dateOrder" type="row"/>
+                    <field name="amountTotal" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Sales Orders Kanban View  -->
+        <record model="ir.ui.view" id="viewSaleOrderKanban">
+            <field name="label">sale.order.kanban</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile" sample="1" quickCreate="false">
+                    <field name="label"/>
+                    <field name="partnerId"/>
+                    <field name="amountTotal"/>
+                    <field name="dateOrder"/>
+                    <field name="state"/>
+                    <field name="currencyId"/>
+                    <field name="activityState"/>
+                    <progressbar field="activityState" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-card oe-kanban-global-click">
+                                <div class="o-kanban-record-top mb16">
+                                    <div class="o-kanban-record-headings mt4">
+                                        <strong class="o-kanban-record-title"><span><t t-esc="record.partnerId.value"/></span></strong>
+                                    </div>
+                                    <strong><field name="amountTotal" widget="monetary"/></strong>
+                                </div>
+                                <div class="o-kanban-record-bottom">
+                                    <div class="oe-kanban-bottom-left text-muted">
+                                        <span><t t-esc="record.label.value"/> <t t-esc="record.dateOrder.value"/></span>
+                                        <field name="activityIds" widget="kanbanActivity"/>
+                                    </div>
+                                    <div class="oe-kanban-bottom-right">
+                                        <field name="state" widget="labelSelection" options="{'classes': {'draft': 'default', 'cancel': 'default', 'done': 'success'}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="viewOrderTree" model="ir.ui.view">
+            <field name="label">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Orders" sample="1" decoration-info="invoiceStatus == 'to invoice'" decoration-muted="state == 'cancel'">
+                    <field name="messageNeedaction" invisible="1"/>
+                    <field name="label" string="Number" readonly="1" decoration-bf="1"/>
+                    <field name="dateOrder" string="Order Date" widget="date" optional="show"/>
+                    <field name="commitmentDate" optional="hide"/>
+                    <field name="expectedDate" optional="hide"/>
+                    <field name="partnerId" readonly="1"/>
+                    <field name="userId" optional="show" widget="many2oneAvatarUser"/>
+                    <field name="activityIds" widget="listActivity" optional="show"/>
+                    <field name="teamId" optional="hide"/>
+                    <field name="companyId" groups="base.groupMultiCompany" optional="show" readonly="1"/>
+                    <field name="amountUntaxed" sum="Total Tax Excluded" widget="monetary" optional="hide"/>
+                    <field name="amountTax" sum="Tax Total" widget="monetary" optional="hide"/>
+                    <field name="amountTotal" sum="Total Tax Included" widget="monetary" decoration-bf="1" optional="show"/>
+                    <field name="currencyId" invisible="1"/>
+                    <field name="invoiceStatus" decoration-success="invoiceStatus == 'invoiced'" decoration-info="invoiceStatus == 'to invoice'" decoration-warning="invoiceStatus == 'upselling'" widget="badge" optional="show"/>
+                    <field name="tagIds" optional="hide" widget="many2manyTags" options="{'colorField': 'color'}"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewQuotationTree" model="ir.ui.view">
+            <field name="label">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="Quotation" class="o-sale-order" sample="1" decoration-info="['draft', 'sent'].includes(state)" decoration-muted="state == 'cancel'">
+                    <field name="label" string="Number" readonly="1" decoration-bf="1"/>
+                    <field name="createdAt" string="Creation Date" widget="date" optional="show"/>
+                    <field name="commitmentDate" widget="date" optional="hide"/>
+                    <field name="expectedDate" widget="date" optional="hide"/>
+                    <field name="partnerId" readonly="1"/>
+                    <field name="userId" widget="many2oneAvatarUser" optional="show"/>
+                    <field name="activityIds" widget="listActivity" optional="show"/>
+                    <field name="teamId" optional="hide"/>
+                    <field name="tagIds" optional="hide" widget="many2manyTags" options="{'colorField': 'color'}"/>
+                    <field name="companyId" groups="base.groupMultiCompany" optional="show" readonly="1"/>
+                    <field name="amountUntaxed" sum="Total Tax Excluded" widget="monetary" optional="hide"/>
+                    <field name="amountTax" sum="Tax Total" widget="monetary" optional="hide"/>
+                    <field name="amountTotal" sum="Total Tax Included" widget="monetary" decoration-bf="1" optional="show"/>
+                    <field name="state" decoration-success="state == 'sale' || state == 'done'" decoration-info="state == 'draft' || state == 'sent'" widget="badge" optional="show"/>
+                    <field name="invoiceStatus" optional="hide"/>
+                    <field name="messageNeedaction" invisible="1"/>
+                    <field name="currencyId" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewQuotationTreeWithOnboarding" model="ir.ui.view">
+            <field name="label">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inheritId" ref="viewQuotationTree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="bannerRoute">/sales/saleQuotationOnboardingPanel</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="viewOrderForm" model="ir.ui.view">
+            <field name="label">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+              <form string="Sales Order" class="o-sale-order" jsClass="saleDiscountForm">
+                <header>
+                    <field name="authorizedTransactionIds" invisible="1"/>
+                    <button name="paymentActionCapture" type="object" data-hotkey="shift+g"
+                            string="Capture Transaction" class="oe-highlight"
+                            attrs="{'invisible': [['authorizedTransactionIds', '=', []]]}"/>
+                    <button name="paymentActionVoid" type="object"
+                            string="Void Transaction" data-hotkey="shift+v"
+                            confirm="Are you sure you want to void the authorized transaction? This action can't be undone."
+                            attrs="{'invisible': [['authorizedTransactionIds', '=', []]]}"/>
+                    <button name="%(sale.actionViewSaleAdvancePaymentInv)d" string="Create Invoice"
+                        type="action" class="btn-primary" data-hotkey="q"
+                        attrs="{'invisible': [['invoiceStatus', '!=', 'to invoice']]}"/>
+                    <button name="%(sale.actionViewSaleAdvancePaymentInv)d" string="Create Invoice"
+                        type="action" context="{'default_advancePaymentMethod': 'percentage'}" data-hotkey="q"
+                        attrs="{'invisible': ['|',['invoiceStatus', '!=', 'no'], ['state', '!=', 'sale']]}"/>
+                    <button name="actionQuotationSend" string="Send by Email" type="object" states="draft" class="btn-primary" data-hotkey="g"/>
+                    <button name="actionQuotationSend" type="object" string="Send PRO-FORMA Invoice"
+                      groups="sale.groupProformaSales" class="btn-primary"
+                      attrs="{'invisible': ['|', ['state', '!=', 'draft'], ['invoiceCount','&gt;=',1]]}" context="{'proforma': true}"/>
+                    <button name="actionConfirm" id="actionConfirm" data-hotkey="v"
+                        string="Confirm" class="btn-primary" type="object"
+                        attrs="{'invisible': [['state', 'not in', ['sent']]]}"/>
+                    <button name="actionConfirm" data-hotkey="v"
+                        string="Confirm" type="object"
+                        attrs="{'invisible': [['state', 'not in', ['draft']]]}"/>
+                    <button name="actionQuotationSend" type="object" string="Send PRO-FORMA Invoice" groups="sale.groupProformaSales" attrs="{'invisible': ['|', ['state', '=', 'draft'], ['invoiceCount','&gt;=',1]]}" context="{'proforma': true}"/>
+                    <button name="actionQuotationSend" string="Send by Email" type="object" states="sent,sale" data-hotkey="g"/>
+                    <button name="actionCancel" type="object" string="Cancel" attrs="{'invisible': ['|', ['state', 'not in', ['draft', 'sent','sale']], ['id', '=', false]]}" data-hotkey="z"/>
+                    <button name="actionDraft" states="cancel" type="object" string="Set to Quotation" data-hotkey="w"/>
+                    <field name="state" widget="statusbar" statusbarVisible="draft,sent,sale"/>
+                </header>
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button name="previewSaleOrder"
+                            type="object"
+                            class="oe-stat-button"
+                            icon="fa-globe icon">
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-text">Customer</span>
+                                <span class="o-stat-text">Preview</span>
+                            </div>
+                        </button>
+                        <button name="actionViewInvoice"
+                            type="object"
+                            class="oe-stat-button"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [['invoiceCount', '=', 0]]}">
+                            <field name="invoiceCount" widget="statinfo" string="Invoices"/>
+                        </button>
+                    </div>
+                    <div class="oe-title">
+                        <h1>
+                            <field name="label" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="saleHeader">
+                        <group name="partnerDetails">
+                            <field name="partnerId" widget="resPartnerMany2one" context="{'resPartnerSearchMode': 'customer', 'showAddress': 1, 'showVat': true}" options='{"alwaysReload": true}'/>
+                            <field name="partnerInvoiceId" groups="sale.groupDeliveryInvoiceAddress" context="{'default_type':'invoice'}" options='{"alwaysReload": true}'/>
+                            <field name="partnerShippingId" groups="sale.groupDeliveryInvoiceAddress" context="{'default_type':'delivery'}" options='{"alwaysReload": true}'/>
+                        </group>
+                        <group name="orderDetails">
+                            <field name="validityDate" attrs="{'invisible': [['state', 'in', ['sale', 'done']]]}"/>
+                            <div class="o-td-label" groups="base.groupNoOne" attrs="{'invisible': [['state', 'in', ['sale', 'done', 'cancel']]]}">
+                                <label for="dateOrder" string="Quotation Date"/>
+                            </div>
+                            <field name="dateOrder" nolabel="1" groups="base.groupNoOne" attrs="{'invisible': [['state', 'in', ['sale', 'done', 'cancel']]]}"/>
+                            <div class="o-td-label" attrs="{'invisible': [['state', 'in', ['draft', 'sent']]]}">
+                                <label for="dateOrder" string="Order Date"/>
+                            </div>
+                            <field name="dateOrder" attrs="{'required': [['state', 'in', ['sale', 'done']]], 'invisible': [['state', 'in', ['draft', 'sent']]]}" nolabel="1"/>
+                            <field name="showUpdatePricelist" invisible="1"/>
+                            <label for="pricelistId" groups="product.groupProductPricelist"/>
+                            <div groups="product.groupProductPricelist" class="o-row">
+                                <field name="pricelistId" options="{'noOpen':true,'noCreate': true}"/>
+                                <button name="updatePrices" type="object"
+                                    string=" Update Prices"
+                                    help="Recompute all prices based on this pricelist"
+                                    class="btn-link mb-1 px-0" icon="fa-refresh"
+                                    confirm="This will update all unit prices based on the currently set pricelist."
+                                    attrs="{'invisible': ['|', ['showUpdatePricelist', '=', false], ['state', 'in', ['sale', 'done','cancel']]]}"/>
+                            </div>
+                            <field name="currencyId" invisible="1"/>
+                            <field name="taxCountryId" invisible="1"/>
+                            <field name="paymentTermId" options="{'noOpen':true, 'noCreate': true}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Order Lines" name="orderLines">
+                            <field
+                                name="orderLine"
+                                widget="sectionAndNoteOne2many"
+                                mode="tree,kanban"
+                                attrs="{'readonly': [['state', 'in', ['done','cancel']]]}"
+                            >
+                                <form>
+                                    <field name="displayType" invisible="1"/>
+                                    <!--
+                                        We need the sequence field to be here for new lines to be added at the correct position.
+                                        TODO: at some point we want to fix this in the framework so that an invisible field is not required.
+                                    -->
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="productUomCategoryId" invisible="1"/>
+                                    <group>
+                                        <group attrs="{'invisible': [['displayType', '!=', false]]}">
+                                            <field name="productUpdatable" invisible="1"/>
+                                            <field name="productId"
+                                                domain="[['saleOk', '=', true], '|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"
+                                                context="{'partnerId': parent.partnerId, 'quantity': productUomQty, 'pricelist': parent.pricelistId, 'uom': productUom, 'companyId': parent.companyId}"
+                                                attrs="{
+                                                    'readonly': [['productUpdatable', '=', false]],
+                                                    'required': [['displayType', '=', false]],
+                                                }"
+                                                forceSave="1"
+                                                widget="many2oneBarcode"
+                                               />
+                                            <field name="invoiceStatus" invisible="1"/>
+                                            <field name="qtyToInvoice" invisible="1"/>
+                                            <field name="qtyDeliveredManual" invisible="1"/>
+                                            <field name="qtyDeliveredMethod" invisible="1"/>
+                                            <field name="priceTotal" invisible="1"/>
+                                            <field name="priceTax" invisible="1"/>
+                                            <field name="priceSubtotal" invisible="1"/>
+                                            <field name="productUomReadonly" invisible="1"/>
+                                            <label for="productUomQty"/>
+                                            <div class="o-row" name="orderedQty">
+                                                <field
+                                                    context="{'partnerId': parent.partnerId, 'quantity': productUomQty, 'pricelist': parent.pricelistId, 'uom': productUom, 'uomQtyChange': true, 'companyId': parent.companyId}"
+                                                    name="productUomQty"/>
+                                                <field
+                                                    name="productUom"
+                                                    forceSave="1"
+                                                    groups="uom.groupUom"
+                                                    class="oe-no-button"
+                                                    attrs="{
+                                                        'readonly': [['productUomReadonly', '=', true]],
+                                                        'required': [['displayType', '=', false]],
+                                                    }"
+                                                />
+                                            </div>
+                                            <label for="qtyDelivered" string="Delivered" attrs="{'invisible': [['parent.state', 'not in', ['sale', 'done']]]}"/>
+                                            <div name="deliveredQty" attrs="{'invisible': [['parent.state', 'not in', ['sale', 'done']]]}">
+                                                <field name="qtyDelivered" attrs="{'readonly': [['qtyDeliveredMethod', '!=', 'manual']]}"/>
+                                            </div>
+                                            <label for="qtyInvoiced" string="Invoiced" attrs="{'invisible': [['parent.state', 'not in', ['sale', 'done']]]}"/>
+                                            <div name="invoicedQty" attrs="{'invisible': [['parent.state', 'not in', ['sale', 'done']]]}">
+                                                <field name="qtyInvoiced" attrs="{'invisible': [['parent.state', 'not in', ['sale', 'done']]]}"/>
+                                            </div>
+                                            <field name="productPackagingQty" attrs="{'invisible': ['|', ['productId', '=', false], ['productPackagingId', '=', false]]}" groups="product.groupStockPackaging"/>
+                                            <field name="productPackagingId" attrs="{'invisible': [['productId', '=', false]]}" context="{'default_productId': productId, 'treeViewRef':'product.productPackagingTreeView', 'formViewRef':'product.productPackagingFormView'}" groups="product.groupStockPackaging" />
+                                            <field name="priceUnit"/>
+                                            <field name="taxId" widget="many2manyTags" options="{'noCreate': true}" context="{'searchViewRef': 'account.accountTaxViewSearch'}" domain="[['typeTaxUse','=','sale'], ['companyId','=', parent.companyId], ['countryId', '=', parent.taxCountryId]]"
+                                                attrs="{'readonly': [['qtyInvoiced', '&gt;', 0]]}"/>
+                                            <label for="discount" groups="product.groupDiscountPerSoLine"/>
+                                            <div name="discount" groups="product.groupDiscountPerSoLine">
+                                                <field name="discount" class="oe-inline"/> %
+                                            </div>
+                                            <!--
+                                                We need the sequence field to be here
+                                                because we want to be able to overwrite the default sequence value in the JS
+                                                in order for new lines to be added at the correct position.
+                                                NOTE: at some point we want to fix this in the framework so that an invisible field is not required.
+                                            -->
+                                            <field name="sequence" invisible="1"/>
+                                        </group>
+                                        <group attrs="{'invisible': [['displayType', '!=', false]]}">
+                                            <label for="customerLead"/>
+                                            <div name="lead">
+                                                <field name="customerLead" class="oe-inline"/> days
+                                            </div>
+                                            <field name="analyticTagIds" widget="many2manyTags" groups="analytic.groupAnalyticTags" options="{'colorField': 'color'}" domain="['|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"/>
+                                        </group>
+                                    </group>
+                                    <label for="label" string="Description" attrs="{'invisible': [['displayType', '!=', false]]}"/>
+                                    <label for="label" string="Section Label (eg. Products, Services)" attrs="{'invisible': [['displayType', '!=', 'lineSection']]}"/>
+                                    <label for="label" string="Note" attrs="{'invisible': [['displayType', '!=', 'lineNote']]}"/>
+                                    <field name="label"/>
+                                    <div name="invoiceLines" groups="base.groupNoOne" attrs="{'invisible': [['displayType', '!=', false]]}">
+                                        <label for="invoiceLines"/>
+                                        <field name="invoiceLines"/>
+                                    </div>
+                                    <field name="state" invisible="1"/>
+                                    <field name="companyId" invisible="1"/>
+                                </form>
+                                <tree
+                                    string="Sales Order Lines"
+                                    editable="bottom"
+                                >
+                                    <control>
+                                        <create name="addProductControl" string="Add a product"/>
+                                        <create name="addSectionControl" string="Add a section" context="{'default_displayType': 'lineSection'}"/>
+                                        <create name="addNoteControl" string="Add a note" context="{'default_displayType': 'lineNote'}"/>
+                                    </control>
+
+                                    <field name="sequence" widget="handle" />
+                                    <!-- We do not display the type because we don't want the user to be bothered with that information if he has no section or note. -->
+                                    <field name="displayType" invisible="1"/>
+                                    <field name="productUomCategoryId" invisible="1"/>
+
+                                    <field name="productUpdatable" invisible="1"/>
+                                    <field
+                                        name="productId"
+                                        attrs="{
+                                            'readonly': [['productUpdatable', '=', false]],
+                                            'required': [['displayType', '=', false]],
+                                        }"
+                                        forceSave="1"
+                                        context="{
+                                            'partnerId': parent.partnerId,
+                                            'quantity': productUomQty,
+                                            'pricelist': parent.pricelistId,
+                                            'uom':productUom,
+                                            'companyId': parent.companyId,
+                                            'default_lstPrice': priceUnit,
+                                            'default_descriptionSale': label
+                                        }"
+                                        domain="[['saleOk', '=', true], '|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"
+                                        widget="productConfigurator"
+                                    />
+                                    <field name="productTemplateId"
+                                      string="Product"
+                                      invisible="1"
+                                      attrs="{
+                                          'readonly': [['productUpdatable', '=', false]],
+                                          'required': [['displayType', '=', false]],
+                                      }"
+                                      context="{
+                                          'partnerId': parent.partnerId,
+                                          'quantity': productUomQty,
+                                          'pricelist': parent.pricelistId,
+                                          'uom': productUom,
+                                          'companyId': parent.companyId,
+                                          'default_listPrice': priceUnit,
+                                          'default_descriptionSale': label
+                                      }"
+                                      domain="[['saleOk', '=', true], '|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"
+                                      widget="productConfigurator"/>
+                                    <field name="label" widget="sectionAndNoteText" optional="show"/>
+                                    <field
+                                        name="analyticTagIds"
+                                        optional="hide"
+                                        groups="analytic.groupAnalyticTags"
+                                        widget="many2manyTags"
+                                        options="{'colorField': 'color'}"
+                                        domain="['|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"
+                                    />
+                                    <field
+                                        name="productUomQty"
+                                        decoration-info="(! displayType &amp;&amp; invoiceStatus == 'to invoice')" decoration-bf="(! displayType &amp;&amp; invoiceStatus == 'to invoice')"
+                                        context="{
+                                            'partnerId': parent.partnerId,
+                                            'quantity': productUomQty,
+                                            'pricelist': parent.pricelistId,
+                                            'uom': productUom,
+                                            'companyId': parent.companyId
+                                        }"
+                                    />
+                                    <field
+                                        name="qtyDelivered"
+                                        decoration-info="(! displayType &amp;&amp; invoiceStatus == 'to invoice')" decoration-bf="(! displayType &amp;&amp; invoiceStatus == 'to invoice')"
+                                        string="Delivered"
+                                        attrs="{
+                                            'columnInvisible': [['parent.state', 'not in', ['sale', 'done']]],
+                                            'readonly': [['qtyDeliveredMethod', '!=', 'manual']]
+                                        }"
+                                        optional="show"
+                                    />
+                                    <field name="qtyDeliveredManual" invisible="1"/>
+                                    <field name="qtyDeliveredMethod" invisible="1"/>
+                                    <field
+                                        name="qtyInvoiced"
+                                        decoration-info="(! displayType &amp;&amp; invoiceStatus == 'to invoice')" decoration-bf="(! displayType &amp;&amp; invoiceStatus == 'to invoice')"
+                                        string="Invoiced"
+                                        attrs="{'columnInvisible': [['parent.state', 'not in', ['sale', 'done']]]}"
+                                        optional="show"
+                                    />
+                                    <field name="qtyToInvoice" invisible="1"/>
+                                    <field name="productUomReadonly" invisible="1"/>
+                                    <field
+                                        name="productUom"
+                                        forceSave="1"
+                                        string="UoM"
+                                        attrs="{
+                                            'readonly': [['productUomReadonly', '=', true]],
+                                            'required': [['displayType', '=', false]],
+                                        }"
+                                        context="{'companyId': parent.companyId}"
+                                        groups="uom.groupUom"
+                                        options='{"noOpen": true}'
+                                        optional="show"
+                                    />
+                                    <field
+                                        name="customerLead"
+                                        optional="hide"
+                                        attrs="{'readonly': [['parent.state', 'not in', ['draft', 'sent', 'sale']]]}"
+                                    />
+                                    <field name="productPackagingQty" attrs="{'invisible': ['|', ['productId', '=', false], ['productPackagingId', '=', false]]}" groups="product.groupStockPackaging" optional="show"/>
+                                    <field name="productPackagingId" attrs="{'invisible': [['productId', '=', false]]}" context="{'default_productId': productId, 'treeViewRef':'product.productPackagingTreeView', 'formViewRef': 'product.productPackagingFormView'}" groups="product.groupStockPackaging" optional="show"/>
+                                    <field
+                                        name="priceUnit"
+                                        attrs="{'readonly': [['qtyInvoiced', '&gt;', 0]]}"
+                                    />
+                                    <field
+                                        name="taxId"
+                                        widget="many2manyTags"
+                                        options="{'noCreate': true}"
+                                        domain="[['typeTaxUse','=','sale'], ['companyId','=',parent.companyId], ['countryId', '=', parent.taxCountryId]]"
+                                        context="{'activeTest': true}"
+                                        attrs="{'readonly': [['qtyInvoiced', '&gt;', 0]]}"
+                                        optional="show"
+                                    />
+                                    <field name="discount" string="Disc.%" groups="product.groupDiscountPerSoLine" optional="show" widget="productDiscount"/>
+                                    <field name="priceSubtotal" widget="monetary" groups="account.groupShowLineSubtotalsTaxExcluded"/>
+                                    <field name="priceTotal" widget="monetary" groups="account.groupShowLineSubtotalsTaxIncluded"/>
+                                    <field name="state" invisible="1"/>
+                                    <field name="invoiceStatus" invisible="1"/>
+                                    <field name="currencyId" invisible="1"/>
+                                    <field name="priceTax" invisible="1"/>
+                                    <field name="companyId" invisible="1"/>
+                                </tree>
+                                <kanban class="o-kanban-mobile">
+                                    <field name="label"/>
+                                    <field name="productId"/>
+                                    <field name="productUomQty"/>
+                                    <field name="productUom" groups="uom.groupUom"/>
+                                    <field name="priceSubtotal"/>
+                                    <field name="priceTotal"/>
+                                    <field name="priceTax" invisible="1"/>
+                                    <field name="priceTotal" invisible="1"/>
+                                    <field name="priceUnit"/>
+                                    <field name="displayType"/>
+                                    <field name="taxId" invisible="1"/>
+                                    <field name="companyId" invisible="1"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe-kanban-card oe-kanban-global-click pl-0 pr-0 {{ record.displayType.rawValue ? 'o-is-' + record.displayType.rawValue : '' }}">
+                                                <t t-if="!record.displayType.rawValue">
+                                                    <div class="row no-gutters">
+                                                        <div class="col-2 pr-3">
+                                                            <img t-att-src="kanbanImage('product.product', 'image128', record.productId.rawValue)" t-att-title="record.productId.value" t-att-alt="record.productId.value" style="max-width: 100%;"/>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <strong t-esc="record.productId.value" />
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <t t-set="linePrice" t-value="record.priceSubtotal.value" groups="account.groupShowLineSubtotalsTaxExcluded"/>
+                                                                    <t t-set="linePrice" t-value="record.priceTotal.value" groups="account.groupShowLineSubtotalsTaxIncluded"/>
+                                                                    <strong class="float-right text-right" t-esc="linePrice" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12 text-muted">
+                                                                    Quantity:
+                                                                    <t t-esc="record.productUomQty.value"/>
+                                                                    <t t-esc="record.productUom.value"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12 text-muted">
+                                                                    Unit Price:
+                                                                    <t t-esc="record.priceUnit.value"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                                <t t-if="record.displayType.rawValue === 'lineSection' || record.displayType.rawValue === 'lineNote'">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <t t-esc="record.label.value"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                            <group name="noteGroup" col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                    <field name="note" class="oe-bordered-editor" nolabel="1" placeholder="Terms &amp;&amp; conditions..."/>
+                                </group>
+                                <group class="oe-subtotal-footer oe-right" colspan="2" name="saleTotal">
+                                    <field name="taxTotalsJson" widget="accountTaxTotalsField" nolabel="1" colspan="2"/>
+                                </group>
+                                <div class="oe-clear"/>
+                            </group>
+                        </page>
+                        <page string="Other Info" name="otherInformation">
+                            <group>
+                                <group name="salesPerson" string="Sales">
+                                    <field name="userId" widget="many2oneAvatarUser"/>
+                                    <field name="teamId" kanbanViewRef="%(sales_team.crmTeamViewKanban)s" options="{'noCreate': true}"/>
+                                    <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                                    <field name="requireSignature"/>
+                                    <field name="requirePayment"/>
+                                    <field name="reference" readonly="1" attrs="{'invisible': [['reference', '=', false]]}"/>
+                                    <field name="clientOrderRef"/>
+                                    <field name="tagIds" widget="many2manyTags" options="{'colorField': 'color', 'noCreateEdit': true}"/>
+                                </group>
+                                <group name="saleInfo" string="Invoicing">
+                                    <field name="fiscalPositionId" options="{'noCreate': true}"/>
+                                    <field name="analyticAccountId" context="{'default_partnerId': partnerInvoiceId, 'default_label': label}" attrs="{'readonly': [['invoiceCount','!=',0],['state','=','sale']]}" groups="analytic.groupAnalyticAccounting" forceSave="1"/>
+                                    <field name="invoiceStatus" states="sale,done" groups="base.groupNoOne"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group name="saleShipping">
+                                    <label for="commitmentDate" string="Delivery Date"/>
+                                    <div name="commitmentDateDiv" class="o-row">
+                                        <field name="commitmentDate"/>
+                                        <span name="expectedDateSpan" class="text-muted">Expected: <field name="expectedDate" widget="date"/></span>
+                                    </div>
+                                </group>
+                                <group string="Tracking" name="saleReporting">
+                                    <group name="technical" colspan="2" class="mb-0">
+                                        <field name="origin"/>
+                                    </group>
+                                    <group name="utmLink" colspan="2" class="mt-0">
+                                        <field name="campaignId"/>
+                                        <field name="mediumId"/>
+                                        <field name="sourceId"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+                        <page groups="base.groupNoOne" string="Customer Signature" name="customerSignature" attrs="{'invisible': [['requireSignature', '=', false], ['signedBy', '=', false], ['signature', '=', false], ['signedOn', '=', false]]}">
+                            <group>
+                                <field name="signedBy"/>
+                                <field name="signedOn"/>
+                                <field name="signature" widget="image"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe-chatter">
+                    <field name="messageFollowerIds"/>
+                    <field name="activityIds"/>
+                    <field name="messageIds"/>
+                </div>
+              </form>
+            </field>
+        </record>
+
+        <record id="viewSalesOrderAutoDoneSetting" model="ir.ui.view">
+            <field name="label">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inheritId" ref="sale.viewOrderForm"/>
+            <field name="groupsId" eval="[[4, refId('sale.groupAutoDoneSetting')]]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//header//button[@name='actionDraft']" position="after">
+                   <button name="actionDone" type="object" string="Lock" states="sale"
+                        help="If the sale is locked, you can not modify it anymore. However, you will still be able to invoice or deliver." groups="sales_team.groupSaleManager"/>
+                    <button name="actionUnlock" type="object" string="Unlock" states="done" groups="sales_team.groupSaleManager"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="viewSalesOrderFilter" model="ir.ui.view">
+            <field name="label">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Search Sales Order">
+                    <field name="label" string="Order" filterDomain="['|', '|', ['label', 'ilike', self], ['clientOrderRef', 'ilike', self], ['partnerId', 'childOf', self]]"/>
+                    <field name="partnerId" operator="childOf"/>
+                    <field name="userId"/>
+                    <field name="teamId" string="Sales Team"/>
+                    <field name="orderLine" string="Product" filterDomain="[['orderLine.productId', 'ilike', self]]"/>
+                    <field name="analyticAccountId" groups="analytic.groupAnalyticAccounting"/>
+                    <!-- We only allow to search on the following sale order line fields (product, label) because the other fields, such as price, quantity, ...
+                        will not be searched as often, &amp;&amp; if they need to be searched it's usually in the context of products
+                        &amp;&amp; then they can be searched from the page listing the sale order lines related to a product (from the product itself).
+                    -->
+                    <filter string="My Orders" domain="[['userId', '=', uid]]" name="mySaleOrdersFilter"/>
+                    <filter invisible="1" string="Late Activities" name="activitiesOverdue"
+                        domain="[['myActivityDateDeadline', '&lt;', toFormat(contextToday(), 'yyyy-MM-dd')]]"
+                        help="Show all records which has next action date is before today"/>
+                    <filter invisible="1" string="Today Activities" name="activitiesToday"
+                        domain="[['myActivityDateDeadline', '=', toFormat(contextToday(), 'yyyy-MM-dd')]]"/>
+                    <filter invisible="1" string="Future Activities" name="activitiesUpcomingAll"
+                        domain="[['myActivityDateDeadline', '&gt;', toFormat(contextToday(), 'yyyy-MM-dd')]]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Salesperson" name="salesperson" domain="[]" context="{'groupby': 'userId'}"/>
+                        <filter name="customer" string="Customer" domain="[]" context="{'groupby': 'partnerId'}"/>
+                        <filter string="Order Date" name="orderMonth" domain="[]" context="{'groupby': 'dateOrder'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="saleOrderViewSearchInheritQuotation" model="ir.ui.view">
+            <field name="label">sale.order.search.inherit.quotation</field>
+            <field name="model">sale.order</field>
+            <field name="mode">primary</field>
+            <field name="inheritId" ref="sale.viewSalesOrderFilter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='mySaleOrdersFilter']" position="replace">
+                    <field name="campaignId"/>
+                    <separator/>
+                    <filter string="My Quotations" name="myQuotation" domain="[['userId', '=', uid]]"/>
+                    <separator/>
+                    <filter string="Quotations" name="draft" domain="[['state','in',['draft', 'sent']]]"/>
+                    <filter string="Sales Orders" name="sales" domain="[['state','in',['sale','done']]]"/>
+                    <separator/>
+                    <filter string="Create Date" name="filterCreateDate" date="createdAt"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="saleOrderViewSearchInheritSale" model="ir.ui.view">
+            <field name="label">sale.order.search.inherit.sale</field>
+            <field name="model">sale.order</field>
+            <field name="mode">primary</field>
+            <field name="inheritId" ref="sale.viewSalesOrderFilter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='mySaleOrdersFilter']" position="after">
+                    <separator/>
+                    <filter string="To Invoice" name="toInvoice" domain="[['invoiceStatus','=','to invoice']]" />
+                    <filter string="To Upsell" name="upselling" domain="[['invoiceStatus','=','upselling']]" />
+                    <separator/>
+                    <filter string="Order Date" name="orderDate" date="dateOrder"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="actionOrders" model="ir.actions.actwindow">
+            <field name="label">Sales Orders</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewMode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="searchViewId" ref="saleOrderViewSearchInheritSale"/>
+            <field name="context">{}</field>
+            <field name="domain">[['state', 'not in', ['draft', 'sent', 'cancel']]]</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a new quotation, the first step of a new sale!
+                </p><p>
+                    Once the quotation is confirmed, it becomes a sales order.<br/> You will be able to create an invoice &amp;&amp; collect the payment.
+                </p>
+            </field>
+        </record>
+
+        <record id="actionSaleOrderFormView" model="ir.actions.actwindow">
+            <field name="label">Sales Order</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewMode">form,tree,kanban,calendar,pivot,graph,activity</field>
+            <field name="searchViewId" ref="saleOrderViewSearchInheritSale"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a new quotation, the first step of a new sale!
+                </p><p>
+                    Once the quotation is confirmed, it becomes a sales order.<br/> You will be able to create an invoice &amp;&amp; collect the payment.
+                </p>
+            </field>
+        </record>
+
+        <record id="saleOrderActionViewOrderTree" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="1"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="sale.viewOrderTree"/>
+            <field name="actwindowId" ref="actionOrders"/>
+        </record>
+
+        <record id="saleOrderActionViewOrderKanban" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="2"/>
+            <field name="viewMode">kanban</field>
+            <field name="viewId" ref="sale.viewSaleOrderKanban"/>
+            <field name="actwindowId" ref="actionOrders"/>
+        </record>
+
+        <record id="saleOrderActionViewOrderForm" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="3"/>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="sale.viewOrderForm"/>
+            <field name="actwindowId" ref="actionOrders"/>
+        </record>
+
+        <record id="saleOrderActionViewOrderCalendar" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="4"/>
+            <field name="viewMode">calendar</field>
+            <field name="viewId" ref="sale.viewSaleOrderCalendar"/>
+            <field name="actwindowId" ref="actionOrders"/>
+        </record>
+
+        <record id="saleOrderActionViewOrderPivot" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="5"/>
+            <field name="viewMode">pivot</field>
+            <field name="viewId" ref="sale.viewSaleOrderPivot"/>
+            <field name="actwindowId" ref="actionOrders"/>
+        </record>
+
+        <record id="saleOrderActionViewOrderGraph" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="6"/>
+            <field name="viewMode">graph</field>
+            <field name="viewId" ref="sale.viewSaleOrderGraph"/>
+            <field name="actwindowId" ref="actionOrders"/>
+        </record>
+
+        <menuitem id="menuSaleOrder"
+            name="Orders"
+            action="actionOrders"
+            parent="saleOrderMenu"
+            sequence="2" groups="sales_team.groupSaleSalesman"/>
+
+        <record id="actionOrdersToInvoice" model="ir.actions.actwindow">
+            <field name="label">Orders to Invoice</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewMode">tree,form,calendar,graph,pivot,kanban,activity</field>
+            <field name="context">{'create': false}</field>
+            <field name="domain">[['invoiceStatus','=','to invoice']]</field>
+            <field name="searchViewId" ref="viewSalesOrderFilter"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                No orders to invoice found
+              </p><p>
+                You can select all orders &amp;&amp; invoice them in batch,<br/>
+                or check every order &amp;&amp; invoice them one by one.
+              </p>
+            </field>
+        </record>
+
+        <record id="modelSaleOrderActionQuotationSent" model="ir.actions.server">
+            <field name="label">Mark Quotation as Sent</field>
+            <field name="modelId" ref="sale.model_saleOrder"/>
+            <field name="bindingModelId" ref="sale.model_saleOrder"/>
+            <field name="bindingViewTypes">form,list</field>
+            <field name="state">code</field>
+            <field name="code">records.actionQuotationSent()</field>
+        </record>
+
+        <record id="actionAccruedRevenueEntry" model="ir.actions.actwindow">
+            <field name="label">Accrued Revenue Entry</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">account.accrued.orders.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="bindingModelId" ref="sale.model_saleOrder"/>
+            <field name="groupsId" eval="[[4, refId('account.groupAccountUser')]]"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menuSaleInvoicing"
+            name="To Invoice"
+            parent="saleMenuRoot"
+            sequence="3" groups="sales_team.groupSaleSalesman"/>
+
+        <menuitem id="menuSaleOrderInvoice"
+            action="actionOrdersToInvoice"
+            parent="sale.menuSaleInvoicing"
+            sequence="2" active="false"/>
+
+        <record id="actionOrdersUpselling" model="ir.actions.actwindow">
+            <field name="label">Orders to Upsell</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewMode">tree,form,calendar,graph,pivot,kanban,activity</field>
+            <field name="domain">[['invoiceStatus','=','upselling']]</field>
+            <field name="context">{'create': false}</field>
+            <field name="searchViewId" ref="viewSalesOrderFilter"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                No orders to upsell found.
+              </p><p>
+                An order is to upsell when delivered quantities are above initially
+                ordered quantities, &amp;&amp; the invoicing policy is based on ordered quantities.
+              </p><p>
+                As an example, if you sell pre-paid hours of services, Verp recommends you
+                to sell extra hours when all ordered hours have been consumed.
+              </p>
+            </field>
+        </record>
+        <menuitem action="actionOrdersUpselling"
+            id="menuSaleOrderUpselling" parent="sale.menuSaleInvoicing"
+            sequence="5" active="false"/>
+
+
+        <record id="actionQuotationsWithOnboarding" model="ir.actions.actwindow">
+            <field name="label">Quotations</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewId" ref="viewQuotationTreeWithOnboarding"/>
+            <field name="viewMode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="searchViewId" ref="saleOrderViewSearchInheritQuotation"/>
+            <field name="context">{'searchDefault_myQuotation': 1}</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new quotation, the first step of a new sale!
+              </p><p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice &amp;&amp; collect the payment.
+              </p>
+            </field>
+        </record>
+
+        <record id="actionQuotations" model="ir.actions.actwindow">
+            <field name="label">Quotations</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewMode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="searchViewId" ref="saleOrderViewSearchInheritQuotation"/>
+            <field name="context">{'searchDefault_myQuotation': 1}</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new quotation, the first step of a new sale!
+              </p><p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice &amp;&amp; collect the payment.
+              </p>
+            </field>
+        </record>
+
+        <record id="saleOrderActionViewQuotationTree" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="1"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="sale.viewQuotationTree"/>
+            <field name="actwindowId" ref="actionQuotations"/>
+        </record>
+
+        <record id="saleOrderActionViewQuotationKanban" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="2"/>
+            <field name="viewMode">kanban</field>
+            <field name="viewId" ref="sale.viewSaleOrderKanban"/>
+            <field name="actwindowId" ref="actionQuotations"/>
+        </record>
+
+        <record id="saleOrderActionViewQuotationForm" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="3"/>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="sale.viewOrderForm"/>
+            <field name="actwindowId" ref="actionQuotations"/>
+        </record>
+
+        <record id="saleOrderActionViewQuotationCalendar" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="4"/>
+            <field name="viewMode">calendar</field>
+            <field name="viewId" ref="sale.viewSaleOrderCalendar"/>
+            <field name="actwindowId" ref="actionQuotations"/>
+        </record>
+
+        <record id="saleOrderActionViewQuotationPivot" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="5"/>
+            <field name="viewMode">pivot</field>
+            <field name="viewId" ref="sale.viewSaleOrderPivot"/>
+            <field name="actwindowId" ref="actionQuotations"/>
+        </record>
+
+        <record id="saleOrderActionViewQuotationGraph" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="6"/>
+            <field name="viewMode">graph</field>
+            <field name="viewId" ref="sale.viewSaleOrderGraph"/>
+            <field name="actwindowId" ref="actionQuotations"/>
+        </record>
+
+        <menuitem id="menuSaleQuotations"
+                action="actionQuotationsWithOnboarding"
+                parent="saleOrderMenu"
+                sequence="1" groups="sales_team.groupSaleSalesman"/>
+
+        <record id="viewOrderLineTree" model="ir.ui.view">
+            <field name="label">sale.order.line.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Order Lines" create="false">
+                    <field name="orderId"/>
+                    <field name="orderPartnerId"/>
+                    <field name="label"/>
+                    <field name="salesmanId"/>
+                    <field name="productUomQty" string="Qty"/>
+                    <field name="qtyDelivered"/>
+                    <field name="qtyInvoiced"/>
+                    <field name="qtyToInvoice"/>
+                    <field name="productUom" string="Unit of Measure" groups="uom.groupUom"/>
+                    <field name="priceSubtotal" sum="Total" widget="monetary"/>
+                    <field name="currencyId" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="saleOrderLineViewFormReadonly" model="ir.ui.view">
+            <field name="label">sale.order.line.form.readonly</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <form string="Sales Order Item">
+                    <sheet>
+                        <div class="oe-title">
+                            <h1>
+                                <field name="displayName" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="orderId" readonly="1"/>
+                                <field name="productId" readonly="1"/>
+                                <field name="label" readonly="1"/>
+                                <field name="productUomQty" readonly="1"/>
+                                <field name="qtyDelivered" readonly="1"/>
+                                <field name="qtyInvoiced"/>
+                                <field name="productUom" readonly="1"/>
+                                <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                                <field name="orderPartnerId" invisible="1"/>
+                                <field name="displayType" invisible="1"/>
+                                <field name="productUpdatable" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="priceUnit" readonly="1"/>
+                                <field name="discount" groups="product.groupDiscountPerSoLine" readonly="1"/>
+                                <field name="priceSubtotal" widget="monetary"/>
+                                <field name="taxId" widget="many2manyTags" readonly="1"/>
+                                <field name="priceTax" widget="monetary"/>
+                                <field name="priceTotal" widget="monetary"/>
+                                <field name="currencyId" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewSalesOrderLineFilter" model="ir.ui.view">
+            <field name="label">sale.order.line.select</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Sales Order">
+                    <filter string="To Invoice" name="toInvoice" domain="[['qtyToInvoice','!=', 0]]"  help="Sales Order Lines ready to be invoiced"/>
+                    <separator/>
+                    <filter string="My Sales Order Lines" name="mySalesOrderLines" domain="[['salesmanId','=',uid]]" help="Sales Order Lines related to a Sales Order of mine"/>
+                    <field name="orderId"/>
+                    <field name="orderPartnerId" operator="childOf"/>
+                    <field name="productId"/>
+                    <field name="salesmanId"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="product" domain="[]" context="{'groupby':'productId'}"/>
+                        <filter string="Order" name="order" domain="[]" context="{'groupby':'orderId'}"/>
+                        <filter string="Salesperson" name="salesperson" domain="[]" context="{'groupby':'salesmanId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="saleOrderLineViewKanban" model="ir.ui.view">
+            <field name="label">sale.order.line.kanban</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe-kanban-content oe-kanban-global-click">
+                                <div class="row">
+                                    <div class="col-12">
+                                    <field name="displayName"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="productFormViewSaleOrderButton">
+            <field name="label">product.product.sale.order</field>
+            <field name="model">product.product</field>
+            <field name="inheritId" ref="product.productNormalFormView"/>
+            <field name="groupsId" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+            <field name="arch" type="xml">
+                <div name="buttonBox" position="inside">
+                    <button class="oe-stat-button" name="actionViewSales"
+                        type="object" icon="fa-signal" groups="sales_team.groupSaleSalesman" help="Sold in the last 365 days" attrs="{'invisible': [['saleOk', '=', false]]}">
+                        <div class="o-field-widget o-stat-info">
+                            <span class="o-stat-value">
+                                <field name="salesCount" widget="statinfo" nolabel="1" class="mr4"/>
+                                <field name="uomName"/>
+                            </span>
+                            <span class="o-stat-text">Sold</span>
+                        </div>
+                    </button>
+                </div>
+                <group name="description" position="after">
+                    <group string="Warning when Selling this Product" groups="sale.groupWarningSale">
+                        <field name="saleLineWarn" nolabel="1"/>
+                        <field name="saleLineWarnMsg" colspan="3" nolabel="1"
+                                attrs="{'required':[['saleLineWarn','!=','no-message']],'readonly':[['saleLineWarn','=','no-message']]}"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="productTemplateFormViewSaleOrderButton">
+            <field name="label">product.template.sale.order.button</field>
+            <field name="model">product.template</field>
+            <field name="inheritId" ref="product.productTemplateOnlyFormView"/>
+            <field name="groupsId" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+            <field name="arch" type="xml">
+                <div name="buttonBox" position="inside">
+                    <button class="oe-stat-button" name="actionViewSales"
+                        type="object" icon="fa-signal" groups="sales_team.groupSaleSalesman" help="Sold in the last 365 days" attrs="{'invisible': [['saleOk', '=', false]]}">
+                        <div class="o-field-widget o-stat-info">
+                            <span class="o-stat-value">
+                                <field name="salesCount" widget="statinfo" nolabel="1" class="mr4"/>
+                                <field name="uomName"/>
+                            </span>
+                            <span class="o-stat-text">Sold</span>
+                        </div>
+                    </button>
+                </div>
+                <group name="description" position="after">
+                    <group string="Warning when Selling this Product" groups="sale.groupWarningSale">
+                        <field name="saleLineWarn" nolabel="1"/>
+                        <field name="saleLineWarnMsg" colspan="3" nolabel="1"
+                                attrs="{'required':[['saleLineWarn','!=','no-message']],'readonly':[['saleLineWarn','=','no-message']], 'invisible':[['saleLineWarn','=','no-message']]}"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="productTemplateFormViewInvoicePolicy">
+            <field name="label">product.template.invoice.policy</field>
+            <field name="model">product.template</field>
+            <field name="priority">15</field>
+            <field name="inheritId" ref="product.productTemplateFormView"/>
+            <field name="arch" type="xml">
+                <field name="productVariantCount" position="after">
+                    <field name="serviceType" widget="radio" invisible="true"/>
+                    <field name="visibleExpensePolicy" invisible="1"/>
+                </field>
+                <field name="detailedType" position="after">
+                    <field name="invoicePolicy" required="1"/>
+                    <field name="expensePolicy" widget="radio" attrs="{'invisible': [['visibleExpensePolicy', '=', false]]}"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Update account invoice search view!-->
+        <record id="accountInvoiceGroupbyInherit" model="ir.ui.view">
+            <field name="label">account.move.groupby</field>
+            <field name="model">account.move</field>
+            <field name="inheritId" ref="account.viewAccountInvoiceFilter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoiceUserId']" position="after">
+                    <field name="teamId"/>
+                </xpath>
+                <xpath expr="//group/filter[@name='status']" position="after">
+                    <filter string="Sales Team" name="salesChannel" domain="[]" context="{'groupby':'teamId'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="accountInvoiceViewTree" model="ir.ui.view">
+            <field name="label">account.move.tree.inherit.sale</field>
+            <field name="model">account.move</field>
+            <field name="inheritId" ref="account.viewInvoiceTree"/>
+            <field name="arch" type="xml">
+                <field name="invoiceUserId" position="after">
+                    <field name="teamId" invisible="!['outInvoice', 'outRefund','outReceipt'].includes(context['default_moveType'])" optional="hide"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Update account invoice !-->
+        <record model="ir.ui.view" id="accountInvoiceForm">
+            <field name="label">Account Invoice</field>
+            <field name="model">account.move</field>
+            <field name="inheritId" ref="account.viewMoveForm"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='partnerId']" position="after">
+                       <field name="partnerShippingId"
+                              groups="sale.groupDeliveryInvoiceAddress"
+                              attrs="{'invisible': [['moveType', 'not in', ['outInvoice', 'outRefund', 'outReceipt']]]}"/>
+                   </xpath>
+                    <xpath expr="//group[@name='saleInfoGroup']/field[@name='invoiceUserId']" position="after">
+                        <field name="teamId" kanbanViewRef="%(sales_team.crmTeamViewKanban)s"/>
+                    </xpath>
+                    <xpath expr="//group[@id='otherTabGroup']" position="inside">
+                        <group string="Marketing"
+                               name="utmLink"
+                               groups="base.groupNoOne"
+                               attrs="{'invisible': [['moveType', 'not in', ['outInvoice', 'outRefund']]]}">
+                            <field name="campaignId"/>
+                            <field name="mediumId"/>
+                            <field name="sourceId"/>
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Update account invoice report  -->
+        <record id="accountInvoiceReportViewTree" model="ir.ui.view">
+            <field name="label">account.invoice.report.view.tree.inherit.sale</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inheritId" ref="account.accountInvoiceReportViewTree"/>
+            <field name="arch" type="xml">
+                <field name="invoiceUserId" position="after">
+                    <field name="teamId" optional="hide"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- search by Salesteams -->
+        <record id="actionOrdersSalesteams" model="ir.actions.actwindow">
+            <field name="label">Sales Orders</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewMode">tree,form,calendar,graph,kanban,pivot</field>
+            <field name="searchViewId" ref="sale.saleOrderViewSearchInheritSale"/>
+            <field name="domain">[['state','not in',['draft','sent','cancel']]]</field>
+            <field name="context">{
+                    'searchDefault_teamId': [activeId],
+                    'default_teamId': activeId,
+                }
+            </field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new quotation, the first step of a new sale!
+              </p><p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice &amp;&amp; collect the payment.
+              </p>
+            </field>
+        </record>
+        <record id="actionOrdersToInvoiceSalesteams" model="ir.actions.actwindow">
+            <field name="label">Sales Orders</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewMode">tree,form,calendar,graph,kanban,pivot</field>
+            <field name="searchViewId" ref="sale.saleOrderViewSearchInheritSale"/>
+            <field name="domain">[['invoiceStatus','=','to invoice']]</field>
+            <field name="context">{
+                    'searchDefault_teamId': [activeId],
+                    'default_teamId': activeId,
+                }
+            </field>
+        </record>
+        <record id="actionQuotationsSalesteams" model="ir.actions.actwindow">
+            <field name="label">Quotations</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewId" ref="sale.viewQuotationTree"/>
+            <field name="viewMode">tree,form,calendar,graph,kanban,pivot</field>
+            <field name="context">{
+                    'searchDefault_teamId': [activeId],
+                    'default_teamId': activeId,
+                    'showAddress': 1,
+                }
+            </field>
+            <field name="domain">[]</field>
+            <field name="searchViewId" ref="sale.saleOrderViewSearchInheritQuotation"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new quotation, the first step of a new sale!
+              </p><p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice &amp;&amp; collect the payment.
+              </p>
+            </field>
+        </record>
+        <record id="actionInvoiceSalesteams" model="ir.actions.actwindow">
+            <field name="label">Invoices</field>
+            <field name="resModel">account.move</field>
+            <field name="viewMode">tree,form,kanban</field>
+            <field name="viewId" ref="account.viewMoveTree"/>
+            <field name="domain">[
+                ['state', '=', 'posted'],
+                ['moveType', 'in', ['outInvoice', 'outRefund']]]</field>
+            <field name="context">{
+                    'searchDefault_teamId': [activeId],
+                    'default_teamId': activeId,
+                    'default_moveType':'outInvoice',
+                    'moveType':'outInvoice',
+                    'journalType': 'sale',
+                }
+            </field>
+            <field name="searchViewId" ref="account.viewAccountInvoiceFilter"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a customer invoice
+                </p><p>
+                    Create invoices, register payments &amp;&amp; keep track of the discussions with your customers.
+                </p>
+            </field>
+        </record>
+
+        <record id="actionInvoiceSalesteamsViewTree" model="ir.actions.actwindow.view">
+            <field name="sequence">1</field>
+            <field name="viewMode">tree</field>
+            <field name="actwindowId" ref="sale.actionInvoiceSalesteams"/>
+        </record>
+
+        <record id="actionInvoiceSalesteamsViewForm" model="ir.actions.actwindow.view">
+            <field name="sequence">2</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="account.viewMoveForm"/>
+            <field name="actwindowId" ref="sale.actionInvoiceSalesteams"/>
+        </record>
+
+        <record id="actionOrderReportQuotationSalesteam" model="ir.actions.actwindow">
+            <field name="label">Quotations Analysis</field>
+            <field name="resModel">sale.report</field>
+            <field name="viewMode">graph</field>
+            <field name="domain">[['state','=','draft'],['teamId', '=', activeId]]</field>
+            <field name="context">{'searchDefault_orderMonth':1}</field>
+            <field name="help">This report performs analysis on your quotations. Analysis check your sales revenues &amp;&amp; sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+        </record>
+
+        <record id="actionOrderReportSoSalesteam" model="ir.actions.actwindow">
+            <field name="label">Sales Analysis</field>
+            <field name="resModel">sale.report</field>
+            <field name="viewMode">graph</field>
+            <field name="domain">[['state','not in',['draft','cancel']]]</field>
+            <field name="context">{
+                'searchDefault_sales': 1,
+                'searchDefault_filterDate': 1,
+                'searchDefault_teamId': [activeId]}</field>
+            <field name="help">This report performs analysis on your sales orders. Analysis check your sales revenues &amp;&amp; sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+        </record>
+
+        <record id="actionAccountInvoiceReportSalesteam" model="ir.actions.actwindow">
+            <field name="label">Invoices Analysis</field>
+            <field name="resModel">account.invoice.report</field>
+            <field name="viewMode">graph</field>
+            <field name="domain">[['state', 'not in', ['draft', 'cancel']]]</field>
+            <field name="context">{'searchDefault_month':1, 'searchDefault_teamId': [activeId]}</field>
+            <field name="help">From this report, you can have an overview of the amount invoiced to your customer. The search tool can also be used to personalise your Invoices reports &amp;&amp; so, match this analysis to your needs.</field>
+        </record>
+</verp>

@@ -1,0 +1,177 @@
+<template>
+    <div t-name="CalendarView" class="o-calendar-container">
+        <div class="o-calendar-view">
+            <div class="o-calendar-buttons" role="toolbar" aria-label="Calendar toolbar"/>
+            <div class="o-calendar-widget" />
+        </div>
+        <div class="o-calendar-sidebar-container d-none d-md-block">
+            <div class="o-calendar-sidebar">
+                <div class="o-calendar-mini"/>
+            </div>
+        </div>
+    </div>
+
+    <t t-name="calendar-box">
+        <div t-att-style="typeof color === 'string' ? ('background-color:' + color) + ';' : ''" t-attf-class="o-event #{record.isHighlighted ? 'o-event-hightlight' : ''} #{typeof color === 'number' ? _.str.sprintf('o-calendar-color-%s', color) : 'o-calendar-color-1'} #{record.isHatched ? 'o-calendar-hatched o-calendar-hatched_' + (typeof color === 'number' ? color : 1): ''} #{record.isStriked ? 'o-calendar-striked o-calendar-striked_' + (typeof color === 'number' ? color : 1): ''}">
+            <span t-if="showTime" class="fc-time"/>
+            <div class="o-event-title" t-esc="record.displayName"/>
+            <div t-if="showLocation and record.location" t-esc="record.location"/>
+        </div>
+    </t>
+
+    <t t-name="CalendarView.event.popover.placeholder">
+        <div t-attf-class="o-cw-popover popover card shadow #{typeof color === 'number' ? _.str.sprintf('o-calendar-color-%s', color) : ''}" role="tooltip">
+            <div class="arrow"/>
+            <div class="card-header d-flex justify-content-between py-2 pr-2">
+                <h4 class="p-0 pt-1">
+                    <span class="popover-header border-0"/><span t-if="displayLock" class="ml-1"><i class="fa fa-lock"/></span>
+                </h4>
+                <span class="o-cw-popover-close ml-4 mt-2 mr-2"><i class="fa fa-close"/></span>
+            </div>
+            <div class="o-cw-body">
+            </div>
+        </div>
+    </t>
+
+    <t t-name="CalendarView.event.popover">
+        <div class="o-cw-body">
+            <ul class="list-group list-group-flush">
+                <li t-if="!widget.hideDate and widget.eventDate.date" class="list-group-item">
+                    <i class="fa fa-fw fa-calendar-o"/>
+                    <b class="text-capitalize" t-esc="widget.eventDate.date"/> <small t-if="widget.eventDate.duration"><b t-esc="_.str.sprintf('(%s)', widget.eventDate.duration)"/></small>
+                </li>
+                <li t-if="!widget.hideTime and widget.eventTime.time" class="list-group-item">
+                    <i class="fa fa-fw fa-clock-o"/>
+                    <b t-esc="widget.eventTime.time"/> <small t-if="widget.eventTime.duration"><b t-esc="_.str.sprintf('(%s)', widget.eventTime.duration)"/></small>
+                </li>
+            </ul>
+            <ul t-if="widget.isEventDetailsVisible()" class="list-group list-group-flush o-cw-popover-fields-secondary"/>
+            <div t-attf-class="card-footer border-top #{ !widget.isEventEditable() &amp;&amp;!widget.isEventDeletable() ? 'o-footer-shrink' : '' }">
+                <a t-if="widget.isEventEditable()" href="#" class="btn btn-primary o-cw-popover-edit">Edit</a>
+                <a t-if="widget.isEventDeletable()" href="#" class="btn btn-secondary o-cw-popover-delete ml-2">Delete</a>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="CalendarView.sidebar.filter">
+        <t t-set="needCollapse" t-value="widget.filters.length > 2 and widget.title"></t>
+        <t t-set="titleWithoutSpace" t-value="widget.title.split(' ').join('')"></t>
+        <div class="o-calendar-filter">
+            <div class="d-flex">
+                <div class="o-calendar-filter-items-checkall mr-2" data-value="checkAll">
+                    <input t-att-id="widget.title + '_id'" type="checkbox" name="selection" class="position-absolute"
+                           t-att-checked="widget.filterCheckAll[widget.fieldName] ? true : undefined"
+                    />
+                    <label t-att-for="widget.title + '_id'" class="align-items-center m-0">
+                        <span class="o-cw-filter-input-bg o-calendar-filter-all">
+                            <i class="fa fa-check position-relative"/>
+                        </span>
+                    </label>
+                </div>
+                <div t-if="needCollapse" type="button" data-toggle="collapse"
+                     t-attf-data-target="#oCwFilterCollapse_#{titleWithoutSpace}"
+                     class="justify-content-between align-items-center h5">
+                    <span t-esc="widget.title"/>
+                    <i class="o-cw-filter-collapse-icon fa fa-chevron-down"/>
+                </div>
+                <h5 t-elif="widget.title" t-esc="widget.title"/>
+            </div>
+            <div t-attf-class="o-calendar-filter-items #{needCollapse ? 'collapse show' : 0}" aria-expanded="true" t-attf-id="oCwFilterCollapse_#{titleWithoutSpace}">
+                <t t-foreach="widget.filters" t-as="filter" t-if="filter.display == null || filter.display">
+                    <t t-set="idForLabel" t-value="_.uniqueId('o-calendar-filter-item-')"/>
+                    <t t-set="color" t-value="widget.getColor(filter.colorIndex)"/>
+                    <t t-set="isColorNumber" t-value="typeof color === 'number'"/>
+
+                    <div t-attf-class="o-calendar-filter-item w-100 position-relative mb-2 #{isColorNumber ? _.str.sprintf('o-cw-filter-color-%s', color) : ''}"
+                         t-att-data-value="filter.value" t-att-data-id="filter.id">
+
+                        <input type="checkbox" t-att-id="idForLabel" name="selection" class="position-absolute" t-att-checked="filter.active ? true : undefined"/>
+
+                        <label t-att-for="idForLabel" class="d-flex align-items-center m-0">
+                            <span t-attf-class="o-cw-filter-input-bg align-items-center d-flex flex-shrink-0 justify-content-center position-relative mr-1 #{widget.avatarField ? 'o-beside-avatar' : ''}"
+                                t-att-style="color and !isColorNumber ? _.str.sprintf('border-color:%s;background-color:%s', color, color) : ''">
+                                <i class="fa fa-check position-relative"/>
+                            </span>
+                            <i t-if="filter.value == 'all'" class="o-cw-filter-avatar fa fa-users fa-fw  flex-shrink-0 mr-1" role="img" aria-label="Avatar" title="Avatar"/>
+                            <img t-elif="widget.avatarField and filter.value" t-attf-src="/web/image/#{widget.avatarModel}/#{filter.value}/#{widget.avatarField}" class="o-cw-filter-avatar flex-shrink-0 mr-1" alt="Avatar"/>
+                            <span class="o-cw-filter-title text-truncate flex-grow" t-esc="filter.label" t-attf-title="#{ ['all', false].includes(filter.value) || !widget.avatarField ? filter.label : '' }"/>
+                        </label>
+
+                        <button t-if="filter.id" class="o-remove btn bg-white text-700 py-0 px-2" title="Remove this favorite from the list" role="img" aria-label="Remove this favorite from the list">
+                            <i class="fa fa-times"/>
+                        </button>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="CalendarView.buttons">
+        <div class="o-calendar-buttons">
+            <span class="o-calendar-navigation-buttons">
+                <t t-call="CalendarView.navigationButtons" />
+            </span>
+            <t t-if="!scaleDrop">
+                <span class="o-calendar-scale-buttons">
+                    <t t-call="CalendarView.scaleButtons" />
+                </span>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="CalendarView.navigationButtons">
+        <button class="o-calendar-button-prev btn btn-primary" aria-label="Previous" title="Previous"><span class="fa fa-arrow-left"/></button>
+        <button class="o-calendar-button-today btn btn-primary">Today</button>
+        <button class="o-calendar-button-next btn btn-primary" aria-label="Next" title="Next"><span class="fa fa-arrow-right"/></button>
+    </t>
+
+    <t t-name="CalendarView.scaleButtons">
+        <div class="btn-group">
+            <button type="button" t-if="scales.includes('day')" class="o-calendar-button-day btn btn-secondary">Day</button>
+            <button type="button" t-if="scales.includes('week')" class="o-calendar-button-week btn btn-secondary">Week</button>
+            <button type="button" t-if="scales.includes('month')" class="o-calendar-button-month btn btn-secondary">Month</button>
+            <button type="button" t-if="scales.includes('year')" class="o-calendar-button-year btn btn-secondary">Year</button>
+        </div>
+    </t>
+
+    <main t-name="CalendarView.quickCreate" class="o-calendar-quick-create">
+        <div class="form-group">
+            <label for='label' class='col-form-label o-form-label'>Meeting Subject:</label>
+            <input type='text' name='label' class="o-input o-required-modifier" t-att-value="widget.dataTemplate.label || null"/>
+        </div>
+    </main>
+
+    <t t-name="CalendarView.yearEvent.popover">
+        <div class="o-cw-body">
+            <t t-foreach="groupKeys" t-as="groupKey">
+                <div class="font-weight-bold mt-2" t-esc="groupKey"/>
+                <t t-foreach="groupedEvents[groupKey]" t-as="event">
+                    <t t-set="record" t-value="event.extendedProps.record"/>
+                    <t t-set="color" t-value="event.extendedProps.colorIndex"/>
+                    <a href="#"
+                        t-attf-class="o-cw-popover-link o-calendar-color-#{typeof color === 'number' ? _.str.sprintf('%s', color) : '1'} o-attendee-status-#{record.isAlone ? 'alone' : record.attendeeStatus} btn-link d-block"
+                        t-att-data-id="record.id"
+                        t-att-data-title="record.displayName">
+                        <t t-esc="record.startHour"/> <t t-esc="record.displayName"/>
+                    </a>
+                </t>
+            </t>
+            <div class="mt-2">
+                <a t-if="canCreate" href="#" class="btn-link o-cw-popover-create">
+                    <i class="fa fa-plus"/> Create
+                </a>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="CalendarView.yearEvent.popover.placeholder">
+        <div class="popover o-cw-popover" style="position: relative">
+            <div class="arrow"></div>
+            <div class="popover-header"></div>
+            <div style="position: absolute; top: 0; right: 0.5rem;">
+                <span class="o-cw-popover-close"><i class="fa fa-close small"></i></span>
+            </div>
+            <div class="popover-body"></div>
+        </div>
+    </t>
+</template>

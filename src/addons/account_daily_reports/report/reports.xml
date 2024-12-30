@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="actionReportDayBook" model="ir.actions.report">
+            <field name="label">Day Book</field>
+            <field name="model">account.daybook.report</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.account.daily.daybook</field>
+            <field name="reportName">account_daily_reports.reportDaybook</field>
+            <field name="reportFile">account_daily_reports.reportDaybook</field>
+        </record>
+
+        <record id="actionReportCashBook" model="ir.actions.report">
+            <field name="label">Cash Book</field>
+            <field name="model">account.cashbook.report</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.account.daily.cashbook</field>
+            <field name="reportName">account_daily_reports.reportCashbook</field>
+            <field name="reportFile">account_daily_reports.reportCashbook</field>
+        </record>
+
+        <record id="actionReportBankBook" model="ir.actions.report">
+            <field name="label">Bank Book</field>
+            <field name="model">account.bankbook.report</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.account.daily.bankbook</field>
+            <field name="reportName">account_daily_reports.reportBankbook</field>
+            <field name="reportFile">account_daily_reports.reportBankbook</field>
+        </record>
+
+    </data>
+</verp>

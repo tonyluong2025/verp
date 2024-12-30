@@ -1,0 +1,68 @@
+.o-kanban-view.o-kanban-dashboard.o-account-kanban {
+    .o-kanban-record {
+
+        @include media-breakpoint-up(sm) {
+            .oe-kanban-action-button {
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+
+        .o-kanban-card-settings {
+            padding-top: $o-horizontal-padding/2;
+            padding-bottom: $o-horizontal-padding/2;
+
+            border-top: 1px solid;
+            border-color: $o-brand-lightsecondary;
+        }
+        .o-dashboard-star {
+            font-size: 12px;
+
+            &.fa-star-o {
+                color: $o-main-color-muted;
+                &:hover {
+                    color: gold;
+                }
+            }
+            &.fa-star {
+                color: gold;
+            }
+        }
+
+        .o-dashboard-graph {
+            margin-bottom: -$o-horizontal-padding/2;
+        }
+    }
+
+    &.o-kanban-ungrouped {
+        .o-kanban-record {
+            width: 450px;
+        }
+    }
+
+    .o-kanban-group {
+        &:not(.o-column-folded) {
+            width: 450px + 2*$o-kanban-group-padding;
+
+            @include media-breakpoint-down(sm) {
+                width: 100%;
+            }
+        }
+    }
+}
+
+// Style for the widget "dashboardGraph"
+.o-dashboard-graph {
+    position: relative;
+    margin: 16px -16px;
+
+    canvas {
+        height: 75px;
+    }
+
+}
+
+.o-sample-data .o-dashboard-graph.o-graph-linechart > svg g.nv-linesWrap g.nv-group.nv-series-0 {
+    fill: gray !important;
+    opacity: 0.1;
+}

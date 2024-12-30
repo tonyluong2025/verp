@@ -1,0 +1,18 @@
+{
+    "label": "IAP / Mail",
+    "summary": "Bridge between IAP and mail",
+    "description": "Bridge between IAP and mail",
+    "category": "Hidden/Tools",
+    "version": "1.0",
+    "depends": [
+        "iap",
+        "mail"
+    ],
+    "application": false,
+    "installable": true,
+    "autoInstall": true,
+    "data": [
+        "data/mail_templates.xml"
+    ],
+    "license": "MIT Expat"
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.fetchmail</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="mail.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <div id="mailAliasDomain" position="after">
+                <div class="mt8">
+                    <button type="action"
+                    name="%(actionEmailServerTree)d"
+                    string="Incoming Email Servers" icon="fa-arrow-right" class="btn-link"/>
+                </div>
+                <div class="mt8">
+                    <button type="action"
+                    name="%(base.actionIrMailServerList)d"
+                    string="Outgoing Email Servers" icon="fa-arrow-right" class="btn-link"/>
+                </div>
+            </div>
+        </field>
+    </record>
+</verp>

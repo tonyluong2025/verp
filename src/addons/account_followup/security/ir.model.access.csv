@@ -1,0 +1,11 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_followup_followup_line,followup.followup.line,model_followupLine,account.groupAccountInvoice,1,0,0,0
+access_followup_followup_line_manager,followup.followup.line.manager,model_followupLine,account.groupAccountManager,1,1,1,1
+access_followup_followup_accountant,followup.followup.user,model_followupFollowup,account.groupAccountInvoice,1,0,0,0
+access_followup_followup_manager,followup.followup.manager,model_followupFollowup,account.groupAccountManager,1,1,1,1
+access_followup_stat_invoice,followup.stat.invoice,model_followupStatByPartner,account.groupAccountInvoice,1,1,0,0
+access_followup_stat_by_partner_manager,followup.stat.by.partner,model_followupStatByPartner,account.groupAccountUser,1,1,0,0
+access_followup_stat_user,followup.stat.user,model_followupStatByPartner,account.groupAccountUser,1,1,0,0
+access_followup_stat_manager,followup.stat.manager,model_followupStatByPartner,account.groupAccountManager,1,1,1,1
+access_followup_print,access_followup_print,model_followupPrint,base.groupUser,1,1,1,1
+access_followup_sending_results,access_followup_sending_results,model_followupSendingResults,base.groupUser,1,1,1,1

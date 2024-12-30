@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <data noupdate="1">
+
+        <record id="seqRecurringPayment" model="ir.sequence">
+            <field name="label">Recurring Payments</field>
+            <field name="code">recurring.payment</field>
+            <field name="prefix">RP</field>
+            <field name="padding">3</field>
+            <field name="companyId" eval="false"/>
+        </record>
+
+    </data>
+
+</verp>

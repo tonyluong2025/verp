@@ -1,0 +1,8 @@
+
+.s-mega-menu-cards:not([data-vcss]) {
+    .nav-link {
+        @include hover-focus {
+            background: rgba(0, 0, 0, .05);
+        }
+    }
+}

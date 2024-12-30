@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="saleReportViewSearchWebsite" model="ir.ui.view">
+        <field name="label">sale.report.search</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <search string="Sales">
+                <field name="websiteId" groups="website.groupMultiWebsite"/>
+                <field name="productId"/>
+                <field name="categId"/>
+                <field name="partnerId"/>
+                <field name="countryId"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+                <filter string="Confirmed Orders" name="confirmed" domain="[['state', 'in', ['sale', 'done']]]"/>
+                <separator/>
+                <filter name="filterDate" date="date" default_period="thisMonth"/>
+                <group expand="0" string="Group By">
+                    <filter string="Website" name="groupbyWebsite" context="{'groupby':'websiteId'}" groups="website.groupMultiWebsite"/>
+                    <filter string="Product" name="groupbyProduct" context="{'groupby':'productId'}"/>
+                    <filter string="Product Category" name="groupbyProductCategory" context="{'groupby':'categId'}"/>
+                    <filter string="Customer" name="groupbyCustomer" context="{'groupby':'partnerId'}"/>
+                    <filter string="Customer Country" name="groupbyCountry" context="{'groupby':'countryId'}"/>
+                    <filter string="Status" name="groupbyStatus" context="{'groupby':'state'}"/>
+                    <separator orientation="vertical"/>
+                    <filter string="Order Date" name="groupbyOrderDate" context="{'groupby':'date'}"/>
+                    <!-- Dashboard filter - used by context -->
+                    <filter string="Last Week" invisible="1" name="week" domain="[['date','&gt;', toFormat(subDate(contextToday(), {days: 7}), 'yyyy-MM-dd')]]"/>
+                    <filter string="Last Month" invisible="1" name="month" domain="[['date','&gt;', toFormat(subDate(contextToday(), {days: 30}), 'yyyy-MM-dd')]]"/>
+                    <filter string="Last Year" invisible="1"  name="year" domain="[['date','&gt;', toFormat(subDate(contextToday(), {days: 365}), 'yyyy-MM-dd')]]"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="saleReportViewPivotWebsite" model="ir.ui.view">
+        <field name="label">sale.report.view.pivot.website</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Sales Analysis" sample="1">
+                <field name="date" type="row"/>
+                <field name="state" type="col"/>
+                <field name="priceSubtotal" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="saleReportViewGraphWebsite" model="ir.ui.view">
+        <field name="label">sale.report.view.graph.website</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <graph string="Sale Analysis" sample="1">
+                <field name="date"/>
+                <field name="priceSubtotal" type='measure'/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="saleReportViewTree" model="ir.ui.view">
+        <field name="label">sale.report.view.tree.inherit.website.sale</field>
+        <field name="model">sale.report</field>
+        <field name="inheritId" ref="sale.saleReportViewTree"/>
+        <field name="arch" type="xml">
+             <field name="orderId" position="after">
+                <field name="websiteId" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="saleReportActionDashboard" model="ir.actions.actwindow">
+        <field name="label">Online Sales Analysis</field>
+        <field name="resModel">sale.report</field>
+        <field name="viewMode">pivot,graph</field>
+        <field name="domain">[['websiteId', '!=', false]]</field>
+        <field name="context">{'searchDefault_confirmed': 1}</field>
+        <field name="searchViewId" ref="saleReportViewSearchWebsite"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                You don't have any order from the website
+            </p>
+        </field>
+    </record>
+
+    <record id="saleReportActionViewPivotWebsite" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="1"/>
+        <field name="viewMode">pivot</field>
+        <field name="viewId" ref="saleReportViewPivotWebsite"/>
+        <field name="actwindowId" ref="saleReportActionDashboard"/>
+    </record>
+
+    <record id="saleReportActionViewGraphWebsite" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="1"/>
+        <field name="viewMode">graph</field>
+        <field name="viewId" ref="saleReportViewGraphWebsite"/>
+        <field name="actwindowId" ref="saleReportActionDashboard"/>
+    </record>
+
+    <record id="saleReportActionCarts" model="ir.actions.actwindow">
+        <field name="label">Sales</field>
+        <field name="resModel">sale.report</field>
+        <field name="viewMode">pivot,graph</field>
+        <field name="domain">[['websiteId', '!=', false]]</field>
+        <field name="searchViewId" ref="saleReportViewSearchWebsite"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                You don't have any order from the website
+            </p>
+        </field>
+    </record>
+
+    <record id="saleReportActionViewPivotCarts" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="1"/>
+        <field name="viewMode">pivot</field>
+        <field name="viewId" ref="saleReportViewPivotWebsite"/>
+        <field name="actwindowId" ref="saleReportActionCarts"/>
+    </record>
+
+    <record id="saleReportActionViewGraphCarts" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="1"/>
+        <field name="viewMode">graph</field>
+        <field name="viewId" ref="saleReportViewGraphWebsite"/>
+        <field name="actwindowId" ref="saleReportActionCarts"/>
+    </record>
+</verp>

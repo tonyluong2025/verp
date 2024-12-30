@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data noupdate="1">
+    <!-- opportunities' lost causes -->
+    <record id="lostReason_1" model="crm.lost.reason">
+        <field name="label">Too expensive</field>
+    </record>
+    <record id="lostReason_2" model="crm.lost.reason">
+        <field name="label">We don't have people/skills</field>
+    </record>
+    <record id="lostReason_3" model="crm.lost.reason">
+        <field name="label">Not enough stock</field>
+    </record>
+</data></verp>

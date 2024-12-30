@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="portalShareWizard" model="ir.ui.view">
+        <field name="label">portal.share.wizard</field>
+        <field name="model">portal.share</field>
+        <field name="arch" type="xml">
+            <form string="Share Document">
+                <p class="alert alert-warning" attrs="{'invisible': [['accessWarning', '=', '']]}" role="alert"><field name="accessWarning"/></p>
+                <group name="shareLink">
+                    <field name="resModel" invisible="1"/>
+                    <field name="resId" invisible="1"/>
+                    <field name="shareLink" widget="CopyClipboardChar" options="{'string': 'Copy Link'}"/>
+                </group>
+                <group>
+                    <field name="partnerIds" widget="many2manyTagsEmail" placeholder="Add contacts to share the document..."/>
+                </group>
+                <group>
+                    <field name="note" placeholder="Add a note"/>
+                </group>
+                <footer>
+                    <button string="Send" name="actionSendMail" attrs="{'invisible': [['accessWarning', '!=', '']]}" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-default" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="portalShareAction" model="ir.actions.actwindow">
+        <field name="label">Share Document</field>
+        <field name="resModel">portal.share</field>
+        <field name="bindingModelId" ref="model_portalShare"/>
+        <field name="viewMode">form</field>
+        <field name="target">new</field>
+    </record>
+</verp>

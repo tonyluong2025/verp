@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="snailmailLetterMissingRequiredFields" model="ir.ui.view">
+        <field name="label">snailmail.letter.missing.required.fields.form</field>
+        <field name="model">snailmail.letter.missing.required.fields</field>
+        <field name="arch" type="xml">
+            <form>
+                <!-- Field present for correct defaultGet behavior -->
+                <field name="letterId" invisible="1"/>
+                <p>The customer address is not complete. Update the address here and re-send the letter.</p>
+                <group>
+                    <label for="partnerId" string="Address"/>
+                    <div class="o-address-format">
+                        <field name="partnerId" readonly="1" options="{'noOpen': true}" forceSave="1"/>
+                        <field name="street" placeholder="Street..." class="o-address-street"/>
+                        <field name="street2" placeholder="Street 2..." class="o-address-street"/>
+                        <field name="city" placeholder="City" class="o-address-city"/>
+                        <field name="stateId" class="o-address-state" placeholder="State" options='{"noOpen": true}'/>
+                        <field name="zip" placeholder="ZIP" class="o-address-zip"/>
+                        <field name="countryId" placeholder="Country" class="o-address-country" options='{"noOpen": true, "noCreate": true}'/>
+                    </div>
+                </group>
+                <footer>
+                    <button string="Update address and re-send" type="object" name="updateAddressSave" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel letter" type="object" name="updateAddressCancel" class="btn-secondary" data-hotkey="w"/>
+                    <button string="Close" special='cancel' class="btn-secondary" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="snailmailLetterMissingRequiredFieldsAction" model="ir.actions.actwindow">
+        <field name="label">Failed letter</field>
+        <field name="resModel">snailmail.letter.missing.required.fields</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">form</field>
+        <field name="target">new</field>
+    </record>
+</verp>

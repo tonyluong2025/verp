@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data noupdate="1">
+    <record id="groupMailTemplateEditor" model="res.groups">
+        <field name="label">Mail Template Editor</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="base.groupSystem" model="res.groups">
+        <field name="impliedIds" eval="[[4, refId('mail.groupMailTemplateEditor')]]"/>
+    </record>
+
+    <!-- By default, allow all users to edit mail templates -->
+    <record id="base.groupUser" model="res.groups">
+        <field name="impliedIds" eval="[[4, refId('mail.groupMailTemplateEditor')]]"/>
+    </record>
+</data>
+</verp>

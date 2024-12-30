@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="reportLayout" inheritId="web.reportLayout">
+        <xpath expr="//head" position="inside">
+            <t t-if="env &amp;&amp; env.context['snailmailLayout']" t-call-assets="snailmail.reportAssetsSnailmail"/>
+        </xpath>
+    </template>
+    <template id="minimalLayout" inheritId="web.minimalLayout">
+        <xpath expr="//head" position="inside">
+            <t t-if="env &amp;&amp; env.context['snailmailLayout']" t-call-assets="snailmail.reportAssetsSnailmail"/>
+        </xpath>
+    </template>
+</verp>

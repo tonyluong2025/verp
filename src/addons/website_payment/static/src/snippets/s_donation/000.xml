@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="website_payment.donation.prefilledButtons">
+        <div class="s-donation-prefilled-buttons mb-2">
+            <t t-foreach="prefilledButtons" t-as="prefilledButtonValue">
+                <button class="s-donation-btn btn btn-outline-primary btn-lg mb-2 mr-1 o-not-editable"
+                        type="button"
+                        contenteditable="false"
+                        t-att-data-donation-value="prefilledButtonValue"
+                        t-esc="prefilledButtonValue"/>
+            </t>
+            <span t-if="customInput" class="s-donation-btn s-donation-custom-btn btn btn-outline-primary btn-lg mb-2 mr-1">
+                <input id="sDonationAmountInput" type="number" t-att-min="minimumAmount" class="" placeholder="Custom Amount" aria-label="Amount"/>
+            </span>
+        </div>
+    </t>
+    <t t-name="website_payment.donation.prefilledButtonsDescriptions">
+        <div class="s-donation-prefilled-buttons my-4">
+            <t t-foreach="prefilledButtons" t-as="prefilledButton">
+                <div class="s-donation-btn-description d-sm-flex align-items-center my-3 o-not-editable o-translate-mode-hidden" contenteditable="false">
+                    <button class="s-donation-btn btn btn-outline-primary btn-lg mr-3"
+                            type="button"
+                            t-att-data-donation-value="prefilledButton.value"
+                            t-esc="prefilledButton.value"/>
+                    <p class="s-donation-description mt-2 my-sm-auto text-muted font-italic" t-esc="prefilledButton.description"></p>
+                </div>
+            </t>
+            <div t-if="customInput" class="d-sm-flex align-items-center my-3">
+                <span class="s-donation-btn s-donation-custom-btn btn btn-outline-primary btn-lg">
+                    <input id="sDonationAmountInput" type="number" t-att-min="minimumAmount" placeholder="Custom Amount" aria-label="Amount"/>
+                </span>
+            </div>
+        </div>
+    </t>
+    <t t-name="website_payment.donation.slider">
+        <div class="s-donation-range-slider-wrap mb-2 position-relative">
+            <label for="sDonationRangeSlider">Choose Your Amount</label>
+            <input type="range" class="custom-range" t-att-min="minimumAmount" t-att-max="maximumAmount" t-att-step="sliderStep" id="sDonationRangeSlider" contenteditable="false"/>
+            <output class="s-range-bubble" contenteditable="false">25</output>
+        </div>
+    </t>
+</templates>

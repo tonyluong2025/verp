@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <function name="installLang" model="res.lang"/>
+    </data>
+    <data>
+        <record id="base.lang_my" model="res.lang">
+            <field name="urlCode">mya</field>
+        </record>
+        <record id="base.lang_ar" model="res.lang">
+            <field name="flagImage" type="base64" file="base/static/img/lang_flags/lang_ar.png"/>
+        </record>
+    </data>
+</verp>

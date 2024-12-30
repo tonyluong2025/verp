@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!-- ONBOARDING STEPS -->
+    <template id="onboardingInvoiceLayoutStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Invoice Layout</t>
+            <t t-set="description">Customize the look of your invoices.</t>
+            <t t-set="doneIcon" t-value="'fa-star'" />
+            <t t-set="btnText">Customize</t>
+            <t t-set="doneText">Looks great!</t>
+            <t t-set="method" t-value="'actionOpenBaseDocumentLayout'" />
+            <t t-set="model" t-value="'base.document.layout'" />
+            <t t-set="state" t-value="state['accountOnboardingInvoiceLayoutState']" />
+        </t>
+    </template>
+    <template id="onboardingCreateInvoiceStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Create Invoice</t>
+            <t t-set="description">
+                Create your first invoice.
+            </t>
+            <t t-set="btnText">Create</t>
+            <t t-set="doneText">First invoice sent!</t>
+            <t t-set="method" t-value="'actionOpenAccountOnboardingCreateInvoice'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="state['accountOnboardingCreateInvoiceState']" />
+        </t>
+    </template>
+    <template id="onboardingBankAccountStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Bank Account</t>
+            <t t-set="description">
+                Connect your financial accounts in seconds.
+            </t>
+            <t t-set="btnText">Add a bank account</t>
+            <t t-set="doneText">Step Completed!</t>
+            <t t-set="method" t-value="'settingInitBankAccountAction'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="state['accountSetupBankDataState']" />
+        </t>
+    </template>
+    <template id="onboardingFiscalYearStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Accounting Periods</t>
+            <t t-set="description">Define your fiscal years &amp; tax returns periodicity.</t>
+            <t t-set="btnText">Configure</t>
+            <t t-set="doneText">Step Completed!</t>
+            <t t-set="method" t-value="'settingInitFiscalYearAction'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="state['accountSetupFyDataState']" />
+        </t>
+    </template>
+    <template id="onboardingChartOfAccountStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Chart of Accounts</t>
+            <t t-set="description">Setup your chart of accounts and record initial balances.</t>
+            <t t-set="btnText">Review</t>
+            <t t-set="doneText">Chart of accounts set.</t>
+            <t t-set="method" t-value="'settingChartOfAccountsAction'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="state['accountSetupCoaState']" />
+        </t>
+    </template>
+    <template id="onboardingTaxesStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Taxes</t>
+            <t t-set="description">Set default Taxes for sales and purchase transactions.</t>
+            <t t-set="btnText">Review</t>
+            <t t-set="doneText">Taxes set.</t>
+            <t t-set="method" t-value="'actionOpenTaxesOnboarding'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="state['accountSetupTaxesState']" />
+        </t>
+    </template>
+    <!-- ONBOARDING PANELS -->
+    <template id="accountInvoiceOnboardingPanel" name="account.invoice.onboarding.panel">
+        <t t-call="base.onboardingContainer">
+            <t t-set="classes" t-value="'o-onboarding-blue'"/>
+            <t t-set="bgImage" t-value="'/account/static/src/img/account_invoice_onboarding_bg.jpg'"/>
+            <t t-set="closeMethod" t-value="'actionCloseAccountInvoiceOnboarding'"/>
+            <t t-set="closeModel" t-value="'res.company'"/>
+            <t t-set="textCompleted">Congratulations! You are all set.</t>
+
+            <t t-call="base.onboardingCompanyStep" name="companyStep" />
+            <t t-call="account.onboardingBankAccountStep" name="bankAccountStep" t-if="! await (await env.user()).hasGroup('account.groupAccountUser')"/>
+            <t t-call="account.onboardingInvoiceLayoutStep" name="invoiceLayoutStep" />
+            <t t-call="account.onboardingCreateInvoiceStep" name="createInvoiceStep" />
+        </t>
+    </template>
+    <template id="accountDashboardOnboardingPanel" name="account.dashboard.onboarding.panel">
+        <t t-call="base.onboardingContainer">
+            <t t-set="classes" t-value="'o-onboarding-orange'"/>
+            <t t-set="bgImage" t-value="'/account/static/src/img/account_dashboard_onboarding_bg.jpg'"/>
+            <t t-set="closeMethod" t-value="'actionCloseAccountDashboardOnboarding'"/>
+            <t t-set="closeModel" t-value="'res.company'"/>
+
+            <t t-call="account.onboardingFiscalYearStep" name="fiscalYearStep" />
+            <t t-call="account.onboardingChartOfAccountStep" name="chartOfAccountStep" />
+            <t t-call="account.onboardingTaxesStep" name="taxesStep" />
+            <t t-call="account.onboardingBankAccountStep" name="bankAccountStep" />
+        </t>
+    </template>
+    <!-- SAMPLE INVOICE EMAIL -->
+    <record id="actionOpenAccountOnboardingCreateInvoice" model="ir.actions.actwindow">
+        <field name="label">Create first invoice</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">account.move</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="account.viewMoveForm" />
+        <field name="context">{'default_moveType': 'outInvoice'}</field>
+    </record>
+    <!-- SALE TAX -->
+    <template id="onboardingSaleTaxStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Taxes</t>
+            <t t-set="description">Choose a default sales tax for your products.</t>
+            <t t-set="btnText">Set taxes</t>
+            <t t-set="doneText">Step Completed!</t>
+            <t t-set="method" t-value="'actionOpenAccountOnboardingSaleTax'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="state['accountOnboardingSaleTaxState']" />
+        </t>
+    </template>
+    <record id="accountInvoiceOnboardingSaleTaxForm" model="ir.ui.view">
+        <field name="label">account.invoice.layout.onboarding.form</field>
+        <field name="model">res.company</field>
+        <field name="mode">primary</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="mb16">Choose a default sales tax for your products.</div>
+                <label for="accountSaleTaxId" string="Sales Tax"/>
+                <field name="accountSaleTaxId" />
+                <footer>
+                    <button string="Apply" class="btn btn-primary" type="object" name="actionSaveOnboardingSaleTax" data-hotkey="q" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="actionOpenAccountOnboardingSaleTax" model="ir.actions.actwindow">
+        <field name="label">Sales tax</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">res.company</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountInvoiceOnboardingSaleTaxForm" />
+        <field name="target">new</field>
+    </record>
+</verp>

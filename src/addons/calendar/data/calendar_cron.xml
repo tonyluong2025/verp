@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<verp>
+    <data noupdate="1">
+        <!-- Scheduler for Event Alarm-->
+        <record forcecreate="true" id="irCronSchedulerAlarm" model="ir.cron">
+            <field name="label">Calendar: Event Reminder</field>
+            <field name="modelId" ref="model_calendarAlarmManager"/>
+            <field name="state">code</field>
+            <field name="code">model._sendReminder()</field>
+            <field name="active" eval="true"/>
+            <field name="userId" ref="base.userRoot"/>
+            <field name="intervalNumber">1</field>
+            <field name="intervalType">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="false"/>
+        </record>
+    </data>
+</verp>

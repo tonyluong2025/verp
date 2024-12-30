@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+
+    <record id="productTemplatePublic" model="ir.rule">
+        <field name="label">Public product template</field>
+        <field name="modelId" ref="product.model_productTemplate"/>
+        <field name="domainForce">[['websitePublished', '=', true], ["saleOk", "=", true]]</field>
+        <field name="groups" eval="[[4, refId('base.groupPublic')], [4, refId('base.groupPortal')]]"/>
+        <field name="permRead" eval="true"/>
+        <field name="permWrite" eval="false"/>
+        <field name="permCreate" eval="false"/>
+        <field name="permUnlink" eval="false"/>
+    </record>
+
+    <record id="groupShowUomPrice" model="res.groups">
+        <field name="label">UOM Price Display for eCommerce</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="sales_team.groupSaleManager" model="res.groups">
+        <field name="impliedIds" eval="[[4, refId('website.groupWebsitePublisher')]]"/>
+    </record>
+
+    <record id="base.groupUser" model="res.groups">
+        <field name="impliedIds" eval="[[4, refId('sale.groupDeliveryInvoiceAddress')]]"/>
+    </record>
+
+    <record id="base.groupPublic" model="res.groups">
+        <field name="impliedIds" eval="[[4, refId('sale.groupDeliveryInvoiceAddress')]]"/>
+    </record>
+
+    <record id="base.groupPortal" model="res.groups">
+        <field name="impliedIds" eval="[[4, refId('sale.groupDeliveryInvoiceAddress')]]"/>
+    </record>
+
+    <!--
+        Multi-company/Multi-website compliant:
+        We can't add a condition on domain_force without losing `product`
+        ir.rule domainForce. It is better to disabled them to be able to
+        reenable them on `websiteSale` uninstall.
+        Don't override domainForce or we will need to hardcode the original
+        domain in `uninstallHook` rather than just reenabling records.
+    -->
+    <record id="product.productPricelistCompRule" model="ir.rule">
+        <field name="active" eval="false"/>
+    </record>
+    <record id="product.productPricelistItemCompRule" model="ir.rule">
+        <field name="active" eval="false"/>
+    </record>
+    <record id="productPricelistCompRule" model="ir.rule">
+        <field name="label">product pricelist company rule</field>
+        <field name="modelId" ref="product.model_productPricelist"/>
+        <field name="domainForce">['|', ['companyId', 'in', [false, (await website.companyId).id]], ['companyId', 'in', companyIds]]</field>
+    </record>
+    <record id="productPricelistItemCompRule" model="ir.rule">
+        <field name="label">product pricelist item company rule</field>
+        <field name="modelId" ref="product.model_productPricelistItem"/>
+        <field name="domainForce">['|', ['companyId', 'in', [false,(await website.companyId).id]], ['companyId', 'in', companyIds]]</field>
+    </record>
+
+</verp>

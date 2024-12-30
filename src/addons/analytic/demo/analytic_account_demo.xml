@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- Analytic Groups -->
+        <record id="analyticGroupProjects" model="account.analytic.group">
+            <field name="label">Projects</field>
+        </record>
+        <record id="analyticGroupDepartments" model="account.analytic.group">
+            <field name="label">Departments</field>
+        </record>
+        <record id="analyticGroupInternal" model="account.analytic.group">
+            <field name="label">Internal</field>
+        </record>
+        <!-- Analytic Accounts -->
+        <record id="analyticAbsences" model="account.analytic.account">
+            <field name="label">Time Off</field>
+            <field name="groupId" ref="analytic.analyticGroupInternal"/>
+        </record>
+        <record id="analyticInternal" model="account.analytic.account">
+            <field name="label">Operating Costs</field>
+            <field name="groupId" ref="analytic.analyticGroupInternal"/>
+        </record>
+        <record id="analyticOurSuperProduct" model="account.analytic.account">
+            <field name="label">Our Super Product</field>
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticSeagateP2" model="account.analytic.account">
+            <field name="label">Seagate P2</field>
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticMillenniumIndustries" model="account.analytic.account">
+            <field name="label">Millennium Industries</field>
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticIntegrationC2c" model="account.analytic.account">
+            <field name="label">CampToCamp</field>
+            <field name="partnerId" ref="base.resPartner_12"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticAgrolait" model="account.analytic.account">
+            <field name="label">Deco Addict</field>
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticAsustek" model="account.analytic.account">
+            <field name="label">Asustek</field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticDeltapc" model="account.analytic.account">
+            <field name="label">Delta PC</field>
+            <field name="partnerId" ref="base.resPartner_4"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticSpark" model="account.analytic.account">
+            <field name="label">Spark Systems</field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticNebula" model="account.analytic.account">
+            <field name="label">Nebula</field>
+            <field name="partnerId" ref="base.resPartner_12"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticLuminousTechnologies" model="account.analytic.account">
+            <field name="label">Luminous Technologies</field>
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticDeserticHispafuentes" model="account.analytic.account">
+            <field name="label">Desertic - Hispafuentes</field>
+            <field name="partnerId" ref="base.resPartner_12"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticThinkBigSystems" model="account.analytic.account">
+            <field name="label">Lumber Inc</field>
+            <field name="partnerId" ref="base.resPartner_18"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticPartnersCampToCamp" model="account.analytic.account">
+            <field name="label">Camp to Camp</field>
+            <field name="partnerId" ref="base.resPartner_12"/>
+            <field name="groupId" ref="analytic.analyticGroupProjects"/>
+        </record>
+        <record id="analyticAdministratif" model="account.analytic.account">
+            <field name="label">Administrative</field>
+            <field name="groupId" ref="analytic.analyticGroupDepartments"/>
+        </record>
+        <record id="analyticCommercialMarketing" model="account.analytic.account">
+            <field name="label">Commercial &amp; Marketing</field>
+            <field name="groupId" ref="analytic.analyticGroupDepartments"/>
+        </record>
+        <record id="analyticRdDepartment" model="account.analytic.account">
+            <field name="label">Research &amp; Development</field>
+            <field name="groupId" ref="analytic.analyticGroupDepartments"/>
+        </record>
+    </data>
+</verp>

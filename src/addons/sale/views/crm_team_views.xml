@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="crmTeamSalesteamsViewForm" model="ir.ui.view">
+            <field name="label">crm.team.form</field>
+            <field name="model">crm.team</field>
+            <field name="priority">9</field>
+            <field name="inheritId" ref="sales_team.crmTeamViewForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='optionsActive']" position="inside">
+                    <div class="o-row" style="display:inherit">
+                        <field name="useQuotations"/><label for="useQuotations"/>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='companyId']" position="after">
+                    <label for="invoicedTarget"/>
+                    <div class="o-row">
+                        <field name="invoicedTarget" widget="monetary" options="{'currencyField': 'currencyId'}"/>
+                        <span class="oe-read-only">/ Month</span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="viewAccountInvoiceReportSearchInherit" model="ir.ui.view">
+            <field name="label">account.invoice.report.search.inherit</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inheritId" ref="account.viewAccountInvoiceReportSearch"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/filter[@name='user']" position="after">
+                    <filter string="Sales Team" name="salesChannel" domain="[]" context="{'groupby':'teamId'}"/>
+                </xpath>
+                <xpath expr="//field[@name='invoiceUserId']" position="after">
+                    <field name="teamId"/>
+                </xpath>
+            </field>
+        </record>
+
+    <!-- Sales Team Dashboard Views -->
+    <record id="actionQuotationForm" model="ir.actions.actwindow">
+        <field name="label">New Quotation</field>
+        <field name="resModel">sale.order</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">form</field>
+        <field name="context">{
+                'searchDefault_teamId': [activeId],
+                'default_teamId': activeId,
+                'default_userId': uid,
+        }
+        </field>
+        <field name="searchViewId" ref="saleOrderViewSearchInheritQuotation"/>
+    </record>
+
+    <record id="crmTeamViewKanbanDashboard" model="ir.ui.view">
+        <field name="label">crm.team.view.kanban.dashboard.inherit.sale</field>
+        <field name="model">crm.team</field>
+        <field name="inheritId" ref="sales_team.crmTeamViewKanbanDashboard"/>
+        <field name="arch" type="xml">
+        <data>
+            <xpath expr="//templates" position="before">
+                <field name="useQuotations"/>
+                <field name="invoicedTarget"/>
+            </xpath>
+
+            <xpath expr="//t[@name='secondOptions']" position="after">
+                <div class="row" t-if="record.quotationsCount.rawValue">
+                    <div class="col overflow-hidden text-left">
+                        <a name="%(actionQuotationsSalesteams)d" type="action" context="{'searchDefault_draft': true, 'searchDefault_sent': true}">
+                            <field name="quotationsCount"/>
+                            <t t-if="record.quotationsCount.rawValue == 1">Quotation</t>
+                            <t t-else="">Quotations</t>
+                        </a>
+                    </div>
+                    <div class="col-auto text-right">
+                        <field name="quotationsAmount" widget="monetary"/>
+                    </div>
+                </div>
+                <div class="row" name="ordersToInvoice" t-if="record.salesToInvoiceCount.rawValue">
+                    <div class="col-8">
+                        <a name="%(actionOrdersToInvoiceSalesteams)d" type="action">
+                            <field name="salesToInvoiceCount"/>
+                            <t t-if="record.salesToInvoiceCount.rawValue == 1">Order to Invoice</t>
+                            <t t-else="">Orders to Invoice</t>
+                        </a>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[contains(@class, 'o-kanban-primary-bottom')]" position="after">
+                <t groups="sales_team.groupSaleManager">
+                    <div class="col-12 o-kanban-primary-bottom bottom-block">
+                        <t t-if="record.invoicedTarget.rawValue" class="col-12 o-kanban-primary-bottom">
+                            <field name="invoiced" widget="progressbar" title="Invoicing" options="{'currentValue': 'invoiced', 'maxValue': 'invoicedTarget', 'editable': true, 'editMaxValue': true, 'onchange': 'updateInvoicedTarget'}"/>
+                        </t>
+                        <t t-if="!record.invoicedTarget.rawValue" class="col-12 o-kanban-primary-bottom text-center">
+                            <a href="#" class="sales-team-target-definition o-inline-link">Click to define an invoicing target</a>
+                        </t>
+                    </div>
+                </t>
+            </xpath>
+
+            <xpath expr="//div[contains(@class, 'o-kanban-manage-view')]" position="inside">
+                <div t-if="record.useQuotations.rawValue">
+                    <a name="%(actionQuotationsSalesteams)d" type="action" class="o-quotation-view-button">Quotations</a>
+                </div>
+                <div>
+                    <a name="%(actionOrdersSalesteams)d" type="action">Sales Orders</a>
+                </div>
+                <div groups="account.groupAccountInvoice">
+                    <a name="%(actionInvoiceSalesteams)d" type="action">Invoices</a>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[contains(@class,'o-kanban-manage-new')]" position="inside">
+                <div t-if="record.useQuotations.rawValue">
+                    <a name="%(actionQuotationForm)d" type="action">
+                        Quotation
+                    </a>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[contains(@class,'o-kanban-manage-reports')]/div[@name='oTeamKanbanReportSeparator']" position="before">
+                <div t-if="record.useQuotations.rawValue">
+                     <a name="%(actionOrderReportQuotationSalesteam)d" type="action">
+                         Quotations
+                     </a>
+                </div>
+                <div name="salesReport">
+                    <a name="%(actionOrderReportSoSalesteam)d" type="action">
+                        Sales
+                    </a>
+                </div>
+                <div groups="account.groupAccountInvoice" name="invoicesReport">
+                    <a name="%(actionAccountInvoiceReportSalesteam)d" type="action">
+                        Invoices
+                    </a>
+                </div>
+            </xpath>
+
+        </data>
+        </field>
+    </record>
+
+    <record id="sales_team.mailActivityTypeActionConfigSales" model="ir.actions.actwindow">
+        <field name="domain">['|', ['resModel', '=', false], ['resModel', 'in', ['sale.order', 'res.partner', 'product.template', 'product.product']]]</field>
+    </record>
+
+</verp>

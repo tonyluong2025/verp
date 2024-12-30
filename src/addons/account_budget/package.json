@@ -1,0 +1,21 @@
+{
+    "label": "Verp 1 Budget Management",
+    "author": "Verp Mates, Verp SA",
+    "category": "Accounting",
+    "version": "1.0.0",
+    "description": "Use budgets to compare actual with expected revenues and costs",
+    "summary": "Verp 1 Budget Management",
+    "sequence": 10,
+    "website": "https://www.verpmates.tech",
+    "depends": ["account"],
+    "data": [
+        "security/ir.model.access.csv",
+        "security/account_budget_security.xml",
+        "views/account_analytic_account_views.xml",
+        "views/account_budget_views.xml",
+        "views/res_config_settings_views.xml"
+    ],
+    "images": ["static/description/banner.gif"],
+    "demo": ["data/account_budget_demo.xml"],
+    "license": "MIT Expat"
+}

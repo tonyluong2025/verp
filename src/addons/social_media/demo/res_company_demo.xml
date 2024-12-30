@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="base.mainCompany" model="res.company">
+        <field name="socialTwitter">https://twitter.com/verp</field>
+        <field name="socialFacebook">https://www.facebook.com/verp</field>
+        <field name="socialLinkedin">https://www.linkedin.com/company/verp</field>
+        <field name="socialYoutube">https://www.youtube.com/user/VerpOnline</field>
+        <field name="socialGithub">https://github.com/verp</field>
+        <field name="socialInstagram">https://www.instagram.com/explore/tags/verp/</field>
+        <field name="socialZalo">https://github.com/verp</field>
+        <field name="socialTiktok">https://www.instagram.com/explore/tags/verp/</field>
+    </record>
+</verp>

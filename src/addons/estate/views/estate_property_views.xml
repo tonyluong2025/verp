@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="editEstateForm" model="ir.ui.view">
+        <field name="label">Estate Property Form</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <form string="Estate">
+                <sheet>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <group>
+                        <field name="id" invisible="true"/>
+                        <field name="active" invisible="1"/>
+                        <field name="label"/>
+                        <field name="price"/>
+                        <field name="note" invisible='1'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="editEstateList" model="ir.ui.view">
+        <field name="label">Estate Property List</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <tree string="List" editable="bottom">
+                <field name="label"/>
+                <field name="price"/>
+                <field name="note" invisible='1'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="editEstateSearch" model="ir.ui.view">
+        <field name="label">estate.search</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <search string="Tip">
+                <field name="label"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="editEstateAction" model="ir.actions.actwindow">
+        <field name="label">Real Estate</field>
+        <field name="resModel">estate.property</field>
+        <field name="viewId" ref="editEstateList"/>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="searchViewId" ref="editEstateSearch"/>
+    </record>
+
+    <record id="viewPortfolioList" model="ir.ui.view">
+        <field name="label">Estate Portfolio List</field>
+        <field name="model">estate.portfolio</field>
+        <field name="arch" type="xml">
+            <tree string="List">
+                <field name="label"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewPortfolioForm" model="ir.ui.view">
+        <field name="label">Estate Portfolio Form</field>
+        <field name="model">estate.portfolio</field>
+        <field name="arch" type="xml">
+            <form string="Portfolio">
+                <sheet>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <group>
+                        <field name="id" invisible="true"/>
+                        <field name="active" invisible="1"/>
+                        <field name="label"/>
+                        <field name="type"/>
+                    </group>
+                    <notebook>
+                        <page id="propertyTab" string="Properties">
+                            <field name="lineIds" widget="sectionAndNoteOne2many" mode="tree,kanban">
+                                <tree editable="bottom" string="Estate Properties" defaultOrder="sequence, label desc, id">
+                                    <control>
+                                        <create name="addLineControl" string="Add a property"/>
+                                    </control>
+                                    <field name="propertyId"/>
+                                    <field name="note"/>
+                                </tree>
+                                <kanban class="o-kanban-mobile">
+                                    <field name="propertyId"/>
+                                    <field name="note"/>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="viewPortfolioSearch" model="ir.ui.view">
+        <field name="label">estate.portfolio.search</field>
+        <field name="model">estate.portfolio</field>
+        <field name="arch" type="xml">
+            <search string="Tip">
+                <field name="label"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="estatePortfolioAction" model="ir.actions.actwindow">
+        <field name="label">Estate Portfolio</field>
+        <field name="resModel">estate.portfolio</field>
+        <field name="viewId" ref="viewPortfolioList"/>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="searchViewId" ref="viewPortfolioSearch"/>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem name="Real Estate"
+        id="menuEstateRoot"
+        groups="base.groupUser"
+        sequence="15"/>
+
+    <menuitem id="menuEstateManagement" name="List"
+            parent="menuEstateRoot" sequence="1" />
+    <menuitem id="menuEstateAction" action="editEstateAction" parent="menuEstateManagement"/>
+    <menuitem id="menuEstatePortfolioAction" action="estatePortfolioAction" parent="menuEstateManagement"/>
+</verp>

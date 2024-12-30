@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewBaseImportLanguage" model="ir.ui.view">
+            <field name="label">Import Translation</field>
+            <field name="model">base.language.import</field>
+            <field name="arch" type="xml">
+                <form string="Import Translation">
+                    <group>
+                        <field name="label" placeholder="e.g. English"/>
+                        <field name="code" string="Code" placeholder="e.g. en_US"/>
+                        <field name="data" filename="filename"/>
+                        <field name="filename" invisible="1"/>
+                        <field name="overwrite" groups="base.groupNoOne"/>
+                    </group>
+                    <footer>
+                        <button name="importLang" string="_Import" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionViewBaseImportLanguage" model="ir.actions.actwindow">
+            <field name="label">Import Translation</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">base.language.import</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+        action="actionViewBaseImportLanguage"
+        id="menuViewBaseImportLanguage"
+        parent="menuTranslationExport"/>
+
+    </data>
+</verp>

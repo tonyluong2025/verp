@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="paperformat_euro" model="report.paperformat">
+            <field name="label">A4</field>
+            <field name="default">true</field>
+            <field name="format">A4</field>
+            <field name="pageHeight">0</field>
+            <field name="pageWidth">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="marginTop">40</field>
+            <field name="marginBottom">32</field>
+            <field name="marginLeft">7</field>
+            <field name="marginRight">7</field>
+            <field name="headerLine">false</field>
+            <field name="headerSpacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_us" model="report.paperformat">
+            <field name="label">US Letter</field>
+            <field name="default">true</field>
+            <field name="format">Letter</field>
+            <field name="pageHeight">0</field>
+            <field name="pageWidth">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="marginTop">40</field>
+            <field name="marginBottom">30</field>
+            <field name="marginLeft">7</field>
+            <field name="marginRight">7</field>
+            <field name="headerLine">false</field>
+            <field name="headerSpacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_batchDeposit" model="report.paperformat">
+            <field name="label">US Batch Deposit</field>
+            <field name="default">false</field>
+            <field name="format">Letter</field>
+            <field name="pageHeight">0</field>
+            <field name="pageWidth">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="marginTop">15</field>
+            <field name="marginBottom">30</field>
+            <field name="marginLeft">10</field>
+            <field name="marginRight">10</field>
+            <field name="headerLine">false</field>
+            <field name="headerSpacing">15</field>
+            <field name="dpi">90</field>
+        </record>
+    </data>
+</verp>

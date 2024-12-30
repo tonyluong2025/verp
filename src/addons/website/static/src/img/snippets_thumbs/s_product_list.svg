@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="60" viewBox="0 0 82 60">
+  <defs>
+    <linearGradient id="linearGradient_1" x1="50%" x2="50%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#00A09D"/>
+      <stop offset="100%" stop-color="#00E2FF"/>
+    </linearGradient>
+    <polygon id="path_2" points="0 10.447 6.5 13.16 6.5 5.5 0 3"/>
+    <filter id="filter_3" width="115.4%" height="119.7%" x="-7.7%" y="-4.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.4 0"/>
+    </filter>
+    <polygon id="path_4" points="7.5 13.16 14 10.447 14 3 7.5 5.5"/>
+    <filter id="filter_5" width="115.4%" height="119.7%" x="-7.7%" y="-4.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+    <polygon id="path_6" points="0 10.447 6.5 13.16 6.5 5.5 0 3"/>
+    <filter id="filter_7" width="115.4%" height="119.7%" x="-7.7%" y="-4.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.4 0"/>
+    </filter>
+    <polygon id="path_8" points="7.5 13.16 14 10.447 14 3 7.5 5.5"/>
+    <filter id="filter_9" width="115.4%" height="119.7%" x="-7.7%" y="-4.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+    <polygon id="path_10" points="0 10.447 6.5 13.16 6.5 5.5 0 3"/>
+    <filter id="filter_11" width="115.4%" height="119.7%" x="-7.7%" y="-4.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.4 0"/>
+    </filter>
+    <polygon id="path_12" points="7.5 13.16 14 10.447 14 3 7.5 5.5"/>
+    <filter id="filter_13" width="115.4%" height="119.7%" x="-7.7%" y="-4.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" class="snippets-thumbs">
+    <g class="s-product-list">
+      <rect width="82" height="60" class="bg"/>
+      <g class="group" transform="translate(15 20)">
+        <path fill="url(#linearGradient_1)" d="M13 18v2H1v-2h12zm20 0v2H20v-2h13zm20 0v2H38v-2h15z" class="combined-shape"/>
+        <g class="box-solid">
+          <rect width="14" height="13" class="rectangle"/>
+          <polygon fill="#FFF" fill-opacity=".78" points="7 .5 0 2.405 7 5 14 2.405" class="path"/>
+          <g class="path">
+            <use fill="#000" filter="url(#filter_3)" xlink:href="#path_2"/>
+            <use fill="#FFF" fill-opacity=".95" xlink:href="#path_2"/>
+          </g>
+          <g class="path">
+            <use fill="#000" filter="url(#filter_5)" xlink:href="#path_4"/>
+            <use fill="#FFF" fill-opacity=".78" xlink:href="#path_4"/>
+          </g>
+        </g>
+        <g class="box-solid" transform="translate(38)">
+          <rect width="14" height="13" class="rectangle"/>
+          <polygon fill="#FFF" fill-opacity=".78" points="7 .5 0 2.405 7 5 14 2.405" class="path"/>
+          <g class="path">
+            <use fill="#000" filter="url(#filter_7)" xlink:href="#path_6"/>
+            <use fill="#FFF" fill-opacity=".95" xlink:href="#path_6"/>
+          </g>
+          <g class="path">
+            <use fill="#000" filter="url(#filter_9)" xlink:href="#path_8"/>
+            <use fill="#FFF" fill-opacity=".78" xlink:href="#path_8"/>
+          </g>
+        </g>
+        <g class="box-solid" transform="translate(19)">
+          <rect width="14" height="13" class="rectangle"/>
+          <polygon fill="#FFF" fill-opacity=".78" points="7 .5 0 2.405 7 5 14 2.405" class="path"/>
+          <g class="path">
+            <use fill="#000" filter="url(#filter_11)" xlink:href="#path_10"/>
+            <use fill="#FFF" fill-opacity=".95" xlink:href="#path_10"/>
+          </g>
+          <g class="path">
+            <use fill="#000" filter="url(#filter_13)" xlink:href="#path_12"/>
+            <use fill="#FFF" fill-opacity=".78" xlink:href="#path_12"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

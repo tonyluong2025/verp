@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="stock.popoverButton">
+        <a tabindex="0" t-attf-class="p-1 fa #{ icon || 'fa-info-circle'} #{ color || 'text-primary'}"/>
+    </t>
+
+    <div t-name="stock.popoverContent">
+        <t t-esc="msg"/>
+    </div>
+
+    <div t-name="stock.PopoverStockRescheduling">
+        <p>Preceding operations
+        <t t-foreach="lateElements" t-as="lateElement">
+            <a t-esc="lateElement.name" href="#" t-att-element-id="lateElement.id" t-att-element-model="lateElement.model"/>,
+        </t>
+        planned on <t t-esc="delayAlertDate"/>.</p>
+    </div>
+</templates>

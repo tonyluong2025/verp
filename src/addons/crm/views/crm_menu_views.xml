@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <!-- Top menu item -->
+    <!--
+        This menu item's purpose is to overwrite another one defined in
+        the base module in order to set new groups.
+    -->
+    <menuitem
+        id="crmMenuRoot"
+        name="CRM"
+        webIcon="crm,static/description/icon.png"
+        groups="sales_team.groupSaleSalesman,sales_team.groupSaleManager"
+        sequence="25"/>
+
+    <!-- SALES (MAIN USER MENU) -->
+    <menuitem
+        id="crmMenuSales"
+        name="Sales"
+        parent="crmMenuRoot"
+        sequence="1"/>
+    <menuitem
+        id="menuCrmOpportunities"
+        name="My Pipeline"
+        parent="crmMenuSales"
+        action="crm.actionYourPipeline"
+        sequence="1"/>
+    <menuitem
+        id="crmLeadMenuMyActivities"
+        name="My Activities"
+        parent="crmMenuSales"
+        groups="sales_team.groupSaleSalesman"
+        action="crm.crmLeadActionMyActivities"
+        sequence="2"/>
+
+    <menuitem
+        id="salesTeamMenuTeamPipeline"
+        name="Teams"
+        parent="crmMenuSales"
+        action="sales_team.crmTeamActionPipeline"
+        groups="sales_team.groupSaleManager"
+        sequence="4"/>
+    <menuitem
+        id="resPartnerMenuCustomer"
+        name="Customers"
+        parent="crmMenuSales"
+        action="base.actionPartnerForm"
+        sequence="5"/>
+
+    <!-- LEADS (MAIN USER MENU) -->
+    <menuitem
+        id="crmMenuLeads"
+        name="Leads"
+        parent="crmMenuRoot"
+        action="crm.crmLeadAllLeads"
+        groups="crm.groupUseLead"
+        sequence="5"/>
+
+    <!-- REPORTING -->
+    <menuitem
+        id="crmMenuReport"
+        name="Reporting"
+        parent="crmMenuRoot"
+        sequence="20"
+        groups="sales_team.groupSaleSalesman"/>
+    <menuitem
+        id="crmMenuForecast"
+        name="Forecast"
+        parent="crmMenuReport"
+        action="crm.actionOpportunityForecast"
+        sequence="1"/>
+    <menuitem
+        id="crmOpportunityReportMenuLead"
+        name="Leads"
+        parent="crmMenuReport"
+        action="crm.crmOpportunityReportActionLead"
+        groups="crm.groupUseLead"
+        sequence="2"/>
+    <menuitem
+        id="crmOpportunityReportMenu" 
+        name="Pipeline"
+        parent="crmMenuReport"
+        action="crm.crmOpportunityReportAction"
+        sequence="3"/>
+    <menuitem
+        id="crmActivityReportMenu"
+        name="Activities"
+        parent="crmMenuReport"
+        action="crmActivityReportAction"
+        sequence="4"/>
+
+    <!-- CONFIGURATION -->
+    <menuitem
+        id="crmMenuConfig"
+        name="Configuration"
+        parent="crmMenuRoot"
+        action="crm.actionYourPipeline"
+        sequence="25" groups="sales_team.groupSaleManager"/>
+    <menuitem
+        id="crmConfigSettingsMenu"
+        name="Settings"
+        parent="crmMenuConfig"
+        action="crm.crmConfigSettingsAction"
+        groups="base.groupSystem"
+        sequence="0"/>
+    <menuitem
+        id="menuCrmConfigOpportunity"
+        name="Opportunities"
+        parent="crmMenuConfig"
+        sequence="1"
+        groups="sales_team.groupSaleManager"/>
+    <menuitem
+        id="crmTeamConfig"
+        name="Sales Teams"
+        parent="crmMenuConfig"
+        action="sales_team.crmTeamActionConfig"
+        sequence="5"/>
+    <menuitem
+        id="crmTeamMemberConfig"
+        name="Teams Members"
+        parent="crmMenuConfig"
+        action="sales_team.crmTeamMemberAction"
+        sequence="6"
+        groups="base.groupNoOne"/>
+    <menuitem
+        id="crmTeamMenuConfigActivityTypes"
+        name="Activity Types"
+        parent="crmMenuConfig"
+        action="sales_team.mailActivityTypeActionConfigSales"
+        sequence="10"/>
+    <menuitem
+        id="crmRecurringPlanMenuConfig"
+        name="Recurring Plans"
+        parent="crmMenuConfig"
+        action="crm.crmRecurringPlanAction"
+        sequence="12"
+        groups="crm.groupUseRecurringRevenues"/>
+    <menuitem
+        id="menuCrmConfigLead"
+        name="Pipeline"
+        parent="crmMenuConfig"
+        sequence="15"
+        groups="sales_team.groupSaleManager"/>
+    <menuitem
+        id="menuCrmLeadStageAct"
+        name="Stages"
+        sequence="0"
+        parent="menuCrmConfigLead"
+        action="crm.crmStageAction"
+        groups="base.groupNoOne"/>
+    <menuitem
+        id="menuCrmLeadCateg"
+        name="Tags"
+        action="sales_team.salesTeamCrmTagAction"
+        parent="menuCrmConfigLead"
+        sequence="1"/>
+    <menuitem
+        id="menuCrmLostReason"
+        name="Lost Reasons"
+        parent="menuCrmConfigLead"
+        action="crm.crmLostReasonAction"
+        sequence="6"/>
+
+    <menuitem
+        id="menuImportCrm"
+        name="Import &amp; Synchronize"
+        parent="crmMenuRoot"/>
+</verp>

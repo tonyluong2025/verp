@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+
+        <record model="ir.ui.view" id="viewMailTrackingValueTree">
+            <field name="label">mail.tracking.value.tree</field>
+            <field name="model">mail.tracking.value</field>
+            <field name="priority">12</field>
+            <field name="arch" type="xml">
+                <tree string="Tracking Value">
+                    <field name="field"/>
+                    <field name="oldValueInteger"/>
+                    <field name="oldValueFloat"/>
+                    <field name="oldValueChar"/>
+                    <field name="oldValueText"/>
+                    <field name="oldValueDatetime"/>
+                    <field name="newValueInteger"/>
+                    <field name="newValueFloat"/>
+                    <field name="newValueChar"/>
+                    <field name="newValueText"/>
+                    <field name="newValueDatetime"/>
+                    <field name="mailMessageId"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="viewMailTrackingValueForm">
+            <field name="label">mail.tracking.value.form</field>
+            <field name="model">mail.tracking.value</field>
+            <field name="arch" type="xml">
+                <form string="Tracking Value">
+                    <sheet>
+                        <group name="fieldDetails" string="Field details">
+                            <field name="field"/>
+                            <field name="fieldDesc"/>
+                            <field name="fieldType"/>
+                            <field name="trackingSequence"/>
+                        </group>
+                        <group name="values">
+                            <group name="oldValues" string="Old values">
+                                <field name="oldValueInteger"/>
+                                <field name="oldValueFloat"/>
+                                <field name="oldValueChar"/>
+                                <field name="oldValueText"/>
+                                <field name="oldValueDatetime"/>
+                            </group>
+                            <group name="newValues" string="New values">
+                                <field name="newValueInteger"/>
+                                <field name="newValueFloat"/>
+                                <field name="newValueChar"/>
+                                <field name="newValueText"/>
+                                <field name="newValueDatetime"/>
+                            </group>
+                        </group>
+                        <group string='Related Message'>
+                            <field name="mailMessageId"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.actwindow" id="actionViewMailTrackingValue">
+            <field name="label">Tracking Values</field>
+            <field name="resModel">mail.tracking.value</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+
+    </data>
+</verp>

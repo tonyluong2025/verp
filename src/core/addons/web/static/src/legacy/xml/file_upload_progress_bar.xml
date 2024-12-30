@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+<div t-name="web.FileUploadProgressBar" class="o-file-upload-progress-bar">
+    <div class="o-file-upload-progress-bar-value"/>
+    <span class="o-upload-cross fa fa-times-circle" title="Cancel Upload" aria-label="Cancel Upload"/>
+</div>
+
+</templates>

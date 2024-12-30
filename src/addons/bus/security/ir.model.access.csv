@@ -1,0 +1,4 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_busBus,bus.bus public,model_busBus,,0,0,0,0
+access_busPresence,bus.presence,model_busPresence,base.groupUser,1,1,1,1
+access_busPresencePortal,bus.presence,model_busPresence,base.groupPortal,1,1,1,1

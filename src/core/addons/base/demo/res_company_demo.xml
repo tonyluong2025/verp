@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data noupdate="1">
+    <record id="mainCompany" model="res.company">
+        <field name="label">ProBike Inc</field>
+    </record>
+</data>
+</verp>

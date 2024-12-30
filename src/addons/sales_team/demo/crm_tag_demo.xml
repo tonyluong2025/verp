@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<verp><data noupdate="1">
+
+    <!--  crm categories -->
+    <record id="categOppor1" model="crm.tag">
+        <field name="label">Product</field>
+        <field name="color" eval="1"/>
+    </record>
+    <record id="categOppor2" model="crm.tag">
+        <field name="label">Software</field>
+        <field name="color" eval="2"/>
+    </record>
+    <record id="categOppor3" model="crm.tag">
+        <field name="label">Services</field>
+        <field name="color" eval="3"/>
+    </record>
+    <record id="categOppor4" model="crm.tag">
+        <field name="label">Information</field>
+        <field name="color" eval="4"/>
+    </record>
+    <record id="categOppor5" model="crm.tag">
+        <field name="label">Design</field>
+        <field name="color" eval="5"/>
+    </record>
+    <record id="categOppor6" model="crm.tag">
+        <field name="label">Training</field>
+        <field name="color" eval="6"/>
+    </record>
+    <record id="categOppor7" model="crm.tag">
+        <field name="label">Consulting</field>
+        <field name="color" eval="7"/>
+    </record>
+    <record id="categOppor8" model="crm.tag">
+        <field name="label">Other</field>
+        <field name="color" eval="8"/>
+    </record>
+
+</data></verp>

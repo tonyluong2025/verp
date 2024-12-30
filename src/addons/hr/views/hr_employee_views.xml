@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewEmployeeFilter" model="ir.ui.view">
+            <field name="label">hr.employee.search</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <search string="Employees">
+                    <field name="label" string="Employee" filterDomain="['|', ['workEmail', 'ilike', self], ['label', 'ilike', self]]"/>
+                    <field name="categoryIds" groups="hr.groupHrUser"/>
+                    <field name="jobId"/>
+                    <separator/>
+                    <filter string="Unread Messages" name="messageNeedaction" domain="[['messageNeedaction', '=', true]]"/>
+                    <separator/>
+                    <filter invisible="1" string="Late Activities" name="activitiesOverdue"
+                        domain="[['myActivityDateDeadline', '&lt;', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                    <filter invisible="1" string="Today Activities" name="activitiesToday"
+                        domain="[['myActivityDateDeadline', '=', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                    <filter invisible="1" string="Future Activities" name="activitiesUpcomingAll"
+                        domain="[['myActivityDateDeadline', '&gt;', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="groupManager" string="Manager" domain="[]" context="{'groupby': 'parentId'}"/>
+                        <filter name="groupDepartment" string="Department" domain="[]" context="{'groupby': 'departmentId'}"/>
+                        <filter name="groupJob" string="Job" domain="[]" context="{'groupby': 'jobId'}"/>
+                    </group>
+                    <searchpanel>
+                        <field name="companyId" groups="base.groupMultiCompany" icon="fa-building" enableCounters="1"/>
+                        <field name="departmentId" icon="fa-users" enableCounters="1"/>
+                    </searchpanel>
+                </search>
+             </field>
+        </record>
+
+        <record id="viewEmployeeForm" model="ir.ui.view">
+            <field name="label">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <form string="Employee" jsClass="hrEmployeeForm" class='o-employee-form'>
+                    <field name="active" invisible="1"/>
+                    <field name="userPartnerId" invisible="1"/>
+                    <field name="hrPresenceState" invisible="1"/>
+                    <field name="image128" invisible="1" />
+                    <header>
+                        <button name="%(planWizardAction)d" string="Launch Plan" type="action" groups="hr.groupHrManager" attrs="{'invisible': [['active', '=', false]]}"/>
+                    </header>
+                    <sheet>
+                        <div name="buttonBox" class="oe-button-box">
+                            <button
+                                id="hrPresenceButton"
+                                class="oe-stat-button"
+                                disabled="1"
+                                attrs="{'invisible': ['|', ['lastActivity', '=', false], ['userId', '=', false]]}">
+                                <div role="img" class="fa fa-fw fa-circle text-success o-button-icon" attrs="{'invisible': [['hrPresenceState', '!=', 'present']]}" aria-label="Available" title="Available"/>
+                                <div role="img" class="fa fa-fw fa-circle text-warning o-button-icon" attrs="{'invisible': [['hrPresenceState', '!=', 'toDefine']]}" aria-label="Away" title="Away"/>
+                                <div role="img" class="fa fa-fw fa-circle text-danger o-button-icon" attrs="{'invisible': [['hrPresenceState', '!=', 'absent']]}" aria-label="Not available" title="Not available"/>
+
+                                <div class="o-stat-info" attrs="{'invisible': [['hrPresenceState', '=', 'present']]}">
+                                    <span class="o-stat-text">
+                                        Not Connected
+                                    </span>
+                                </div>
+                                <div class="o-stat-info" attrs="{'invisible': [['hrPresenceState', '!=', 'present']]}">
+                                    <span class="o-stat-value" attrs="{'invisible': [['lastActivityTime', '=', false]]}">
+                                        <field name="lastActivityTime"/>
+                                    </span>
+                                    <span class="o-stat-value" attrs="{'invisible': [['lastActivityTime', '!=', false]]}">
+                                        <field name="lastActivity"/>
+                                    </span>
+                                    <span class="o-stat-text">Present Since</span>
+                                </div>
+                            </button>
+                        </div>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <field name="avatar128" invisible="1"/>
+                        <field name="image1920" widget='image' class="oe-avatar" options='{"zoom": true, "previewImage":"avatar128"}'/>
+                        <div class="oe-title">
+                            <h1 class="d-flex">
+                                <field name="label" placeholder="Employee's Name" required="true"/>
+                                <a title="Chat" icon="fa-comments" href="#" class="ml8 o-employee-chat-btn" invisible="! context['chatIcon']" attrs="{'invisible': [['userId','=', false]]}" role="button"><i class="fa fa-comments"/></a>
+                            </h1>
+                            <h2>
+                                <field name="jobTitle" placeholder="Job Position" />
+                            </h2>
+                            <field name="categoryIds" widget="many2manyTags" options="{'colorField': 'color', 'noCreateEdit': true}" placeholder="Tags"  groups="hr.groupHrManager"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="mobilePhone" widget="phone"/>
+                                <field name="workPhone" widget="phone"/>
+                                <field name="workEmail" widget="email"/>
+                                <field name="companyId" groups="base.groupMultiCompany"/>
+                                <field name="companyCountryId" invisible="1"/>
+                                <field name="companyCountryCode" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="departmentId"/>
+                                <field name="parentId"/>
+                                <field name="coachId"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="public" string="Work Information">
+                                <div id="oWorkEmployeeContainer"> <!-- These two div are used to position orgChart -->
+                                    <div id="oWorkEmployeeMain">
+                                        <group string="Location">
+                                            <field name="addressId"
+                                                context="{'showAddress': 1}"
+                                                options='{"alwaysReload": true, "highlightFirstLine": true}'/>
+                                            <field name="workLocationId" context="{'default_addressId': addressId}" />
+                                        </group>
+                                        <group name="managers" string="Approvers" class="hide-group-if-empty">
+                                            <!-- is overridden in other hr related modules -->
+                                        </group>
+                                        <group name="departure" string="Departure" attrs="{'invisible': [['active', '=', true]]}">
+                                            <field name="departureReasonId" options="{'noEdit': true, 'noCreate': true, 'noOpen': true}"/>
+                                            <field name="departureDescription"/>
+                                            <field name="departureDate"/>
+                                        </group>
+                                        <group string="Schedule">
+                                            <field name="resourceCalendarId" required="1"/>
+                                            <field name="id" invisible="1"/>
+                                            <field name="tz" attrs="{'required': [['id', '!=', false]]}"/>
+                                        </group>
+                                    </div>
+                                </div>
+                            </page>
+                            <page name="personalInformation" string="Private Information" groups="hr.groupHrUser">
+                                <group>
+                                    <group string="Private Contact">
+                                        <field name="addressHomeId"
+                                            context="{
+                                                'showAddress': 1,
+                                                'default_type': 'private',
+                                                'formViewRef': 'base.resPartnerViewFormPrivate'}"
+                                            options='{"alwaysReload": true, "highlightFirstLine": true}'/>
+                                        <field name="privateEmail" string="Email"/>
+                                        <field name="phone" class="o-force-ltr" groups="hr.groupHrUser" string="Phone" readonly="true"/>
+                                        <field name="lang" string="Language"/>
+                                        <field name="bankAccountId" context="{'default_partnerId': addressHomeId}"/>
+                                        <label for="kmHomeWork"/>
+                                        <div class="o-row" name="divKmHomeWork">
+                                            <field name="kmHomeWork" groups="hr.groupHrUser"/>
+                                            <span>Km</span>
+                                        </div>
+
+                                    </group>
+                                    <group string="Citizenship">
+                                        <field name="countryId" options='{"noOpen": true, "noCreate": true}'/>
+                                        <field name="identificationId" groups="hr.groupHrUser"/>
+                                        <field name="passportId" groups="hr.groupHrUser"/>
+                                        <field name="gender"/>
+                                        <field name="birthday"/>
+                                        <field name="placeOfBirth" groups="hr.groupHrUser"/>
+                                        <field name="countryOfBirth" groups="hr.groupHrUser"/>
+                                    </group>
+                                    <group string="Marital Status">
+                                        <field name="marital"/>
+                                        <field name="spouseCompleteName" attrs="{'invisible': [['marital', 'not in', ['married', 'cohabitant']]]}" groups="hr.groupHrUser"/>
+                                        <field name="spouseBirthdate" attrs="{'invisible': [['marital', 'not in', ['married', 'cohabitant']]]}" groups="hr.groupHrUser"/>
+                                    </group>
+                                    <group string="Dependant">
+                                        <field name="children"/>
+                                    </group>
+                                    <group string="Emergency">
+                                        <field name="emergencyContact"/>
+                                        <field name="emergencyPhone" class="o-force-ltr"/>
+                                    </group>
+                                    <group string="Work Permit" name="hasWorkPermit">
+                                        <field name="visaNo"/>
+                                        <field name="permitNo"/>
+                                        <field name="visaExpire"/>
+                                        <field name="workPermitExpirationDate"/>
+                                        <field name="hasWorkPermit"/>
+                                    </group>
+                                    <group string="Education">
+                                        <field name="certificate"/>
+                                        <field name="studyField"/>
+                                        <field name="studySchool"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="hrSettings" string="HR Settings" groups="hr.groupHrUser">
+                                <group>
+                                    <group string='Status' name="activeGroup">
+                                        <field name="employeeType"/>
+                                        <field name="userId" string="Related User" domain="[['share', '=', false]]"/>
+                                    </group>
+                                    <group string="Attendance/Point of Sale" name="identificationGroup">
+                                        <field name="pin" string="PIN Code"/>
+                                        <label for="barcode"/>
+                                        <div class="o-row">
+                                            <field name="barcode"/>
+                                            <button string="Generate" class="btn btn-link" type="object" name="generateRandomBarcode" attrs="{'invisible': [['barcode', '!=', false]]}"/>
+                                            <button name="%(hrEmployeePrintBadge)d" string="Print Badge" class="btn btn-link" type="action" attrs="{'invisible': [['barcode', '=', false]]}"/>
+                                        </div>
+                                    </group>
+                                    <group string='Payroll' name="payrollGroup">
+                                        <field name="jobId"/>
+                                    </group>
+                                    <group name="applicationGroup"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe-chatter">
+                        <field name="messageFollowerIds" groups="base.groupUser"/>
+                        <field name="activityIds"/>
+                        <field name="messageIds"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewEmployeeTree" model="ir.ui.view">
+            <field name="label">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <tree string="Employees" multiEdit="1" sample="1" jsClass="hrEmployeeList">
+                    <field name="label" readonly="1"/>
+                    <field name="workPhone" class="o-force-ltr" readonly="1"/>
+                    <field name="workEmail"/>
+                    <field name="activityIds" widget="listActivity"/>
+                    <field name="activityUserId" optional="hide" string="Activity by" widget="many2oneAvatarUser"/>
+                    <field name="activityDateDeadline" widget="remainingDays" options="{'allowOrder': '1'}"/>
+                    <field name="companyId" groups="base.groupMultiCompany" readonly="1"/>
+                    <field name="departmentId"/>
+                    <field name="jobId"/>
+                    <field name="parentId"/>
+                    <field name="addressId" invisible="1"/>
+                    <field name="companyId" invisible="1"/>
+                    <field name="workLocationId" optional="hide"/>
+                    <field name="coachId" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                    <field name="categoryIds" widget="many2manyTags" options="{'colorField': 'color'}" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hrKanbanViewEmployees" model="ir.ui.view">
+           <field name="label">hr.employee.kanban</field>
+           <field name="model">hr.employee</field>
+           <field name="priority">10</field>
+           <field name="arch" type="xml">
+               <kanban class="o-hr-employee-kanban" jsClass="hrEmployeeKanban" sample="1">
+                   <field name="id"/>
+                   <field name="hrPresenceState"/>
+                   <field name="userId"/>
+                   <field name="userPartnerId"/>
+                   <field name="hrIconDisplay"/>
+                   <field name="image128" />
+                   <templates>
+                       <t t-name="kanban-box">
+                       <div class="oe-kanban-global-click o-kanban-record-has-image-fill o-hr-kanban-record">
+                           <field name="avatar128" widget="image" class="o-kanban-image-fill-left" options="{'zoom': true, 'zoomdelay': 1000, 'background': true, 'preventClicks': false}"/>
+
+                            <div class="oe-kanban-details">
+                               <div class="o-kanban-record-top">
+                                   <div class="o-kanban-record-headings">
+                                       <strong class="o-kanban-record-title">
+                                            <div class="float-right"
+                                                 t-if="record.hrIconDisplay.rawValue == 'presencePresent'"
+                                                 name="presencePresent">
+                                                <!-- Employee is present/connected and it is normal according to his work schedule  -->
+                                                <span class="fa fa-circle text-success" role="img" aria-label="Present"
+                                                      title="Present" name="presencePresent">
+                                                </span>
+                                            </div>
+                                            <div class="float-right"
+                                                 t-if="record.hrIconDisplay.rawValue == 'presenceAbsent'"
+                                                 name="presenceAbsent">
+                                                <!-- Employee is not present and it is normal according to his work schedule -->
+                                                <span class="fa fa-circle-o text-muted" role="img" aria-label="Absent"
+                                                      title="Absent" name="presenceAbsent">
+                                                </span>
+                                            </div>
+                                            <div class="float-right"
+                                                 t-if="record.hrIconDisplay.rawValue == 'presenceAbsentActive'"
+                                                    name="presenceAbsentActive">
+                                                <!-- Employee is connected but according to his work schedule,
+                                                     he should not work for now  -->
+                                                <span class="fa fa-circle-o text-success" role="img"
+                                                      aria-label="Present but not active"
+                                                      title="Present but not active"
+                                                      name="presenceAbsentActive">
+                                                </span>
+                                            </div>
+                                            <div class="float-right"
+                                                 t-if="record.hrIconDisplay.rawValue == 'presenceToDefine'"
+                                                    name="presenceToDefine">
+                                                <!-- Employee is not here but according to his work schedule, he should be connected -->
+                                                <span class="fa fa-circle text-warning" role="img"
+                                                      aria-label="To define" title="To define"
+                                                      name="presenceToDefine">
+                                                </span>
+                                            </div>
+                                            <field name="label" placeholder="Employee's Name"/>
+                                       </strong>
+                                       <span t-if="record.jobTitle.rawValue" class="o-kanban-record-subtitle"><field name="jobTitle"/></span>
+                                   </div>
+                               </div>
+                               <field name="categoryIds" widget="many2manyTags" options="{'colorField': 'color'}" groups="hr.groupHrManager"/>
+                               <ul>
+                                   <li id="lastLogin"/>
+                                   <li t-if="record.workEmail.rawValue" class="o-text-overflow"><field name="workEmail" /></li>
+                                   <li t-if="record.workPhone.rawValue" class="o-force-ltr"><field name="workPhone" /></li>
+                               </ul>
+                           </div>
+                           <div class="oe-kanban-content position-absolute fixed-bottom mr-2 o-hr-employee-kanban-bottom">
+                               <div class="o-kanban-record-bottom">
+                                   <div class="oe-kanban-bottom-left"/>
+                                   <div class="oe-kanban-bottom-right float-right">
+                                       <a title="Chat" icon="fa-comments" href="#" class="ml8 o-employee-chat-btn" attrs="{'invisible': [['userId','=', false]]}" role="button"><i class="fa fa-comments"/></a>
+                                       <div class="hr-activity-container">
+                                           <field name="activityIds" widget="kanbanActivity"/>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       </t>
+                   </templates>
+               </kanban>
+            </field>
+        </record>
+
+        <record id="hrEmployeeViewActivity" model="ir.ui.view">
+            <field name="label">hr.employee.activity</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <activity string="Employees">
+                    <field name="id"/>
+                    <templates>
+                        <div t-name="activity-box">
+                            <img t-att-src="activityImage('hr.employee', 'avatar128', record.id.rawValue)" role="img" t-att-title="record.id.value" t-att-alt="record.id.value"/>
+                            <div>
+                                <field name="label" display="full"/>
+                                <field name="jobId" muted="1" display="full"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record>
+
+        <record id="openViewEmployeeListMy" model="ir.actions.actwindow">
+            <field name="label">Employees</field>
+            <field name="resModel">hr.employee</field>
+            <field name="viewMode">kanban,tree,form,activity</field>
+            <field name="domain">[]</field>
+            <field name="context">{'chatIcon': true}</field>
+            <field name="viewId" eval="false"/>
+            <field name="searchViewId" ref="viewEmployeeFilter"/>
+            <field name="help" type="html">
+             <p class="o-view-nocontent-smiling-face">
+               Add a new employee
+             </p><p>
+               With just a quick glance on the Verp employee screen, you
+               can easily find all the information you need for each person;
+               contact data, job position, availability, etc.
+             </p>
+            </field>
+        </record>
+
+        <record id="openViewEmployeeTree" model="ir.actions.actwindow">
+            <field name="label">Employees Structure</field>
+            <field name="resModel">hr.employee</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="viewEmployeeTree"/>
+            <field name="domain">[['parentId','=',false]]</field>
+            <field name="searchViewId" ref="viewEmployeeFilter"/>
+        </record>
+
+        <record id="openViewEmployeeList" model="ir.actions.actwindow">
+            <field name="label">Employees</field>
+            <field name="resModel">hr.employee</field>
+            <field name="viewMode">form,tree</field>
+            <field name="viewId" eval="false"/>
+            <field name="searchViewId" ref="viewEmployeeFilter"/>
+        </record>
+
+        <!-- Employee tree by manager -->
+        <record id="viewPartnerTree2" model="ir.ui.view">
+            <field name="label">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <tree string="Employees">
+                    <field name="label"/>
+                    <field name="workPhone" class="o-force-ltr"/>
+                    <field name="workEmail"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <field name="departmentId"/>
+                    <field name="jobId"/>
+                    <field name="coachId" invisible="1"/>
+                    <field name="parentId" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="actEmployeeFromDepartment" model="ir.actions.actwindow">
+            <field name="label">Employees</field>
+            <field name="resModel">hr.employee</field>
+            <field name="viewMode">kanban,form,tree</field>
+            <field name="searchViewId" ref="viewEmployeeFilter"/>
+            <field name="context">{
+                "searchpanelDefault_departmentId": activeId,
+                "default_departmentId": activeId}
+            </field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Add a new employee
+              </p><p>
+                With just a quick glance on the Verp employee screen, you
+                can easily find all the information you need for each person;
+                contact data, job position, availability, etc.
+              </p>
+            </field>
+        </record>
+
+    </data>
+</verp>

@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<verp>
+
+    <record id="accountBankStatementImportView" model="ir.ui.view">
+        <field name="label">Upload Bank Statements</field>
+        <field name="model">account.bank.statement.import</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Upload Bank Statements">
+                <h2>You can upload your bank statement using:</h2>
+                <ul id="statementFormat">
+
+                </ul>
+                <field name="attachmentIds" widget="many2manyBinary" colspan="2" string="Select Files" nolabel="1"/>
+                <footer>
+                    <button name="importFile" string="Upload" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="installMoreImportFormatsAction" model="ir.actions.actwindow">
+        <field name="label">Install Import Format</field>
+        <field name="resModel">ir.module.module</field>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="context" eval="{'searchDefault_label': 'accountBankStatementImport'}"/>
+        <field name="searchViewId" ref="base.viewModuleFilter"/>
+    </record>
+
+    <record id="actionAccountBankStatementImport" model="ir.actions.actwindow">
+        <field name="label">Upload</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">account.bank.statement.import</field>
+        <field name="viewMode">form</field>
+        <field name="target">new</field>
+        <field name="viewId" ref="accountBankStatementImportView"/>
+    </record>
+
+    <record id="journalDashboardViewInherit" model="ir.ui.view">
+        <field name="label">account.journal.dashboard.kanban.inherit</field>
+        <field name="model">account.journal</field>
+        <field name="inheritId" ref="account.accountJournalDashboardKanbanView"/>
+        <field name="arch" type="xml">
+            <xpath expr='//span[@name="buttonImportPlaceholder"]' position='inside'>
+                <span>or
+                    <a type="object" name="importStatement">Import</a>
+                </span>
+            </xpath>
+            <xpath expr='//div[@name="bankCashCommands"]' position="before">
+                <div t-if="journalType == 'bank'">
+                    <a type="object" name="importStatement">Import Statement</a>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

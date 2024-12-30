@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="actionReportPicking" model="ir.actions.report">
+            <field name="label">Picking Operations</field>
+            <field name="model">stock.picking</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportPicking</field>
+            <field name="reportFile">stock.reportPickingOperations</field>
+            <field name="printReportName">f('Picking Operations - %s - %s', await (await object.partnerId).label || '', await object.label)</field>
+            <field name="bindingModelId" ref="model_stockPicking"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="actionReportDelivery" model="ir.actions.report">
+            <field name="label">Delivery Slip</field>
+            <field name="model">stock.picking</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportDeliveryslip</field>
+            <field name="reportFile">stock.reportDeliveryslip</field>
+            <field name="printReportName">f('Delivery Slip - %s - %s', await (await object.partnerId).label || '', await object.label)</field>
+            <field name="bindingModelId" ref="model_stockPicking"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="actionReportInventory" model="ir.actions.report">
+            <field name="label">Count Sheet</field>
+            <field name="model">stock.quant</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportInventory</field>
+            <field name="reportFile">stock.reportInventory</field>
+            <field name="printReportName">'Count Sheet'</field>
+            <field name="bindingModelId" ref="model_stockQuant"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="actionReportQuantPackageBarcode" model="ir.actions.report">
+            <field name="label">Package Barcode with Content</field>
+            <field name="model">stock.quant.package</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportPackageBarcode</field>
+            <field name="reportFile">stock.reportPackageBarcode</field>
+            <field name="bindingModelId" ref="model_stockQuantPackage"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="actionReportQuantPackageBarcodeSmall" model="ir.actions.report">
+            <field name="label">Package Barcode (PDF)</field>
+            <field name="model">stock.quant.package</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportPackageBarcodeSmall</field>
+            <field name="reportFile">stock.reportPackageBarcode</field>
+            <field name="bindingModelId" ref="model_stockQuantPackage"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="actionReportLocationBarcode" model="ir.actions.report">
+            <field name="label">Location Barcode</field>
+            <field name="model">stock.location</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportLocationBarcode</field>
+            <field name="reportFile">stock.reportLocationBarcode</field>
+            <field name="printReportName">f('Location - %s', await object.label)</field>
+            <field name="bindingModelId" ref="model_stockLocation"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="actionReportLotLabel" model="ir.actions.report">
+            <field name="label">Lot/Serial Number (PDF)</field>
+            <field name="model">stock.production.lot</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportLotLabel</field>
+            <field name="reportFile">stock.reportLotLabel</field>
+            <field name="printReportName">f('Lot-Serial - %s', await object.label)</field>
+            <field name="bindingModelId" ref="model_stockProductionLot"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="actionReportPickingTypeLabel" model="ir.actions.report">
+            <field name="label">Operation type (PDF)</field>
+            <field name="model">stock.picking.type</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportPickingTypeLabel</field>
+            <field name="reportFile">stock.reportPickingTypeLabel</field>
+            <field name="printReportName">f('Operation-type - %s', await object.label)</field>
+            <field name="bindingModelId" ref="model_stockPickingType"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="actionReportStockRule" model="ir.actions.report">
+            <field name="label">Product Routes Report</field>
+            <field name="model">product.template</field>
+            <field name="reportType">qweb-html</field>
+            <field name="reportName">stock.reportStockRule</field>
+            <field name="reportFile">stock.reportStockRule</field>
+        </record>
+        <record id="labelProductProduct" model="ir.actions.report">
+            <field name="label">Product Label (ZPL)</field>
+            <field name="model">product.product</field>
+            <field name="reportType">qweb-text</field>
+            <field name="reportName">stock.labelProductProductView</field>
+            <field name="reportFile">stock.labelProductProductView</field>
+            <field name="bindingModelId" eval="false"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="labelLotTemplate" model="ir.actions.report">
+            <field name="label">Lot/Serial Number (ZPL)</field>
+            <field name="model">stock.production.lot</field>
+            <field name="reportType">qweb-text</field>
+            <field name="reportName">stock.labelLotTemplateView</field>
+            <field name="reportFile">stock.labelLotTemplateView</field>
+            <field name="bindingModelId" ref="model_stockProductionLot"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="labelPackageTemplate" model="ir.actions.report">
+            <field name="label">Package Barcode (ZPL)</field>
+            <field name="model">stock.quant.package</field>
+            <field name="reportType">qweb-text</field>
+            <field name="reportName">stock.labelPackageTemplateView</field>
+            <field name="reportFile">stock.labelPackageTemplateView</field>
+            <field name="bindingModelId" ref="model_stockQuantPackage"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="labelProductPackaging" model="ir.actions.report">
+            <field name="label">Product Packaging (ZPL)</field>
+            <field name="model">product.packaging</field>
+            <field name="reportType">qweb-text</field>
+            <field name="reportName">stock.labelProductPackagingView</field>
+            <field name="reportFile">stock.labelProductPackagingView</field>
+            <field name="bindingModelId" ref="product.model_productPackaging"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="labelPickingType" model="ir.actions.report">
+            <field name="label">Operation type (ZPL)</field>
+            <field name="model">stock.picking.type</field>
+            <field name="reportType">qweb-text</field>
+            <field name="reportName">stock.labelPickingTypeView</field>
+            <field name="reportFile">stock.labelPickingTypeView</field>
+            <field name="bindingModelId" ref="model_stockPickingType"/>
+            <field name="bindingType">report</field>
+        </record>
+        <record id="labelPicking" model="ir.actions.report">
+            <field name="label">Picking Label</field>
+            <field name="model">stock.picking</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">stock.reportReceptionReportLabel</field>
+            <field name="reportFile">stock.reportReceptionReportLabel</field>
+            <field name="paperformatId" ref="product.paperformatLabelSheetDymo"/>
+            <field name="bindingModelId" ref="model_stockPicking"/>
+            <field name="bindingType">report</field>
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<template id="reportJournal">
+    <t t-call="web.htmlContainer">
+        <t t-set="dataReportMarginTop" t-value="12"/>
+        <t t-set="dataReportHeaderSpacing" t-value="9"/>
+        <t t-set="dataReportDpi" t-value="110"/>
+        <t t-foreach="docs" t-as="o">
+            <t t-if="lines[o.id]">
+                <t t-if="! bool(o)" t-set="o" t-value="doc"/>
+
+                <t t-if="! bool(company)">
+                    <!-- Multicompany -->
+                    <t t-if="bool(companyId)">
+                        <t t-set="company" t-value="companyId"/>
+                    </t>
+                    <t t-elif="bool(o) &amp;&amp; 'companyId' in o._fields &amp;&amp; bool(await (await o.companyId).sudo())">
+                        <t t-set="company" t-value="await (await o.companyId).sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="resCompany"/>
+                    </t>
+                </t>
+
+                <div class="header">
+                    <div class="row">
+                        <div class="col-2">
+                            <span t-esc="toFormat(await contextTimestamp(now()), 'yyyy-MM-dd HH:mm')"/>
+                        </div>
+                        <div class="col-8 text-center">
+                            <span t-esc="await company.label"/> - <span t-esc="await o.label"/>
+                             (<span t-if="data['form']['targetMove'] == 'all'">Posted and Draft Entries</span><span t-if="data['form']['targetMove'] == 'posted'">Posted Entries only</span>)
+                        </div>
+                        <div class="col-2 text-right">
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><span class="page"/></li>
+                                <li class="list-inline-item">/</li>
+                                <li class="list-inline-item"><span class="topage"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <t t-if="data['form']['dateFrom'] || data['form']['dateTo']">
+                        <div class="row">
+                            <div class="col-8 offset-2 text-center">
+                                <t t-if="data['form']['dateFrom']">
+                                    From : <span t-esc="data['form']['dateFrom']"/>
+                                </t>
+                                <t t-if="data['form']['dateFrom'] &amp;&amp; data['form']['dateTo']">
+                                    -
+                                </t>
+                                <t t-if="data['form']['dateTo']">
+                                    To : <span t-esc="data['form']['dateTo']"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <div class="article" t-att-data-oe-model="bool(o) &amp;&amp; o._name" t-att-data-oe-id="bool(o) &amp;&amp; o.id" t-att-data-oe-lang="bool(o) &amp;&amp; o.env.context['lang']">
+                    <div class="page">
+                    <h2><t t-esc="await o.label"/> Journal<span t-if="data['form']['targetMove'] == 'all'"> - Posted and Draft Entries</span><span t-if="data['form']['targetMove'] === 'posted'"> - Posted Entries Only</span></h2>
+                    <table class="table table-sm table-striped mt-4" id="moveTable">
+                        <thead>
+                            <tr>
+                                <th t-if="data['form']['sortSelection'] === 'moveName'">Move</th>
+                                <th t-if="data['form']['sortSelection'] === 'moveName'">Date</th>
+                                <th t-if="data['form']['sortSelection'] === 'date'">Date</th>
+                                <th t-if="data['form']['sortSelection'] === 'date'">Move</th>
+                                <!-- Set a minimum width for columns, otherwise the line breaks too early -->
+                                <th style="min-width: 150px">Partner</th>
+                                <th style="min-width: 250px">Account</th>
+                                <th style="min-width: 350px">Label</th>
+                                <th t-if="data['form']['amountCurrency']" style="text-align: right;">Currency</th>
+                                <th style="text-align: right;">Debit</th>
+                                <th style="text-align: right;">Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="lastAm" t-value=""/>
+                            <t t-set="lastDate" t-value=""/>
+                            <t t-set="lastPartner" t-value=""/>
+                            <tr t-foreach="lines[o.id]" t-as="aml">
+                                <t t-set="moveId" t-value="await aml.moveId"/>
+                                <t t-if="data['form']['sortSelection'] == 'moveName'">
+                                    <t t-set="amName" t-value="await moveId.label != '/' &amp;&amp; await moveId.label || ('*'+String(moveId.id))"/>
+                                    <t t-if="lastAm === amName">
+                                        <td/>
+                                    </t>
+                                    <t t-else="">
+                                        <td><span t-esc="amName" class="font-weight-bold"/></td>
+                                        <t t-set="lastAm" t-value="amName"/>
+                                        <!-- Reset these when changing move -->
+                                        <t t-set="lastDate" t-value=""/>
+                                        <t t-set="lastPartner" t-value=""/>
+                                    </t>
+                                    <t t-if="lastDate === await aml.date">
+                                        <td/>
+                                    </t>
+                                    <t t-else="">
+                                        <td><span t-field="aml.date"/></td>
+                                        <t t-set="lastDate" t-value="await aml.date"/>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="amName" t-value="await moveId.label != '/' &amp;&amp; await moveId.label || ('*'+String(moveId.id))"/>
+                                    <t t-if="lastDate === await aml.date &amp;&amp; lastAm === amName">
+                                        <td/>
+                                    </t>
+                                    <t t-else="">
+                                        <td><span t-field="aml.date" class="font-weight-bold"/></td>
+                                        <t t-set="lastDate" t-value="await aml.date"/>
+                                        <!-- Reset these when changing data -->
+                                        <t t-set="lastAm" t-value=""/>
+                                        <t t-set="lastPartner" t-value=""/>
+                                    </t>
+                                    <t t-if="lastAm === amName">
+                                        <td/>
+                                    </t>
+                                    <t t-else="">
+                                        <td><span t-esc="amName"/></td>
+                                        <t t-set="lastAm" t-value="amName"/>
+                                        <t t-set="lastPartner" t-value=""/>
+                                    </t>
+                                </t>
+                                <t t-set="partnerName" t-value="bool(await (await aml.sudo()).partnerId) &amp;&amp; await (await (await aml.sudo()).partnerId).label &amp;&amp; await (await (await aml.sudo()).partnerId).label || ''"/>
+                                <!-- general journals always show partners, as we can have multiple != ones in a single move -->
+                                <t t-if="lastPartner === partnerName &amp;&amp; await o.type !== 'general'">
+                                    <td/>
+                                </t>
+                                <t t-else="">
+                                    <td><span t-esc="partnerName"/></td>
+                                    <t t-set="lastPartner" t-value="partnerName"/>
+                                </t>
+                                <td><span t-field="await (await aml.accountId).code"/> <span t-field="await (await aml.accountId).label"/></td>
+                                <td><span t-esc="await aml.label"/></td>
+                                <td t-if="bool(data['form']['amountCurrency']) &amp;&amp; bool(await aml.amountCurrency)" class="pull-right">
+                                    <span class="text-monospace"
+                                          t-esc="await aml.amountCurrency"
+                                          t-options="{'widget': 'monetary', 'displayCurrency': await aml.currencyId}"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <span t-if="! await (await (bool(companyId) ? companyId : resCompany).currencyId).isZero(await aml.debit)"
+                                          t-esc="await aml.debit"
+                                          t-options="{
+                                              'widget': 'monetary',
+                                              'displayCurrency': await (await (bool(companyId) ? companyId : resCompany).currencyId
+                                          }"
+                                          class="text-monospace"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <span t-if="! await (await (bool(companyId) ? companyId : resCompany).currencyId).isZero(await aml.credit)"
+                                          t-esc="await aml.credit"
+                                          t-options="{
+                                              'widget': 'monetary',
+                                              'displayCurrency': await (bool(companyId) ? companyId : resCompany).currencyId
+                                          }"
+                                          class="text-monospace"/>
+                                </td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td class="text-right"><strong>Total</strong></td>
+                                <td style="text-align: right;">
+                                    <span t-esc="await sumDebit(data, o)"
+                                          t-options="{
+                                            'widget': 'monetary',
+                                            'displayCurrency': await (bool(companyId) ? companyId : resCompany).currencyId
+                                          }"
+                                          class="font-weight-bold text-monospace"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <span t-esc="await sumCredit(data, o)"
+                                          t-options="{
+                                              'widget': 'monetary',
+                                              'displayCurrency': await (bool(companyId) ? companyId : resCompany).currencyId
+                                          }"
+                                          class="font-weight-bold text-monospace"/>
+
+                                </td>
+                                <td t-if="data['form']['amountCurrency']"/>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row" style="page-break-inside: avoid" id="tax_section">
+                        <t t-set="taxes" t-value="await getTaxes(data, o)"/>
+                        <div class="col-5" t-if="taxes">
+                            <table class="table table-sm table-striped" id="taxTable">
+                                <thead>
+                                    <tr><th colspan="3">Taxes Applied</th></tr>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th style="text-align: right;">Base Amount</th>
+                                        <th style="text-align: right;">Tax Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="taxes" t-as="tax">
+                                        <td><span t-esc="await tax.label"/></td>
+                                        <td style="text-align: right;">
+                                            <span t-esc="taxes[tax]['baseAmount']"
+                                                  t-options="{
+                                                      'widget': 'monetary',
+                                                      'displayCurrency': await (bool(companyId) ? companyId : resCompany).currencyId
+                                                  }"
+                                                  class="text-monospace"/>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <span t-esc="taxes[tax]['taxAmount']"
+                                                  t-options="{
+                                                      'widget': 'monetary',
+                                                      'displayCurrency': await (bool(companyId) ? companyId : resCompany).currencyId
+                                                  }"
+                                                  class="text-monospace"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</verp>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="viewReportPosOrderPivot" model="ir.ui.view">
+            <field name="label">report.pos.order.pivot</field>
+            <field name="model">report.pos.order</field>
+            <field name="arch" type="xml">
+                <pivot string="Point of Sale Analysis" sample="1">
+                    <field name="productCategId" type="row"/>
+                    <field name="date" interval="month" type="col"/>
+                    <field name="orderId" type="measure"/>
+                    <field name="productQty" type="measure"/>
+                    <field name="priceTotal" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="viewReportPosOrderGraph" model="ir.ui.view">
+            <field name="label">report.pos.order.graph</field>
+            <field name="model">report.pos.order</field>
+            <field name="arch" type="xml">
+                <graph string="Point of Sale Analysis" sample="1">
+                    <field name="productCategId"/>
+                    <field name="priceTotal" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="reportPosOrderViewTree" model="ir.ui.view">
+            <field name="label">report.pos.order.view.tree</field>
+            <field name="model">report.pos.order</field>
+            <field name="arch" type="xml">
+                <tree string="Point of Sale Analysis">
+                    <field name="date" widget="date"/>
+                    <field name="orderId" optional="hide"/>
+                    <field name="partnerId" optional="hide"/>
+                    <field name="productId" optional="show"/>
+                    <field name="productCategId" optional="show"/>
+                    <field name="configId" optional="hide"/>
+                    <field name="companyId" optional="show" groups="base.groupMultiCompany"/>
+                    <field name="state" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewReportPosOrderSearch" model="ir.ui.view">
+            <field name="label">report.pos.order.search</field>
+            <field name="model">report.pos.order</field>
+            <field name="arch" type="xml">
+                <search string="Point of Sale Analysis">
+                    <field name="date"/>
+                    <separator/>
+                    <filter string="Invoiced" name="invoiced" domain="[['state','=',['invoiced']]]"/>
+                    <filter string="Not Invoiced" name="notInvoiced" domain="[['state','in',['paid', 'done']]]"/>
+                    <separator/>
+                    <filter name="filterDate" date="date"/>
+                    <field name="configId"/>
+                    <field name="partnerId"/>
+                    <field name="productId"/>
+                    <field name="productCategId"/>
+                    <group expand="1" string="Group By">
+                        <filter string="User" name="User" context="{'groupby':'userId'}"/>
+                        <filter string="Point of Sale" name="pos" context="{'groupby':'configId'}"/>
+                        <filter string="Product" name="product" context="{'groupby':'productId'}"/>
+                        <filter string="Product Category" name="productCategory" context="{'groupby':'productCategId'}"/>
+                        <separator/>
+                        <filter string="Order Date" name="orderMonth" context="{'groupby':'date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="filterOrdersPerSession" model="ir.filters">
+            <field name="label">Per session</field>
+            <field name="modelId">report.pos.order</field>
+            <field name="userId" eval="false"/>
+            <field name="context">{'groupby': ['date', 'sessionId']}</field>
+        </record>
+
+        <record id="actionReportPosOrderAll" model="ir.actions.actwindow">
+            <field name="label">Orders Analysis</field>
+            <field name="resModel">report.pos.order</field>
+            <field name="viewMode">graph,pivot</field>
+            <field name="searchViewId" ref="viewReportPosOrderSearch"/>
+            <field name="context">{'groupby_noLeaf':1,'groupby':[]}</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No data yet!
+                </p><p>
+                    Create a new POS order
+                </p>
+            </field>
+        </record>
+
+
+        <record id="actionReportPosDetails" model="ir.actions.actwindow">
+            <field name="label">Sales Details</field>
+            <field name="resModel">pos.details.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menuReportPosOrderAll" name="Orders" action="actionReportPosOrderAll" parent="menuPointRep" sequence="3"/>
+        <menuitem id="menuReportOrderDetails" name="Sales Details" action="actionReportPosDetails" parent="menuPointRep" sequence="4"/>
+</verp>

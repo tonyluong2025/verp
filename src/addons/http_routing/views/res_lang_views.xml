@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="resLangFormInheritModel" model="ir.ui.view">
+        <field name="label">res.lang.form.http_routing.inherit</field>
+        <field name="model">res.lang</field>
+        <field name="inheritId" ref="base.resLangForm"/>
+        <field name="arch" type="xml">
+            <field name="urlCode" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="resLangTreeInheritModel" model="ir.ui.view">
+        <field name="label">res.lang.tree.model.inherit</field>
+        <field name="model">res.lang</field>
+        <field name="inheritId" ref="base.resLangTree"/>
+        <field name="arch" type="xml">
+            <field name="urlCode" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </field>
+        </field>
+    </record>
+</verp>

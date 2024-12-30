@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<!-- Snippet template -->
+<template id="sFacebookPage" name="Facebook">
+    <div class="o-facebook-page"/>
+</template>
+
+<!-- Snippet options-->
+<template id="sFacebookPageOptions" inheritId="website.snippetOptions">
+    <xpath expr="." position="inside">
+        <div string="Page URL" data-js="facebookPage" data-selector=".o-facebook-page">
+            <we-input class="o-we-large" data-page-url="https://www.facebook.com/Verp" data-no-preview="true"/>
+            <we-checkbox string="Cover Photo" data-option-name="showCover" data-toggle-option="true" data-no-preview="true"/>
+            <we-checkbox string="Timeline" data-option-name="tab.timeline" data-toggle-option="true" data-no-preview="true"/>
+            <we-checkbox string="Events" data-option-name="tab.events" data-toggle-option="true" data-no-preview="true"/>
+            <we-checkbox string="Messages" data-option-name="tab.messages" data-toggle-option="true" data-no-preview="true"/>
+            <we-checkbox string="Small Header" data-option-name="smallHeader" data-toggle-option="true" data-no-preview="true"/>
+            <we-checkbox string="Friends' Faces" data-option-name="showFacepile" data-toggle-option="true" data-no-preview="true"/>
+        </div>
+    </xpath>
+</template>
+
+<!-- Snippet assets -->
+<record id="website.sFacebookPage.000.js" model="ir.asset">
+    <field name="label">Facebook page 000 JS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_facebook_page/000.js</field>
+</record>
+
+</verp>

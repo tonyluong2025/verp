@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record model="ir.module.category" id="base.category_salesPointOfSale">
+        <field name="description">Helps you get the most out of your points of sale with fast sale encoding, simplified payment mode encoding, automatic picking lists generation and more.</field>
+        <field name="sequence">21</field>
+    </record>
+
+    <record id="groupPosUser" model="res.groups">
+        <field name="label">User</field>
+        <field name="categoryId" ref="base.category_salesPointOfSale"/>
+    </record>
+    <record id="groupPosManager" model="res.groups">
+        <field name="label">Administrator</field>
+        <field name="categoryId" ref="base.category_salesPointOfSale"/>
+        <field name="impliedIds" eval="[[4, refId('groupPosUser')], [4, refId('stock.groupStockUser')]]"/>
+        <field name="users" eval="[[4, refId('base.userRoot')], [4, refId('base.userAdmin')]]"/>
+    </record>
+
+    <data noupdate="1">
+
+    <record id="rulePosBankStatementUser" model="ir.rule">
+        <field name="label">Point Of Sale Bank Statement POS User</field>
+        <field name="modelId" ref="account.model_accountBankStatement" />
+        <field name="groups" eval="[[4, refId('groupPosUser')]]"/>
+        <field name="domainForce">[['posSessionId', '!=', false]]</field>
+    </record>
+    <record id="rulePosBankStatementAccountUser" model="ir.rule">
+        <field name="label">Point Of Sale Bank Statement Accountant</field>
+        <field name="modelId" ref="account.model_accountBankStatement" />
+        <field name="groups" eval="[[4, refId('account.groupAccountInvoice')]]"/>
+        <field name="domainForce">[[1, '=', 1]]</field>
+    </record>
+    <record id="rulePosBankStatementLineUser" model="ir.rule">
+        <field name="label">Point Of Sale Bank Statement Line POS User</field>
+        <field name="modelId" ref="account.model_accountBankStatementLine" />
+        <field name="groups" eval="[[4, refId('groupPosUser')]]"/>
+        <field name="domainForce">[['statementId.posSessionId', '!=', false]]</field>
+    </record>
+    <record id="rulePosBankStatementLineAccountUser" model="ir.rule">
+        <field name="label">Point Of Sale Bank Statement Line Accountant</field>
+        <field name="modelId" ref="account.model_accountBankStatementLine" />
+        <field name="groups" eval="[[4, refId('account.groupAccountInvoice')]]"/>
+        <field name="domainForce">[[1, '=', 1]]</field>
+    </record>
+    <record id="rulePosCashboxLineAccountant" model="ir.rule">
+        <field name="label">Point Of Sale Cashbox Line Accountant</field>
+        <field name="modelId" ref="account.model_accountCashboxLine" />
+        <field name="groups" eval="[[4, refId('account.groupAccountInvoice')]]"/>
+        <field name="domainForce">[[1, '=', 1]]</field>
+    </record>
+    <record id="rulePosMultiCompany" model="ir.rule">
+        <field name="label">Point Of Sale Order</field>
+        <field name="modelId" ref="model_posOrder" />
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+    <record id="rulePosSessionMultiCompany" model="ir.rule">
+        <field name="label">Point Of Sale Session</field>
+        <field name="modelId" ref="model_posSession" />
+        <field name="domainForce">[['configId.companyId', 'in', companyIds]]</field>
+    </record>
+    <record id="rulePosConfigMultiCompany" model="ir.rule">
+        <field name="label">Point Of Sale Config</field>
+        <field name="modelId" ref="model_posConfig" />
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+    <record id="rulePosOrderReportMultiCompany" model="ir.rule">
+        <field name="label">Point Of Sale Order Analysis multi-company</field>
+        <field name="modelId" ref="model_reportPosOrder"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+    <record id="rulePosPaymentMethodMultiCompany" model="ir.rule">
+        <field name="label">PoS Payment Method</field>
+        <field name="modelId" ref="model_posPaymentMethod" />
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+    <record id="rulePosPaymentMultiCompany" model="ir.rule">
+        <field name="label">PoS Payment</field>
+        <field name="modelId" ref="model_posPayment" />
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+        <record id="base.defaultUser" model="res.users">
+            <field name="groupsId" eval="[[4,refId('point_of_sale.groupPosManager')]]"/>
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <template id="reportInventory">
+            <t t-call="web.htmlContainer">
+                <t t-call="web.externalLayout">
+                    <div class="page">
+                        <br/>
+                        <h2>Inventory Count Sheet</h2>
+                        <t t-set="locations" t-value="await docs.mapped('locationId')"/>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th groups="stock.groupStockMultiLocations"><strong>Location</strong></th>
+                                    <th><strong>Product</strong></th>
+                                    <th groups="stock.groupProductionLot"><strong>Lot/Serial Number</strong></th>
+                                    <th groups="stock.groupTrackingLot"><strong>Package</strong></th>
+                                    <th class="text-right"><strong>Available Quantity</strong></th>
+                                    <th class="text-right"><strong>On hand Quantity</strong></th>
+                                    <th class="text-right"><strong>Counted Quantity</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="locations" t-as="location">
+                                    <tr groups="stock.groupStockMultiLocations">
+                                        <td colspan="2"><strong t-esc="await location.displayName"/></td>
+                                        <td groups="stock.groupProductionLot"></td>
+                                        <td groups="stock.groupTrackingLot"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr t-foreach="await docs.filtered(async (quant) => (await quant.locationId).id == location.id)" t-as="line">
+                                        <td groups="stock.groupStockMultiLocations"></td>
+                                        <td><span t-field="line.productId"/></td>
+                                        <td groups="stock.groupProductionLot"><span t-field="line.lotId"/></td>
+                                        <td groups="stock.groupTrackingLot"><span t-field="line.packageId"/></td>
+                                        <td class="text-right"><span t-field="line.availableQuantity"/> <span t-field="line.productUomId" groups="uom.groupUom"/></td>
+                                        <td class="text-right"><span t-field="line.quantity"/> <span t-field="line.productUomId" groups="uom.groupUom"/></td>
+                                        <td class="text-right">
+                                            <!-- If 0, then leave blank so users have space to write a number -->
+                                            <t t-if="await line.inventoryQuantity == 0"><span></span></t>
+                                            <t t-else=""><span t-field="line.inventoryQuantity"/></t>
+                                            <span t-field="line.productUomId" groups="uom.groupUom"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</verp>

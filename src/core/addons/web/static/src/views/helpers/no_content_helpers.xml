@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.ActionHelper" owl="1">
+        <div class="o-view-nocontent">
+            <div class="o-nocontent-help">
+                <t t-raw="noContentHelp"/>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="web.NoContentHelper" owl="1">
+        <div class="o-view-nocontent" role="alert">
+            <div class="o-nocontent-help">
+                <p class="o-view-nocontent-empty-folder">
+                    <t t-if="title" t-esc="title"/>
+                    <t t-else="">No data to display</t>
+                </p>
+                <p>
+                <t t-if="description" t-esc="description"/>
+                <t t-else="">Try to add some records, or make sure that there is no
+                    active filter in the search bar.</t>
+                </p>
+            </div>
+        </div>
+    </t>
+
+</templates>

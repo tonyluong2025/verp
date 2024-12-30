@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record model="ir.module.category" id="base.category_websiteWebsite">
+        <field name="sequence">23</field>
+    </record>
+
+    <record id="groupWebsitePublisher" model="res.groups">
+        <field name="label">Restricted Editor</field>
+        <field name="categoryId" ref="base.category_websiteWebsite"/>
+    </record>
+    <record id="groupWebsiteDesigner" model="res.groups">
+        <field name="label">Editor and Designer</field>
+        <field name="users" eval="[[4, refId('base.userRoot')], [4, refId('base.userAdmin')]]"/>
+        <field name="impliedIds" eval="[[4, refId('groupWebsitePublisher')]]"/>
+        <field name="categoryId" ref="base.category_websiteWebsite"/>
+    </record>
+
+    <record id="base.defaultUser" model="res.users">
+        <field name="groupsId" eval="[[4, refId('groupWebsiteDesigner')]]"/>
+    </record>
+    <!-- FIXME: groups on existing users should probably be updated when impliedIds is, or existing users don't get the relevant implied groups on module installation... -->
+    <record id="base.userAdmin" model="res.users">
+        <field name="groupsId" eval="[[4, refId('website.groupWebsiteDesigner')]]"/>
+    </record>
+
+    <record id="base.groupSystem" model="res.groups">
+        <field name="impliedIds" eval="[[4, refId('website.groupWebsiteDesigner')]]"/>
+    </record>
+
+    <data noupdate="1">
+
+    <record id="websiteMenu" model="ir.rule">
+        <field name="label">Website menu: groupIds</field>
+        <field name="modelId" ref="model_websiteMenu"/>
+        <field name="domainForce">['|', ['groupIds', '=', false], ['groupIds', 'in', (await user.groupsId).ids]]</field>
+    </record>
+
+    <record id="websiteDesignerEditQweb" model="ir.rule">
+        <field name="label">websiteDesigner: Manage Website and qWeb view</field>
+        <field name="modelId" ref="base.model_irUiView"/>
+        <field name="domainForce">[['type', '=', 'qweb']]</field>
+        <field name="groups" eval="[[4, refId('groupWebsiteDesigner')]]"/>
+        <field name="permRead" eval="true"/>
+        <field name="permWrite" eval="true"/>
+        <field name="permCreate" eval="true"/>
+        <field name="permUnlink" eval="true"/>
+    </record>
+    <record id="websiteDesignerView" model="ir.rule">
+        <field name="label">websiteDesigner: global view</field>
+        <field name="modelId" ref="base.model_irUiView"/>
+        <field name="domainForce">[['type', '!=', 'qweb']]</field>
+        <field name="groups" eval="[[4, refId('groupWebsiteDesigner')]]"/>
+        <field name="permRead" eval="true"/>
+        <field name="permWrite" eval="false"/>
+        <field name="permCreate" eval="false"/>
+        <field name="permUnlink" eval="false"/>
+    </record>
+    <record id="websiteGroupSystemEditAllViews" model="ir.rule">
+        <field name="label">Administration Settings: Manage all views</field>
+        <field name="modelId" ref="base.model_irUiView"/>
+        <field name="domainForce">[[1, '=', 1]]</field>
+        <field name="groups" eval="[[4, refId('base.groupSystem')]]"/>
+        <field name="permRead" eval="true"/>
+        <field name="permWrite" eval="true"/>
+        <field name="permCreate" eval="true"/>
+        <field name="permUnlink" eval="true"/>
+    </record>
+    <record id="websitePageRulePublic" model="ir.rule">
+        <field name="label">website.page: portal/public: read published pages</field>
+        <field name="modelId" ref="website.model_websitePage"/>
+        <field name="domainForce">[['websitePublished', '=', true]]</field>
+        <field name="groups" eval="[[4, refId('base.groupPortal')], [4, refId('base.groupPublic')]]"/>
+    </record>
+
+    <record id="viewRuleVisibilityPublic" model="ir.rule">
+        <field name="label">Website View Visibility Public</field>
+        <field name="modelId" ref="base.model_irUiView"/>
+        <field name="domainForce">['|', ['type', '!=', 'qweb'], ['visibility', 'in', ['public', false]]]</field>
+        <field name="permRead" eval="true"/>
+        <field name="permWrite" eval="false"/>
+        <field name="permCreate" eval="false"/>
+        <field name="permUnlink" eval="false"/>
+        <field name="groups" eval="[[4, refId('base.groupPublic')]]"/>
+    </record>
+    <record id="viewRuleVisibilityConnected" model="ir.rule">
+        <field name="label">Website View Visibility Connected</field>
+        <field name="modelId" ref="base.model_irUiView"/>
+        <field name="domainForce">['|', ['type', '!=', 'qweb'], ['visibility', 'in', ['public', 'connected', false]]]</field>
+        <field name="permRead" eval="true"/>
+        <field name="permWrite" eval="false"/>
+        <field name="permCreate" eval="false"/>
+        <field name="permUnlink" eval="false"/>
+        <field name="groups" eval="[[4, refId('base.groupPortal')]]"/>
+    </record>
+
+    </data>
+</verp>

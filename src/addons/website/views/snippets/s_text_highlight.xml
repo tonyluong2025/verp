@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template name="Text Highlight" id="sTextHighlight">
+    <div class="s-text-highlight bg-secondary my-3 text-center w-100">
+        <div class="container">
+            <h3>Text Highlight</h3>
+            <p>Put the focus on what you have to say!</p>
+        </div>
+    </div>
+</template>
+
+<record id="website.sTextHighlight.000.scss" model="ir.asset">
+    <field name="label">Text highlight 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_text_highlight/000.scss</field>
+</record>
+
+</verp>

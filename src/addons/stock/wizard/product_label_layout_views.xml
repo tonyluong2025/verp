@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="productLabelLayoutFormPicking" model="ir.ui.view">
+        <field name="label">product.label.layout.form</field>
+        <field name="model">product.label.layout</field>
+        <field name="mode">primary</field>
+        <field name="priority">25</field>
+        <field name="inheritId" ref="product.productLabelLayoutForm"/>
+        <field name="arch" type="xml">
+            <xpath expr='//field[@name="customQuantity"]' position="before">
+                <field name="pickingQuantity"/>
+            </xpath>
+            <xpath expr='//field[@name="customQuantity"]' position="attributes">
+                <attribute name="attrs">
+                    {'invisible': [['pickingQuantity', '=', 'picking']]}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</verp>

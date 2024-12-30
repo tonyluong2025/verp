@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="resConfigSettingsViewForm" model="ir.ui.view">
+            <field name="label">res.config.settings.view.form.inherit.product</field>
+            <field name="model">res.config.settings</field>
+            <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='companies']" position="after">
+                    <h2>Units of Measure</h2>
+                    <div class="row mt16 o-settings-container" id="productGeneralSettings">
+                        <div class="col-12 col-lg-6 o-setting-box" id="weightUomSetting">
+                            <div class="o-setting-left-pane">
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="productWeightInLbs" string="Weight"/>
+                                <div class="text-muted">
+                                    Define your weight unit of measure
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="productWeightInLbs" class="o-light-label" widget="radio" options="{'horizontal': true}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="manageVolumeUomSetting">
+                            <div class="o-setting-right-pane">
+                                <label for="productVolumeVolumeInCubicFeet" string="Volume"/>
+                                <div class="text-muted">
+                                    Define your volume unit of measure
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="productVolumeVolumeInCubicFeet" class="o-light-label" widget="radio" options="{'horizontal': true}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@id='productGetPicSetting']" position="replace">
+                    <div class="col-12 col-lg-6 o-setting-box" id="productGetPicSetting">
+                        <div class="o-setting-left-pane">
+                            <field name="moduleProductImages"/>
+                        </div>
+                        <div class="o-setting-right-pane">
+                            <label for="moduleProductImages" string="Google Images" class="o-module"/>
+                            <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/products_prices/products/product_images.html"
+                               title="Documentation" class="o-doc-link" target="_blank"/>
+                            <div class="text-muted">
+                                Get product pictures using Barcode
+                            </div>
+                            <div class="content-group mt16"
+                                attrs="{'invisible': [['moduleProductImages','=',false]]}"
+                                id="msgModuleProductImages">
+                                <div class="mt16 text-warning">
+                                    <strong>Save</strong> this page and come back
+                                    here to set up the feature.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+</verp>

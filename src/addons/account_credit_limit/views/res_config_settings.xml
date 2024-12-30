@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="account.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='useInvoiceTerms']" position="after">
+                <div class="col-xs-12 col-md-6 o-setting-box">
+                    <div class="o-setting-left-pane">
+                        <field name="accountCreditLimit"/>
+                    </div>
+                    <div class="o-setting-right-pane">
+                        <label for="accountCreditLimit"/>
+                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." role="img"/>
+                        <div class="text-muted">
+                            Trigger alerts when creating Invoices and Sales Orders for Partners with a Total Receivable amount exceeding a limit.
+                        </div>
+                        <div class="content-group mt-2" attrs="{'invisible': [['accountCreditLimit', '=', false]]}">
+                            <div class="row">
+                                <label for="accountDefaultCreditLimit" class="col-lg-4 o-light-label"/>
+                                <field name="accountDefaultCreditLimit"/>
+                            </div>
+                        </div>
+                        <div class="content-group mt-2" attrs="{'invisible': [['accountCreditLimit', '=', false]]}">
+                            <div class="row">
+                                <label for="creditLimitType" class="col-lg-4 o-light-label"/>
+                                <field name="creditLimitType" attrs="{'required': [['accountCreditLimit', '=', true]]}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

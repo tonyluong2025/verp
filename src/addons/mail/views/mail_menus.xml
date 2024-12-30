@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<verp><data>
+    <menuitem name="Discuss"
+        id="mail.menuRootDiscuss"
+        action="actionDiscuss"
+        webIcon="mail,static/description/icon.png"
+        groups="base.groupUser"
+        sequence="5"
+    />
+
+	<record id="base.menuEmail" model="ir.ui.menu">
+        <field name="sequence">3</field>
+	</record>
+
+    <!-- Under Technical/Email -->
+    <menuitem name="Emails"
+        id="menuMailMail"
+        parent="base.menuEmail"
+        action="actionViewMailMail"
+        sequence="1"/>
+    <menuitem id="menuEmailTemplates"
+        parent="base.menuEmail"
+        action="actionEmailTemplateTreeAll"
+        sequence="10"/>
+    <menuitem id="mailAliasMenu"
+        parent="base.menuEmail"
+        action="actionViewMailAlias"
+        sequence="11"
+        groups="base.groupNoOne"/>
+    <menuitem id="mailChannelMenuSettings"
+        name="Channels"
+        parent="base.menuEmail"
+        action="mailChannelActionView"
+        sequence="20"
+        groups="base.groupNoOne"/>
+    <menuitem name="Channels/Partner"
+        id="mailChannelPartnerMenu"
+        parent="base.menuEmail"
+        action="mailChannelPartnerAction"
+        sequence="21"
+        groups="base.groupNoOne"/>
+
+    <!-- Under Technical/Discuss -->
+    <menuitem name="Discuss"
+        id="mailMenuTechnical"
+        parent="base.menuCustom"
+        sequence="1"/>
+
+    <menuitem name="Messages"
+        id="menuMailMessage"
+        parent="mail.mailMenuTechnical"
+        action="actionViewMailMessage"
+        sequence="1"/>
+    <menuitem name="Subtypes"
+        id="menuMessageSubtype"
+        parent="mail.mailMenuTechnical"
+        action="actionViewMessageSubtype"
+        sequence="4"/>
+    <menuitem name="Tracking Values"
+        id="menuMailTrackingValue"
+        parent="mail.mailMenuTechnical"
+        action="actionViewMailTrackingValue"
+        sequence="5"/>
+
+    <menuitem
+      id="menuMailActivityType"
+      action="mailActivityTypeAction"
+      parent="mail.mailMenuTechnical"
+      sequence="10"
+    />
+    <menuitem
+      id="menuMailActivities"
+      action="mailActivityAction"
+      parent="mail.mailMenuTechnical"
+      sequence="11"
+    />
+
+    <menuitem name="Notifications"
+        id="mailNotificationMenu"
+        parent="mail.mailMenuTechnical"
+        action="mailNotificationAction"
+        sequence="20"
+        groups="base.groupNoOne"/>
+    <menuitem name="Followers"
+        id="menuEmailFollowers"
+        parent="mail.mailMenuTechnical"
+        action="actionViewFollowers"
+        sequence="21"
+        groups="base.groupNoOne"/>
+    <menuitem id="mailBlacklistMenu"
+        name="Email Blacklist"
+        action="mailBlacklistAction"
+        parent="mail.mailMenuTechnical"
+        sequence="22"/>
+
+    <menuitem id="resUsersSettingsMenu"
+        name="User Settings"
+        action="resUsersSettingsAction"
+        parent="mail.mailMenuTechnical"
+        sequence="50"/>
+    <menuitem id="mailGuestMenu"
+        name="Guests"
+        action="mailGuestAction"
+        parent="mail.mailMenuTechnical"
+        sequence="51"/>
+    <menuitem id="mailChannelRtcSessionMenu"
+        name="RTC sessions"
+        action="mailChannelRtcSessionAction"
+        parent="mail.mailMenuTechnical"
+        sequence="52"/>
+    <menuitem id="mailChannelIceServersMenu"
+        name="ICE servers"
+        action="actionIceServers"
+        parent="mail.mailMenuTechnical"
+        sequence="53"/>
+    <menuitem id="mailMessageReactionMenu"
+        name="Message Reactions"
+        action="mailMessageReactionAction"
+        parent="mail.mailMenuTechnical"
+        sequence="54"/>
+
+    <!--
+        This menuitem will be activated by integrations modules (like github, twitter, ...). It
+        is a hook to ease other modules to plug into mail.
+    -->
+    <record id="mail.mailChannelIntegrationsMenu" model="ir.ui.menu">
+        <field name="label">Integrations</field>
+        <field name="parentId" ref="mail.menuRootDiscuss"></field>
+        <field name="active" eval="false"></field>
+    </record>
+
+</data></verp>

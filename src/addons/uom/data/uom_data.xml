@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+
+    <!-- UOM Categories -->
+    <record id="productUomCategUnit" model="uom.category">
+        <field name="label">Unit</field>
+    </record>
+    <record id="productUomCategKgm" model="uom.category">
+        <field name="label">Weight</field>
+    </record>
+    <record id="uomCategWtime" model="uom.category">
+        <field name="label">Working Time</field>
+    </record>
+    <record id="uomCategLength" model="uom.category">
+        <field name="label">Length / Distance</field>
+    </record>
+    <record id="uomCategSurface" model="uom.category">
+        <field name="label">Surface</field>
+    </record>
+    <record id="productUomCategVol" model="uom.category">
+        <field name="label">Volume</field>
+    </record>
+
+    <!-- UOM.UOM -->
+    <!-- Units -->
+    <record id="productUomUnit" model="uom.uom">
+        <field name="categoryId" ref="productUomCategUnit"/>
+        <field name="label">Units</field>
+        <field name="factor" eval="1.0"/>
+        <field name="uomType">reference</field>
+    </record>
+
+    <record id="productUomDozen" model="uom.uom">
+        <field name="categoryId" ref="uom.productUomCategUnit"/>
+        <field name="label">Dozens</field>
+        <field name="factorInv" eval="12"/>
+        <field name="uomType">bigger</field>
+    </record>
+
+    <!-- WORKING TIME -->
+    <record id="productUomDay" model="uom.uom">
+        <field name="label">Days</field>
+        <field name="categoryId" ref="uomCategWtime"/>
+        <field name="factor" eval="1.0"/>
+        <field name="uomType">reference</field>
+    </record>
+    <record id="productUomHour" model="uom.uom">
+        <field name="label">Hours</field>
+        <field name="categoryId" ref="uomCategWtime"/>
+        <field name="factor" eval="8.0"/>
+        <field name="uomType">smaller</field>
+    </record>
+
+    <!-- LENGTH -->
+    <record id="productUomMeter" model="uom.uom">
+        <field name="categoryId" ref="uomCategLength"/>
+        <field name="label">m</field>
+        <field name="factor" eval="1.0"/>
+        <field name="uomType">reference</field>
+    </record>
+    <record id="productUomMillimeter" model="uom.uom">
+        <field name="categoryId" ref="uomCategLength"/>
+        <field name="label">mm</field>
+        <field name="factor" eval="1000"/>
+        <field name="uomType">smaller</field>
+    </record>
+    <record id="productUomKm" model="uom.uom">
+        <field name="categoryId" ref="uomCategLength"/>
+        <field name="label">km</field>
+        <field name="factorInv" eval="1000"/>
+        <field name="uomType">bigger</field>
+    </record>
+    <record id="productUomCm" model="uom.uom">
+        <field name="categoryId" ref="uomCategLength"/>
+        <field name="label">cm</field>
+        <field name="factor" eval="100"/>
+        <field name="uomType">smaller</field>
+    </record>
+
+    <!-- SURFACE -->
+    <record id="uomSquareMeter" model="uom.uom">
+        <field name="label">m²</field>
+        <field name="categoryId" ref="uomCategSurface"/>
+        <field name="factor" eval="1.0"/>
+        <field name="uomType">reference</field>
+    </record>
+
+    <!-- VOLUME -->
+    <record id="productUomLitre" model="uom.uom">
+        <field name="label">L</field>
+        <field name="categoryId" ref="productUomCategVol"/>
+        <field name="factor">1.0</field>
+        <field name="uomType">reference</field>
+    </record>
+    <record id="productUomCubicMeter" model="uom.uom">
+        <field name="label">m³</field>
+        <field name="categoryId" ref="productUomCategVol"/>
+        <field name="factorInv">1000</field>
+        <field name="uomType">bigger</field>
+    </record>
+
+    <!-- WEIGHT -->
+    <record id="productUomKgm" model="uom.uom">
+        <field name="categoryId" ref="productUomCategKgm"/>
+        <field name="label">kg</field>
+        <field name="factor" eval="1"/>
+        <field name="uomType">reference</field>
+    </record>
+    <record id="productUomGram" model="uom.uom">
+        <field name="categoryId" ref="productUomCategKgm"/>
+        <field name="label">g</field>
+        <field name="factor" eval="1000"/>
+        <field name="uomType">smaller</field>
+    </record>
+    <record id="productUomTon" model="uom.uom">
+        <field name="categoryId" ref="productUomCategKgm"/>
+        <!-- 'tonne' is the most common spelling in english-speaking countries,
+                the alternative is 'metric ton' in the US, abbreviated as 'mt' -->
+        <field name="label">t</field>
+        <field name="factorInv" eval="1000"/>
+        <field name="uomType">bigger</field>
+    </record>
+
+    <!--Americanization of units of measure-->
+    <!-- WEIGHT -->
+    <record id="productUomLb" model="uom.uom">
+        <field name="label">lb</field>
+        <field name="categoryId" ref="productUomCategKgm"/>
+        <field name="factor">2.20462</field>
+        <field name="uomType">smaller</field>
+    </record>
+    <record id="productUomOz" model="uom.uom">
+        <field name="label">oz</field>
+        <field name="categoryId" ref="productUomCategKgm"/>
+        <field name="factor">35.274</field>
+        <field name="uomType">smaller</field>
+    </record>
+
+    <!-- LENGTH -->
+    <record id="productUomInch" model="uom.uom">
+        <field name="label">in</field>
+        <field name="categoryId" ref="uomCategLength"/>
+        <field name="factor">39.3701</field>
+        <field name="uomType">smaller</field>
+    </record>
+    <record id="productUomFoot" model="uom.uom">
+        <field name="label">ft</field>
+        <field name="categoryId" ref="uomCategLength"/>
+        <field name="factor">3.28084</field>
+        <field name="uomType">smaller</field>
+    </record>
+    <record id="productUomMile" model="uom.uom">
+        <field name="label">mi</field>
+        <field name="categoryId" ref="uomCategLength"/>
+        <field name="factorInv" eval="1609.34"/>
+        <field name="uomType">bigger</field>
+    </record>
+
+    <!-- SURFACE -->
+    <record id="uomSquareFoot" model="uom.uom">
+        <field name="label">ft²</field>
+        <field name="categoryId" ref="uomCategSurface"/>
+        <field name="factor">10.76391</field>
+        <field name="uomType">smaller</field>
+    </record>
+
+    <!-- VOLUME -->
+    <record id="productUomFloz" model="uom.uom">
+        <field name="label">fl oz (US)</field>
+        <field name="categoryId" ref="productUomCategVol"/>
+        <field name="factor">33.814</field>
+        <field name="uomType">smaller</field>
+    </record>
+    <record id="productUomQt" model="uom.uom">
+        <field name="label">qt (US)</field>
+        <field name="categoryId" ref="productUomCategVol"/>
+        <field name="factor">1.05669</field>
+        <field name="uomType">smaller</field>
+    </record>
+    <record id="productUomGal" model="uom.uom">
+        <field name="label">gal (US)</field>
+        <field name="categoryId" ref="productUomCategVol"/>
+        <field name="factorInv" eval="3.78541"/>
+        <field name="uomType">bigger</field>
+    </record>
+    <record id="productUomCubicInch" model="uom.uom">
+        <field name="label">in³</field>
+        <field name="categoryId" ref="productUomCategVol"/>
+        <field name="factor">61.0237</field>
+        <field name="uomType">smaller</field>
+    </record>
+    <record id="productUomCubicFoot" model="uom.uom">
+        <field name="label">ft³</field>
+        <field name="categoryId" ref="productUomCategVol"/>
+        <field name="factorInv">28.3168</field>
+        <field name="uomType">bigger</field>
+    </record>
+
+</verp>

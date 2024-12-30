@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="irFiltersViewForm" model="ir.ui.view">
+            <field name="model">ir.filters</field>
+            <field name="arch" type="xml">
+                <form string="Filters">
+                  <sheet>
+                    <group col="4">
+                        <field name="label"/>
+                        <field name="userId" string="Available for User"/>
+                        <field name="modelId"/>
+                        <field name="isDefault"/>
+                        <field name="actionId"/>
+                        <field name="active" widget="booleanToggle"/>
+                    </group>
+                    <group>
+                        <field name="domain" widget="domain" options="{'model': 'modelId'}"/>
+                        <field name="context"/>
+                        <field name="sort"/>
+                    </group>
+                   </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="irFiltersViewTree" model="ir.ui.view">
+            <field name="model">ir.filters</field>
+            <field name="arch" type="xml">
+                <tree string="Filters">
+                    <field name="label"/>
+                    <field name="modelId"/>
+                    <field name="userId"/>
+                    <field name="isDefault"/>
+                    <field name="actionId"/>
+                    <field name="domain" groups="base.groupNoOne"/>
+                    <field name="context" groups="base.groupNoOne"/>
+                    <field name="sort" groups="base.groupNoOne"/>
+                </tree>
+            </field>
+        </record>
+        <record id="irFiltersViewSearch" model="ir.ui.view">
+            <field name="model">ir.filters</field>
+            <field name="arch" type="xml">
+                <search string="Filters">
+                    <field name="label" string="Filter Name"/>
+                    <filter string="User" domain="[['userId','!=',false]]" label="user" help="Filters visible only for one user"/>
+                    <filter string="Shared" domain="[['userId','=',false]]" label="shared" help="Filters shared with all users"/>
+                    <filter string="My filters" domain="[['userId','=',uid]]" label="myFilters" help="Filters created by myself"/>
+                    <separator/>
+                    <filter string="Archived" label="inactive" domain="[['active', '=', false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="User" label="user" domain="[]" context="{'groupby':'userId'}"/>
+                        <filter string="Model" label="model" domain="[]" context="{'groupby':'modelId'}"/>
+                    </group>
+                    <field name="modelId"/>
+                    <field name="userId"/>
+                </search>
+            </field>
+        </record>
+        <record id="actionsIrFiltersView" model="ir.actions.actwindow">
+            <field name="label">User-defined Filters</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.filters</field>
+        </record>
+        <menuitem parent="base.nextId2" name="User-defined Filters"
+            id="menuIrFilters" action="actionsIrFiltersView" sequence="5"/>
+    </data>
+</verp>

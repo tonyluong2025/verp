@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="saleOrderFormQuote" model="ir.ui.view">
+        <field name="label">sale.order.form.payment</field>
+        <field name="model">sale.order</field>
+        <field name="inheritId" ref="sale.viewOrderForm"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page/field[@name='orderLine']/.." position="after">
+                <page string="Optional Products" name="optionalProducts" attrs="{'invisible': [['state', 'not in', ['draft', 'sent']]]}">
+                    <field name="saleOrderOptionIds" mode="tree,form,kanban">
+                        <form string="Optional Products">
+                            <group>
+                                <field name="productId" domain="[['saleOk', '=', true], '|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"/>
+                                <field name="label"/>
+                                <field name="quantity"/>
+                                <field name="productUomCategoryId" invisible="1"/>
+                                <field name="uomId" groups="uom.groupUom"/>
+                                <field name="priceUnit"/>
+                                <field name="discount" groups="product.groupDiscountPerSoLine"/>
+                                <field name="isPresent" />
+                            </group>
+                        </form>
+                        <kanban class="o-kanban-mobile">
+                            <field name="productId"/>
+                            <field name="quantity"/>
+                            <field name="uomId" groups="uom.groupUom"/>
+                            <field name="priceUnit"/>
+                            <field name="isPresent" />
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div class="oe-kanban-card oe-kanban-global-click">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <strong>
+                                                    <span>
+                                                        <t t-esc="record.productId.value"/>
+                                                    </span>
+                                                </strong>
+                                            </div>
+                                            <div class="col-2">
+                                                <button name="buttonAddToOrder" class="btn btn-link oe_link fa fa-shopping-cart" title="Add to order lines" type="object" attrs="{'invisible': [['isPresent', '=', true]]}"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 text-muted">
+                                                <span>
+                                                    Quantity:
+                                                    <t t-esc="record.quantity.value"/>
+                                                    <t t-esc="record.uomId.value"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 text-muted">
+                                                <span>
+                                                    Unit Price:
+                                                    <t t-esc="record.priceUnit.value"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+                        <tree string="Sales Quotation Template Lines" editable="bottom" decoration-success="isPresent == true">
+                            <control>
+                                <create name="addProductControl" string="Add a product"/>
+                            </control>
+                            <field name="sequence" widget="handle"/>
+                            <field name="productId" domain="[['saleOk', '=', true], '|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"/>
+                            <field name="label" optional="show"/>
+                            <field name="quantity"/>
+                            <field name="uomId" string="UoM" groups="uom.groupUom" optional="show"/>
+                            <field name="productUomCategoryId" invisible="1"/>
+                            <field name="priceUnit"/>
+                            <field name="discount" string="Disc.%" groups="product.groupDiscountPerSoLine" optional="show"/>
+                            <field name="isPresent" invisible="1" />
+                            <button name="buttonAddToOrder" class="oe-link" icon="fa-shopping-cart" title="Add to order lines" type="object" attrs="{'invisible': [['isPresent', '=', true]]}"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='partnerShippingId']" position="after">
+                <field name="saleOrderTemplateId" context="{'companyId': companyId}"
+                    options="{'noCreate': true, 'noOpen': true}"
+                    groups="sale_management.groupSaleOrderTemplate"
+                />
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="sale.actionQuotations" model="ir.actions.actwindow">
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new quotation, the first step of a new sale!
+            </p>
+            <p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menuProductAttributeAction"
+        action="product.attributeAction"
+        parent="sale.prodConfigMain"  groups="product.groupProductVariant" sequence="1"/>
+</verp>

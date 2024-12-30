@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="attributeTreeView" model="ir.ui.view">
+        <field name="label">product.attribute.tree</field>
+        <field name="model">product.attribute</field>
+        <field name="arch" type="xml">
+            <tree string="Variant Values">
+                <field name="sequence" widget="handle"/>
+                <field name="label"/>
+                <field name="displayType"/>
+                <field name="createVariant"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="productAttributeViewForm" model="ir.ui.view">
+        <field name="label">product.attribute.form</field>
+        <field name="model">product.attribute</field>
+        <field name="arch" type="xml">
+            <form string="Product Attribute">
+            <field name="numberRelatedProducts" invisible="1"/>
+            <sheet>
+                <div class="oe-button-box" name="buttonBox">
+                    <button class="oe-stat-button" name="actionOpenRelatedProducts"
+                            type="object" icon="fa-bars"
+                            attrs="{'invisible': [['numberRelatedProducts', '=', []]]}">
+                        <div class="o-stat-info">
+                            <span class="o-stat-value"><field name="numberRelatedProducts"/></span>
+                            <span class="o-stat-text">Related Products</span>
+                        </div>
+                    </button>
+                </div>
+                <group name="mainFields" class="o-label-nowrap">
+                    <label for="label" string="Attribute Name"/>
+                    <field name="label" nolabel="1"/>
+                    <field name="displayType" widget="radio"/>
+                    <field name="createVariant" widget="radio" attrs="{'readonly': [['numberRelatedProducts', '!=', 0]]}"/>
+                </group>
+                <notebook>
+                    <page string="Attribute Values" name="attributeValues">
+                        <field name="valueIds" widget="one2many" nolabel="1">
+                            <tree string="Values" editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="label"/>
+                                <field name="displayType" invisible="1"/>
+                                <field name="isCustom" groups="product.groupProductVariant"/>
+                                <field name="htmlColor" attrs="{'columnInvisible': [['parent.displayType', '!=', 'color']]}" widget="color"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="attributeAction" model="ir.actions.actwindow">
+        <field name="label">Attributes</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.attribute</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+    <record id="productTemplateAttributeLineForm" model="ir.ui.view">
+        <field name="label">product.template.attribute.line.form</field>
+        <field name="model">product.template.attribute.line</field>
+        <field name="mode">primary</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <form string="Product Attribute and Values">
+                <group name="mainField">
+                    <label for="attributeId" string="Attribute Name"/>
+                    <field name="attributeId" nolabel="1"/>
+                    <field name="valueIds" widget="one2many">
+                        <tree string="Values">
+                            <field name="label"/>
+                            <field name="htmlColor"/>
+                        </tree>
+                        <form string="Values">
+                            <field name="label"/>
+                        </form>
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="productTemplateAttributeValueViewTree" model="ir.ui.view">
+        <field name="label">product.template.attribute.value.view.tree</field>
+        <field name="model">product.template.attribute.value</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Attributes" create="0" delete="0">
+                <field name="attributeId" optional="hide"/>
+                <field name="label"/>
+                <field name="displayType" optional="hide"/>
+                <field name="htmlColor" attrs="{'invisible': [['displayType', '!=', 'color']]}" widget="color"/>
+                <field name="ptavActive" optional="hide"/>
+                <field name="priceExtra" widget="monetary" options="{'fieldDigits': true}"/>
+                <field name="currencyId" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="productTemplateAttributeValueViewForm" model="ir.ui.view">
+        <field name="label">product.template.attribute.value.view.form.</field>
+        <field name="model">product.template.attribute.value</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Product Attribute" create="0" delete="0">
+                <sheet>
+                    <group>
+                        <field name="ptavActive" readonly="1" attrs="{'invisible': [['ptavActive', '=', true]]}"/>
+                        <field name="label"/>
+                        <field name="displayType" invisible="1"/>
+                        <field name="htmlColor" attrs="{'invisible': [['displayType', '!=', 'color']]}"/>
+                        <field name="priceExtra" widget="monetary" options="{'fieldDigits': true}"/>
+                        <field name="currencyId" invisible="1"/>
+                        <field name="excludeFor" widget="one2many" mode="tree">
+                            <tree editable="bottom">
+                                <field name="productTemplateId" />
+                                <field name="valueIds" widget="many2manyTags" options="{'noCreate': true}" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="productTemplateAttributeValueViewSearch" model="ir.ui.view">
+        <field name="model">product.template.attribute.value</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="label"/>
+                <filter string="Active" name="active" domain="[['ptavActive', '=', true]]"/>
+                <filter string="Inactive" name="inactive" domain="[['ptavActive', '=', false]]"/>
+            </search>
+        </field>
+    </record>
+
+</verp>

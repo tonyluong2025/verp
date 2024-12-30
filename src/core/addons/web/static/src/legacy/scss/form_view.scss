@@ -1,0 +1,1107 @@
+// Define left and right padding according to screen resolution
+@mixin o-form-sheet-inner-left-padding {
+    padding-left: $o-horizontal-padding;
+    @include media-breakpoint-between(lg, xl, $o-extra-grid-breakpoints) {
+        padding-left: $o-horizontal-padding*2;
+    }
+}
+@mixin o-form-nosheet-inner-left-padding {
+    padding-left: $o-horizontal-padding;
+}
+@mixin o-form-sheet-inner-right-padding {
+    padding-right: $o-horizontal-padding;
+    @include media-breakpoint-between(lg, xl, $o-extra-grid-breakpoints) {
+        padding-right: $o-horizontal-padding*2;
+    }
+}
+// Compensate margins
+@mixin o-form-sheet-negative-margin {
+    margin-left: -$o-horizontal-padding;
+    margin-right: -$o-horizontal-padding;
+    @include media-breakpoint-between(lg, xl, $o-extra-grid-breakpoints) {
+        margin-left: -$o-horizontal-padding*2;
+        margin-right: -$o-horizontal-padding*2;
+    }
+}
+@mixin o-form-nosheet-negative-margin {
+    margin-left: -$o-horizontal-padding;
+    margin-right: -$o-horizontal-padding;
+}
+
+@mixin o-td-label-style {
+    width: 0%;
+    padding: 0 15px 0 0;
+    min-width: 150px;
+    color: $headings-color;
+}
+$o-form-label-margin-right: 0px;
+
+.o-form-view {
+    background-color: $o-view-background-color;
+
+    // Utility classes
+    .oe-form-box-info {
+        @include o-webclient-padding($top: 5px, $bottom: 5px);
+        > p {
+            margin: auto;
+        }
+    }
+    .oe-text-center {
+        text-align: center;
+    }
+    .oe-grey {
+        opacity: 0.5;
+    }
+    .oe-inline {
+        width: auto!important;
+        @include media-breakpoint-up(vsm, $o-extra-grid-breakpoints) {
+            &.o-inner-group {
+                width: 1px!important;
+            }
+        }
+    }
+    .oe-left {
+        @extend .oe-inline;
+        float: left!important;
+    }
+    .oe-right {
+        @extend .oe-inline;
+        float: right!important;
+    }
+
+    .o-field-empty:empty {
+        min-height: $font-size-base * $line-height-base;
+    }
+
+    .o-row {
+        &, &.o-field-widget { // Some field may want to use o-row as root and these rules must prevalue
+            display: flex;
+            width: auto!important;
+        }
+
+        align-items: baseline;
+        min-width: 50px;
+        margin: 0 (-$o-form-spacing-unit/2);
+
+        > div, > span, > button, > label, > a, > input, > select { // > * did not add a level of priority to the rule
+            flex: 0 0 auto;
+            width: auto!important;
+            margin-right: $o-form-spacing-unit/2;
+            margin-left: $o-form-spacing-unit/2;
+        }
+
+        > .o-row {
+            margin: 0;
+        }
+        > .btn {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        > .o-field-boolean {
+            align-self: center;
+        }
+    }
+
+    .o-row > div > .o-field-widget {
+        width: 100%;
+    }
+
+    // Readonly specific rules
+    &.o-form-readonly {
+        .oe-edit-only {
+            display: none!important;
+        }
+
+        .o-row:not(.o-row-readonly) {
+            &, & > div {
+                display: inline-block;
+            }
+        }
+
+        .o-quick-editable:not(.o-form-uri), .o-field-color-picker-preview > li > a {
+            cursor: default;
+        }
+    }
+
+    .o-form-uri {
+        display: inline-block;
+        color: $link-color;
+        &:hover {
+            color: darken($link-color, 15%);
+        }
+        > span {
+            color: $o-main-text-color;
+            &:hover {
+                color: $o-main-text-color;
+            }
+        }
+        > span:first-child {
+            color: $link-color;
+            &:hover {
+                color: darken($link-color, 15%);
+            }
+        }
+    }
+
+    // Editable specific rules
+    &.o-form-editable {
+        .oe-read-only {
+            display: none!important;
+        }
+
+        .oe-title {
+            max-width: map-get($container-max-widths, md) - (2 * $o-horizontal-padding);
+        }
+
+        .o-field-x2many .o-list-table .o-handle-cell .o-row-handle {
+            padding: 0.3rem;
+        }
+
+        .o-row {
+            > .o-field-widget, > div {
+                flex: 1 1 auto;
+                width: 0!important; // 3rd flex argument does not work with input (must be auto and real width 0)
+
+                &.o-field-boolean, &.o-priority {
+                    flex: 0 0 auto;
+                    width: auto!important;
+                }
+            }
+            &.o-field-many2one-selection {
+                width: 100% !important;
+            }
+        }
+    }
+
+    // No sheet
+    &.o-form-nosheet {
+        display: block;
+        @include o-webclient-padding($top: $o-sheet-vpadding, $bottom: $o-sheet-vpadding);
+
+        .o-form-statusbar {
+            margin: (-$o-sheet-vpadding) (-$o-horizontal-padding) $o-sheet-vpadding (-$o-horizontal-padding);
+        }
+        .oe-button-box {
+            @include o-form-nosheet-negative-margin;
+        }
+    }
+
+    // Non-chatter rules
+    .o-form-sheet-bg {
+        position: relative;
+    }
+
+    // Statusbar
+    .o-form-statusbar {
+        position: relative; // Needed for the "More" dropdown
+        display: flex;
+        justify-content: space-between;
+        padding-left: $o-horizontal-padding;
+        border-bottom: 1px solid $border-color;
+        background-color: $o-view-background-color;
+
+        > .o-statusbar-buttons, > .o-statusbar-status {
+            display: flex;
+            align-items: center;
+            align-content: space-around;
+        }
+
+        > .o-field-widget {
+            align-self: center;
+            margin-bottom: 0px;
+        }
+
+        > .o-statusbar-buttons {
+            flex-flow: row wrap;
+
+            > .btn {
+                $o-statusbar-buttons-vmargin: 4px;
+                min-height: $o-statusbar-height - 2 * $o-statusbar-buttons-vmargin;
+                margin: $o-statusbar-buttons-vmargin 3px $o-statusbar-buttons-vmargin 0;
+                padding-top: 2px;
+                padding-bottom: 2px;
+
+                > .o-button-icon {
+                    margin-right: $o-statbutton-spacing;
+                }
+            }
+        }
+
+        > .o-statusbar-status {
+            margin-left: auto;
+            flex-flow: row-reverse wrap-reverse;
+            align-self: stretch;
+            align-items: stretch;
+
+            > .o-arrow-button {
+                min-height: $o-statusbar-height;
+                position: relative;
+                padding-left: $o-statusbar-arrow-width*2;
+                border-width: 0;
+                font-size: $font-size-sm;
+
+                &:first-child {
+                    padding-right: $o-horizontal-padding; // Compensate container padding
+                    overflow-x: hidden; // to prevent horizontal scroll due to last arrow
+                }
+                &:last-child {
+                    padding-left: $o-horizontal-padding - 1;
+
+                    &:not(.disabled) {
+                        border-left: 1px solid $border-color;
+                    }
+                }
+
+                &:not(:first-child):before, &:not(:first-child):after {
+                    content: " ";
+                    display: block;
+                    @include o-position-absolute(0, -$o-statusbar-arrow-width + 1);
+
+                    border-top: floor($o-statusbar-height/2) solid transparent;
+                    border-bottom: ceil($o-statusbar-height/2) solid transparent;
+                    border-right: none;
+                    border-left: $o-statusbar-arrow-width solid $o-view-background-color;
+                    -moz-transform: scale(0.9999); // Smooth the triangle on firefox
+                }
+
+                &:not(:first-child):before {
+                    right: -$o-statusbar-arrow-width;
+                    border-left-color: gray('300');
+                }
+
+                &.disabled {
+                    opacity: 1;
+                    pointer-events: none;
+                    cursor: default;
+
+                    &:not(.btn-primary) {
+                        @include plain-hover-focus() {
+                            color: $text-muted;
+                        }
+                    }
+                }
+
+                &.btn-primary.disabled {
+                    background-color: $o-brand-verp;
+                    color: color-yiq($o-brand-verp);
+
+                    &:after, &:before {
+                        border-left-color: $o-brand-verp;
+                    }
+
+                    + .o-arrow-button:before {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        // Touch device mode
+        > .o-statusbar-buttons > .btn-group, > .o-statusbar-status {
+            > .dropdown-toggle {
+                &:after {
+                    @include o-caret-down;
+                    margin-left: $o-form-spacing-unit;
+                }
+            }
+
+            > .dropdown-menu {
+                min-width: 0;
+
+                .dropdown-item.btn {
+                    min-width: 100%;
+                    margin-bottom: 3px;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    // Button box
+    .oe-button-box {
+        position: relative;
+        display: block;
+        margin-bottom: $o-sheet-vpadding;
+        margin-top: -$o-sheet-vpadding;
+        @include o-form-sheet-negative-margin;
+        text-align: right;
+        // Use box-shadow instead of border-bottom because some button boxes are
+        // empty in some cases and we do not want to see a floating border in
+        // that cases.
+        box-shadow: inset 0 -1px 0 $border-color;
+
+        .oe-stat-button, .o-dropdown-more {
+            border: 0 solid $border-color;
+        }
+
+        &.o-full .oe-stat-button:not(.o-invisible-modifier) ~ .oe-stat-button,
+        &.o-not-full .oe-stat-button {
+            border-left-width: $border-width;
+        }
+
+        > .btn.oe-stat-button, > .o-dropdown-more {
+            flex: 0 0 auto;
+            width: percentage(1/3); // Adapt the number of visible buttons for each screen width
+            @include media-breakpoint-up(md) {
+                width: percentage(1/5);
+            }
+            @include media-breakpoint-up(lg) {
+                width: percentage(1/7);
+            }
+            @include media-breakpoint-up(xl) {
+                width: percentage(1/8);
+            }
+        }
+
+        .btn.oe-stat-button {
+            color: $o-main-text-color;
+            height: $o-statbutton-height;
+            // Use !important to avoid touchDevice style
+            padding: 0 $o-statbutton-spacing 0 0 !important; // padding-left will be achieved through margin-left of content
+            text-align: left;
+            white-space: nowrap;
+            background-color: transparent;
+            opacity: 0.8;
+            border-radius: 0px;
+            margin-bottom: 0; // If the button comes from a field
+
+            &:hover, &:focus {
+                background-color: rgba(black, 0.03);
+                color: inherit;
+                opacity: 1;
+            }
+
+            > .o-button-icon {
+                margin-left: $o-statbutton-spacing; // To create the button padding left (firefox bug)
+                display: inline-block;
+                vertical-align: middle;
+                line-height: $o-statbutton-height;
+                width: 30%;
+
+                &:before {
+                    font-size: 22px;
+                    vertical-align: middle;
+                }
+            }
+
+            > .o-field-percent-pie {
+                margin-left: $o-statbutton-spacing; // To create the button padding left (firefox bug)
+            }
+
+            // Some buttons only display text without using StatInfo template
+            > span {
+                @include o-text-overflow(block);
+                white-space: normal; // text on several lines if needed
+            }
+
+            > .o-stat-info, > span { // contains the value and text
+                display: inline-block;
+                vertical-align: middle;
+                font-weight: $font-weight-normal;
+
+                max-width: 70%;
+                padding-right: $o-statbutton-spacing;
+                line-height: 1.3;
+
+                > .o-stat-value, > .o-stat-text {
+                    @include o-text-overflow(block);
+                    line-height: 1.2;
+                }
+
+                .o-stat-value {
+                    font-weight: $font-weight-bold;
+                    color: $o-brand-verp;
+                }
+
+                .o-stat-text .o-field-empty {
+                    display: none;
+                }
+            }
+
+            &:not(:disabled) {
+                > .o-stat-info .o-field-widget, > span .o-field-widget {
+                    cursor: pointer;
+                }
+            }
+
+            &:not(:hover) .o-stat-info > .o-hover {
+                display: none !important;
+            }
+            &:hover .o-stat-info > .o-not-hover {
+                display: none !important
+            }
+
+            &.o-button-more {
+                text-align: center;
+                &:after {
+                    margin-left: 5px;
+                    @include o-caret-down;
+                }
+                &[aria-expanded="true"]:after {
+                    margin-left: 5px;
+                    @include o-caret-up;
+                }
+            }
+        }
+
+        > .o-dropdown-more {
+            @include o-position-absolute(100%, 0);
+            min-width: 0;
+            border-width: 0 $border-width;
+            box-sizing: content-box;
+            margin: 0;
+            padding: 0;
+            @include media-breakpoint-down(sm) {
+                // avoid b4 drowdown inline style
+                position: relative !important;
+                transform: none !important;
+                will-change: inherit!important;
+                margin-bottom: 20px;
+                width: 100%;
+                border-width: 0px;
+            }
+            > .btn.oe-stat-button {
+                width: 100%;
+                // Override stronger ':not(.o-invisible-modifier) ~' rule
+                border-width: 0 0 $border-width!important;
+
+                @include media-breakpoint-down(sm) {
+                    display: inline-block;
+                    width: percentage(1/3);
+                }
+            }
+        }
+
+        @mixin dropdownButtonsFix {
+            .btn.oe-stat-button.dropdown-item {
+                height: 44px !important;
+                padding: 5px 0 5px 0 !important;
+                border-left: none !important;
+
+                > .o-button-icon {
+                    line-height: normal;
+                }
+            }
+        }
+
+        // IE 11 only
+        @media all and (-ms-high-contrast:none) {
+            @include dropdownButtonsFix
+        }
+
+        // Edge only
+        @supports (display:-ms-grid) {
+            @include dropdownButtonsFix
+        }
+    }
+
+    // Title
+    .oe-title {
+        > h1, > h2, > h3 {
+            width: 100%; // Needed because inline-block when is a hx.o-row
+            margin-top: 0;
+            margin-bottom: 0;
+            line-height: $headings-line-height;
+
+            &.d-flex > .o-input {
+                height: max-content;
+            }
+        }
+        .o-priority > .o-priority-star {
+            font-size: inherit;
+        }
+        > h1 {
+            min-height: 55px;
+        }
+        > h2 {
+            min-height: 43px;
+        }
+    }
+
+    // Avatar
+    .oe-avatar {
+        float: right;
+        margin-bottom: 10px;
+
+        > img {
+            max-width: $o-avatar-size;
+            max-height: $o-avatar-size;
+            vertical-align: top;
+            border: 1px solid $o-gray-300;
+        }
+    }
+
+    // Status dropdown
+    a[data-toggle="dropdown"] > .o-status {
+        height: $h3-font-size;
+        width: $h3-font-size;
+    }
+
+    // Groups
+    .o-group {
+        display: inline-block;
+        width: 100%;
+        margin: 10px 0;
+
+        .o-group {
+            margin: 0;
+        }
+
+        // o-group contains nested groups
+        @for $i from 1 through $o-form-group-cols {
+            .o-group-col-#{$i} {
+                display: inline-block;
+                width: floor(100% / 12 * $i);
+                vertical-align: top;
+            }
+        }
+
+        &.o-inner-group {
+            display: inline-table;
+
+            > tbody > tr > td {
+                &.o-td-label {
+                    @include o-td-label-style;
+                }
+                vertical-align: top;
+
+                span, .o-field-boolean, .oe-avatar, .o-form-uri {
+                    &.o-field-widget {
+                        width: auto;
+                    }
+                }
+            }
+
+            .o-field-widget {
+                &.o-field-many2one-avatar {
+                    .o-field-many2one-selection {
+                        width: calc(100% - 24px);
+                    }
+                }
+            }
+        }
+
+        .o-form-label {
+            font-weight: $font-weight-normal;
+        }
+
+        .o-field-widget {
+            width: 100%;
+
+            > .btn {
+                flex: 0 0 auto;
+                padding: 0 10px;
+            }
+        }
+
+        @include media-breakpoint-up(sm) {
+            :not(.o-row):not(.o-data-cell) > .o-field-widget > * >,
+            .o-row > .o-field-widget:last-child { // Note: this does not take care
+                                                // of an invisible last-child but
+                                                // it does not really matter
+                // Makes extra buttons (e.g. m2o external button) overflow on the
+                // right padding of the parent element
+                .o-input-dropdown {
+                    flex: 1 0 auto;
+                }
+            }
+        }
+
+        &.o-label-nowrap .o-form-label {
+            white-space: nowrap;
+        }
+
+        .o-td-label .o-form-label {
+            font-weight: $font-weight-bold;
+            margin-right: $o-form-label-margin-right;
+        }
+    }
+
+    .o-checkbox-optional-field {
+        display: flex;
+
+        @include media-breakpoint-down(sm) {
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        > .o-form-label {
+            @include o-td-label-style;
+            margin-right: $o-form-label-margin-right;
+            font-weight: $font-weight-bold;
+        }
+    }
+
+    // Separators
+    .o-horizontal-separator {
+        font-size: $font-size-sm;
+        font-weight: $font-weight-bold;
+        margin: 1.2em ($grid-gutter-width * .5) .8em 0;
+
+        &:not(:empty) {
+            box-shadow: 0 1px 0 rgba($body-color, .05);
+        }
+
+        &:empty {
+            height: $o-form-spacing-unit * 2;
+        }
+    }
+
+    // Notebooks
+    .o-notebook {
+        clear: both; // For the notebook not to have alongside floating elements
+        margin-top: $o-form-spacing-unit * 2;
+
+        .tab-content > .tab-pane {
+            padding: $o-horizontal-padding 0;
+            >.oe-form-field {
+                >.note-editable {
+                    border-width: 0;
+                    padding: 0;
+                    min-height: 180px;
+                }
+                &.oe-bordered-editor>.note-editable {
+                    border-width: 1px;
+                    padding: 4px;
+                }
+            }
+        }
+    }
+
+    // Labels
+    .o-form-label {
+        margin: 0 $o-form-spacing-unit 0 0;
+        color: $headings-color;
+        font-size: $font-size-base; // The label muse have the same size whatever their position
+        line-height: $line-height-base;
+        font-weight: $font-weight-bold;
+    }
+
+    // Form fields
+    .o-field-widget {
+        margin-bottom: $o-form-spacing-unit;
+    }
+    .o-field-widget, .btn {
+        .o-field-widget {
+            margin-bottom: 0;
+        }
+    }
+    .o-td-label .o-form-label:not(.o-status), .o-checkbox-optional-field > .o-form-label {
+        min-height: 33px;
+    }
+    td:not(.o-field-cell) .o-form-uri > span:first-child {
+        display: inline-block;
+        padding: 1px 0;
+        margin-bottom: 1px;
+    }
+
+    // Translate icon
+    span.o-field-translate {
+        padding: 0 $o-form-spacing-unit 0 0 !important;
+        vertical-align: top;
+        position: relative;
+        margin-left: -35px;
+        width: 35px !important; // important is useful for textarea
+        display: inline-block;
+        text-align: right;
+        border: none;  // usefull for textarea
+        background-color: rgba($o-view-background-color, 0.8); // useful in code view
+        &:hover {
+            background-color: $o-view-background-color
+        }
+    }
+    input, textarea {
+        &.o-field-translate {
+            padding-right: 25px;
+        }
+    }
+
+    // Text field with oe-inline class
+    .o-field-text.oe-inline {
+        width: 100%!important;
+        @include media-breakpoint-up(vsm, $o-extra-grid-breakpoints) {
+            width: 45%!important;
+        }
+    }
+
+    // One2Many, Many2Many outside of group
+    .o-field-widget {
+        &.o-field-one2many, &.o-field-many2many {
+            width: 100%;
+            > div {
+                width: 100%;
+            }
+        }
+    }
+
+    // Specific style classes
+    .o-group.o-inner-group.oe-subtotal-footer {
+        @extend .oe-right;
+
+        > tbody > tr > td {
+            padding: 0;
+
+            &.o-td-label {
+                text-align: right;
+            }
+
+            .o-form-label {
+                padding-right: 20px;
+
+                min-width: 0;
+                white-space: nowrap;
+                &:after {
+                    content: ":";
+                }
+            }
+
+            .o-field-widget {
+                text-align: right;
+                justify-content: flex-end;
+                width: 100%;
+            }
+        }
+
+        > tbody > tr:first-child > td {
+            padding-top: 4px;
+        }
+
+        .oe-subtotal-footer-separator {
+            width: 100%;
+            text-align: right;
+            border-top: 1px solid gray('300');
+            font-weight: $font-weight-bold;
+            font-size: 1.3em;
+        }
+    }
+
+    .o-address-format {
+        width: 100%;
+        .o-address-street, .o-address-country {
+            display: flex;
+        }
+
+        .o-address-city {
+            margin-right: 2%;
+        }
+        .o-address-state {
+            margin-right: 2%;
+        }
+        &.o-zip-city {
+            .o-address-zip {
+                margin-right: 2%;
+            }
+            .o-address-city {
+                margin-right: 0;
+            }
+            .o-address-state {
+                display: block;
+                margin-right: 0;
+            }
+        }
+        &.o-city-state {
+            .o-address-state {
+                margin-right: 0;
+            }
+            .o-address-zip {
+                display: block;
+                margin-right: 0;
+            }
+        }
+        > span.o-field-widget {
+            width: auto;
+        }
+    }
+    &.o-form-editable .o-address-format {
+        .o-address-city {
+            width: 38%;
+        }
+        div.o-address-state {
+            width: 33%;
+        }
+        input.o-address-zip {
+            width: 25%;
+        }
+        &.o-zip-city {
+            .o-address-zip {
+                width: 38%;
+            }
+            .o-address-city {
+                width: 60%;
+            }
+            .o-address-state {
+                width: 100%;
+            }
+        }
+        &.o-city-state {
+            .o-address-city {
+                width: 50%;
+            }
+            .o-address-state {
+                width: 48%;
+            }
+            .o-address-zip {
+                width: 100%;
+            }
+        }
+    }
+
+    // Boolean
+    .o-field-boolean {
+        margin-right: $o-form-spacing-unit;
+        max-width: 20px!important;
+        padding-right: 0!important;
+    }
+
+    // Timezone widget warning
+    .o-tz-warning {
+        cursor: help;
+        position: absolute;
+        margin-left: 10px;
+        margin-top: 5px;
+    }
+
+    // for weekly recurrent
+    .o-recurrent-weekdays {
+        > table {
+            width: 100%;
+            table-layout: fixed;
+            display: table;
+            td {
+                border: 1px solid #dee2e6;
+            }
+            th, td {
+                padding: 0.75rem 0 0.75rem 0;
+            }
+            .o-recurrent-weekday-label {
+                @include o-text-overflow;
+            }
+            .custom-control-label {
+                left: 25%;
+            }
+        }
+    }
+
+    // One2Many Kanban views
+    .o-field-widget .o-kanban-view.o-kanban-ungrouped {
+        padding: 0;
+        .o-kanban-record {
+            box-shadow: none;
+        }
+    }
+
+    // One2Many List views
+    .o-field-widget .o-list-view {
+        margin-bottom: 10px;
+
+        > tfoot > tr > td {
+            padding: 3px;
+            color: $o-main-text-color;
+        }
+    }
+    &.o-form-readonly .o-field-widget .o-list-view .o-row-handle {
+        display: none;  // Hide the handler in non-edit mode
+    }
+    .o-field-widget.o-readonly-modifier .o-list-view .o-row-handle {
+        display: none;  // Hide the handler on readonly fields
+    }
+
+    &.oe-form-configuration {
+        .o-group .o-form-label {
+            white-space: nowrap;
+        }
+        h2 {
+            margin-top: 32px !important;
+        }
+    }
+    &.o-company-document-layout {
+        .report-layout-container {
+            display: inline-block;
+            div {
+                display: inline-block;
+                img {
+                    margin-left: 0 !important;
+                }
+            }
+        }
+        img[name="logo"] {
+            max-height: 100px;
+            max-width: 300px;
+        }
+    }
+}
+
+// Overridden style when form view in modal
+.modal .modal-dialog {
+    .o-form-view {
+        .o-statusbar-buttons > .btn {
+            /**
+             * Override to prevent the status bar from increasing height when
+             * inside dialog due to the original margin on those buttons. This
+             * prevents the other status buttons, those on the far right of the
+             * bar, from having a gap between their bottom and the bottom border
+             * of the status bar itself.
+             */
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        .o-form-sheet-bg {
+            padding: 0;
+
+            > .o-form-statusbar, > .alert {
+                /**
+                 * Override to prevent the status bar from overflowing on its
+                 * far right. The original value is a negative margin that
+                 * is supposed to compensate unwanted padding of the original
+                 * view but the view inside dialog already has this padding
+                 * removed.
+                 */
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            > .o-form-sheet {
+                box-shadow: none;
+                width: 100%;
+                margin: 0 auto;
+                max-width: none;
+                /**
+                 * Override to prevent double border, because the borders of the
+                 * dialog itself or the borders of other surrounding elements
+                 * (status bar, dialog footer) already act as a border for the
+                 * sheet when inside dialog.
+                 */
+                border: none;
+            }
+        }
+    }
+    &:not(.modal-lg) .o-form-view {
+        .o-group {
+            width: 100%;
+        }
+    }
+    .o-onboarding-paymentAcquirerWizard {
+        a[type="action"] {
+            color: $link-color;
+            cursor: pointer;
+        }
+    }
+}
+
+@media print {
+    .oe-button-box, .o-form-statusbar {
+        display: none !important;
+    }
+}
+
+// Buttons in ControlPanel
+.o-control-panel .o-form-buttons-view > button:first-child {
+    float: left; // Unfortunately needed for the bounce effect
+    margin-right: 4px;
+}
+
+
+// XXS form view specific rules
+@mixin form-break-table {
+    display: block;
+    margin-bottom: $o-form-spacing-unit * 4;
+
+    > tbody {
+        display: block;
+
+        > tr {
+            display: flex;
+            flex-flow: row wrap;
+
+            > td {
+                flex: 1 0 auto;
+                display: block;
+                max-width: 100%;
+                padding: 0;
+
+                width: auto!important;  // !important is required to override the width computed in JS
+                &.o-td-label {
+                    width: 94%!important; // The label must be on its own line except if the form field is small enough (checkbox)
+                    line-height: $o-label-font-size-factor;
+                }
+
+                .o-field-widget {
+                    margin-bottom: $o-form-spacing-unit * 2;
+
+                    > .o-field-widget {
+                        margin-bottom: 0;
+                    }
+
+                    &.o-field-boolean {
+                        margin-right: 0;
+                    }
+                }
+
+                .o-input-dropdown {
+                    width: auto;
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+}
+.o-form-view.o-xxs-form-view {
+    .oe-title {
+        word-break: break-all;
+    }
+    .o-group {
+        &.o-inner-group {
+            @include form-break-table;
+        }
+    }
+}
+
+// Settings form views
+.o-settings-container {
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: row wrap;
+
+    .o-form-label.o-light-label, .o-light-label .o-form-label {
+        font-weight: $font-weight-normal;
+    }
+    .o-setting-box:visible:nth-child(odd) {
+        clear: left;
+    }
+    .o-setting-box {
+        margin-bottom: 8px;
+        margin-top: 8px;
+        .o-setting-left-pane {
+            width: 24px;
+            float: left;
+            .o-enterprise-label {
+                position: absolute;
+                top: 0px;
+                right: 40px;
+            }
+        }
+        .o-setting-right-pane {
+            margin-left: 24px;
+            border-left: 1px solid $border-color;
+            padding-left: 12px;
+            .o-input-dropdown > .o-input {
+                width: 100%;
+            }
+            .o-field-widget {
+                width: 50%;
+                flex: 0 0 auto;
+
+                &.o-field-many2manytags > .o-field-widget {
+                    flex: 1 0 50px;
+                }
+            }
+            button.btn-link:first-child {
+                padding: 0;
+            }
+            a.oe-link {
+                font-size: 12px;
+            }
+        }
+    }
+}

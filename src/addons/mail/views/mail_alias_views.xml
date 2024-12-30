@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+
+        <!-- Alias Form View -->
+        <record  model="ir.ui.view" id="viewMailAliasForm">
+            <field name="label">mail.alias.form</field>
+            <field name="model">mail.alias</field>
+            <field name="arch" type="xml">
+                <form string="Alias">
+                    <sheet>
+                        <div class="oe-button-box" name="buttonBox">
+                            <button name="openDocument" string="Open Document"
+                                    type="object" class="oe-link"
+                                    attrs="{'invisible': ['|', ['aliasModelId', '=', false], ['aliasForceThreadId', '=', 0]]}"/>
+                            <button name="openParentDocument" string="Open Parent Document"
+                                    type="object" class="oe-link" icon="fa-sitemap"
+                                    attrs="{'invisible': ['|', ['aliasParentModelId', '=', false], ['aliasParentThreadId', '=', 0]]}"/>
+                        </div>
+                        <h2><field name="aliasName" class="oe-inline"/>@<field name="aliasDomain" class="oe-inline"/></h2>
+                        <group>
+                            <field name="aliasModelId"/>
+                            <field name="aliasForceThreadId"/>
+                            <field name="aliasDefaults"/>
+                            <field name="aliasContact"/>
+                            <field name="aliasUserId"/>
+                            <field name="aliasParentModelId"/>
+                            <field name="aliasParentThreadId"/>
+                        </group>
+                        <label for="aliasBouncedContent" attrs="{'invisible':[['aliasContact', '=', 'everyone']]}"/>
+                        <field name="aliasBouncedContent" attrs="{'invisible':[['aliasContact', '=', 'everyone']]}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Alias List View -->
+        <record  model="ir.ui.view" id="viewMailAliasTree">
+            <field name="label">mail.alias.tree</field>
+            <field name="model">mail.alias</field>
+            <field name="arch" type="xml">
+                <tree string="Alias">
+                    <field name="aliasName"/>
+                    <field name="aliasModelId"/>
+                    <field name="aliasUserId"/>
+                    <field name="aliasDefaults"/>
+                    <field name="aliasContact"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Alias Search View -->
+        <record  model="ir.ui.view" id="viewMailAliasSearch">
+            <field name="label">mail.alias.search</field>
+            <field name="model">mail.alias</field>
+            <field name="arch" type="xml">
+                <search string="Search Alias">
+                    <field name="aliasName"/>
+                    <field name="aliasModelId"/>
+                    <field name="aliasForceThreadId"/>
+                    <field name="aliasParentModelId"/>
+                    <field name="aliasParentThreadId"/>
+                    <separator/>
+                    <filter string="Active" name="active" domain="[['aliasName', '!=', false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="User" name="User" context="{'groupby':'aliasUserId'}"/>
+                        <filter string="Model" name="Model" context="{'groupby':'aliasModelId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionViewMailAlias" model="ir.actions.actwindow">
+            <field name="label">Aliases</field>
+            <field name="resModel">mail.alias</field>
+            <field name="context">{
+                    'searchDefault_active': true,
+                }
+            </field>
+        </record>
+
+    </data>
+</verp>

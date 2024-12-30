@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="saleOrderCancelViewForm" model="ir.ui.view">
+        <field name="label">sale.order.cancel.form</field>
+        <field name="model">sale.order.cancel</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="orderId" invisible="1"/>
+                <field name="displayInvoiceAlert" invisible="1"/>
+                <div attrs="{'invisible': [['displayInvoiceAlert', '=', false]]}">
+                    Draft invoices for this order will be cancelled.
+                </div>
+                <footer>
+                    <button string="Confirm" name="actionCancel" type="object" class="oe-highlight" data-hotkey="q"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

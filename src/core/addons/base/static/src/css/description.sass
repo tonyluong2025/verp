@@ -1,0 +1,578 @@
+@charset "utf-8" 
+@import "compass/css3"
+@import "compass/css3/user-interface"
+
+/**
+ *  This CSS is for the html description of modules
+ * TODO clean
+ */
+
+/* --------------------------------- * 
+ *          STYLING CONTEXT          *
+ * --------------------------------- */
+
+/* --- Styling for the V8/Lato/White/Purple design --- */
+
+$v8-title-font-color: rgb(51,51,51)
+$v8-text-font-color:  rgb(100,100,100)
+$v8-font-paragraph-color:   rgb(51,51,51)
+$v8-body-color:   rgb(245,245,245)
+$v8-bg-color:     rgb(255,255,255)
+$v8-text-font-family:  'Open Sans','Helvetica',Sans
+$v8-title-font-family:  'Lato','Open Sans','Helvetica',Sans
+$v8-anchor-color: #6D57E0
+$v8-anchor-visited-color: rgb(91, 40, 79)
+
+
+.verp .oe-form-sheet-width
+  max-width: 960px
+
+.o-web-client .o-form-view .oe-styling-v8 .container
+  width: 100%
+
+.verp .oe-form .oe-styling-v8
+  width: 100%
+  padding: 0
+  margin: 0
+  font-family: $v8-text-font-family
+  font-weight: 300
+  color: $v8-text-font-color
+  background: $v8-bg-color
+  font-size: 16px
+
+  .container
+    width: 100%
+
+  .oe-websiteonly
+    display: none
+
+  .oe-website-contents
+    background: $v8-body-color
+    padding-bottom: 1px
+
+  b
+    font-weight: 600
+  a
+    color: $v8-anchor-color
+    text-decoration: none
+  a:visited
+    color: $v8-anchor-visited-color
+  a:hover
+    color: #0096EB
+
+  .oe-title-font
+    font-family: $v8-title-font-family
+
+
+  .oe-page
+    background: $v8-bg-color
+    overflow: hidden
+    +border-radius(1px)
+    +box-shadow(0 1px 3px rgba(0,0,0,0.35))
+
+  .oe-emph
+    font-weight: 400
+
+  .oe-dark
+    overflow: hidden
+    background: #FCFCFC
+    +box-shadow(0px 5px 9px -7px rgba(0,0,255,0.5) inset, 0px -3px 9px -7px rgba(0,0,255,0.5) inset)
+
+/* --------------------------------- * 
+ *               LAYOUT              *
+ * --------------------------------- */
+
+/* ------ BASE GRID CONSTRUCTS ----- */
+
+.oe-page
+  margin: 0px auto 64px auto
+  max-width: 100%
+
+
+.oe-row
+  width: 100%
+  margin-top: 16px
+  margin-bottom: 16px
+  margin-left: auto
+  margin-right: auto
+
+.oe-row.oe-fit
+  width: auto
+
+.oe-clearfix:after, .oe-row:after
+  content: "."
+  display: block
+  clear: both
+  visibility: hidden
+  line-height: 0
+  height: 0
+
+$oe-span12-width: 100%
+$oe-span10-width: 83.33333333%
+$oe-span9-width:  75%
+$oe-span8-width:  66.66666667%
+$oe-span6-width:  50%
+$oe-span4-width:  33.33333333%
+$oe-span3-width:  25%
+$oe-span2-width:  16.66666667%
+
+[class*='oe-span']
+  float: left
+  +box-sizing(border-box)
+  padding: 0 16px
+.oe-span12
+  width: $oe-span12-width
+.oe-span10
+  width: $oe-span10-width
+.oe-span9
+  width: $oe-span9-width
+.oe-span8
+  width: $oe-span8-width
+.oe-span6
+  width: $oe-span6-width
+.oe-span4
+  width: $oe-span4-width
+.oe-span3
+  width: $oe-span3-width
+.oe-span2
+  width: $oe-span2-width
+
+[class*='oe-span'].oe-fit
+  padding-left: 0px !important
+  padding-right: 0px !important
+
+[class*='oe-span'].oe-right
+  float: right
+
+.oe-row.oe-flex
+  [class*='oe-span']
+    display: inline-block
+    float: none
+    vertical-align: top
+    +box-sizing(border-box)
+    padding: 0 16px
+    width: auto
+  .oe-span12
+    max-width: $oe-span12-width
+  .oe-span10
+    max-width: $oe-span10-width
+  .oe-span9
+    max-width: $oe-span9-width
+  .oe-span8
+    max-width: $oe-span8-width
+  .oe-span6
+    max-width: $oe-span6-width
+  .oe-span4
+    max-width: $oe-span4-width
+  .oe-span3
+    max-width: $oe-span3-width
+  .oe-span2
+    max-width: $oe-span2-width
+
+.oe-mb0
+  margin-bottom: 0px !important
+.oe-mb4
+  margin-bottom: 4px !important
+.oe-mb8
+  margin-bottom: 8px !important
+.oe-mb16
+  margin-bottom: 16px !important
+.oe-mb32
+  margin-bottom: 32px !important
+.oe-mb48
+  margin-bottom: 48px !important
+.oe-mb64
+  margin-bottom: 64px !important
+
+.oe-mt0
+  margin-top: 0px !important
+.oe-mt4
+  margin-top: 4px !important
+.oe-mt8
+  margin-top: 8px !important
+.oe-mt16
+  margin-top: 16px !important
+.oe-mt32
+  margin-top: 32px !important
+.oe-mt48
+  margin-top: 48px !important
+.oe-mt64
+  margin-top: 64px !important
+
+/* ------ GENERIC LAYOUT MODIFIERS ----- */
+
+.oe-rightfit
+  padding-right: 0px !important
+.oe-leftfit
+  padding-left: 0px !important
+.oe-leftalign 
+  text-align: left
+.oe-rightalign
+  text-align: right
+.oe-centeralign
+  text-align: center
+.oe-centered
+  margin-left: auto
+  margin-right: auto
+.oe-hidden
+  display: none !important
+  opacity: 0 !important
+.oe-invisible
+  visibility: hidden !important
+.oe-transparent
+  opacity: 0 !important
+
+.oe-mb0
+  margin-bottom: 0px !important
+.oe-mb4
+  margin-bottom: 4px !important
+.oe-mb8
+  margin-bottom: 8px !important
+.oe-mb16
+  margin-bottom: 16px !important
+.oe-mb32
+  margin-bottom: 32px !important
+.oe-mb64
+  margin-bottom: 64px !important
+
+.oe-spaced
+  margin-top: 32px 
+  margin-bottom: 32px 
+.oe-more-spaced
+  margin-top: 64px 
+  margin-bottom: 64px
+.oe-padded
+  padding-top: 16px 
+  padding-bottom: 16px
+.oe-more-padded
+  padding-top: 32px
+  padding-bottom: 32px
+
+/* --------------------------------- * 
+ *        WEBPAGE COMPONENTS         *
+ * --------------------------------- */
+
+/* ------ BUTTONS ----- */
+
+.oe-button
+  position: relative
+  bottom: 0
+  display: inline-block
+  cursor: pointer
+  +user-select(none)
+
+.oe-styling-v8 .oe-button, .oe-styling-v8 a.oe-button
+  padding: 8px 14px
+  background: rgb(139, 114, 182)
+  color: white
+  +border-radius(2px)
+  +box-shadow(0px 2px 0px rgb(175, 168, 204))
+  +text-shadow(0px 1px 1px rgba(0,0,0, 0.44))
+  border: solid 1px rgba(0,0,0,0.09)
+  +transition-property((bottom, background))
+  +transition-duration(250ms)
+  &:hover
+    background: rgb(139,91,221)
+    color: white
+  &:active
+    background: rgb(51,51,51)
+    bottom: -3px
+  &.oe-big
+    font-size: 24px
+  &.oe-bigger
+    font-size: 32px
+  &.oe-small
+    font-size: 13px
+    padding: 2px 4px
+    &:active
+      bottom: -1px
+  &.oe-medium
+    padding: 5px 12px
+    font-size: 16px
+  &.oe-tacky
+    background: rgb(255,68,68)
+    +box-shadow(0px 2px 0px #eba8a8)
+    &:hover
+      background: rgb(255,16,16)
+    &:active
+      background: black
+  &.oe-disabled
+    background: rgb(200,200,200)
+    +box-shadow(0px 2px 0px rgb(180,180,180))
+    cursor: default
+    &:hover
+      background: rgb(200,200,200)
+      +box-shadow(0px 2px 0px rgb(180,180,180))
+    &:active
+      background: rgb(200,200,200)
+      bottom: 0px
+      +box-shadow(0px 2px 0px rgb(180,180,180))
+
+.oe-styling-v8.oe-styling-black .oe-button
+  +box-shadow(0px 2px 0px rgb(70,53,85))
+
+/* ------ FORMS ----- */
+
+.oe-styling-v8
+  .oe-input
+    padding: 4px 7px
+    border-radius: 3px
+    border: solid 1px rgb(214,214,214)
+    box-shadow: 0px 2px rgb(230,230,230)
+    background: rgb(250,250,250)
+    font-weight: 300
+    outline: none
+    @include transition( all 150ms linear )
+    &:focus
+      border: solid 1px rgb(150,150,150)
+      box-shadow: 0px 2px rgb(210,210,210)
+
+    &.oe-valid
+      background: #F2FFEC
+      border-color: rgb(177,235,182)
+      box-shadow: 0px 2px rgb(225,248,225)
+      color: rgb(15,97,15)
+
+    &.oe-invalid
+      background: rgb(255,242,242)
+      border-color: #EBB1B1
+      box-shadow: 0px 2px #F8E1E1
+      color: #610F0F
+    &.oe-big
+      padding: 8px 14px
+  .oe-input-label
+    font-weight: 300
+    font-size: 16px
+    &.oe-big
+      font-size: 20px
+
+  /* FIXME: this is a quick hack for the release */ 
+
+  .oe-textarea
+    width: 300px
+    height: 80px
+  .oe-form-layout-table
+    width: 100%
+    td
+      padding-bottom: 16px
+      &:first-child
+        text-align: right
+        padding-right: 16px
+
+/* ------ SLOGANS ----- */
+
+.oe-styling-v8 
+  .oe-slogan
+    color: $v8-title-font-color
+    font-family: $v8-title-font-family
+    text-align: center
+    margin-top: 32px
+    margin-bottom: 32px
+
+  h1.oe-slogan
+    font-size: 64px
+    font-weight: 900
+    margin-top: 48px
+    margin-bottom: 48px
+
+  h2.oe-slogan
+    font-size: 40px
+    font-weight: 300
+
+  h3.oe-slogan
+    font-size: 26px
+    font-weight: 300
+    +opacity(0.5)
+
+  h4.oe-slogan
+    font-size: 24px
+    font-weight: 300
+  h4.oe-slogan:before, h4.oe-slogan:after
+    margin: 0 20px
+    content: ""
+    display: inline-block
+    width: 100px
+    height: 0px
+    border-top: solid 1px
+    vertical-align: middle
+    +opacity(0.3)
+
+  h5.oe-slogan
+    font-weight: 300
+    //TODO
+
+/* ------ QUOTES ----- */
+
+.oe-quote
+  margin: 8px
+  padding: 16px
+  background: rgba(0,0,0,0.02)
+  border: solid 1px rgba(0,0,0,0.06)
+  +border-radius(2px)
+
+  .oe-q,q
+    margin: 10px
+    display: block
+    font-style: italic
+    text-align: center
+    font-size: 20px
+    color: rgb(78, 102, 231)
+    &:before, &:after
+      content: '\"'
+      font-weight: 900
+      +opacity(0.2)
+
+  cite
+    display: block
+    font-style: normal
+    margin-top: 16px
+  
+  .oe-photo
+    float: left
+    +border-radius(3px)
+    margin-right: 16px
+
+  .oe-author
+    font-size: 20px
+    padding-top: 6px
+    color: rgb(141, 123, 172)
+
+.oe-dark .oe-quote
+  background: white
+  border: 1px solid rgb(240,240,255)
+
+/* ------ PICTURES ----- */
+
+// display a picture in a span
+.oe-picture
+  display: block
+  max-width: 84%
+  max-height: 400px
+  margin: 16px 8%
+
+// style the picture like a screenshot
+.oe-screenshot
+  +border-radius(3px)
+  +box-shadow(0px 3px 8px rgba(0,0,0,0.2))
+
+// display a picture taking full width of a row
+.oe-pic-ctr
+  position: relative
+
+.oe-pic-ctr > img.oe-picture
+  width: 100%
+  max-width: none
+  max-height: none
+  margin: 0
+
+// styling of the picture's title
+.oe-pic-ctr > .oe-title
+  position: absolute
+  top: 15px
+  right: 38px
+
+.oe-styling-v8 .oe-pic-ctr > .oe-title
+  font-size: 64px
+  color: white
+  font-weight: 600
+  margin: 0
+  +text-shadow( 0px 2px 0px rgb(73, 73, 73), 0px 2px 5px rgba(0, 0, 0, 0.33), 0px 0px 60px rgba(0, 0, 0, 0.22))
+
+/*  ----- Link Image with Footer ----- */
+/* FIXME: Terrible CSS, rewrite this */
+
+div.oe-demo
+  position: relative
+  border: 1px solid #dedede
+  span.oe-demo-play
+    top: 50%
+    left: 50%
+    width: 80px
+    height: 60px
+    margin-top: -30px
+    margin-left: -40px
+    display: block
+    position: absolute
+    background: url("../img/layout/play-button.png") no-repeat left top transparent
+    pointer-events: none
+  img
+    max-width: 100%
+    width: 100%
+  div.oe-demo-footer
+    position: absolute
+    left: 0
+    background-color: rgba(0,0,0,0.4)
+    opacity: 0.85
+    bottom: -1px
+    width: 100%
+    padding-top: 7px
+    padding-bottom: 7px
+    color: white
+    font-size: 14px
+    font-weight: bold
+    border-bottom-left-radius: 3px
+    border-bottom-right-radius: 3px
+    pointer-events: none
+
+div.oe-demo:hover
+  span.oe-demo-play
+    background: url("../img/layout/play-button-over.png") no-repeat left top transparent
+
+/*  ----- SEPARATOR ----- */
+
+.oe-styling-v8 .oe-container.oe-separator
+  height: 64px
+  margin-bottom: 16px
+  @include background(linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.02)))
+  +box-shadow(0px -3px 10px -5px rgba(0,0,0,0.1) inset)
+  overflow-y: hidden
+
+/*  ----- TABS -----  */
+
+.oe-row-tabs
+  text-align: center
+  margin-top: 0px
+  margin-bottom: 0px
+  padding-top: 21px
+
+.oe-row-tab
+  position: relative
+  min-width: 120px
+  padding: 8px
+  font-size: 20px
+  display: inline-block
+  margin: 0px -2px
+  border-top-left-radius: 4px
+  border-top-right-radius: 4px
+  border: solid 1px rgba(0,0,0,0.1)
+  border-bottom: none
+  background: rgb(250,250,250)
+  background-image: +linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.02))
+  box-shadow: 0px -3px 10px -5px rgba(0,0,0,0.1) inset
+  cursor: pointer
+  @include transition(all 250ms linear)
+
+.oe-row-tab:hover
+  padding-bottom: 12px
+  top: -4px
+  background-color: white
+
+.oe-row-tab.oe-active
+  background-color: white
+  background-image: none
+  box-shadow: none
+  border-top-color: rgb(130, 114, 182)
+  border-top-width: 2px
+  cursor: default
+
+.oe-row-tab.oe-active:hover
+  padding-bottom: 8px
+  top: 0asx
+
+/* ------ CALL TO ACTION ----- */
+
+.oe-calltoaction
+  height: 32px
+  margin-top: -32px
+  position: relative
+

@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+
+        <!--
+            Users Groups
+            Note that the field 'categoryId' is set later in
+            base/data/ir_module_category_data.xml
+        -->
+        <record id="groupErpManager" model="res.groups">
+            <field name="label">Access Rights</field>
+        </record>
+
+        <record id="groupSystem" model="res.groups">
+            <field name="label">Settings</field>
+            <field name="impliedIds" eval="[Command.link(refId('groupErpManager'))]"/>
+            <field name="users" eval="[Command.link(refId('base.userRoot')), Command.link(refId('base.userAdmin'))]"/>
+        </record>
+
+        <record id="groupUser" model="res.groups">
+            <field name="label">Internal User</field>
+        </record>
+
+        <record id="defaultUser" model="res.users">
+            <field name="groupsId" eval="[Command.link(refId('base.groupUser'))]"/>
+        </record>
+
+        <record id="groupMultiCompany" model="res.groups">
+            <field name="label">Multi Companies</field>
+        </record>
+
+        <record id="groupMultiCurrency" model="res.groups">
+            <field name="label">Multi Currencies</field>
+        </record>
+
+        <record id="groupNoOne" model="res.groups">
+            <field name="label">Technical Features</field>
+        </record>
+        <record id="groupAllowExport" model="res.groups">
+            <field name="label">Access to export feature</field>
+            <field name="categoryId" ref="base.category_hidden"/>
+            <field name="users" eval="[Command.link(refId('base.userRoot')), Command.link(refId('base.userAdmin'))]"/>
+        </record>
+        <record id="groupUser" model="res.groups">
+            <field name="impliedIds" eval="[Command.link(refId('groupNoOne'))]"/>
+            <field name="users" eval="[Command.link(refId('base.userRoot')), Command.link(refId('base.userAdmin'))]"/>
+        </record>
+
+        <record id="groupPartnerManager" model="res.groups">
+            <field name="label">Contact Creation</field>
+            <field name="users" eval="[Command.link(refId('base.userRoot')), Command.link(refId('base.userAdmin'))]"/>
+        </record>
+
+        <record id="defaultUser" model="res.users">
+            <field name="groupsId" eval="[Command.link(refId('base.groupPartnerManager')), Command.link(refId('base.groupAllowExport'))]"/>
+        </record>
+
+        <!--
+            A group dedicated to the portal users, making groups
+            restrictions more convenient.
+        -->
+        <record id="groupPortal" model="res.groups">
+            <field name="label">Portal</field>
+            <field name="comment">Portal members have specific access rights (such as record rules and restricted menus).
+                They usually do not belong to the usual Verp groups.</field>
+        </record>
+        <!--
+            A group dedicated to the public user only, making groups
+            restrictions more convenient.
+        -->
+        <record id="groupPublic" model="res.groups">
+            <field name="label">Public</field>
+            <field name="comment">Public users have specific access rights (such as record rules and restricted menus).
+                They usually do not belong to the usual Verp groups.</field>
+        </record>
+
+        <record id="publicUser" model="res.users">
+            <field name="groupsId" eval="[Command.link(refId('base.groupPublic'))]"/>
+        </record>
+
+        <!-- Default template user for new users signing in -->
+        <record id="templatePortalUserId" model="res.users">
+            <field name="label">Portal User Template</field>
+            <field name="login">portaltemplate</field>
+            <field name="active" eval="false"/>
+            <field name="groupsId" eval="[Command.set([refId('base.groupPortal')])]"/>
+        </record>
+
+        <record id="defaultTemplateUserConfig" model="ir.config.parameter">
+            <field name="key">base.templatePortalUserId</field>
+            <field name="value" ref="templatePortalUserId"/>
+        </record>
+
+    </data>
+</verp>

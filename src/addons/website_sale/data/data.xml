@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="menuShop" model="website.menu">
+            <field name="label">Shop</field>
+            <field name="url">/shop</field>
+            <field name="parentId" ref="website.mainMenu"/>
+            <field name="sequence" type="int">20</field>
+        </record>
+        <record id="actionOpenWebsite" model="ir.actions.acturl">
+            <field name="label">Website Shop</field>
+            <field name="target">self</field>
+            <field name="url">/shop</field>
+        </record>
+        <record id="base.openMenu" model="ir.actions.todo">
+            <field name="actionId" ref="actionOpenWebsite"/>
+            <field name="state">open</field>
+        </record>
+
+        <record id="productAttributeBrand" model="product.attribute">
+            <field name="label">Brand</field>
+            <field name="sequence">0</field>
+        </record>
+
+        <record id="website_sale.saleRibbon" model="product.ribbon">
+            <field name="html">Sale</field>
+            <field name="htmlClass">bg-success o-ribbon-left</field>
+        </record>
+
+        <record id="website_sale.soldOutRibbon" model="product.ribbon">
+            <field name="html">Sold out</field>
+            <field name="htmlClass">bg-danger o-ribbon-left</field>
+        </record>
+
+        <record id="website_sale.outOfStockRibbon" model="product.ribbon">
+            <field name="html">Out of stock</field>
+            <field name="htmlClass">bg-warning o-ribbon-left</field>
+        </record>
+
+        <record id="website_sale.newRibbon" model="product.ribbon">
+            <field name="html">New!</field>
+            <field name="htmlClass">bg-primary o-ribbon-left</field>
+        </record>
+
+        <record id="sales_team.salesteamWebsiteSales" model="crm.team">
+            <field name="active" eval="true"/>
+        </record>
+
+        <record model="website" id="website.defaultWebsite">
+            <field name="salesteamId" ref="sales_team.salesteamWebsiteSales"/>
+        </record>
+
+        <record model="product.pricelist" id="product.list0">
+            <field name="selectable" eval="true" />
+            <field name="websiteId" eval="false"/>
+        </record>
+
+    </data>
+    <data>
+        <!-- Filters for Dynamic Filter -->
+        <record id="dynamicSnippetNewestProductsFilter" model="ir.filters">
+            <field name="label">Newest Products</field>
+            <field name="modelId">product.product</field>
+            <field name="userId" eval="false" />
+            <field name="domain">[['websitePublished', '=', true]]</field>
+            <field name="context">{'display_defaultCode': false, 'add2cartRerender': false}</field>
+            <field name="sort">['createdAt desc']</field>
+            <field name="actionId" ref="website.actionWebsite"/>
+        </record>
+        <!-- Action Server for Dynamic Filter -->
+        <record id="dynamicSnippetLatestSoldProductsAction" model="ir.actions.server">
+            <field name="label">Recently Sold Products</field>
+            <field name="modelId" ref="model_productProduct"/>
+            <field name="state">code</field>
+            <field name="code">
+const dynamicFilter = model.env.items('website.snippet.filter');
+response = await dynamicFilter._getProducts('latestSold', model.env.context);
+            </field>
+        </record>
+        <record id="dynamicSnippetLatestViewedProductsAction" model="ir.actions.server">
+            <field name="label">Recently Viewed Products</field>
+            <field name="modelId" ref="model_productProduct"/>
+            <field name="state">code</field>
+            <field name="code">
+const dynamicFilter = model.env.items('website.snippet.filter');
+const resProducts = await dynamicFilter._getProducts('latestViewed', model.env.context);
+for (const data of resProducts) {
+    data['_latestViewed'] = true;
+}
+response = resProducts;
+            </field>
+        </record>
+        <record id="dynamicSnippetAccessoriesAction" model="ir.actions.server">
+            <field name="label">Product Accessories</field>
+            <field name="modelId" ref="model_productProduct"/>
+            <field name="state">code</field>
+            <field name="code">
+const dynamicFilter = model.env.items('website.snippet.filter');
+model.env.context['productTemplateId'] = request.params.get('productTemplateId');
+response = await dynamicFilter._getProducts('accessories', model.env.context);
+            </field>
+        </record>
+        <record id="dynamicSnippetRecentlySoldWithAction" model="ir.actions.server">
+            <field name="label">Products Recently Sold With</field>
+            <field name="modelId" ref="model_productProduct"/>
+            <field name="state">code</field>
+            <field name="code">
+const dynamicFilter = model.env.items('website.snippet.filter');
+model.env.context['productTemplateId'] = request.params.get('productTemplateId');
+response = await dynamicFilter._getProducts('recentlySoldWith', model.env.context);
+            </field>
+        </record>
+        <!-- Dynamic Filter -->
+        <record id="dynamicFilterNewestProducts" model="website.snippet.filter">
+            <field name="filterId" ref="website_sale.dynamicSnippetNewestProductsFilter"/>
+            <field name="fieldNames">displayName,descriptionSale,image512,price:monetary</field>
+            <field name="limit" eval="16"/>
+            <field name="label">Newest Products</field>
+        </record>
+        <record id="dynamicFilterLatestSoldProducts" model="website.snippet.filter">
+            <field name="actionServerId" ref="website_sale.dynamicSnippetLatestSoldProductsAction"/>
+            <field name="fieldNames">displayName,descriptionSale,image512,price:monetary</field>
+            <field name="limit" eval="16"/>
+            <field name="label">Recently Sold Products</field>
+        </record>
+        <record id="dynamicFilterLatestViewedProducts" model="website.snippet.filter">
+            <field name="actionServerId" ref="website_sale.dynamicSnippetLatestViewedProductsAction"/>
+            <field name="fieldNames">displayName,descriptionSale,image512,price:monetary</field>
+            <field name="limit" eval="16"/>
+            <field name="label">Recently Viewed Products</field>
+        </record>
+        <record id="dynamicFilterCrossSellingAccessories" model="website.snippet.filter">
+            <field name="actionServerId" ref="website_sale.dynamicSnippetAccessoriesAction"/>
+            <field name="fieldNames">displayName,descriptionSale,image512,price:monetary</field>
+            <field name="limit" eval="16"/>
+            <field name="label">Accessories for Product</field>
+            <field name="productCrossSelling">true</field>
+        </record>
+        <record id="dynamicFilterCrossSellingRecentlySoldWith" model="website.snippet.filter">
+            <field name="actionServerId" ref="website_sale.dynamicSnippetRecentlySoldWithAction"/>
+            <field name="fieldNames">displayName,descriptionSale,image512,price:monetary</field>
+            <field name="limit" eval="16"/>
+            <field name="label">Products Recently Sold With Product</field>
+            <field name="productCrossSelling">true</field>
+        </record>
+
+        <function model="ir.model.fields" name="formbuilderWhitelist">
+            <value>sale.order</value>
+            <value eval="[
+                'clientOrderRef',
+            ]"/>
+        </function>
+
+        <record id="base.model_resPartner" model="ir.model">
+            <field name="websiteFormKey">createCustomer</field>
+            <field name="websiteFormAccess">true</field>
+            <field name="websiteFormLabel">Create a Customer</field>
+        </record>
+        <function model="ir.model.fields" name="formbuilderWhitelist">
+            <value>res.partner</value>
+            <value eval="[
+                'label', 'phone', 'email',
+                'city', 'zip', 'street', 'street2', 'stateId', 'countryId',
+                'vat', 'companyName'
+            ]"/>
+        </function>
+    </data>
+</verp>

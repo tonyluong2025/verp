@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23" height="8" viewBox="0 0 23 8">
+  <g fill="none" fill-rule="evenodd" class="symbols">
+    <g class="3-buttons-copy-6" transform="translate(-171 -7)">
+      <g class="media-layout-1-2-right" transform="translate(171 7)">
+        <rect width="10" height="8" fill="#B8B8B8" class="o-subdle"/>
+        <rect width="11" height="8" x="12" fill="#FFF" class="o-graphic"/>
+      </g>
+    </g>
+  </g>
+</svg>

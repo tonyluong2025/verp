@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="autovacuumJob" model="ir.cron">
+        <field name="label">Base: Auto-vacuum internal data</field>
+        <field name="modelId" ref="model_irAutovacuum"/>
+        <field name="state">code</field>
+        <field name="code">model._runVacuumCleaner()</field>
+        <field name='intervalNumber'>1</field>
+        <field name='intervalType'>days</field>
+        <field name="numbercall">-1</field>
+    </record>
+</verp>

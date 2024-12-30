@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="SyncNotification" owl="1">
+        <div class="oe-status" t-on-click="onClick">
+            <span t-if="state.msg" class="js-msg">
+                <t t-esc="state.msg" />
+                <span> </span>
+            </span>
+            <div t-if="state.status === 'connected'" class="js-connected oe-icon oe-green">
+                <i class="fa fa-fw fa-wifi" role="img" aria-label="Synchronisation Connected"
+                   title="Synchronisation Connected"></i>
+            </div>
+            <div t-if="state.status === 'connecting'" class="js-connecting oe-icon">
+                <i class="fa fa-fw fa-spin fa-circle-o-notch" role="img"
+                   aria-label="Synchronisation Connecting" title="Synchronisation Connecting"></i>
+            </div>
+            <div t-if="state.status === 'disconnected'" class="js-disconnected oe-icon oe-red">
+                <i class="fa fa-fw fa-wifi" role="img" aria-label="Synchronisation Disconnected"
+                   title="Synchronisation Disconnected"></i>
+            </div>
+            <div t-if="state.status === 'error'" class="js-error oe-icon oe-red">
+                <i class="fa fa-fw fa-warning" role="img" aria-label="Synchronisation Error"
+                   title="Synchronisation Error"></i>
+            </div>
+        </div>
+    </t>
+
+</templates>

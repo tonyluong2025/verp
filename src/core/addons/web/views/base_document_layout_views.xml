@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="viewBaseDocumentLayout" model="ir.ui.view">
+            <field name="label">Document Layout</field>
+            <field name="model">base.document.layout</field>
+            <field name="arch" type="xml">
+                <form class="o-document-layout">
+                    <group>
+                        <group class="o-document-layout-company">
+                            <field name="companyId" invisible="1"/>
+                            <field name="externalReportLayoutId" invisible="1" />
+                            <field name="logoPrimaryColor" invisible="1" />
+                            <field name="logoSecondaryColor" invisible="1" />
+                            <field name="reportLayoutId" widget="radio" string="Layout" required="1"/>
+                            <field name="font" widget="selection" required="1"/>
+                            <field name="logo" widget="image" options="{'size': [0, 50]}"/>
+                            <label for="primaryColor" string="Colors" />
+                            <div class="o-document-layout-colors">
+                                <field name="primaryColor" widget="color"/>
+                                <field name="secondaryColor" widget="color"/>
+                                <field name="customColors" class="d-none" />
+                                <button class="btn btn-link" title="Reset to logo colors" attrs="{'invisible': [['customColors', '=', false]]}">
+                                    <label for="customColors" class="fa fa-refresh" string="" />
+                                </button>
+                            </div>
+                            <field name="layoutBackground" widget="selection" required="1"/>
+                            <field name="layoutBackgroundImage" options="{'acceptedFileExtensions': 'image/*'}" attrs="{'invisible': [['layoutBackground', '!=', 'Custom']], 'required': [['layoutBackground', '=', 'Custom']]}">Upload your file</field>
+                            <field name="reportHeader" placeholder="e.g. Global Business Solutions" options="{'resizable': false}"/>
+                            <field name="companyDetails" string="Company Details" options="{'resizable': false}"/>
+                            <field name="reportFooter" string="Footer" options="{'resizable': false}"/>
+                            <field name="paperformatId" widget="selection" required="1" domain="[['reportIds', '=', false]]"/>
+                        </group>
+                        <div>
+                            <field name="preview" widget="iframeWrapper" />
+                            <button name="web.actionReportLayoutPreview" string="Download PDF Preview" type="action" class="oe-link" icon="fa-arrow-right"/>
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Save" class="btn-primary" type="object" name="documentLayoutSave" data-hotkey="q"/>
+                        <button special="cancel" data-hotkey="z" string="Cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionBaseDocumentLayoutConfigurator" model="ir.actions.actwindow">
+            <field name="type">ir.actions.actwindow</field>
+            <field name="label">Configure your document layout</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="resModel">base.document.layout</field>
+            <field name="viewId" ref="web.viewBaseDocumentLayout"/>
+        </record>
+
+    </data>
+</verp>
+

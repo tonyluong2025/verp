@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <!-- Sequences for sale.order -->
+        <record id="seqSaleOrder" model="ir.sequence">
+            <field name="label">Sales Order</field>
+            <field name="code">sale.order</field>
+            <field name="prefix">S</field>
+            <field name="padding">5</field>
+            <field name="companyId" eval="false"/>
+        </record>
+
+    </data>
+</verp>

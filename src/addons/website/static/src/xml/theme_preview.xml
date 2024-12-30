@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="website.ThemePreview.Buttons">
+        <div>
+            <div class="o-form-buttons-view" role="toolbar" aria-label="Main actions">
+                <button type="object" name="buttonChooseTheme" class="btn btn-primary o-use-theme">
+                    Start Now
+                </button>
+                <button class="btn btn-link o-switch-theme">
+                    Choose another theme
+                </button>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="website.ThemePreview.SwitchModeButton">
+        <div class="btn-group btn-group-toggle ml-1" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+                <input type="radio" name="viewer" data-mode='desktop' autocomplete="off" checked='checked'/> Desktop
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="viewer" data-mode='mobile' autocomplete="off"/> Mobile
+            </label>
+        </div>
+    </t>
+    <t t-name="website.ThemePreview.Loader">
+        <div class="o-theme-install-loader-container position-fixed fixed-top fixed-left
+            h-100 w-100 d-flex flex-column align-items-center text-white font-weight-bold text-center">
+            <t t-if="showTips">Building your website...</t>
+            <div class="o-theme-install-loader"></div>
+            <p t-if="showTips" class="o-theme-install-loader-tip w-25">
+                TIP: Once loaded, follow the
+                <span class="o-tooltip o-tooltip-visible bottom o-animated position-relative"></span>
+                <br/>pointer to build the perfect page in 7 steps.
+            </p>
+        </div>
+    </t>
+</templates>

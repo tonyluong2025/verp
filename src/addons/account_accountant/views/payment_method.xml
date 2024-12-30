@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<verp>
+
+    <record id="viewAccountPaymentMethodForm" model="ir.ui.view">
+        <field name="label">account.payment.method</field>
+        <field name="model">account.payment.method</field>
+        <field name="arch" type="xml">
+            <form string="Payment Methods" create="0" edit="0" delete="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="label"/>
+                            <field name="paymentType"/>
+
+                        </group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="viewAccountPaymentMethodTree" model="ir.ui.view">
+        <field name="label">account.payment.method</field>
+        <field name="model">account.payment.method</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Methods" create="0" edit="0" delete="0">
+                <field name="label"/>
+                <field name="paymentType"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewAccountPaymentMethodSearch" model="ir.ui.view">
+        <field name="label">account.payment.method</field>
+        <field name="model">account.payment.method</field>
+        <field name="arch" type="xml">
+            <search string="Payment Methods">
+                <field name="label" string="Payment Method"/>
+                <field name="paymentType"/>
+                <group expand="0" string="Group By">
+                    <filter name="paymentType" string="Payment Type" context="{'groupby':'paymentType'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionAccountPaymentMethod" model="ir.actions.actwindow">
+		<field name="label">Payment Methods</field>
+		<field name="resModel">account.payment.method</field>
+		<field name="viewMode">tree,form</field>
+	</record>
+
+    <menuitem id="menuAccountPaymentMethod"
+              action="actionAccountPaymentMethod"
+              parent="account.rootPaymentMenu"
+              sequence="30"
+              groups="base.groupNoOne" />
+
+</verp>

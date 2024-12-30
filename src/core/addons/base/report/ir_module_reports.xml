@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="irModuleReferencePrint" model="ir.actions.report">
+            <field name="label">Technical guide</field>
+            <field name="model">ir.module.module</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">base.reportIrmodulereference</field>
+            <field name="reportFile">base.reportIrmodulereference</field>
+            <field name="bindingModelId" ref="model_irModuleModule"/>
+            <field name="bindingType">report</field>
+        </record>
+
+    </data>
+</verp>

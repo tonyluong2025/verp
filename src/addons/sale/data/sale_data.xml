@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- Share Button in action menu -->
+        <record id="modelSaleOrderActionShare" model="ir.actions.server">
+            <field name="label">Share</field>
+            <field name="modelId" ref="sale.model_saleOrder"/>
+            <field name="bindingModelId" ref="sale.model_saleOrder"/>
+            <field name="bindingViewTypes">form</field>
+            <field name="state">code</field>
+            <field name="code">records.actionShare()</field>
+        </record>
+
+        <!-- set default order confirmation template -->
+        <record id="defaultConfirmationTemplate" model="ir.config.parameter">
+            <field name="key">sale.default_confirmation_template</field>
+            <field name="value" ref="sale.mailTemplateSaleConfirmation"/>
+        </record>
+
+        <record model="ir.cron" id="sendInvoiceCron">
+            <field name="label">automatic invoicing: send ready invoice</field>
+            <field name="modelId" ref="payment.model_paymentTransaction" />
+            <field name="state">code</field>
+            <field name="code">model._cronSendInvoice()</field>
+            <field name="userId" ref="base.userRoot" />
+            <field name="intervalNumber">1</field>
+            <field name="intervalType">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+    </data>
+</verp>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+
+        <record model="ir.ui.view" id="viewDecimalPrecisionForm">
+            <field name="label">Decimal Precision</field>
+            <field name="model">decimal.precision</field>
+            <field name="arch" type="xml">
+                <form string="Decimal Precision">
+                    <sheet>
+                        <group col="4">
+                            <field name="label" attrs="{'readonly': [['id', '!=', false]]}"/>
+                            <field name="digits"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="viewDecimalPrecisionTree">
+            <field name="label">Decimal Precision List</field>
+            <field name="model">decimal.precision</field>
+            <field name="arch" type="xml">
+                <tree string="Decimal Precision">
+                    <field name="label"/>
+                    <field name="digits"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.actwindow" id="actionDecimalPrecisionForm">
+                <field name="label">Decimal Accuracy</field>
+                <field name="resModel">decimal.precision</field>
+        </record>
+        <menuitem
+            parent="base.nextId9"
+            id="menuDecimalPrecisionForm"
+            action="actionDecimalPrecisionForm"/>
+
+    </data>
+</verp>

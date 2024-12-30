@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="reportInvoiceDocumentInheritSale" inheritId="account.reportInvoiceDocument">
+        <xpath expr="//address" position="attributes">
+            <attribute name="groups">!sale.groupDeliveryInvoiceAddress</attribute>
+        </xpath>
+        <xpath expr="//address" position="before">
+            <t t-if="await o.partnerShippingId &amp;&amp; (await o.partnerShippingId).ne(await o.partnerId)">
+                <t t-set="informationBlock">
+                    <div groups="sale.groupDeliveryInvoiceAddress" name="shippingAddressBlock">
+                        <strong>Shipping Address:</strong>
+                        <div t-field="o.partnerShippingId"
+                            t-options='{"widget": "contact", "fields": ["address", "label"], "noMarker": true}'/>
+                    </div>
+                </t>
+            </t>
+            <div t-field="o.partnerId"
+                t-options='{"widget": "contact", "fields": ["address", "label"], "noMarker": true}' groups="sale.groupDeliveryInvoiceAddress"/>
+        </xpath>
+    </template>
+</verp>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="hrEmployeePublicViewSearch" model="ir.ui.view">
+            <field name="label">hr.employee.search</field>
+            <field name="model">hr.employee.public</field>
+            <field name="arch" type="xml">
+                <search string="Employees">
+                    <field name="label" string="Employees" filterDomain="['|',['workEmail','ilike',self],['label','ilike',self]]"/>
+                    <field name="jobTitle" string="Job Title"/>
+                    <field name="departmentId" string="Department"/>
+                    <field name="companyId" string="Company"/>
+                    <separator/>
+                    <filter name="archived" string="Archived" domain="[['active', '=', false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="groupManager" string="Manager" domain="[]" context="{'groupby':'parentId'}"/>
+                        <filter name="groupDepartment" string="Department" domain="[]" context="{'groupby':'departmentId'}"/>
+                        <filter name="groupCompany" string="Company" domain="[]" context="{'groupby':'companyId'}"/>
+                    </group>
+                    <searchpanel>
+                        <field name="companyId" groups="base.groupMultiCompany" icon="fa-building" enableCounters="1"/>
+                        <field name="departmentId" icon="fa-users" enableCounters="1"/>
+                    </searchpanel>
+                </search>
+             </field>
+        </record>
+
+        <record id="hrEmployeePublicViewForm" model="ir.ui.view">
+            <field name="label">hr.employee.public.form</field>
+            <field name="model">hr.employee.public</field>
+            <field name="arch" type="xml">
+                <form string="Employee" create="0" write="0" jsClass="hrEmployeeForm">
+                    <field name="image128" invisible="1" />
+                    <header/>
+                    <sheet>
+                        <field name="userId" invisible="1"/>
+                        <field name="userPartnerId" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                        <div class="oe-button-box" name="buttonBox">
+                            <!-- Used by other modules-->
+                        </div>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <field name="avatar1920" widget='image' class="oe-avatar" options='{"zoom": true, "previewImage":"avatar128"}'/>
+                            <div class="oe-title">
+                                <label for="label" string="Employee Name"/>
+                                <h1>
+                                    <field name="label" placeholder="e.g. John Doe" required="true"/>
+                                    <a title="Chat" icon="fa-comments" href="#" class="ml8 o-employee-chat-btn" invisible="! context['chaticon']" attrs="{'invisible': [['userId','=', false]]}" role="button"><i class="fa fa-comments"/></a>
+                                </h1>
+                                <h2>
+                                    <field name="jobTitle" placeholder="Job Title" />
+                                </h2>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="mobilePhone" widget="phone" options="{'enableSms': false}"/>
+                                    <field name="workPhone" widget="phone" options="{'enableSms': false}"/>
+                                    <field name="workEmail" widget="email"/>
+                                </group>
+                                <group>
+                                    <field name="departmentId"/>
+                                    <field name="employeeType"/>
+                                    <field name="companyId" groups="base.groupMultiCompany"/>
+                                    <field name="parentId"/>
+                                    <field name="coachId"/>
+                                </group>
+                            </group>
+                        <notebook>
+                            <page name="public" string="Work Information">
+                                <div id="o-work-employee-container"> <!-- These two div are used to position orgChart -->
+                                    <div id="oWorkEmployeeMain">
+                                        <group string="Location" name="location">
+                                            <field name="addressId"
+                                                context="{'showAddress': 1}"
+                                                options='{"alwaysReload": true, "highlightFirstLine": true}'/>
+                                            <field name="workLocationId"/>
+                                        </group>
+                                        <group name="managers" string="Approvers" invisible="1">
+                                            <!-- overridden in other modules -->
+                                        </group>
+                                        <group string="Schedule" groups="base.groupNoOne">
+                                            <field name="resourceCalendarId"/>
+                                        </group>
+                                    </div>
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hrEmployeePublicViewTree" model="ir.ui.view">
+            <field name="label">hr.employee.tree</field>
+            <field name="model">hr.employee.public</field>
+            <field name="arch" type="xml">
+                <tree string="Employees" sample="1">
+                    <field name="label"/>
+                    <field name="workPhone" class="o-force-ltr"/>
+                    <field name="workEmail"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <field name="departmentId"/>
+                    <field name="jobTitle"/>
+                    <field name="parentId"/>
+                    <field name="coachId" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hrEmployeePublicViewKanban" model="ir.ui.view">
+            <field name="label">hr.employee.kanban</field>
+            <field name="model">hr.employee.public</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban class="o-hr-employee-kanban" jsClass="hrEmployeeKanban" sample="1">
+                    <field name="id"/>
+                    <field name="hrPresenceState"/>
+                    <field name="userId"/>
+                    <field name="userPartnerId"/>
+                    <field name="lastActivity"/>
+                    <field name="hrIconDisplay"/>
+                    <field name="image128" />
+                    <templates>
+                        <t t-name="kanban-box">
+                        <div class="oe-kanban-global-click o-kanban-record-has-image-fill o-hr-kanban-record">
+                            <field name="avatar128" widget="image" class="o-kanban-image-fill-left" options="{'zoom': true, 'zoomDelay': 1000, 'background': true, 'preventClicks': false}"/>
+
+                            <div class="oe-kanban-details">
+                                <div class="o-kanban-record-top">
+                                    <div class="o-kanban-record-headings">
+                                        <strong class="o-kanban-record-title">
+                                            <div class="float-right"
+                                                 t-if="record.hrIconDisplay.rawValue == 'presencePresent'">
+                                                <!-- Employee is present/connected and it is normal according to his work schedule  -->
+                                                <span class="fa fa-circle text-success" role="img" aria-label="Present"
+                                                      title="Present" name="presencePresent">
+                                                </span>
+                                            </div>
+                                            <div class="float-right"
+                                                 t-if="record.hrIconDisplay.rawValue == 'presenceAbsent'">
+                                                <!-- Employee is absent and it is normal according to his work schedule  -->
+                                                <span class="fa fa-circle-o text-muted" role="img" aria-label="Absent"
+                                                      title="Absent" name="presenceAbsent">
+                                                </span>
+                                            </div>
+                                            <div class="float-right"
+                                                 t-if="record.hrIconDisplay.rawValue == 'presenceAbsentActive'">
+                                                <!-- Employee is connected but according to his work schedule, he should not work for now  -->
+                                                <span class="fa fa-circle-o text-success" role="img"
+                                                      aria-label="Present but not active"
+                                                      title="Present but not active" name="presenceAbsentActive">
+                                                </span>
+                                            </div>
+                                            <!-- Employee is not here but according to his work schedule, he should be connected -->
+                                            <div class="float-right"
+                                                 t-if="record.hrIconDisplay.rawValue == 'presenceToDefine'">
+                                                <span class="fa fa-circle text-warning" role="img"
+                                                      aria-label="To define" title="To define"
+                                                      name="presenceToDefine">
+                                                </span>
+                                            </div>
+                                            <field name="label"/>
+                                        </strong>
+                                        <span t-if="record.jobTitle.rawValue" class="o-kanban-record-subtitle"><field name="jobTitle"/></span>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li id="lastLogin"/>
+                                    <li t-if="record.workEmail.rawValue"><field name="workEmail" /></li>
+                                    <li t-if="record.workPhone.rawValue" class="o-force-ltr"><field name="workPhone" /></li>
+                                </ul>
+                                <div class="oe-kanban-content position-absolute fixed-bottom mr-2">
+                                    <div class="o-kanban-record-bottom">
+                                        <div class="oe-kanban-bottom-left"/>
+                                        <div class="oe-kanban-bottom-right">
+                                            <a title="Chat" icon="fa-comments" href="#" class="ml8 o-employee-chat-btn" attrs="{'invisible': [['userId','=', false]]}" role="button"><i class="fa fa-comments"/></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="hrEmployeePublicAction" model="ir.actions.actwindow">
+            <field name="label">Employees</field>
+            <field name="resModel">hr.employee.public</field>
+            <field name="viewMode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="viewId" eval="false"/>
+            <field name="searchViewId" ref="hrEmployeePublicViewSearch"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Add a new employee
+              </p><p>
+                With just a quick glance on the Verp employee screen, you
+                can easily find all the information you need for each person;
+                contact data, job position, availability, etc.
+              </p>
+            </field>
+        </record>
+
+    </data>
+</verp>

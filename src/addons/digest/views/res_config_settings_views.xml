@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.digest</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='contactsSettings']" position="before">
+                <div id="statistics" >
+                    <h2>Statistics</h2>
+                    <div class='row mt16 o-settings-container' id='statisticsDiv'>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            title="New users are automatically added as recipient of the following digest email."
+                            name="digestEmailSettingContainer">
+                            <div class="o-setting-left-pane">
+                                <field name="digestEmails"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label string="Digest Email" for="digestEmails"/>
+                                <div class="text-muted" id="msgModuleDigest">
+                                    Add new users as recipient of a periodic email with key metrics
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['digestEmails','=',false]]}">
+                                    <div class="mt16">
+                                        <label for="digestId" class="o-light-label"/>
+                                        <field name="digestId" class="oe-inline"/>
+                                    </div>
+                                    <div class="mt8">
+                                        <button type="action" name="%(digest.digestDigestAction)d" string="Configure Digest Emails" icon="fa-arrow-right" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</verp>

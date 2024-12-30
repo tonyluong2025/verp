@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data noupdate="1">
+    <record forcecreate="true" id="irCronCrmLeadAssign" model="ir.cron">
+        <field name="label">CRM: Lead Assignment</field>
+        <field name="modelId" ref="crm.model_crmTeam"/>
+        <field name="state">code</field>
+        <field name="code">model._cronAssignLeads()</field>
+        <field name="active" eval="false"/>
+        <field name="userId" ref="base.userRoot"/>
+        <field name="intervalNumber">1</field>
+        <field name="intervalType">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="false"/>
+    </record>
+</data></verp>

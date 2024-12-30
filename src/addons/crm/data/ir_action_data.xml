@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <!--
+        'Mark as Lost' in action dropdown
+    -->
+    <record id="actionMarkAsLost" model="ir.actions.server">
+        <field name="label">Mark as lost</field>
+        <field name="modelId" ref="model_crmLead"/>
+        <field name="bindingModelId" ref="crm.model_crmLead"/>
+        <field name="bindingViewTypes">list</field>
+        <field name="state">code</field>
+        <field name="code">async () => { 
+if (!(await records.mapped('type')).includes('opportunity')) {
+    return records.actionSetLost();
+}
+else if (records.ok) {
+    actionValues = await (await (await env.ref('crm.crmLeadLostAction')).sudo()).readOne();
+    actionValues.update({'context': env.context});
+    return actionValues;
+}
+        }
+        </field>
+    </record>
+
+    <record id="actionYourPipeline" model="ir.actions.server">
+        <field name="label">Crm: My Pipeline</field>
+        <field name="modelId" ref="model_crmTeam"/>
+        <field name="state">code</field>
+        <field name="groupsId"  eval="[[4, refId('base.groupUser')]]"/>
+        <field name="code">model.actionYourPipeline()</field>
+    </record>
+
+    <record id="actionOpportunityForecast" model="ir.actions.server">
+        <field name="label">Crm: Forecast</field>
+        <field name="modelId" ref="model_crmTeam"/>
+        <field name="state">code</field>
+        <field name="groupsId"  eval="[[4, refId('base.groupUser')]]"/>
+        <field name="code">model.actionOpportunityForecast()</field>
+    </record>
+
+</verp>

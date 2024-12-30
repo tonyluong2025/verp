@@ -1,0 +1,62 @@
+.o-payment-form {
+    label > input[type="radio"], input[type="checkbox"]{
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+    .payment-option-name {
+        font-size: 14px;
+        font-weight: normal !important;
+        font-family: Helvetica Neue, sans-serif;
+        line-height: 1.3em;
+        color: #4d4d4d;
+    }
+
+    label {
+        font-weight: normal;
+        margin-top: 5px;
+    }
+
+    .card {
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .card-body {
+        &:not(:first-child) {
+            border-top: 1px solid #dddddd;
+        }
+        padding: 1.14em !important;
+        &.o-payment-option-card:hover {
+            cursor: pointer;
+        }
+    }
+
+    .card-footer {
+        padding: 0.5rem;
+        label {
+            margin-top: 15px;
+        }
+    }
+
+    .card-footer:last-child {
+        border-bottom-right-radius: 10px !important;
+        border-bottom-left-radius: 10px !important;
+    }
+
+    .payment-icon-list {
+        position: relative;
+        li {
+            padding-left: 5px !important;
+            padding-right: 0px !important;
+        }
+
+        .more-option {
+            @include o-position-absolute($right: 10px);
+            font-size:10px;
+        }
+
+        margin-top: 0px !important;
+        margin-bottom: -5px !important;
+    }
+}

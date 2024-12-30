@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="60" viewBox="0 0 82 60">
+  <defs>
+    <linearGradient id="linearGradient_1" x1="0%" x2="100%" y1="44.17%" y2="55.83%">
+      <stop offset="0%" stop-color="#00A09D"/>
+      <stop offset="100%" stop-color="#00E2FF"/>
+    </linearGradient>
+    <rect id="path_2" width="22" height="2" x="0" y="0"/>
+    <filter id="filter_3" width="104.5%" height="200%" x="-2.3%" y="-25%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.4 0"/>
+    </filter>
+    <path id="path_4" d="M16 8v1H0V8h16zm4-3v1H0V5h20z"/>
+    <filter id="filter_5" width="105%" height="150%" x="-2.5%" y="-12.5%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.2 0"/>
+    </filter>
+    <path id="path_6" d="M53.22 11.566c.15.145.183.312.1.501-.081.193-.224.29-.427.29h-2.771l1.458 3.453a.47.47 0 0 1-.247.61l-1.284.544a.47.47 0 0 1-.61-.247l-1.385-3.279-2.263 2.263a.446.446 0 0 1-.5.102c-.194-.082-.291-.225-.291-.428V4.465c0-.204.097-.347.29-.429a.45.45 0 0 1 .5.102l7.43 7.428z"/>
+    <filter id="filter_8" width="112%" height="115.4%" x="-6%" y="-3.8%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 1 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" class="snippets-thumbs">
+    <g class="s-call-to-action">
+      <rect width="82" height="60" class="bg"/>
+      <g fill="url(#linearGradient_1)" class="group" opacity=".4" transform="translate(0 16)">
+        <g class="image-1">
+          <rect width="82" height="28" class="rectangle"/>
+        </g>
+      </g>
+      <g class="center-group" transform="translate(15 25)">
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_3)" xlink:href="#path_2"/>
+          <use fill="#FFF" fill-opacity=".95" xlink:href="#path_2"/>
+        </g>
+        <g class="combined-shape">
+          <use fill="#000" filter="url(#filter_5)" xlink:href="#path_4"/>
+          <use fill="#FFF" fill-opacity=".8" xlink:href="#path_4"/>
+        </g>
+        <rect width="16" height="7" x="36.5" y=".5" fill="#1C1C1C" stroke="#FFF" class="rectangle" opacity=".703"/>
+        <mask id="mask_7" fill="#fff">
+          <use xlink:href="#path_6"/>
+        </mask>
+        <g fill-rule="nonzero" class="mouse-pointer">
+          <use fill="#000" filter="url(#filter_8)" xlink:href="#path_6"/>
+          <use fill="#FFF" xlink:href="#path_6"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

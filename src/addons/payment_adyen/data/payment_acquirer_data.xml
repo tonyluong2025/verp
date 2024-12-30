@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+
+    <record id="payment.paymentAcquirerAdyen" model="payment.acquirer">
+        <field name="provider">adyen</field>
+        <field name="inlineFormViewId" ref="inlineForm"/>
+        <field name="supportAuthorization">false</field>
+        <field name="supportFeesComputation">false</field>
+        <field name="supportRefund">partial</field>
+        <field name="supportTokenization">true</field>
+        <field name="allowTokenization">true</field>
+    </record>
+
+    <record id="paymentMethodAdyen" model="account.payment.method">
+        <field name="label">Adyen</field>
+        <field name="code">adyen</field>
+        <field name="paymentType">inbound</field>
+    </record>
+
+</verp>

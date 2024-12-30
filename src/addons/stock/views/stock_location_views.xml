@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="actProductLocationOpen" model="ir.actions.actwindow">
+        <field name="label">Products</field>
+        <field name="resModel">product.product</field>
+        <field name="context">{'location': activeId, 'searchDefault_realStockAvailable': 1, 'searchDefault_virtualStockAvailable': 1, 'searchDefault_virtualStockNegative': 1, 'searchDefault_realStockNegative': 1, 'create': false}</field>
+        <field name="bindingModelId" ref="model_stockLocation"/>
+        <field name="bindingViewTypes">form</field>
+        <field name="searchViewId" ref="stock.stockProductSearchFormView"/>
+    </record>
+
+    <record id="viewLocationForm" model="ir.ui.view">
+        <field name="label">stock.location.form</field>
+        <field name="model">stock.location</field>
+        <field name="arch" type="xml">
+            <form string="Stock Location" create="false">
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button string="Putaway Rules"
+                                class="oe-stat-button"
+                                icon="fa-random" name="%(locationOpenPutaway)d" type="action"
+                                groups="stock.groupStockMultiLocations" context="{'default_companyId': companyId }"/>
+                        <button string="Current Stock"
+                                class="oe-stat-button"
+                                icon="fa-cubes" name="%(locationOpenQuants)d" type="action"/>
+                    </div>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <label for="label"/>
+                    <h1><field name="label" placeholder="e.g. Spare Stock"/></h1>
+                    <label for="locationId"/>
+                    <h2><field name="locationId" placeholder="e.g. Physical Locations" options="{'noCreate': true}"/></h2>
+
+                    <group>
+                        <group string="Additional Information" name="additionalInfo">
+                            <field name="active" invisible="1"/>
+                            <field name="usage"/>
+                            <field name="storageCategoryId" attrs="{'invisible': [['usage', '!=', 'internal']]}" groups="stock.groupStockStorageCategories"/>
+                            <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                            <field name="scrapLocation" attrs="{'invisible': [['usage', 'not in', ['inventory', 'internal']]]}"/>
+                            <field name="returnLocation"/>
+                        </group>
+                        <group string="Cyclic Inventory" attrs="{'invisible': ['|', ['usage', 'not in', ['internal', 'transit']], ['companyId', '=', false]]}">
+                            <field name="cyclicInventoryFrequency"/>
+                            <field name="lastInventoryDate"/>
+                            <field name="nextInventoryDate" attrs="{'invisible': [['active', '=', false]]}"/>
+                        </group>
+                        <group string="Logistics" groups="stock.groupAdvLocation">
+                            <field name="removalStrategyId" options="{'noCreate': true}"/>
+                        </group>
+                    </group>
+                    <field name="comment" placeholder="External note..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="stockLocationViewFormEditable" model="ir.ui.view">
+        <field name="label">stock.location.form.editable</field>
+        <field name="model">stock.location</field>
+        <field name="inheritId" ref="stock.viewLocationForm"/>
+        <field name="groupsId" eval="[[4, refId('stock.groupStockMultiLocations')]]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="viewLocationSearch" model="ir.ui.view">
+        <field name="label">stock.location.search</field>
+        <field name="model">stock.location</field>
+        <field name="arch" type="xml">
+            <search string="Stock Locations">
+                <field name="completeName" string="Stock Locations"/>
+                <filter name="inLocation" string="Internal" domain="[['usage', '=', 'internal']]" help="Internal Locations"/>
+                <filter name="customer" string="Customer" domain="[['usage', '=', 'customer']]" help="Customer Locations"/>
+                <filter name="prodInvLocation" string="Production" domain="[['usage', 'in', ['inventory', 'production']]]" help="Production Locations"/>
+                <filter name="supplier" string="Vendor" domain="[['usage', '=', 'supplier']]" help="Vendor Locations"/>
+                <field name="locationId" string="Parent Location"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="viewLocationTree2" model="ir.ui.view">
+        <field name="label">stock.location.tree</field>
+        <field name="model">stock.location</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <tree string="Stock Location" decoration-info="usage=='view'" decoration-danger="usage=='internal'" create="false" multiEdit="1">
+                <field name="active" invisible="1"/>
+                <field name="completeName" string="Location"/>
+                <field name="usage"/>
+                <field name="storageCategoryId" attrs="{'readonly': [['usage', '!=', 'internal']]}" groups="stock.groupStockStorageCategories"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="stockLocationViewTree2Editable" model="ir.ui.view">
+        <field name="label">stock.location.tree2.editable</field>
+        <field name="model">stock.location</field>
+        <field name="inheritId" ref="stock.viewLocationTree2"/>
+        <field name="groupsId" eval="[[4, refId('stock.groupStockMultiLocations')]]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.actwindow" id="actionStorageCategoryLocations">
+        <field name="label">Locations</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">stock.location</field>
+        <field name="viewMode">tree,form</field>
+        <field name="domain">[['storageCategoryId', '=', activeId]]</field>
+    </record>
+
+    <record id="actionLocationForm" model="ir.actions.actwindow">
+        <field name="label">Locations</field>
+        <field name="resModel">stock.location</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">tree,form</field>
+        <field name="viewId" ref="viewLocationTree2"/>
+        <field name="searchViewId" ref="viewLocationSearch"/>
+        <field name="context">{'searchDefault_inLocation':1}</field>
+        <field name="help" type="html">
+          <p class="o-view-nocontent-smiling-face">
+            Add a new location
+          </p><p>
+            Define your locations to reflect your warehouse structure and
+            organization. Verp is able to manage physical locations
+            (warehouses, shelves, bin, etc), partner locations (customers,
+            vendors) and virtual locations which are the counterpart of
+            the stock operations like the manufacturing orders
+            consumptions, inventories, etc.
+          </p><p>
+            Every stock operation in Verp moves the products from one
+            location to another one.  For instance, if you receive products
+            from a vendor, Verp will move products from the Vendor
+            location to the Stock location. Each report can be performed on
+            physical, partner or virtual locations.
+          </p>
+        </field>
+    </record>
+    <record id="actionProdInvLocationForm" model="ir.actions.actwindow">
+        <field name="label">Locations</field>
+        <field name="resModel">stock.location</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">tree,form</field>
+        <field name="viewId" ref="viewLocationTree2"/>
+        <field name="searchViewId" ref="viewLocationSearch"/>
+        <field name="context">{'searchDefault_prodInvLocation': 1}</field>
+    </record>
+
+    <menuitem action="actionLocationForm" id="menuActionLocationForm"
+        parent="menuWarehouseConfig" sequence="2" groups="stock.groupStockMultiLocations"/>
+
+        <!--Routes-->
+        <record id="stockLocationRouteTree" model="ir.ui.view">
+            <field name="label">stock.location.route.tree</field>
+            <field name="model">stock.location.route</field>
+            <field name="arch" type="xml">
+                <tree string="Routes">
+                    <field name="sequence" widget="handle" />
+                    <field name="label"/>
+                    <field name="active" invisible="1"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stockLocationRouteFormView" model="ir.ui.view">
+            <field name="label">stock.location.route.form</field>
+            <field name="model">stock.location.route</field>
+            <field eval="7" name="priority" />
+            <field name="arch" type="xml">
+                <form string="Route">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <div class="oe-title">
+                            <label for="label"/>
+                            <h1><field name="label" placeholder="e.g. Two-steps reception"/></h1>
+                        </div>
+                    <group>
+                        <group>
+                            <field name="sequence" string="Sequence" groups="base.groupNoOne"/>
+                            <field name="active" invisible="1"/>
+                            <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                        </group>
+                    </group>
+                    <separator string="Applicable On"/>
+                    <p class="oe-grey">Select the places where this route can be selected</p>
+                    <group>
+                        <group>
+                            <label for="productCategSelectable" string="Product Categories"/>
+                            <div>
+                                <field name="productCategSelectable" class="oe-inline"/>
+                            </div>
+                            <label for="productSelectable" string="Products"/>
+                            <div>
+                                <field name="productSelectable" class="oe-inline"/>
+                            </div>
+                            <label for="packagingSelectable" string="Packagings"/>
+                            <div>
+                                <field name="packagingSelectable" class="oe-inline"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="warehouseSelectable" string="Warehouses"/>
+                            <field name="warehouseDomainIds" invisible="1"/>
+                            <field name="warehouseIds"  widget="many2manyTags" nolabel="1"
+                                   attrs="{'invisible': [['warehouseSelectable', '=', false]]}"/>
+                        </group>
+                    </group>
+                    <group string="Rules" colspan="4" >
+                        <field name="ruleIds" colspan="4" nolabel="1" context="{'default_companyId': companyId, 'formViewRef':'stock.viewRouteRuleForm'}">
+                            <tree>
+                                <field name="sequence" widget="handle"/>
+                                <field name="action"/>
+                                <field name="locationSrcId" options="{'noCreate': true}"/>
+                                <field name="locationId" options="{'noCreate': true}"/>
+                            </tree>
+                        </field>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stockLocationRouteViewSearch" model="ir.ui.view">
+            <field name="label">stock.location.route.search</field>
+            <field name="model">stock.location.route</field>
+            <field name="arch" type="xml">
+                <search string="Route">
+                    <field name="label"/>
+                    <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionRoutesForm" model="ir.actions.actwindow">
+            <field name="label">Routes</field>
+            <field name="resModel">stock.location.route</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="stockLocationRouteTree" />
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Add a new route
+              </p><p>
+                You can define here the main routes that run through
+                your warehouses and that define the flows of your products. These
+                routes can be assigned to a product, a product category or be fixed
+                on procurement or sales order.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="menuRoutesConfig" action="actionRoutesForm" name="Routes" parent="menuWarehouseConfig" sequence="3" groups="stock.groupAdvLocation"/>
+
+</verp>

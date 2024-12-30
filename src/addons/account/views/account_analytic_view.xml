@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="viewAccountAnalyticLineFormInheritAccount" model="ir.ui.view">
+            <field name="label">account.analytic.line.form.inherit.account</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inheritId" ref="analytic.viewAccountAnalyticLineForm"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='tagIds']" position="after">
+                        <field name="ref"/>
+                        <field name="partnerId"/>
+                    </xpath>
+                    <xpath expr="//field[@name='productUomId']" position="before">
+                        <field name="productId"/>
+                    </xpath>
+                    <group name="amount" position="after">
+                        <group/> <!-- put Accounting group under Amount group -->
+                        <group name="accounting" string="Accounting">
+                            <field name="generalAccountId" options="{'noCreate': true}"/>
+                            <field name="moveId" options="{'noCreate': true}"/>
+                        </group>
+                    </group>
+                </data>
+            </field>
+        </record>
+        <record id="viewAccountAnalyticLineTreeInheritAccount" model="ir.ui.view">
+            <field name="label">account.analytic.line.tree.inherit.account</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inheritId" ref="analytic.viewAccountAnalyticLineTree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='accountId']" position="after">
+                        <field name="ref" invisible="context['toInvoice'] ?? false" optional="hide"/>
+                        <field name="generalAccountId" optional="hide"/>
+                        <field name="moveId" optional="hide"/>
+                        <field name="productId" optional="hide"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        <record id="viewAccountAnalyticLineFilterInheritAccount" model="ir.ui.view">
+            <field name="label">account.analytic.line.select.inherit.account</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inheritId" ref="analytic.viewAccountAnalyticLineFilter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='date']" position="after">
+                        <field name="productId"/>
+                        <field name="partnerId" filterDomain="[['partnerId','childOf',self]]"/>
+                    </xpath>
+                    <xpath expr="//group[@name='groupby']" position="after">
+                        <filter string="Financial Account" name="financialaccount" context="{'groupby':'generalAccountId'}"/>
+                        <filter string="Product" name="product" context="{'groupby':'productId'}"/>
+                        <filter string="Partner" name="partner" context="{'groupby':'partnerId'}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticLinePivot" model="ir.ui.view">
+            <field name="label">account.analytic.line.pivot</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inheritId" ref="analytic.viewAccountAnalyticLinePivot"/>
+            <field name="arch" type="xml">
+                <field name="accountId" position="after">
+                    <field name="partnerId" type="row"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="accountAnalyticAccountViewFormInherit" model="ir.ui.view">
+            <field name="label">account.analytic.account.form.inherit</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inheritId" ref="analytic.viewAccountAnalyticAccountForm"/>
+            <field eval="9" name="priority"/>
+            <field name="arch" type="xml">
+                <div name="buttonBox" position="inside">
+                    <button class="oe-stat-button" type="object" name="actionViewInvoice"
+                        icon="fa-pencil-square-o" attrs="{'invisible': [['invoiceCount', '=', 0]]}">
+                        <field string="Customer Invoices" name="invoiceCount" widget="statinfo"/>
+                    </button>
+                    <button class="oe-stat-button" type="object" name="actionViewVendorBill"
+                        icon="fa-file-text-o" attrs="{'invisible': [['vendorBillCount', '=', 0]]}">
+                        <field string="Vendor Bills" name="vendorBillCount" widget="statinfo"/>
+                    </button>
+                </div>
+            </field>
+        </record>
+
+
+    </data>
+</verp>

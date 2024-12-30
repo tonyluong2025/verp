@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+    <data>
+        <record model="ir.ui.view" id="emailTemplateForm">
+            <field name="label">email.template.form</field>
+            <field name="model">mail.template</field>
+            <field name="arch" type="xml">
+                <form string="Templates">
+                    <sheet>
+                        <div class="oe-button-box" name="buttonBox">
+                            <field name="refIrActwindow" invisible="1"/>
+                            <button class="oe-stat-button"
+                                    groups="base.groupSystem"
+                                    name="createAction" type="object"
+                                    attrs="{'invisible':[['refIrActwindow','!=',false]]}" icon="fa-plus"
+                                    help="Display an option on related documents to open a composition wizard with this template">
+                                <div class="o-field-widget o-stat-info">
+                                    <span class="o-stat-text">Add</span>
+                                    <span class="o-stat-text">Context Action</span>
+                                </div>
+                            </button>
+                            <button name="unlinkAction" type="object"
+                                    groups="base.groupSystem"
+                                    class="oe-stat-button" icon="fa-minus"
+                                    attrs="{'invisible':[['refIrActwindow','=',false]]}"
+                                    help="Remove the contextual action to use this template on related documents" widget="statinfo">
+                                <div class="o-field-widget o-stat-info">
+                                    <span class="o-stat-text">Remove</span>
+                                    <span class="o-stat-text">Context Action</span>
+                                </div>
+                            </button>
+                            <button class="oe-stat-button" name="%(mailTemplatePreviewAction)d" icon="fa-search-plus" string="Preview"
+                                    type="action" target="new"/>
+                        </div>
+                        <div class="oe-title">
+                            <label for="label"/>
+                            <h1><field name="label" required="1" placeholder="e.g. Calendar: Reminder"/></h1>
+                            <group>
+                                <field name="modelId" placeholder="e.g. Users" required="1" options="{'noCreate': true}"/>
+                                <field name="model" invisible="1"/>
+                            </group>
+                        </div>
+                        <notebook>
+                            <page string="Content" name="content">
+                                <div class="oe-title"><label for="subject"/></div>
+                                <div class="oe-title">
+                                    <h2 style="display: inline-block;"><field name="subject" placeholder="Subject (placeholders may be used here)"/></h2>
+                                </div>
+                                <field name="canWrite" invisible="1"/>
+                                <field name="bodyHtml" widget="html" class="oe-bordered-editor"
+                                    options="{'style-inline': true, 'codeview': true }"
+                                    attrs="{'readonly': [['canWrite', '=', false], ['id', '!=', false]]}"/>
+                                <field name="attachmentIds" widget="many2manyBinary"/>
+                            </page>
+                            <page string="Email Configuration" name="emailConfiguration">
+                                <group>
+                                    <field name="emailFrom"
+                                            placeholder="Override author's email"/>
+                                    <field name="useDefaultTo"/>
+                                    <field name="emailTo" attrs="{'invisible': [['useDefaultTo', '=', true]]}"
+                                            placeholder="Comma-separated recipient addresses"/>
+                                    <field name="partnerTo" attrs="{'invisible': [['useDefaultTo', '=', true]]}"
+                                            placeholder="Comma-separated ids of recipient partners"/>
+                                    <field name="emailCc" attrs="{'invisible': [['useDefaultTo', '=', true]]}"
+                                            placeholder="Comma-separated carbon copy recipients addresses"/>
+                                    <field name="replyTo"
+                                            placeholder="Email address to which replies will be redirected when sending emails in mass"/>
+                                    <field name="scheduledDate" string="Scheduled Send Date"/>
+                                </group>
+                            </page>
+                            <page string="Advanced Settings" name="advancedSettings">
+                                <group>
+                                    <field name="lang" placeholder="{{ object.partnerId.lang }}"/>
+                                    <field name="mailServerId"/>
+                                    <field name="autoDelete"/>
+                                    <field name="reportTemplate" domain="[['model','=',model]]"/>
+                                    <field name="reportName" attrs="{'invisible':[['reportTemplate','=',false]]}"/>
+                                </group>
+                            </page>
+                            <page string="Dynamic Placeholder Generator" name="dynamicPlaceholderGenerator">
+                                <group>
+                                    <field name="modelObjectField"
+                                            domain="[['modelId','=',modelId],['ttype','!=','one2many'],['ttype','!=','many2many']]"/>
+                                    <field name="subObject" readonly="1"/>
+                                    <field name="subModelObjectField"
+                                            domain="[['modelId','=',subObject],['ttype','!=','one2many'],['ttype','!=','many2many']]"
+                                            attrs="{'readonly':[['subObject','=',false]],'required':[['subObject','!=',false]]}"/>
+                                    <field name="nullValue"/>
+                                    <field name="copyvalue"/>
+                                </group>
+                            </page>
+                        </notebook>
+                       </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="emailTemplateTree">
+            <field name="label">email.template.tree</field>
+            <field name="model">mail.template</field>
+            <field name="arch" type="xml">
+                <tree string="Templates">
+                    <field name="mailServerId" invisible="1"/>
+                    <field name="label"/>
+                    <field name="modelId"/>
+                    <field name="subject"/>
+                    <field name="emailFrom"/>
+                    <field name="emailTo"/>
+                    <field name="partnerTo"/>
+                    <field name="reportName"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewEmailTemplateSearch" model="ir.ui.view">
+           <field name="label">email.template.search</field>
+           <field name="model">mail.template</field>
+           <field name="arch" type="xml">
+               <search string="Templates">
+                    <field name="label" filterDomain="['|', '|', '|',['label','ilike',self], ['reportName','ilike',self], ['subject','ilike',self], ['emailTo','ilike',self]]" string="Templates"/>
+                    <field name="lang"/>
+                    <field name="modelId"/>
+                    <group expand="0" string="Group by...">
+                        <filter string="SMTP Server" name="smtpserver" domain="[]" context="{'groupby':'mailServerId'}"/>
+                        <filter string="Model" name="model" domain="[]" context="{'groupby':'modelId'}"/>
+                    </group>
+               </search>
+           </field>
+        </record>
+
+        <record model="ir.actions.actwindow" id="actionEmailTemplateTreeAll">
+            <field name="label">Email Templates</field>
+            <field name="resModel">mail.template</field>
+            <field name="viewMode">form,tree</field>
+            <field name="viewId" ref="emailTemplateTree" />
+            <field name="searchViewId" ref="viewEmailTemplateSearch"/>
+        </record>
+
+    </data>
+</verp>

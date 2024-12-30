@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewStockRulesReport" model="ir.ui.view">
+        <field name="label">Stock Rules Report</field>
+        <field name="model">stock.rules.report</field>
+        <field name="arch" type="xml">
+            <form string="Product Routes Report">
+                <group>
+                    <field name="productTemplateId" invisible="1" />
+                    <field name="productHasVariants" invisible="1" />
+                    <field name="productId" 
+                        domain="[['productTemplateId', '=', productTemplateId]]"
+                        attrs="{'readonly': [['productHasVariants', '=', false]]}" options="{'noCreate': true}"/>
+                    <field name="warehouseIds"
+                        groups="stock.groupStockMultiWarehouses"
+                        widget="many2manyTags" />
+                </group>
+                <footer>
+                    <button name="printReport" 
+                        string="Overview" 
+                        type="object" 
+                        data-hotkey="q"
+                        class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionStockRulesReport" model="ir.actions.actwindow">
+        <field name="label">Stock Rules Report</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">stock.rules.report</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="viewStockRulesReport"/>
+        <field name="target">new</field>
+    </record>
+</verp>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.snailmail.account</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="100"/>
+        <field name="inheritId" ref="account.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='sendDefault']" position="inside">
+                <div class="row" attrs="{'invisible': [['moduleSnailmailAccount', '=', false]]}">
+                    <field name="invoiceIsSnailmail" class="col-lg-1 ml16"/>
+                    <label for="invoiceIsSnailmail"/>
+                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."/>
+                </div>
+            </xpath>
+
+            <div id="snailmailSettings" position="inside">
+                <div class="mt16" attrs="{'invisible': [['moduleSnailmailAccount', '=', false]]}">
+                    <div class="content-group">
+                        <div class="row">
+                            <field name="snailmailColor" class="col-lg-1 ml16"/>
+                            <label for="snailmailColor"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."/>
+                        </div>
+                        <div class="row">
+                            <field name="snailmailDuplex" class="col-lg-1 ml16"/>
+                            <label for="snailmailDuplex"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."/>
+                        </div>
+                        <div class="row">
+                            <field name="snailmailCover" class="col-lg-1 ml16"/>
+                            <label for="snailmailCover"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."/>
+                        </div>
+                    </div>
+                </div>
+                <widget name="iapBuyMoreCredits" serviceName="snailmail"/>
+            </div>
+        </field>
+    </record>
+</verp>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.accountant</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="account.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <div data-key="account" position="inside">
+                <h2>Enhanced Financial Reports</h2>
+                <div>
+                    <div class="row mt16 o-settings-container" name="reportSettingContainer">
+                        <div class="col-6 col-lg-6 o-setting-box" id="enhancedReports">
+                            <div>
+                                Preview financial reports without downloading
+                            </div>
+                             <div class="content-group">
+                                 <a target="_blank" href="https://apps.theverp.com/apps/modules/1.0/accounting_reports/"
+                                    style="text-decoration: underline;">Enhanced Financial Reports</a>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-6 o-setting-box" id="excelReports">
+                            <div>
+                                Financial Reports in Excel
+                            </div>
+                             <div class="content-group">
+                                 <a target="_blank" href="https://apps.theverp.com/apps/modules/1.0/accounting_excel_reports/"
+                                    style="text-decoration: underline;">Excel Reports</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row mt16 o-settings-container" name="dynamicReportContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="omDynamicReport">
+                            <div>
+                                Dynamic Accounting Reports
+                            </div>
+                            <div class="content-group">
+                                 <a target="_blank" href="https://apps.theverp.com/apps/modules/1.0/om_dynamic_reports/"
+                                    style="text-decoration: underline;">Drill Down Reports</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+
+</verp>

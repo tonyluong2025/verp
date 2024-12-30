@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewInvoiceAssetCategory" model="ir.ui.view">
+        <field name="label">account.move.supplier.form</field>
+        <field name="model">account.move</field>
+        <field name="inheritId" ref="account.viewMoveForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoiceLineIds']/tree/field[@name='accountId']" position="before">
+                <field string="Asset Category" name="assetCategoryId" force_save="1"
+                       attrs="{'columnInvisible': [['parent.moveType', 'not in', ['inInvoice']]]}"
+                       domain="[['type','=','purchase']]" context="{'default_type':'purchase'}"/>
+            </xpath>
+            <xpath expr="//field[@name='lineIds']/tree/field[@name='accountId']" position="before">
+                <field string="Asset Category" name="assetCategoryId" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

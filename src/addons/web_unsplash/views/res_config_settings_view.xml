@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.web.unsplash</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <div id="webUnsplashWarning" position="replace">
+                <div attrs="{'invisible': [['moduleWebUnsplash', '=', false]]}">
+                    <div class="content-group mt16">
+                        <label for="unsplashAccessKey" class="o-light-label"/>
+                        <field name="unsplashAccessKey"/>
+                    </div>
+                    <div>
+                        <a href="https://www.theverp.com/documentation/1.0/applications/websites/website/optimize/unsplash.html#generate-an-unsplash-access-key" class="oe-link" target="_blank">
+                            <i class="fa fa-arrow-right"/> Generate an Access Key
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+</verp>

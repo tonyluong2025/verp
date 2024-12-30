@@ -1,0 +1,56 @@
+.s-donation:not([data-vcss]) {
+    @include o-input-number-no-arrows();
+
+    .s-donation-btn {
+        transition: background 0.2s;
+
+        &:focus {
+            box-shadow: none !important;
+        }
+    }
+    #sDonationAmountInput {
+        border: none;
+        outline: none;
+        max-width: 145px;
+        background-color: transparent;
+        font-size: inherit;
+        color: inherit;
+
+        &::placeholder {
+            opacity: 0.6;
+            color: inherit;
+        }
+    }
+    .s-donation-range-slider-wrap {
+        // not at 100% to prevent the bubble overflowing the viewport
+        // to the right (with small device when set with max value)
+        width: 90%;
+
+        #sDonationRangeSlider {
+            margin-bottom: 50px;
+        }
+        .s-range-bubble {
+            position: absolute;
+            left: 0%;
+            margin-top: 28px;
+            padding: 0.5rem 1rem;
+            color: color-yiq(o-color('primary'));
+            background: theme-color('primary');
+            font-size: 1.15rem;
+            border-radius: 0.3rem;
+            transform: translateX(-50%);
+    
+            &::after {
+                content: "";
+                position: absolute;
+                top: -5px;
+                left: 50%;
+                width: 0;
+                border-style: solid;
+                border-color: theme-color('primary') transparent;
+                border-width: 0 5px 5px;
+                margin-left: -5px;
+            }
+        }
+    }
+}

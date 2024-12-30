@@ -1,0 +1,53 @@
+.o-list-view {
+	table {
+		overflow-x: hidden;
+	}
+	table, thead, tfoot, td, th {
+	    border: none !important;
+	}
+	thead {
+		background-color: white;
+		th.o-column-sortable:hover {
+		    background-color: white;
+		}
+	}
+	tfoot {
+	    color: white !important;
+	    cursor: default;
+	    font-weight: normal;
+	}
+}
+
+.o-list-table-grouped.table tbody tr {
+	&:nth-of-type(2n+1) {
+		background-color: white;
+	}
+	&.o-group-header {
+	    background-image: none;
+		background-color: gray('200');
+	    box-shadow: inset 0 1px 0 gray('300');
+	}
+	&:hover {
+    	background-color: gray('200');
+    }
+}
+
+.o-content, .modal-content {
+	 > div > .table-responsive {
+	    overflow-x: initial;
+	    > .o-list-view {
+	        thead, thead tr:nth-child(1) th {
+	        	border-bottom: solid 1px gray('300');
+	    		background-color: white;
+	            position: sticky;
+	            z-index: 1;
+	            top: 0;
+	        }
+	        tfoot, tfoot tr:nth-child(1) td {
+    			background-color: $o-list-footer-bg-color;
+	            position: sticky;
+	            bottom: 0;
+	        }
+	    }
+	}
+}

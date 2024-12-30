@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<verp>
+    <data noupdate="1">
+
+         <record id="configGoogleDriveClientId" model="ir.config.parameter">
+            <field name="key">googleDriveClientId</field>
+            <field name="value">598905559630.apps.googleusercontent.com</field>
+        </record>
+
+        <record id="configGoogleDriveClientSecret" model="ir.config.parameter">
+            <field name="key">googleDriveClientSecret</field>
+            <field name="value">vTmou73c-njP-1qCxm7qx7QE</field>
+        </record>
+
+    </data>
+</verp>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="stockInventoryRequestCountFormViewInheritStockAccount" model="ir.ui.view">
+        <field name="label">stock.request.count.form.view.inherit.stock.account</field>
+        <field name="model">stock.request.count</field>
+        <field name="inheritId" ref="stock.stockInventoryRequestCountFormView"/>
+        <field name="arch" type="xml">
+            <field name="userId" position="after">
+                <field name="accountingDate"/>
+            </field>
+        </field>
+    </record>
+</verp>

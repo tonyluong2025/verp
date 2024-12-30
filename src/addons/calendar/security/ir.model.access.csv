@@ -1,0 +1,13 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_calendar_attendee_portal,calendar.attendee_portal,model_calendarAttendee,base.groupPortal,0,0,0,0
+access_calendar_attendee_employee,calendar.attendee_employee,model_calendarAttendee,base.groupUser,1,1,1,1
+access_calendar_alarm,calendar.alarm,model_calendarAlarm,base.groupUser,1,1,1,1
+access_calendar_event_all_user,calendar.event_all_user,model_calendarEvent,base.groupPortal,1,0,0,0
+access_calendar_event_all_employee,calendar.event_all_employee,model_calendarEvent,base.groupUser,1,1,1,1
+access_calendar_event_partner_manager,calendar.event.partner.manager,model_calendarEvent,base.groupPartnerManager,1,1,1,1
+access_calendar_event_type_all,calendar.event.type.all,model_calendarEventType,base.groupUser,1,0,0,0
+access_calendar_event_type_manager,calendar.event.type.manager,model_calendarEventType,base.groupSystem,1,1,1,1
+access_calendar_alarm_manager,access_calendar_alarm_manager,model_calendarAlarmManager,base.groupUser,1,1,1,1
+access_calendar_filters_all,access_calendar_contacts_all,model_calendarFilters,base.groupUser,1,1,1,1
+access_calendar_filters,access_calendar_contacts,model_calendarFilters,base.groupSystem,1,1,1,1
+access_calendar_recurrence,access_calendar_recurrence,model_calendarRecurrence,base.groupUser,1,1,1,1

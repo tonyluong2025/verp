@@ -1,0 +1,4 @@
+"id","label","modelId:id","groupId:id","permRead","permWrite","permCreate","permUnlink"
+"access_portal_share","access.portal.share","model_portalShare","base.groupPartnerManager",1,1,1,0
+"access_portal_wizard","access.portal.wizard","model_portalWizard","base.groupPartnerManager",1,1,1,0
+"access_portal_wizard_user","access.portal.wizard.user","model_portalWizardUser","base.groupPartnerManager",1,1,1,0

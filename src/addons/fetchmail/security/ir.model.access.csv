@@ -1,0 +1,2 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_fetchmail_server,fetchmail.server,model_fetchmailServer,base.groupSystem,1,1,1,1

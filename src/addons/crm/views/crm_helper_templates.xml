@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="crmActionHelper" name="crm action helper">
+        <t t-if="await team.aliasName &amp;&amp; await team.aliasDomain">
+            <p class="o-view-nocontent-smiling-face">
+                Create an opportunity to start playing with your pipeline.
+            </p><p>Use the top left <i>Create</i> button, or send an email to
+            <a t-attf-href="mailto:#{await (await team.aliasId).displayName}"><t t-esc="await (await team.aliasId).displayName"/></a>
+            to test the email gateway.</p>
+        </t>
+        <t t-else="">
+            <p class='o-view-nocontent-smiling-face'>Create an opportunity to start playing with your pipeline.</p>
+            <p>Use the top left Create button, or configure an email alias to test the email gateway.</p>
+        </t>
+    </template>
+</verp>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data noupdate="1">
+    <record id="seqPosSession" model="ir.sequence">
+        <field name="label">POS Session</field>
+        <field name="code">pos.session</field>
+        <field name="prefix">POS/</field>
+        <field name="padding">5</field>
+        <field name="companyId" eval="false" />
+    </record>
+</data>
+</verp>

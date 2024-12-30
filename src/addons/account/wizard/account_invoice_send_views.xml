@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="accountInvoiceSendWizardForm" model="ir.ui.view">
+            <field name="label">account.invoice.send.form</field>
+            <field name="model">account.invoice.send</field>
+            <field name="groupsId" eval="[[4,refId('base.groupUser')]]"/>
+            <field name="arch" type="xml">
+                <form string="Invoice send &amp; Print">
+                    <div class="alert alert-warning" role="alert"
+                         attrs="{'invisible': [['moveTypes', '=', false]]}">
+                        You have selected the following document types at the same time:
+                        <field name="moveTypes"/>
+                    </div>
+                    <!-- truly invisible fields for control and options -->
+                    <field name="compositionMode" invisible="1"/>
+                    <field name="invoiceIds" invisible="1"/>
+                    <field name="emailFrom" invisible="1" />
+                    <field name="mailServerId" invisible="1"/>
+                    <div name="optionPrint">
+                        <field name="isPrint" />
+                        <b><label for="isPrint"/></b>
+                        <div name="infoForm" attrs="{'invisible': ['|', ['isPrint', '=', false], ['compositionMode', '=', 'massMail']]}" class="text-center text-muted d-inline-block">
+                            Preview as a PDF
+                        </div>
+                    </div>
+                    <div name="optionEmail">
+                        <field name="isEmail" />
+                        <b><label for="isEmail"/></b>
+                    </div>
+                    <div class="text-left d-inline-block mr8" attrs="{'invisible': ['|', ['isEmail','=', false], ['invoiceWithoutEmail', '=', false]]}">
+                        <field name="invoiceWithoutEmail" class="mr4"/>
+                    </div>
+                    <div name="mailForm"  attrs="{'invisible': [['isEmail', '=', false]]}">
+                        <!-- visible wizard -->
+                        <div attrs="{'invisible': [['compositionMode', '=', 'massMail']]}">
+                            <group>
+                                <label for="partnerIds" string="Recipients" groups="base.groupUser"/>
+                                <div groups="base.groupUser">
+                                    <span attrs="{'invisible': [['compositionMode', '!=', 'massMail']]}">
+                                        <strong>Email mass mailing</strong> on
+                                        <span>the selected records</span>
+                                    </span>
+                                    <span>Followers of the document and</span>
+                                    <field name="partnerIds" widget="many2manyTagsEmail" placeholder="Add contacts to notify..."
+                                        context="{'forceEmail':true, 'showEmail':true}" attrs="{'invisible': [['compositionMode', '=', 'massMail']]}"/>
+                                </div>
+                                <field name="subject" placeholder="Subject..." attrs="{'required': [['isEmail', '=', true], ['compositionMode', '=', 'comment']]}"/>
+                            </group>
+                            <field name="body" style="border:none;" options="{'style-inline': true}"/>
+                        </div>
+                        <group>
+                            <group attrs="{'invisible': [['compositionMode', '=', 'massMail']]}">
+                                <field name="attachmentIds" widget="many2manyBinary" string="Attach a file" nolabel="1" colspan="2" attrs="{'invisible': [['compositionMode', '=', 'massMail']]}"/>
+                            </group>
+                            <group>
+                                <field name="templateId" options="{'noCreate': true, 'noEdit': true}"
+                                    context="{'default_model': 'account.move'}"/>
+                            </group>
+                        </group>
+                    </div>
+
+                    <footer>
+                        <button string="Send &amp; Print"
+                            attrs="{'invisible': ['|', ['isEmail', '=', false], ['isPrint', '=', false]]}" data-hotkey="q"
+                            name="sendAndPrintAction" type="object" class="send_and_print btn-primary o_mail_send"/>
+                        <button string="Send" data-hotkey="q"
+                            attrs="{'invisible': ['|', ['isPrint', '=', true], ['isEmail', '=', false]]}"
+                            name="sendAndPrintAction" type="object" class="send btn-primary o_mail_send"/>
+                        <button string="Print" data-hotkey="q"
+                            attrs="{'invisible': ['|', ['isPrint', '=', false], ['isEmail', '=', true]]}"
+                            name="sendAndPrintAction" type="object" class="print btn-primary o_mail_send"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                        <button icon="fa-lg fa-save" type="object" name="saveAsTemplate" string="Save as new template"
+                            attrs="{'invisible': ['|', ['compositionMode', '=', 'massMail'], ['isEmail', '=', false]]}"
+                            class="pull-right btn-secondary" help="Save as a new template" data-hotkey="w" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="invoiceSend" model="ir.actions.server">
+            <field name="label">Send &amp; print</field>
+            <field name="state">code</field>
+            <field name="type">ir.actions.server</field>
+            <field name="modelId" ref="model_accountMove"/>
+            <field name="bindingModelId" ref="model_accountMove"/>
+            <field name="bindingViewTypes">list</field>
+            <field name="code">bool(records) ? records.actionSendAndPrint() : null</field>
+        </record>
+
+    </data>
+
+</verp>

@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="calContact_1" model="calendar.filters">
+            <field name="active" eval="true"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="partnerId" ref="base.resPartner_1"/>
+        </record>
+
+        <record id="calContact_2" model="calendar.filters">
+            <field name="active" eval="true"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="partnerId" ref="base.partnerDemo"/>
+        </record>
+
+        <record id="categMeet_1" model="calendar.event.type">
+            <field name="label">Customer Meeting</field>
+        </record>
+
+        <record id="categMeet_2" model="calendar.event.type">
+            <field name="label">Internal Meeting</field>
+        </record>
+
+        <record id="categMeet_3" model="calendar.event.type">
+            <field name="label">Off-site Meeting</field>
+        </record>
+
+        <record id="categMeet_4" model="calendar.event.type">
+            <field name="label">Open Discussion</field>
+        </record>
+
+        <record id="categMeet_5" model="calendar.event.type">
+            <field name="label">Feedback Meeting</field>
+        </record>
+
+        <record id="calendarEvent_1" model="calendar.event">
+            <field name="active" eval="true"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="partnerIds" eval="[[6,0,[refId('base.resPartner_1')]]]"/>
+            <field name="label">Follow-up for Project proposal</field>
+            <field name="description">Meeting to discuss project plan and hash out the details of implementation.</field>
+            <field name="start" eval="time().toFormat('yyyy-MM-03 10:20:00')"/>
+            <field name="categIds" eval="[[6,0,[refId('categMeet_1')]]]"/>
+            <field name="stop" eval="time().toFormat('yyyy-MM-03 16:30:00')"/>
+            <field name="duration" eval="6.3"/>
+            <field name="allday" eval="false"/>
+        </record>
+
+        <record id="calendarEvent_2" model="calendar.event">
+            <field name="active" eval="true"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="partnerIds" eval="[[6,0,[refId('base.partnerRoot'),refId('base.resPartner_4'),refId('base.resPartner_3')]]]"/>
+            <field name="label">Initial discussion</field>
+            <field name="description">Discussion with partner for product.</field>
+            <field name="categIds" eval="[[6,0,[refId('categMeet_3')]]]"/>
+            <field name="start" eval="time().toFormat('yyyy-MM-05 12:00:00')"/>
+            <field name="stop" eval="time().toFormat('yyyy-MM-05 19:00:00')"/>
+            <field name="allday" eval="false"/>
+            <field name="duration" eval="7.0"/>
+        </record>
+
+        <record id="calendarEvent_3" model="calendar.event">
+            <field name="active" eval="true"/>
+            <field name="partnerIds" eval="[[6,0,[refId('base.partnerAdmin')]]]"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="label">Pricing Discussion</field>
+            <field name="description">Internal meeting for discussion for new pricing for product and services.</field>
+            <field name="categIds" eval="[[6,0,[refId('categMeet_1'), refId('categMeet_2')]]]"/>
+            <field name="start" eval="time().toFormat('yyyy-MM-12 15:55:05')"/>
+            <field name="stop" eval="time().toFormat('yyyy-MM-12 18:55:05')"/>
+            <field name="duration" eval="3.0"/>
+            <field name="allday" eval="false"/>
+        </record>
+
+        <record id="calendarEvent_4" model="calendar.event">
+            <field name="active" eval="true"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="partnerIds" eval="[[6,0,[refId('base.partnerDemo'),refId('base.resPartner_1')]]]"/>
+            <field name="label">Requirements review</field>
+            <field name="categIds" eval="[[6,0,[refId('categMeet_3')]]]"/>
+            <field name="start" eval="time().toFormat('yyyy-MM-20 08:00:00')"/>
+            <field name="stop" eval="time().toFormat('yyyy-MM-20 10:30:00')"/>
+            <field name="duration" eval="2.5"/>
+            <field name="allday" eval="false"/>
+        </record>
+
+        <record id="calendarEvent_5" model="calendar.event">
+            <field name="active" eval="true"/>
+            <field name="partnerIds" eval="[[6,0,[refId('base.partnerAdmin'),refId('base.resPartner_12')]]]"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="label">Changes in Designing</field>
+            <field name="categIds" eval="[[6,0,[refId('categMeet_1')]]]"/>
+            <field name="start" eval="time().toFormat('yyyy-MM-22')"/>
+            <field name="stop" eval="time().toFormat('yyyy-MM-22')"/>
+            <field name="allday" eval="true"/>
+        </record>
+
+        <record id="calendarEvent_6" model="calendar.event">
+            <field name="active" eval="true"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="partnerIds" eval="[[6,0,[refId('base.partnerRoot'),refId('base.resPartner_4'),refId('base.resPartner_1'),refId('base.resPartner_12')]]]"/>
+            <field name="label">Presentation for new Services</field>
+            <field name="categIds" eval="[[6,0,[refId('categMeet_1'), refId('categMeet_2')]]]"/>
+            <field name="start" eval="time().toFormat('yyyy-MM-18 02:00:00')"/>
+            <field name="stop" eval="time().toFormat('yyyy-MM-18 10:30:00')"/>
+            <field name="duration" eval="8.5"/>
+            <field name="allday" eval="false"/>
+        </record>
+
+        <record id="calendarEvent_7" model="calendar.event">
+            <field name="active" eval="true"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="partnerIds" eval="[[6,0,[refId('base.resPartner_4')]]]"/>
+            <field name="label">Presentation of the new Calendar</field>
+            <field name="categIds" eval="[[6,0,[refId('categMeet_1'), refId('categMeet_2')]]]"/>
+            <field name="start" eval="time().toFormat('yyyy-MM-16')"/>
+            <field name="stop" eval="time().toFormat('yyyy-MM-16')"/>
+            <field name="duration" eval="8.5"/>
+            <field name="allday" eval="true"/>
+        </record>
+        
+    </data>
+</verp>

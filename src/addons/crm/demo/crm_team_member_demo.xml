@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data noupdate="1">
+
+    <record id="sales_team.crmTeamMemberAdminSales" model="crm.team.member">
+        <field name="assignmentMax">30</field>
+        <field name="assignmentDomain">[['probability', '>=', 20]]</field>
+    </record>
+    <record id="sales_team.crmTeamMemberDemoTeam1" model="crm.team.member">
+        <field name="assignmentMax">45</field>
+        <field name="assignmentDomain">[['probability', '>=', 5]]</field>
+    </record>
+
+</data></verp>

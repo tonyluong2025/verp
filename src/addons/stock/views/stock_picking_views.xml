@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="viewPickingtypeFilter" model="ir.ui.view">
+            <field name="label">stock.picking.type.filter</field>
+            <field name="model">stock.picking.type</field>
+            <field name="arch" type="xml">
+                <search string="Operation Type">
+                    <field name="label"/>
+                    <field name="warehouseId"/>
+                    <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Type of Operation" name="groupbyCode" domain="[]" context="{'groupby': 'code'}"/>
+                        <filter string="Warehouse" name="groupbyWarehouseId" domain="[]" context="{'groupby': 'warehouseId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="viewPickingTypeTree">
+            <field name="label">Operation types</field>
+            <field name="model">stock.picking.type</field>
+            <field name="arch" type="xml">
+                <tree string="Operation Types">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="active" invisible="1"/>
+                    <field name="warehouseId" groups="stock.groupStockMultiWarehouses"/>
+                    <field name="sequenceId" groups="base.groupNoOne"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="viewPickingTypeForm">
+            <field name="label">Operation Types</field>
+            <field name="model">stock.picking.type</field>
+            <field name="arch" type="xml">
+                <form string="Operation Types">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="label"/>
+                                <field name="sequenceId" groups="base.groupNoOne"/>
+                                <field name="sequenceCode"/>
+                                <field name="warehouseId" groups="stock.groupStockMultiWarehouses" forceSave="1"/>
+                                <field name="printLabel" attrs="{'invisible': [['code', '!=', 'internal']]}"/>
+                                <field name="reservationMethod" attrs="{'invisible': [['code', '=', 'incoming']]}" widget="radio"/>
+                                <label for="reservationDaysBefore" string="Reserve before scheduled date" attrs="{'invisible': ['|', ['code', '=', 'incoming'], ['reservationMethod', '!=', 'byDate']]}"/>
+                                <div class="o-row" attrs="{'invisible': ['|', ['code', '=', 'incoming'], ['reservationMethod', '!=', 'byDate']]}">
+                                    <span><field name="reservationDaysBefore" style="width: 23px;"/> days before/</span>
+                                    <span><field name="reservationDaysBeforePriority" style="width: 23px;"/> days before when starred</span>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                                <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                                <field attrs='{"invisible": [["code", "not in", ["incoming", "outgoing", "internal"]]]}' name="returnPickingTypeId"/>
+                                <field name="showOperations"/>
+                                <field name="showReserved" attrs="{'invisible': [['code', '!=', 'incoming']]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group attrs='{"invisible": [["code", "not in", ["incoming", "outgoing", "internal"]]]}' string="Traceability" groups="stock.groupProductionLot" name="stock_picking_type_lot">
+                                <field name="useCreateLots"/>
+                                <field name="useExistingLots"/>
+                            </group>
+                            <group attrs='{"invisible": [["code", "not in", ["incoming", "outgoing", "internal"]]]}' string="Packages" groups="stock.groupTrackingLot">
+                                <field name="showEntirePacks"/>
+                            </group>
+                            <!-- As this group will be hidden without multi_loccation, you will not be able to create a
+                             picking type with the code 'Internal', which make sense, but as the field 'code' on picking
+                             types can't be partially hidden, you can still select the code internal in the form view -->
+                            <group string="Locations" groups="stock.groupStockMultiLocations">
+                                <field name="defaultLocationSrcId" options="{'noCreate': true}" attrs="{'required': [['code', 'in', ['internal', 'outgoing']]]}"/>
+                                <field name="defaultLocationDestId" options="{'noCreate': true}" attrs="{'required': [['code', 'in', ['internal', 'incoming']]]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stockPickingTypeAction" model="ir.actions.actwindow">
+            <field name="label">Inventory Overview</field>
+            <field name="resModel">stock.picking.type</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">kanban,form</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new operation type
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+
+        <record id="actionPickingTypeList" model="ir.actions.actwindow">
+            <field name="label">Operations Types</field>
+            <field name="resModel">stock.picking.type</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No transfer found. Let's create one!
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+
+        </record>
+
+        <menuitem
+            action="stockPickingTypeAction"
+            id="stockPickingTypeMenu"
+            parent="menuStockRoot" sequence="0"
+            name="Overview"/>
+
+        <menuitem id="menuPickingtype" name="Operations Types" parent="stock.menuWarehouseConfig" action="actionPickingTypeList" sequence="5"/>
+
+        <record model="ir.ui.view" id="stockPickingCalendar">
+            <field name="label">stock.picking.calendar</field>
+            <field name="model">stock.picking</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" dateStart="scheduledDate" color="partnerId" eventLimit="5">
+                    <field name="partnerId" filters="1"/>
+                    <field name="origin"/>
+                    <field name="pickingTypeId"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stockPickingKanban">
+            <field name="label">stock.picking.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile" sample="1">
+                    <field name="label"/>
+                    <field name="partnerId"/>
+                    <field name="locationDestId"/>
+                    <field name="state"/>
+                    <field name="scheduledDate"/>
+                    <field name="activityState"/>
+                    <progressbar field="activityState" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-card oe-kanban-global-click">
+                                <div class="o-kanban-record-top mb8">
+                                    <field name="priority" widget="priority"/>
+                                    <div class="o-kanban-record-headings ml-1">
+                                        <strong class="o-kanban-record-title"><span><t t-esc="record.label.value"/></span></strong>
+                                    </div>
+                                    <strong>
+                                            <field name="state" widget="labelSelection" options="{'classes': {'draft': 'default', 'cancel': 'default', 'waiting': 'warning', 'confirmed': 'warning', 'done': 'success'}}"/>
+                                    </strong>
+                                </div>
+                                <div class="o-kanban-record-bottom">
+                                    <div class="oe-kanban-bottom-left">
+                                        <t t-esc="record.partnerId.value"/>
+                                        <field name="activityIds" widget="kanbanActivity"/>
+                                        <field name="jsonPopover" nolabel="1" widget="stockReschedulingPopover" attrs="{'invisible': [['jsonPopover', '=', false]]}"/>
+                                    </div>
+                                    <div class="oe-kanban-bottom-right">
+                                        <t t-esc="record.scheduledDate.value &amp;&amp; record.scheduledDate.value.split(' ')[0] || false"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="vpicktree" model="ir.ui.view">
+            <field name="label">stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <tree string="Picking list" jsClass="lazyColumnList" multiEdit="1" sample="1">
+                    <header>
+                        <button name="doUnreserve" type="object" string="Unreserve"/>
+                        <button name="actionAssign" type="object" string="Check Availability"/>
+                    </header>
+                    <field name="priority" optional="show" widget="priority" nolabel="1"/>
+                    <field name="label" decoration-bf="1"/>
+                    <field name="locationId" options="{'noCreate': true}" string="From" groups="stock.groupStockMultiLocations" optional="show"/>
+                    <field name="locationDestId" options="{'noCreate': true}" string="To" groups="stock.groupStockMultiLocations" optional="show"/>
+                    <field name="partnerId" optional="show"/>
+                    <field name="isSigned" string="Signed" optional="hide" groups="stock.groupStockSignDelivery"/>
+                    <field name="userId" optional="hide" widget="many2oneAvatarUser"/>
+                    <field name="scheduledDate" optional="show" widget="remainingDays" attrs="{'invisible':[['state', 'in', ['done', 'cancel']]]}"/>
+                    <field name="pickingTypeCode" invisible="1"/>
+                    <field name="productsAvailabilityState" invisible="1" options='{"lazy": true}'/>
+                    <field name="productsAvailability" options='{"lazy": true}'
+                        optional="hide"
+                        attrs="{'invisible': ['|', ['pickingTypeCode', '!=', 'outgoing'], ['state', 'not in', ['confirmed', 'waiting', 'assigned']]]}"
+                        decoration-warning="productsAvailabilityState == 'expected'"
+                        decoration-danger="productsAvailabilityState == 'late'"
+                        decoration-success="productsAvailabilityState == 'available'"/>
+                    <field name="dateDeadline" optional="hide" widget="remainingDays" attrs="{'invisible':[['state', 'in', ['done', 'cancel']]]}"/>
+                    <field name="dateDone" string="Effective Date" optional="hide"/>
+                    <field name="origin" optional="show"/>
+                    <field name="backorderId" optional="hide"/>
+                    <field name="pickingTypeId" optional="hide"/>
+                    <field name="companyId" groups="base.groupMultiCompany" optional="show"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done'" decoration-info="['done', 'cancel', 'draft'].includes(state)" decoration-muted="state == 'draft'"/>
+                    <field name="activityExceptionDecoration" widget="activityException"/>
+                    <field name="jsonPopover" nolabel="1" widget="stockReschedulingPopover" attrs="{'invisible': [['jsonPopover', '=', false]]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewPickingForm" model="ir.ui.view">
+            <field name="label">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field eval="12" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Transfer">
+
+                <field name="isLocked" invisible="1"/>
+                <field name="showMarkAsTodo" invisible="1"/>
+                <field name="showCheckAvailability" invisible="1"/>
+                <field name="showValidate" invisible="1"/>
+                <field name="showLotsText" invisible="1"/>
+                <field name="immediateTransfer" invisible="1"/>
+                <field name="pickingTypeCode" invisible="1"/>
+                <field name="hidePickingType" invisible="1"/>
+                <field name="showOperations" invisible="1" readonly="1"/>
+                <field name="showReserved" invisible="1" readonly="1"/>
+                <field name="moveLineExist" invisible="1"/>
+                <field name="hasPackages" invisible="1"/>
+                <field name="pickingTypeEntirePacks" invisible="1"/>
+                <field name="useCreateLots" invisible="1"/>
+
+                <header>
+                    <button name="actionConfirm" attrs="{'invisible': [['showMarkAsTodo', '=', false]]}" string="Mark as Todo" type="object" class="oe-highlight" groups="base.groupUser" data-hotkey="x"/>
+                    <button name="actionAssign" attrs="{'invisible': [['showCheckAvailability', '=', false]]}" string="Check Availability" type="object" class="oe-highlight" groups="base.groupUser"/>
+                    <button name="buttonValidate" attrs="{'invisible': ['|', ['state', 'in', ['waiting','confirmed']], ['showValidate', '=', false]]}" string="Validate" type="object" class="oe-highlight" groups="stock.groupStockUser" data-hotkey="v"/>
+                    <button name="buttonValidate" attrs="{'invisible': ['|', ['state', 'not in', ['waiting', 'confirmed']], ['showValidate', '=', false]]}" string="Validate" type="object" groups="stock.groupStockUser" class="o-btn-validate" data-hotkey="v"/>
+                    <button name="actionSetQuantitiesToReservation" attrs="{'invisible': ['|', ['showValidate', '=', false], ['immediateTransfer', '=', true]]}" string="Set quantities" type="object" groups="stock.groupStockUser" class="o-btn-validate" data-hotkey="g"/>
+                    <widget name="signature" string="Sign" highlight="1"
+                            attrs="{'invisible': ['|', '|', ['id', '=', false], ['pickingTypeCode', '!=', 'outgoing'], ['state', '!=', 'done']]}"
+                            fullName="partnerId" groups="stock.groupStockSignDelivery"/>
+                    <widget name="signature" string="Sign"
+                            attrs="{'invisible': ['|', '|', ['id', '=', false], ['pickingTypeCode', '!=', 'outgoing'], ['state', '=', 'done']]}"
+                            fullName="partnerId" groups="stock.groupStockSignDelivery"/>
+                    <button name="doPrintPicking" string="Print" groups="stock.groupStockUser" type="object" attrs="{'invisible': [['state', '!=', 'assigned']]}" data-hotkey="o"/>
+                    <button string="Print Labels" type="object" name="actionOpenLabelLayout"/>
+                    <button name="%(actionReportDelivery)d" string="Print" attrs="{'invisible': [['state', '!=', 'done']]}" type="action" groups="base.groupUser" data-hotkey="o"/>
+                    <button name="%(actStockReturnPicking)d" string="Return" attrs="{'invisible': [['state', '!=', 'done']]}" type="action" groups="base.groupUser" data-hotkey="k"/>
+                    <button name="doUnreserve" string="Unreserve" groups="base.groupUser" type="object" attrs="{'invisible': ['|', '|', '|', ['pickingTypeCode', '=', 'incoming'], ['immediateTransfer', '=', true], '&amp;', ['state', '!=', 'assigned'], ['moveType', '!=', 'one'], '&amp;', ['state', 'not in', ['assigned', 'confirmed']], ['moveType', '=', 'one']]}" data-hotkey="w"/>
+                    <button name="buttonScrap" type="object" string="Scrap" attrs="{'invisible': ['|', '&amp;', ['pickingTypeCode', '=', 'incoming'], ['state', '!=', 'done'], '&amp;', ['pickingTypeCode', '=', 'outgoing'], ['state', '=', 'done']]}" data-hotkey="y"/>
+                    <button name="actionToggleIsLocked" attrs="{'invisible': ['|', ['state', 'in', ['draft','cancel']], ['isLocked', '=', false]]}" string="Unlock" groups="stock.groupStockManager" type="object" help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)." data-hotkey="l"/>
+                    <button name="actionToggleIsLocked" attrs="{'invisible': [['isLocked', '=', true]]}" string="Lock" groups="stock.groupStockManager" type="object" data-hotkey="l"/>
+                    <field name="state" widget="statusbar" statusbarVisible="draft,confirmed,assigned,done" />
+                    <button name="actionCancel" attrs="{'invisible': [['state', 'not in', ['assigned', 'confirmed', 'draft', 'waiting']]]}" string="Cancel" groups="base.groupUser" type="object" data-hotkey="z"/>
+                </header>
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox">
+                        <field name="hasScrapMove" invisible="true"/>
+                        <field name="hasTracking" invisible="true"/>
+                        <button name="actionSeeMoveScrap" string="Scraps" type="object"
+                            class="oe-stat-button" icon="fa-arrows-v"
+                            attrs="{'invisible': [['hasScrapMove', '=', false]]}"/>
+                        <button name="actionSeePackages" string="Packages" type="object"
+                            class="oe-stat-button" icon="fa-cubes"
+                            attrs="{'invisible': [['hasPackages', '=', false]]}"/>
+                        <button name="%(actionStockReport)d" icon="fa-arrow-up" class="oe-stat-button" string="Traceability" type="action" attrs="{'invisible': ['|', ['state', '!=', 'done'], ['hasTracking', '=', false]]}" groups="stock.groupProductionLot"/>
+                        <button name="actionViewReceptionReport" string="Allocation" type="object"
+                            context="{'defaultPickingIds': [id]}"
+                            class="oe-stat-button" icon="fa-list"
+                            attrs="{'invisible': ['|', ['pickingTypeCode', '=', 'outgoing'], ['pickingTypeCode', '=', false]]}"
+                            groups="stock.groupReceptionReport"/>
+                        <!-- Use the following button to avoid onchange on one2many -->
+                        <button name="actionPickingMoveTree"
+                            class="oe-stat-button"
+                            icon="fa-arrows-v"
+                            type="object"
+                            help="List view of operations"
+                            groups="base.groupNoOne"
+                            attrs="{'invisible': ['|', '&amp;', ['showOperations', '=', true], '|', ['isLocked', '=', true], ['state', '=', 'done'], '&amp;', ['state', '=', 'done'], ['isLocked', '=', true]]}"
+                            context="{'pickingTypeCode': pickingTypeCode, 'default_pickingId': id, 'formViewRef':'stock.viewMoveForm', 'addressInId': partnerId, 'default_pickingTypeId': pickingTypeId, 'default_locationId': locationId, 'default_locationDestId': locationDestId}">
+                            <div class="o-form-field o-stat-info">
+                                <span class="o-stat-text">Operations</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe-title">
+                        <h1>
+                            <field name="priority" widget="priority" class="mr-3" attrs="{'invisible': [['label','=','/']]}"/>
+                            <field name="label" attrs="{'invisible': [['label','=','/']]}"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <div class="o-td-label">
+                                <label for="partnerId" string="Delivery Address" style="font-weight:bold;"
+                                       attrs="{'invisible': [['pickingTypeCode', '!=', 'outgoing']]}"/>
+                                <label for="partnerId" string="Receive From" style="font-weight:bold;"
+                                       attrs="{'invisible': [['pickingTypeCode', '!=', 'incoming']]}"/>
+                                <label for="partnerId" string="Contact" style="font-weight:bold;"
+                                       attrs="{'invisible': [['pickingTypeCode', 'in', ['incoming', 'outgoing']]]}"/>
+                            </div>
+                            <field name="partnerId" nolabel="1"/>
+                            <field name="pickingTypeId" attrs="{'invisible': [['hidePickingType', '=', true]], 'readonly': [['state', '!=', 'draft']]}"/>
+                            <field name="locationId" options="{'noCreate': true}" groups="stock.groupStockMultiLocations" attrs="{'invisible': [['pickingTypeCode', '=', 'incoming']]}"/>
+                            <field name="locationDestId" options="{'noCreate': true}" groups="stock.groupStockMultiLocations" attrs="{'invisible': [['pickingTypeCode', '=', 'outgoing']]}"/>
+                            <field name="backorderId" attrs="{'invisible': [['backorderId','=',false]]}"/>
+                        </group>
+                        <group>
+                            <label for="scheduledDate"/>
+                            <div class="o-row">
+                                <field name="scheduledDate" attrs="{'required': [['id', '!=', false]]}"
+                                    decoration-warning="!['done', 'cancel'].includes(state) &amp;&amp; scheduledDate &lt; now"
+                                    decoration-danger="!['done', 'cancel'].includes(state) &amp;&amp; scheduledDate &lt; currentDate"
+                                    decoration-bf="!['done', 'cancel'].includes(state) &amp;&amp; (scheduledDate &lt; currentDate || scheduledDate &lt; now)"/>
+                                <field name="jsonPopover" nolabel="1" widget="stockReschedulingPopover" attrs="{'invisible': [['jsonPopover', '=', false]]}"/>
+                            </div>
+                            <field name="dateDeadline" 
+                                attrs="{'invisible': ['|', ['state', 'in', ['done', 'cancel']], ['dateDeadline', '=', false]]}"
+                                decoration-danger="dateDeadline &amp;&amp; dateDeadline &lt; currentDate"
+                                decoration-bf="dateDeadline &amp;&amp; dateDeadline &lt; currentDate"/>
+                            <field name="productsAvailabilityState" invisible="1"/>
+                            <field name="productsAvailability"
+                                attrs="{'invisible': ['|', ['pickingTypeCode', '!=', 'outgoing'], ['state', 'not in', ['confirmed', 'waiting', 'assigned']]]}"
+                                decoration-warning="productsAvailabilityState == 'expected'"
+                                decoration-danger="productsAvailabilityState == 'late'"
+                                decoration-success="productsAvailabilityState == 'available'"/>
+                            <field name="dateDone" string="Effective Date" attrs="{'invisible': [['state', '!=', 'done']]}"/>
+                            <field name="origin" placeholder="e.g. PO0032"/>
+                            <field name="ownerId" groups="stock.groupTrackingOwner"
+                                   attrs="{'invisible': [['pickingTypeCode', '!=', 'incoming']]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Detailed Operations"
+                            name="detailedOperations"
+                            attrs="{'invisible': [['showOperations', '=', false]]}">
+                            <field name="moveLineNosuggestIds"
+                                   attrs="{'readonly': ['|', '|', ['showOperations', '=', false], ['state', '=', 'cancel'], '&amp;', ['state', '=', 'done'], ['isLocked', '=', true]], 'invisible': [['showReserved', '=', true]]}"
+                                   context="{'treeViewRef': 'stock.viewStockMoveLineDetailedOperationTree', 'default_pickingId': id, 'default_locationId': locationId, 'default_locationDestId': locationDestId, 'default_companyId': companyId }"/>
+                            <field name="moveLineIdsWithoutPackage"
+                                   attrs="{'readonly': ['|', '|', ['showOperations', '=', false], ['state', '=', 'cancel'], '&amp;', ['state', '=', 'done'], ['isLocked', '=', true]], 'invisible': [['showReserved', '=', false]]}"
+                                   context="{'treeViewRef': 'stock.viewStockMoveLineDetailedOperationTree', 'default_pickingId': id, 'default_locationId': locationId, 'default_locationDestId': locationDestId, 'default_companyId': companyId }"/>
+                            <field name="packageLevelIdsDetails"
+                                   context="{'default_locationId': locationId, 'default_locationDestId': location_destId, 'default_companyId': companyId }"
+                                   attrs="{'readonly': [['state', '=', 'done']], 'invisible': ['|', ['pickingTypeEntirePacks', '=', false], ['showOperations', '=', false]]}" />
+                            <button class="oe-highlight" name="actionPutInPack" type="object" string="Put in Pack" attrs="{'invisible': [['state', 'in', ['draft', 'done', 'cancel']]]}" groups="stock.groupTrackingLot"/>
+                        </page>
+
+                        <page string="Operations" name="operations">
+                            <field name="moveIdsWithoutPackage" mode="tree,kanban"
+                                attrs="{'readonly': ['&amp;', ['state', '=', 'done'], ['isLocked', '=', true]]}"
+                                context="{'default_companyId': companyId, 'default_date': scheduledDate, 'default_dateDeadline': dateDeadline, 'pickingTypeCode': pickingTypeCode, 'default_pickingId': id, 'formViewRef':'stock.viewMoveForm', 'addressInId': partnerId, 'default_pickingTypeId': pickingTypeId, 'default_locationId': locationId, 'default_locationDestId': locationDestId}"
+                                add-label="Add a Product">
+                                <tree decoration-danger="! parent.immediateTransfer &amp;&amp; state !== 'done' &amp;&amp; quantityDone > reservedAvailability &amp;&amp; showReservedAvailability" decoration-muted="scrapped === true || state === 'cancel' || (state === 'done' &amp;&amp; isLocked === true)" string="Stock Moves" editable="bottom">
+                                    <field name="companyId" invisible="1"/>
+                                    <field name="label" invisible="1"/>
+                                    <field name="state" invisible="1" readonly="0"/>
+                                    <field name="pickingTypeId" invisible="1"/>
+                                    <field name="locationId" invisible="1"/>
+                                    <field name="locationDestId" invisible="1"/>
+                                    <field name="scrapped" invisible="1"/>
+                                    <field name="pickingCode" invisible="1"/>
+                                    <field name="productType" invisible="1"/>
+                                    <field name="showDetailsVisible" invisible="1"/>
+                                    <field name="showReservedAvailability" invisible="1"/>
+                                    <field name="showOperations" invisible="1" readonly="1"/>
+                                    <field name="additional" invisible="1"/>
+                                    <field name="moveLinesCount" invisible="1"/>
+                                    <field name="isLocked" invisible="1"/>
+                                    <field name="productUomCategoryId" invisible="1"/>
+                                    <field name="hasTracking" invisible="1"/>
+                                    <field name="displayAssignSerial" invisible="1"/>
+                                    <field name="productId" required="1" context="{'default_type': 'product'}" attrs="{'readonly': ['|', '&amp;', ['state', '!=', 'draft'], ['additional', '=', false], ['moveLinesCount', '&gt;', 0]]}"/>
+                                    <field name="descriptionPicking" string="Description" optional="hide"/>
+                                    <field name="date" invisible="1"/>
+                                    <field name="dateDeadline" optional="hide"/>
+                                    <field name="isInitialDemandEditable" invisible="1"/>
+                                    <field name="isQuantityDoneEditable" invisible="1"/>
+                                    <field name="productPackagingId" groups="product.groupStockPackaging"/>
+                                    <field name="productUomQty" string="Demand" attrs="{'columnInvisible': [['parent.immediateTransfer', '=', true]], 'readonly': ['|', ['isInitialDemandEditable', '=', false], '&amp;', '&amp;', ['showOperations', '=', true], ['isLocked', '=', true], ['isInitialDemandEditable', '=', false]]}"/>
+                                    <button type="object" name="actionProductForecastReport" icon="fa-area-chart" 
+                                        attrs="{'invisible': ['|', ['forecastAvailability', '&lt;', 0], '|', ['parent.immediateTransfer', '=', true], '&amp;', ['parent.pickingTypeCode', '=', 'outgoing'], ['state', '!=', 'draft']]}"/>
+                                    <button type="object" name="actionProductForecastReport" icon="fa-area-chart text-danger" 
+                                        attrs="{'invisible': ['|', ['forecastAvailability', '&gt;=', 0], '|', ['parent.immediateTransfer', '=', true], '&amp;', ['parent.pickingTypeCode', '=', 'outgoing'], ['state', '!=', 'draft']]}"/>
+                                    <field name="forecastExpectedDate" invisible="1"/>
+                                    <field name="forecastAvailability" string="Reserved"
+                                        attrs="{'columnInvisible': ['|', '|', ['parent.state', 'in', ['draft', 'done']], ['parent.pickingTypeCode', '!=', 'outgoing'], ['parent.immediateTransfer', '=', true]]}" widget="forecastWidget"/>
+                                    <field name="reservedAvailability" string="Reserved"
+                                        attrs="{'columnInvisible': ['|', '|', ['parent.state', 'in', ['draft', 'done']], ['parent.pickingTypeCode', 'in', ['incoming', 'outgoing']], ['parent.immediateTransfer', '=', true]]}"/>
+                                    <field name="productQty" invisible="1" readonly="1"/>
+                                    <field name="quantityDone" string="Done" attrs="{'readonly': [['isQuantityDoneEditable', '=', false]], 'columnInvisible':[['parent.state', '=', 'draft'], ['parent.immediateTransfer', '=', false]]}"/>
+                                    <field name="productUom" attrs="{'readonly': [['state', '!=', 'draft'], ['additional', '=', false]]}" options="{'noOpen': true, 'noCreate': true}" string="Unit of Measure" groups="uom.groupUom"/>
+                                    <field name="lotIds" widget="many2manyTags"
+                                        groups="stock.groupProductionLot"
+                                        attrs="{'invisible': ['|', ['showDetailsVisible', '=', false], ['hasTracking', '!=', 'serial']]}"
+                                        optional="hide"
+                                        options="{'create': [['parent.useCreateLots', '=', true]]}"
+                                        context="{'default_companyId': companyId, 'default_productId': productId, 'activePickingId': parent.id}"
+                                        domain="[['productId','=',productId]]"
+                                    />
+                                    <button name="actionShowDetails" type="object" icon="fa-list" width="0.1"
+                                            attrs="{'invisible': [['showDetailsVisible', '=', false]]}" options='{"warn": true}'/>
+                                    <button name="actionAssignSerial" type="object"
+                                            icon="fa-plus-square"
+                                            width="0.1"
+                                            role="img" title="Assign Serial Numbers"
+                                            attrs="{'invisible': ['|', ['displayAssignSerial', '=', false], ['showOperations', '=', false]]}"/>
+                                </tree>
+                                <form string="Stock Moves">
+                                    <header>
+                                        <field name="state" widget="statusbar"/>
+                                    </header>
+                                    <group>
+                                        <field name="productUomCategoryId" invisible="1"/>
+                                        <field name="additional" invisible="1"/>
+                                        <field name="moveLinesCount" invisible="1"/>
+                                        <field name="companyId" invisible="1"/>
+                                        <field name="productId" required="1" attrs="{'readonly': ['|', '&amp;', ['state', '!=', 'draft'], ['additional', '=', false], ['moveLinesCount', '&gt;', 0]]}"/>
+                                        <field name="isInitialDemandEditable" invisible="1"/>
+                                        <field name="isQuantityDoneEditable" invisible="1"/>
+                                        <field name="productUomQty" attrs="{'invisible': [['parent.immediateTransfer', '=', true]], 'readonly': [['isInitialDemandEditable', '=', false]]}"/>
+                                        <field name="reservedAvailability" string="Reserved" attrs="{'invisible': ['|', '|', ['parent.state', '=', 'done'], ['parent.pickingTypeCode', 'in', ['outgoing', 'incoming']], ['parent.immediateTransfer', '=', true]]}"/>
+                                        <field name="productQty" invisible="1" readonly="1"/>
+                                        <field name="forecastExpectedDate" invisible="1"/>
+                                        <field name="forecastAvailability" string="Reserved" attrs="{'invisible': ['|', ['parent.pickingTypeCode', '!=', 'outgoing'], ['parent.state','=', 'done']]}" widget="forecastWidget"/>
+                                        <field name="quantityDone" string="Done" attrs="{'readonly': [['isQuantityDoneEditable', '=', false]]}"/>
+                                        <field name="productUom" attrs="{'readonly': [['state', '!=', 'draft'], ['id', '!=', false]]}" options="{'noOpen': true, 'noCreate': true}" string="Unit of Measure" groups="uom.groupUom"/>
+                                        <field name="descriptionPicking" string="Description"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <field name="id" invisible="1"/>
+                            <field name="packageLevelIds" context="{'default_locationId': locationId, 'default_locationDestId': locationDestId, 'default_companyId': companyId }" attrs="{'readonly': [['state', '=', 'done']], 'invisible': ['|', ['pickingTypeEntirePacks', '=', false], ['showOperations', '=', true]]}" />
+                            <button class="oe-highlight" name="actionPutInPack" type="object" string="Put in Pack" attrs="{'invisible': [['state', 'in', ['draft', 'done', 'cancel']]]}" groups="stock.groupTrackingLot"/>
+                        </page>
+                        <page string="Additional Info" name="extra">
+                            <group>
+                                <group string="Other Information" name="otherInfos">
+                                    <field name="pickingTypeCode" invisible="1"/>
+                                    <field name="moveType" attrs="{'invisible': [['pickingTypeCode', '=', 'incoming']]}"/>
+                                    <field name="userId" domain="[['share', '=', false]]"/>
+                                    <field name="groupId" groups="base.groupNoOne"/>
+                                    <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}" forceSave="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Note" name="note">
+                            <field name="note" string="Note" placeholder="Add an internal note that will be printed on the Picking Operations sheet"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe-chatter">
+                    <field name="messageFollowerIds"/>
+                    <field name="activityIds"/>
+                    <field name="messageIds"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewPickingInternalSearch" model="ir.ui.view">
+            <field name="label">stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="Picking Lists">
+                    <field name="label" string="Transfer" filterDomain="['|', ['label', 'ilike', self], ['origin', 'ilike', self]]"/>
+                    <field name="partnerId" filterDomain="[['partnerId', 'childOf', self]]"/>
+                    <field name="origin"/>
+                    <field name="productId"/>
+                    <field name="pickingTypeId"/>
+                    <filter name="myTransfers" string="My Transfers" domain="[['userId', '=', uid]]"/>
+                    <filter string="Starred" name="starred" domain="[['priority', '=', '1']]"/>
+                    <separator/>
+                    <filter name="draft" string="Draft" domain="[['state', '=', 'draft']]" help="Draft Moves"/>
+                    <filter name="waiting" string="Waiting" domain="[['state', 'in', ['confirmed', 'waiting']]]" help="Waiting Moves"/>
+                    <filter name="available" string="Ready" domain="[['state', '=', 'assigned']]" help="Assigned Moves"/>
+                    <filter name="done" string="Done" domain="[['state', '=', 'done']]" help="Pickings already processed"/>
+                    <filter name="cancel" string="Cancelled" domain="[['state', '=', 'cancel']]" help="Cancelled Moves"/>
+                    <separator/>
+                    <filter name="late" string="Late" help="Deadline exceed or/and by the scheduled"
+                        domain="[['state', 'in', ['assigned', 'waiting', 'confirmed']], '|', '|', ['hasDeadlineIssue', '=', true], ['dateDeadline', '&lt;', currentDate], ['scheduledDate', '&lt;', currentDate]]"/> 
+                    <filter string="Planning Issues" name="planningIssues" help="Transfers that are late on scheduled time or one of pickings will be late"
+                        domain="['|', ['delayAlertDate', '!=', false], '&amp;', ['scheduledDate','&lt;', toFormat(now(), 'yyyy-MM-dd HH:mm:ss')], ['state', 'in', ['assigned', 'waiting', 'confirmed']]]"/>
+                    <separator/>
+                    <filter name="backorder" string="Backorders" domain="[['backorderId', '!=', false], ['state', 'in', ['assigned', 'waiting', 'confirmed']]]" help="Remaining parts of picking partially processed"/>
+                    <separator/>
+                    <filter invisible="1" string="Late Activities" name="activitiesOverdue"
+                        domain="[['myActivityDateDeadline', '&lt;', contextToday().toFormat('yyyy-MM-dd')]]"
+                        help="Show all records which has next action date is before today"/>
+                    <filter invisible="1" string="Today Activities" name="activitiesToday"
+                        domain="[['myActivityDateDeadline', '=', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                    <filter invisible="1" string="Future Activities" name="activitiesUpcomingAll"
+                        domain="[['myActivityDateDeadline', '&gt;', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                    <separator/>
+                    <filter string="Warnings" name="activitiesException"
+                        domain="[['activityExceptionDecoration', '!=', false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'groupby': 'state'}"/>
+                        <filter string="Scheduled Date" name="expectedDate" domain="[]" context="{'groupby': 'scheduledDate'}"/>
+                        <filter string="Source Document" name="origin" domain="[]" context="{'groupby': 'origin'}"/>
+                        <filter string="Operation Type" name="pickingType" domain="[]" context="{'groupby': 'pickingTypeId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionPickingTreeAll" model="ir.actions.actwindow">
+            <field name="label">Transfers</field>
+            <field name="resModel">stock.picking</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,kanban,form,calendar</field>
+            <field name="domain"></field>
+            <field name="context">{'contactDisplay': 'partnerAddress', 'default_companyId': allowedCompanyIds[0]}</field>
+            <field name="searchViewId" ref="viewPickingInternalSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No transfer found. Let's create one!
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <record id="actionValidatePicking" model="ir.actions.server">
+            <field name="label">Validate</field>
+            <field name="modelId" ref="stock.model_stockPicking"/>
+            <field name="bindingModelId" ref="stock.model_stockPicking"/>
+            <field name="bindingViewTypes">list</field>
+            <field name="state">code</field>
+            <field name="code">async () => {
+            if (bool(records)) {
+                const res = await records.buttonValidate();
+                if (isInstance(res, {})) {
+                    return res;
+                }
+            }
+            }
+            </field>
+        </record>
+
+        <record id="actionUnreservePicking" model="ir.actions.server">
+            <field name="label">Unreserve</field>
+            <field name="modelId" ref="stock.model_stockPicking"/>
+            <field name="bindingModelId" ref="stock.model_stockPicking"/>
+            <field name="bindingViewTypes">list</field>
+            <field name="state">code</field>
+            <field name="code">bool(records) ? records.doUnreserve() : null</field>
+        </record>
+
+        <record id="actionLeadMassMail" model="ir.actions.actwindow">
+            <field name="label">Send email</field>
+            <field name="resModel">mail.compose.message</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="context" eval="{
+                'default_compositionMode': 'massMail',
+                'default_useTemplate': false,
+            }"/>
+            <field name="bindingModelId" ref="stock.model_stockPicking"/>
+            <field name="bindingViewTypes">list</field>
+        </record>
+
+        <menuitem id="allPicking" name="Transfers" parent="menuStockWarehouseMgmt" sequence="5" action="actionPickingTreeAll" groups="stock.groupStockManager,stock.groupStockUser"/>
+
+        <record id="stockPickingActionPickingType" model="ir.actions.actwindow">
+            <field name="label">All Transfers</field>
+            <field name="resModel">stock.picking</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,kanban,form,calendar</field>
+            <field name="domain"></field>
+            <field name="context">{'contactDisplay': 'partnerAddress'}</field>
+            <field name="searchViewId" ref="viewPickingInternalSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No transfer found. Let's create one!
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <record id="actionPickingTreeReady" model="ir.actions.actwindow">
+            <field name="label">To Do</field>
+            <field name="resModel">stock.picking</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,kanban,form,calendar</field>
+            <field name="domain"></field>
+            <field name="context">{'contactDisplay': 'partnerAddress', 'searchDefault_available': 1}</field>
+            <field name="searchViewId" ref="viewPickingInternalSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No transfer found. Let's create one!
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+       </record>
+
+        <record id="actionPickingTreeWaiting" model="ir.actions.actwindow">
+            <field name="label">Waiting Transfers</field>
+            <field name="resModel">stock.picking</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,kanban,form,calendar</field>
+            <field name="domain"></field>
+            <field name="context">{'contactDisplay': 'partnerAddress', 'searchDefault_waiting': 1}</field>
+            <field name="searchViewId" ref="viewPickingInternalSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No transfer found. Let's create one!
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <record id="actionPickingTreeLate" model="ir.actions.actwindow">
+            <field name="label">Late Transfers</field>
+            <field name="resModel">stock.picking</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,kanban,form,calendar</field>
+            <field name="domain"></field>
+            <field name="context">{'contactDisplay': 'partnerAddress', 'searchDefault_planningIssues': 1}</field>
+            <field name="searchViewId" ref="viewPickingInternalSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No transfer found. Let's create one!
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <record id="actionPickingTreeBackorder" model="ir.actions.actwindow">
+            <field name="label">Backorders</field>
+            <field name="resModel">stock.picking</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,kanban,form,calendar</field>
+            <field name="domain"></field>
+            <field name="context">{'contactDisplay': 'partnerAddress', 'searchDefault_backorder': 1}</field>
+            <field name="searchViewId" ref="viewPickingInternalSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No transfer found. Let's create one!
+                </p>
+                <p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <record id="actionGetPickingTypeOperations" model="ir.actions.actwindow">
+            <field name="label">Operations</field>
+            <field name="resModel">stock.move.line</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewIds" eval="[[5, 0, 0],
+                [0, 0, {'viewMode': 'tree', 'viewId': refId('stock.viewMoveLineTreeDetailed')}]]"/>
+            <field name="domain">[['pickingTypeId', '=', activeId], ['pickingId', '!=', false]]</field>
+            <field name="context">{
+                'searchDefault_todo': '1',
+            }</field>
+            <field name="searchViewId" ref="stockMoveLineViewSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No operations found. Let's create a tranfer !
+                </p>
+                <p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <record id="actionPickingForm" model="ir.actions.actwindow">
+            <field name="label">New Transfer</field>
+            <field name="resModel">stock.picking</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">form</field>
+            <field name="domain"></field>
+            <field name="context">{
+                    'searchDefault_pickingTypeId': [activeId],
+                    'default_pickingTypeId': activeId,
+                    'contactDisplay': 'partnerAddress',
+            }
+            </field>
+            <field name="searchViewId" ref="viewPickingInternalSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No transfer found. Let's create one!
+                </p>
+                <p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+        <record id="doViewPickings" model="ir.actions.actwindow">
+            <field name="label">Transfers for Groups</field>
+            <field name="resModel">stock.picking</field>
+            <field name="viewMode">tree,form</field>
+            <field name="domain">[['groupId','=',activeId]]</field>
+        </record>
+
+        <record id="stockPickingTypeKanban" model="ir.ui.view">
+            <field name="label">stock.picking.type.kanban</field>
+            <field name="model">stock.picking.type</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o-kanban-dashboard o-emphasize-colors o_stock_kanban" create="0" groupCreate="false">
+                    <field name="color"/>
+                    <field name="code" readonly="1"/>
+                    <field name="countPickingReady"/>
+                    <field name="countPickingDraft"/>
+                    <field name="countPickingWaiting"/>
+                    <field name="countPickingLate"/>
+                    <field name="countPickingBackorders"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-if="['incoming', 'outgoing', 'internal'].indexOf(record.code.rawValue) > -1" t-attf-class="#{!selectionMode ? kanbanColor(record.color.rawValue) : ''}" name="stockPicking">
+                                <div>
+                                    <div t-attf-class="o-kanban-card-header">
+                                        <div class="o-kanban-card-header-title">
+                                            <div class="o-primary" t-if="!selectionMode">
+                                                <a type="object" name="getStockPickingActionPickingType">
+                                                    <field name="label"/>
+                                                </a>
+                                            </div>
+                                            <div class="o-primary" t-if="selectionMode">
+                                                <field name="label"/>
+                                            </div>
+                                            <div class="o_secondary"><field class="o_secondary"  name="warehouseId" readonly="1" groups="stock.groupStockMultiWarehouses"/></div>
+                                        </div>
+                                        <div class="o-kanban-manage-button-section" t-if="!selectionMode">
+                                            <a class="o-kanban-manage-toggle-button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                        </div>
+                                    </div>
+                                    <div class="container o-kanban-card-content" t-if="!selectionMode">
+                                        <div class="row">
+                                            <div class="col-6 o-kanban-primary-left">
+                                                <button class="btn btn-primary" name="getActionPickingTreeReady" type="object">
+                                                    <span t-if="record.code.rawValue =='incoming'"><t t-esc="record.countPickingReady.value"/> To Process</span>
+                                                    <span t-if="record.code.rawValue =='outgoing'"><t t-esc="record.countPickingReady.value"/> To Process</span>
+                                                    <span t-if="record.code.rawValue =='internal'"><t t-esc="record.countPickingReady.value"/> To Process</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-6 o-kanban-primary-right">
+                                                <div t-if="record.countPickingReady.rawValue > 0" class="row">
+                                                </div>
+
+                                                <div t-if="record.countPickingWaiting.rawValue > 0" class="row">
+                                                    <div class="col-12">
+                                                        <a name="getActionPickingTreeWaiting" type="object">
+                                                            <field name="countPickingWaiting"/>
+                                                            Waiting
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div t-if="record.countPickingLate.rawValue > 0" class="row">
+                                                    <div class="col-12">
+                                                        <a class="oe-kanban-stock_picking_type_list" name="getActionPickingTreeLate" type="object">
+                                                            <field name="countPickingLate"/>
+                                                            Late
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div t-if="record.countPickingBackorders.rawValue > 0" class="row" name="pickingTypeBackorderCount">
+                                                    <div class="col-12">
+                                                        <a class="oe-kanban-stock_picking_type_list" name="getActionPickingTreeBackorder" type="object">
+                                                            <field name="countPickingBackorders"/>
+                                                            Back Orders
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><div class="container o-kanban-card-manage-pane dropdown-menu" role="menu">
+                                        <div class="row">
+                                            <div class="col-6 o-kanban-card-manage-section o-kanban-manage-view">
+                                                <div role="menuitem" class="o-kanban-card-manage-title">
+                                                    <span t-if="record.code.rawValue == 'internal'">Transfers</span>
+                                                    <span t-else="">View</span>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="getStockPickingActionPickingType" type="object">All</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="getActionPickingTreeReady" type="object">Ready</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="getActionPickingTreeWaiting" type="object">Waiting</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="getActionPickingTypeOperations" type="object">Operations</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 o-kanban-card-manage-section o-kanban-manage-new">
+                                                <div role="menuitem" class="o-kanban-card-manage-title">
+                                                    <span>New</span>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="%(actionPickingForm)d" type="action" context="{'default_immediateTransfer': true}">Immediate Transfer</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="%(actionPickingForm)d" type="action">Planned Transfer</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div t-if="widget.editable" class="o-kanban-card-manage-settings row">
+                                            <div class="col-8" role="menuitem" aria-haspopup="true">
+                                                <ul class="oe-kanban-colorpicker" data-field="color" role="menu"/>
+                                            </div>
+                                            <div role="menuitem" class="col-4">
+                                                <a class="dropdown-item" role="menuitem" type="edit">Configuration</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+</verp>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewPosPaymentForm" model="ir.ui.view">
+        <field name="label">pos.payment.form</field>
+        <field name="model">pos.payment</field>
+        <field name="arch" type="xml">
+            <form string="Payments" create="0" edit="0" delete="0">
+                <sheet>
+                    <group>
+                        <field name="currencyId" invisible="1" />
+                        <field name="label" />
+                        <field name="amount" />
+                        <field name="posOrderId" readonly="1"/>
+                        <field name="paymentMethodId" readonly="1"/>
+                        <field name="cardType" readonly="1" attrs="{'invisible': [['cardType', '=', false]]}"/>
+                        <field name="cardholderName" readonly="1" attrs="{'invisible': [['cardholderName', '=', false]]}"/>
+                        <field name="transactionId" readonly="1" attrs="{'invisible': [['transactionId', '=', false]]}"/>
+                        <field name="sessionId" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="viewPosPaymentTree" model="ir.ui.view">
+        <field name="label">pos.payment.tree</field>
+        <field name="model">pos.payment</field>
+        <field name="arch" type="xml">
+            <tree string="Payments" create="0" delete="0">
+                <field name="currencyId" invisible="1" />
+                <field name="paymentDate"/>
+                <field name="paymentMethodId" />
+                <field name="posOrderId" />
+                <field name="amount" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewPosPaymentSearch" model="ir.ui.view">
+        <field name="label">pos.payment.search.view</field>
+        <field name="model">pos.payment</field>
+        <field name="arch" type="xml">
+            <search string="Payments">
+                <field name="label"/>
+                <field name="amount"/>
+                <field name="posOrderId" />
+                <group expand="0" string="Group By">
+                    <filter name="groupbyPaymentMethod" string="Payment Method" domain="[]"  context="{'groupby':'paymentMethodId'}"/>
+                    <filter name="groupbySession" string="Session" domain="[]"  context="{'groupby':'sessionId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionPosPaymentForm" model="ir.actions.actwindow">
+        <field name="label">Payments</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.payment</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="viewId" eval="false"/>
+        <field name="domain">[]</field>
+        <field name="context">{'searchDefault_groupbyPaymentMethod': 1}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                No orders found
+            </p><p>
+                To record new orders, start a new session.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menuPosPayment" parent="menuPointOfSale" action="actionPosPaymentForm" sequence="3" groups="groupPosManager,groupPosUser"/>
+</verp>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="ratingRatingViewForm" model="ir.ui.view">
+        <field name="label">rating.rating.view.form</field>
+        <field name="model">rating.rating</field>
+        <field name="inheritId" ref="rating.ratingRatingViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ratingText']" position="after">
+                <field name="publisherComment" string="Comment"/>
+            </xpath>
+        </field>
+    </record>
+</verp>

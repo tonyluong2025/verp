@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<corporate-header>
+    <corporation type="zoom" name="companyId">
+        <reportHeader type="field" name="reportHeader"/>
+        <reportFooter type="field" name="reportFooter"/>
+        <title type="field" name="partnerId.title"/>
+        <label type="field" name="partnerId.label"/>
+        <street type="field" name="street"/>
+        <zip type="field" name="zip"/>
+        <city type="field" name="city"/>
+        <state type="field" name="stateId.label"/>
+        <country type="field" name="countryId.label"/>
+        <phone type="field" name="phone"/>
+        <email type="field" name="email"/>
+    </corporation>
+    <user>
+        <label type="field" name="label"/>
+        <signature type="field" name="signature"/>
+    </user>
+</corporate-header>

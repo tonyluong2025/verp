@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+
+        <!--  FOLLOWERS !-->
+        <record model="ir.ui.view" id="viewFollowersTree">
+            <field name="label">mail.followers.tree</field>
+            <field name="model">mail.followers</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <tree string="Followers">
+                    <field name="resModel"/>
+                    <field name="resId" widget="integer"/>
+                    <field name="partnerId"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="viewMailSubscriptionForm">
+            <field name="label">mail.followers.form</field>
+            <field name="model">mail.followers</field>
+            <field name="arch" type="xml">
+                <form string="Followers Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="resModel"/>
+                                <field name="partnerId"/>
+                            </group>
+                            <group>
+                                <field name="resId" widget="integer"/>
+                                <field name="subtypeIds" widget="many2manyTags"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="actionViewFollowers" model="ir.actions.actwindow">
+            <field name="label">Followers</field>
+            <field name="resModel">mail.followers</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+
+    </data>
+</verp>

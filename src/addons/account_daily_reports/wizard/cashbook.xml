@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="accountReportCashbookView" model="ir.ui.view">
+        <field name="label">Cash Book</field>
+        <field name="model">account.cashbook.report</field>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group>
+                    <group>
+                        <field name="targetMove" widget="radio"/>
+                    </group>
+                    <group>
+                        <field name="sortby" widget="radio"/>
+                        <field name="displayAccount" invisible="1"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="initialBalance"/>
+                </group>
+                <group col="4">
+                    <field name="dateFrom"/>
+                    <field name="dateTo"/>
+                </group>
+                <group>
+                    <field name="accountIds" widget="many2manyTags" invisible="0"/>
+                    <field name="journalIds" widget="many2manyTags"/>
+                </group>
+                <footer>
+                    <button name="checkReport" string="Print" type="object" defaultFocus="1"
+                            class="oe-highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionAccountCashbookMenu" model="ir.actions.actwindow">
+        <field name="label">Cash Book</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">account.cashbook.report</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountReportCashbookView"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+            id="menuCashbook"
+            name="Cash Book"
+            sequence="10"
+            parent="account_daily_reports.menuFinanceDailyReports"
+            action="actionAccountCashbookMenu"
+            groups="account.groupAccountUser,account.groupAccountManager"
+    />
+
+</verp>

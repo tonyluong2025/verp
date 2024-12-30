@@ -1,0 +1,45 @@
+.js-follow[data-follow='on'] .js-follow-btn ,
+.js-follow[data-follow='off'] .js-unfollow-btn {
+    display: none;
+}
+
+.js-follow-icons-container {
+    .js-follow-btn, .js-unfollow-btn {
+        animation: js-follow-fade 1s ease forwards;
+        opacity: 0;
+
+        small {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @include hover-focus () {
+            small {
+                transition-duration: 1s;
+                opacity: 1;
+            }
+        };
+    }
+
+    .fa:before {
+        content: "\f0f3";
+        color: $text-muted;
+    }
+
+    .js-follow-btn:hover .fa:before {
+        color: $body-color;
+    }
+
+    .js-unfollow-btn .fa:before {
+        color: theme-color('primary');
+    }
+
+    .js-unfollow-btn:hover .fa:before {
+        content: "\f1f6";
+        color: theme-color('danger');
+    }
+}
+
+@keyframes js-follow-fade {
+    to { opacity: 1; }
+}

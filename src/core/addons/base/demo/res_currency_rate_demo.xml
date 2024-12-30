@@ -1,0 +1,971 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- The Following currency rates are considered as on 1st Jan,2010 against EUR. -->
+        <record forcecreate="0" id="rateUSD" model="res.currency.rate">
+            <field name="rate">1.2834</field>
+            <field name="currencyId" ref="USD"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record id="rateUSDbis" model="res.currency.rate">
+            <field name="rate">1.5289</field>
+            <field name="currencyId" ref="USD"/>
+            <field eval="DateTime.now().toFormat('yyyy-01-01')" name="label"/>
+        </record>
+
+        <record forcecreate="0" id="rateVEF" model="res.currency.rate">
+            <field name="rate">5.864</field>
+            <field name="currencyId" ref="VEF"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateCAD" model="res.currency.rate">
+            <field name="rate">1.3388</field>
+            <field name="currencyId" ref="CAD"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateCHF" model="res.currency.rate">
+            <field name="rate">1.3086</field>
+            <field name="currencyId" ref="CHF"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateBRL" model="res.currency.rate">
+            <field name="rate">2.2344</field>
+            <field name="currencyId" ref="BRL"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateCNY" model="res.currency.rate">
+            <field name="rate">8.7556</field>
+            <field name="currencyId" ref="CNY"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateCOP" model="res.currency.rate">
+            <field name="rate">2933.8378</field>
+            <field name="currencyId" ref="COP"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateCZK" model="res.currency.rate">
+            <field name="rate">26.5634</field>
+            <field name="currencyId" ref="CZK"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateDKK" model="res.currency.rate">
+            <field name="rate">7.4445</field>
+            <field name="currencyId" ref="DKK"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateHUF" model="res.currency.rate">
+            <field name="rate">271.5621</field>
+            <field name="currencyId" ref="HUF"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateIDR1" model="res.currency.rate">
+            <field name="rate">14352.00</field>
+            <field name="currencyId" ref="IDR"/>
+            <field name="label">2009-01-01</field>
+        </record>
+        <record forcecreate="0" id="rateIDR" model="res.currency.rate">
+            <field name="rate">11796.39</field>
+            <field name="currencyId" ref="IDR"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateLVL" model="res.currency.rate">
+            <field name="rate">0.7086</field>
+            <field name="currencyId" ref="LVL"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateNOK" model="res.currency.rate">
+            <field name="rate">7.8668</field>
+            <field name="currencyId" ref="NOK"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateXPF" model="res.currency.rate">
+            <field name="rate">119.331742</field>
+            <field name="currencyId" ref="XPF"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="ratePAB" model="res.currency.rate">
+            <field name="rate">1.2676</field>
+            <field name="currencyId" ref="PAB"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="ratePLN" model="res.currency.rate">
+            <field name="rate">4.1005</field>
+            <field name="currencyId" ref="PLN"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateSEK" model="res.currency.rate">
+            <field name="rate">10.3004</field>
+            <field name="currencyId" ref="SEK"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateARS" model="res.currency.rate">
+            <field name="rate">5.0881</field>
+            <field name="currencyId" ref="ARS"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateINR" model="res.currency.rate">
+            <field name="rate">59.9739</field>
+            <field name="currencyId" ref="INR"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateAUD" model="res.currency.rate">
+            <field name="rate">1.4070</field>
+            <field name="currencyId" ref="AUD"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateUAH" model="res.currency.rate">
+            <field name="rate">10.1969</field>
+            <field name="currencyId" ref="UAH"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateVND" model="res.currency.rate">
+            <field name="rate">26330.01</field>
+            <field name="currencyId" ref="VND"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateHKD" model="res.currency.rate">
+            <field name="rate">11.1608</field>
+            <field name="currencyId" ref="HKD"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateJPY" model="res.currency.rate">
+            <field name="rate">133.62</field>
+            <field name="currencyId" ref="JPY"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateBGN" model="res.currency.rate">
+            <field name="rate">1.9558</field>
+            <field name="currencyId" ref="BGN"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateLTL" model="res.currency.rate">
+            <field name="rate">3.4528</field>
+            <field name="currencyId" ref="LTL"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateRON" model="res.currency.rate">
+            <field name="rate">4.2253</field>
+            <field name="currencyId" ref="RON"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateHRK" model="res.currency.rate">
+            <field name="rate">7.2936</field>
+            <field name="currencyId" ref="HRK"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateRUB" model="res.currency.rate">
+            <field name="rate">43.16</field>
+            <field name="currencyId" ref="RUB"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateTRY" model="res.currency.rate">
+            <field name="rate">2.1411</field>
+            <field name="currencyId" ref="TRY"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateKRW" model="res.currency.rate">
+            <field name="rate">1662.37</field>
+            <field name="currencyId" ref="KRW"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateMXN" model="res.currency.rate">
+            <field name="rate">18.6664</field>
+            <field name="currencyId" ref="MXN"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateMYR" model="res.currency.rate">
+            <field name="rate">4.8887</field>
+            <field name="currencyId" ref="MYR"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateNZD" model="res.currency.rate">
+            <field name="rate">1.9764</field>
+            <field name="currencyId" ref="NZD"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="ratePHP" model="res.currency.rate">
+            <field name="rate">66.1</field>
+            <field name="currencyId" ref="PHP"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateSGD" model="res.currency.rate">
+            <field name="rate">2.0126</field>
+            <field name="currencyId" ref="SGD"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateZAR" model="res.currency.rate">
+            <field name="rate">10.5618</field>
+            <field name="currencyId" ref="ZAR"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateCRC" model="res.currency.rate">
+            <field name="rate">691.3153</field>
+            <field name="currencyId" ref="CRC"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateMUR" model="res.currency.rate">
+            <field name="rate">40.28</field>
+            <field name="currencyId" ref="MUR"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateXOF" model="res.currency.rate">
+            <field name="rate">655.957</field>
+            <field name="currencyId" ref="XOF"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateXAF" model="res.currency.rate">
+            <field name="rate">655.957</field>
+            <field name="currencyId" ref="XAF"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateUGX" model="res.currency.rate">
+            <field name="rate">3401.91388</field>
+            <field name="currencyId" ref="UGX"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateHNL" model="res.currency.rate">
+            <field name="rate">25</field>
+            <field name="currencyId" ref="HNL"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateCLP" model="res.currency.rate">
+            <field name="rate">710</field>
+            <field name="currencyId" ref="CLP"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+        <record forcecreate="0" id="rateUYU" model="res.currency.rate">
+            <field name="currencyId" ref="UYU" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">28.36</field>
+        </record>
+
+        <record forcecreate="0" id="rateAFN" model="res.currency.rate">
+            <field name="currencyId" ref="AFN" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">59.33</field>
+        </record>
+
+        <record forcecreate="0" id="rateAOA" model="res.currency.rate">
+            <field name="currencyId" ref="AOA" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">117.080</field>
+        </record>
+
+        <record forcecreate="0" id="rateXCD" model="res.currency.rate">
+            <field name="currencyId" ref="XCD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">3.32</field>
+        </record>
+
+        <record forcecreate="0" id="rateAMD" model="res.currency.rate">
+            <field name="currencyId" ref="AMD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">506.02</field>
+        </record>
+
+        <record forcecreate="0" id="rateAWG" model="res.currency.rate">
+            <field name="currencyId" ref="AWG" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.45</field>
+        </record>
+
+        <record forcecreate="0" id="rateAZN" model="res.currency.rate">
+            <field name="currencyId" ref="AZN" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.96</field>
+        </record>
+
+        <record forcecreate="0" id="rateBSD" model="res.currency.rate">
+            <field name="currencyId" ref="BSD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1.23</field>
+        </record>
+
+        <record forcecreate="0" id="rateBHD" model="res.currency.rate">
+            <field name="currencyId" ref="BHD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.46</field>
+        </record>
+
+        <record forcecreate="0" id="rateBDT" model="res.currency.rate">
+            <field name="currencyId" ref="BDT" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">100.59</field>
+        </record>
+
+        <record forcecreate="0" id="rateBBD" model="res.currency.rate">
+            <field name="currencyId" ref="BBD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2.46</field>
+        </record>
+
+        <record forcecreate="0" id="rateBYR" model="res.currency.rate">
+            <field name="currencyId" ref="BYR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">10228.19</field>
+        </record>
+
+        <record forcecreate="0" id="rateBYN" model="res.currency.rate">
+            <field name="currencyId" ref="BYN" />
+            <field name="label">2016-07-01</field>
+            <field name="rate">2.23151</field>
+        </record>
+
+        <record forcecreate="0" id="rateBZD" model="res.currency.rate">
+            <field name="currencyId" ref="BZD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2.33</field>
+        </record>
+
+        <record forcecreate="0" id="rateBMD" model="res.currency.rate">
+            <field name="currencyId" ref="BMD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1.23</field>
+        </record>
+
+        <record forcecreate="0" id="rateBTN" model="res.currency.rate">
+            <field name="currencyId" ref="BTN" />
+            <field name="label">2010-01-01</field>
+            <field name="rate"> 67.81</field>
+        </record>
+
+        <record forcecreate="0" id="rateBOB" model="res.currency.rate">
+            <field name="currencyId" ref="BOB" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">8.50</field>
+        </record>
+
+        <record forcecreate="0" id="rateBAM" model="res.currency.rate">
+            <field name="currencyId" ref="BAM" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1.96</field>
+        </record>
+
+        <record forcecreate="0" id="rateBWP" model="res.currency.rate">
+            <field name="currencyId" ref="BWP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">9.45</field>
+        </record>
+
+        <record forcecreate="0" id="rateBIF" model="res.currency.rate">
+            <field name="currencyId" ref="BIF" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1736.73</field>
+        </record>
+
+        <record forcecreate="0" id="rateKHR" model="res.currency.rate">
+            <field name="currencyId" ref="KHR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">5054.53</field>
+        </record>
+
+        <record forcecreate="0" id="rateKYD" model="res.currency.rate">
+            <field name="currencyId" ref="KYD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1.007</field>
+        </record>
+
+        <record forcecreate="0" id="rateKMF" model="res.currency.rate">
+            <field name="currencyId" ref="KMF" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">492.23</field>
+        </record>
+
+        <record forcecreate="0" id="rateCDF" model="res.currency.rate">
+            <field name="currencyId" ref="CDF" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1112.80</field>
+        </record>
+
+        <record forcecreate="0" id="rateCUP" model="res.currency.rate">
+            <field name="currencyId" ref="CUP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1.226</field>
+        </record>
+
+        <record forcecreate="0" id="rateANG" model="res.currency.rate">
+            <field name="currencyId" ref="ANG" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2.11</field>
+        </record>
+
+        <record forcecreate="0" id="rateDJF" model="res.currency.rate">
+            <field name="currencyId" ref="DJF" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">222.22</field>
+        </record>
+
+        <record forcecreate="0" id="rateDOP" model="res.currency.rate">
+            <field name="currencyId" ref="DOP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">48.09</field>
+        </record>
+
+        <record forcecreate="0" id="rateEGP" model="res.currency.rate">
+            <field name="currencyId" ref="EGP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">7.46</field>
+        </record>
+
+        <record forcecreate="0" id="rateSVC" model="res.currency.rate">
+            <field name="currencyId" ref="SVC" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">10.74</field>
+        </record>
+
+        <record forcecreate="0" id="rateERN" model="res.currency.rate">
+            <field name="currencyId" ref="ERN" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">18.89</field>
+        </record>
+
+        <record forcecreate="0" id="rateEEB" model="res.currency.rate">
+            <field name="currencyId" ref="ETB" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">21.94</field>
+        </record>
+
+        <record forcecreate="0" id="rateFKP" model="res.currency.rate">
+            <field name="currencyId" ref="FKP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.78</field>
+        </record>
+
+        <record forcecreate="0" id="rateFJD" model="res.currency.rate">
+            <field name="currencyId" ref="FJD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2.22</field>
+        </record>
+
+        <record forcecreate="0" id="rateGEL" model="res.currency.rate">
+            <field name="currencyId" ref="GEL" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2.018</field>
+        </record>
+
+        <record forcecreate="0" id="rateGIP" model="res.currency.rate">
+            <field name="currencyId" ref="GIP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.786</field>
+        </record>
+
+        <record forcecreate="0" id="rateGNF" model="res.currency.rate">
+            <field name="currencyId" ref="GNF" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">8835.85</field>
+        </record>
+
+        <record forcecreate="0" id="rateGYD" model="res.currency.rate">
+            <field name="currencyId" ref="GYD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">247.31</field>
+        </record>
+
+        <record forcecreate="0" id="rateHTG" model="res.currency.rate">
+            <field name="currencyId" ref="HTG" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">51.69</field>
+        </record>
+
+        <record forcecreate="0" id="rateISK" model="res.currency.rate">
+            <field name="currencyId" ref="ISK" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">158.70</field>
+        </record>
+
+        <record forcecreate="0" id="rateIRR" model="res.currency.rate">
+            <field name="currencyId" ref="IRR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">15059.97</field>
+        </record>
+
+        <record forcecreate="0" id="rateIQD" model="res.currency.rate">
+            <field name="currencyId" ref="IQD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1432.27</field>
+        </record>
+
+        <record forcecreate="0" id="rateILS" model="res.currency.rate">
+            <field name="currencyId" ref="ILS" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">4.89</field>
+        </record>
+
+        <record forcecreate="0" id="rateJMD" model="res.currency.rate">
+            <field name="currencyId" ref="JMD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">108.94 </field>
+        </record>
+
+        <record forcecreate="0" id="rateJOD" model="res.currency.rate">
+            <field name="currencyId" ref="JOD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.87</field>
+        </record>
+
+        <record forcecreate="0" id="rateKZT" model="res.currency.rate">
+            <field name="currencyId" ref="KZT" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">184.09</field>
+        </record>
+
+        <record forcecreate="0" id="rateKES" model="res.currency.rate">
+            <field name="currencyId" ref="KES" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">103.43</field>
+        </record>
+
+        <record forcecreate="0" id="rateKWD" model="res.currency.rate">
+            <field name="currencyId" ref="KWD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.35</field>
+        </record>
+
+        <record forcecreate="0" id="rateKGS" model="res.currency.rate">
+            <field name="currencyId" ref="KGS" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">57.93</field>
+        </record>
+
+        <record forcecreate="0" id="rateLAK" model="res.currency.rate">
+            <field name="currencyId" ref="LAK" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">9847.72</field>
+        </record>
+
+        <record forcecreate="0" id="rateLBP" model="res.currency.rate">
+            <field name="currencyId" ref="LBP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1853.94</field>
+        </record>
+
+        <record forcecreate="0" id="rateLSL" model="res.currency.rate">
+            <field name="currencyId" ref="LSL" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">10.06</field>
+        </record>
+
+        <record forcecreate="0" id="rateLRD" model="res.currency.rate">
+            <field name="currencyId" ref="LRD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">90.28</field>
+        </record>
+
+        <record forcecreate="0" id="rateLYD" model="res.currency.rate">
+            <field name="currencyId" ref="LYD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1.54</field>
+        </record>
+
+        <record forcecreate="0" id="rateMOP" model="res.currency.rate">
+            <field name="currencyId" ref="MOP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">9.81</field>
+        </record>
+
+        <record forcecreate="0" id="rateMKD" model="res.currency.rate">
+            <field name="currencyId" ref="MKD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">60.29</field>
+        </record>
+
+        <record forcecreate="0" id="rateMGA" model="res.currency.rate">
+            <field name="currencyId" ref="MGA" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2775.86</field>
+        </record>
+
+        <record forcecreate="0" id="rateMWK" model="res.currency.rate">
+            <field name="currencyId" ref="MWK" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">329.79</field>
+        </record>
+
+        <record forcecreate="0" id="rateMVR" model="res.currency.rate">
+            <field name="currencyId" ref="MVR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">18.89</field>
+        </record>
+
+        <record forcecreate="0" id="rateMRO" model="res.currency.rate">
+            <field name="currencyId" ref="MRO" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">362.23</field>
+        </record>
+
+        <record forcecreate="0" id="rateMDL" model="res.currency.rate">
+            <field name="currencyId" ref="MDL" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">15.27</field>
+        </record>
+
+        <record forcecreate="0" id="rateMNT" model="res.currency.rate">
+            <field name="currencyId" ref="MNT" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1643.57</field>
+        </record>
+
+        <record forcecreate="0" id="rateMAD" model="res.currency.rate">
+            <field name="currencyId" ref="MAD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">10.9962499</field>
+        </record>
+
+        <record forcecreate="0" id="rateBND" model="res.currency.rate">
+            <field name="currencyId" ref="BND" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1.54</field>
+        </record>
+
+        <record forcecreate="0" id="rateDZD" model="res.currency.rate">
+            <field name="currencyId" ref="DZD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">99.65</field>
+        </record>
+
+        <record forcecreate="0" id="rateGHS" model="res.currency.rate">
+            <field name="currencyId" ref="GHS" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2.39</field>
+        </record>
+
+        <record forcecreate="0" id="rateGMD" model="res.currency.rate">
+            <field name="currencyId" ref="GMD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">38.89</field>
+        </record>
+
+        <record forcecreate="0" id="rateMZN" model="res.currency.rate">
+            <field name="currencyId" ref="MZN" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">33.65</field>
+        </record>
+
+        <record forcecreate="0" id="rateMMK" model="res.currency.rate">
+            <field name="currencyId" ref="MMK" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1080.82</field>
+        </record>
+
+        <record forcecreate="0" id="rateNAD" model="res.currency.rate">
+            <field name="currencyId" ref="NAD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">10.06</field>
+        </record>
+
+        <record forcecreate="0" id="rateNPR" model="res.currency.rate">
+            <field name="currencyId" ref="NPR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">108.33</field>
+        </record>
+
+        <record forcecreate="0" id="rateALL" model="res.currency.rate">
+            <field name="currencyId" ref="ALL" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">138.00</field>
+        </record>
+
+        <record forcecreate="0" id="rateNIO" model="res.currency.rate">
+            <field name="currencyId" ref="NIO" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">28.97</field>
+        </record>
+
+        <record forcecreate="0" id="rateNGN" model="res.currency.rate">
+            <field name="currencyId" ref="NGN" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">196.77</field>
+        </record>
+
+        <record forcecreate="0" id="rateKPW" model="res.currency.rate">
+            <field name="currencyId" ref="KPW" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1105.24376765</field>
+        </record>
+
+        <record forcecreate="0" id="rateZWL" model="res.currency.rate">
+            <field name="currencyId" ref="ZWL" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">395.80</field>
+        </record>
+
+        <record forcecreate="0" id="rateZMW" model="res.currency.rate">
+            <field name="currencyId" ref="ZMW" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">11.61</field>
+        </record>
+
+        <record forcecreate="0" id="rateYER" model="res.currency.rate">
+            <field name="currencyId" ref="YER" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">264.784483</field>
+        </record>
+
+        <record forcecreate="0" id="rateEUR" model="res.currency.rate">
+            <field name="currencyId" ref="EUR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1.0</field>
+        </record>
+
+        <record forcecreate="0" id="rateVUV" model="res.currency.rate">
+            <field name="currencyId" ref="VUV" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">114.024315363</field>
+        </record>
+
+        <record forcecreate="0" id="rateUZS" model="res.currency.rate">
+            <field name="currencyId" ref="UZS" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2331.3093</field>
+        </record>
+
+        <record forcecreate="0" id="rateAED" model="res.currency.rate">
+            <field name="currencyId" ref="AED" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">4.51253195</field>
+        </record>
+
+        <record forcecreate="0" id="rateTMT" model="res.currency.rate">
+            <field name="currencyId" ref="TMT" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">4.31</field>
+        </record>
+
+        <record forcecreate="0" id="rateTND" model="res.currency.rate">
+            <field name="currencyId" ref="TND" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">34.0661408</field>
+        </record>
+
+        <record forcecreate="0" id="rateTTD" model="res.currency.rate">
+            <field name="currencyId" ref="TTD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">8.61926302</field>
+        </record>
+
+        <record forcecreate="0" id="rateTOP" model="res.currency.rate">
+            <field name="currencyId" ref="TOP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">31.1217</field>
+        </record>
+
+        <record forcecreate="0" id="rateTHB" model="res.currency.rate">
+            <field name="currencyId" ref="THB" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">38.4070124</field>
+        </record>
+
+        <record forcecreate="0" id="rateTZS" model="res.currency.rate">
+            <field name="currencyId" ref="TZS" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1947.06815</field>
+        </record>
+
+        <record forcecreate="0" id="rateTJS" model="res.currency.rate">
+            <field name="currencyId" ref="TJS" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">6.15</field>
+        </record>
+
+        <record forcecreate="0" id="rateTWD" model="res.currency.rate">
+            <field name="currencyId" ref="TWD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">36.8329536</field>
+        </record>
+
+        <record forcecreate="0" id="rateSYP" model="res.currency.rate">
+            <field name="currencyId" ref="SYP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">78.8338</field>
+        </record>
+
+        <record forcecreate="0" id="rateSZL" model="res.currency.rate">
+            <field name="currencyId" ref="SZL" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">10.07</field>
+        </record>
+
+        <record forcecreate="0" id="rateSRD" model="res.currency.rate">
+            <field name="currencyId" ref="SRD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">9.17930</field>
+        </record>
+
+        <record forcecreate="0" id="rateSDG" model="res.currency.rate">
+            <field name="currencyId" ref="SDG" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">3.1999</field>
+        </record>
+
+        <record forcecreate="0" id="rateLKR" model="res.currency.rate">
+            <field name="currencyId" ref="LKR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">163.552526</field>
+        </record>
+
+        <record forcecreate="0" id="rateSSP" model="res.currency.rate">
+            <field name="currencyId" ref="SSP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">5.528</field>
+        </record>
+
+        <record forcecreate="0" id="rateGBP" model="res.currency.rate">
+            <field name="currencyId" ref="GBP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate"> 0.784221994</field>
+        </record>
+
+        <record forcecreate="0" id="rateSOS" model="res.currency.rate">
+            <field name="currencyId" ref="SOS" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">1993.71</field>
+        </record>
+
+        <record forcecreate="0" id="rateSBD" model="res.currency.rate">
+            <field name="currencyId" ref="SBD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">8.6605</field>
+        </record>
+
+        <record forcecreate="0" id="rateSLL" model="res.currency.rate">
+            <field name="currencyId" ref="SLL" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">5320.43478</field>
+        </record>
+
+        <record forcecreate="0" id="rateSCR" model="res.currency.rate">
+            <field name="currencyId" ref="SCR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">18.2587287</field>
+        </record>
+
+        <record forcecreate="0" id="rateRSD" model="res.currency.rate">
+            <field name="currencyId" ref="RSD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">117.381295</field>
+        </record>
+
+        <record forcecreate="0" id="rateSAR" model="res.currency.rate">
+            <field name="currencyId" ref="SAR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">4.58898972</field>
+        </record>
+
+        <record forcecreate="0" id="rateSTD" model="res.currency.rate">
+            <field name="currencyId" ref="STD" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">24105.86</field>
+        </record>
+
+        <record forcecreate="0" id="rateWST" model="res.currency.rate">
+            <field name="currencyId" ref="WST" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2.8628</field>
+        </record>
+
+        <record forcecreate="0" id="rateSHP" model="res.currency.rate">
+            <field name="currencyId" ref="SHP" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.7856</field>
+        </record>
+
+        <record forcecreate="0" id="rateRWF" model="res.currency.rate">
+            <field name="currencyId" ref="RWF" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">752.57</field>
+        </record>
+
+        <record forcecreate="0" id="rateQAR" model="res.currency.rate">
+            <field name="currencyId" ref="QAR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">4.45500218</field>
+        </record>
+
+        <record forcecreate="0" id="ratePEN" model="res.currency.rate">
+            <field name="currencyId" ref="PEN" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">3.20731573</field>
+        </record>
+
+        <record forcecreate="0" id="ratePYG" model="res.currency.rate">
+            <field name="currencyId" ref="PYG" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">5343.66812</field>
+        </record>
+
+        <record forcecreate="0" id="ratePGK" model="res.currency.rate">
+            <field name="currencyId" ref="PGK" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">2.5903895</field>
+        </record>
+
+        <record forcecreate="0" id="ratePKR" model="res.currency.rate">
+            <field name="currencyId" ref="PKR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">115.97432</field>
+        </record>
+
+        <record forcecreate="0" id="rateOMR" model="res.currency.rate">
+            <field name="currencyId" ref="OMR" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.472921728</field>
+        </record>
+
+        <record forcecreate="0" id="rateCVE" model="res.currency.rate">
+            <field name="currencyId" ref="CVE" />
+            <field name="label">2010-01-01</field>
+            <field name="rate">0.61</field>
+        </record>
+
+        <record forcecreate="0" id="rateGTQ" model="res.currency.rate">
+            <field name="rate">11.2020</field>
+            <field name="currencyId" ref="GTQ"/>
+            <field name="label">2010-01-01</field>
+        </record>
+
+    </data>
+</verp>

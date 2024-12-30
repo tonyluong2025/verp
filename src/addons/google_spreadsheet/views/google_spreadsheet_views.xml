@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <!-- add google drive config field in user form -->
+
+        <record id="viewIrAttachmentGoogleSpreadsheetTree" model="ir.ui.view">
+            <field name="label">ir.attachment.google.spreadsheet.tree</field>
+            <field name="model">ir.attachment</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="Google Spreadsheets">
+                    <field name="label" string="Name"/>
+                    <field name="url" widget="url" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewIrAttachmentGoogleSpreadsheetForm" model="ir.ui.view">
+            <field name="label">ir.attachment.google.spreadsheet.form</field>
+            <field name="model">ir.attachment</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <form string="Google Spreadsheets">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="label" string="Name"/>
+                                <field name="url" widget="url"/>
+                            </group>
+                            <group colspan="2">
+                                <label for="description" colspan="2"/>
+                                <field name="description" nolabel="1" colspan="2"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionIrAttachmentGoogleSpreadsheetTree" model="ir.actions.actwindow">
+            <field name="label">Google Spreadsheets</field>
+            <field name="resModel">ir.attachment</field>
+            <field name="viewMode">tree,form</field>
+            <field name="context">{'default_resModel': 'res.users', 'default_resId': uid}</field>
+            <field name="domain">[['url', '=ilike', '%google%/spreadsheet%']]</field>
+            <field name="help">Google Spreadsheets</field>
+        </record>
+
+        <record id="actionIrAttachmentGoogleSpreadsheetTreeView" model="ir.actions.actwindow.view">
+            <field eval="1" name="sequence"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="viewIrAttachmentGoogleSpreadsheetTree"/>
+            <field name="actwindowId" ref="actionIrAttachmentGoogleSpreadsheetTree"/>
+        </record>
+
+        <record id="actionIrAttachmentGoogleSpreadsheetFormView" model="ir.actions.actwindow.view">
+            <field eval="2" name="sequence"/>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="viewIrAttachmentGoogleSpreadsheetForm"/>
+            <field name="actwindowId" ref="actionIrAttachmentGoogleSpreadsheetTree"/>
+        </record>
+
+        <menuitem
+            id="menuReportingDashboardGoogleSpreadsheets"
+            parent="base.menuBoardRoot"
+            action="actionIrAttachmentGoogleSpreadsheetTree"/>
+
+</verp>

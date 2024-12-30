@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+    	<record id="defaultBarcodeNomenclature" model="barcode.nomenclature">
+            <field name="label">Default Nomenclature</field>
+        </record>
+
+        <record id="barcodeRuleProduct" model="barcode.rule">
+            <field name="label">Product Barcodes</field>
+            <field name="barcodeNomenclatureId" ref="defaultBarcodeNomenclature"/>
+            <field name="sequence">90</field>
+            <field name="type">product</field>
+            <field name="encoding">any</field>
+            <field name="pattern">.*</field>
+        </record>
+</verp>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<verp>
+    <data noupdate="1">
+        <record id="mail.mailActivityDataMeeting" model="mail.activity.type">
+            <field name="category">meeting</field>
+        </record>
+
+        <record id="calendar.subtypeInvitation" model="mail.message.subtype">
+            <field name="label">Invitation</field>
+            <field name="resModel">calendar.event</field>
+            <field name="description" eval="false"/>
+            <field name="default" eval="false"/>
+        </record>
+    </data>
+</verp>

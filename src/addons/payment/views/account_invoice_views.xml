@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<verp>
+
+    <record id="accountInvoiceViewFormInheritPayment" model="ir.ui.view">
+        <field name="label">account.move.view.form.inherit.payment</field>
+        <field name="model">account.move</field>
+        <field name="inheritId" ref="account.viewMoveForm"/>
+        <field name="arch" type="xml">
+            <!--
+            The user must capture/void the authorized transactions before registering a new payment.
+            -->
+            <xpath expr="//button[@id='accountInvoicePaymentBtn']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', '|', '|', ['state', '!=', 'posted'], ['paymentState', 'not in', ['partial', 'notPaid']], ['moveType', 'not in', ['outInvoice', 'outRefund', 'inInvoice', 'inRefund', 'outReceipt', 'inReceipt']], ['authorizedTransactionIds', '!=', []]]}</attribute>
+            </xpath>
+            <xpath expr="//button[@id='accountInvoicePaymentBtn']" position="after">
+                <field name="authorizedTransactionIds" invisible="1"/>
+                <button name="paymentActionCapture" type="object"
+                        groups="account.groupAccountInvoice"
+                        string="Capture Transaction" class="oe-highlight" data-hotkey="shift+g"
+                        attrs="{'invisible': ['|', '|', ['moveType', 'not in', ['outInvoice', 'outRefund', 'inInvoice', 'inRefund']], ['state', '!=', 'posted'], ['authorizedTransactionIds', '=', []]]}"/>
+                <button name="paymentActionVoid" type="object"
+                        groups="account.groupAccountInvoice"
+                        string="Void Transaction" data-hotkey="shift+v"
+                        confirm="Are you sure you want to void the authorized transaction? This action can't be undone."
+                        attrs="{'invisible': ['|', '|', ['moveType', 'not in', ['outInvoice', 'outRefund', 'inInvoice', 'inRefund']], ['state', '!=', 'posted'], ['authorizedTransactionIds', '=', []]]}"/>
+            </xpath>
+            <xpath expr="//div[@name='buttonBox']" position="inside">
+                <field name="transactionIds" invisible="1" />
+                <button name="actionViewPaymentTransactions" type="object"
+                        class="oe-stat-button" icon="fa-money"
+                        string="Payment Transaction"
+                        attrs="{'invisible': [['transactionIds', '=', []]]}" />
+            </xpath>
+        </field>
+    </record>
+
+</verp>

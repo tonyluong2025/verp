@@ -1,0 +1,109 @@
+// Achieve a top-menu design visually similar to the backend's 'burger' one.
+
+// = Mobile Main Navbar
+// ============================================================================
+@include media-breakpoint-down(sm) {
+    #oeMainMenuNavbar.o-main-navbar {
+
+        // = Scoped Variables
+        //
+        // Variables scopend within the current context that mirror backend's
+        // boostrap values.
+        // --------------------------------------------------------------------
+        $-bg: darken($o-brand-verp, 10%);
+        $-color: color-yiq($-bg);
+        $-font-size-base: 16px;
+        $-font-size-lg: 18px;
+        $-entry-hover-bg: rgba(invert($-color), .08);
+
+        // = Invalidate top-menu native 'grid' layout
+        // --------------------------------------------------------------------
+        &, .o-menu-sections li, .dropdown-menu.show {
+            display: block;
+        }
+
+        .o-menu-sections li, .dropdown-menu.show {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        // = Design
+        // --------------------------------------------------------------------
+        .o-mobile-menu-toggle,
+        .dropdown-toggle,
+        .dropdown-item,
+        .o-menu-sections > .css-published {
+            height: $o-navbar-height;
+            @include o-hover-text-color(rgba($-color, .9), $-color);
+        }
+
+        .o-menu-sections {
+            @include o-position-absolute($o-navbar-height, 0, 0, 0);
+            display: none;
+            overflow: auto;
+            background-color: $-bg;
+
+            > li > a {
+                font-size: $-font-size-lg;
+            }
+
+            li.css-published:hover {
+                background-color: $-entry-hover-bg;
+            }
+        }
+
+        .dropdown-divider {
+            border-top-color: rgba($-color, .06);
+            margin-left: $dropdown-item-padding-x;
+            margin-right: $dropdown-item-padding-x;
+        }
+
+        .dropdown.show {
+            &, .dropdown-toggle, .dropdown-item, .dropdown-menu {
+                background-color: darken($-bg, 5%);
+            }
+
+            > .dropdown-toggle {
+                @include o-hover-text-color($-color, $-color);
+                outline: 0;
+                box-shadow: inset 0 1px 0 rgba(invert($-color), .1);
+            }
+
+            .dropdown-menu {
+                border: 0;
+                padding-top: 0;
+                box-shadow: inset 0 -1px 0 rgba($-color, .1);
+            }
+
+            .dropdown-item {
+                display: flex;
+                align-items: center;
+                font-size: $-font-size-base;
+            }
+        }
+
+        // = Toggle Menu (open)
+        // --------------------------------------------------------------------
+        body.o-mobile-menu-opened > & {
+            height: 100%;
+
+            .o-menu-sections {
+                display: block;
+            }
+
+            .o-mobile-menu-toggle:before {
+                content: "\f00d"
+            }
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .o-switch-company-menu > .dropdown-menu {
+        padding-top: 0px;
+        .bg-info {
+            padding: 10px;
+        }
+    }
+}

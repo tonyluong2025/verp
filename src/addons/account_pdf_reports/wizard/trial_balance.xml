@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="accountReportBalanceView" model="ir.ui.view">
+        <field name="label">Trial Balance</field>
+        <field name="model">account.balance.report</field>
+        <field name="inheritId" ref="account.accountCommonReportView"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='targetMove']" position="after">
+                    <field name="displayAccount" widget="radio"/>
+                    <newline/>
+                </xpath>
+                <xpath expr="//field[@name='journalIds']" position="after">
+                    <field name="analyticAccountIds" widget="many2manyTags"
+                           options="{'noOpen': true, 'noCreate': true}"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="actionAccountBalanceMenu" model="ir.actions.actwindow">
+        <field name="label">Trial Balance</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">account.balance.report</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountReportBalanceView"/>
+        <field name="target">new</field>
+        <field name="bindingModelId" ref="account.model_accountAccount" />
+        <field name="bindingType">report</field>
+    </record>
+
+    <menuitem id="menuGeneralBalanceReport"
+              name="Trial Balance"
+              sequence="20"
+              parent="menuFinanceAuditReports"
+              action="actionAccountBalanceMenu"
+              groups="account.groupAccountUser,account.groupAccountManager"/>
+
+</verp>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data>
+
+    <record id="crmTeamMemberViewTree" model="ir.ui.view">
+        <field name="label">crm.team.member.view.tree</field>
+        <field name="model">crm.team.member</field>
+        <field name="inheritId" ref="sales_team.crmTeamMemberViewTree"/>
+        <field name="arch" type="xml">
+            <field name="userId" position="after">
+                <field name="assignmentEnabled" invisible="1"/>
+                <field name="assignmentOptout"/>
+                <field name="assignmentMax"/>
+                <field name="leadMonthCount"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberViewKanban" model="ir.ui.view">
+        <field name="label">crm.team.member.view.kanban.inherit.crm</field>
+        <field name="model">crm.team.member</field>
+        <field name="inheritId" ref="sales_team.crmTeamMemberViewKanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class,'oe-kanban-details')]" position="after">
+                <field name="assignmentEnabled" invisible="1"/>
+                <field name="assignmentOptout" invisible="1"/>
+                <div class="o-member-assignment"
+                        attrs="{'invisible': ['|', ['assignmentEnabled', '=', false], ['assignmentOptout', '=', true]]}">
+                    <field name="assignmentMax" invisible="1"/>
+                    <field name="leadMonthCount" widget="gauge"
+                        options="{'maxField': 'assignmentMax'}"
+                        attrs="{'invisible': [['assignmentMax', '=', 0]]}"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crmTeamMemberViewForm" model="ir.ui.view">
+        <field name="label">crm.team.member.view.form.inherit.crm</field>
+        <field name="model">crm.team.member</field>
+        <field name="inheritId" ref="sales_team.crmTeamMemberViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='memberPartnerInfo']" position="after">
+                <group name="groupAssign" attrs="{'invisible': [['assignmentEnabled', '=', false]]}">
+                    <field name="assignmentEnabled" invisible="1"/>
+                    <field name="assignmentOptout"/>
+                    <label for="leadMonthCount" attrs="{'invisible': [['assignmentOptout', '=', true]]}"/>
+                    <div attrs="{'invisible': [['assignmentOptout', '=', true]]}">
+                        <field name="leadMonthCount" class="oe-inline"/>
+                        <span class="oe-inline"> / </span>
+                        <field name="assignmentMax" class="oe-inline"/>
+                        <span class="oe-inline"> (max) </span>
+                    </div>
+                    <field name="assignmentDomain" string="Domain" widget="domain"
+                        options="{'model': 'crm.lead'}"
+                        attrs="{'invisible': ['|', ['assignmentMax', '=', 0], ['assignmentOptout', '=', true]]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sales_team.crmTeamMemberAction" model="ir.actions.actwindow">
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new salesman
+            </p><p>
+                Link salespersons to sales teams. Set their monthly lead capacity
+                and configure automatic lead assignment.
+            </p>
+        </field>
+    </record>
+
+</data></verp>

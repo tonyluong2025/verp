@@ -1,0 +1,410 @@
+$o-onboarding-dot-size: 20px;
+$o-onboarding-dot-timing: 0.5s;
+
+$o-onboarding-blue-bg-1: #60ABC3;
+$o-onboarding-blue-bg-2: #4187AE;
+$o-onboarding-blue-ui-1: #F39D9B;
+$o-onboarding-blue-ui-2: #FBEEC8;
+
+$o-onboarding-orange-bg-1: #DA9D77;
+$o-onboarding-orange-bg-2: #B9684F;
+$o-onboarding-orange-ui-1: #599FF1;
+$o-onboarding-orange-ui-2: #68B3C9;
+
+$o-onboarding-violet-bg-1: #6070C3;
+$o-onboarding-violet-bg-2: #475DA4;
+$o-onboarding-violet-ui-1: #F39D9B;
+$o-onboarding-violet-ui-2: #FBEEC8;
+
+@mixin o-onboarding-vertical-gradient($startColor: #555, $endColor: #333) {
+    background-color: mix($startColor, $endColor);
+    background-image: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor));
+    background-image: -webkit-linear-gradient(top, $startColor, $endColor);
+    background-image: -moz-linear-gradient(top, $startColor, $endColor);
+    background-image: -ms-linear-gradient(top, $startColor, $endColor);
+    background-image: -o-linear-gradient(top, $startColor, $endColor);
+    background-image: linear-gradient(to bottom, $startColor, $endColor);
+}
+
+.o-onboarding {
+    position: relative;
+    overflow: hidden;
+    background: white center top;
+    background-size: cover;
+    border-bottom: 1px solid gray('300');
+
+    .o-onboarding-wrap {
+        padding: $o-horizontal-padding*2 $o-horizontal-padding;
+
+        @include media-breakpoint-down(sm) {
+            overflow-x: auto;
+        }
+    }
+    .o-onboarding-step-title, a.o-onboarding-all-done {
+        cursor: pointer;
+    }
+
+    .o-onboarding-btn-close {
+        @include o-position-absolute(auto, 0, 0);
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+
+    .o-onboarding-btn-close {
+        top: 0;
+        bottom: auto;
+    }
+    .o-onboarding-completed-message {
+        @include o-position-absolute(auto, 0,0,0);
+        //transform: translateY(115%);
+        //transition: transform $o-onboarding-dot-timing;
+        box-shadow: 0 2px 10px gray(600);
+        padding: $o-horizontal-padding;
+        background-color: white;
+        color: $o-main-text-color;
+        opacity: 0;
+        z-index: -1;
+        &.o-onboarding-steps-just-done {
+            animation: onboardingFadeIn ($o-onboarding-dot-timing*3);
+        }
+        &.o-onboarding-steps-done {
+            opacity: 1;
+            z-index: auto;
+        }
+    }
+
+    .o-onboarding-steps, .o-onboarding-step {
+        display: flex;
+    }
+
+    .o-onboarding-steps {
+        flex-flow: row nowrap;
+        justify-content: initial;
+    }
+
+    .o-onboarding-step {
+        flex-flow: column nowrap;
+        flex: 1 1 auto;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        opacity: 0.6;
+
+        @include media-breakpoint-down(sm) {
+            flex: 1 0 auto;
+            margin-bottom: 16px;
+            align-items: baseline;
+
+            .o-onboarding-step-content {
+                max-width: none;
+            }
+        }
+
+        &:first-of-type {
+            .o-onboarding-progress {
+                display: none !important;
+            }
+
+            .o-onboarding-dot {
+                transition-delay: 0s;
+            }
+        }
+
+        .o-onboarding-step-content {
+            @include media-breakpoint-up(lg) {
+                min-width: 230px;
+            }
+            /* Progressbar should not break in mobile view */
+            @include media-breakpoint-down(sm) {
+                min-width: 230px;
+            }
+            max-width: 230px;
+            padding: 0 10px;
+
+            .o-onboarding-step-action {
+                border: 1px solid gray('200');
+                display: none;
+            }
+
+            p {
+                opacity: 0.8;
+            }
+        }
+
+        .o-onboarding-progress {
+            @include o-position-absolute($o-onboarding-dot-size*0.5 - 2px, calc(50% + 10px));
+            width: calc(100% - 20px);
+            height: 4px;
+            background-color: gray('200');
+
+            .progress-bar {
+                background-image: linear-gradient(90deg, $o-brand-primary, $o-brand-verp);
+                transition: opacity $o-onboarding-dot-timing;
+            }
+        }
+
+        .o-onboarding-dot {
+            @include media-breakpoint-down(sm) {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            width: $o-onboarding-dot-size;
+            height: $o-onboarding-dot-size;
+            color: transparent;
+            padding-top: 5px;
+            font-size: 11px;
+            display: inline-block;
+            border-radius: 100%;
+            background-color: gray('200');
+            position: relative;
+            transition: background $o-onboarding-dot-timing ease $o-onboarding-dot-timing;
+        }
+
+        .o-onboarding-all-done {
+            display: none;
+        }
+
+        // Steps' Status
+        &.o-onboarding-current, &.o-onboarding-done {
+            opacity: 1;
+
+            .o-onboarding-progress .progress-bar {
+                width: 100%;
+                box-shadow: none;
+                transition: width $o-onboarding-dot-timing;
+            }
+        }
+
+        &.o-onboarding-current {
+            .o-onboarding-step-action, .o-onboarding-dot {
+                animation: bounceIn ($o-onboarding-dot-timing*2);
+            }
+
+            .o-onboarding-step-action {
+                display: inline-block;
+            }
+
+            .o-onboarding-dot {
+                background: $o-brand-verp;
+            }
+        }
+
+        &.o-onboarding-done {
+            .o-onboarding-dot {
+                background: $o-brand-primary;
+                color: white;
+            }
+
+            .o-onboarding-all-done {
+                display: block;
+            }
+
+            + .o-onboarding-done {
+                .o-onboarding-dot {
+                    transition-delay: 0s;
+                }
+
+                .o-onboarding-progress {
+                    background: $o-brand-primary;
+                }
+
+                .progress-bar {
+                    opacity: 0;
+                }
+            }
+        }
+
+        &.o-onboarding-just-done {
+
+            .o-onboarding-all-done {
+                animation: bounceIn ($o-onboarding-dot-timing*2);
+                display: block;
+            }
+            .o-onboarding-step-content-info {
+                animation: onboardingFadeIn ($o-onboarding-dot-timing*3);
+            }
+        }
+
+    }
+
+    // Tony
+    @keyframes onboardingFadeIn {
+        0%  {opacity: 0}
+        33% {opacity: 0}
+        100% {opacity: 1}
+    }
+
+    // =========  Color Variations  =========
+    // ======================================
+
+    // =========  Variation Mixin  ==========
+    @mixin o-onboarding-variation($bg1, $bg2, $ui1, $ui2) {
+        &, .o-onboarding-step-title, .o-onboarding-step-action, a.o-onboarding-all-done, .o-onboarding-all-done > .fa, .o-onboarding-btn-close {
+            color: white !important;
+        }
+
+        .o-onboarding-wrap {
+            @include o-onboarding-vertical-gradient(fade-out($bg1, 0.5), $bg2);
+            box-shadow: inset 0 -7px 20px -5px fade-out(black, 0.7);
+        }
+
+        .o-onboarding-dot, .o-onboarding-progress {
+            background-color: fade-out(white, 0.5);
+        }
+
+        .o-onboarding-step-action {
+            border-color: fade-out(white, 0.5);
+        }
+
+        .progress-bar {
+            background-image: linear-gradient(90deg, $ui1, $ui2);
+        }
+
+        .o-onboarding-step {
+            &.o-onboarding-done, .o-onboarding-done + .o-onboarding-done {
+                .o-onboarding-dot, .o-onboarding-progress {
+                    background: $ui1;
+                }
+            }
+
+            &.o-onboarding-current .o-onboarding-dot {
+                background: $ui2;
+            }
+        }
+    }
+
+    // =========  Variation Templates  ==========
+    &.o-onboarding-blue {
+        @include o-onboarding-variation($o-onboarding-blue-bg-1, $o-onboarding-blue-bg-2, $o-onboarding-blue-ui-1, $o-onboarding-blue-ui-2);
+    }
+
+    &.o-onboarding-orange {
+        @include o-onboarding-variation($o-onboarding-orange-bg-1, $o-onboarding-orange-bg-2, $o-onboarding-orange-ui-1, $o-onboarding-orange-ui-2);
+    }
+
+    &.o-onboarding-violet {
+        @include o-onboarding-variation($o-onboarding-violet-bg-1, $o-onboarding-violet-bg-2, $o-onboarding-violet-ui-1, $o-onboarding-violet-ui-2);
+    }
+
+    // =========  "Cannon Confetti" animation  ==========
+    .o-onboarding-confetti {
+        animation: cannon-explosion ($o-onboarding-dot-timing*3) ease-out 0s 1 normal both;
+        @include o-position-absolute(0, 50%, 30px);
+        transform-origin: 50% 100%;
+        display: none;
+        width: 1px;
+
+        @keyframes cannon-explosion {
+            0% {
+                transform: scale(0);
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        > div {
+            @include o-position-absolute(auto, 0, 5px,0);
+            transform-origin: 50% 100%;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-around;
+            align-content: center;
+            padding-bottom: 30%;
+
+            &:nth-child(1), &:nth-child(5) {
+                height: 90%;
+                transform: rotate(-20deg);
+            }
+            &:nth-child(2), &:nth-child(4) {
+                height: 95%;
+                transform: rotate(-10deg);
+            }
+            &:nth-child(3) {
+                height: 100%;
+            }
+            &:nth-child(4) {
+                transform: rotate(10deg);
+            }
+            &:nth-child(5) {
+                transform: rotate(20deg);
+            }
+
+            > div {
+                flex: 0 1 auto;
+                animation: confetti-rotate-l ($o-onboarding-dot-timing*3) ease-out 0s 1 normal both;
+
+                &:nth-child(odd) {
+                    animation: confetti-rotate-r ($o-onboarding-dot-timing*3) ease-out 0s 1 normal both;
+                }
+
+                @keyframes confetti-rotate-l {
+                    0% {
+                        transform: rotate(0) scaleY(1);
+                    }
+                    50% {
+                        transform: rotate(2turn) scaleY(1.5);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: rotate(2.05turn) scaleY(1);
+                        opacity: 0;
+                    }
+                }
+
+                @keyframes confetti-rotate-r {
+                    0% {
+                        transform: rotate(0) scaleY(1);
+                    }
+                    50% {
+                        transform: rotate(-2turn) scaleY(1.5);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: rotate(-2.05turn) scaleY(1);
+                        opacity: 0;
+                    }
+                }
+
+                &.ribbon {
+                    width: .3em;
+                    height: .7em;
+                    border-radius: .1em;
+                }
+
+                &.flake {
+                    width: .3em;
+                    height: .3em;
+                    border-radius: 50%;
+                }
+
+                // Confetti Colors
+                &.color-1 {
+                    background-color: #feb535;
+                }
+
+                &.color-2 {
+                    background-color: #bea4ff;
+                }
+
+                &.color-3 {
+                    background-color: #ff6e83;
+                }
+
+                &.color-4 {
+                    background-color: #58cafe;
+                }
+            }
+        }
+    }
+
+    .o-onboarding-just-done {
+        // Activate confetti cannon when step is done
+        .o-onboarding-confetti {
+            display: block;
+        }
+    }
+}

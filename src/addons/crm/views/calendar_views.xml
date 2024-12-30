@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<verp>
+
+    <record id="viewCrmMeetingSearch" model="ir.ui.view">
+        <field name="label">calendar.event.form.inherit</field>
+        <field name="model">calendar.event</field>
+        <field name="inheritId" ref="calendar.viewCalendarEventSearch"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description']" position="after">
+                <field name="opportunityId"/>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

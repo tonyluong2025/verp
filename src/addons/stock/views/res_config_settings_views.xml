@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="resConfigSettingsViewForm" model="ir.ui.view">
+            <field name="label">res.config.settings.view.form.inherit.stock</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="30"/>
+            <field name="inheritId" ref="base.resConfigSettingsViewForm" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='settings']" position="inside" >
+                    <div class="app-settings-block" data-string="Inventory" string="Inventory" data-key="stock" groups="stock.groupStockManager">
+                        <h2>Operations</h2>
+                        <div class="row mt16 o-settings-container" name="operationsSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="productPacksTracking"
+                                title="Put your products in packs (e.g. parcels, boxes) and track them">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockTrackingLot"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockTrackingLot"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/management/products/usage.html#packages" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Put your products in packs (e.g. parcels, boxes) and track them
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="processTransfers">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleStockPickingBatch"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleStockPickingBatch" class="o-module"/>
+                                    <div class="text-muted">
+                                        Process transfers in batch per worker
+                                    </div>
+                                    <div class="row mt-2" attrs="{'invisible': [['moduleStockPickingBatch','=',false]]}">
+                                        <field name="groupStockPickingWave" widget="upgradeBoolean" class="col-lg-1 ml16 mr0"/>
+                                        <div class="col pl-0">
+                                            <label for="groupStockPickingWave"/>
+                                            <div class="text-muted">Process operations in wave transfers</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="warningInfo">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupWarningStock"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupWarningStock" string="Warnings"/>
+                                    <div class="text-muted">
+                                        Get informative or blocking warnings on partners
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="qualityControl">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleQualityControl" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleQualityControl" class="o-module"/>
+                                    <div class="text-muted">
+                                        Add quality checks to your transfer operations
+                                    </div>
+                                    <div class="row mt-2" attrs="{'invisible': [['moduleQualityControl','=',false]]}">
+                                        <field name="moduleQualityControlWorksheet" widget="upgradeBoolean" class="col-lg-1 ml16 mr0"/>
+                                        <div class="col pl-0">
+                                            <label for="moduleQualityControlWorksheet" class="o-module"/>
+                                            <div class="text-muted">
+                                                Create customizable worksheets for your quality checks
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="annualInventoryDate" groups='stock.groupStockManager'>
+                                <div class="o-setting-right-pane">
+                                    <label for="annualInventoryDay" string="Annual Inventory Day and Month"/>
+                                    <div class="text-muted">
+                                        Day and month that annual inventory counts should occur.
+                                    </div>
+                                    <div class="content-group">
+                                        <field name="annualInventoryDay" class="o-light-label" style="width: 30px;"/>
+                                        <field name="annualInventoryMonth" class="o-light-label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="receptionReport">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockReceptionReport"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockReceptionReport"/>
+                                    <div class="text-muted">
+                                        View and allocate received quantities.
+                                    </div>
+                                    <div class="row mt-2" attrs="{'invisible': [['groupStockReceptionReport','=',false]]}">
+                                        <field name="groupStockAutoReceptionReport" class="col-lg-1 ml16 mr0"/>
+                                        <div class="col pl-0">
+                                            <label for="groupStockAutoReceptionReport"/>
+                                            <div class="text-muted">
+                                                Automatically open reception report when a receipt is validated.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Barcode</h2>
+                        <div class="row mt16 o-settings-container" name="barcodeSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box" id="processOperationsBarcodes">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleStockBarcode" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" id="barcodeSettings">
+                                    <label for="moduleStockBarcode" class="o-module"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/barcode/setup/software.html" title="Documentation" class="mr-2 o-doc-link" target="_blank"></a>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.groupMultiCompany"/>
+                                    <div class="text-muted" name="stockBarcode">
+                                        Process operations faster with barcodes
+                                    </div>
+                                    <div class="content-group">
+                                        <div id="useProductBarcode"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Shipping</h2>
+                        <div class="row mt16 o-settings-container" name="shippingSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box" id="stockMoveEmail">
+                                <div class="o-setting-left-pane">
+                                    <field name="stockMoveEmailValidation"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="stockMoveEmailValidation" string="Email Confirmation"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.groupMultiCompany"/>
+                                    <div class="text-muted">
+                                        Send an automatic confirmation email when Delivery Orders are done
+                                    </div>
+                                    <div class="row mt16" attrs="{'invisible': [['stockMoveEmailValidation', '=', false]]}">
+                                        <label for="stockMailConfirmationTemplateId" string="Email Template" class="col-lg-4 o-light-label"/>
+                                        <field name="stockMailConfirmationTemplateId" class="oe-inline" attrs="{'required': [['stockMoveEmailValidation', '=', true]]}" context="{'default_model': 'stock.picking'}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="stockSms">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleStockSms"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleStockSms" class="o-module"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.groupMultiCompany"/>
+                                    <div class="text-muted">
+                                        Send an automatic confirmation SMS Text Message when Delivery Orders are done
+                                    </div>
+                                    <div class="content-group">
+                                        <div id="stockConfirmationSms"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="signatureDeliveryOrders">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockSignDelivery"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockSignDelivery"/>
+                                    <div class="text-muted">
+                                        Require a signature on your delivery orders
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="delivery" title="Shipping connectors allow to compute accurate shipping costs, print shipping labels and request carrier picking at your warehouse to ship to the customer. Apply shipping connector from delivery methods.">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleDelivery"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleDelivery" class="o-module"/>
+                                    <div class="text-muted" id="deliveryCarrier">
+                                        Compute shipping costs
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Shipping Connectors</h2>
+                        <div class="row mt16 o-settings-container" name="productSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box" id="computeShippingCostsUps">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleDeliveryUps" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleDeliveryUps" class="o-module"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/shipping/setup/third_party_shipper.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Compute shipping costs and ship with UPS
+                                    </div>
+                                    <div class="content-group">
+                                        <div id="stockDeliveryUps"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="computeShippingCostsDhl">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleDeliveryDhl" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleDeliveryDhl" class="o-module"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/shipping/setup/third_party_shipper.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Compute shipping costs and ship with DHL
+                                    </div>
+                                    <div class="content-group">
+                                        <div id="stockDeliveryDhl"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="computeShippingCostsFedex">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleDeliveryFedex" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleDeliveryFedex" class="o-module"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/shipping/setup/third_party_shipper.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Compute shipping costs and ship with FedEx
+                                    </div>
+                                    <div class="content-group">
+                                        <div id="stockDeliveryFedex"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="computeShippingCostsUsps">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleDeliveryUsps" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleDeliveryUsps" class="o-module"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/shipping/setup/third_party_shipper.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Compute shipping costs and ship with USPS
+                                    </div>
+                                    <div class="content-group">
+                                        <div id="stockDeliveryUsps"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="computeShippingCostsEms">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleDeliveryEms" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleDeliveryEms" class="o-module"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/shipping/setup/third_party_shipper.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Compute shipping costs and ship with Ems
+                                    </div>
+                                    <div class="content-group">
+                                        <div id="stockDeliveryEms"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o-setting-box" id="computeShippingCostsEasypost">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleDeliveryEasypost" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleDeliveryEasypost" class="o-module"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/shipping/setup/third_party_shipper.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Compute shipping costs and ship with Easypost
+                                    </div>
+                                    <div class="content-group">
+                                        <div id="stockDeliveryEasypost"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Products</h2>
+                        <div class="row mt16 o-settings-container" name="productSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box" id="productAttributes">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupProductVariant"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupProductVariant"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/sales/sales/products_prices/products/variants.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Set product attributes (e.g. color, size) to manage variants
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt8" attrs="{'invisible': [['groupProductVariant', '=', false]]}">
+                                            <button name="%(product.attributeAction)d" icon="fa-arrow-right" type="action" string="Attributes" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="sellPurchaseUom">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupUom"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupUom"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/management/products/uom.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Sell and purchase products in different units of measure
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt8" attrs="{'invisible': [['groupUom', '=', false]]}">
+                                            <button name="%(uom.productUomFormAction)d" icon="fa-arrow-right" type="action" string="Units Of Measure" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="manageProductPackaging"
+                                title="Manage product packagings (e.g. pack of 6 bottles, box of 10 pieces)">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockPackaging"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockPackaging"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/management/products/usage.html#packaging" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Manage product packagings (e.g. pack of 6 bottles, box of 10 pieces)
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt8" attrs="{'invisible': [['groupStockPackaging', '=', false]]}">
+                                            <button name="%(product.actionPackagingView)d" icon="fa-arrow-right" type="action" string="Product Packagings" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Traceability</h2>
+                        <div class="row mt16 o-settings-container" id="productionLotInfo">
+                            <div class="col-12 col-lg-6 o-setting-box" id="fullTraceability">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockProductionLot"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockProductionLot"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/management/lots_serial_numbers/differences.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Get a full traceability from vendors to customers
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="expirationDatesSerialNumbers"
+                                attrs="{'invisible': [['groupStockProductionLot', '=', false]]}"
+                                title="Track following dates on lots &amp; serial numbers: best before, removal, end of life, alert. Such dates are set automatically at lot/serial number creation based on values set on the product (in days).">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleProductExpiry"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleProductExpiry" class="o-module"/>
+                                    <div class="text-muted">
+                                        Set expiration dates on lots &amp; serial numbers
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" attrs="{'invisible': [['groupStockProductionLot', '=', false]]}" id="groupLotOnDeliverySlip">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupLotOnDeliverySlip"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupLotOnDeliverySlip"/>
+                                    <div class="text-muted">
+                                        Lots &amp; Serial numbers will appear on the delivery slip
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="ownerStoredProducts">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockTrackingOwner"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockTrackingOwner"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/management/misc/owned_stock.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Set owner on stored products
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="mt32">Warehouse</h2>
+                        <div class="row mt16 o-settings-container" name="warehouseSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="trackProductLocation"
+                                title="Store products in specific locations of your warehouse (e.g. bins, racks) and to track inventory accordingly.">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockMultiLocations"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockMultiLocations"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/management/warehouses/difference_warehouse_location.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Track product location in your warehouse
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt8" attrs="{'invisible': [['groupStockMultiLocations', '=', false]]}">
+                                            <button name="%(stock.actionLocationForm)d" icon="fa-arrow-right" type="action" string="Locations" class="btn-link"/><br/>
+                                            <button name="stock.actionPutawayTree" icon="fa-arrow-right" type="action" string="Putaway Rules" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="use_own_routes"
+                                title="Add and customize route operations to process product moves in your warehouse(s): e.g. unload &gt; quality control &gt; stock for incoming products, pick &gt; pack &gt; ship for outgoing products. You can also set putaway strategies on warehouse locations in order to send incoming products into specific child locations straight away (e.g. specific bins, racks).">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockAdvLocation"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockAdvLocation"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/inventory_and_mrp/inventory/routes/concepts/use-routes.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Use your own routes
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt8" attrs="{'invisible': [['groupStockAdvLocation', '=', false]]}">
+                                            <button name="%(stock.actionWarehouseForm)d" icon="fa-arrow-right" type="action" string="Set Warehouse Routes" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="categorize_locations"
+                                attrs="{'invisible': [['groupStockMultiLocations', '=', false]]}">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupStockStorageCategories"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupStockStorageCategories"/>
+                                    <div class="text-muted">
+                                        Categorize your locations for smarter putaway rules
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt8" attrs="{'invisible': [['groupStockStorageCategories', '=', false]]}">
+                                            <button name="%(stock.actionStorageCategory)d" icon="fa-arrow-right" type="action" string="Storage Categories" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 id="scheduleInfo" invisible="1">Advanced Scheduling</h2>
+                        <div class="row mt16 o-settings-container">
+                            <div id="saleSecurityLead"/>
+                            <div id="purchasePoLead"/>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="actionStockConfigSettings" model="ir.actions.actwindow">
+            <field name="label">Settings</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.config.settings</field>
+            <field name="viewMode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'stock', 'binSize': false}</field>
+        </record>
+
+        <menuitem id="menuStockConfigSettings" name="Configuration" parent="menuStockRoot"
+            sequence="100" groups="groupStockManager"/>
+        <menuitem id="menuStockGeneralSettings" name="Settings" parent="menuStockConfigSettings"
+            sequence="0" action="actionStockConfigSettings" groups="base.groupSystem"/>
+    </data>
+</verp>

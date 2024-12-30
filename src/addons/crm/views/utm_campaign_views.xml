@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record model="ir.ui.view" id="utmCampaignViewKanban">
+        <field name="label">utm.campaign.view.kanban</field>
+        <field name="model">utm.campaign</field>
+        <field name="inheritId" ref="utm.utmCampaignViewKanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='userId']" position="after">
+                <field name="useLeads"/>
+            </xpath>
+            <xpath expr="//div[@id='utmStatistics']" position="inside">
+                <div class="mr-3"
+                    groups="sales_team.groupSaleSalesman"
+                    t-att-title="record.useLeads.rawValue ? 'Leads' : 'Opportunities'">
+                    <i class="fa fa-star text-muted"></i>
+                    <small class="font-weight-bold"><field name="crmLeadCount"/></small>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="utmCampaignViewForm">
+        <field name="label">utm.campaign.view.form</field>
+        <field name="model">utm.campaign</field>
+        <field name="inheritId" ref="utm.utmCampaignViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class,'oe-button-box')]" position="inside">
+                <button name="actionRedirectToLeadsOpportunities"
+                    type="object"
+                    class="oe-stat-button order-3"
+                    icon="fa-star"
+                    groups="sales_team.groupSaleSalesman">
+                    <div class="o-field-widget o-stat-info">
+                        <field name="useLeads" invisible="1"/>
+                        <span class="o-stat-value"><field nolabel="1" name="crmLeadCount"/></span>
+                        <span class="o-stat-text" attrs="{'invisible': [['useLeads', '=', false]]}">Leads</span>
+                        <span class="o-stat-text" attrs="{'invisible': [['useLeads', '=', true]]}">Opportunities</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</verp>

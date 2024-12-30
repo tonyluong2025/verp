@@ -1,0 +1,136 @@
+
+verp.define('web.translation', function (require) {
+"use strict";
+
+var Class = require('web.Class');
+
+var TranslationDataBase = Class.extend(/** @lends instance.TranslationDataBase# */{
+    init: function() {
+        this.db = {};
+        this.multiLang = false
+        this.parameters = {"direction": 'ltr',
+                        "dateFormat": '%m/%d/%Y',
+                        "timeFormat": '%H:%M:%S',
+                        "grouping": [],
+                        "decimalPoint": ".",
+                        "thousandsSep": ",",
+                        "code": "en_US"};
+    },
+    setBundle: function(translationBundle) {
+        var self = this;
+        this.multiLang = translationBundle.multiLang
+        var modules = _.keys(translationBundle.modules);
+        modules.sort();
+        if (_.include(modules, "web")) {
+            modules = ["web"].concat(_.without(modules, "web"));
+        }
+        _.each(modules, function(name) {
+            self.addModuleTranslation(translationBundle.modules[name]);
+        });
+        if (translationBundle.langParameters) {
+            this.parameters = translationBundle.langParameters;
+            this.parameters.grouping = JSON.parse(this.parameters.grouping);
+        }
+    },
+    addModuleTranslation: function(mod) {
+        var self = this;
+        _.each(mod.messages, function(message) {
+            self.db[message.id] = message.string;
+        });
+    },
+    buildTranslationFunction: function() {
+        var self = this;
+        var fcnt = function(str) {
+            var tmp = self.get(str);
+            return tmp === undefined ? str : tmp;
+        };
+        fcnt.database = this;
+        return fcnt;
+    },
+    get: function(key) {
+        return this.db[key];
+    },
+    /**
+        Loads the translations from an VERP server.
+
+        @param {verp.Session} session The session object to contact the server.
+        @param {Array} [modules] The list of modules to load the translation. If not specified,
+        it will default to all the modules installed in the current database.
+        @param {Object} [lang] lang The language. If not specified it will default to the language
+        of the current user.
+        @param {string} [url='/web/webclient/translations']
+        @returns {Promise}
+    */
+    loadTranslations: function(session, modules, lang, url) {
+        var self = this;
+        var cacheId = session.cacheHashes && session.cacheHashes.translations;
+        url = url || '/web/webclient/translations';
+        url += '/' + (cacheId ? cacheId : Date.now());
+        const paramsGet = {};
+        if (modules) {
+            paramsGet.mods = modules.join(',');
+        }
+        if (lang) {
+            paramsGet.lang = lang;
+        }
+        return $.get(url, paramsGet).then(function (trans) {
+            self.setBundle(trans);
+        });
+    }
+});
+
+/**
+ * Eager translation function, performs translation immediately at call
+ * site. Beware using this outside of method bodies (before the
+ * translation database is loaded), you probably want :func:`_lt`
+ * instead.
+ *
+ * @function _t
+ * @param {String} source string to translate
+ * @returns {String} source translated into the current locale
+ */
+var _t = new TranslationDataBase().buildTranslationFunction();
+/**
+ * Lazy translation function, only performs the translation when actually
+ * printed (e.g. inserted into a template)
+ *
+ * Useful when defining translatable strings in code evaluated before the
+ * translation database is loaded, as class attributes or at the top-level of
+ * an VERP Web module
+ *
+ * @param {String} s string to translate
+ * @returns {Object} lazy translation object
+ */
+var _lt = function (s) {
+    return {toString: function () { return _t(s); }};
+};
+
+/** Setup jQuery timeago */
+/*
+ * Strings in timeago are "composed" with prefixes, words and suffixes. This
+ * makes their detection by our translating system impossible. Use all literal
+ * strings we're using with a translation mark here so the extractor can do its
+ * job.
+ */
+{
+    _t('less than a minute ago');
+    _t('about a minute ago');
+    _t('%d minutes ago');
+    _t('about an hour ago');
+    _t('%d hours ago');
+    _t('a day ago');
+    _t('%d days ago');
+    _t('about a month ago');
+    _t('%d months ago');
+    _t('about a year ago');
+    _t('%d years ago');
+}
+
+
+return {
+    _t: _t,
+    _lt: _lt,
+    TranslationDataBase: TranslationDataBase,
+};
+
+});

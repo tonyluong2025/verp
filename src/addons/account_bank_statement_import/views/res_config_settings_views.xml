@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="resConfigSettingsViewForm" model="ir.ui.view">
+            <field name="label">res.config.settings.view.form.inherit.account</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inheritId" ref="account.resConfigSettingsViewForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='bankCash']" position="replace">
+                    <div class="row mt16 o-settings-container" id="bankCash">
+                        <div class="col-12 col-lg-6 o-setting-box">
+                            <span class="o-form-label">Sample formats for importing statements</span>
+                            <div class="o-setting-right-pane">
+                                <div class="text-muted">
+                                    Download CSV
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o-setting-left-pane">
+                            <div class="o-setting-right-pane">
+                                <span class="o-form-label">Sample formats for importing statements</span>
+                            <div class="o-setting-right-pane">
+                                <div class="text-muted">
+                                    <button type="object" name="getSampleImportExcel"
+                                    class="oe-highlight" string="Download Excel"/>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</verp>

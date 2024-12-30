@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="actionReportGeneralLedger" model="ir.actions.report">
+            <field name="label">General Ledger</field>
+            <field name="model">account.report.general.ledger</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.accounting.generalledger</field>
+            <field name="reportName">account_pdf_reports.reportGeneralLedger</field>
+            <field name="reportFile">account_pdf_reports.reportGeneralLedger</field>
+        </record>
+
+        <record id="actionReportPartnerledger" model="ir.actions.report">
+            <field name="label">Partner Ledger</field>
+            <field name="model">account.report.partner.ledger</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.accounting.partnerledger</field>
+            <field name="reportName">account_pdf_reports.reportPartnerLedger</field>
+            <field name="reportFile">account_pdf_reports.reportPartnerLedger</field>
+        </record>
+
+
+        <record id="actionReportTrialBalance" model="ir.actions.report">
+            <field name="label">Trial Balance</field>
+            <field name="model">account.balance.report</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.accounting.trialbalance</field>
+            <field name="reportName">account_pdf_reports.reportTrialBalance</field>
+            <field name="reportFile">account_pdf_reports.reportTrialBalance</field>
+        </record>
+
+        <record id="actionReportFinancial" model="ir.actions.report">
+            <field name="label">Financial Report</field>
+            <field name="model">account.financial.report</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.accounting.financial</field>
+            <field name="reportName">account_pdf_reports.reportFinancial</field>
+            <field name="reportFile">account_pdf_reports.reportFinancial</field>
+        </record>
+
+        <record id="actionReportAccountTax" model="ir.actions.report">
+            <field name="label">Tax Report</field>
+            <field name="model">account.tax.report.wizard</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.accounting.tax</field>
+            <field name="reportName">account_pdf_reports.reportTax</field>
+            <field name="reportFile">account_pdf_reports.reportTax</field>
+        </record>
+
+        <record id="actionReportAgedPartnerBalance" model="ir.actions.report">
+            <field name="label">Aged Partner Balance</field>
+            <field name="model">res.partner</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.accounting.agedpartnerbalance</field>
+            <field name="reportName">account_pdf_reports.reportAgedPartnerBalance</field>
+            <field name="reportFile">account_pdf_reports.reportAgedPartnerBalance</field>
+        </record>
+
+        <record id="actionReportJournal" model="ir.actions.report">
+            <field name="label">Journals Audit</field>
+            <field name="model">account.common.journal.report</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.accounting.journal</field>
+            <field name="reportName">account_pdf_reports.reportJournal</field>
+            <field name="reportFile">account_pdf_reports.reportJournal</field>
+        </record>
+
+        <record id="actionReportJournalEntries" model="ir.actions.report">
+            <field name="label">Journals Entries</field>
+            <field name="model">account.move</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">account_pdf_reports.reportJournalEntries</field>
+            <field name="reportFile">account_pdf_reports.reportJournalEntries</field>
+            <field name="bindingModelId" ref="account.model_accountMove"/>
+            <field name="bindingType">report</field>
+        </record>
+
+    </data>
+</verp>

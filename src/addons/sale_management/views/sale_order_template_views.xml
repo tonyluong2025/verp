@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="saleOrderTemplateViewSearch" model="ir.ui.view">
+        <field name="label">sale.order.template.search</field>
+        <field name="model">sale.order.template</field>
+        <field name="arch" type="xml">
+            <search string="Search Quotation Template">
+                <field name="label"/>
+                <filter string="Archived" name="inactive" domain="[['active','=', false]]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="saleOrderTemplateViewForm" model="ir.ui.view">
+        <field name="label">sale.order.template.form</field>
+        <field name="model">sale.order.template</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Quotation Template">
+                <sheet>
+                    <div name="buttonBox" class="oe-button-box"/>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <div class="oe-title">
+                        <label for="label"/>
+                        <h1>
+                            <field name="label" placeholder="e.g. Standard Consultancy Package"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                           <label for="numberOfDays" string="Quotation expires after"/>
+                           <div id="numberOfDays">
+                               <field name="numberOfDays" class="oe-inline"/> days
+                           </div>
+                        </group>
+                        <group>
+                            <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                        </group>
+                    </group>
+                    <notebook name="mainBook">
+                        <page string="Lines" name="orderLines">
+                        <field name="saleOrderTemplateLineIds" widget="sectionAndNoteOne2many">
+                            <form string="Quotation Template Lines">
+                                <!--
+                                    We need the sequence field to be here for new lines to be added at the correct position.
+                                    TODO: at some point we want to fix this in the framework so that an invisible field is not required.
+                                -->
+                                <field name="sequence" invisible="1"/>
+                                <field name="displayType" invisible="1"/>
+                                <field name="productUomCategoryId" invisible="1"/>
+                                <group attrs="{'invisible': [['displayType', '!=', false]]}">
+                                    <group>
+                                        <field name="productId" attrs="{'required': [['displayType', '=', false]]}"/>
+                                        <label for="productUomQty"/>
+                                        <div>
+                                            <field name="productUomQty" class="oe-inline"/>
+                                        </div>
+                                    </group>
+                                </group>
+                                <notebook colspan="4" name="description">
+                                    <page string="Description" name="orderDescription" attrs="{'invisible': [['displayType', '!=', false]]}">
+                                        <field name="label" />
+                                    </page>
+                                    <page string="Section" name="orderSection" attrs="{'invisible': [['displayType', '!=', 'lineSection']]}">
+                                        <field name="label" />
+                                    </page>
+                                    <page string="Note" name="orderNote" attrs="{'invisible': [['displayType', '!=', 'lineNote']]}">
+                                        <field name="label" />
+                                    </page>
+                                </notebook>
+                            </form>
+                            <tree string="Quotation Template Lines" editable="bottom">
+                                <control>
+                                    <create name="addProductControl" string="Add a product"/>
+                                    <create name="addSectionControl" string="Add a section" context="{'default_displayType': 'lineSection'}"/>
+                                    <create name="addNoteControl" string="Add a note" context="{'default_displayType': 'lineNote'}"/>
+                                </control>
+
+                                <field name="displayType" invisible="1"/>
+                                <field name="sequence" widget="handle"/>
+                                <field name="productId"/>
+                                <field name="label" widget="sectionAndNoteText"/>
+                                <field name="productUomQty"/>
+                                <field name="productUomCategoryId" invisible="1"/>
+                                <field
+                                    name="productUomId"
+                                    groups="uom.groupUom"
+                                    attrs="{'required': [['displayType', '=', false]]}"
+                                />
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Optional Products" name="optionalProducts">
+                        <field name="saleOrderTemplateOptionIds">
+                          <tree string="Quotation Template Lines" editable="bottom">
+                            <field name="productId"/>
+                            <field name="label"/>
+                            <field name="quantity"/>
+                            <field name="productUomCategoryId" invisible="1"/>
+                            <field name="uomId" groups="uom.groupUom"/>
+                          </tree>
+                        </field>
+                    </page>
+                    <page string="Confirmation" name="confirmation">
+                        <group>
+                            <field name="requireSignature"/>
+                            <field name="requirePayment"/>
+                            <field name="mailTemplateId" context="{'default_model':'sale.order'}"/>
+                        </group>
+                    </page>
+                    </notebook>
+                    <field name="note" nolabel="1"
+                        placeholder="The Administrator can set default Terms &amp; Conditions in Sales Settings. Terms set here will show up instead if you select this quotation template."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="saleOrderTemplateViewTree" model="ir.ui.view">
+        <field name="label">sale.order.template.tree</field>
+        <field name="model">sale.order.template</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Quotation Template">
+                <field name="label"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="saleOrderTemplateAction" model="ir.actions.actwindow">
+        <field name="label">Quotation Templates</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">sale.order.template</field>
+        <field name="viewMode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create your quotation template
+            </p><p>
+                Use templates to create polished, professional quotes in minutes.
+                Send these quotes by email and let your customers sign online.
+                Use cross-selling and discounts to push and boost your sales.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="saleOrderTemplateMenu" action="saleOrderTemplateAction" parent="sale.menuSalesConfig" sequence="1" name="Quotation Templates" groups="sale_management.groupSaleOrderTemplate"/>
+
+</verp>

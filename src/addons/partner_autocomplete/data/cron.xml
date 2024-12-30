@@ -1,0 +1,12 @@
+<verp>
+    <record id="irCronPartnerAutocomplete" model="ir.cron">
+        <field name="label">Partner Autocomplete : Sync with remote DB</field>
+        <field name="modelId" ref="model_resPartnerAutocompleteSync"/>
+        <field name="state">code</field>
+        <field name="code">model.startSync()</field>
+        <field name="intervalNumber">60</field>
+        <field name="intervalType">minutes</field>
+        <field name="numbercall">-1</field>
+        <field eval="false" name="doall"/>
+    </record>
+</verp>

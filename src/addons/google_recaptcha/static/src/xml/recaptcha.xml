@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<t t-name="google_recaptcha.recaptchaLegalTerms">
+    <small class="o_recaptcha_legal_terms">
+        Protected by reCAPTCHA,
+        <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>
+        &amp;
+        <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a>
+        apply.
+    </small>
+</t>
+
+</verp>

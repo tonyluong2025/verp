@@ -1,0 +1,13 @@
+.s-mega-menu-thumbnails:not([data-vcss]) {
+    .s-mega-menu-thumbnails-footer:not(.o-cc) {
+        // TODO this should be replaced by proper structure and color
+        // classes
+        @extend %s-mega-menu-gray-area;
+
+        &::before {
+            @include o-position-absolute(0, 0, 0, 0);
+            width: auto;
+            height: auto;
+        }
+    }
+}

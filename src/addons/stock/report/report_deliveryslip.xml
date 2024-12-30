@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<verp>
+    <template id="reportDeliveryDocument">
+        <t t-call="web.htmlContainer">
+            <t t-call="web.externalLayout">
+                <t t-set="o" t-value="await o.withContext({lang: await (await o.partnerId).lang})" />
+                <t t-set="moveLines" t-value="await o.moveLines" />
+                <t t-set="pickingTypeId" t-value="await o.pickingTypeId" />
+                <t t-set="partnerId" t-value="(await o.partnerId).ok ? await o.partnerId : moveLines.ok ? await moveLines(0).partnerId : false"/>
+                <t t-set="partnerOk" t-value="partner.ok" />
+
+                <div class="page">
+                    <div class="row">
+                        <t t-set="code" t-value="await pickingTypeId.code" />
+                        <div class="col-6" name="divOutgoingAddress">
+                            <t t-set="moveIdsWithoutPackage" t-value="await o.moveIdsWithoutPackage" />
+                            <div t-if="moveIdsWithoutPackage.ok &amp;&amp; (await moveIdsWithoutPackage(0).partnerId).ok &amp;&amp; (await moveIdsWithoutPackage(0).partnerId).id != (await o.partnerId).id">
+                                <span><strong>Delivery Address:</strong></span>
+                                <div t-field="moveIdsWithoutPackage(0).partnerId"
+                                    t-options='{"widget": "contact", "fields": ["address", "label", "phone"], "noMarker": true, "phoneIcons": true}'/>
+                            </div>
+                            <div t-if="code !== 'internal' &amp;&amp; (! moveIdsWithoutPackage.ok || ! (await moveIdsWithoutPackage(0).partnerId).ok &amp;&amp; (await (await pickingTypeId.warehouseId).partnerId).ok">
+                                <span><strong>Warehouse Address:</strong></span>
+                                <div t-field="pickingTypeId.warehouseId.partnerId"
+                                    t-options='{"widget": "contact", "fields": ["address", "label", "phone"], "noMarker": true, "phoneIcons": true}'/>
+                            </div>
+                        </div>
+                        <div class="col-5 offset-1" name="divIncomingAddress">
+                            <div t-if="code==='incoming' &amp;&amp; partnerOk">
+                                <span><strong>Vendor Address:</strong></span>
+                            </div>
+                            <div t-if="code==='internal' &amp;&amp; partnerOk">
+                                <span><strong>Warehouse Address:</strong></span>
+                            </div>
+                            <div t-if="code==='outgoing' &amp;&amp; partnerOk">
+                                <span><strong>Customer Address:</strong></span>
+                            </div>
+                            <div t-if="partnerOk" name="partnerHeader">
+                                <div t-field="partner.self"
+                                    t-options='{"widget": "contact", "fields": ["label", "phone"], "noMarker": true, "phoneIcons": true}'/>
+                                <p t-if="(await (await partnerId.sudo()).vat"><t t-esc="await (await (await o.companyId).countryId).vatLabel || 'Tax ID'"/>: <span t-field="partner.sudo().vat"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>
+                        <span t-field="o.label"/>
+                    </h2>
+                    <t t-set="state" t-value="await o.state" />
+                    <div class="row mt32 mb32">
+                        <div t-if="bool(await o.origin)" class="col-auto" name="divOrigin">
+                            <strong>Order:</strong>
+                            <p t-field="o.origin"/>
+                        </div>
+                        <div t-if="state" class="col-auto" name="divSchedDate">
+                            <strong>Shipping Date:</strong>
+                            <t t-if="state === 'done'">
+                                <p t-field="o.dateDone"/>
+                            </t>
+                            <t t-if="state !== 'done'">
+                                <p t-field="o.scheduledDate"/>
+                           </t>
+                        </div>
+                    </div>
+                    <table class="table table-sm" t-if="state!=='done'" name="stockMoveTable">
+                        <thead>
+                            <tr>
+                                <th name="thSmProduct"><strong>Product</strong></th>
+                                <th name="thSmOrdered"><strong>Ordered</strong></th>
+                                <th name="thSmQuantity"><strong>Delivered</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="lines" t-value="await moveLines.filtered((x) => x.productUomQty)"/>
+                            <tr t-foreach="lines" t-as="move">
+                                <t t-set="productId" t-value="await move.productId"/>
+                                <td>
+                                    <span t-field="productId"/>
+                                    <p t-if="await move.descriptionPicking != await productId.label &amp;&amp; await move.descriptionPicking != await productId.displayName">
+                                        <span t-field="move.descriptionPicking"/>
+                                    </p>
+                                </td>
+                                <td>
+                                    <span t-field="move.productUomQty"/>
+                                    <span t-field="move.productUom"/>
+                                </td>
+                                <td>
+                                    <span t-field="move.quantityDone"/>
+                                    <span t-field="move.productUom"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <t t-set="moveLineIds" t-value="await o.moveLineIds" />
+                    <table class="table table-sm mt48" t-if="moveLineIds.ok &amp;&amp; state==='done'" name="stockMoveLineTable">
+                        <t t-set="hasSerialNumber" t-value="false"/>
+                        <t t-set="hasSerialNumber" t-value="await moveLineIds.mapped('lotId')" groups="stock.groupLotOnDeliverySlip"/>
+                        <thead>
+                            <tr>
+                                <th name="thSmlProduct"><strong>Product</strong></th>
+                                <t name="lotSerial" t-if="hasSerialNumber">
+                                    <th>
+                                        Lot/Serial Number
+                                    </th>
+                                </t>
+                                <th name="thSmlQtyOrdered" class="text-center" t-if="! hasSerialNumber">
+                                    <strong>Ordered</strong>
+                                </th>
+                                <th name="thSmlQuantity" class="text-center"><strong>Delivered</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- This part gets complicated with different use cases (additional use cases in extensions of this report):
+                                1. If serial numbers are used and set to print on delivery slip => print lines as is, otherwise group them by overlapping
+                                    product + description + uom combinations
+                                2. If any packages are assigned => split products up by pack (or non-pack) and then apply use case 1 -->
+                            <!-- If has destination packages => create sections of corresponding products -->
+                            <t t-if="await o.hasPackages" name="hasPackages">
+                                <t t-set="packages" t-value="await moveLineIds.mapped('resultPackageId')"/>
+                                <t t-foreach="packages" t-as="pack">
+                                    <t t-call="stock.stockReportDeliveryPackageSectionLine"/>
+                                    <t t-set="packageMoveLines" t-value="await moveLineIds.filtered(async (l) => (await l.resultPackageId).eq(pack))"/>
+                                    <!-- If printing lots/serial numbers => keep products in original lines -->
+                                    <t t-if="hasSerialNumber">
+                                        <tr t-foreach="packageMoveLines" t-as="moveLine">
+                                            <t t-call="stock.stockReportDeliveryHasSerialMoveLine"/>
+                                        </tr>
+                                    </t>
+                                    <!-- If not printing lots/serial numbers => merge lines with same product+description+uom -->
+                                    <t t-else="">
+                                        <t t-set="aggregatedLines" t-value="await packageMoveLines._getAggregatedProductQuantities()"/>
+                                        <t t-call="stock.stockReportDeliveryAggregatedMoveLines"/>
+                                    </t>
+                                </t>
+                                <!-- Make sure we do another section for pack-less products if they exist -->
+                                <t t-set="moveLines" t-value="await moveLineIds.filtered(async (l) => !bool(await l.resultPackageId))"/>
+                                <t t-if="bool(moveLines)" name="noPackageMoveLines">
+                                    <t t-call="stock.stockReportDeliveryNoPackageSectionLine" name="noPackageSection"/>
+                                    <t t-if="hasSerialNumber">
+                                        <tr t-foreach="moveLines" t-as="moveLine">
+                                            <t t-call="stock.stockReportDeliveryHasSerialMoveLine"/>
+                                        </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="aggregatedLines" t-value="moveLines._getAggregatedProductQuantities()"/>
+                                        <t t-if="aggregatedLines">
+                                            <t t-call="stock.stockReportDeliveryAggregatedMoveLines"/>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <!-- No destination packages -->
+                            <t t-else="">
+                                <!-- If printing lots/serial numbers => keep products in original lines -->
+                                <t t-if="hasSerialNumber">
+                                    <tr t-foreach="moveLineIds" t-as="moveLine">
+                                        <t t-call="stock.stockReportDeliveryHasSerialMoveLine"/>
+                                    </tr>
+                                </t>
+                                <!-- If not printing lots/serial numbers => merge lines with same product -->
+                                <t t-else="" name="aggregatedMoveLines">
+                                    <t t-set="aggregatedLines" t-value="await moveLineIds._getAggregatedProductQuantities()"/>
+                                    <t t-call="stock.stockReportDeliveryAggregatedMoveLines"/>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                    <t t-set="backorders" t-value="await (await o.backorderIds).filtered(async (x) => !['done', 'cancel'].includes(await x.state))"/>
+                    <t t-if="bool(await o.backorderIds) &amp;&amp; bool(backorders)">
+                        <p class="mt-5">
+                            <span>Remaining quantities not yet delivered:</span>
+                        </p>
+                        <table class="table table-sm" name="stockBackorderTable" style="table-layout: fixed;">
+                            <thead>
+                                <tr>
+                                    <th name="thSbProduct"><strong>Product</strong></th>
+                                    <th/>
+                                    <th name="thSbQuantity" class="text-center"><strong>Quantity</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="backorders" t-as="backorder">
+                                    <t t-set="boLines" t-value="await (await backorder.moveLines).filtered(async (x) => await x.productUomQty)"/>
+                                    <tr t-foreach="boLines" t-as="boLine">
+                                        <t t-set="boProductId" t-value="await boLine.productId" />
+                                        <td class="w-auto">
+                                            <span t-field="boProductId"/>
+                                            <p t-if="await boLine.descriptionPicking !== await boProductId.label &amp;&amp; await boLine.descriptionPicking !== await boProductId.displayName">
+                                                <span t-field="boLine.descriptionPicking"/>
+                                            </p>
+                                        </td>
+                                        <td/>
+                                        <td class="text-center w-auto">
+                                            <span t-field="boLine.productUomQty"/>
+                                            <span t-field="boLine.productUom"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <div t-if="await o.signature" class="mt32 ml64 mr4" name="signature">
+                        <div class="offset-8">
+                            <strong>Signature</strong>
+                        </div>
+                        <div class="offset-8">
+                            <img t-att-src="imageDataUri(await o.signature)" style="max-height: 4cm; max-width: 8cm;"/>
+                        </div>
+                        <div class="offset-8 text-center">
+                            <p t-field="partnerId.label"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+         </t>
+    </template>
+
+    <!-- templates for easier extension + cut back on repeat code due to multiple conditionals -->
+    <!-- move line(s) printing for tables -->
+    <template id="stockReportDeliveryHasSerialMoveLine">
+        <td>
+            <span t-field="moveLine.productId"/>
+            <!-- this is an annoying workaround for the multiple types of descriptions (often auto-filled) that we do not want to print -->
+            <!-- this makes it so we can pre-filter the descriptions in inherited templates since we cannot extend the standard "if" condition -->
+            <!-- let's agree that pre-filtered descriptions will be set to "" -->
+            <t t-if="! description &amp;&amp; description !== ''">
+                <t t-set="description" t-value="await (await moveLine.moveId).descriptionPicking"/>
+            </t>
+            <p t-if="description !== '' &amp;&amp; description !== await (await moveLine.productId).label">
+                <span t-esc="description"/>
+            </p>
+        </td>
+        <t t-if="hasSerialNumber" name="moveLineLot">
+            <td><span t-field="moveLine.lotId.label"/></td>
+        </t>
+        <td class="text-center" name="moveLineLotQtyDone">
+            <span t-field="moveLine.qtyDone"/>
+            <span t-field="moveLine.productUomId"/>
+        </td>
+    </template>
+    <template id="stockReportDeliveryAggregatedMoveLines">
+        <tr t-foreach="aggregatedLines" t-as="line">
+            <td>
+                <span t-esc="aggregatedLines[line]['label']"/>
+                <p t-if="aggregatedLines[line]['description']">
+                    <span t-esc="aggregatedLines[line]['description']"/>
+                </p>
+            </td>
+            <td class="text-center" name="moveLineAggregatedQtyOrdered">
+                <span t-esc="aggregatedLines[line]['qtyOrdered']"
+                    t-options="{'widget': 'float', 'decimalPrecision': 'Product Unit of Measure'}"/>
+                <span t-esc="aggregatedLines[line]['productUom']"/>
+            </td>
+            <td class="text-center" name="moveLineAggregatedQtyDone">
+                <t t-if="aggregatedLines[line]['qtyDone']">
+                    <span t-esc="aggregatedLines[line]['qtyDone']"
+                        t-options="{'widget': 'float', 'decimalPrecision': 'Product Unit of Measure'}"/>
+                    <span t-esc="aggregatedLines[line]['productUom']"/>
+                </t>
+            </td>
+        </tr>
+    </template>
+
+    <!-- pack related "section lines" -->
+    <template id="stockReportDeliveryPackageSectionLine">
+        <tr t-att-class="'bg-200 font-weight-bold o-line-section'">
+            <td colspan="99" name="packageInfo">
+                <span t-field="pack.label"/>
+            </td>
+        </tr>
+    </template>
+    <template id="stockReportDeliveryNoPackageSectionLine">
+        <tr t-att-class="'bg-200 font-weight-bold o-line-section'">
+            <td colspan="99" name="noPackageInfo">
+                <span>Products with no pack assigned</span>
+            </td>
+        </tr>
+    </template>
+
+    <template id="reportDeliveryslip">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="stock.reportDeliveryDocument" t-lang="await (await o.partnerId).lang"/>
+        </t>
+    </template>
+</verp>

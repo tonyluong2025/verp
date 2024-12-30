@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="sMegaMenuImagesSubtitles" name="Menu - images &amp; subtitles" groups="base.groupUser">
+    <section class="s-mega-menu-images-subtitles pt16 pb16 o-colored-level o-cc o-cc1">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg py-2">
+                    <nav class="nav flex-column w-100">
+                        <t t-call="website.sMegaMenuImagesSubtitlesItem">
+                            <t t-set="_imgSrc" t-valuef="/web/image/website.sMegaMenuImagesSubtitlesDefaultImage_1"/>
+                            <t t-set="_title">About us</t>
+                            <t t-set="_text">Discover our culture and our values</t>
+                        </t>
+                        <t t-call="website.sMegaMenuImagesSubtitlesItem">
+                            <t t-set="_imgSrc" t-valuef="/web/image/website.sMegaMenuImagesSubtitlesDefaultImage_2"/>
+                            <t t-set="_title">Customers</t>
+                            <t t-set="_text">They trust us since years</t>
+                        </t>
+                        <t t-call="website.sMegaMenuImagesSubtitlesItem">
+                            <t t-set="_imgSrc" t-valuef="/web/image/website.sMegaMenuImagesSubtitlesDefaultImage_3"/>
+                            <t t-set="_title">Services</t>
+                            <t t-set="_text">Find the perfect solution for you</t>
+                        </t>
+                    </nav>
+                </div>
+                <div class="col-12 col-sm-6 col-lg py-2">
+                    <nav class="nav flex-column w-100">
+                        <t t-call="website.sMegaMenuImagesSubtitlesItem">
+                            <t t-set="_imgSrc" t-valuef="/web/image/website.sMegaMenuImagesSubtitlesDefaultImage_4"/>
+                            <t t-set="_title">Blog</t>
+                            <t t-set="_text">Latests news and case studies</t>
+                        </t>
+                        <t t-call="website.sMegaMenuImagesSubtitlesItem">
+                            <t t-set="_imgSrc" t-valuef="/web/image/website.sMegaMenuImagesSubtitlesDefaultImage_5"/>
+                            <t t-set="_title">Events</t>
+                            <t t-set="_text">Our seminars and trainings for you</t>
+                        </t>
+                        <t t-call="website.sMegaMenuImagesSubtitlesItem">
+                            <t t-set="_imgSrc" t-valuef="/web/image/website.sMegaMenuImagesSubtitlesDefaultImage_6"/>
+                            <t t-set="_title">Help center</t>
+                            <t t-set="_text">Contact us for any issue or question</t>
+                        </t>
+                    </nav>
+                </div>
+                <div class="col col-md-6 col-lg py-2">
+                    <img src="/web/image/website.sMegaMenuImagesSubtitlesDefaultImage_7" class="mb-3 rounded shadow img-fluid" alt=""/>
+                    <h4 class="o-default-snippet-text">The team</h4>
+                    <p class="text-muted o-default-snippet-text">
+                        <font style="font-size: 14px;">Created in 2021, the company is young and dynamic. Discover the composition of the team and their skills.</font>
+                    </p>
+                    <a href="#" class="btn btn-primary o-default-snippet-text">Discover our team</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="sMegaMenuImagesSubtitlesItem">
+    <a href="#" class="nav-link o-default-snippet-text px-2 rounded text-wrap" data-name="Menu Item">
+        <div class="media">
+            <img t-att-src="_imgSrc" class="mr-3 rounded shadow" alt=""/>
+            <div class="media-body">
+                <h4 class="mt-0 mb-0" t-esc="_title"/>
+                <span><font style="font-size: 14px;" t-esc="_text"/></span>
+            </div>
+        </div>
+    </a>
+</template>
+
+<record id="website.sMegaMenuImagesSubtitles.000.scss" model="ir.asset">
+    <field name="label">Menu - images &amp; subtitles 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_mega_menu_images_subtitles/000.scss</field>
+</record>
+
+</verp>

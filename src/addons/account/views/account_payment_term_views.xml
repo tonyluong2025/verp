@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewPaymentTermLineTree" model="ir.ui.view">
+            <field name="label">account.payment.term.line.tree</field>
+            <field name="model">account.payment.term.line</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Terms">
+                    <field name="sequence" widget="handle"/>
+                    <field name="value" string="Due Type"/>
+                    <field name="valueAmount" attrs="{'readonly': [['value','=','balance']]}"/>
+                    <field name="days"/>
+                    <field name="option" string=""/>
+                    <field name="dayOfTheMonth" string="Day of the month"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewPaymentTermLineForm" model="ir.ui.view">
+            <field name="label">account.payment.term.line.form</field>
+            <field name="model">account.payment.term.line</field>
+            <field name="arch" type="xml">
+                <form string="Payment Terms">
+                    <h2>Term Type</h2>
+                    <group>
+                        <group>
+                            <field name="value" widget="radio"/>
+                        </group>
+
+                        <group>
+                            <div attrs="{'invisible': [['value','=', 'balance']]}" class="o-row">
+                                <label for="valueAmount" attrs="{'invisible': [['value','=', 'balance']]}"/>
+                                <field name="valueAmount" class="oe-inline"/>
+                                <span class="o-form-label oe-inline" attrs="{'invisible': [['value','!=','percent']]}">%</span>
+                            </div>
+                        </group>
+                    </group>
+
+                    <field name="sequence" invisible="1"/>
+
+                    <h2>Due Date Computation</h2>
+                    <div colspan="2">
+                        <label for="days" string="Due" attrs="{'invisible': [['option','!=', 'dayAfterInvoiceDate']]}"/>
+                        <label for="days" string="Due the" attrs="{'invisible': [['option','=', 'dayAfterInvoiceDate']]}"/>
+                        <field name="days" class="oe-inline"/>
+                        <label for="option" string=""/> <!--Empty label to force space between elements-->
+                        <field name="option" class="oe-inline"/>
+                    </div>
+                    <div colspan="2" attrs="{'invisible': [['option','!=', 'dayAfterInvoiceDate']]}">
+                        <label for="dayOfTheMonth" string="On the"/>
+                        <field name="dayOfTheMonth" class="oe-inline"/>
+                        <span class="o-form-label">of the month</span>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewPaymentTermSearch" model="ir.ui.view">
+            <field name="label">account.payment.term.search</field>
+            <field name="model">account.payment.term</field>
+            <field name="arch" type="xml">
+                <search string="Payment Terms">
+                    <field name="label" string="Payment Terms"/>
+                    <field name="active"/>
+                    <separator/>
+                    <filter name="archived" string="Archived" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="viewPaymentTermTree" model="ir.ui.view">
+            <field name="label">account.payment.term.tree</field>
+            <field name="model">account.payment.term</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Terms">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewPaymentTermForm" model="ir.ui.view">
+            <field name="label">account.payment.term.form</field>
+            <field name="model">account.payment.term</field>
+            <field name="arch" type="xml">
+                <form string="Payment Terms">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="label"/>
+                                <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                            </group>
+                        </group>
+                        <label for="note"/>
+                        <field name="note" placeholder="Payment term explanation for the customer..."/>
+                        <separator string="Terms"/>
+                        <p class="text-muted">
+                            The last line's computation type should be "Balance" to ensure that the whole amount will be allocated.
+                        </p>
+                        <field name="lineIds"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountPaymentTermKanban" model="ir.ui.view">
+            <field name="label">account.payment.term.kanban</field>
+            <field name="model">account.payment.term</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile">
+                    <field name="label"/>
+                    <field name="note"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-global-click">
+                                <div><strong class="o-kanban-record-title"><t t-esc="record.label.value"/></strong></div>
+                                <div t-if="!widget.isHtmlEmpty(record.note.rawValue)"><t t-out="record.note.value"/></div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="actionPaymentTermForm" model="ir.actions.actwindow">
+            <field name="label">Payment Terms</field>
+            <field name="resModel">account.payment.term</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="searchViewId" ref="viewPaymentTermSearch"/>
+        </record>
+
+    </data>
+</verp>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="accountAgedBalanceView" model="ir.ui.view">
+        <field name="label">Aged Partner Balance</field>
+        <field name="model">account.aged.trial.balance</field>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group col="4">
+                    <field name="dateFrom"/>
+                    <field name="periodLength"/>
+                    <field name="companyId" invisible="1"/>
+                    <newline/>
+                    <field name="resultSelection" widget="radio"
+                           invisible="context['hideResultSelection'] ?? false"/>
+                    <field name="targetMove" widget="radio"/>
+                </group>
+                <field name="journalIds" required="0" invisible="1"/>
+                <xpath expr="//field[@name='journalIds']" position="before">
+                    <group>
+                        <field name="partnerIds" widget="many2manyTags"
+                               options="{'noOpen': true, 'noCreate': true}"/>
+                    </group>
+                </xpath>
+                <footer>
+                    <button name="checkReport" class="oe-highlight"
+                            string="Print" type="object"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionAccountAgedBalanceView" model="ir.actions.actwindow">
+        <field name="label">Aged Partner Balance</field>
+        <field name="resModel">account.aged.trial.balance</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">tree,form</field>
+        <field name="viewId" ref="accountAgedBalanceView"/>
+        <field name="context"></field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menuAgedTrialBalance"
+              name="Aged Partner Balance"
+              sequence="10"
+              action="actionAccountAgedBalanceView"
+              parent="menuFinancePartnerReports"/>
+
+    <record id="actionAccountAgedReceivable" model="ir.actions.actwindow">
+        <field name="label">Aged Receivable</field>
+        <field name="resModel">account.aged.trial.balance</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">tree,form</field>
+        <field name="viewId" ref="accountAgedBalanceView"/>
+        <field name="context">{'default_resultSelection': 'customer',
+            'hideResultSelection': 1}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menuAgedReceivable"
+              name="Aged Receivable"
+              sequence="20"
+              action="actionAccountAgedReceivable"
+              parent="menuFinancePartnerReports"/>
+
+
+    <record id="actionAccountAgedPayable" model="ir.actions.actwindow">
+        <field name="label">Aged Payable</field>
+        <field name="resModel">account.aged.trial.balance</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">tree,form</field>
+        <field name="viewId" ref="accountAgedBalanceView"/>
+        <field name="context">{'default_resultSelection': 'supplier',
+            'hideResultSelection': 1}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menuAgedPayable"
+              name="Aged Payable"
+              sequence="30"
+              action="actionAccountAgedPayable"
+              parent="menuFinancePartnerReports"/>
+
+</verp>

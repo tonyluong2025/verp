@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="depAdministration" model="hr.department">
+          <field name="label">Administration</field>
+        </record>
+
+        <record id="depSales" model="hr.department">
+          <field name="label">Sales</field>
+        </record>
+
+        <record id="resPartnerAdminPrivateAddress" model="res.partner">
+            <field name="label">Administrator</field>
+            <field name="companyId" ref="base.mainCompany"/>
+            <field name="email">admin@example.com</field>
+            <field name="type">private</field>
+        </record>
+
+        <record id="employeeAdmin" model="hr.employee">
+            <field name="label" eval="await (await obj.env.ref('base.partnerAdmin')).label" model="res.partner"/>
+            <field name="departmentId" ref="depAdministration"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="addressId" ref="base.mainPartner"/>
+            <field name="addressHomeId" ref="resPartnerAdminPrivateAddress"/>
+            <field name="image1920" eval="await (await obj.env.ref('base.partnerAdmin')).image1920" model="res.partner"/>
+        </record>
+
+        <record id="onboardingSetupItMaterials" model="hr.plan.activity.type">
+            <field name="summary">Setup IT Materials</field>
+            <field name="responsible">manager</field>
+        </record>
+
+        <record id="onboardingPlanTraining" model="hr.plan.activity.type">
+            <field name="summary">Plan Training</field>
+            <field name="responsible">manager</field>
+        </record>
+
+        <record id="onboardingTraining" model="hr.plan.activity.type">
+            <field name="summary">Training</field>
+            <field name="responsible">employee</field>
+        </record>
+
+        <record id="offboardingSetupComputeOutDelais" model="hr.plan.activity.type">
+            <field name="summary">Compute Out Delais</field>
+            <field name="responsible">manager</field>
+        </record>
+
+        <record id="offboardingTakeBackHrMaterials" model="hr.plan.activity.type">
+            <field name="summary">Take Back HR Materials</field>
+            <field name="responsible">manager</field>
+        </record>
+
+        <record id="onboardingPlan" model='hr.plan'>
+            <field name="label">Onboarding</field>
+            <field name="planActivityTypeIds" eval="[[6, 0, [
+                refId('hr.onboardingSetupItMaterials'),
+                refId('hr.onboardingPlanTraining'),
+                refId('hr.onboardingTraining'),
+                ]]]"/>
+        </record>
+
+        <record id="offboardingPlan" model='hr.plan'>
+            <field name="label">Offboarding</field>
+            <field name="planActivityTypeIds" eval="[[, 0, [
+                refId('hr.offboardingSetupComputeOutDelais'),
+                refId('hr.offboardingTakeBackHrMaterials'),
+                ]]]"/>
+        </record>
+
+        <record model="ir.config.parameter" id="hrPresenceControlLogin" forcecreate="false">
+            <field name="key">hr.hrPresenceControlLogin</field>
+            <field name="value">true</field>
+        </record>
+
+        <!-- Departure Reasons -->
+        <record id="departureFired" model="hr.departure.reason">
+            <field name="sequence">0</field>
+            <field name="label">Fired</field>
+        </record>
+
+        <record id="departureResigned" model="hr.departure.reason">
+            <field name="sequence">1</field>
+            <field name="label">Resigned</field>
+        </record>
+
+        <record id="departureRetired" model="hr.departure.reason">
+            <field name="sequence">2</field>
+            <field name="label">Retired</field>
+        </record>
+
+        <!-- Work permit expires Soon -->
+        <record id="irCronDataCheckWorkPermitValidity" model="ir.cron">
+            <field name="label">HR Employee: check work permit validity</field>
+            <field name="modelId" ref="model_hrEmployee"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model._cronCheckWorkPermitValidity()</field>
+            <field name="intervalNumber">1</field>
+            <field name="intervalType">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+    </data>
+</verp>

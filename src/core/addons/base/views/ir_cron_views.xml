@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- ir.cron -->
+        <record id="irCronViewForm" model="ir.ui.view">
+            <field name="label">ir.cron.view.form</field>
+            <field name="model">ir.cron</field>
+            <field name="mode">primary</field>
+            <field name="inheritId" ref="base.viewServerActionForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='createAction']" position="replace">
+                    <button name="methodDirectTrigger" type="object" string="Run Manually" class="oe-highlight" attrs="{'invisible': [['state', '!=', 'code']]}"/>
+                </xpath>
+                <xpath expr="//button[@name='unlinkAction']" position="replace">
+                </xpath>
+                <xpath expr="//button[@name='run']" position="replace">
+                </xpath>
+                <xpath expr="//group[@name='actionContent']" position="inside">
+                    <field name="userId"/>
+                    <label for="intervalNumber" string="Execute Every"/>
+                    <div>
+                        <field name="intervalNumber" class="oe-inline"/>
+                        <field name="intervalType" class="oe-inline"/>
+                    </div>
+                    <field name="active" widget="booleanToggle"/>
+                    <field name="nextcall"/>
+                    <field name="numbercall"/>
+                    <field name="priority"/>
+                    <field name="doall"/>
+                </xpath>
+                <field name="state" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="irCronViewTree" model="ir.ui.view">
+            <field name="model">ir.cron</field>
+            <field name="arch" type="xml">
+                <tree string="Scheduled Actions" decoration-muted="(! active)">
+                    <field name="priority"/>
+                    <field name="label"/>
+                    <field name="modelId"/>
+                    <field name="nextcall"/>
+                    <field name="intervalNumber"/>
+                    <field name="intervalType"/>
+                    <field name="numbercall"/>
+                    <field name="userId" invisible="1"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="irCronViewCalendar">
+            <field name="model">ir.cron</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Scheduled Actions" dateStart="nextcall" color="userId">
+                    <field name="label"/>
+                    <field name="userId" filters="1" invisible="1"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="irCronViewSearch" model="ir.ui.view">
+            <field name="model">ir.cron</field>
+            <field name="arch" type="xml">
+                <search string="Scheduled Actions">
+                    <field name="label" string="Scheduled Action"/>
+                    <field name="userId"/>
+                    <field name="modelId"/>
+                    <field name="nextcall"/>
+                    <field name="active"/>
+                    <separator/>
+                    <filter string="All" name="all" domain="['|', ['active', '=', false], ['active', '=', true]]" />
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="User" name="user" domain="[]" context="{'groupby': 'userId'}"/>
+                        <filter string="Execution" name="execution" domain="[]" context="{'groupby': 'nextcall'}" />
+                        <filter string="Model" name="groupbyModelId" domain="[]" context="{'groupby': 'modelId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="irCronAct" model="ir.actions.actwindow">
+            <field name="label">Scheduled Actions</field>
+            <field name="resModel">ir.cron</field>
+            <field name="viewMode">tree,form,calendar</field>
+            <field name="context">{'searchDefault_all': 1}</field>
+            <field name="viewId" ref="irCronViewTree"/>
+        </record>
+
+        <menuitem id="menuIrCronAct"
+            parent="base.menuAutomation"
+            action="irCronAct"
+            sequence="2"/>
+
+</verp>

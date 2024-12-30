@@ -1,0 +1,625 @@
+//
+// This file regroups all the rules which apply to field widgets wherever they
+// are in the DOM, in both community and enterprise versions.
+//
+
+//------------------------------------------------------------------------------
+// Field States
+//------------------------------------------------------------------------------
+
+:root {
+    @include print-variable(o-input-border-color, $o-form-lightsecondary);
+}
+
+.o-required-modifier {
+    @include print-variable(o-input-border-color, $o-input-border-required);
+}
+
+.o-field-widget:focus-within {
+    @include print-variable(o-input-border-color, $o-brand-primary);
+}
+
+.o-field-invalid {
+    @include print-variable(o-input-border-color, theme-color('danger'));
+}
+
+//------------------------------------------------------------------------------
+// Generic input
+//------------------------------------------------------------------------------
+
+.o-input {
+    border:$input-border-width solid var(--o-input-border-color);
+    padding: $o-input-padding-y $o-input-padding-x;
+
+    // -- Nested o-input(s)
+    .o-input {
+        border: 0;
+        padding: 0;
+    }
+}
+
+// Invalid
+.o-field-invalid:not(:focus-within) {
+    &.o-input, .o-input, &.o-form-label {
+        @extend .text-danger;
+    }
+}
+
+// Empty
+.o-field-empty {
+    display: none;
+}
+
+// Numbers
+.o-field-number {
+    white-space: nowrap;
+}
+
+//------------------------------------------------------------------------------
+// Fields
+//------------------------------------------------------------------------------
+
+.o-field-widget {
+    // Default display and alignment of widget and internal <input/>
+    &, input.o-input {
+        display: inline-block;
+        text-align: inherit;
+    }
+
+    // Dropdowns inputs
+    .o-input-dropdown, &.o-datepicker {
+        > input {
+            padding-right: ($caret-width * 2.5) + $o-input-padding-x;
+        }
+
+        .o-dropdown-button, .o-datepicker-button {
+            @include o-position-absolute($o-input-padding-y, $o-input-padding-x, $input-border-width);
+            pointer-events: none;
+
+            &:after {
+                @include o-caret-down;
+            }
+        }
+    }
+
+    // Block fields
+    &.note-editor, &.oe-form-field-html, &.oe-form-field-text, &.o-field-domain, &.o-graph-linechart, &.o-graph-barchart {
+        display: block;
+    }
+
+    // Flex fields (inline)
+    &.o-field-many2one, &.o-field-radio, &.o-field-many2manytags, &.o-field-percent-pie, &.o-field-monetary, &.o-field-binary-file, &.o-field-float-percentage {
+        display: inline-flex;
+        > span, > button {
+            flex: 0 0 auto;
+        }
+    }
+
+    // Dropdowns input (many2one, ...)
+    .o-input-dropdown {
+        flex: 1 1 auto;
+        position: relative;
+        width: 100%;
+
+        > input {
+            cursor: pointer;
+
+            &::-ms-clear {
+                display: none;
+            }
+        }
+    }
+
+    // Text
+    &.o-field-text, &.oe-form-field-text .oe-form-text-content {
+        width: 100%;
+        white-space: pre-wrap;
+    }
+
+    // Monetary
+    &.o-field-monetary, &.o-field-float-percentage {
+        &.o-input {
+            align-items: baseline;
+
+            > input {
+                width: 100%;
+                flex: 1 0 auto;
+            }
+        }
+    }
+
+    // Many2One
+    &.o-field-many2one {
+        flex-direction: column;
+
+        .o-field-many2one-selection {
+            display: flex;
+            width: 100%;
+        }
+
+        .o-external-button {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+    // Many2OneAvatar
+    &.o-field-many2one-avatar {
+        .o-m2o-avatar > img, .o-m2o-avatar > .o-m2o-avatar-empty {
+            border-radius: 50%;
+            width: 19px;
+            height: 19px;
+            object-fit: cover;
+            margin-right: 4px;
+        }
+        .o-m2o-avatar-empty {
+            display: block;
+            background-color: #e9ecef;
+        }
+    }
+
+    // Many2many tags
+    &.o-field-many2manytags {
+        flex-flow: row wrap;
+        align-items: stretch;
+        max-width: 100%;
+
+        > .o-field-widget {
+            flex: 1 0 100px;
+            position: initial;
+            max-width: 100%;
+        }
+
+        .o-field-many2one-selection, .o-input {
+            height: 100%;
+        }
+
+        .badge {
+            flex: 0 0 auto;
+            border: 0;
+            font-size: 12px;
+            user-select: none;
+            display: flex;
+            max-width: 100%;
+
+            &.dropdown {
+                cursor: pointer;
+            }
+
+            a {
+                color: inherit;
+            }
+
+            .o-badge-text {
+                @include o-text-overflow(inline-block);
+                max-width: 200px;
+                color: inherit;
+                line-height: 1.1;
+            }
+
+            .o-delete {
+                color: inherit;
+                cursor: pointer;
+                padding-left: 4px;
+            }
+        }
+
+        // o-kanban-colorpicker without customizing
+        // '&:first-child > a::before' (transparent red-crossed colorpick)
+        @mixin o-tag-colorpicker {
+            $o-tag-colorpicker-padding-right: $o-dropdown-hpadding - 2 * 5px; // FIXME was $o-kanban-inner-hmargin before scss convertion
+
+            max-width: 100%;
+            padding: 3px $o-tag-colorpicker-padding-right 3px $o-dropdown-hpadding;
+
+            > li {
+                display: inline-block;
+                margin: 5px 5px 0 0; // FIXME was $o-kanban-inner-hmargin before scss convertion
+                border: 1px solid white;
+                box-shadow: 0 0 0 1px gray('300');
+
+                > a {
+                    display: block;
+
+                    &::after {
+                        content: "";
+                        display: block;
+                        width: 20px;
+                        height: 15px;
+                    }
+                }
+
+                &:last-of-type {
+                    box-shadow: 0 0 0 0px white; // remove grey border on hide in kanban
+                    color: $o-main-text-color;
+                }
+            }
+        }
+
+        .tagcolor-dropdown-menu {
+            min-width: 150px; // down from 160px of .dropdown-menu
+            margin-right: 0px; // cancel right margin of .dropdown-menu
+        }
+
+        .o-colorpicker > ul {
+            @include o-tag-colorpicker;
+            white-space: normal;
+            li > .o-hide-in-kanban label {
+                line-height: $o-line-height-base;
+            }
+        }
+
+        @for $size from 1 through length($o-colors) {
+            .o-tag-color-#{$size - 1} {
+                @if $size == 1 {
+                    & {
+                        background-color: $o-view-background-color;
+                        color: nth($o-colors, $size);
+                        box-shadow: inset 0 0 0 1px;
+                    }
+                    &::after {
+                        background-color: nth($o-colors, $size);
+                    }
+                } @else {
+                    &, &::after {
+                        background-color: nth($o-colors, $size);
+                        color: color-yiq(nth($o-colors, $size));
+                    }
+                }
+            }
+        }
+        .o-tag-error {
+            box-shadow: inset 0 0 0 2px #FF0000;
+
+            .o-delete {
+                color: #FF0000;
+            }
+        }
+        // Many2many tags avatar
+        &.avatar {
+            .badge {
+                align-items: center;
+                padding: 0;
+                padding-right: 0.6rem;
+
+                img {
+                    height: 1.4em;
+                    width: 1.4em;
+                    object-fit: cover;
+                }
+
+                .o-badge-text, .o-delete {
+                    padding-top: 0.25em;
+                    padding-bottom: 0.25em;
+                }
+
+                .o-tag-badge-text {
+                    padding-left:2px;
+                }
+            }
+        }
+        &.o-field-many2manytags-multi {
+            margin-bottom: 0px;
+            > span {
+                display: inline-block;
+            }
+            .o-m2m-avatar, .o-m2m-avatar-empty {
+                width: 20px;
+                height: 20px;
+                margin-left: 0px;
+            }
+            .o-m2m-avatar-empty {
+                background-color: #dee2e6;
+                vertical-align: bottom;
+            }
+            &.avatar.o-clickable-m2x-avatar {
+                img.o-m2m-avatar {
+                    margin-right: 0px;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+
+    // Stars
+    &.o-priority {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        vertical-align: baseline;
+        > .o-priority-star {
+            display: inline-block;
+            font-size: 1.35em;
+            &:hover, &:focus {
+                text-decoration: none;
+                outline: none;
+            }
+
+            + .o-priority-star {
+                padding-left: 5px;
+            }
+
+            &.fa-star-o {
+                color: $o-main-color-muted;
+            }
+            &.fa-star {
+                color: $o-main-favorite-color;
+            }
+        }
+    }
+
+    // Favorite
+    &.o-favorite {
+        i.fa {
+            font-size: 16px;
+        }
+        i.fa-star-o {
+            @include o-hover-text-color($o-main-color-muted, $o-main-favorite-color);
+        }
+        i.fa-star {
+            color: $o-main-favorite-color;
+        }
+    }
+
+    // Specific success color for toggleButton widget
+    .fa.o-toggle-button-success {
+        @extend .text-success;
+    }
+
+    // Handle widget
+    &.o-row-handle {
+        @include o-grab-cursor;
+        color: #adb5bd;
+        text-align: center;
+        width: 100%;
+        &:hover {
+            color: #666666;
+        }
+    }
+
+    &.o-field-selection-badge {
+        .o-selection-badge {
+            display: inline-block;
+            margin: 0px 0px 4px 4px;
+            padding: 1px 6px;
+            color: $o-main-color-muted;
+            border: 1px solid gray('300');
+            cursor: pointer;
+            &.active {
+                color: $o-brand-primary;
+                border-color: $o-brand-primary;
+            }
+            &:hover:not(.active) {
+                color: darken(gray('300'), 30%);
+                border-color: darken(gray('300'), 30%);
+            }
+        }
+    }
+    // Radio buttons
+    &.o-field-radio {
+        @include media-breakpoint-down(sm) {
+            display: inline-block;
+        }
+        .o-radio-input {
+            outline: none;
+        }
+
+        .o-radio-item {
+            flex: 0 0 auto;
+        }
+
+        &.o-horizontal {
+            .o-radio-item {
+                margin-right: $o-form-spacing-unit * 2;
+            }
+        }
+
+        &.o-vertical {
+            flex-flow: column nowrap;
+            .o-radio-item {
+                margin-bottom: $o-form-spacing-unit;
+            }
+        }
+    }
+
+    // Percent pie
+    &.o-field-percent-pie {
+        align-items: center;
+
+        > .o-pie {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            border-radius: 100%;
+            overflow: hidden;
+            background-color: $o-brand-primary;
+
+            &:after { // Outside pie border to go over border-radius irregularities
+                content: " ";
+                @include o-position-absolute(0, 0);
+                width: 100%;
+                height: 100%;
+                border-radius: 100%;
+            }
+
+            .o-mask {
+                @include o-position-absolute(0, 0);
+                transform-origin: 0;
+                width: 50%;
+                height: 100%;
+                background-color: $o-view-background-color;
+                &.o-full {
+                    background-color: inherit;
+                }
+            }
+
+            .o-pie-value {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                border-radius: 100%;
+
+                font-weight: 700;
+                color: $o-brand-verp;
+            }
+        }
+    }
+
+    // Ace editor
+    &.o-ace-view-editor {
+        width: 100%;
+        .ace-view-editor {
+            height: 300px;
+            padding: 0 1em;
+        }
+    }
+
+    // Image
+    &.o-field-image {
+        position: relative;
+
+        .o-form-image-controls {
+            @include o-position-absolute(0, 0);
+            width: 100%;
+
+            color: white;
+            background-color: $o-brand-primary;
+            opacity: 0;
+            transition: opacity ease 400ms;
+            min-width: 35px;
+
+            > button.fa {
+                border: none;
+                background-color: transparent;
+            }
+
+            > .fa {
+                padding: 4px;
+                margin: 5px;
+                cursor: pointer;
+            }
+        }
+        @include media-breakpoint-down(xs, $o-extra-grid-breakpoints) {
+            .o-form-image-controls{
+                position: initial;
+                opacity: 1;
+                > .fa{
+                    width: 50%;
+                    padding: 6px;
+                    margin: 0px;
+                    text-align: center;
+                    &.o-select-file-button{
+                        background: $o-brand-primary;
+                    }
+                    &.o-clear-file-button{
+                        background: theme-color('danger');
+                    }
+                }
+            }
+        }
+
+        &:hover .o-form-image-controls {
+            opacity: 0.8;
+        }
+
+        &.o-field-invalid > img {
+            border: 1px solid theme-color('danger');
+        }
+    }
+
+    // Input loading/file
+    .o-form-binary-progress, .o-hidden-input-file .o-input-file {
+        display: none;
+    }
+
+    // Domain
+    &.o-field-domain {
+        > .o-field-domain-panel {
+            margin-top: 8px;
+        }
+        &.o-inline-mode.o-edit-mode {
+            position: relative;
+
+            > .o-field-domain-panel {
+                @include o-position-absolute(0, 0);
+                margin-top: 0;
+            }
+        }
+    }
+
+    // PDF Viewer
+    &.o-field-pdfviewer, .o-pdfview-iframe {
+        width: 100%;
+        height: 450px;
+        border: 0;
+        margin-top: 10px;
+    }
+
+    // Copy to clipboard
+    &.o-field-copy {
+        position: relative;
+        width: 100% !important;
+        border-radius: 5px;
+        border: 1px solid $primary;
+        font-size: $font-size-sm;
+        color: $o-brand-primary;
+        font-weight: $badge-font-weight;
+        text-align: center;
+        padding-right: 6rem;
+        word-break: break-word;
+        .o-clipboard-button {
+            @include o-position-absolute($top: 0, $right: 0);
+            &.o-btn-text-copy {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            &.o-btn-char-copy {
+                padding-top: 2px;
+                height: 100%;
+            }
+        }
+        &.o-field-copy-url {
+            cursor: pointer;
+            padding-left: 3px;
+        }
+    }
+
+    & > .o-field-color {
+        border: 2px solid rgba(0, 0, 0, 0.25);
+        border-radius: 100px;
+        width: 30px;
+        height: 30px;
+        margin: 0 5px 0 0;
+        display: inline-block;
+    }
+
+    &.o-field-badge {
+        border: 0;
+        font-size: 12px;
+        user-select: none;
+        background-color: rgba(lightgray, 0.5);
+        font-weight: 500;
+        @include o-text-overflow;
+        transition: none; // remove transition to prevent badges from flickering at reload
+        &.o-field-empty {
+            display: none !important;
+        }
+    }
+}
+
+span.o-field-copy:empty {
+    border: none;
+}
+
+button.o-field-float-toggle {
+    width: 100%;
+    text-align: center;
+}
+
+// Selection fields
+select.o-field-widget.o-input {
+    padding: 1px;  // Other inputs get a 1px padding automatically added by the browsers but selects do not
+}

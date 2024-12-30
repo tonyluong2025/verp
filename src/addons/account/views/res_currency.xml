@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="resCurrencyFormInherit" model="ir.ui.view">
+            <field name="label">res.currency.form.inherit</field>
+            <field name="model">res.currency</field>
+            <field name="inheritId" ref="base.viewCurrencyForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <field name="displayRoundingWarning" invisible="1"/>
+                    <div class="alert alert-warning" role="alert" attrs="{'invisible': [['displayRoundingWarning', '=', false]]}">
+                        <strong>This currency has already been used to generate accounting entries.</strong> <br/>
+                        Changing its rounding factor now will not change the rounding made on previous entries; possibly causing an inconsistency with the new ones.
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</verp>

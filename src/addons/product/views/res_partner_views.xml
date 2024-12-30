@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="viewPartnerPropertyForm" model="ir.ui.view">
+            <field name="label">res.partner.product.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewPartnerForm"/>
+            <field name="groupsId" eval="[[4, refId('product.groupProductPricelist')]]"/>
+            <field name="arch" type="xml">
+                <group name="sale">
+                    <field name="propertyProductPricelist" groups="product.groupProductPricelist" attrs="{'invisible': [['isCompany','=',false],['parentId','!=',false]]}"/>
+                    <div name="parentPricelists" groups="product.groupProductPricelist" colspan="2" attrs="{'invisible': ['|',['isCompany','=',true],['parentId','=',false]]}">
+                        <p>Pricelists are managed on <button name="openCommercialEntity" type="object" string="the parent company" class="oe-link"/></p>
+                    </div>
+                </group>
+            </field>
+        </record>
+</verp>

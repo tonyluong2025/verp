@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="hrEmployeePrintBadge" model="ir.actions.report">
+        <field name="label">Print Badge</field>
+        <field name="model">hr.employee</field>
+        <field name="reportType">qweb-pdf</field>
+        <field name="reportName">hr.print_employee_badge</field>
+        <field name="reportFile">hr.print_employee_badge</field>
+        <field name="printReportName">'Print Badge - %s' % (object.name).replace('/', '')</field>
+        <field name="bindingModelId" ref="model_hrEmployee"/>
+        <field name="bindingType">report</field>
+    </record>
+
+    <template id="printEmployeeBadge">
+        <t t-call="web.basicLayout">
+            <div class="page">
+                <t t-foreach="docs" t-as="employee">
+                    <div class="col-md-6">
+                        <table style="width:243pt; height:153pt; border: 1pt solid black; border-collapse:separate; border-radius:8pt; margin:5pt">
+                            <td style="width:33%;" valign="center">
+                                <table style="width:77pt; height:150pt">
+                                    <tr style="height:30%">
+                                        <td align="center" valign="center">
+                                            <img t-if="employee.companyId.logo" t-att-src="imageDataUri(employee.companyId.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="height:70%;">
+                                        <td align="center" valign="center">
+                                            <img t-att-src="imageDataUri(employee.avatar1920)" style="max-height:85pt;max-width:90%" alt="Employee Image"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width:67%" valign="center">
+                                <table style="width:155pt; height:85pt">
+                                    <tr><th><div style="font-size:15pt; margin-bottom:0pt;margin-top:0pt;" align="center"><t t-esc="employee.name"/></div></th></tr>
+                                    <tr><td><div align="center" style="font-size:10pt;margin-bottom:5pt;"><t t-esc="employee.jobId.name"/></div></td></tr>
+                                    <tr><td><div t-if="employee.barcode" t-field="employee.barcode" t-options="{'widget': 'barcode', 'width': 600, 'height': 120, 'imgStyle': 'max-height:50pt;max-width:100%;', 'imgAlign': 'center'}"/></td></tr>
+                                </table>
+                            </td>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</verp>

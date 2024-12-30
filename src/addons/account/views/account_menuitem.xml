@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!-- Top menu item -->
+    <menuitem name="Invoicing"
+        id="menuFinance"
+        groups="account.groupAccountReadonly,account.groupAccountInvoice"
+        webIcon="account,static/description/icon.png"
+        sequence="55">
+        <menuitem id="menuBoardJournal1" name="Dashboard" action="openAccountJournalDashboardKanban" groups="account.groupAccountReadonly" sequence="1"/>
+        <menuitem id="menuFinanceReceivables" name="Customers" sequence="2">
+            <menuitem id="menuActionMoveOutInvoiceType" action="actionMoveOutInvoiceType" sequence="1"/>
+            <menuitem id="menuActionMoveOutRefundType" action="actionMoveOutRefundType" sequence="2"/>
+            <menuitem id="menuActionMoveOutReceiptType" action="actionMoveOutReceiptType" groups="account.groupSaleReceipts" sequence="3"/>
+            <menuitem id="menuActionAccountPaymentsReceivable" action="actionAccountPayments" sequence="15"/>
+            <menuitem id="productProductMenuSellable" name="Products" action="productProductActionSellable" sequence="100"/>
+            <menuitem id="menuAccountCustomer" name="Customers" action="resPartnerActionCustomer" sequence="110"/>
+        </menuitem>
+        <menuitem id="menuFinancePayables" name="Vendors" sequence="3">
+            <menuitem id="menuActionMoveInInvoiceType" action="actionMoveInInvoiceType" sequence="1"/>
+            <menuitem id="menuActionMoveInRefundType" action="actionMoveInRefundType" sequence="2"/>
+            <menuitem id="menuActionMoveInReceiptType" action="actionMoveInReceiptType" groups="account.groupPurchaseReceipts" sequence="3"/>
+            <menuitem id="menuActionAccountPaymentsPayable" action="actionAccountPaymentsPayable" sequence="20"/>
+            <menuitem id="productProductMenuPurchasable" name="Products" action="productProductActionPurchasable" sequence="100"/>
+            <menuitem id="menuAccountSupplier" name="Vendors" action="account.resPartnerActionSupplier" sequence="200"/>
+        </menuitem>
+        <menuitem id="menuFinanceEntries" name="Accounting" sequence="4" groups="account.groupAccountReadonly">
+            <menuitem id="menuFinanceEntriesAccountingMiscellaneous" name="Miscellaneous" sequence="1">
+                <menuitem id="menuActionMoveJournalLineForm" action="actionMoveJournalLine" groups="account.groupAccountReadonly" sequence="1"/>
+                <menuitem id="menuActionAccountMovesAll" action="actionAccountMovesAll" groups="base.groupNoOne" sequence="10"/>
+            </menuitem>
+            <menuitem id="menuFinanceEntriesAccountingJournals" name="Journals" sequence="2">
+                <menuitem id="menuActionAccountMovesJournalSales" action="actionAccountMovesJournalSales" groups="account.groupAccountReadonly" sequence="1"/>
+                <menuitem id="menuActionAccountMovesJournalPurchase" action="actionAccountMovesJournalPurchase" groups="account.groupAccountReadonly" sequence="2"/>
+                <menuitem id="menuActionAccountMovesJournalBankCash" action="actionAccountMovesJournalBankCash" groups="account.groupAccountReadonly" sequence="3"/>
+                <menuitem id="menuActionAccountMovesJournalMisc" action="actionAccountMovesJournalMisc" groups="account.groupAccountReadonly" sequence="4"/>
+            </menuitem>
+            <menuitem id="menuFinanceEntriesAccountingLedgers" name="Ledgers" sequence="3">
+                <menuitem id="menuActionAccountMovesLedgerGeneral" action="actionAccountMovesLedgerGeneral" groups="account.groupAccountReadonly" sequence="1"/>
+                <menuitem id="menuActionAccountMovesLedgerPartner" action="actionAccountMovesLedgerPartner" groups="account.groupAccountReadonly" sequence="2"/>
+            </menuitem>
+            <menuitem id="menuFinanceEntriesManagement" name="Management" sequence="10" groups="account.groupAccountInvoice,account.groupAccountReadonly"/>
+            <menuitem id="menuFinanceEntriesGenerateEntries" name="Generate Entries"/>
+            <menuitem id="menuFinanceEntriesActions" name="Actions" sequence="11" groups="account.groupAccountUser">
+                <menuitem id="menuActionTaxAdjustment" action="taxAdjustmentsForm" groups="base.groupNoOne" sequence="45"/>
+            </menuitem>
+        </menuitem>
+        <menuitem id="menuFinanceReports" name="Reporting" sequence="20" groups="account.groupAccountReadonly,account.groupAccountInvoice">
+            <menuitem id="accountReportsManagementMenu" name="Management" sequence="4">
+                <menuitem id="menuActionAccountInvoiceReportAll" name="Invoice Analysis" action="actionAccountInvoiceReportAll" sequence="1"/>
+            </menuitem>
+            <menuitem id="accountReportsLegalStatementsMenu" name="Generic Statements" sequence="1" groups="account.groupAccountReadonly"/>
+        </menuitem>
+        <menuitem id="menuFinanceConfiguration" name="Configuration" sequence="35" groups="account.groupAccountManager">
+            <menuitem id="menuAccountConfig" name="Settings" action="actionAccountConfig" groups="base.groupSystem" sequence="0"/>
+            <menuitem id="accountInvoicingMenu" name="Invoicing" groups="account.groupAccountInvoice,account.groupAccountReadonly" sequence="1">
+                <menuitem id="menuActionPaymentTermForm" action="actionPaymentTermForm" sequence="1"/>
+                <menuitem id="menuActionIncotermOpen" action="actionIncotermsTree" groups="account.groupAccountManager" sequence="3"/>
+            </menuitem>
+            <menuitem id="accountBanksMenu" name="Banks" groups="account.groupAccountManager" sequence="2">
+                <menuitem id="menuActionAccountBankJournalForm" action="actionNewBankSetting" groups="account.groupAccountManager" sequence="1"/>
+                <menuitem id="actionAccountReconcileModelMenu" action="account.actionAccountReconcileModel" sequence="3" />
+            </menuitem>
+            <menuitem id="accountAccountMenu" name="Accounting" groups="account.groupAccountManager" sequence="3">
+                <menuitem id="menuActionAccountForm" action="actionAccountForm" groups="account.groupAccountReadonly" sequence="1"/>
+                <menuitem id="menuActionTaxForm" action="actionTaxForm" sequence="2"/>
+                <menuitem id="menuActionAccountJournalForm" action="actionAccountJournalForm" groups="account.groupAccountManager" sequence="3"/>
+                <menuitem id="accountReportFolder" name="Reporting" groups="account.groupAccountReadonly" sequence="4"/>
+                <menuitem id="menuActionCurrencyForm" action="base.actionCurrencyForm" name="Currencies" sequence="4"/>
+                <menuitem id="menuActionAccountFiscalPositionForm" action="actionAccountFiscalPositionForm" sequence="5"/>
+                <menuitem id="menuActionAccountJournalGroupList" action="actionAccountJournalGroupList" groups="account.groupAccountManager" sequence="7"/>
+                <menuitem id="menuActionTaxGroup" action="actionTaxGroup" sequence="8" groups="base.groupNoOne"/>
+            </menuitem>
+            <menuitem id="rootPaymentMenu" name="Payments" groups="account.groupAccountManager" sequence="4"/>
+            <menuitem id="accountManagementMenu" name="Management" groups="account.groupAccountManager" sequence="5">
+                <menuitem id="menuProductProductCategories" action="product.productCategoryActionForm" sequence="3"/>
+                <menuitem id="menuActionRoundingFormView" action="roundingListAction" groups="account.groupCashRounding" sequence="4"/>
+                <menuitem id="menuConfigureTaxReport" name="Tax Report" action="account.actionConfigureTaxReport" groups="base.groupNoOne" sequence="5"/>
+                <menuitem id="menuActionAnalyticLinesTree" name="Analytic Items" action="analytic.accountAnalyticLineActionEntries" groups="analytic.groupAnalyticAccounting" sequence="35"/>
+            </menuitem>
+            <menuitem id="menuAnalyticAccounting" name="Analytic Accounting" groups="analytic.groupAnalyticAccounting,analytic.groupAnalyticTags" sequence="6">
+                <menuitem id="accountAnalyticDefAccount" action="analytic.actionAccountAnalyticAccountForm" groups="analytic.groupAnalyticAccounting" sequence="1"/>
+                <menuitem id="accountAnalyticGroupMenu" name="Analytic Account Groups" action="analytic.accountAnalyticGroupAction" groups="analytic.groupAnalyticAccounting" sequence="2"/>
+                <menuitem id="accountAnalyticTagMenu" name="Analytic Tags" action="analytic.accountAnalyticTagAction" groups="analytic.groupAnalyticTags"/>
+            </menuitem>
+        </menuitem>
+    </menuitem>
+</verp>

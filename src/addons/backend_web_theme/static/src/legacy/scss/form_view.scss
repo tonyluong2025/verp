@@ -1,0 +1,136 @@
+.o-form-view {
+    .o-form-sheet-bg {
+        background: $o-webclient-background-color;
+        border-bottom: 1px solid gray('300');
+        > .o-form-sheet {
+        	@include bw-container-widths();
+         	background-color: $o-view-background-color;
+            border: 1px solid gray('400');
+            box-shadow: 0 5px 20px -15px black;
+            max-width: calc(100% - #{$o-horizontal-padding*2});
+        }
+        .o-form-statusbar {
+            position: sticky;
+            z-index: 1;
+            top: 0;
+        }
+        .oe-button-box {
+        	.btn.oe-stat-button > .o-button-icon {
+        		color: $o-brand-verp; 
+        	}
+       	}
+        .oe-title {
+            max-width: 100%;
+            width: initial;
+            span.o-field-widget {
+                max-width: 100%;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                width: initial;
+            }
+        }
+        .o-notebook {
+            .nav-tabs {
+                overflow-x : auto;
+    			overflow-y: hidden;
+                flex-flow: nowrap;
+                .nav-item {
+                    white-space: nowrap;
+                }
+            }
+           	> .tab-content > .tab-pane > :first-child {
+           		margin-top: 0;
+           	}
+        }
+    }
+    &.o-form-editable {
+        .oe-title {
+            max-width: map-get($container-max-widths, md) - (2 * $o-horizontal-padding);
+        }
+    }
+   	@include media-breakpoint-down(sm) {			
+	    .o-form-sheet {
+	        min-width: 100% !important;
+    		max-width: 100% !important;
+			margin-top: 15px !important;
+	    }
+		.o-group {
+			@for $i from 1 through $o-form-group-cols {
+				.o-group-col-#{$i} {
+					width: 100% !important;
+				}
+			}
+			.o-field-widget.o-text-overflow {
+				width: auto !important;
+			}
+		}
+	    .o-statusbar-buttons-dropdown {
+	        border: {
+	            bottom: 0;
+	            radius: 0;
+	            top: 0;
+	        }
+	        height: 100%;
+	    }
+	    .o-statusbar-buttons > .btn {
+	        border-radius: 0;
+	        border: 0;
+	        width: 100%;
+	        margin-bottom: 0.2rem;
+	        &:last-child {
+	            margin-bottom: 0;
+	        }
+	    }
+	    .o-statusbar-status {
+	        .o-arrow-button:first-child::before {
+	            content: none;
+	            display: none;
+	        }
+	    }
+	    .app-settings-block {
+	        .row {
+	            margin: 0;
+	        }
+	    }
+	    .o-notebook .nav-tabs {
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+        .o-cp-buttons {
+            width: 100%;
+            div, .o-kanban-button-new {
+                width: 100%;
+            }
+        }
+	}
+	@include media-breakpoint-down(xs) {
+    	.oe-title {
+           	width: 100% !important;
+            max-width: 100% !important;
+        }
+	}
+}
+
+.bw-chatter-position-sided {
+	@include media-breakpoint-up(xxl, $o-extra-grid-breakpoints) {
+        .o-form-view:not(.o-form-nosheet) {
+            display: flex;
+            flex-flow: row nowrap;
+            height: 100%;
+            .o-form-sheet-bg {
+			    min-width: $bw-form-min-width;
+                flex: 1 1 auto;
+                overflow: auto;
+            }
+            > .o-FormRenderer-chatterContainer {
+				flex: 1 1 auto;
+				overflow: auto;
+				min-width: $bw-chatter-min-width;
+				max-width: $bw-chatter-max-width;
+				border-left: 1px solid gray('400');
+            }
+        }
+    }
+}

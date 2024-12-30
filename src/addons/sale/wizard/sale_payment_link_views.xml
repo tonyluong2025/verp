@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="actionSaleOrderGenerateLink" model="ir.actions.actwindow">
+        <field name="label">Generate a Payment Link</field>
+        <field name="resModel">payment.link.wizard</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="payment.paymentLinkWizardViewForm"/>
+        <field name="target">new</field>
+        <field name="bindingModelId" ref="model_saleOrder"/>
+        <field name="bindingViewTypes">form</field>
+    </record>
+
+</verp>

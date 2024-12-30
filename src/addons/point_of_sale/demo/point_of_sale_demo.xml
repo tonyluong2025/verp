@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- Partners with Barcodes -->
+        <record id='base.resPartner_1'  model='res.partner'> <field name='barcode'>0420100000005</field> </record>
+        <record id='base.resPartner_2'  model='res.partner'> <field name='barcode'>0420200000004</field> </record>
+        <record id='base.resPartner_3'  model='res.partner'> <field name='barcode'>0420300000003</field> </record>
+        <record id='base.resPartner_4'  model='res.partner'> <field name='barcode'>0420400000002</field> </record>
+        <record id='base.resPartner_4'  model='res.partner'> <field name='barcode'>0420700000009</field> </record>
+        <record id='base.resPartner_10' model='res.partner'> <field name='barcode'>0421000000003</field> </record>
+        <record id='base.resPartner_12'  model='res.partner'> <field name='barcode'>0420800000008</field> </record>
+        <record id='base.resPartner_18' model='res.partner'> <field name='barcode'>0421800000005</field> </record>
+
+        <record id="base.userRoot" model="res.users">
+            <field name="barcode">0410100000006</field>
+            <field name="groupsId" eval="[[4, refId('groupPosManager')]]"/>
+        </record>
+
+        <record id="base.userDemo" model="res.users">
+            <field name="groupsId" eval="[(4, refId('groupPosUser'))]"/>
+        </record>
+
+
+        <!-- Resource: pos.category -->
+        <record id="posCategoryMiscellaneous" model="pos.category">
+          <field name="label">Miscellaneous</field>
+        </record>
+        <record id="posCategoryDesks" model="pos.category">
+          <field name="label">Desks</field>
+        </record>
+        <record id="posCategoryChairs" model="pos.category">
+          <field name="label">Chairs</field>
+        </record>
+
+        <record model="pos.config" id="posConfigMain">
+            <field name="ifaceStartCategId" ref="posCategoryChairs"/>
+            <field name="startCategory">true</field>
+        </record>
+
+        <!-- Resource: product.product -->
+        <record id="stock.productCableManagementBox" model="product.product">
+          <field name="posCategId" ref="point_of_sale.posCategoryMiscellaneous"/>
+        </record>
+        <record id="wallShelf" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">1.98</field>
+          <field name="label">Wall Shelf Unit</field>
+          <field name="defaultCode">FURN_0009</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="toWeight">true</field>
+          <field name="barcode">2100002000003</field>
+          <field name="taxesId" eval='[[5,]]'/>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/wall_shelf_unit.png"/>
+        </record>
+        <record id="smallShelf" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">2.83</field>
+          <field name="label">Small Shelf</field>
+          <field name="defaultCode">FURN_0008</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="taxesId" eval='[[5,]]'/>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="toWeight">true</field>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/small_shelf.png"/>
+        </record>
+
+        <record id="letterTray" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">4.80</field>
+          <field name="label">Letter Tray</field>
+          <field name="defaultCode">FURN_0004</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="toWeight">true</field>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/letter_tray.png"/>
+        </record>
+        <record id="deskOrganizer" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">5.10</field>
+          <field name="label">Desk Organizer</field>
+          <field name="defaultCode">FURN_0001</field>
+          <field name="toWeight">true</field>
+          <field name="barcode">2300001000008</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/desk_organizer.png"/>
+          <field name="taxesId" eval='[[5,]]'/>  <!-- no taxes -->
+        </record>
+
+        <function model="ir.model.data" name="_updateXmlids">
+            <value model="base" eval="[{
+                'xmlid': 'point_of_sale.deskOrganizer_productTemplate',
+                'record': await (await obj.env.ref('point_of_sale.deskOrganizer')).productTemplateId,
+                'noupdate': true,
+            }]"/>
+        </function>
+
+        <record id="sizeAttribute" model="product.attribute">
+            <field name="label">Size</field>
+            <field name="sequence">30</field>
+            <field name="displayType">radio</field>
+            <field name="createVariant">noVariant</field>
+        </record>
+        <record id="sizeAttribute_s" model="product.attribute.value">
+            <field name="label">S</field>
+            <field name="sequence">1</field>
+            <field name="attributeId" ref="sizeAttribute"/>
+        </record>
+        <record id="sizeAttribute_m" model="product.attribute.value">
+            <field name="label">M</field>
+            <field name="sequence">2</field>
+            <field name="attributeId" ref="sizeAttribute"/>
+        </record>
+        <record id="sizeAttribute_l" model="product.attribute.value">
+            <field name="label">L</field>
+            <field name="sequence">3</field>
+            <field name="attributeId" ref="sizeAttribute"/>
+        </record>
+        <record id="deskOrganizerSize" model="product.template.attribute.line">
+            <field name="productTemplateId" ref="point_of_sale.deskOrganizer_productTemplate"/>
+            <field name="attributeId" ref="sizeAttribute"/>
+            <field name="valueIds" eval="[[6, 0, [refId('sizeAttribute_s'), refId('sizeAttribute_m'), refId('sizeAttribute_l')]]]"/>
+        </record>
+
+        <record id="fabricAttribute" model="product.attribute">
+            <field name="label">Fabric</field>
+            <field name="sequence">40</field>
+            <field name="displayType">select</field>
+            <field name="createVariant">noVariant</field>
+        </record>
+        <record id="fabricAttributePlastic" model="product.attribute.value">
+            <field name="label">Plastic</field>
+            <field name="sequence">1</field>
+            <field name="attributeId" ref="fabricAttribute"/>
+        </record>
+        <record id="fabricAttributeLeather" model="product.attribute.value">
+            <field name="label">Leather</field>
+            <field name="sequence">2</field>
+            <field name="attributeId" ref="fabricAttribute"/>
+        </record>
+        <record id="fabricAttributeCustom" model="product.attribute.value">
+            <field name="label">Custom</field>
+            <field name="sequence">3</field>
+            <field name="attributeId" ref="fabricAttribute"/>
+            <field name="isCustom">true</field>
+        </record>
+        <record id="deskOrganizerFabric" model="product.template.attribute.line">
+            <field name="productTemplateId" ref="point_of_sale.deskOrganizer_productTemplate"/>
+            <field name="attributeId" ref="fabricAttribute"/>
+            <field name="valueIds" eval="[[6, 0, [refId('fabricAttributePlastic'), refId('fabricAttributeLeather'), refId('fabricAttributeCustom')]]]"/>
+        </record>
+
+        <record id="magneticBoard" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">1.98</field>
+          <field name="label">Magnetic Board</field>
+          <field name="defaultCode">FURN_0005</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="barcode">2301000000006</field>
+          <field name="toWeight">true</field>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/magnetic_board.png"/>
+        </record>
+        <record id="monitorStand" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">3.19</field>
+          <field name="label">Monitor Stand</field>
+          <field name="defaultCode">FURN_0006</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="toWeight">true</field>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/monitor_stand.png"/>
+        </record>
+        <record id="deskPad" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">1.98</field>
+          <field name="label">Desk Pad</field>
+          <field name="defaultCode">FURN_0002</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="toWeight">true</field>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/desk_pad.png"/>
+        </record>
+
+        <record id="whiteboard" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">1.70</field>
+          <field name="label">Whiteboard</field>
+          <field name="toWeight">true</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/whiteboard.png"/>
+        </record>
+
+        <record id="ledLamp" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">0.90</field>
+          <field name="label">LED Lamp</field>
+          <field name="defaultCode">FURN_0003</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="toWeight">true</field>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/led_lamp.png"/>
+        </record>
+
+        <record id="newspaperRack" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">1.28</field>
+          <field name="label">Newspaper Rack</field>
+          <field name="defaultCode">FURN_0007</field>
+          <field name="type">product</field>
+          <field name="weight">0.01</field>
+          <field name="toWeight">true</field>
+          <field name="barcode">2100001000004</field>
+          <field name="categId" ref="product.productCategory5"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/newspaper_stand.png"/>
+        </record>
+
+        <record id="whiteboardPen" model="product.product">
+          <field name="availableInPos">true</field>
+          <field name="listPrice">1.20</field>
+          <field name="label">Whiteboard Pen</field>
+          <field name="weight">0.01</field>
+          <field name="defaultCode">CONS_0001</field>
+          <field name="toWeight">true</field>
+          <field name="categId" ref="product.productCategoryConsumable"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+          <field name="uomId" ref="uom.productUomUnit" />
+          <field name="uomPoId" ref="uom.productUomUnit" />
+          <field name="image1920" type="base64" file="point_of_sale/static/img/whiteboard_pen.png"/>
+        </record>
+
+        <record id="product.productProduct1" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct2" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productDelivery01" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryChairs"/>
+        </record>
+        <record id="product.productDelivery02" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productOrder01" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct3" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryDesks"/>
+        </record>
+        <record id="product.productProduct4_productTemplate" model="product.template">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryDesks"/>
+        </record>
+        <record id="product.productProduct5" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryDesks"/>
+        </record>
+        <record id="product.productProduct6" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct7" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct8" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryDesks"/>
+        </record>
+        <record id="product.productProduct9" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct10" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct11" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryChairs"/>
+        </record>
+        <record id="product.productProduct11b" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryChairs"/>
+        </record>
+        <record id="product.productProduct12" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryChairs"/>
+        </record>
+        <record id="product.productProduct13" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryDesks"/>
+        </record>
+        <record id="product.productProduct16" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct20" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct22" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct24" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct25" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.productProduct27" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.consuDelivery03" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryDesks"/>
+        </record>
+        <record id="product.consuDelivery02" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+        <record id="product.consuDelivery01" model="product.product">
+          <field name="availableInPos" eval="true"/>
+          <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        </record>
+</verp>

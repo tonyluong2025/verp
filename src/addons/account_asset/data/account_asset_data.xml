@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<verp>
+
+	<record id="accountAssetCron" model="ir.cron">
+        <field name="label">Account Asset: Generate asset entries</field>
+        <field name="modelId" ref="model_accountAssetAsset"/>
+        <field name="state">code</field>
+        <field name="code">model._cronGenerateEntries()</field>
+        <field name="intervalNumber">1</field>
+        <field name="intervalType">months</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="false"/>
+    </record>
+
+</verp>

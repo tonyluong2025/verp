@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<verp>
+        <!-- Merge Opportunities  -->
+        <record id="mergeOpportunityForm" model="ir.ui.view">
+            <field name="label">crm.merge.opportunity.form</field>
+            <field name="model">crm.merge.opportunity</field>
+            <field name="arch" type="xml">
+                <form string="Merge Leads/Opportunities">
+                    <group string="Assign opportunities to">
+                        <field name="userId" class="oe-inline"/>
+                        <field name="teamId" class="oe-inline" kanbanViewRef="%(sales_team.crmTeamViewKanban)s"/>
+                    </group>
+                    <group string="Select Leads/Opportunities">
+                        <field name="opportunityIds" nolabel="1">
+                            <tree>
+                                <field name="createdAt"/>
+                                <field name="label"/>
+                                <field name="type"/>
+                                <field name="contactName"/>
+                                <field name="emailFrom" optional="hide"/>
+                                <field name="phone" class="o-force-ltr" optional="hide"/>
+                                <field name="stageId"/>
+                                <field name="userId"/>
+                                <field name="teamId"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="actionMerge" type="object" string="Merge" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionMergeOpportunities" model="ir.actions.actwindow">
+            <field name="label">Merge</field>
+            <field name="resModel">crm.merge.opportunity</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="bindingModelId" ref="model_crmLead"/>
+            <field name="bindingViewTypes">list</field>
+        </record>
+
+</verp>

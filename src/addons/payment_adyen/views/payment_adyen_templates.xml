@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="inlineForm">
+        <div t-attf-id="oAdyenDropinContainer{{acquirerId}}" class="o-adyen-dropin"/>
+    </template>
+
+</verp>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="crmLeadStageSearch" model="ir.ui.view">
+        <field name="label">Stage - Search</field>
+        <field name="model">crm.stage</field>
+        <field name="arch" type="xml">
+            <search string="Stage Search">
+                <field name="label"/>
+                <field name="sequence"/>
+                <field name="isWon"/>
+                <field name="teamId"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- STAGES TREE VIEW + MUTI_EDIT -->
+    <record id="crmStageTree" model="ir.ui.view">
+        <field name="label">crm.stage.tree</field>
+        <field name="model">crm.stage</field>
+        <field name="arch" type="xml">
+            <tree string="Stages" multiEdit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="label" readonly="1"/>
+                <field name="isWon"/>
+                <field name="teamId"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="crmStageForm" model="ir.ui.view">
+        <field name="label">crm.stage.form</field>
+        <field name="model">crm.stage</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form string="Stage">
+                <sheet>
+                    <div class="oe-title">
+                        <label for="label"/>
+                        <h1>
+                            <field name="label" placeholder="e.g. Negotiation"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="isWon"/>
+                            <field name="fold"/>
+                            <field name="teamId" options='{"noOpen": true, "noCreate": true}' attrs="{'invisible': [['teamCount', '&lt;=', 1]]}" kanbanViewRef="%(sales_team.crmTeamViewKanban)s"/>
+                        </group>
+                        <field name="teamCount" invisible="1"/>
+                    </group>
+                    <separator string="Requirements"/>
+                    <field name="requirements" nolabel="1" placeholder="Give your team the requirements to move an opportunity to this stage."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="crmStageAction" model="ir.actions.actwindow">
+        <field name="label">Stages</field>
+        <field name="resModel">crm.stage</field>
+        <field name="viewId" ref="crm.crmStageTree"/>
+        <field name="help" type="html">
+          <p class="o-view-nocontent-smiling-face">
+            Set a new stage in your opportunity pipeline
+          </p><p>
+            Stages allow salespersons to easily track how a specific opportunity
+            is positioned in the sales cycle.
+          </p>
+        </field>
+    </record>
+
+</verp>

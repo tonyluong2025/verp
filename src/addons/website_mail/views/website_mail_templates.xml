@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="follow">
+        <div t-attf-class="input-group js-follow #{divClass}" t-att-data-id="object.id"
+                  t-att-data-object="object.cls._name"
+                  t-att-data-follow="object.id &amp;&amp; await object.messageIsFollower &amp;&amp; 'on' || 'off'"
+                  t-att-data-unsubscribe="'unsubscribe' in request.params ? 'unsubscribe' : null">
+            <input
+                  type="email" name="email"
+                  class="js-follow-email form-control"
+                  placeholder="your email..."
+                  groups="base.groupPublic"/>
+            <div t-if="iconsDesign &amp;&amp; ! await (await (await request.getEnv()).user()).hasGroup('base.groupPublic')" class="js-follow-icons-container">
+                <button class="btn text-reset js-unfollow-btn">
+                    <div class="d-flex align-items-center">
+                        <small>Unfollow</small><i class="fa fa-fw ml-1"/>
+                    </div>
+                </button>
+                <button class="btn text-reset js-follow-btn">
+                    <div class="d-flex align-items-center">
+                        <small>Follow</small><i class="fa fa-fw ml-1"/>
+                    </div>
+                </button>
+            </div>
+            <div t-else="" t-attf-class="#{await (await (await request.getEnv()).user()).hasGroup('base.groupPublic') &amp;&amp; 'input-group-append'}">
+                <button href="#" t-attf-class="btn btn-secondary js-unfollow-btn">Unsubscribe</button>
+                <button href="#" t-attf-class="btn btn-primary js-follow-btn">Subscribe</button>
+            </div>
+        </div>
+    </template>
+</verp>

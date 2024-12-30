@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- We want to activate SO template by default for easier demoing. -->
+        <record id="base.groupUser" model="res.groups">
+            <field name="impliedIds" eval="[[4, refId('sale_management.groupSaleOrderTemplate')]]"/>
+        </record>
+
+        <record id="saleOrderTemplate1" model="sale.order.template">
+            <field name="label">4 Person Desk</field>
+            <field name="numberOfDays">45</field>
+        </record>
+
+        <record id="saleOrderTemplateLine1" model="sale.order.template.line">
+            <field name="saleOrderTemplateId" ref="saleOrderTemplate1"/>
+            <field name="label">4 Person Desk</field>
+            <field name="productId" ref="product.consuDelivery03"/>
+            <field name="productUomQty">1</field>
+            <field name="productUomId" ref="uom.productUomUnit"/>
+        </record>
+
+        <record id="saleOrderTemplateOption1" model="sale.order.template.option">
+            <field name="saleOrderTemplateId" ref="saleOrderTemplate1"/>
+            <field name="label">Office Chair</field>
+            <field name="productId" ref="product.productDelivery01"/>
+            <field name="quantity">4</field>
+            <field name="uomId" ref="uom.productUomUnit"/>
+        </record>
+</verp>

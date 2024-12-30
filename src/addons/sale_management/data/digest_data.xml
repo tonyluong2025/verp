@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<verp>
+    <data noupdate="1">
+        <record id="digest.digestDigestDefault" model="digest.digest">
+            <field name="kpiAllSaleTotal">True</field>
+        </record>
+
+        <record id="digestTipSale1Management0" model="digest.tip">
+            <field name="label">Tip: Verp supports configurable products</field>
+            <field name="sequence">2200</field>
+            <field name="groupId" ref="sales_team.groupSaleManager" />
+            <field name="tipDescription" type="html">
+<div>
+    <p class="tipTitle">Tip: Verp supports configurable products</p>
+    <p class="tipContent">Struggling with a complex product catalog? Try out the Product Configurator to help sales configure a product with different options: colors, size, capacity, etc. Make sale orders encoding easier and error-proof.</p>
+    <img src="/sale_management/static/src/img/Sales-configure-products.gif" class="illustration-border" />
+</div>
+            </field>
+        </record>
+        <record id="digestTipSaleManagement1" model="digest.tip">
+            <field name="label">Tip: Sell or buy products in bulk with matrixes</field>
+            <field name="sequence">2700</field>
+            <field name="groupId" ref="sales_team.groupSaleManager" />
+            <field name="tipDescription" type="html">
+<div>
+    <p class="tipTitle">Tip: Sell or buy products in bulk with matrixes</p>
+    <p class="tipContent">Selling the same product in different sizes or colors? Try the product grid and populate your orders with multiple quantities of each variant. This feature also exists in the Purchase application.</p>
+    <img src="/sale_management/static/src/img/t-shirts.png" class="illustration-border" />
+</div>
+            </field>
+        </record>
+    </data>
+</verp>

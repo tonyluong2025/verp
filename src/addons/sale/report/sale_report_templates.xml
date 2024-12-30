@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<template id="reportSaleorderDocument">
+    <t t-call="web.externalLayout">
+        <t t-set="doc" t-value="await doc.withContext({lang: await (await doc.partnerId).lang})" />
+        <t t-set="partner" t-value="await doc.partnerId" />
+        <t t-set="forcedVat" t-value="await (await doc.fiscalPositionId).foreignVat"/> <!-- So that it appears in the footer of the report instead of the company VAT if it's set -->
+        <t t-set="address">
+            <div t-field="doc.partnerId"
+                t-options='{"widget": "contact", "fields": ["address", "label"], "noMarker": true}' />
+            <p t-if="await partner.vat"><t t-esc="await (await (await doc.companyId).accountFiscalCountryId).vatLabel || 'Tax ID'"/>: <span t-field="doc.partnerId.vat"/></p>
+        </t>
+        <t t-set="partnerShipping" t-value="await doc.partnerShippingId" />
+        <t t-set="partnerInvoice" t-value="await doc.partnerInvoiceId" />
+        <t t-if="partnerShipping.eq(partnerInvoice)
+                             and partnerInvoice.ne(partner)
+                             or partnerShipping.ne(partnerInvoice)">
+            <t t-set="information_block">
+                <strong t-if="partnerShipping.eq(partnerInvoice)">Invoicing and Shipping Address:</strong>
+                <strong t-if="partnerShipping.ne(partnerInvoice)">Invoicing Address:</strong>
+                <div t-field="doc.partnerInvoiceId"
+                t-options='{"widget": "contact", "fields": ["address", "label", "phone"], "noMarker": true, "phoneIcons": true}'/>
+                <t t-if="partnerShipping.ne(partnerInvoice)">
+                    <strong>Shipping Address:</strong>
+                    <div t-field="doc.partnerShippingId"
+                        t-options='{"widget": "contact", "fields": ["address", "label", "phone"], "noMarker": true, "phoneIcons": true}'/>
+                </t>
+            </t>
+        </t>
+        <div class="page">
+            <div class="oe-structure"/>
+            <t t-set="state" t-value="await doc.state" />
+            <h2 class="mt16">
+                <t t-if="! (env.context['proforma'] ?? false) || isProForma)">
+                    <span t-if="!['draft','sent'].includes(state)">Order # </span>
+                    <span t-if="['draft','sent'].includes(state)">Quotation # </span>
+                </t>
+                <t t-if="(env.context['proforma'] ?? false) || isProForma">
+                    <span>Pro-Forma Invoice # </span>
+                </t>
+                <span t-field="doc.label"/>
+            </h2>
+
+            <div class="row mt32 mb32" id="informations">
+                <div t-if="await doc.clientOrderRef" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Your Reference:</strong>
+                    <p class="m-0" t-field="doc.clientOrderRef"/>
+                </div>
+                <t t-set="dateOrder" t-value="await doc.dateOrder" />
+                <div t-if="dateOrder &amp;&amp; !['draft','sent'].includes(state)" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Order Date:</strong>
+                    <p class="m-0" t-field="doc.dateOrder"/>
+                </div>
+                <div t-if="dateOrder &amp;&amp; ['draft','sent'].includes(state)" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Quotation Date:</strong>
+                    <p class="m-0" t-field="doc.dateOrder" t-options='{"widget": "date"}'/>
+                </div>
+                <div t-if="await doc.validityDate &amp;&amp; ['draft', 'sent'].includes(state)" class="col-auto col-3 mw-100 mb-2" name="expirationDate">
+                    <strong>Expiration:</strong>
+                    <p class="m-0" t-field="doc.validityDate"/>
+                </div>
+                <div t-if="await (await doc.userId).label" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Salesperson:</strong>
+                    <p class="m-0" t-field="doc.userId"/>
+                </div>
+            </div>
+
+            <!-- Is there a discount on at least one line? -->
+            <t t-set="displayDiscount" t-value="await (await doc.orderLine).some(l => l.discount)"/>
+
+            <table class="table table-sm o-main-table">
+                <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                <thead style="display: table-row-group">
+                    <tr>
+                        <th name="thDescription" class="text-left">Description</th>
+                        <th name="thQuantity" class="text-right">Quantity</th>
+                        <th name="thPriceunit" class="text-right">Unit Price</th>
+                        <th name="thDiscount" t-if="displayDiscount" class="text-right" groups="product.groupDiscountPerSoLine">
+                            <span>Disc.%</span>
+                        </th>
+                        <th name="thTaxes" class="text-right">Taxes</th>
+                        <th name="thSubtotal" class="text-right">
+                            <span groups="account.groupShowLineSubtotalsTaxExcluded">Amount</span>
+                            <span groups="account.groupShowLineSubtotalsTaxIncluded">Total Price</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="sale-tbody">
+
+                    <t t-set="currentSubtotal" t-value="0"/>
+
+                    <t t-foreach="await doc.orderLine" t-as="line">
+
+                        <t t-set="currentSubtotal" t-value="currentSubtotal + await line.priceSubtotal" groups="account.groupShowLineSubtotalsTaxExcluded"/>
+                        <t t-set="currentSubtotal" t-value="currentSubtotal + await line.priceTotal" groups="account.groupShowLineSubtotalsTaxIncluded"/>
+
+                        <tr t-att-class="await line.displayType == 'lineSection' ? 'bg-200 font-weight-bold o-line-section' : await line.displayType == 'lineNote' ? 'font-italic o-line-note' : ''">
+                            <t t-if="! await line.displayType">
+                                <td name="tdName"><span t-field="line.label"/></td>
+                                <td name="tdQuantity" class="text-right">
+                                    <span t-field="line.productUomQty"/>
+                                    <span t-field="line.productUom"/>
+                                </td>
+                                <td name="tdPriceunit" class="text-right">
+                                    <span t-field="line.priceUnit"/>
+                                </td>
+                                <td t-if="displayDiscount" class="text-right" groups="product.groupDiscountPerSoLine">
+                                    <span t-field="line.discount"/>
+                                </td>
+                                <td name="tdTaxes" class="text-right">
+                                    <span t-esc="(await (await line.taxId).map(async (x) => await x.description || await x.label)).join(', )"/>
+                                </td>
+                                <td name="tdSubtotal" class="text-right o-price-total">
+                                    <span t-field="line.priceSubtotal" groups="account.groupShowLineSubtotalsTaxExcluded"/>
+                                    <span t-field="line.priceTotal" groups="account.groupShowLineSubtotalsTaxIncluded"/>
+                                </td>
+                            </t>
+                            <t t-if="await line.displayType === 'lineSection'">
+                                <td name="tdSectionLine" colspan="99">
+                                    <span t-field="line.label"/>
+                                </td>
+                                <t t-set="currentSection" t-value="line"/>
+                                <t t-set="currentSubtotal" t-value="0"/>
+                            </t>
+                            <t t-if="await line.displayType === 'lineNote'">
+                                <td name="tdNoteLine" colspan="99">
+                                    <span t-field="line.label"/>
+                                </td>
+                            </t>
+                        </tr>
+
+                        <t t-if="currentSection &amp;&amp; (line_last || await (await doc.orderLine)[line_index+1].displayType == 'lineSection')">
+                            <tr class="is-subtotal text-right">
+                                <td name="tdSectionSubtotal" colspan="99">
+                                    <strong class="mr16">Subtotal</strong>
+                                    <span
+                                        t-esc="currentSubtotal"
+                                        t-options='{"widget": "monetary", "displayCurrency": await (await doc.pricelistId).currencyId}'
+                                    />
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+
+            <div class="clearfix" name="soTotalSummary">
+                <div id="total" class="row" name="total">
+                    <div t-attf-class="#{reportType !== 'html' ? 'col-6' : 'col-sm-7 col-md-6'} ml-auto">
+                        <table class="table table-sm">
+                            <!-- Tax totals -->
+                            <t t-set="taxTotals" t-value="JSON.parse(await doc.taxTotalsJson)"/>
+                            <t t-call="account.documentTaxTotals"/>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div t-if="await doc.signature" class="mt32 ml64 mr4" name="signature">
+                <div class="offset-8">
+                    <strong>Signature</strong>
+                </div>
+                <div class="offset-8">
+                    <img t-att-src="imageDataUri(await doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>
+                </div>
+                <div class="offset-8 text-center">
+                    <p t-field="doc.signedBy"/>
+                </div>
+            </div>
+
+            <div class="oe-structure"/>
+
+            <p t-field="doc.note" />
+            <p t-if="! isHtmlEmpty(await (await doc.paymentTermId).note)">
+                <span t-field="doc.paymentTermId.note"/>
+            </p>
+            <t t-set="fiscalPosition" t-value="await doc.fiscalPositionId" />
+            <p id="fiscalPositionRemark" t-if="fiscalPosition.ok &amp;&amp; ! isHtmlEmpty(await (await fiscalPosition.sudo()).note)">
+                <strong>Fiscal Position Remark:</strong>
+                <span t-field="doc.fiscalPositionId.sudo().note"/>
+            </p>
+        </div>
+    </t>
+</template>
+
+
+<template id="reportSaleorder">
+    <t t-call="web.htmlContainer">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="sale.reportSaleorderDocument" t-lang="await (await doc.partnerId).lang"/>
+        </t>
+    </t>
+</template>
+
+<template id="reportSaleorderProForma">
+    <t t-call="web.htmlContainer">
+        <t t-set="isProForma" t-value="true"/>
+        <t t-set="docs" t-value="await docs.withContext({proforma: true})"/>
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="sale.reportSaleorderDocument" t-lang="await (await doc.partnerId).lang"/>
+        </t>
+    </t>
+</template>
+
+</verp>

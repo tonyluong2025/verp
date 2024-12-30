@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="actStockReturnPicking" model="ir.actions.actwindow">
+        <field name="label">Reverse Transfer</field>
+        <field name="resModel">stock.return.picking</field>
+        <field name="viewMode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="viewStockReturnPickingForm" model="ir.ui.view">
+        <field name="label">Return lines</field>
+        <field name="model">stock.return.picking</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="moveDestExists" invisible="1"/>
+                <field name="pickingId" invisible="1" forceSave="1"/>
+                <group attrs="{'invisible': [['moveDestExists', '=', false]]}">
+                    <div class="oe-grey">
+                        <p>This picking appears to be chained with another operation. Later, if you receive the goods you are returning now, make sure to <b>reverse</b> the returned picking in order to avoid logistic rules to be applied again (which would create duplicated operations)</p>
+                    </div>
+                </group>
+                <group>
+                    <field name="productReturnMoves" nolabel="1">
+                        <tree editable="top" create="0">
+                            <field name="productId"  options="{'noCreate': true, 'noOpen': true}" forceSave="1"/>
+                            <field name="quantity"/>
+                            <field name="uomId" groups="uom.groupUom"/>
+                            <field name="moveId" invisible="1"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="parentLocationId" invisible="1"/>
+                    <field name="originalLocationId" invisible="1"/>
+                    <field name="locationId" options="{'noCreate': true, 'noOpen': true}" groups="stock.groupStockMultiLocations" required="1"/>
+                    <field name="companyId" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="createReturns" string="Return" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

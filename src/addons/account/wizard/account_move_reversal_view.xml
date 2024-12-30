@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="viewAccountMoveReversal" model="ir.ui.view">
+            <field name="label">account.move.reversal.form</field>
+            <field name="model">account.move.reversal</field>
+            <field name="arch" type="xml">
+                <form string="Reverse Journal Entry">
+                    <field name="residual" invisible="1"/>
+                    <field name="companyId" invisible="1"/>
+                    <field name="moveIds" invisible="1"/>
+                    <field name="moveType" invisible="1"/>
+                    <field name="availableJournalIds" invisible="1"/>
+                    <group>
+                         <group attrs="{'invisible': [['moveType', 'not in', ['outInvoice', 'inInvoice']]]}">
+                            <field name="refundMethod" widget="radio" attrs="{'readonly': [['residual', '=', 0]]}"/>
+                         </group>
+                         <group attrs="{'invisible': [['moveType', 'not in', ['outInvoice', 'inInvoice', 'someInvoice']]]}">
+                            <div attrs="{'invisible':[['refundMethod', '!=', 'refund']]}" class="oe-grey" colspan="4">
+                               The credit note is created in draft and can be edited before being issued.
+                            </div>
+                            <div attrs="{'invisible':[['refundMethod', '!=', 'cancel']]}" class="oe-grey" colspan="4">
+                               The credit note is auto-validated and reconciled with the invoice.
+                            </div>
+                            <div attrs="{'invisible':[['refundMethod', '!=', 'modify']]}" class="oe-grey" colspan="4">
+                               The credit note is auto-validated and reconciled with the invoice.
+                               The original invoice is duplicated as a new draft.
+                            </div>
+                         </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="reason" attrs="{'invisible': [['moveType', '=', 'entry']]}"/>
+                            <field name="dateMode" string="Reversal Date" widget="radio"/>
+                        </group>
+                        <group>
+                        <field name="journalId" domain="[['id', 'in', availableJournalIds]]"/>
+                        <field name="date" string="Refund Date" attrs="{'invisible': ['|', ['moveType', 'not in', ['outInvoice', 'inInvoice']], ['dateMode', '!=', 'custom']], 'required':[['dateMode', '=', 'custom']]}"/>
+                        <field name="date" attrs="{'invisible': ['|', ['moveType', 'in', ['outInvoice', 'inInvoice']], ['dateMode', '!=', 'custom']], 'required':[['dateMode', '=', 'custom']]}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string='Reverse' name="reverseMoves" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="actionViewAccountMoveReversal" model="ir.actions.actwindow">
+            <field name="label">Reverse</field>
+            <field name="resModel">account.move.reversal</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="viewAccountMoveReversal"/>
+            <field name="target">new</field>
+            <field name="groupsId" eval="[[4, refId('account.groupAccountInvoice')]]"/>
+            <field name="bindingModelId" ref="account.model_accountMove" />
+            <field name="bindingViewTypes">list</field>
+        </record>
+    </data>
+</verp>

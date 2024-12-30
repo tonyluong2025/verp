@@ -1,0 +1,29 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_product_category_user,product.category.user,model_productCategory,base.groupUser,1,0,0,0
+access_product_template_user,product.template.user,model_productTemplate,base.groupUser,1,0,0,0
+access_product_packaging_user,product.packaging.user,model_productPackaging,base.groupUser,1,0,0,0
+access_product_supplierinfo_user,product.supplierinfo.user,model_productSupplierinfo,base.groupUser,1,0,0,0
+access_product_pricelist_user,product.pricelist.user,model_productPricelist,base.groupUser,1,0,0,0
+access_product_pricelist_item_user,product.pricelist.item.user,model_productPricelistItem,base.groupUser,1,0,0,0
+access_product_pricelist_partner_manager,product.pricelist partner manager,model_productPricelist,base.groupPartnerManager,1,0,0,0
+access_product_product_employee,product.product employee,model_productProduct,base.groupUser,1,0,0,0
+access_product_attribute,product.attribute,model_productAttribute,base.groupUser,1,0,0,0
+access_product_attribute_value,product.attribute value,model_productAttributeValue,base.groupUser,1,0,0,0
+access_product_attribute_custom_value_user,product.attribute.custom value manager,model_productAttributeCustomValue,base.groupUser,1,0,0,0
+access_product_product_attribute,product.template.attribute value,model_productTemplateAttributeValue,base.groupUser,1,0,0,0
+access_product_template_attribute_exclusion,product..template.attribute exclusion,model_productTemplateAttributeExclusion,base.groupUser,1,0,0,0
+access_product_template_attribute_line,product.template.attribute line,model_productTemplateAttributeLine,base.groupUser,1,0,0,0
+access_product_category_manager,product.category.manager,model_productCategory,base.groupSystem,1,1,1,1
+access_product_template_manager,product.template.manager,model_productTemplate,base.groupSystem,1,1,1,1
+access_product_packaging_manager,product.packaging.manager,model_productPackaging,base.groupSystem,1,1,1,1
+access_product_supplierinfo_manager,product.supplierinfo.manager,model_productSupplierinfo,base.groupSystem,1,1,1,1
+access_product_pricelist_manager,product.pricelist.manager,model_productPricelist,base.groupSystem,1,1,1,1
+access_product_pricelist_item_manager,product.pricelist.item.manager,model_productPricelistItem,base.groupSystem,1,1,1,1
+access_product_product_manager,product.product manager,model_productProduct,base.groupSystem,1,1,1,1
+access_product_attribute_manager,product.attribute manager,model_productAttribute,base.groupSystem,1,1,1,1
+access_product_attribute_value_manager,product.attribute value manager,model_productAttributeValue,base.groupSystem,1,1,1,1
+access_product_attribute_custom_value_manager,product.attribute.custom value manager,model_productAttributeCustomValue,base.groupSystem,1,1,1,1
+access_product_product_attribute_manager,product.template.attribute value manager,model_productTemplateAttributeValue,base.groupSystem,1,1,1,1
+access_product_template_attribute_exclusion_manager,product.template.attribute exclusion manager,model_productTemplateAttributeExclusion,base.groupSystem,1,1,1,1
+access_product_template_attribute_line_manager,product.template.attribute line manager,model_productTemplateAttributeLine,base.groupSystem,1,1,1,1
+access_product_label_layout_user,product.label.layout.user,model_productLabelLayout,base.groupUser,1,1,1,1

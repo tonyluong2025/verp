@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+
+<t t-name="receptionReportButtons">
+    <button
+        name="assignAllLink"
+        class="btn btn-secondary o-report-reception-assign o-assign-all">
+        Assign All
+    </button>
+    <button
+        name="printAllLabels"
+        class="btn btn-secondary o-print-label o-print-label-all">
+        Print Labels
+    </button>
+</t>
+</templates>

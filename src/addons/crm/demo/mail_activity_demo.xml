@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="mailActivityDemoFollowupQuote" model="mail.activity.type">
+        <field name="label">Follow-up Quote</field>
+        <field name="icon">fa-file-text-o</field>
+        <field name="resModel">crm.lead</field>
+        <field name="delayCount">30</field>
+    </record>
+    <record id="mailActivityDemoMakeQuote" model="mail.activity.type">
+        <field name="label">Make Quote</field>
+        <field name="icon">fa-file-text-o</field>
+        <field name="resModel">crm.lead</field>
+        <field name="delayCount">15</field>
+    </record>
+
+    <record id="mailActivityDemoCallDemo" model="mail.activity.type">
+        <field name="label">Call for Demo</field>
+        <field name="icon">fa-phone</field>
+        <field name="resModel">crm.lead</field>
+        <field name="delayCount">10</field>
+        <field name="category">phonecall</field>
+    </record>
+
+    <record id="mailActivityTypeDemoEmailWithTemplate" model="mail.activity.type">
+        <field name="label">Email: Welcome Demo</field>
+        <field name="icon">fa-envelope</field>
+        <field name="resModel">crm.lead</field>
+        <field name="mailTemplateIds" eval="[[4, refId('crm.mailTemplateDemoCrmLead')]]"/>
+    </record>
+</verp>

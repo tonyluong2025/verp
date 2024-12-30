@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="accountResequenceView" model="ir.ui.view">
+            <field name="label">Re-sequence Journal Entries</field>
+            <field name="model">account.resequence.wizard</field>
+            <field name="arch" type="xml">
+            <form string="Re-Sequence">
+                <field name="moveIds" invisible="1"/>
+                <field name="newValues" invisible="1"/>
+                <field name="sequenceNumberReset" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="ordering" widget="radio"/>
+                    </group>
+                    <group>
+                        <field name="firstName"/>
+                    </group>
+                </group>
+                <label for="previewMoves" string="Preview Modifications"/>
+                <field name="previewMoves" widget="accountResequenceWidget"/>
+                <footer>
+                    <button string="Confirm" name="resequence" type="object" defaultFocus="1" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="actionAccountResequence" model="ir.actions.actwindow">
+            <field name="label">Resequence</field>
+            <field name="resModel">account.resequence.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="accountResequenceView"/>
+            <field name="target">new</field>
+            <field name="groupsId" eval="[[6, 0, [refId('base.groupNoOne')]]]"/>
+            <field name="bindingModelId" ref="account.model_accountMove" />
+            <field name="bindingViewTypes">list</field>
+        </record>
+    </data>
+</verp>

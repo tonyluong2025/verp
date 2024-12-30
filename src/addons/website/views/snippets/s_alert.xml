@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="sAlert" name="Alert">
+    <div class="s-alert s-alert-mb alert-info w-100 clearfix">
+        <i class="fa fa-2x fa-info-circle s-alert-icon"/>
+        <div class="s-alert-content">
+            <p>Explain the benefits you offer. <br/>Don't write about products or services here, write about solutions.</p>
+        </div>
+    </div>
+</template>
+
+<template id="sAlertOptions" inheritId="website.snippetOptions">
+    <xpath expr="//div[@id='soWidth']" position="before">
+        <div data-selector=".s-alert" data-js="Alert">
+            <we-select string="Type" data-apply-to=".fa.s-alert-icon" data-trigger="alertColorpickerOpt">
+                <we-button data-select-class="fa-user-circle" data-trigger-value="primary">Primary</we-button>
+                <we-button data-select-class="fa-user-circle-o" data-trigger-value="secondary">Secondary</we-button>
+                <we-button data-select-class="fa-info-circle" data-trigger-value="info">Info</we-button>
+                <we-button data-select-class="fa-check-circle" data-trigger-value="success">Success</we-button>
+                <we-button data-select-class="fa-exclamation-triangle" data-trigger-value="warning">Warning</we-button>
+                <we-button data-select-class="fa-exclamation-circle" data-trigger-value="danger">Danger</we-button>
+            </we-select>
+        </div>
+    </xpath>
+    <!-- Keep those options in separate xpath for options order -->
+    <xpath expr="//div[@id='soWidth']" position="after">
+        <div data-selector=".s-lert">
+            <we-select string="Size">
+                <we-button data-select-class="s-alert-sm">Small</we-button>
+                <we-button data-select-class="s-alert-mb">Medium</we-button>
+                <we-button data-select-class="s-alert-lg">Large</we-button>
+            </we-select>
+            <we-colorpicker string="Color" data-name="alertColorpickerOpt"
+                data-select-style="true"
+                data-css-property="background-color"
+                data-color-prefix="alert-"/>
+        </div>
+    </xpath>
+</template>
+
+<record id="website.sAlert.000.scss" model="ir.asset">
+    <field name="label">Alert 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_alert/000.scss</field>
+</record>
+
+</verp>

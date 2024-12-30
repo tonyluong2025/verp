@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="irCronAuthSignupSendPendingUserReminder" model="ir.cron">
+        <field name="label">Users: Notify About Unregistered Users</field>
+        <field name="modelId" ref="base.model_resUsers"/>
+        <field name="state">code</field>
+        <field name="code">model.sendUnregisteredUserReminder()</field>
+        <field name="userId" ref="base.userRoot" />
+        <field name="intervalNumber">1</field>
+        <field name="intervalType">days</field>
+        <field name="numbercall">-1</field>
+    </record>
+</verp>

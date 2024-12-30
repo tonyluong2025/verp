@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewSalesOrderFilterEcommerce" model="ir.ui.view">
+        <field name="label">sale.order.ecommerce.search.view</field>
+        <field name="model">sale.order</field>
+        <field name="inheritId" ref="sale.viewSalesOrderFilter"/>
+        <field name="mode">primary</field> 
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='mySaleOrdersFilter']" position="before">
+                <filter string="Confirmed" name="orderConfirmed" domain="[['state', 'in', ['sale', 'done']]]"/>
+                <filter string="Unpaid" name="orderUnpaid" domain="[['state', '=', 'sent']]"/>
+                <filter string="Abandoned" name="orderAbandoned" domain="[['isAbandonedCart', '=', true]]"/>
+                <separator/>
+                <filter string="Order Date" name="orderDate" date="dateOrder"/>
+                <separator/>
+                <filter string="From Website" name="fromWebsite" domain="[['websiteId', '!=', false]]"/>
+                <separator/>
+                <!-- Dashboard filter - used by context -->
+                <filter string="Last Week" invisible="1" name="week" domain="[['dateOrder','&gt;', toFormat(subDate(contextToday(), {days: 7}), 'yyyy-MM-dd')]]"/>
+                <filter string="Last Month" invisible="1" name="month" domain="[['dateOrder','&gt;', toFormat(subDate(contextToday(), {days: 30}), 'yyyy-MM-dd')]]"/>
+                <filter string="Last Year" invisible="1"  name="year" domain="[['dateOrder','&gt;', toFormat(subDate(contextToday(), {days: 356}), 'yyyy-MM-dd')]]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="viewSalesOrderFilterEcommerceUnpaid" model="ir.ui.view">
+        <field name="label">sale.order.ecommerce.search.unpaid.view</field>
+        <field name="model">sale.order</field>
+        <field name="inheritId" ref="sale.viewSalesOrderFilter"/>
+        <field name="mode">primary</field> 
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='mySaleOrdersFilter']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='mySaleOrdersFilter']" position="before">
+                <filter string="Order Date" name="orderDate" date="dateOrder"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="saleOrderViewFormCartRecovery" model="ir.ui.view">
+        <field name="label">sale.order.form.abandoned.cart</field>
+        <field name="model">sale.order</field>
+        <field name="inheritId" ref="sale.viewOrderForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='teamId']" position="after">
+                <field name="isAbandonedCart" invisible="1"/>
+                <field name="cartRecoveryEmailSent" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='actionQuotationSend' and @states='draft']" position="attributes">
+                <!-- The '| and the '&amp' opertors are necessary because draft state of the parent concatenate the domain -->
+                <attribute name="attrs">{'invisible': ['|','&amp;',['isAbandonedCart', '=', true], ['cartRecoveryEmailSent', '=', false]]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='actionQuotationSend']" position="after">
+                <button name="actionRecoveryEmailSend" data-hotkey="l"
+                    string="Send a Recovery Email"
+                    type="object"
+                    class="btn-primary"
+                    attrs="{'invisible': ['|', ['isAbandonedCart', '=', false], ['cartRecoveryEmailSent', '=', true]]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="actionOrdersEcommerce" model="ir.actions.actwindow">
+        <field name="label">Orders</field>
+        <field name="resModel">sale.order</field>
+        <field name="viewMode">tree,form,kanban,activity</field>
+        <field name="domain">[]</field>
+        <field name="context">{'showSale': true, 'searchDefault_orderConfirmed': 1, 'searchDefault_fromWebsite': 1}</field>
+        <field name="searchViewId" ref="viewSalesOrderFilterEcommerce"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                There is no confirmed order from the website
+            </p>
+        </field>
+    </record>
+
+    <!-- Dashboard Action -->
+    <record id="actionUnpaidOrdersEcommerce" model="ir.actions.actwindow">
+        <field name="label">Unpaid Orders</field>
+        <field name="resModel">sale.order</field>
+        <field name="viewMode">tree,form,kanban,activity</field>
+        <field name="domain">[['state', '=', 'sent'], ['websiteId', '!=', false]]</field>
+        <field name="context">{'showSale': true, 'create': false}</field>
+        <field name="searchViewId" ref="viewSalesOrderFilterEcommerce"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                There is no unpaid order from the website yet
+            </p><p>
+                Process the order once the payment is received.
+            </p>
+        </field>
+    </record>
+
+    <record id="viewSalesOrderFilterEcommerceAbondand" model="ir.ui.view">
+        <field name="label">sale.order.ecommerce.abondand.view</field>
+        <field name="model">sale.order</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <search string="Search Abandoned Sales Orders">
+                <field name="label"/>
+                <filter string="Creation Date" name="creationDate" date="createdAt"/>
+                <separator/>
+                <filter string="Recovery Email to Send" name="recoveryEmail" domain="[['cartRecoveryEmailSent', '=', false]]" />
+                <filter string="Recovery Email Sent" name="recovery_email_set" domain="[['cartRecoveryEmailSent', '=', true]]" />
+                <group expand="0" string="Group By">
+                    <filter string="Order Date" name="order_date" domain="[]" context="{'groupby':'dateOrder'}"/>
+                </group>
+                <!-- Dashboard filter - used by context -->
+                <filter string="Last Week" invisible="1" name="week" domain="[['dateOrder','&gt;', toFormat(subDate(contextToday(), {days: 7}), 'yyyy-MM-dd')]]"/>
+                <filter string="Last Month" invisible="1" name="month" domain="[['dateOrder','&gt;', toFormat(subDate(contextToday(), {days: 30}), 'yyyy-MM-dd')]]"/>
+                <filter string="Last Year" invisible="1"  name="year" domain="[['dateOrder','&gt;', toFormat(subDate(contextToday(), {days: 365}), 'yyyy-MM-dd')]]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Dashboard Action -->
+    <record id="saleOrderActionToInvoice" model="ir.actions.actwindow">
+        <field name="label">Orders To Invoice</field>
+        <field name="resModel">sale.order</field>
+        <field name="viewMode">tree,form,kanban</field>
+        <field name="domain">[['state', 'in', ['sale', 'done']], ['orderLine', '!=', false], ['invoiceStatus', '=', 'to invoice'], ['websiteId', '!=', false]]</field>
+        <field name="context">{'showSale': true, 'searchDefault_orderConfirmed': 1, 'create': false}</field>
+        <field name="searchViewId" ref="viewSalesOrderFilterEcommerce"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                You don't have any order to invoice from the website
+            </p>
+        </field>
+    </record>
+
+    <!-- Server action to send multiple recovery email-->
+    <record id="irActionsServerSaleCartRecoveryEmail" model="ir.actions.server">
+        <field name="label">Send a Cart Recovery Email</field>
+        <field name="type">ir.actions.server</field>
+        <field name="modelId" ref="model_saleOrder"/>
+        <field name="state">code</field>
+        <field name="code">
+            if (bool(records)) {
+                return records.actionRecoveryEmailSend();
+            }
+        </field>
+        <field name="bindingModelId" ref="sale.model_saleOrder"/>
+        <field name="bindingViewTypes">list,form</field>
+    </record>
+
+    <record id="actionViewUnpaidQuotationTree" model="ir.actions.actwindow">
+        <field name="label">Unpaid Orders</field>
+        <field name="resModel">sale.order</field>
+        <field name="viewMode">tree,kanban,form,activity</field>
+        <field name="domain">[['state', '=', 'sent'], ['websiteId', '!=', false]]</field>
+        <field name="context" eval="{'showSale': true, 'create': false}"/>
+        <field name="viewId" ref="sale.viewQuotationTree"/>
+        <field name="searchViewId" ref="viewSalesOrderFilterEcommerceUnpaid"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                There is no unpaid order from the website yet
+            </p><p>
+                Process the order once the payment is received.
+            </p>
+        </field>
+    </record>
+
+    <record id="actionViewAbandonedTree" model="ir.actions.actwindow">
+        <field name="label">Abandoned Carts</field>
+        <field name="resModel">sale.order</field>
+        <field name="viewMode">tree,kanban,form,activity</field>
+        <field name="domain">[['isAbandonedCart', '=', 1]]</field>
+        <field name="context" eval="{'showSale': true, 'create': false, 'publicPartnerId': refId('base.publicPartner'), 'searchDefault_recoveryEmail': true}"/>
+        <field name="viewId" ref="sale.viewQuotationTree"/>
+        <field name="searchViewId" ref="viewSalesOrderFilterEcommerceAbondand"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                No abandoned carts found
+            </p><p>
+                You'll find here all the carts abandoned by your visitors.
+                If they completed their address, you should send them a recovery email!
+            </p><p>
+                The time to mark a cart as abandoned can be changed in the settings.
+            </p>
+        </field>
+    </record>
+
+    <!-- Main website sale menu items -->
+    <menuitem id="menuOrders" name="Orders"
+        parent="website.menuWebsiteConfiguration" sequence="2"
+        groups="sales_team.groupSaleSalesman"/>
+    <menuitem id="menuCatalog" name="Products"
+        parent="website.menuWebsiteConfiguration" sequence="3"
+        groups="sales_team.groupSaleSalesman"/>
+    <menuitem id="menuReporting" name="Reporting"
+        parent="website.menuWebsiteConfiguration" sequence="99"
+        groups="sales_team.groupSaleManager"/>
+    <menuitem id="website.menuWebsiteGlobalConfiguration" name="Configuration"
+        parent="website.menuWebsiteConfiguration" sequence="100"
+        groups="base.groupSystem,sales_team.groupSaleManager"/>
+
+    <menuitem id="menuEcommerceSettings" name="eCommerce" sequence="50"
+        parent="website.menuWebsiteGlobalConfiguration"/>
+    <menuitem id="menuProductSettings" name="Products" sequence="80"
+        parent="website.menuWebsiteGlobalConfiguration"/>
+
+    <!-- Orders sub-menus -->
+    <menuitem id="menuOrdersOrders" name="Orders"
+        action="actionOrdersEcommerce"
+        parent="menuOrders" sequence="1"/>
+    <menuitem id="menuOrdersUnpaidOrders" name="Unpaid Orders"
+        action="actionViewUnpaidQuotationTree"
+        parent="menuOrders" sequence="2"/>
+    <menuitem id="menuOrdersAbandonedOrders" name="Abandoned Carts"
+        action="actionViewAbandonedTree"
+        parent="menuOrders" sequence="3"/>
+    <menuitem id="menuOrdersCustomers" name="Customers"
+        action="base.actionPartnerCustomerForm"
+        parent="menuOrders" sequence="4"/>
+
+
+    <!-- Catalog sub-menus -->
+    <menuitem id="menuCatalogProducts" name="Products"
+        action="productTemplateActionWebsite"
+        parent="menuCatalog" sequence="1"/>
+    <menuitem id="productCatalogVariants" name="Product Variants"
+        action="product.productNormalAction"
+        parent="menuCatalog" groups="product.groupProductVariant" sequence="2"/>
+    <menuitem id="menuCatalogPricelists" name="Pricelists"
+        action="product.productPricelistAction2"
+        parent="menuCatalog" groups="product.groupProductPricelist" sequence="4"/>
+
+    <!-- Reporting sub-menus -->
+    <menuitem id="menuReportSales" name="Online Sales"
+        action="saleReportActionDashboard"
+        parent="menuReporting" sequence="1"/>
+
+    <!-- Configuration sub-menus -->
+    <menuitem id="menuEcommercePaymentAcquirers"
+        action="payment.actionPaymentAcquirer"
+        parent="menuEcommerceSettings" name="Payment Acquirers"/>
+    <menuitem id="menuEcommercePaymentTokens"
+        action="payment.actionPaymentToken"
+        groups="base.groupNoOne"
+        parent="menuEcommerceSettings"/>
+    <menuitem id="menuEcommercePaymentIcons"
+        action="payment.actionPaymentIcon"
+        groups="base.groupNoOne"
+        parent="menuEcommerceSettings"/>
+    <menuitem id="menuEcommercePaymentTransactions"
+        action="payment.actionPaymentTransaction"
+        groups="base.groupNoOne"
+        parent="menuEcommerceSettings"/>
+    <menuitem id="menuCatalogCategories"
+        action="productPublicCategoryAction"
+        parent="menuProductSettings" sequence="1"/>
+    <menuitem id="menuProductAttributeAction"
+        action="product.attributeAction"
+        parent="menuProductSettings"  groups="product.groupProductVariant" sequence="2"/>
+
+    <record id="saleOrderViewForm" model="ir.ui.view">
+        <field name="label">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inheritId" ref="sale.viewOrderForm"/>
+        <field name="arch" type="xml">
+            <field name="partnerId" position="attributes">
+                <attribute name="context">{
+                    'displayWebsite': true,
+                    'resPartnerSearchMode': 'customer',
+                    'showAddress': 1,
+                    'showVat': true,
+                }</attribute>
+            </field>
+            <field name="teamId" position="after">
+                <field name="websiteId" attrs="{'invisible': [['websiteId', '=', false]]}" groups="website.groupMultiWebsite"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="viewQuotationTree" model="ir.ui.view">
+        <field name="label">sale.order.tree.inherit.website.sale</field>
+        <field name="model">sale.order</field>
+        <field name="inheritId" ref="sale.viewQuotationTree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='userId']" position="before">
+                <field name="websiteId" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="viewOrderTree" model="ir.ui.view">
+        <field name="label">sale.order.tree.inherit.website.sale</field>
+        <field name="model">sale.order</field>
+        <field name="inheritId" ref="sale.viewOrderTree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partnerId']" position="before">
+                <field name="websiteId" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</verp>

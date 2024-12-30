@@ -1,0 +1,35 @@
+<templates id="template" xml:space="preserve">
+
+    <!-- Template for the widget SignatureForm. -->
+    <t t-name="portal.portalSignature">
+        <form method="POST">
+            <input type="hidden" name="csrfToken" t-att-value="widget.csrfToken"/>
+            <div class="o-web-sign-name-and-signature"/>
+            <div class="o-portal-sign-controls my-3">
+                <div class="text-right my-3">
+                    <button type="submit" class="o-portal-sign-submit btn btn-primary" disabled="disabled">
+                        <i class="fa fa-check"/>
+                        <t t-esc="widget.sendLabel"/>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </t>
+    <!-- Template when the sign rpc is successful. -->
+    <t t-name="portal.portalSignatureSuccess">
+        <div class="alert alert-success" role="status">
+            <span t-if="widget.message" t-esc="widget.message"/>
+            <span t-else="">Thank You!</span>
+            <a t-if="widget.redirectUrl" t-att-href="widget.redirectUrl">
+                <t t-if="widget.redirectMessage" t-esc="widget.redirectMessage"/>
+                <t t-else="">Click here to see your document.</t>
+            </a>
+        </div>
+    </t>
+    <!-- Template when the sign rpc returns an error. -->
+    <t t-name="portal.portalSignatureError">
+        <div class="o-portal-sign-error-msg alert alert-danger" role="status">
+            <t t-esc="widget.error"/>
+        </div>
+    </t>
+</templates>

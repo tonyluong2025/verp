@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="stockAccountReportProductProductReplenishment" inheritId="stock.reportReplenishmentHeader">
+        <xpath expr="//div[@name='pendingForecasted']" position="after">
+            <div t-attf-class="mx-3 text-center" t-if="await (await env.user()).hasGroup('stock.groupStockManager')">
+                <div class="h3">
+                    <t t-esc="await docs['value']"/>
+                </div>
+                <div>On Hand Value</div>
+            </div>
+        </xpath>
+    </template>
+</verp>

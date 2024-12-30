@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<data>
+
+    <record id="resourceCalendarStd" model="resource.calendar">
+        <field name="label">Standard 40 hours/week</field>
+        <field name="companyId" ref="base.mainCompany"/>
+    </record>
+
+    <record id="base.mainCompany" model="res.company">
+        <field name="resourceCalendarId" ref="resourceCalendarStd"/>
+    </record>
+
+    <function
+        model="res.company"
+        name="_initDataResourceCalendar"
+        eval="[]"/>
+
+</data>
+
+<data noupdate="1">
+
+    <record id="resourceCalendarStd35h" model="resource.calendar">
+        <field name="label">Standard 35 hours/week</field>
+        <field name="companyId" ref="base.mainCompany"/>
+        <field name="hoursPerDay">7.0</field>
+        <field name="attendanceIds"
+            eval="[[5, 0, 0],
+                [0, 0, {'label': 'Monday Morning', 'dayofweek': '0', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Monday Afternoon', 'dayofweek': '0', 'hourFrom': 13, 'hourTo': 16, 'dayPeriod': 'afternoon'}],
+                [0, 0, {'label': 'Tuesday Morning', 'dayofweek': '1', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Tuesday Afternoon', 'dayofweek': '1', 'hourFrom': 13, 'hourTo': 16, 'dayPeriod': 'afternoon'}],
+                [0, 0, {'label': 'Wednesday Morning', 'dayofweek': '2', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Wednesday Afternoon', 'dayofweek': '2', 'hourFrom': 13, 'hourTo': 16, 'dayPeriod': 'afternoon'}],
+                [0, 0, {'label': 'Thursday Morning', 'dayofweek': '3', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Thursday Afternoon', 'dayofweek': '3', 'hourFrom': 13, 'hourTo': 16, 'dayPeriod': 'afternoon'}],
+                [0, 0, {'label': 'Friday Morning', 'dayofweek': '4', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Friday Afternoon', 'dayofweek': '4', 'hourFrom': 13, 'hourTo': 16, 'dayPeriod': 'afternoon'}]
+            ]"
+        />
+    </record>
+
+    <record id="resourceCalendarStd38h" model="resource.calendar">
+        <field name="label">Standard 38 hours/week</field>
+        <field name="companyId" ref="base.mainCompany"/>
+        <field name="hoursPerDay">7.6</field>
+        <field name="attendanceIds"
+            eval="[[5, 0, 0],
+                [0, 0, {'label': 'Monday Morning', 'dayofweek': '0', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Monday Afternoon', 'dayofweek': '0', 'hourFrom': 13, 'hourTo': 16.6, 'dayPeriod': 'afternoon'}],
+                [0, 0, {'label': 'Tuesday Morning', 'dayofweek': '1', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Tuesday Afternoon', 'dayofweek': '1', 'hourFrom': 13, 'hourTo': 16.6, 'dayPeriod': 'afternoon'}],
+                [0, 0, {'label': 'Wednesday Morning', 'dayofweek': '2', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Wednesday Afternoon', 'dayofweek': '2', 'hourFrom': 13, 'hourTo': 16.6, 'dayPeriod': 'afternoon'}],
+                [0, 0, {'label': 'Thursday Morning', 'dayofweek': '3', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Thursday Afternoon', 'dayofweek': '3', 'hourFrom': 13, 'hourTo': 16.6, 'dayPeriod': 'afternoon'}],
+                [0, 0, {'label': 'Friday Morning', 'dayofweek': '4', 'hourFrom': 8, 'hourTo': 12, 'dayPeriod': 'morning'}],
+                [0, 0, {'label': 'Friday Afternoon', 'dayofweek': '4', 'hourFrom': 13, 'hourTo': 16.6, 'dayPeriod': 'afternoon'}]
+            ]"
+        />
+    </record>
+
+</data>
+
+</verp>

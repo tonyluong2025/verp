@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.sale.management</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="sale.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='confirmationEmailSetting']" position="after">
+                <div class="col-12 col-lg-6 o-setting-box" id="standardizedOffersSetting">
+                    <div class="o-setting-left-pane">
+                        <field name="groupSaleOrderTemplate"/>
+                        <field name="moduleSaleQuotationBuilder" invisible="1"/>
+                    </div>
+                    <div class="o-setting-right-pane">
+                        <label for="groupSaleOrderTemplate"/>
+                        <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/send_quotations/quote_template.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                        <div class="text-muted">
+                            Create standardized offers with default products
+                        </div>
+                        <div class="content-group" attrs="{'invisible': [['groupSaleOrderTemplate', '=', false]]}">
+                            <div class="mt16">
+                                <label for="companySoTemplateId" class="o-light-label"/>
+                                <field name="companySoTemplateId" class="oe-inline"/>
+                            </div>
+                            <div class="mt8">
+                                <button name="%(sale_management.saleOrderTemplateAction)d" icon="fa-arrow-right" type="action" string="Quotation Templates" class="btn-link"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o-setting-box"
+                    id="designQuotationTemplateSetting"
+                    attrs="{'invisible': [['groupSaleOrderTemplate','=',false]]}">
+                    <div class="o-setting-left-pane">
+                        <field name="moduleSaleQuotationBuilder"/>
+                    </div>
+                    <div class="o-setting-right-pane">
+                        <label for="moduleSaleQuotationBuilder" class="o-module"/>
+                        <div class="text-muted">
+                            Design your quotation templates using building blocks<br/>
+                            <em attrs="{'invisible': [['moduleSaleQuotationBuilder','=',false]]}">Warning: this option will install the Website app.</em>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

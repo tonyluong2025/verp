@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <!--
+        Country
+        -->
+        <record id="viewCountryTree" model="ir.ui.view">
+            <field name="label">res.country.tree</field>
+            <field name="model">res.country</field>
+            <field name="arch" type="xml">
+                <tree string="Country" create="0" delete="0">
+                    <field name="label"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewCountryForm" model="ir.ui.view">
+            <field name="label">res.country.form</field>
+            <field name="model">res.country</field>
+            <field name="arch" type="xml">
+                <form create="0" delete="0">
+                    <sheet>
+                        <div class="oe-button-box">
+                        </div>
+                        <field name="imageUrl" widget="imageUrl" class="oe-avatar"/>
+                        <group name="mainGroup">
+                            <group name="countryDetails">
+                                <field name="label"/>
+                                <field name="currencyId"/>
+                                <field name="code"/>
+                            </group>
+                            <group name="phoneVatSettings">
+                                <field name="phoneCode" options="{'format': false}"/>
+                                <field name="vatLabel"/>
+                                <field name="zipRequired"/>
+                                <field name="stateRequired"/>
+                            </group>
+                            <group name="advancedAddressFormatting" string="Advanced Address Formatting" groups="base.groupNoOne" col="4" colspan="4">
+                                <field name="addressViewId"/>
+                                <div colspan="2" class="text-muted">Choose a subview of partners that includes only address fields, to change the way users can input addresses.</div>
+                                <field name="addressFormat" placeholder="Address format..."/>
+                                <div colspan="2" name="divAddressFormat" class="text-muted">Change the way addresses are displayed in reports</div>
+                                <field name="namePosition"/>
+                            </group>
+                        </group>
+                        <label for="stateIds"/>
+                        <field name="stateIds">
+                            <tree editable="bottom">
+                                <field name="label"/>
+                                <field name="code"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionCountry" model="ir.actions.actwindow">
+            <field name="label">Countries</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.country</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    No Country Found!
+                </p><p>
+                    Manage the list of countries that can be set on your contacts.
+                </p>
+            </field>
+        </record>
+
+        <record id="viewCountryGroupTree" model="ir.ui.view">
+            <field name="label">res.country.group.tree</field>
+            <field name="model">res.country.group</field>
+            <field name="arch" type="xml">
+                <tree string="Country Group">
+                    <field name="label"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewCountryGroupForm" model="ir.ui.view">
+            <field name="label">res.country.group.form</field>
+            <field name="model">res.country.group</field>
+            <field name="arch" type="xml">
+                <form string="Country Group">
+                    <sheet>
+                        <div class="oe-title">
+                            <label for="label" string="Group Name"/>
+                            <h1><field name="label" placeholder="e.g. Europe"/></h1>
+                        </div>
+                        <group name="countryGroup">
+                            <field name="countryIds" widget="many2manyTags" options="{'noOpen': true, 'noCreate': true}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionCountryGroup" model="ir.actions.actwindow">
+            <field name="label">Country Group</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.country.group</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a Country Group
+                </p><p>
+                    Use groups to organize countries that are frequently selected together (e.g. "LATAM", "BeNeLux", "ASEAN").
+                </p>
+            </field>
+        </record>
+
+        <!-- State -->
+        <record id="viewCountryStateTree" model="ir.ui.view">
+            <field name="label">res.country.state.tree</field>
+            <field name="model">res.country.state</field>
+            <field name="arch" type="xml">
+                <tree string="State" editable="bottom">
+                    <field name="label"/>
+                    <field name="code"/>
+                    <field name="countryId" options="{'noCreate': true, 'noOpen': true}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewCountryStateForm" model="ir.ui.view">
+            <field name="label">res.country.state.form</field>
+            <field name="model">res.country.state</field>
+            <field name="arch" type="xml">
+                <form string="State">
+                    <sheet>
+                        <group>
+                            <field name="label"/>
+                            <field name="code"/>
+                            <field name="countryId" options='{"noOpen": true, "noCreate": true}'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewCountryStateSearch" model="ir.ui.view">
+            <field name="label">res.country.state.search</field>
+            <field name="model">res.country.state</field>
+            <field name="arch" type="xml">
+                <search string="Country">
+                    <field name="label"/>
+                    <field name="countryId"/>
+                    <group string="Group By">
+                        <filter name="groupbyCountry" string="Country" context="{'groupby': 'countryId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionCountryState" model="ir.actions.actwindow">
+            <field name="label">Fed. States</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.country.state</field>
+            <field name="viewId" ref="viewCountryStateTree"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a State
+                </p><p>
+                    Federal States belong to countries and are part of your contacts' addresses.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</verp>

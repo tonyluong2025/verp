@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+  <template id="assetsBackendLegacyLazy" name="Lazy assets for legacy Views" groups="base.groupUser">
+    <t t-call-assets="web.assetsBackendLegacyLazy" />
+  </template>
+
+</verp>

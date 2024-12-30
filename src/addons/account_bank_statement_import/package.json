@@ -1,0 +1,23 @@
+{
+    "label": "Verp 1 Account Bank Statement Import",
+    "version": "1.0.0",
+    "category": "Accounting",
+    "depends": ["account"],
+    "website": "https://www.verpmates.tech",
+    "author": "Verp Mates, Verp SA",
+    "support": "verpmates@gmail.com",
+    "maintainer": "Verp Mates",
+    "description": "Generic Wizard to Import Bank Statements In Verp15 Community Edition. (This module does include any CSV and XLSX type import format.)",
+    "data": [
+        "security/ir.model.access.csv",
+        "wizard/journal_creation.xml",
+        "views/account_bank_statement_import_view.xml"
+    ],
+    "demo": [
+        "demo/partner_bank.xml"
+    ],
+    "images": ["static/description/banner.png"],
+    "installable": true,
+    "autoInstall": true,
+    "license": "MIT Expat"
+}

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="base.userDemo" model="res.users">
+            <field eval="[[4, refId('stock.groupStockUser')]]" name="groupsId"/>
+        </record>
+         <record id="lotProduct_27" model="stock.production.lot">
+            <field name="label">0000000000029</field>
+            <field name="productId" ref="product.productProduct27"/>
+            <field name="companyId" ref="base.mainCompany"/>
+        </record>
+
+        <record id="packageType_01" model="stock.package.type">
+            <field name="label">Pallet</field>
+            <field name="barcode">PAL</field>
+            <field name="maxWeight">4000</field>
+            <field name="width">800</field>
+            <field name="height">130</field>
+            <field name="packagingLength">1200</field>
+        </record>
+
+        <record id="packageType_02" model="stock.package.type">
+            <field name="label">Box</field>
+            <field name="barcode">BOX</field>
+            <field name="maxWeight">30</field>
+            <field name="width">362</field>
+            <field name="height">374</field>
+            <field name="packagingLength">562</field>
+        </record>
+
+        <!-- Resource: stock.quant, i.e. initial inventory -->
+
+        <record id="stockInventory_1" model="stock.quant">
+            <field name="productId" ref="product.productProduct24"/>
+            <field name="inventoryQuantity">16.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_2" model="stock.quant">
+            <field name="productId" ref="product.productProduct7"/>
+            <field name="inventoryQuantity">18.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_3" model="stock.quant">
+            <field name="productId" ref="product.productProduct6"/>
+            <field name="inventoryQuantity">500.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_4" model="stock.quant">
+            <field name="productId" ref="product.productProduct9"/>
+            <field name="inventoryQuantity">22.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_5" model="stock.quant">
+            <field name="productId" ref="product.productProduct10"/>
+            <field name="inventoryQuantity">33.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_6" model="stock.quant">
+            <field name="productId" ref="product.productProduct11"/>
+            <field name="inventoryQuantity">26.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_6b" model="stock.quant">
+            <field name="productId" ref="product.productProduct11b"/>
+            <field name="inventoryQuantity">30.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_7" model="stock.quant">
+            <field name="productId" ref="product.productProduct4"/>
+            <field name="inventoryQuantity">45.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_7b" model="stock.quant">
+            <field name="productId" ref="product.productProduct4b"/>
+            <field name="inventoryQuantity">50.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_7c" model="stock.quant">
+            <field name="productId" ref="product.productProduct4c"/>
+            <field name="inventoryQuantity">55.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_11" model="stock.quant">
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="inventoryQuantity">10.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_12" model="stock.quant">
+            <field name="productId" ref="product.productProduct13"/>
+            <field name="inventoryQuantity">2.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_13" model="stock.quant">
+            <field name="productId" ref="product.productProduct27"/>
+            <field name="inventoryQuantity">80.0</field>
+            <field name="lotId" ref="lotProduct_27"/>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_14" model="stock.quant">
+            <field name="productId" ref="product.productProduct3"/>
+            <field name="inventoryQuantity">60.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockInventory_15" model="stock.quant">
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="inventoryQuantity">16.0</field>
+            <field name="locationId" model="stock.location" eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+
+        <function model="stock.quant" name="actionApplyInventory">
+            <function eval="[[['id', 'in', [refId('stockInventory_1'),
+                                            refId('stockInventory_2'),
+                                            refId('stockInventory_3'),
+                                            refId('stockInventory_4'),
+                                            refId('stockInventory_5'),
+                                            refId('stockInventory_6'),
+                                            refId('stockInventory_6b'),
+                                            refId('stockInventory_7'),
+                                            refId('stockInventory_7b'),
+                                            refId('stockInventory_7c'),
+                                            refId('stockInventory_11'),
+                                            refId('stockInventory_12'),
+                                            refId('stockInventory_13'),
+                                            refId('stockInventory_14'),
+                                            refId('stockInventory_15'),
+                                            ]]]]" model="stock.quant" name="search"/>
+        </function>
+
+        <!--  Multi Company -->
+
+        <!--        Child Company 1-->
+        <record id="resPartnerCompany_1" model="res.partner">
+            <field name="label">My Company, Chicago</field>
+            <field name="isCompany">1</field>
+            <field name="active" eval="1"/>
+            <field name="street">90 Streets Avenue</field>
+            <field name="countryId" model="res.country" search="[['code','ilike','us']]"/>
+            <field name="stateId" model="res.country.state" search="[['code','ilike','il']]"/>
+            <field name="zip">60610</field>
+            <field name="city">Chicago</field>
+            <field name="email">chicago@yourcompany.com</field>
+            <field name="phone">+1 312 349 3030</field>
+            <field name="website">www.example.com</field>
+            <field name="companyId" eval="false"/>
+        </record>
+
+        <record id="resPartnerAddress_41" model="res.partner">
+            <field name="label">Jeff Lawson</field>
+            <field name="parentId" ref="resPartnerCompany_1"/>
+            <field name="email">jeff.lawson52@example.com</field>
+            <field name="phone">(461)-417-6587</field>
+            <field name="image1920" type="base64" file="stock/static/img/res_partner_address_41.jpg"/>
+            <field name="companyId" eval="false"/>
+        </record>
+
+        <record id="resCompany_1" model="res.company">
+            <field name="currencyId" ref="base.USD"/>
+            <field name="partnerId" ref="resPartnerCompany_1"/>
+            <field name="label">My Company (Chicago)</field>
+            <field name="userIds" eval="[[4, refId('base.userAdmin')], [4, refId('base.userDemo')]]"/>
+        </record>
+
+        <record id="base.groupMultiCompany" model="res.groups">
+            <field name="users" eval="[[4, refId('base.userAdmin')], [4, refId('base.userDemo')]]"/>
+        </record>
+
+        <record id="base.mainCompany" model="res.company">
+            <field name="label">My Company (San Francisco)</field>
+        </record>
+
+        <!-- Create a ir data with the autocreated warehouse -->
+        <function model="ir.model.data" name="_updateXmlids">
+            <value model="base" eval="[{
+                'xmlid': 'stock.stockWarehouseShop0',
+                'record': await obj.env.items('stock.warehouse').search([['companyId', '=', (await obj.env.ref('stock.resCompany_1')).id]]),
+                'noupdate': true,
+            }]"/>
+        </function>
+
+        <record id="stock.stockWarehouseShop0" model="stock.warehouse">
+            <field name="label">Chicago 1</field>
+            <field name="code">CHIC1</field>
+            <field name="partnerId" ref="resPartnerAddress_41"/>
+        </record>
+
+        <!-- Inventory for Chicago Warehouse -->
+
+        <record id="stockInventory16" model="stock.quant">
+            <field name="productId" ref="product.productProduct6"/>
+            <field name="inventoryQuantity">200.0</field>
+            <field name="locationId" model="stock.location"
+                    eval="await obj.env.items('stock.location').search([
+                        ['companyId', '=', (await obj.env.ref('stock.resCompany_1')).id],
+                        ['locationId', '!=', false],
+                        ['childIds', '=', false],
+                    ], {limit: 1})"
+            />
+        </record>
+
+        <function model="stock.quant" name="actionApplyInventory">
+            <function eval="[[['id', 'in', [refId('stockInventory16')]]]]" model="stock.quant" name="search"/>
+        </function>
+
+        <!-- Activate Lots options as demo data depends on it -->
+        <record id="base.groupUser" model="res.groups">
+            <field name="impliedIds" eval="[[4, refId('stock.groupProductionLot')]]"/>
+        </record>
+
+    </data>
+</verp>

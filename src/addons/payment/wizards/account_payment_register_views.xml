@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewAccountPaymentRegisterFormInheritPayment" model="ir.ui.view">
+        <field name="label">account.payment.register.form.inherit.payment</field>
+        <field name="model">account.payment.register</field>
+        <field name="inheritId" ref="account.viewAccountPaymentRegisterForm"/>
+        <field name="arch" type="xml">
+            <field name="paymentMethodLineId" position="after">
+                <field name="paymentMethodCode" invisible="1"/>
+                <field name="suitablePaymentTokenIds" invisible="1"/>
+                <field name="useElectronicPaymentMethod" invisible="1"/>
+                <field name="paymentTokenId"
+                       options="{'noCreate': true}"
+                       attrs="{'invisible': ['|', ['useElectronicPaymentMethod', '!=', true], '|', ['canEditWizard', '=', false], '&amp;', ['canGroupPayments', '=', true], ['groupPayment', '=', false]]}"/>
+            </field>
+        </field>
+    </record>
+
+</verp>

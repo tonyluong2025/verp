@@ -1,0 +1,140 @@
+
+.o-control-panel {
+    border-bottom: 1px solid $border-color;
+    @include o-webclient-padding($top: 5px, $bottom: 5px);
+    background-color: $o-control-panel-background-color;
+
+    > div {
+        display: flex;
+        min-height: 30px;
+        margin: 5px 0px;
+    }
+
+    @include media-breakpoint-up(md) {
+        .o-cp-top-left, .o-cp-top-right,
+        .o-cp-bottom-left, .o-cp-bottom-right {
+            width: 50%;
+        }
+    }
+
+    .breadcrumb {
+        font-size: 18px;
+
+        > li {
+            @include o-text-overflow($max-width: 90%);
+        }
+    }
+
+    .o-cp-top-right {
+        min-height: $o-cp-breadcrumb-height;
+    }
+
+    .o-cp-bottom-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: map-get($spacers, 3) map-get($spacers, 2);
+
+        > .o-cp-action-menus {
+            margin-left: auto;
+            padding-right: 10px;
+
+            .o-hidden-input-file {
+                position: relative;
+                input.o-input-file {
+                    position: absolute;
+                    top: 1px;
+                    opacity: 0;
+                    width: 100%;
+                    height: 26px;
+                }
+                .o-form-binary-form span {
+                    padding: 3px 25px;
+                    color: $o-brand-primary;
+                }
+                .o-form-binary-form:hover {
+                    background-color: $table-hover-bg;
+                }
+            }
+            .o-sidebar-delete-attachment {
+                padding: 0px;
+                position: absolute;
+                top: 5px;
+                right: 10px;
+            }
+            .dropdown-toggle {
+                margin-right: 15px;
+            }
+        }
+    }
+
+    .o-cp-bottom-right {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        column-gap: $o-horizontal-padding;
+
+        > .o-cp-pager {
+            margin: auto 0 auto auto;
+            padding-left: 5px;
+            text-align: center;
+            user-select: none;
+
+            .o-pager {
+                display: flex;
+                align-items: center;
+
+                .o-pager-counter {
+                    min-width: $o-statbutton-height;
+                }
+            }
+        }
+
+        > .o-cp-switch-buttons {
+            .dropdown-menu {
+                right: 0;
+            }
+        }
+    }
+}
+
+.o-x2m-control-panel {
+    display: flex;
+    flex-flow: row wrap;
+
+    .o-cp-buttons {
+        display: flex;
+        margin-right: auto;
+        > div {
+            margin-top: 5px;
+        }
+        .o-kanban-button-new {
+            margin-left: $o-kanban-record-margin;
+        }
+    }
+    .o-cp-pager {
+        display: flex;
+        margin-left: auto;
+    }
+}
+
+.o-pager-value {
+    display: inline-block;
+}
+
+span.o-pager-value {
+    border-bottom: 1px solid transparent;
+}
+
+input.o-pager-value {
+    text-align: right;
+    width: 60px;
+    &:focus {
+        outline: none;
+    }
+}
+
+@media print {
+    .o-control-panel {
+        display: none;
+    }
+}

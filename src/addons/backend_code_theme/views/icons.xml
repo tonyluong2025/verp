@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<verp>
+    <data>
+        <menuitem id="base.menuAdministration" name="Settings"
+                  webIcon="backend_code_theme,static/src/img/icons/settings.png"/>
+        <menuitem id="base.menuManagement" name="Apps" webIcon="backend_code_theme,static/src/img/icons/apps.png"/>
+        <menuitem id="mail.menuRootDiscuss" name="Discuss"
+                  webIcon="backend_code_theme,static/src/img/icons/discuss.png"/>
+    </data>
+</verp>

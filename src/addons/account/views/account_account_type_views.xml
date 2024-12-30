@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewAccountTypeSearch" model="ir.ui.view">
+            <field name="label">account.account.type.search</field>
+            <field name="model">account.account.type</field>
+            <field name="arch" type="xml">
+                <search string="Account Type">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['type','ilike',self]]" string="Account Type"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="viewAccountTypeTree" model="ir.ui.view">
+            <field name="label">account.account.type.tree</field>
+            <field name="model">account.account.type</field>
+            <field name="arch" type="xml">
+                <tree string="Account Type">
+                    <field name="label"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountTypeForm" model="ir.ui.view">
+            <field name="label">account.account.type.form</field>
+            <field name="model">account.account.type</field>
+            <field name="arch" type="xml">
+                <form string="Account Type">
+                    <group>
+                        <group>
+                            <field name="label"/>
+                            <field name="type"/>
+                        </group>
+                        <group>
+                            <field name="includeInitialBalance"/>
+                        </group>
+                    </group>
+                    <separator string="Description"/>
+                    <field name="note"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionAccountTypeForm" model="ir.actions.actwindow">
+            <field name="label">Account Types</field>
+            <field name="resModel">account.account.type</field>
+            <field name="viewMode">tree,form</field>
+            <field name="searchViewId" ref="viewAccountTypeSearch"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Define a new account type
+              </p><p>
+                An account type is used to determine how an account is used in
+                each journal. The deferral method of an account type determines
+                the process for the annual closing. Reports such as the Balance
+                Sheet and the Profit and Loss report use the category
+                (profit/loss or balance sheet).
+              </p>
+            </field>
+        </record>
+
+    </data>
+</verp>

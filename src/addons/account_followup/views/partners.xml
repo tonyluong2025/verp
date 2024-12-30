@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="customerFollowupTree" model="ir.ui.view">
+            <field name="label">res.partner.followup.inherit.tree</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <tree string="Customer Followup" create="false" delete="false">
+                    <field name="displayName"/>
+                    <field name="paymentNextActionDate"/>
+                    <field name="paymentNextAction"/>
+                    <field name="userId" invisible="1"/>
+                    <field name="countryId" invisible="1"/>
+                    <field name="parentId" invisible="1"/>
+                    <field name="paymentResponsibleId"/>
+                    <field name="paymentEarliestDueDate"/>
+                    <field name="latestFollowupLevelId"/>
+                    <field name="paymentAmountOverdue"/>
+                    <field name="paymentAmountDue"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewPartnerInheritCustomerFollowupTree" model="ir.ui.view">
+            <field name="label">res.partner.followup.inherit.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewPartnerTree"/>
+            <field name="arch" type="xml">
+                <field name="displayName" position="after">
+                    <field name="paymentResponsibleId" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="customerFollowupSearchView" model="ir.ui.view">
+            <field name="label">Search</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewResPartnerFilter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]" position="after">
+                    <group string="Follow-up">
+                        <filter string="Partners with Overdue Credits" domain="[['paymentAmountOverdue', '>', 0.0]]"
+                                name="credits"/>
+                        <separator/>
+                        <filter string="Follow-ups To Do"
+                                domain="[['paymentNextActionDate', '&lt;=', contextToday().toFormat('yyyy-MM-dd')], ['paymentAmountOverdue', '>', 0.0]]"
+                                name="todo"/>
+                        <separator/>
+                        <filter string="No Responsible" name="noResponsibe" domain="[['paymentResponsibleId', '=', false]]"/>
+                        <filter string="My Follow-ups" domain="[['paymentResponsibleId','=', uid]]" name="my"/>
+                    </group>
+                </xpath>
+                <xpath expr="//group[1]" position="inside">
+                    <filter string="Follow-up Responsible" name="responsibe"
+                            context="{'groupby':'paymentResponsibleId'}"/>
+                    <filter string="Followup Level" name="followupLevel"
+                            context="{'groupby':'latestFollowupLevelId'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="actionCustomerFollowup" model="ir.actions.actwindow">
+            <field name="label">Manual Follow-Ups</field>
+            <field name="viewId" ref="customerFollowupTree"/>
+            <field name="resModel">res.partner</field>
+            <field name="viewMode">tree,form</field>
+            <field name="domain">[['paymentAmountDue', '>', 0.0]]</field>
+            <field name="context">{'followupFirst':true, 'searchDefault_todo': true}</field>
+            <field name="searchViewId" ref="customerFollowupSearchView"/>
+        </record>
+
+        <record id="viewPartnerInheritFollowupForm" model="ir.ui.view">
+            <field name="label">res.partner.followup.form.inherit</field>
+            <field name="inheritId" ref="base.viewPartnerForm"/>
+            <field name="model">res.partner</field>
+            <field name="groupsId" eval="[[4,refId('account.groupAccountInvoice')]]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='salesPurchases']" position="after">
+                    <page string="Payment Follow-up"
+                          groups="account.groupAccountInvoice"
+                          name="followupTab">
+
+                        <div class="oe-right"
+                             name="followupButton">
+                            <button name="doButtonPrint" type="object"
+                                    string="Print Overdue Payments"
+                                    groups="account.groupAccountUser"
+                                    help="Print overdue payments report independent of follow-up line"
+                                    attrs="{'invisible':[['paymentAmountDue', '&lt;=', 0.0]]}"/>
+                            <button name="doPartnerMail" type="object"
+                                    string="Send Overdue Email"
+                                    groups="account.groupAccountUser"
+                                    help="If not specified by the latest follow-up level, it will send from the default email template"
+                                    attrs="{'invisible':[['paymentAmountDue', '&lt;=', 0.0]]}"/>
+                        </div>
+
+                        <p attrs="{'invisible':[['latestFollowupDate','=', false]]}">
+                            The
+                            <field name="latestFollowupDate"
+                                   class="oe-inline"/>
+                            , the latest payment follow-up was:
+                            <field name="latestFollowupLevelId"
+                                   class="oe-inline"/>
+                        </p>
+                        <group>
+                            <field name="paymentResponsibleId"
+                                   placeholder="Responsible of credit collection"
+                                   class="oe-inline"/>
+                            <label for="paymentNextAction"/>
+                            <div>
+                                <field name="paymentNextActionDate"
+                                       class="oe-inline"/>
+                                <button name="actionDone" type="object"
+                                        string="⇾ Mark as Done"
+                                        help="Click to mark the action as done."
+                                        class="oe-link"
+                                        attrs="{'invisible':[['paymentNextActionDate','=', false]]}"
+                                        groups="account.groupAccountUser"/>
+                                <field name="paymentNextAction"
+                                       placeholder="Action to be taken e.g. Give a phonecall, Check if it's paid, ..."/>
+                            </div>
+                        </group>
+                        <label for="paymentNote" class="oe-edit-only"/>
+                        <field name="paymentNote"
+                               placeholder="He said the problem was temporary and promised to pay 50%% before 15th of May, balance before 1st of July."/>
+                        <p class="oe-grey">
+                            Below is the history of the transactions of this
+                            customer. You can check "No Follow-up" in
+                            order to exclude it from the next follow-up
+                            actions.
+                        </p>
+                        <field name="unreconciledAmlIds">
+                            <tree string="Account Move line" editable="bottom"
+                                  create="false" delete="false"
+                                  colors="red:(! dateMaturity || dateMaturity&lt;=currentDate) &amp;&amp; result&gt;0">
+                                <field name="date" readonly="true"/>
+                                <field name="companyId" readonly="true"
+                                       groups="base.groupMultiCompany"/>
+                                <field name="moveId" readonly="true"/>
+                                <field name="blocked"/>
+                                <field name="dateMaturity" readonly="true"/>
+                                <field name="result" readonly="true"/>
+                                <field name="followupLineId" invisible='1'/>
+                            </tree>
+                        </field>
+                        <group class="oe-subtotal-footer oe-right">
+                            <field name="paymentAmountDue"/>
+                        </group>
+                        <div class="oe-clear"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="actionViewCustomerFollowupForm" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="2"/>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="viewPartnerInheritFollowupForm"/>
+            <field name="actwindowId" ref="actionCustomerFollowup"/>
+        </record>
+
+        <record id="actionViewCustomerFollowupTree" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="1"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="customerFollowupTree"/>
+            <field name="actwindowId" ref="actionCustomerFollowup"/>
+        </record>
+
+        <menuitem id="accountFollowupS"
+                  action="actionCustomerFollowup"
+                  parent="menuFinanceFollowup"
+                  name="Do Manual Follow-Ups"
+                  sequence="3"/>
+
+        <record id="actionCustomerMyFollowup" model="ir.actions.actwindow">
+            <field name="label">My Follow-Ups</field>
+            <field name="viewId" ref="customerFollowupTree"/>
+            <field name="resModel">res.partner</field>
+            <field name="viewMode">tree,form</field>
+            <field name="domain">[['paymentAmountDue', '>', 0.0]]</field>
+            <field name="context">{'followupFirst':true, 'searchDefault_todo': true, 'searchDefault_my': true}</field>
+            <field name="searchViewId" ref="customerFollowupSearchView"/>
+        </record>
+
+        <menuitem id="menuSaleFollowup"
+                  parent="menuFinanceFollowup"
+                  sequence="10"
+                  action="actionCustomerMyFollowup"
+                  groups="account.groupAccountInvoice"/>
+
+    </data>
+</verp>

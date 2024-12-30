@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="reportPricelistPage">
+        <div class="container bg-white p-4 my-4">
+            <div class="row my-3">
+                <div class="col-12" t-if="isVisibleTitle">
+                    <h2 t-if="isHtmlType">
+                        Pricelist:
+                        <a href="#" class="o-action" data-model="product.pricelist" t-att-data-res-id="pricelist.id">
+                            <t t-esc="pricelist.displayName"/>
+                        </a>
+                    </h2>
+                    <h2 t-else="">
+                        Pricelist: <t t-esc="pricelist.displayName"/>
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div t-att-class="'text-center' + (isHtmlType ? ' offset-8' : ' offset-7')">
+                    <strong>Sales Order Line Quantities (price per unit)</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Products</th>
+                                <th groups="uom.groupUom">UoM</th>
+                                <t t-foreach="quantities" t-as="qty">
+                                    <th class="text-right"><t t-esc="qty"/></th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="products" t-as="product">
+                                <tr>
+                                    <td t-att-class="isProductTemplate &amp;&amp; 'font-weight-bold' || null">
+                                        <a t-if="isHtmlType" href="#" class="o-action" t-att-data-model="isProductTemplate &amp;&amp; 'product.template' || 'product.product'" t-att-data-res-id="product['id']">
+                                            <t t-esc="product['label']"/>
+                                        </a>
+                                        <t t-else="">
+                                            <t t-esc="product['label']"/>
+                                        </t>
+                                    </td>
+                                    <td groups="uom.groupUom">
+                                        <t t-esc="product['uom']"/>
+                                    </td>
+                                    <t t-foreach="quantities" t-as="qty">
+                                        <td class="text-right">
+                                            <t t-esc="product['price'][qty]" t-options='{"widget": "monetary", "displayCurrency": pricelist.currencyId}'/>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <t t-if="isProductTemplate &amp;&amp; 'variants' in product">
+                                    <tr t-foreach="product['variants']" t-as="variant">
+                                        <td>
+                                            <a t-if="isHtmlType" href="#" class="o-action ml-4" data-model="product.product" t-att-data-res-id="variant['id']">
+                                                <t t-esc="variant['label']"/>
+                                            </a>
+                                            <span t-else="" class="ml-4" t-esc="variant['label']"/>
+                                        </td>
+                                        <td groups="uom.groupUom">
+                                            <t t-esc="product['uom']"/>
+                                        </td>
+                                        <t t-foreach="quantities" t-as="qty">
+                                            <td class="text-right">
+                                                <t t-esc="variant['price'][qty]" t-options='{"widget": "monetary", "displayCurrency": pricelist.currencyId}'/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="reportPricelist">
+        <t t-call="web.basicLayout">
+            <div class="page">
+                <t t-call="product.reportPricelistPage"/>
+            </div>
+            <p style="page-break-before:always;"> </p>
+        </t>
+    </template>
+
+</verp>

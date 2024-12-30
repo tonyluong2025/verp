@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<verp>
+
+    <record id="actionAccountReconciliation" model="ir.actions.server">
+		<field name="label">Reconcile</field>
+		<field name="modelId" ref="account.model_accountMoveLine"/>
+		<field name="bindingModelId" ref="account.model_accountMoveLine"/>
+		<field name="state">code</field>
+		<field name="code">records.reconcile()</field>
+		<field name="groupsId" eval="[[4,refId('account.groupAccountUser')]]" />
+	</record>
+
+</verp>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!--
+        Inherited templates from portal to custom chatter with rating
+    -->
+    <t t-extend="portal.Composer">
+        <t t-jquery="textarea" t-operation="inner"><t t-esc="widget.options['defaultMessage'] ? _.str.trim(widget.options['defaultMessage']) : ''"/></t><!-- need to be one line to avoid \t in textarea -->
+        <t t-jquery="button.o-portal-chatter-composer-btn" t-operation="attributes">
+            <attribute name="t-attf-data-action">#{widget.options['forceSubmitUrl'] || '/mail/chatterPost'}</attribute>
+        </t>
+        <t t-jquery=".o-portal-chatter-composer-input div.o-portal-chatter-composer-body" t-operation="before">
+            <t t-call="portal_rating.ratingStarInput">
+                <t t-set="defaultRating" t-value="widget.options['defaultRatingValue']"/>
+            </t>
+        </t>
+    </t>
+
+    <t t-extend="portal.chatterMessages">
+        <t t-jquery="t[t-out='message.body']" t-operation="before">
+            <t t-if="message['ratingValue']">
+                <t t-call="portal_rating.ratingStarsStatic">
+                    <t t-set="val" t-value="message.ratingValue"/>
+                </t>
+            </t>
+        </t>
+        <t t-jquery=".o-portal-chatter-attachments" t-operation="after">
+            <!--Only possible if a rating is link to the message, for now we can't comment if no rating
+                is link to the message (because publisher comment data
+                is on the rating.rating model - one comment max) -->
+            <t t-if="message.rating &amp;&amp; message.rating.id" t-call="portal_rating.chatterRatingPublisher">
+                <t t-set="isPublisher" t-value="widget.options['isUserPublisher']"/>
+                <t t-set="rating" t-value="message.rating"/>
+            </t>
+        </t>
+    </t>
+
+    <t t-extend="portal.Chatter">
+        <t t-jquery="t[t-call='portal.chatterMessageCount']" t-operation="replace">
+            <t t-if="widget.options['displayRating']">
+                <t t-call="portal_rating.ratingCard"/>
+            </t>
+            <t t-if="!widget.options['displayRating']">
+                <t t-call="portal.chatterMessageCount"/>
+            </t>
+        </t>
+    </t>
+
+    <!--
+        New templates specific of rating in Chatter
+    -->
+    <t t-name="portal_rating.chatterRatingPublisher">
+        <div class="o-wrating-publisher-container">
+            <button t-if="isPublisher"
+                t-attf-class="btn px-2 mb-2 btn-sm border o-wrating-js-publisher-comment-btn {{ rating.publisherComment !== '' ? 'd-none' : '' }}"
+                t-att-data-mesIndex="rating.mesIndex">
+                <i class="fa fa-comment text-muted mr-1"/>Comment
+            </button>
+            <div class="o-wrating-publisher-comment mt-2 mb-2">
+                <t t-if="rating.publisherComment" t-call="portal_rating.chatterRatingPublisherComment"/>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="portal_rating.chatterRatingPublisherComment">
+        <div class="media o-portal-chatter-message">
+            <img class="o-portal-chatter-avatar" t-att-src="rating.publisherAvatar" alt="avatar"/>
+            <div class="media-body">
+                <div class="o-portal-chatter-message-title">
+                    <div class="d-inline-block">
+                        <h5 class="mb-1"><t t-esc="rating.publisherName"/></h5>
+                    </div>
+                    <div t-if="isPublisher" class="dropdown d-inline-block">
+                        <button class="btn py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v"/>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button class="dropdown-item o-wrating-js-publisher-comment-edit" t-att-data-mes_index="rating.mesIndex">
+                                <i class="fa fa-fw fa-pencil mr-1"/>Edit
+                            </button>
+                            <button class="dropdown-item o-wrating-js-publisher-comment-delete" t-att-data-mes_index="rating.mesIndex">
+                                <i class="fa fa-fw fa-trash-o mr-1"/>Delete
+                            </button>
+                        </div>
+                    </div>
+                    <p>Published on <t t-esc="rating.publisherDatetime"/></p>
+                </div>
+                <t t-out="rating.publisherComment"/>
+            </div>
+        </div>
+    </t>
+    <t t-name="portal_rating.chatterRatingPublisherForm">
+        <div t-if="isPublisher" class="media o-portal-chatter-message shadow bg-white rounded px-3 py-3 my-1">
+            <img class="o-portal-chatter-avatar" t-att-src="rating.publisherAvatar" alt="avatar"/>
+            <div class="media-body">
+                <div class="o-portal-chatter-message-title">
+                    <h5 class='mb-1'><t t-esc="rating.publisherName"/></h5>
+                    <p>Published on <t t-esc="rating.publisherDatetime"/></p>
+                </div>
+                <textarea rows="3" class="form-control o-portal-rating-comment-input"><t t-esc="rating.publisherComment"/></textarea>
+                <div>
+                    <button class="btn btn-primary mt-2 o-wrating-js-publisher-comment-submit" t-att-data-mesIndex="rating.mesIndex">
+                        <t t-if="rating.publisherComment === ''">
+                            Post comment
+                        </t><t t-else="">
+                            Update comment
+                        </t>
+                    </button>
+                    <button class="border btn btn-light mt-2 bg-white o-wrating-js-publisher-comment-cancel" t-att-data-mesIndex="rating.mesIndex">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

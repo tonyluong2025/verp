@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <!-- Reception Report Labels -->
+    <template id="reportReceptionReportLabel">
+        <t t-if="quantity" t-set="qtys" t-value="quantity.split(',').map(q => parseInt(q))"/>
+        <t t-else="" t-set="qtys" t-value="Array.from(range(len(docs))).map(q => 1)"/>
+        <t t-call="web.basicLayout">
+            <div class="page">
+                <t t-foreach="range(len(docs))" t-as="index">
+                    <t t-set="picking" t-value="docs[index]"/>
+                    <t t-set="qty" t-value="qtys[index]"/>
+                    <t t-foreach="range(qty)" t-as="j">
+                        <div class="o-label_page o-label_dymo">
+                            <span t-if="picking._name === 'stock.picking' &amp;&amp; bool(await picking.origin)" t-esc="await picking.origin"/>
+                            <span t-else="" t-esc="await picking.label"/>
+                            <div class="address"
+                                t-if="picking._name === 'stock.picking' &amp;&amp; bool(await picking.partnerId)"
+                                t-field="picking.partnerId"
+                                t-options='{"widget": "contact", "fields": ["address", "label", "phone"], "noMarker": true}'/>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- Reception Report -->
+    <record id="stockReceptionReportAction" model="ir.actions.report">
+        <field name="label">Reception Report</field>
+        <field name="model">stock.picking</field>
+        <field name="reportType">qweb-html</field>
+        <field name="reportName">stock.reportReception</field>
+    </record>
+
+    <record id="stockReceptionAction" model="ir.actions.client">
+        <field name="label">Reception Report</field>
+        <field name="tag">receptionReport</field>
+    </record>
+
+    <template id="reportReceptionBody">
+        <div class="o-report-reception justify-content-between">
+            <div class="o-report-reception-header my-4">
+                <h3>
+                    <t t-if="pickings">
+                        <t t-foreach="pickings" t-as="receipt">
+                            <div>
+                                <a href="#" res-model="stock.picking" view-type="form" t-att-res-id="receipt.id">
+                                    <t t-esc="await receipt.displayName"/>
+                                </a>
+                                <span t-field="receipt.state" t-attf-class="badge badge-pill #{await receipt.state === 'done' ? 'bg-success-light' : 'bg-info-light'}"/>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <span t-esc="reason"/>
+                    </t>
+                </h3>
+            </div>
+            <div><table t-if="sourcesToLines" class="o-report-reception-table table table-sm">
+                <t t-foreach="sourcesToLines" t-as="source">
+                    <thead t-if="reportType === 'html' || (await sourcesToLines[source].some(line => line['isAssigned']))">
+                        <tr class="bg-light">
+                            <th>
+                                <i t-if="await source.priority == '1'" class="o-priority o-priority-star fa fa-star"/>
+                                <a name="sourceLink" href="#" t-att-res-model="source._name" view-type="form" t-att-res-id="source.id" t-esc="await source.displayName"/>
+                                <span t-if="source._name === 'stock.picking' &amp;&amp; bool(await source.origin)">
+                                    (<t t-esc="await source.origin"/>)
+                                </span>
+                                <span t-if="source._name === 'stock.picking' &amp;&amp; bool(await source.partnerId)">:
+                                    <a name="sourceLink" href="#"
+                                        t-att-res-model="source.partnerId._name"
+                                        t-att-res-id="(await source.partnerId).id"
+                                        view-type="form"
+                                        t-esc="await (await source.partnerId).label"/>
+                                </span>
+                            </th>
+                            <th>Expected Delivery: <t t-esc="sourcesToFormattedScheduledDate[source]"/></th>
+                            <th t-if="reportType === 'html' &amp;&amp; sourcesToLines[source].some(s => s['moveIns'])">
+                                <button t-if="sourcesToLines[source].some(s => !s['isAssigned'] &amp;&amp; s['isQtyAssignable'])"
+                                        class="btn btn-sm btn-primary o-report-reception-assign o-assign-all"
+                                        name="assignSourceLink">
+                                        Assign All
+                                </button>
+                            </th>
+                            <th t-if="reportType === 'html'">
+                                <button t-if="sourcesToLines[source].some(s => s['moveIns'])"
+                                        class="btn btn-sm btn-primary o-print-label o-print-label-all"
+                                        t-att-disabled="!sourcesToLines[source].some(s => s['isAssigned'])"
+                                        name="printLabels">
+                                        Print Labels
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="possibleMoves" t-value="sourcesToLines[source]"/>
+                        <t t-foreach="possibleMoves" t-as="line">
+                            <!-- don't print non-assigned lines when printing pdf -->
+                            <tr t-if="reportType === 'html' || line['isAssigned']">
+                                <td>
+                                    <t t-esc="line['product']['displayName']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['quantity']"/>
+                                    <t groups="uom.groupUom" t-esc="line['uom']"/>
+                                    <button t-if="reportType === 'html'"
+                                        class="o-report-reception-forecasted btn btn-link fa fa-area-chart"
+                                        t-att-move-id="line['moveOut'].id"
+                                        name="forecastedReportLink">
+                                    </button>
+                                </td>
+                                <td t-if="reportType === 'html' &amp;&amp; line['isQtyAssignable']">
+                                    <button t-if="!line['isAssigned']"
+                                        class="btn btn-sm btn-primary o-report-reception-assign"
+                                        t-attf-model="stock.move"
+                                        t-att-move-id="line['moveOut'].id"
+                                        t-att-move-ins-ids="line['moveIns']"
+                                        t-att-qty="line['quantity']"
+                                        name="assignLink">
+                                        Assign
+                                    </button>
+                                    <button t-if="line['isAssigned']"
+                                        class="btn btn-sm btn-primary o-report-reception-unassign"
+                                        t-attf-model="stock.move"
+                                        t-att-move-id="line['moveOut'].id"
+                                        t-att-move-ins-ids="line['moveIns']"
+                                        t-att-qty="line['quantity']"
+                                        name="unassignLink">
+                                        Unassign
+                                    </button>
+                                </td>
+                                <td t-if="reportType === 'html'">
+                                    <button t-if="line['isQtyAssignable'] &amp;&amp; line['source']"
+                                        t-att-source-id="line['source'].id"
+                                        t-att-source-model="line['source']._name"
+                                        t-att-qty="line['quantity']"
+                                        t-attf-class="btn btn-sm btn-primary o-print-label"
+                                        t-att-disabled="! line['isAssigned']"
+                                        name="printLabel">
+                                        Print Label
+                                    </button>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </t>
+            </table>
+            <p t-else="">
+                No allocation need found for incoming products.
+            </p></div>
+        </div>
+    </template>
+
+    <template id="reportReception">
+        <t t-call="web.htmlContainer">
+            <t t-if="reportType === 'pdf'" t-call="web.internalLayout">
+                <t t-call="stock.reportReceptionBody"/>
+            </t>
+            <t t-else="">
+                <t t-call="stock.reportReceptionBody"/>
+            </t>
+        </t>
+    </template>
+</verp>

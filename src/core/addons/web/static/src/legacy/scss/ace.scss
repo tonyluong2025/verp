@@ -1,0 +1,15 @@
+.ace-editor > .ace-gutter {
+    display: block !important; // display even with aria-hidden
+}
+.ace-editor .ace-qweb {
+    color: orange !important;
+}
+.ace-editor .ace-code {
+    color: fuchsia !important;
+}
+.ace-editor.ace-monokai .ace-qweb {
+    color: lightblue !important;
+}
+.ace-editor.ace-monokai .ace-code {
+    color: #c94bc9 !important;
+}

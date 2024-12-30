@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewProductionLotForm" model="ir.ui.view">
+        <field name="label">stock.production.lot.form</field>
+        <field name="model">stock.production.lot</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <form string="Lots/Serial Numbers">
+                <sheet>
+                <field name="displayComplete" invisible="1"/>
+                <div class="oe-button-box" name="buttonBox"
+                     attrs="{'invisible': [['displayComplete', '=', false]]}">
+                        <button class="oe-stat-button" name="actionLotOpenTransfers"
+                                type="object" icon="fa-truck" help="Transfers"
+                                attrs="{'invisible': [['deliveryCount', '=', 0]]}">
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value">
+                                    <field name="deliveryCount" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o-stat-text">Transfers</span>
+                            </div>
+                        </button>                           
+                        <button name="actionLotOpenQuants" icon="fa-arrows" class="oe-stat-button" string="Location" type="object"/>
+                        <button name="%(actionStockReport)d" icon="fa-arrow-up" class="oe-stat-button" string="Traceability" type="action"/>
+                </div>
+                <div class="oe-title">
+                    <label for="label"/>
+                    <h1>
+                        <field name="label" placeholder="e.g. LOT/0001/20121"/>
+                    </h1>
+                </div>
+                <group name="mainGroup">
+                    <group>
+                        <field name="productId" context="{'default_type': 'product', 'default_tracking': 'lot'}" readonly="context['setProductReadonly'] ?? false" forceSave="1" help="Product this lot/serial number contains. You cannot change it anymore if it has already been moved."/>
+                        <label for="productQty" attrs="{'invisible': [['displayComplete', '=', false]]}"/>
+                        <div class="o-row" attrs="{'invisible': [['displayComplete', '=', false]]}">
+                            <field name="productQty"/>
+                            <field name="productUomId" groups="uom.groupUom"/>
+                        </div>
+                        <field name="ref"/>
+                        <field name="companyId" groups="base.groupMultiCompany"/>
+                    </group>
+                    <group></group>
+                </group>
+                <notebook attrs="{'invisible': [['displayComplete', '=', false]]}">
+                    <page string="Description" name="description">
+                        <field name="note"/>
+                    </page>
+                </notebook>
+                </sheet>
+                <div class="oe-chatter">
+                    <field name="messageFollowerIds"/>
+                    <field name="activityIds"/>
+                    <field name="messageIds"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="viewProductionLotTree" model="ir.ui.view">
+        <field name="label">stock.production.lot.tree</field>
+        <field name="model">stock.production.lot</field>
+        <field name="arch" type="xml">
+            <tree string="Lots/Serial Numbers" multiEdit="1">
+                <field name="label" decoration-bf="1"/>
+                <field name="ref" optional="show"/>
+                <field name="productId" readonly="1"/>
+                <field name="createdAt" optional="show"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+                <field name="lastDeliveryPartnerId" optional="hide" string="Transfer to"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="searchProductLotFilter">
+        <field name="label">Production Lots Filter</field>
+        <field name="model">stock.production.lot</field>
+        <field name="arch" type="xml">
+            <search string="Product Lots Filter">
+                <field name="label" string="Lot/Serial Number" filterDomain="['|', ['label', 'ilike', self],['ref', 'ilike', self]]"/>
+                <field name="productId"/>
+                <group expand="0" string="Group By">
+                    <filter name="groupbyProduct" string="Product" domain="[]" context="{'groupby': 'productId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionProductionLotForm" model="ir.actions.actwindow">
+        <field name="label">Lots/Serial Numbers</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">stock.production.lot</field>
+        <field name="viewIds"
+                   eval="[[5, 0, 0],
+                          [0, 0, {'viewMode': 'tree', 'viewId': refId('viewProductionLotTree')}],
+                          [0, 0, {'viewMode': 'form', 'viewId': refId('viewProductionLotForm')}]]"/>
+        <field name="searchViewId" ref="searchProductLotFilter"/>
+        <field name="context">{'searchDefault_groupByProduct': 1, 'displayComplete': true, 'default_companyId': allowedCompanyIds[0]}</field>
+        <field name="help" type="html">
+          <p class="o-view-nocontent-smiling-face">
+            Add a lot/serial number
+          </p><p>
+            Lots/Serial numbers help you tracking the path followed by your products.
+            From their traceability report you will see the full history of their use, as well as their composition.
+          </p>
+        </field>
+    </record>
+    <menuitem action="actionProductionLotForm" id="menuActionProductionLotForm"
+        parent="menuStockInventoryControl" groups="stock.groupProductionLot"
+        sequence="101"/>
+</verp>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!-- ONBOARDING STEPS -->
+    <template id="onboardingQuotationLayoutStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Quotation Layout</t>
+            <t t-set="description">Customize the look of your quotations.</t>
+            <t t-set="done_icon" t-value="'fa-star'" />
+            <t t-set="doneText">Looks great!</t>
+            <t t-set="btnText">Customize</t>
+            <t t-set="model" t-value="'base.document.layout'" />
+            <t t-set="method" t-value="'actionOpenBaseDocumentLayout'" />
+            <t t-set="state" t-value="state['accountOnboardingInvoiceLayoutState']" />
+        </t>
+    </template>
+    <template id="saleOnboardingOrderConfirmationStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Order Confirmation</t>
+            <t t-set="description">Choose between electronic signatures or online payments.</t>
+            <t t-set="btnText">Set payments</t>
+            <t t-set="method" t-value="'actionOpenSaleOnboardingPaymentAcquirer'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="state['saleOnboardingOrderConfirmationState']" />
+        </t>
+    </template>
+        <template id="saleOnboardingSampleQuotationStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Sample Quotation</t>
+            <t t-set="description">Send a quotation to test the customer portal.</t>
+            <t t-set="btn_text">Send sample</t>
+            <t t-set="method" t-value="'actionOpenSaleOnboardingSampleQuotation'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="state['saleOnboardingSampleQuotationState']" />
+        </t>
+    </template>
+
+    <!-- ONBOARDING PANEL-->
+    <template id="saleQuotationOnboardingPanel" name="sale.quotation.onboarding.panel">
+        <t t-call="base.onboardingContainer">
+            <t t-set="classes" t-value="'o-onboarding-violet'" />
+            <t t-set="bgImage" t-value="'/sale/static/src/img/sale_quotation_onboarding_bg.jpg'"/>
+            <t t-set="closeMethod" t-value="'actionCloseSaleQuotationOnboarding'" />
+            <t t-set="closeModel" t-value="'res.company'" />
+            <t t-call="base.onboardingCompanyStep" name="companyStep" />
+            <t t-call="sale.onboardingQuotationLayoutStep" name="quotationLayoutStep" />
+            <t t-call="sale.saleOnboardingOrderConfirmationStep" name="paymentAcquirerStep" />
+            <t t-call="sale.saleOnboardingSampleQuotationStep" name="sampleQuotationStep" />
+        </t>
+    </template>
+    <!-- ORDER CONFIRMATION -->
+    <record id="saleOnboardingOrderConfirmationForm" model="ir.ui.view">
+        <field name="label">sale.order.confirmation.onboarding.form</field>
+        <field name="model">sale.payment.acquirer.onboarding.wizard</field>
+        <field name="inheritId" ref="payment.paymentAcquirerOnboardingWizardForm" />
+        <field name="mode">primary</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='leftColumn']" position="attributes">
+                <attribute name="class">col col-4</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="actionOpenSaleOnboardingPaymentAcquirerWizard" model="ir.actions.actwindow">
+        <field name="label">Choose how to confirm quotations</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">sale.payment.acquirer.onboarding.wizard</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="saleOnboardingOrderConfirmationForm" />
+        <field name="target">new</field>
+    </record>
+</verp>

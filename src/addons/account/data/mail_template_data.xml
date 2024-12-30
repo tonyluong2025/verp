@@ -1,0 +1,138 @@
+<?xml version="1.0" ?>
+<verp>
+
+    <!-- Mail template are declared in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="1">
+        <!--Email template -->
+        <record id="emailTemplateEdiInvoice" model="mail.template">
+            <field name="label">Invoice: Send by email</field>
+            <field name="modelId" ref="account.model_accountMove"/>
+            <field name="emailFrom">{{ (await (await object.invoiceUserId).emailFormatted || await user.emailFormatted) }}</field>
+            <field name="partnerTo">{{ (await object.partnerId).id }}</field>
+            <field name="subject">{{ await (await object.companyId).label }} Invoice (Ref {{ await object.label || "n/a" }})</field>
+            <field name="bodyHtml" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear
+        <t t-set="partnerId" t-value="await object.partnerId"/>
+        <t t-if="await partnerId.parentId">
+            <t t-out="await partnerId.label || ''">Brandon Freeman</t> (<t t-out="await (await partnerId.parentId).label || ''">Azure Interior</t>),
+        </t>
+        <t t-else="">
+            <t t-out="await partnerId.label || ''">Brandon Freeman</t>,
+        </t>
+        <br /><br />
+        Here is your
+        <t t-if="await object.label">
+            invoice <strong t-out="await object.label || ''">INV/2021/05/0005</strong>
+        </t>
+        <t t-else="">
+            invoice
+        </t>
+        <t t-if="await object.invoiceOrigin">
+            (with reference: <t t-out="await object.invoiceOrigin || ''">SUB003</t>)
+        </t>
+        amounting in <strong t-out="await formatAmount(env, await object.amountTotal, await object.currencyId) || ''">$ 143,750.00</strong>
+        from <t t-out="await companyId.label || ''">YourCompany</t>.
+        <t t-if="['paid', 'inPayment'].includes(await object.paymentState)">
+            This invoice is already paid.
+        </t>
+        <t t-else="">
+            Please remit payment at your earliest convenience.
+            <t t-if="await object.paymentReference">
+                <br /><br />
+                Please use the following communication for your payment: <strong t-out="await object.paymentReference || ''">INV/2021/05/0005</strong>.
+            </t>
+        </t>
+        <br /><br />
+        Do not hesitate to contact us if you have any questions.
+        <t t-if="await (await object.invoiceUserId).signature">
+            <br />
+            <t t-out="await (await object.invoiceUserId).signature || ''">--<br/>Mitchell Admin</t>
+        </t>
+    </p>
+</div>
+            </field>
+            <field name="reportTemplate" ref="accountInvoices"/>
+            <field name="reportName">Invoice_{{ (await object.label || '').replace('/','_') }}{{ await object.state === 'draft' ? '_draft' : '' }}</field>
+            <field name="lang">{{ await partnerId.lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+        <record id="mailTemplateDataPaymentReceipt" model="mail.template">
+            <t t-set="partnerId" t-value="await object.partnerId"/>
+            <field name="label">Payment Receipt: Send by email</field>
+            <field name="modelId" ref="account.model_accountPayment"/>
+            <field name="subject">{{ await (await object.companyId).label }} Payment Receipt (Ref {{ await object.label ?? "n/a" }})</field>
+            <field name="partnerTo">{{ partnerId.id }}</field>
+            <field name="bodyHtml" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear <t t-out="await partnerId.label || ''">Azure Interior</t><br/><br/>
+        Thank you for your payment.
+        Here is your payment receipt <strong t-out="(await object.label || '').replace('/','-') || ''">BNK1-2021-05-0002</strong> amounting
+        to <strong t-out="await formatAmount(env, await object.amount, await object.currencyId) || ''">$ 10.00</strong> from <t t-out="await (await object.companyId).label || ''">YourCompany</t>.
+        <br /><br />
+        Do not hesitate to contact us if you have any questions.
+        <br/><br/>
+        Best regards,
+        <t t-if="await user.signature">
+            <br/>
+            <t t-out="await user.signature || ''">--<br/>Mitchell Admin</t>
+        </t>
+    </p>
+</div>
+</field>
+            <field name="reportTemplate" ref="account.actionReportPaymentReceipt"/>
+            <field name="reportName">{{ (await object.label || '').replace('/','-') }}</field>
+            <field name="lang">{{ await partnerId.lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+        <!-- Credit note template -->
+        <record id="emailTemplateEdiCreditNote" model="mail.template">
+            <t t-set="partnerId" t-value="await object.partnerId"/>
+            <field name="label">Credit note: Send by email</field>
+            <field name="modelId" ref="account.model_accountMove"/>
+            <field name="emailFrom">{{ (await (await object.invoiceUserId).emailFormatted ?? await user.emailFormatted) }}</field>
+            <field name="partnerTo">{{ (await partnerId).id }}</field>
+            <field name="subject">{{ await (await object.companyId).label }} Credit Note (Ref {{ await object.label ?? "n/a" }})</field>
+            <field name="bodyHtml" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear
+        <t t-if="await partnerId.parentId">
+            <t t-out="await partnerId.label || ''">Brandon Freeman</t> (<t t-out="await (await partnerId.parentId).label || ''">Azure Interior</t>),
+        </t>
+        <t t-else="">
+            <t t-out="await partnerId.label || ''">Brandon Freeman</t>,
+        </t>
+        <br /><br />
+        Here is your
+        <t t-if="await object.label">
+            credit note <strong t-out="await object.label || ''">RINV/2021/05/0001</strong>
+        </t>
+        <t t-else="">
+            credit note
+        </t>
+        <t t-if="await object.invoiceOrigin">
+            (with reference: <t t-out="await object.invoiceOrigin || ''">SUB003</t>)
+        </t>
+        amounting in <strong t-out="await formatAmount(env, await object.amountTotal, await object.currencyId) || ''">$ 143,750.00</strong>
+        from <t t-out="await (await object.companyId).label || ''">YourCompany</t>.
+        <br /><br />
+        Do not hesitate to contact us if you have any questions.
+        <t t-if="await (await object.invoiceUserId).signature">
+            <br />
+            <t t-out="await (await object.invoiceUserId).signature || ''">--<br/>Mitchell Admin</t>
+        </t>
+    </p>
+</div>
+            </field>
+            <field name="reportTemplate" ref="accountInvoices"/>
+            <field name="reportName">Credit_note_{{ (await object.label || '').replace('/','_') }}{{ await object.state === 'draft' ? '_draft' : '' }}</field>
+            <field name="lang">{{ await partnerId.lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+    </data>
+</verp>

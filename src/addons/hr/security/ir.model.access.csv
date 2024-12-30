@@ -1,0 +1,19 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_hr_employee_category_user,hr.employee.category.user,model_hrEmployeeCategory,groupHrUser,1,1,1,1
+access_hr_employee_category_emp,hr.employee.category.emp,model_hrEmployeeCategory,base.groupUser,1,0,0,0
+access_hr_employee_user,hr.employee user,model_hrEmployee,groupHrUser,1,1,1,1
+access_hr_employee_system_user,hr.employee system user,model_hrEmployee,base.groupUser,0,0,0,0
+access_hr_employee_public_user,hr.employee_public,model_hrEmployeePublic,base.groupUser,1,0,0,0
+access_hr_employee_resource_user,resource.resource.user,resource.model_resourceResource,groupHrUser,1,1,1,1
+access_hr_department_user,hr.department.user,model_hrDepartment,groupHrUser,1,1,1,1
+access_hr_department_employee,hr.department.employee,model_hrDepartment,base.groupUser,1,0,0,0
+access_hr_job_user,hr.job user,model_hrJob,groupHrUser,1,1,1,1
+access_hr_plan_activity_type_employee,access_hr_plan_activity_type,model_hrPlanActivityType,base.groupUser,1,0,0,0
+access_hr_plan_employee,access_hr_plan_employee,model_hrPlan,base.groupUser,1,0,0,0
+access_hr_plan_activity_type_hr_user,access_hr_plan_activity_type,model_hrPlanActivityType,groupHrUser,1,1,1,1
+access_hr_plan_hr_user,access_hr_plan_hr_user,model_hrPlan,groupHrUser,1,1,1,1
+access_hr_plan_wizard,access.hr.plan.wizard,model_hrPlanWizard,hr.groupHrManager,1,1,1,0
+access_hr_departure_wizard,access.hr.departure.wizard,model_hrDepartureWizard,hr.groupHrUser,1,1,1,0
+access_hr_work_location_user,access_hr_work_location_user,model_hrWorkLocation,base.groupUser,1,0,0,0
+access_hr_work_location_manager,access_hr_work_location_manager,model_hrWorkLocation,groupHrManager,1,1,1,1
+access_hr_departure_reason,access_hr_departure_reason_user,model_hrDepartureReason,groupHrUser,1,1,1,1

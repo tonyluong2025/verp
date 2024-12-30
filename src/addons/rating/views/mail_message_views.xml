@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<verp><data>
+    <record id="mailMessageViewForm" model="ir.ui.view">
+        <field name="label">mail.message.view.form.inherit.rating</field>
+        <field name="model">mail.message</field>
+        <field name="inheritId" ref="mail.mailMessageViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='pageTracking']" position="after">
+                <page string="Ratings" name="pageRating">
+                    <field name="ratingIds"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</data></verp>

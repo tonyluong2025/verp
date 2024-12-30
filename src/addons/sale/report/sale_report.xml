@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="actionReportSaleorder" model="ir.actions.report">
+            <field name="label">Quotation / Order</field>
+            <field name="model">sale.order</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">sale.reportSaleorder</field>
+            <field name="reportFile">sale.reportSaleorder</field>
+            <field name="printReportName">(['draft', 'sent'].includes(await object.state) &amp;&amp; f('Quotation - %s', await object.label)) || f('Order - %s', await object.label)</field>
+            <field name="bindingModelId" ref="model_saleOrder"/>
+            <field name="bindingType">report</field>
+        </record>
+
+        <record id="actionReportProFormaInvoice" model="ir.actions.report">
+            <field name="label">PRO-FORMA Invoice</field>
+            <field name="model">sale.order</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">sale.reportSaleorderProForma</field>
+            <field name="reportFile">sale.reportSaleorderProForma</field>
+            <field name="printReportName">f('PRO-FORMA - %s', await object.label)</field>
+            <field name="bindingModelId" ref="model_saleOrder"/>
+            <field name="bindingType">report</field>
+            <field name="groupsId" eval="[[4, refId('sale.groupProformaSales')]]"/>
+        </record>
+    </data>
+</verp>

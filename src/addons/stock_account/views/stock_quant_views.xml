@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record model="ir.ui.view" id="viewStockQuantTreeInherit">
+        <field name="label">stock.quant.tree.inherit</field>
+        <field name="model">stock.quant</field>
+        <field name="inheritId" ref="stock.viewStockQuantTree"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='productUomId']" position="after">
+                <field name="currencyId" invisible="1"/>
+                <field name="value" optional="hidden"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewStockQuantTreeEditableInherit">
+        <field name="label">stock.quant.tree.editable.inherit</field>
+        <field name="model">stock.quant</field>
+        <field name="inheritId" ref="stock.viewStockQuantTreeEditable"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='productUomId']" position="after">
+                <field name="currencyId" invisible="1"/>
+                <field name="value" optional="hidden"/>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

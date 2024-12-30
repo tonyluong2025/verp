@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <div t-name="stock.leadDaysPopOver">
+        <h2>Lead Times</h2>
+        <hr/>
+        <p>
+            The forecasted stock on the <b><t t-esc="leadDaysDate"/></b>
+            is <t t-if="qtyToOrder &lt;= 0"><b><t t-esc="qtyForecast"/> <t t-esc="productUomName"/></b></t><t t-else="">
+            below the inventory <b>minimum of <t t-esc="productMinQty"/> <t t-esc="productUomName"/>
+            : <t t-esc="qtyToOrder"/> <t t-esc="productUomName"/> should be replenished</b> to reach the maximum of
+            <t t-esc="productMaxQty"/> <t t-esc="productUomName"/>.</t>
+        </p>
+        <table t-if="leadDaysDescription" class="table table-borderless table-sm">
+            <tbody>
+                <tr>
+                    <td>
+                        Today
+                    </td>
+                    <td class="text-right">
+                        <t t-out="today"/>
+                    </td>
+                </tr>
+                <tr t-foreach="leadDaysDescription" t-as="descr">
+                    <td><t t-out="descr[0]"/></td>
+                    <td class="text-right"><t t-out="descr[1]"/></td>
+                </tr>
+                <tr class="table-info">
+                    <td>
+                        Forecasted Date
+                    </td>
+                    <td class="text-right text-nowrap">
+                        = <t t-out="leadDaysDate"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <t t-name="StockOrderpoint.Buttons">
+        <span>
+            <button type="button" class="btn d-none btn-primary o-button-order">
+                Order
+            </button>
+            <button type="button" class="btn d-none btn-primary o-button-snooze">
+                Snooze
+            </button>
+        </span>
+    </t>
+
+    <div t-name="stock.replenishmentHistory">
+        <h2>Sales History</h2>
+        <hr/>
+        <table t-if="replenishmentHistory" class="table table-borderless">
+            <tbody>
+                <t t-foreach="replenishmentHistory" t-as="line">
+                    <tr>
+                        <td><t t-esc="line.name"/></td>
+                        <td class="text-right text-nowrap" t-esc="line.quantity + ' ' + line.uomName"/>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+    </div>
+</templates>

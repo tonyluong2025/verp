@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="reportAgedPartnerBalance">
+        <t t-call="web.htmlContainer">
+            <t t-set="currencyId" t-value="await resCompany.currencyId"/>
+            <t t-set="dataReportMarginTop" t-value="12"/>
+            <t t-set="dataReportHeaderSpacing" t-value="9"/>
+            <t t-set="dataReportDpi" t-value="110"/>
+            <t t-call="web.internalLayout">
+                <div class="page">
+                    <h2>Aged Partner Balance</h2>
+
+                    <div class="row mt32">
+                        <div class="col-3">
+                            <strong>Start Date:</strong>
+                            <p t-esc="toFormat(new Date(data['dateFrom']), 'yyyy-MM-dd')"/>
+                        </div>
+                        <div class="col-3">
+                            <strong>Period Length (days)</strong>
+                            <p t-esc="data['periodLength']"/>
+                        </div>
+                    </div>
+                    <div class="row mb32">
+                        <div class="col-3">
+                            <strong>Partner's:</strong>
+                            <p>
+                                <span t-if="data['resultSelection'] == 'customer'">Receivable Accounts</span>
+                                <span t-if="data['resultSelection'] == 'supplier'">Payable Accounts</span>
+                                <span t-if="data['resultSelection'] == 'customerSupplier'">Receivable and Payable Accounts</span>
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <strong>Target Moves:</strong>
+                            <p>
+                                <span t-if="data['targetMove'] == 'all'">All Entries</span>
+                                <span t-if="data['targetMove'] == 'posted'">All Posted Entries</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm table-reports">
+                        <thead>
+                            <tr>
+                                <th>Partners</th>
+                                <th class="text-right">
+                                    <span>Not due</span>
+                                </th>
+                                <th class="text-right"><span t-esc="data['4']['label']"/></th>
+                                <th class="text-right"><span t-esc="data['3']['label']"/></th>
+                                <th class="text-right"><span t-esc="data['2']['label']"/></th>
+                                <th class="text-right"><span t-esc="data['1']['label']"/></th>
+                                <th class="text-right"><span t-esc="data['0']['label']"/></th>
+                                <th class="text-right">Total</th>
+                            </tr>
+                            <tr t-if="getPartnerLines">
+                                <th>Account Total</th>
+                                <th class="text-right"><span t-esc="getDirection[6]" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></th>
+                                <th class="text-right"><span t-esc="getDirection[4]" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></th>
+                                <th class="text-right"><span t-esc="getDirection[3]" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></th>
+                                <th class="text-right"><span t-esc="getDirection[2]" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></th>
+                                <th class="text-right"><span t-esc="getDirection[1]" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></th>
+                                <th class="text-right"><span t-esc="getDirection[0]" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></th>
+                                <th class="text-right"><span t-esc="getDirection[5]" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="getPartnerLines" t-as="partner">
+                                <td>
+                                    <span t-esc="partner['label']"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="partner['direction']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="partner['4']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="partner['3']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="partner['2']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="partner['1']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="partner['0']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="partner['total']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</verp>

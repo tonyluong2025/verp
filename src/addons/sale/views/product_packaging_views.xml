@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="productPackagingFormViewSale" model="ir.ui.view">
+        <field name="label">product.packaging.form.view.sale</field>
+        <field name="model">product.packaging</field>
+        <field name="inheritId" ref="product.productPackagingFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='groupProduct']" position="inside">
+                <field name="sales"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="productPackagingTreeViewSale" model="ir.ui.view">
+        <field name="label">product.packaging.tree.view.sale</field>
+        <field name="model">product.packaging</field>
+        <field name="inheritId" ref="product.productPackagingTreeView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='productUomId']" position="after">
+                <field name="sales" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</verp>

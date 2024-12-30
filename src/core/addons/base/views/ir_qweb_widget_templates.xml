@@ -1,0 +1,51 @@
+<verp>
+<template id="contactName">
+    <div t-if="fields.includes('label')">
+        <t t-if="object.label">
+            <span itemprop="label" t-esc="label"/>
+        </t>
+        <t t-if="! object.label &amp;&amp; object.parentName">
+            <span itemprop="label" t-esc="object.parentName"/>
+        </t>
+        <t t-if="options['countryImage'] &amp;&amp; fields.includes('countryId') &amp;&amp; bool(object.countryId) &amp;&amp; object.countryId.imageUrl">
+            <span t-field="object.countryId.imageUrl" t-options='{"widget": "imageUrl", "class": "countryFlag"}'/>
+        </t>
+    </div>
+</template>
+<template id="contact">
+    <address t-ignore="true" class="mb-0" itemscope="itemscope" itemtype="http://schema.org/Organization">
+        <div t-if="! (fields.includes('label') || (address &amp;&amp; fields.includes('address')) || (city &amp;&amp; fields.includes('city')) || (mobile &amp;&amp; fields.includes('mobile')) || (website &amp;&amp; fields.includes('website')) || (email &amp;&amp; fields.includes('email')))" class="css-non-editable-mode-hidden">
+            --<span class="text-muted" t-esc="label"/>--
+        </div>
+        <t t-if="object.countryId.namePosition != 'after'">
+            <t t-call="base.contactName"/>
+        </t>
+        <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
+            <div t-if="address &amp;&amp; fields.includes('address')" class="d-flex align-items-baseline">
+                <i t-if="!options['noMarker']" class="fa fa-map-marker fa-fw" role="img" aria-label="Address" title="Address"/>
+                <span class="w-100 o-force-ltr d-block" itemprop="streetAddress" t-esc="address"/>
+            </div>
+            <div t-if="city &amp;&amp; fields.includes('city')" class="d-flex align-items-baseline">
+                <i t-if="! options['noMarker']" class="fa fa-map-marker fa-fw" role="img" aria-label="Address" title="Address"/>
+                <span class="o-force-ltr">
+                    <div>
+                        <span itemprop="addressLocality" t-esc="city"/>,
+                        <span itemprop="addressCountry" t-esc="countryId"/>
+                    </div>
+                </span>
+            </div>
+            <div t-if="phone &amp;&amp; fields.includes('phone')"><i t-if="! options['noMarker'] || options['phoneIcons']" class='fa fa-phone fa-fw' role="img" aria-label="Phone" title="Phone"/> <span class="o-force-ltr" itemprop="telephone" t-esc="phone"/></div>
+            <div t-if="mobile &amp;&amp; fields.includes('mobile')"><i t-if="! options['noMarker'] || options['phoneIcons']" class='fa fa-mobile fa-fw' role="img" aria-label="Mobile" title="Mobile"/> <span class="o-force-ltr" itemprop="telephone" t-esc="mobile"/></div>
+            <div t-if="website &amp;&amp; fields.includes('website')">
+                <i t-if="! options['noMarker']" class='fa fa-globe' role="img" aria-label="Website" title="Website"/>
+                <a t-att-href="website &amp;&amp; format('%s%s', ! website.includes('://') ? 'http://' : '', website)"><span itemprop="website" t-esc="website"/></a>
+            </div>
+            <div t-if="email &amp;&amp; fields.includes('email')"><i t-if="! options['noMarker']" class='fa fa-envelope fa-fw' role="img" aria-label="Email" title="Email"/> <span itemprop="email" t-esc="email"/></div>
+        </div>
+        <div t-if="vat &amp;&amp; fields.includes('vat')"><span t-esc="vatLabel"/>: <span itemprop="vatID" t-esc="vat"/></div>
+        <t t-if="object.countryId &amp;&amp; object.countryId.namePosition == 'after'">
+            <t t-call="base.contactName"/>
+        </t>
+    </address>
+</template>
+</verp>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="hrWorkLocationTreeView" model="ir.ui.view">
+            <field name="label">hr.work.location.view.tree</field>
+            <field name="model">hr.work.location</field>
+            <field name="arch" type="xml">
+                <tree string="Work Location">
+                    <field name="active" invisible="1" />
+                    <field name="label" />
+                    <field name="addressId" />
+                    <field name="companyId" groups="base.groupMultiCompany" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="hrWorkLocationFormView" model="ir.ui.view">
+            <field name="label">hr.work.location.view.form</field>
+            <field name="model">hr.work.location</field>
+            <field name="arch" type="xml">
+                <form string="Work Location">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1" />
+                                <field name="label" />
+                                <field name="addressId" />
+                                <field name="locationNumber"/>
+                            </group>
+                            <group>
+                                <field name="companyId" groups="base.groupMultiCompany" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hrWorkLocationAction" model="ir.actions.actwindow">
+            <field name="label">Work Locations</field>
+            <field name="resModel">hr.work.location</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data>
+<template id="reportSaledetails">
+    <t t-set="company" t-value="env.company"/>
+    <t t-call="web.htmlContainer">
+    <t t-call="web.internalLayout">
+        <div class="page">
+
+            <div class="text-center">
+                <h2>Sales Details</h2>
+
+                <strong><t t-esc="dateStart" t-options="{'widget': 'datetime'}"/> - <t t-esc="dateStop" t-options="{'widget': 'datetime'}"/></strong>
+            </div>
+
+            <!-- Orderlines -->
+            <h3>Products</h3>
+            <table  class="table table-sm">
+                <thead><tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price Unit</th>
+                </tr></thead>
+                <tbody>
+                <tr t-foreach='products' t-as='line'>
+                    <t t-set="internalReference" t-value="line['code'] &amp;&amp; format('[%s] ', line['code']) || ''" />
+                    <td><t t-esc="internalReference" /><t t-esc="line['productName']" /></td>
+                    <td>
+                        <t t-esc="line['quantity']" />
+                        <t t-if='line["uom"] != "Units"'>
+                            <t t-esc='line["uom"]' /> 
+                        </t>
+                    </td>
+                    <td>
+                        <t t-esc='line["priceUnit"]' />
+                    <t t-if='line["discount"] != 0'>
+                        Disc: <t t-esc='line["discount"]' />%
+                    </t>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <br/>
+
+            <h3>Payments</h3>
+            <table  class="table table-sm">
+                <thead><tr>
+                    <th>Name</th>
+                    <th>Total</th>
+                </tr></thead>
+                <tbody>
+                <tr t-foreach='payments' t-as='payment'>
+                    <td><t t-esc="payment['label']" /></td>
+                    <td><t t-esc="payment['total']" t-options="{'widget': 'float', 'precision': currencyPrecision}"/></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <br/>
+
+            <h3>Taxes</h3>
+            <table  class="table table-sm">
+                <thead><tr>
+                    <th>Name</th>
+                    <th>Tax Amount</th>
+                    <th>Base Amount</th>
+                </tr></thead>
+                <tbody>
+                <tr t-foreach='taxes' t-as='tax'>
+                    <td><t t-esc="tax['label']" /></td>
+                    <td><t t-esc="tax['taxAmount']" t-options="{'widget': 'float', 'precision': currencyPrecision}"/></td>
+                    <td><t t-esc="tax['baseAmount']" t-options="{'widget': 'float', 'precision': currencyPrecision}"/></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <br/>
+
+            <strong>Total: <t t-esc='totalPaid' t-options="{'widget': 'float', 'precision': currencyPrecision}"/></strong>
+
+        </div>
+    </t>
+    </t>
+</template>
+</data>
+</verp>

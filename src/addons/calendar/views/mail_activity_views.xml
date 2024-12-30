@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<verp>
+
+    <record id="mailActivityViewFormPopup" model="ir.ui.view">
+        <field name="label">mail.activity.form.inherit.calendar</field>
+        <field name="model">mail.activity</field>
+        <field name="inheritId" ref="mail.mailActivityViewFormPopup"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='dateDeadline']" position="attributes">
+                  <attribute name="attrs">{'invisible': [['activityCategory', '=', 'meeting']]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='userId']" position="attributes">
+                  <attribute name="attrs">{'invisible': [['activityCategory', '=', 'meeting']]}</attribute>
+            </xpath>
+            <xpath expr="//button[@id='mailActivitySchedule']" position="attributes">
+                  <attribute name="attrs">{'invisible': ['|', ['activityCategory', 'in', ['meeting', 'phonecall']], ['id', '!=', false]]}</attribute>
+            </xpath>
+            <xpath expr="//button[@id='mailActivitySave']" position="attributes">
+                  <attribute name="attrs">{'invisible': [['activityCategory', '!=', 'phonecall'], ['id', '=', false]]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='actionDone']" position="attributes">
+                  <attribute name="attrs">{'invisible': ['|', ['activityCategory', '=', 'meeting'], ['chainingType', '=', 'trigger']]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='note']" position="attributes">
+                  <attribute name="attrs">{'invisible': [['activityCategory', '=', 'meeting']]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='actionCloseDialog']" position="before">
+                  <field name="calendarEventId" invisible="1" />
+                  <button string="Open Calendar"
+                        attrs="{'invisible': ['|', ['activityCategory', 'not in', ['meeting', 'phonecall']], ['calendarEventId', '!=', false]]}"
+                        name="actionCreateCalendarEvent"
+                        type="object"
+                        class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="paymentIconForm" model="ir.ui.view">
+        <field name="label">payment.icon.form</field>
+        <field name="model">payment.icon</field>
+        <field name="arch" type="xml">
+            <form string="Payment Icon">
+                <sheet>
+                    <field name="image" widget="image" class="oe-avatar"/>
+                    <div class="oe-title">
+                        <h1><field name="label" placeholder="Name"/></h1>
+                    </div>
+                    <notebook>
+                        <page string="Acquirers list" name="acquirers">
+                            <field nolabel="1" name="acquirerIds"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="paymentIconTree" model="ir.ui.view">
+        <field name="label">payment.icon.tree</field>
+        <field name="model">payment.icon</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="label"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="actionPaymentIcon" model="ir.actions.actwindow">
+        <field name="label">Payment Icons</field>
+        <field name="resModel">payment.icon</field>
+        <field name="viewMode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a payment icon
+            </p>
+        </field>
+    </record>
+
+    <menuitem action="actionPaymentIcon"
+              id="paymentIconMenu"
+              parent="account.rootPaymentMenu"
+              groups="base.groupNoOne"/>
+
+</verp>

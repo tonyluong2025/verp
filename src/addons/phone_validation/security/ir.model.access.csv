@@ -1,0 +1,4 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_phone_blacklist_all,access.phone.blacklist.all,model_phoneBlacklist,,0,0,0,0
+access_phone_blacklist_system,access.phone.blacklist.system,model_phoneBlacklist,base.groupSystem,1,1,1,1
+access_phone_blacklist_remove_system,acesss.phone.blacklist.remove.system,model_phoneBlacklistRemove,base.groupSystem,1,1,1,1

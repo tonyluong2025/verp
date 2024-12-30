@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="resConfigSettingsViewForm" model="ir.ui.view">
+            <field name="label">res.config.settings.view.form.inherit.mail</field>
+            <field name="model">res.config.settings</field>
+            <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+            <field name="arch" type="xml">
+                <div id="emails" position='replace'>
+                    <h2>Discuss</h2>
+                    <div class="row mt16 o-settings-container" id="emails">
+                        <div class="col-12 col-lg-6 o-setting-box" id="activitiesSetting">
+                            <div class="o-setting-left-pane"/>
+                            <div class="o-setting-right-pane">
+                                <span class="o-form-label">Activities</span>
+                                <div class="text-muted">
+                                    Configure your activity types
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt8">
+                                        <button name="%(mail.mailActivityTypeAction)d" string="Activity Types" type="action" class="oe-link" icon="fa-arrow-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="emailServersSetting"
+                            title="Using your own email server is required to send/receive emails in Community and Enterprise versions. Online users already benefit from a ready-to-use email server (@mycompany.theverp.com).">
+                            <div class="o-setting-left-pane">
+                                <field name="externalEmailServerDefault"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="externalEmailServerDefault"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/general/email_communication/email_servers.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted" id="externalEmailServerDefault">
+                                    Configure your own email servers
+                                </div>
+                                <div class="content-group"  attrs="{'invisible': [['externalEmailServerDefault', '=', false]]}">
+                                    <div class="mt16" id="mailAliasDomain">
+                                        <label for="aliasDomain" class="o-light-label"/>
+                                        <span>@</span>
+                                        <field name="aliasDomain" placeholder='e.g. "mycompany.com"'/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box">
+                            <div class="o-setting-left-pane">
+                                <field name="useTwilioRtcServers"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="useTwilioRtcServers"/>
+                                <div class="text-muted col-md-12">
+                                    Add your twilio credentials for ICE servers
+                                </div>
+                                <div class="content-group"  attrs="{'invisible': [['useTwilioRtcServers', '=', false]]}">
+                                    <div class="row mt16" id="mailTwilioSid">
+                                        <label for="twilioAccountSid" class="col-lg-3"/>
+                                        <field name="twilioAccountSid" placeholder="e.g. ACd5543a0b450ar4c7t95f1b6e8a39t543"/>
+                                    </div>
+                                    <div class="row mt16" id="mailTwilioAuthToken">
+                                        <label for="twilioAccountToken" class="col-lg-3"/>
+                                        <field name="twilioAccountToken" placeholder="e.g. 65ea4f9e948b693N5156F350256bd152"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box">
+                            <div class="o-setting-right-pane">
+                                <span class="o-form-label">Custom ICE server list</span>
+                                <div class="row">
+                                    <div class="text-muted col-md-12">
+                                        Configure your ICE server list for webRTC
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="row col-lg-4">
+                                        <button type="action" name="%(mail.actionIceServers)d" string="ICE Servers" icon="fa-arrow-right" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="restrictTemplateRenderingSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="restrictTemplateRendering"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="restrictTemplateRendering"/>
+                                <div class="text-muted" id="restrictTemplateRendering">
+                                    Restrict mail templates edition and QWEB placeholders usage.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</verp>

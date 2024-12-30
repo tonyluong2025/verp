@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data>
+<template id="reportPackageBarcode">
+    <t t-call="web.basicLayout">
+        <t t-foreach="docs" t-as="o">
+            <t>
+                <div class="page">
+                    <div class="oe-structure"/>
+                    <table class="table table-condensed" style="border-bottom: 0px solid white !important;">
+                        <tr>
+                            <th>
+                              <h1 t-field="o.label" class="mt0 float-left"/>
+                            </th>
+                            <th name="tdPkBarcode" style="text-align: center">
+                                <div t-field="o.label" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'imgStyle': 'width:300px;height:50px;'}"/>
+                                <p t-field="o.label"/>
+                            </th>
+                        </tr>
+                    </table>
+                    <div class="row mt32 mb32">
+                        <div t-if="bool(await o.packageTypeId)" class="o_packaging_type col-auto">
+                            <strong>Package Type:</strong>
+                            <p t-field="o.packageTypeId.label"/>
+                        </div>
+                    </div>
+                    <table class="table table-sm" style="border-bottom: 0px solid white !important;">
+                        <t t-set="hasSerialNumber" t-value="await (await o.quantIds).mapped('lotId')" />
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th name="thQuantity" class="text-right">Quantity</th>
+                                <th name="thUom" groups="uom.groupUom"/>
+                                <th name="thSerial" class="text-right" t-if="hasSerialNumber">Lot/Serial Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="await o.quantIds" t-as="l">
+                                <td>
+                                   <span  t-field="l.productId.label"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="l.quantity"/>
+                                </td>
+                                <td groups="uom.groupUom">
+                                    <span t-field="l.productId.uomId.label"/>
+                                </td>
+                                <td class="text-right" t-if="hasSerialNumber">
+                                    <t t-if="bool(await l.lotId)"><span t-field="l.lotId.label"/></t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+<template id="reportPackageBarcodeSmall">
+    <t t-call="web.basicLayout">
+        <t t-foreach="docs" t-as="o">
+            <t>
+                <div class="page">
+                    <div class="oe-structure"/>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <div t-field="o.label" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'imgStyle': 'width:600px;height:100px;'}"/>
+                            <p t-field="o.label"  style="font-size:20px;"></p>
+                        </div>
+                    </div>
+                    <div class="row o_packaging_type" t-if="o.packageTypeId">
+                        <div class="col-12 text-center" style="font-size:24px; font-weight:bold;"><span>Package Type: </span><span t-field="o.packageTypeId.label"/></div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</verp>

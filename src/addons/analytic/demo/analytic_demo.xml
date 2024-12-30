@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="tagContract" model="account.analytic.tag">
+            <field name="label">Contracts</field>
+        </record>
+
+    </data>
+</verp>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewAccountFiscalYearTree" model="ir.ui.view">
+        <field name="label">account.fiscal.year.tree</field>
+        <field name="model">account.fiscal.year</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="label"/>
+                <field name="dateFrom"/>
+                <field name="dateTo"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewAccountFiscalYearForm" model="ir.ui.view">
+        <field name="label">account.fiscal.year.form</field>
+        <field name="model">account.fiscal.year</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="label"/>
+                            <field name="companyId"/>
+                        </group>
+                        <group>
+                            <field name="dateFrom"/>
+                            <field name="dateTo"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionsAccountFiscalYear" model="ir.actions.actwindow">
+        <field name="label">Fiscal Years</field>
+        <field name="resModel">account.fiscal.year</field>
+        <field name="viewMode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to create a new fiscal year.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menuFiscalYear"
+              name="Fiscal Year"
+              sequence="5"
+              parent="account.accountAccountMenu"
+              action="actionsAccountFiscalYear"
+              groups="account_fiscal_year.groupFiscalYear"/>
+
+</verp>

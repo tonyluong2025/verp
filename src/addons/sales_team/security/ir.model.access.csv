@@ -1,0 +1,10 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_crm_team,crm.team,model_crmTeam,base.groupUser,1,0,0,0
+access_crm_team_user,crm.team.user,model_crmTeam,sales_team.groupSaleSalesman,1,0,0,0
+access_crm_team_manager,crm.team.manager,model_crmTeam,sales_team.groupSaleManager,1,1,1,1
+access_crm_team_member_all,access.crm.team.member.all,model_crmTeamMember,,0,0,0,0
+access_crm_team_member_user,access.crm.team.member.user,model_crmTeamMember,base.groupUser,1,0,0,0
+access_crm_team_member_manager,access.crm.team.member.manager,model_crmTeamMember,sales_team.groupSaleManager,1,1,1,1
+access_crm_tag,crm_tag,model_crmTag,base.groupUser,0,0,0,0
+access_crm_tag_salesman,crm_tag salesman,model_crmTag,sales_team.groupSaleSalesman,1,1,1,0
+access_crm_tag_manager,crm_tag manager,model_crmTag,sales_team.groupSaleManager,1,1,1,1

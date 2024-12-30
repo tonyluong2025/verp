@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="reportUserLabel" model="ir.actions.report">
+        <field name="label">User Labels</field>
+        <field name="model">res.users</field>
+        <field name="reportType">qweb-pdf</field>
+        <!-- <field name="reportModelName">pos.reportUserLabel</field> -->
+        <field name="reportName">point_of_sale.reportUserLabel</field>
+        <field name="reportFile">point_of_sale.reportUserLabel</field>
+        <field name="bindingModelId" ref="base.model_resUsers"/>
+        <field name="bindingType">report</field>
+    </record>
+
+    <record id="saleDetailsReport" model="ir.actions.report">
+        <field name="label">Sales Details</field>
+        <field name="model">pos.report.saledetails</field>
+        <field name="reportType">qweb-pdf</field>
+        <!-- <field name="reportModelName">pos.reportSaledetails</field> -->
+        <field name="reportName">point_of_sale.reportSaledetails</field>
+    </record>
+
+</verp>

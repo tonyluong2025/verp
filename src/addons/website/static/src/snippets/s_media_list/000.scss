@@ -1,0 +1,27 @@
+
+.s-media-list:not([data-vcss]) {
+    .row {
+        margin: $grid-gutter-width 0;
+    }
+    [class*="col-"] {
+        padding: 0;
+    }
+    .s-media-list-body {
+        padding: $grid-gutter-width;
+        background-color: gray('white');
+    }
+    .s-media-list-options {
+        @include o-position-absolute(auto,0,0,0);
+        display: flex;
+        border-top: 1px solid gray('400');
+        .s-media-list-option {
+            flex: 1 1 auto;
+            padding: $grid-gutter-width/3 0;
+            border-right: 1px solid gray('400');
+            text-align: center;
+            &:last-child {
+                border-right: 0;
+            }
+        }
+    }
+}

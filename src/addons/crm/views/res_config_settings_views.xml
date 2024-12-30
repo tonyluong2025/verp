@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.crm</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="5"/>
+        <field name="inheritId" ref="base.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='settings']" position="inside">
+                <div class="app-settings-block" data-string="CRM" string="CRM" data-key="crm" groups="sales_team.groupSaleManager">
+                    <h2>CRM</h2>
+                    <div class="row mt16 o-settings-container">
+                        <div class="col-lg-6 o-setting-box">
+                            <div class="o-setting-left-pane">
+                                <field name="groupUseRecurringRevenues"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupUseRecurringRevenues"/>
+                                <div class="text-muted">
+                                    Define recurring plans and revenues on Opportunities
+                                </div>
+                                <div attrs="{'invisible': [['groupUseRecurringRevenues', '=', false]]}">
+                                    <button type="action" name="crm.crmRecurringPlanAction"
+                                            string="Manage Recurring Plans" icon="fa-arrow-right" class="oe-link"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 o-setting-box" id="crmLead"
+                            title="Use leads if you need a qualification step before creating an opportunity or a customer. It can be a business card you received, a contact form filled in your website, or a file of unqualified prospects you import, etc. Once qualified, the lead can be converted into a business opportunity and/or a new customer in your address book.">
+                            <div class="o-setting-left-pane">
+                                <field name="groupUseLead"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupUseLead"/>
+                                <div class="text-muted">
+                                    Add a qualification step before the creation of an opportunity
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o-settings-container">
+                        <div class="col-12 col-lg-6 o-setting-box">
+                            <div class="o-setting-left-pane">
+                                <field name="isMembershipMulti"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="isMembershipMulti"/>
+                                <div class="text-muted">
+                                    Assign salespersons into multiple Sales Teams.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o-settings-container">
+                        <div class="col-lg-6 o-setting-box"
+                            title="This can be used to compute statistical probability to close a lead"
+                            name="predictiveLeadSettingContainer">
+                            <field name="predictiveLeadScoringFieldsStr" invisible="1"/>
+                            <field name="predictiveLeadScoringStartDateStr" invisible="1"/>
+                            <div class="o-setting-left-pane"></div>
+                            <div class="o-setting-right-pane">
+                                <b>Predictive Lead Scoring</b>
+                                <div class="text-muted">
+                                    The success rate is computed based on <b>
+                                        <field name="predictiveLeadScoringFieldLabels" class="d-inline"/>
+                                    </b>
+                                    for the leads created as of the
+                                    <b><field name="predictiveLeadScoringStartDate" class="oe-inline" readonly="1"/></b>.
+                                 </div>
+                                <div class="mt16" groups="base.groupErpManager">
+                                    <button name="%(crmLeadPlsUpdateAction)d" type="action"
+                                        string="Update Probabilities"
+                                        class="btn-primary"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            title="This can be used to automatically assign leads to sales persons based on rules">
+                            <div class="o-setting-left-pane">
+                                <field name="crmUseAutoAssignment"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="crmUseAutoAssignment"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/crm/track_leads/lead_scoring.html#assign-leads"
+                                    title="Assign Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    <span>Periodically assign leads based on rules</span><br />
+                                    <span attrs="{'invisible': [['crmUseAutoAssignment', '=', false]]}">
+                                        All sales teams will use this setting by default unless
+                                        specified otherwise.
+                                    </span>
+                                </div>
+                                <div class="row mt16" attrs="{'invisible': [['crmUseAutoAssignment', '=', false]]}">
+                                    <label string="Running" for="crmAutoAssignmentAction" class="col-lg-3 o-light-label"/>
+                                    <field name="crmAutoAssignmentAction"
+                                        attrs="{'required': [['crmUseAutoAssignment', '=', true]]}"/>
+                                    <button name="actionCrmAssignLeads" type="object" class="btn-link">
+                                        <i title="Update now" role="img" aria-label="Update now" class="fa fa-fw fa-refresh"></i>
+                                    </button>
+                                </div>
+                                <div class="row mt16" attrs="{'invisible': ['|', ['crmUseAutoAssignment', '=', false], ['crmAutoAssignmentAction', '=', 'manual']]}">
+                                    <label string="Repeat every" for="crmAutoAssignmentIntervalType" class="col-lg-3 o-light-label"/>
+                                    <field name="crmAutoAssignmentIntervalNumber"
+                                        class="oe-inline mr-2"
+                                        attrs="{'required': [['crmUseAutoAssignment', '=', true], ['crmAutoAssignmentAction', '=', 'auto']]}"/>
+                                    <field name="crmAutoAssignmentIntervalType"
+                                        class="oe-inline"
+                                        attrs="{'required': [['crmUseAutoAssignment', '=', true], ['crmAutoAssignmentAction', '=', 'auto']]}"/>
+                                </div>
+                                <div class="row" attrs="{'invisible': ['|', ['crmUseAutoAssignment', '=', false], ['crmAutoAssignmentAction', '=', 'manual']]}">
+                                    <label string="Next Run" for="crmAutoAssignmentRunDatetime" class="col-lg-3 o-light-label"/>
+                                    <field name="crmAutoAssignmentRunDatetime"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Lead Generation</h2>
+                    <div class="row mt16 o-settings-container" name="convertVisitorSettingContainer">
+                        <div class="col-lg-6 o-setting-box">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleCrmIapEnrich"/>
+                            </div>
+
+                            <div class="o-setting-right-pane" id="crmIapEnrichSettings">
+                                <label string="Lead Enrichment" for="moduleCrmIapEnrich" class="o-module"/>
+                                <div class="text-muted">
+                                    Enrich your leads automatically with company data based on their email address
+                                </div>
+                                <div class="mt8" attrs="{'invisible': [['moduleCrmIapEnrich','=',false]]}">
+                                    <field name="leadEnrichAuto" class="o-light-label" widget="radio" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 o-setting-box">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleCrmIapMine"/>
+                            </div>
+
+                            <div class="o-setting-right-pane" id="crmIapMineSettings">
+                                <label string="Lead Mining" for="moduleCrmIapMine" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/crm/acquire_leads/lead_mining.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Generate new leads based on their country, industry, size, etc.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt16 o-settings-container" name="generateLeadSettingContainer">
+                        <div class="col-lg-6 o-setting-box">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleWebsiteCrmIapReveal"/>
+                            </div>
+
+                            <div class="o-setting-right-pane" id="websiteCrmIapRevealSettings">
+                                <label string="Visits to Leads" for="moduleWebsiteCrmIapReveal" class="o-module"/>
+                                <div class="text-muted">
+                                    Convert visitors of your website into leads and perform data enrichment based on their IP address
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crmConfigSettingsAction" model="ir.actions.actwindow">
+        <field name="label">Settings</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">res.config.settings</field>
+        <field name="viewId" ref="resConfigSettingsViewForm"/>
+        <field name="viewMode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'crm', 'binSize': false}</field>
+    </record>
+
+</verp>

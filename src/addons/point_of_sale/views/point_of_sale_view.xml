@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!-- Top menu item -->
+    <menuitem
+        id="menuPointRoot"
+        name="Point of Sale"
+        groups="groupPosManager,groupPosUser"
+        webIcon="point_of_sale,static/description/icon.png"
+        sequence="50"/>
+
+    <!-- Orders menu -->
+    <menuitem id="menuPointOfSale"
+        name="Orders"
+        parent="menuPointRoot"
+        sequence="10"/>
+
+    <menuitem id="menuPointOfSaleCustomer"
+        name="Customers"
+        parent="menuPointOfSale"
+        action="account.resPartnerActionCustomer"
+        sequence="100"/>
+
+    <!-- Reporting menu -->
+    <menuitem id="menuPointRep"
+        name="Reporting"
+        parent="menuPointRoot"
+        sequence="90"
+        groups="groupPosManager"/>
+
+    <!-- Config menu and sub menus -->
+    <menuitem id="menuPointConfigProduct"
+        name="Configuration"
+        parent="menuPointRoot"
+        sequence="100"
+        groups="groupPosManager"/>
+
+    <menuitem id="posMenuProductsConfiguration"
+        name="Products"
+        parent="menuPointConfigProduct"
+        sequence="11"/>
+
+</verp>

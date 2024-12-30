@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<verp>
+    <data noupdate="1">
+        <!-- Lead scoring frequency fields -->
+        <record id="frequencyFieldStateId" model="crm.lead.scoring.frequency.field">
+            <field name="fieldId" ref="crm.field_crmLead_stateId"/>
+        </record>
+        <record id="frequencyFieldCountryId" model="crm.lead.scoring.frequency.field">
+            <field name="fieldId" ref="crm.field_crmLead_countryId"/>
+        </record>
+        <record id="frequencyFieldPhoneState" model="crm.lead.scoring.frequency.field">
+            <field name="fieldId" ref="crm.field_crmLead_phoneState"/>
+        </record>
+        <record id="frequencyFieldEmailState" model="crm.lead.scoring.frequency.field">
+            <field name="fieldId" ref="crm.field_crmLead_emailState"/>
+        </record>
+        <record id="frequencyFieldSourceId" model="crm.lead.scoring.frequency.field">
+            <field name="fieldId" ref="crm.field_crmLead_sourceId"/>
+        </record>
+        <record id="frequencyFieldLangId" model="crm.lead.scoring.frequency.field">
+            <field name="fieldId" ref="crm.field_crmLead_langId"/>
+        </record>
+        <record id="frequencyFieldTagIds" model="crm.lead.scoring.frequency.field">
+            <field name="fieldId" ref="crm.field_crmLead_tagIds"/>
+        </record>
+        <record id="crmPlsFieldsParam" model="ir.config.parameter">
+            <field name="key">crm.plsFields</field>
+            <field name="value" eval="'phoneState,emailState'"/>
+        </record>
+        <record id="crmPlsStartDateParam" model="ir.config.parameter">
+            <field name="key">crm.plsStartDate</field>
+            <field name="value" eval="DateTime.now().minus({days: 8}).toFormat('yyyy-MM-dd')"/>
+        </record>
+    </data>
+
+	<record id="websiteCrmScoreCron" model="ir.cron">
+        <field name="label">Predictive Lead Scoring: Recompute Automated Probabilities</field>
+        <field name="modelId" ref="model_crmLead"/>
+        <field name="state">code</field>
+        <field name="code">model._cronUpdateAutomatedProbabilities()</field>
+        <field name="intervalNumber">1</field>
+        <field name="intervalType">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="false"/>
+        <field name="doall" eval="false"/>
+    </record>
+</verp>

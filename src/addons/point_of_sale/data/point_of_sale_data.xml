@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <function model="stock.warehouse" name="_createMissingPosPickingTypes"/>
+    </data>
+
+    <data noupdate="1">
+        <!-- After closing the PoS, open the dashboard menu -->
+        <record id="actionClientPosMenu" model="ir.actions.client">
+            <field name="label">Open POS Menu</field>
+            <field name="tag">reload</field>
+            <field name="params" eval="{'menuId': refId('menuPointRoot')}"/>
+        </record>
+
+        <record id="productCategoryPos" model="product.category">
+            <field name="parentId" ref="product.productCategory1"/>
+            <field name="label">PoS</field>
+        </record>
+
+        <record id="productProductTip" model="product.product">
+            <field name="label">Tips</field>
+            <field name="categId" ref="point_of_sale.productCategoryPos"/>
+            <field name="defaultCode">TIPS</field>
+            <field name="weight">0.01</field>
+            <field name="availableInPos">false</field>
+            <field name="taxesId" eval="[[5,]]"/>
+        </record>
+
+        <record model="pos.config" id="posConfigMain" forcecreate="0">
+            <field name="label">Shop</field>
+            <field name="barcodeNomenclatureId" ref="barcodes.defaultBarcodeNomenclature"/>
+        </record>
+
+        <record id="productProductConsumable" model="product.product">
+            <field name="label">Discount</field>
+            <field name="availableInPos">false</field>
+            <field name="standardPrice">0.00</field>
+            <field name="listPrice">0.00</field>
+            <field name="weight">0.00</field>
+            <field name="type">consu</field>
+            <field name="categId" ref="point_of_sale.productCategoryPos"/>
+            <field name="uomId" ref="uom.productUomUnit"/>
+            <field name="uomPoId" ref="uom.productUomUnit"/>
+            <field name="defaultCode">DISC</field>
+            <field name="purchaseOk">false</field>
+        </record>
+
+        <record id="uom.productUomCategUnit" model="uom.category">
+            <field name="isPosGroupable">true</field>
+        </record>
+
+        <record model="pos.bill" id="0_01" forcecreate="0">
+            <field name="label">0.01</field>
+            <field name="value">0.01</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="0_02" forcecreate="0">
+            <field name="label">0.02</field>
+            <field name="value">0.02</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="0_05" forcecreate="0">
+            <field name="label">0.05</field>
+            <field name="value">0.05</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="0_10" forcecreate="0">
+            <field name="label">0.10</field>
+            <field name="value">0.10</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="0_20" forcecreate="0">
+            <field name="label">0.20</field>
+            <field name="value">0.20</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="0_50" forcecreate="0">
+            <field name="label">0.50</field>
+            <field name="value">0.50</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="1_00" forcecreate="0">
+            <field name="label">1.00</field>
+            <field name="value">1.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="2_00" forcecreate="0">
+            <field name="label">2.00</field>
+            <field name="value">2.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="5_00" forcecreate="0">
+            <field name="label">5.00</field>
+            <field name="value">5.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="10_00" forcecreate="0">
+            <field name="label">10.00</field>
+            <field name="value">10.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="20_00" forcecreate="0">
+            <field name="label">20.00</field>
+            <field name="value">20.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="50_00" forcecreate="0">
+            <field name="label">50.00</field>
+            <field name="value">50.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="100_00" forcecreate="0">
+            <field name="label">100.00</field>
+            <field name="value">100.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="200_00" forcecreate="0">
+            <field name="label">200.00</field>
+            <field name="value">200.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <record model="pos.bill" id="500_00" forcecreate="0">
+            <field name="label">500.00</field>
+            <field name="value">500.00</field>
+            <field name="posConfigIds" eval="[[6, false, [refId('point_of_sale.posConfigMain')]]]"/>
+        </record>
+
+        <function model="pos.config" name="postInstallPosLocalisation" />
+    </data>
+</verp>

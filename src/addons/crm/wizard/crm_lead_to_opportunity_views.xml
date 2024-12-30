@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="viewCrmLead2opportunityPartner" model="ir.ui.view">
+        <field name="label">crm.lead2opportunity.partner.form</field>
+        <field name="model">crm.lead2opportunity.partner</field>
+        <field name="arch" type="xml">
+            <form string="Convert to Opportunity">
+                <group name="label">
+                    <field name="label" widget="radio"/>
+                </group>
+                <group string="Assign this opportunity to">
+                    <field name="userId" domain="[['share', '=', false]]"/>
+                    <field name="teamId" options="{'noOpen': true, 'noCreate': true}"/>
+                </group>
+                <group string="Opportunities" attrs="{'invisible': [['label', '!=', 'merge']]}">
+                    <field name="leadId" invisible="1"/>
+                    <field name="duplicatedLeadIds" colspan="2" nolabel="1">
+                        <tree>
+                            <field name="createdAt" widget="date"/>
+                            <field name="label"/>
+                            <field name="type"/>
+                            <field name="contactName"/>
+                            <field name="countryId" invisible="context['invisibleCountry'] ?? true" options="{'noOpen': true, 'noCreate': true}"/>
+                            <field name="emailFrom"/>
+                            <field name="stageId"/>
+                            <field name="userId"/>
+                            <field name="teamId" kanbanViewRef="%(sales_team.crmTeamViewKanban)s"/>
+                        </tree>
+                    </field>
+                </group>
+                <group name="action" attrs="{'invisible': [['label', '!=', 'convert']]}" string="Customer" col="1">
+                    <field name="action" nolabel="1" widget="radio"/>
+                    <group col="2">
+                        <field name="partnerId" widget="resPartnerMany2one" context="{'resPartnerSearchMode': 'customer', 'showVat': true}" attrs="{'required': [['action', '=', 'exist']], 'invisible':[['action','!=','exist']]}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="actionApply" string="Create Opportunity" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionCrmLead2opportunityPartner" model="ir.actions.actwindow">
+        <field name="label">Convert to opportunity</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">crm.lead2opportunity.partner</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="viewCrmLead2opportunityPartner"/>
+        <field name="target">new</field>
+    </record>
+</verp>

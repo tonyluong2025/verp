@@ -1,0 +1,29 @@
+.s-product-catalog[data-vcss='001'] {
+    .s-product-catalog-dish {
+        // Title
+        .s-product-catalog-dish-title {
+            line-height: $headings-line-height;
+        }
+        // Description
+        .s-product-catalog-dish-description {
+            margin-bottom: $spacer;
+        }
+        &:last-child {
+            .s-product-catalog-dish-description {
+                margin-bottom: 0;
+            }
+        }
+        // Dot Leaders
+        .s-product-catalog-dish-dot-leaders {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            &::after {
+                content: '';
+                margin-left: $spacer/2;
+                flex: 1 0 auto;
+                border-bottom: 1px dotted;
+            }
+        }
+    }
+}

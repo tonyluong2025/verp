@@ -1,0 +1,122 @@
+.o-report-stock-rule{
+    .o-report-stock-rule-rule {
+        display: flex;
+        flex-flow: row nowrap;
+    }
+    .o-report-stock-rule-legend {
+        display: flex;
+        flex-flow: row wrap;
+        max-width: 1000px;
+    }
+
+    .o-report-stock-rule-legend-line {
+        flex: 0 1 auto;
+        display: flex;
+        flex-flow: row nowrap;
+        width: 29%;
+        margin-right: 20px;
+        margin-left: 20px;
+        margin-top: 15px;
+        min-width: 200px;
+        >.o-report-stock-rule-legend-label {
+            flex: 1 1 auto;
+            width: 30%;
+            min-width: 100px;
+        }
+        >.o-report-stock-rule-legend-symbol {
+            flex: 1 1 auto;
+            width: 70%;
+        }
+    }
+
+
+    .o-report-stock-rule-putaway {
+        >p {
+            text-align: center;
+            color: black;
+            font-weight: normal;
+            font-size: 12px
+        }
+    }
+
+    .o-report-stock-rule-line {
+        flex: 1 1 auto;
+        height: 20px;
+        >line {
+            stroke: black;
+            stroke-width: 1;
+        }
+    }
+
+    .o-report-stock-rule-arrow {
+        flex: 0 0 auto;
+        height: 20px;
+        width: 20px;
+        >svg {
+            >line {
+                stroke: black;
+                stroke-width: 1;
+            }
+            >polygon {
+                fill: black;
+                fill-opacity: 0.5;
+                stroke: black;
+                stroke-width: 1;
+            }
+        }
+    }
+
+    .o-report-stock-rule-vertical-bar {
+        flex: 0 0 auto;
+        height: 20px;
+        width: 2px;
+        >svg {
+            >line {
+                stroke: black;
+                stroke-width: 2;
+            }
+        }
+    }
+
+    .o-report-stock-rule-rule-name {
+        text-align: center;
+    }
+
+    .o-report-stock-rule-symbol-cell {
+        border: none !important;
+        >div {
+            max-width: 200px;
+            height: 20px;
+        }
+    }
+
+    .o-report-stock-rule-rule-main {
+        height: 100%;
+        padding-top: 2px;
+    }
+    .o-report-stock-rule-location_header {
+        text-align: center;
+        >a {
+            display: block;
+            &:hover {
+                text-decoration: none;
+                cursor: pointer;
+                background-color: #efefef;
+            }
+            >div {
+                color: black;
+            }
+        }
+    }
+    .o-report-stock-rule-rule-cell {
+        padding:0 !important;
+        >a {
+            display: block;
+            &:hover {
+                text-decoration: none;
+                cursor: pointer;
+                background-color: #efefef;
+            }
+        }
+    }
+}

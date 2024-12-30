@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewFullReconcileForm" model="ir.ui.view">
+            <field name="label">account.full.reconcile.form</field>
+            <field name="model">account.full.reconcile</field>
+            <field name="arch" type="xml">
+                <form string="Matching">
+                    <group>
+                        <div class="oe-title" colspan="4">
+                            <h1><field name="label" readonly="1"/></h1>
+                        </div>
+                        <separator string="Matched Journal Items" colspan="4"/>
+                        <field name="reconciledLineIds" readonly="1" colspan="4" nolabel="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</verp>

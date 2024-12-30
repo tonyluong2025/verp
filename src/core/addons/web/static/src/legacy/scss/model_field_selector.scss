@@ -1,0 +1,134 @@
+
+.o-field-selector {
+    position: relative;
+
+    > .o-field-selector-value {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        height: 100%;
+        min-height: 20px; // needed when there is no value in it and used standalone
+        &:active, &:focus, &:active:focus {
+            outline: none;
+        }
+
+        > .o-field-selector-chain-part {
+            padding: 0px 1px;
+            border: 1px solid darken($o-brand-lightsecondary, 10%);
+            background: $o-brand-lightsecondary;
+            margin-bottom: 1px;
+        }
+        > i {
+            align-self: center;
+            margin: 0 2px;
+            font-size: 10px;
+        }
+    }
+    > .o-field-selector-controls {
+        @include o-position-absolute(0, 0, 1px);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    &.o-edit-mode {
+        > .o-field-selector-controls::after {
+            @include o-caret-down;
+        }
+
+        > .o-field-selector-popover {
+            $o-field-selector-arrow-height: 7px;
+            @include o-position-absolute($top: 100%, $left: 0);
+            z-index: 1051;
+            width: 265px;
+            margin-top: $o-field-selector-arrow-height;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,.4);
+
+            &:focus {
+                outline: none;
+            }
+
+            .o-field-selector-popover-header {
+                color: white;
+                background: theme-color('primary');
+                font-weight: bold;
+                padding: 5px 0 5px 0.4em;
+
+                .o-field-selector-title {
+                    width: 100%;
+                    @include o-text-overflow;
+                    padding: 0px 35px;
+                    text-align: center;
+                }
+                .o-field-selector-search {
+                    padding-right: 0.4rem;
+                    > .o-input {
+                        padding: 5px 0.4rem;
+                    }
+                }
+                .o-field-selector-popover-option {
+                    @include o-position-absolute($top: 0);
+                    padding: 8px;
+
+                    &.o-field-selector-prev-page {
+                        left: 0;
+                    }
+                    &.o-field-selector-close {
+                        right: 0;
+                    }
+                    &:hover {
+                        background: darken(theme-color('primary'), 10%);
+                    }
+                }
+                &:before {
+                    @include o-position-absolute($top: -$o-field-selector-arrow-height, $left: $o-field-selector-arrow-height);
+                    content: "";
+                    border-left: $o-field-selector-arrow-height solid rgba(0, 0, 0, 0);
+                    border-right: $o-field-selector-arrow-height solid rgba(0, 0, 0, 0);
+                    border-bottom: $o-field-selector-arrow-height solid theme-color('primary');
+                }
+            }
+            .o-field-selector-popover-body {
+                .o-field-selector-page {
+                    position: relative;
+                    max-height: 320px;
+                    overflow: auto;
+                    margin: 0;
+                    padding: 0;
+
+                    > .o-field-selector-item {
+                        list-style: none;
+                        position: relative;
+                        padding: 5px 0 5px 0.4em;
+                        cursor: pointer;
+                        font-family: Arial;
+                        font-size: 13px;
+                        color: #444;
+                        border-bottom: 1px solid #eee;
+                        &.active {
+                            background: #f5f5f5;
+                        }
+                        .o-field-selector-item-title {
+                            font-size: 12px;
+                        }
+                        .o-field-selector-relation-icon {
+                            @include o-position-absolute($top: 0, $right: 0, $bottom: 0);
+                            display: flex;
+                            align-items: center;
+                            padding: 10px;
+                        }
+                    }
+                }
+            }
+            .o-field-selector-popover-footer {
+                background: theme-color('primary');
+                padding: 5px 0.4em;
+
+                > input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data noupdate="0">
+
+    <record id="groupProductPricelist" model="res.groups">
+        <field name="label">Basic Pricelists</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupSalePricelist" model="res.groups">
+        <field name="label">Advanced Pricelists</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+        <field name="impliedIds" eval="[[4, refId('product.groupProductPricelist')]]"/>
+    </record>
+
+    <record id="groupStockPackaging" model="res.groups">
+        <field name="label">Manage Product Packaging</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupProductVariant" model="res.groups">
+        <field name="label">Manage Product Variants</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupDiscountPerSoLine" model="res.groups">
+        <field name="label">Discount on lines</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+</data>
+<data noupdate="1">
+
+    <record id="productCompRule" model="ir.rule">
+        <field name="label" >Product multi-company</field>
+        <field name="modelId" ref="model_productTemplate"/>
+        <field name="domainForce"> ['|', ['companyId', 'in', companyIds], ['companyId', '=', false]]</field>
+    </record>
+
+    <record model="ir.rule" id="productPricelistCompRule">
+        <field name="label">product pricelist company rule</field>
+        <field name="modelId" ref="model_productPricelist"/>
+        <field name="domainForce"> ['|', ['companyId', 'in', companyIds], ['companyId', '=', false]]</field>
+    </record>
+
+    <record model="ir.rule" id="productPricelistItemCompRule">
+        <field name="label">product pricelist item company rule</field>
+        <field name="modelId" ref="model_productPricelistItem"/>
+        <field name="domainForce"> ['|', ['companyId', 'in', companyIds], ['companyId', '=', false]]</field>
+    </record>
+
+    <record model="ir.rule" id="productSupplierinfoCompRule">
+        <field name="label">product supplierinfo company rule</field>
+        <field name="modelId" ref="model_productSupplierinfo"/>
+        <field name="domainForce">['|', ['companyId', '=', false], ['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="productPackagingCompRule">
+        <field name="label">product packaging company rule</field>
+        <field name="modelId" ref="model_productPackaging"/>
+        <field name="domainForce">['|', ['companyId', '=', false], ['companyId', 'in', companyIds]]</field>
+    </record>
+
+</data>
+</verp>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+<t t-name="web.ProgressCard">
+    <t t-if="widget.viewType === 'kanban'">
+        <div class="o-kanban-progress-card o-kanban-record o-kanban-attachment">
+            <div class="o-kanban-image">
+                <div class="o-kanban-image-wrapper">
+                    <div class="o-image o-image-thumbnail" t-att-data-mimetype="widget.type"/>
+                </div>
+            </div>
+            <div class="o-kanban-details">
+                <div class="o-kanban-details-wrapper">
+                    <div t-att-title="widget.title" t-att-aria-label="widget.title" class="o-kanban-record-title">
+                        <span t-esc="widget.title"/>
+                    </div>
+                    <div class="o-kanban-record-body"/>
+                    <div class="o-kanban-record-bottom">
+                        <div class="oe-kanban-bottom-left">
+                            <div class="o-file-upload-progress-text-left">Processing...</div>
+                        </div>
+                        <div class="oe-kanban-bottom-right">
+                            <span class="o-file-upload-progress-text-right"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+    <t t-if="widget.viewType === 'list'">
+        <div class="o-data-row o-list-progress-card">
+            <span class="o-file-upload-upload-title" t-esc="widget.title"/>
+            <span class="o-file-upload-progress-text-left">Processing...</span>
+            <span class="o-file-upload-progress-text-right"/>
+        </div>
+    </t>
+</t>
+
+</templates>

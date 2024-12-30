@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="mainPartner" model="res.partner" context="{'defaultIsCompany': true}">
+            <field name="label">My Company</field>
+            <field name="companyId" eval="null"/>
+            <field name="isCompany">true</field>
+            <field name="street">Pasteur</field>
+            <field name="city">Saigon</field>
+            <field name="zip">700000</field>
+            <field name="phone">0912345678</field>
+            <field name="image1920" type="base64" file="base/static/img/res_company_logo.png"/>
+        </record>
+
+        <record id="base.partnerRoot" model="res.partner">
+            <field name="label">System</field>
+            <field name="companyId" ref="mainCompany"/>
+            <field name="email">root@example.com</field>
+            <field name="active">false</field>
+        </record>
+
+        <record id="base.partnerAdmin" model="res.partner">
+            <field name="label">Administrator</field>
+            <field name="companyId" ref="mainCompany"/>
+            <field name="email">admin@example.com</field>
+        </record>
+
+        <record id="publicPartner" model="res.partner">
+            <field name="label">Public user</field>
+            <field name="active">false</field>
+        </record>
+
+        <!--
+        Resource: res.partner.title
+        -->
+        
+
+    </data>
+</verp>

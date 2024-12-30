@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="productAttributeViewForm" model="ir.ui.view">
+        <field name="label">product.attribute.view.form</field>
+        <field name="model">product.attribute</field>
+        <field name="inheritId" ref="product.productAttributeViewForm"/>
+        <field name="arch" type="xml">
+            <field name="createVariant" position="after">
+                <field name="visibility" string="eCommerce Filter Visibility" widget="radio"/>
+            </field>
+        </field>
+    </record>
+    <record id="attribute_tree_view" model="ir.ui.view">
+        <field name="label">product.attribute.tree</field>
+        <field name="model">product.attribute</field>
+        <field name="inheritId" ref="product.attributeTreeView"/>
+        <field name="arch" type="xml">
+            <field name="createVariant" position="after">
+                <field name="visibility" string="eCommerce Filter Visibility"/>
+            </field>
+        </field>
+    </record>
+</verp>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<menuitem id="accountReportsVnStatementsMenu" name="Vietnam" parent="account.menuFinanceReports" sequence="0" groups="account.groupAccountReadonly"/>
+
+<data>
+    <!-- Account Chart Templates -->
+    <record id="vnTemplate" model="account.chart.template">
+        <field name="label">VN - Chart of Accounts</field>
+        <field name="codeDigits">0</field>
+        <field name="currencyId" ref="base.VND"/>
+        <field name="bankAccountCodePrefix">1121</field>
+        <field name="cashAccountCodePrefix">1111</field>
+        <field name="transferAccountCodePrefix">1131</field>
+        <field name="spokenLanguages" eval="'vi_VN'"/>
+        <field name="useAngloSaxon" eval="true"/>
+        <field name="countryId" ref="base.vn"/>
+    </record>
+</data>
+</verp>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record forcecreate="true" id="propertyStockAccountOutputCategId" model="ir.property">
+            <field name="label">propertyStockAccountOutputCategId</field>
+            <field name="fieldsId" search="[['model','=','product.category'],['label','=','propertyStockAccountOutputCategId']]"/>
+            <field eval="false" name="value"/>
+            <field name="companyId" ref="base.mainCompany"/>
+        </record>
+        <record forcecreate="true" id="propertyStockAccountInputCategId" model="ir.property">
+            <field name="label">propertyStockAccountInputCategId</field>
+            <field name="fieldsId" search="[['model','=','product.category'],['label','=','propertyStockAccountInputCategId']]"/>
+            <field eval="false" name="value"/>
+            <field name="companyId" ref="base.mainCompany"/>
+        </record>
+    </data>
+</verp>

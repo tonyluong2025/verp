@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<verp>
+	
+    <record id="resUsersPreferences" model="ir.ui.view">
+        <field name="label">res.users.preferences</field>
+        <field name="model">res.users</field>
+        <field name="inheritId" ref="base.viewUsersFormSimpleModif" />
+        <field name="arch" type="xml">
+             <xpath expr="//group[@name='preferences']" position="after">
+	            <group name="preferenceTheme">
+	                <group >
+	                    <field name="sidebarType" readonly="0"/>
+	                </group>
+	                <group >
+	                    <field name="chatterPosition" readonly="0" />
+	                </group>
+	            </group>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

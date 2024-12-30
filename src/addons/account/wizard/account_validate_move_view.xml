@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <!--Account Move lines-->
+        <record id="validateAccountMoveView" model="ir.ui.view">
+            <field name="label">Post Journal Entries</field>
+            <field name="model">validate.account.move</field>
+            <field name="arch" type="xml">
+                <form string="Post Journal Entries">
+                    <group>
+                        <field name="forcePost"/>
+                    </group>
+                    <span class="o-form-label">All selected journal entries will be validated and posted. You won't be able to modify them afterwards.</span>
+                    <footer>
+                        <button string="Post Journal Entries" name="validateMove" type="object" defaultFocus="1" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionValidateAccountMove" model="ir.actions.actwindow">
+            <field name="label">Post entries</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">validate.account.move</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="validateAccountMoveView"/>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+            <field name="help">This wizard will validate all journal entries selected. Once journal entries are validated, you can not update them anymore.</field>
+            <field name="groupsId" eval="[[4, refId('account.groupAccountInvoice')]]"/>
+            <field name="bindingModelId" ref="account.model_accountMove" />
+            <field name="bindingViewTypes">list</field>
+        </record>
+
+    </data>
+</verp>

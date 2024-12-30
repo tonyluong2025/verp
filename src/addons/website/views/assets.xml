@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="website.compiledAssetsWysiwyg" name="Website Editor Assets (used in website editor)" groups="website.groupWebsitePublisher">
+    <t t-call-assets="website.assetsWysiwyg"/>
+</template>
+
+</verp>

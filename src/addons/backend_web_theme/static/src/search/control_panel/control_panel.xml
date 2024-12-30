@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+ 
+<templates>
+
+    <t t-inherit="web.Legacy.ControlPanel" t-inherit-mode="extension" owl="1">
+        <xpath expr="//nav[contains(@class,'o-cp-switch-buttons')]" position="replace">
+            <t t-if="props.views.length gt 1">
+                <t t-if="model.config.env.device.sizeClass &lt;= model.config.env.device.SIZES.LG">
+                    <Dropdown
+                        position="'bottom-end'"
+                        menuClass="'d-inline-flex o-cp-switch-buttons'"
+                        togglerClass="'btn btn-link'"
+                    >
+                        <t t-set-slot="toggler">
+                            <i
+                                class="fa fa-lg o-switch-view"
+                                t-attf-class="o-{{env.view.type}} {{env.view.icon}} {{ props.views.filter(view => view.type === env.view.type)[0].icon }} {{env.view.active ? 'active' : ''}}"
+                            />
+                        </t>
+                        <t t-foreach="props.views" t-as="view" t-key="view.type">
+                            <t t-call="web.ViewSwitcherButton" />
+                        </t>
+                    </Dropdown>
+                </t>
+                <t t-else="">
+                    <nav
+                        class="btn-group o-cp-switch-buttons"
+                        role="toolbar"
+                        aria-label="View switcher"
+                    >
+                        <t t-foreach="props.views" t-as="view" t-key="view.type">
+                            <t t-call="web.ViewSwitcherButton" />
+                        </t>
+                    </nav>
+                </t>
+            </t>
+        </xpath>
+        <xpath expr="//div[contains(@class,'o-searchview')]" position="replace">
+            <div
+                t-if="props.withSearchBar"
+                class="o-searchview"
+                t-att-class="state.mobileSearchMode == 'quick' ? 'o-searchview-quick' : 'o-searchview-mobile'"
+                role="search"
+                aria-autocomplete="list"
+                t-on-click.self="state.mobileSearchMode = model.config.env.device.isMobile ? 'quick' : ''"
+            >
+                <t t-if="!model.config.env.device.isMobile">
+                    <i
+                        class="o-searchview-icon fa fa-search"
+                        title="Search..."
+                        role="img"
+                        aria-label="Search..."
+                    />
+                    <SearchBar fields="fields" />
+                </t>
+                <t t-if="model.config.env.device.isMobile and state.mobileSearchMode == 'quick'">
+                    <button
+                        class="btn btn-link fa fa-arrow-left"
+                        t-on-click.stop="state.mobileSearchMode = ''"
+                    />
+                    <SearchBar fields="fields" />
+                    <button
+                        class="btn fa fa-filter"
+                        t-on-click.stop="state.mobileSearchMode = 'full'"
+                    />
+                </t>
+                <t t-if="model.config.env.device.isMobile and state.mobileSearchMode == 'full'">
+                	<div class="bw-cp-mobile-search">
+			            <div class="bw-mobile-search-header">
+			                <span
+			                    class="o-mobile-search-close float-left mt16 mb16 mr8 ml16"
+			                    t-on-click.stop="state.mobileSearchMode = 'quick'"
+			                >
+			                    <i class="fa fa-arrow-left" />
+			                    <strong class="float-right ml8">FILTER</strong>
+			                </span>
+			                <span
+			                    class="float-right o-mobile-search-clear-facets mt16 mr16"
+			                    t-on-click.stop="model.dispatch('clearQuery')"
+			                >
+			                    <t>CLEAR</t>
+			                </span>
+			            </div>
+			            <SearchBar fields="fields" />
+			            <div class="bw-mobile-search-filter o-search-options mb8 mt8 ml16 mr16">
+			                <FilterMenu
+			                    t-if="props.searchMenuTypes.includes('filter')"
+			                    class="o-filter-menu"
+			                    fields="fields"
+			                />
+			                <GroupByMenu
+			                    t-if="props.searchMenuTypes.includes('groupby')"
+			                    class="o-groupby-menu"
+			                    fields="fields"
+			                />
+			                <ComparisonMenu
+			                    t-if="props.searchMenuTypes.includes('comparison') and model.get('filters', f => f.type === 'comparison').length"
+			                    class="o-comparison-menu"
+			                />
+			                <FavoriteMenu
+			                    t-if="props.searchMenuTypes.includes('favorite')"
+			                    class="o-favorite-menu"
+			                />
+			            </div>
+			            <div
+			                class="btn btn-primary bw-mobile-search-show-result fixed-bottom"
+			                t-on-click.stop="state.mobileSearchMode = ''"
+			            >
+			                <t>SEE RESULT</t>
+			            </div>
+			        </div>
+                </t>
+                <t t-if="model.config.env.device.isMobile and state.mobileSearchMode == ''">
+                    <button
+                        class="btn btn-link fa fa-search"
+                        t-on-click.stop="state.mobileSearchMode = 'quick'"
+                    />
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//div[contains(@class,'o-cp-top-left')]" position="attributes">
+            <attribute
+                name="t-att-class"
+                t-translation="off"
+            >model.config.env.device.isMobile and state.mobileSearchMode == 'quick' ? 'o-hidden' : ''</attribute>
+        </xpath>
+    </t>
+    
+    <t t-inherit="web.ControlPanel" t-inherit-mode="extension" owl="1">
+        <xpath expr="//nav[contains(@class,'o-cp-switch-buttons')]" position="replace">
+            <t t-if="uiService.size &lt;= SIZES.LG">
+                <t
+                    t-set="view"
+                    t-value="env.config.viewSwitcherEntries.find((v) => v.active)"
+                />
+                <Dropdown
+                    position="'bottom-end'"
+                    menuClass="'d-inline-flex o-cp-switch-buttons'"
+                    togglerClass="'btn btn-link'"
+                >
+                    <t t-set-slot="toggler">
+                        <i
+                            class="fa fa-lg o-switch-view"
+                            t-attf-class="o-{{view.type}} {{view.icon}} active"
+                        />
+                    </t>
+                    <t
+                        t-foreach="env.config.viewSwitcherEntries"
+                        t-as="view"
+                        t-key="view.type"
+                    >
+                        <button
+                            class="btn btn-light fa o-switch-view"
+                            t-attf-class="o-{{view.type}} {{view.icon}} {{view.active ? 'active' : ''}}"
+                            t-att-data-tooltip="view.name"
+                            t-on-click="onViewClicked(view.type)"
+                        />
+                    </t>
+                </Dropdown>
+            </t>
+            <t t-else="">
+                <nav class="btn-group o-cp-switch-buttons">
+                    <t
+                        t-foreach="env.config.viewSwitcherEntries"
+                        t-as="view"
+                        t-key="view.type"
+                    >
+                        <button
+                            class="btn btn-light fa fa-lg o-switch-view "
+                            t-attf-class="o-{{view.type}} {{view.icon}} {{view.active ? 'active' : ''}}"
+                            t-att-data-tooltip="view.name"
+                            t-on-click="onViewClicked(view.type)"
+                        />
+                    </t>
+                </nav>
+            </t>
+        </xpath>
+        <xpath expr="//SearchBar" position="replace">
+            <SearchBar
+                t-if="state.mobileSearchMode == 'quick'"
+                mobileSearchMode="state.mobileSearchMode"
+                searchMenus="searchMenus"
+                t-on-set-mobile-view.stop="setMobileSearchMode"
+            />
+            <SearchBar
+                t-else=""
+                mobileSearchMode="state.mobileSearchMode"
+                searchMenus="searchMenus"
+                t-on-set-mobile-view.stop="setMobileSearchMode"
+            />
+        </xpath>
+        <xpath expr="//div[contains(@class,'o-cp-top-left')]" position="attributes">
+            <attribute
+                name="t-att-class"
+                t-translation="off"
+            >env.isSmall and state.mobileSearchMode == 'quick' ? 'o-hidden' : ''</attribute>
+        </xpath>
+    </t>
+    <t t-name="backend_web_theme.SearchBar" owl="1">
+        <div>
+            <t t-if="!env.isSmall" t-call="web.SearchBar" />
+            <t t-if="env.isSmall and props.mobileSearchMode == 'quick'">
+                <div class="o-searchview o-searchview-quick">
+                    <button
+                        class="btn btn-link fa fa-arrow-left"
+                        t-on-click.stop="trigger('set-mobile-view', '')"
+                    />
+                    <div class="o-searchview-input-container">
+                        <t t-call="web.SearchBar.Facets" />
+                        <t t-call="web.SearchBar.Input" />
+                        <t t-if="items.length">
+                            <t t-call="web.SearchBar.Items" />
+                        </t>
+                    </div>
+                    <button
+                        class="btn fa fa-filter"
+                        t-on-click.stop="trigger('set-mobile-view', 'full')"
+                    />
+                </div>
+            </t>
+            <t
+                t-if="env.isSmall and props.mobileSearchMode == 'full'"
+                t-call="backend_web_theme.MobileSearchView"
+            />
+            <t t-if="env.isSmall and props.mobileSearchMode == ''">
+                <div
+                    class="o-searchview o-searchview-mobile"
+                    role="search"
+                    aria-autocomplete="list"
+                    t-on-click.stop="trigger('set-mobile-view', 'quick')"
+                >
+                        <button class="btn btn-link fa fa-search" />
+                </div>
+            </t>
+        </div>
+    </t>
+    <t t-name="backend_web_theme.MobileSearchView" owl="1">
+        <div class="o-searchview">
+            <div class="bw-cp-mobile-search">
+                <div class="bw-mobile-search-header">
+                    <span
+                        class="o-mobile-search-close float-left mt16 mb16 mr8 ml16"
+                        t-on-click.stop="trigger('set-mobile-view', 'quick')"
+                    >
+                        <i class="fa fa-arrow-left" />
+                        <strong class="float-right ml8">FILTER</strong>
+                    </span>
+                    <span
+                        class="float-right o-mobile-search-clear-facets mt16 mr16"
+                        t-on-click.stop="env.searchModel.clearQuery()"
+                    >
+                        <t>CLEAR</t>
+                    </span>
+                </div>
+                <div class="o-searchview-input-container">
+                    <t t-call="web.SearchBar.Facets" />
+                    <t t-call="web.SearchBar.Input" />
+                    <t t-if="items.length">
+                        <t t-call="web.SearchBar.Items" />
+                    </t>
+                </div>
+                <div class="bw-mobile-search-filter o-search-options mb8 mt8 ml16 mr16">
+                    <t t-foreach="props.searchMenus" t-as="menu" t-key="menu.key">
+                        <t t-component="menu.Component" />
+                    </t>
+                </div>
+                <div
+                    class="btn btn-primary bw-mobile-search-show-result fixed-bottom"
+                    t-on-click.stop="trigger('set-mobile-view', '')"
+                >
+                    <t>SEE RESULT</t>
+                </div>
+            </div>
+        </div>
+    </t>
+    
+</templates>

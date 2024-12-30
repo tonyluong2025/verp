@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record forcecreate="false" id="padServer" model="ir.config.parameter">
+        <field name="key">pad.padServer</field>
+        <field name="value">https://pad.theverp.com</field>
+    </record>
+
+    <record forcecreate="false" id="padKey" model="ir.config.parameter">
+        <field name="key">pad.padKey</field>
+        <field name="value">4DxmsNIbnQUVQMW9S9tx2oLOSjFdrx1l</field>
+    </record>
+
+</verp>

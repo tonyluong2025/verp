@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <!-- UTM Stage -->
+        <record id="campaignStage_1" model="utm.stage">
+            <field name="label">Schedule</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="campaignStage_2" model="utm.stage">
+            <field name="label">Design</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="campaignStage_3" model="utm.stage">
+            <field name="label">Sent</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- UTM Campaigns -->
+        <record model="utm.campaign" id="utmCampaignFallDrive">
+            <field name="label">Sale</field>
+            <field name="stageId" ref="utm.defaultUtmStage" />
+            <field name="isAutoCampaign" eval="true" />
+        </record>
+        <record model="utm.campaign" id="utmCampaignChristmasSpecial">
+            <field name="label">Christmas Special</field>
+            <field name="stageId" ref="utm.defaultUtmStage" />
+            <field name="isAutoCampaign" eval="true" />
+        </record>
+        <record model="utm.campaign" id="utmCampaignEmailCampaignServices">
+            <field name="label">Email Campaign - Services</field>
+            <field name="stageId" ref="utm.defaultUtmStage" />
+            <field name="isAutoCampaign" eval="true" />
+        </record>
+        <record model="utm.campaign" id="utmCampaignEmailCampaignProducts">
+            <field name="label">Email Campaign - Products</field>
+            <field name="stageId" ref="utm.defaultUtmStage" />
+            <field name="isAutoCampaign" eval="true" />
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<verp>
+        <record id="actResPartner_2_saleOrder" model="ir.actions.actwindow">
+            <field name="label">Quotations and Sales</field>
+            <field name="resModel">sale.order</field>
+            <field name="viewMode">tree,form,graph</field>
+            <field name="context">{'default_partnerId': activeId}</field>
+            <field name="groupsId" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new quotation, the first step of a new sale!
+              </p><p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+              </p>
+            </field>
+        </record>
+
+        <!-- Partner kanban view inherte -->
+        <record model="ir.ui.view" id="crmLeadPartnerKanbanView">
+            <field name="label">res.partner.kanban.saleorder.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.resPartnerKanbanView"/>
+            <field name="priority" eval="20"/>
+            <field name="groupsId" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+            <field name="arch" type="xml">
+                <field name="mobile" position="after">
+                    <field name="saleOrderCount"/>
+                </field>
+                <xpath expr="//span[contains(@class,'oe-kanban-partner-links')]" position="inside">
+                    <span t-if="record.saleOrderCount.value>0" class="badge badge-pill"><i class="fa fa-fw fa-usd" role="img" aria-label="Sale orders" title="Sales orders"/><t t-esc="record.saleOrderCount.value"/></span>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="resPartnerViewButtons" model="ir.ui.view">
+            <field name="label">res.partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewPartnerForm" />
+            <field name="priority" eval="3"/>
+            <field name="groupsId" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+            <field name="arch" type="xml">
+                <div name="buttonBox" position="inside">
+                    <button class="oe-stat-button" type="object" name="actionViewSaleOrder"
+                        groups="sales_team.groupSaleSalesman"
+                        icon="fa-usd">
+                        <field string="Sales" name="saleOrderCount" widget="statinfo"/>
+                    </button>
+                </div>
+                <page name="internalNotes" position="inside">
+                    <group colspan="2" col="2" groups="sale.groupWarningSale">
+                        <separator string="Warning on the Sales Order" colspan="4" />
+                            <field name="saleWarn" nolabel="1" />
+                            <field name="saleWarnMsg" colspan="3" nolabel="1"
+                                    attrs="{'required':[['saleWarn','!=', false], ['saleWarn','!=','no-message']], 'invisible':[['saleWarn','in',[false,'no-message']]]}"/>
+                    </group>
+                </page>
+            </field>
+        </record>
+
+        <record id="resPartnerViewFormPaymentDefaultcreditcard" model="ir.ui.view">
+            <field name="label">res.partner.view.form.payment.defaultcreditcard</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="payment.viewPartnersFormPaymentDefaultcreditcard"/>
+            <field name="arch" type="xml">
+                <button name="%(payment.actionPaymentToken)d" position="attributes">
+                    <attribute name="groups">sales_team.groupSaleSalesman</attribute>
+                </button>
+            </field>
+        </record>
+
+        <record id="resPartnerViewFormPropertyInherit" model="ir.ui.view">
+            <field name="label">res.partner.view.form.property.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="account.viewPartnerPropertyForm"/>
+            <field name="arch" type="xml">
+                <group name="fiscalInformation" position="attributes">
+                    <attribute name="groups">account.groupAccountInvoice, sales_team.groupSaleSalesman</attribute>
+                </group>
+                <field name="propertyPaymentTermId" position="attributes">
+                    <attribute name="groups">account.groupAccountInvoice, sales_team.groupSaleSalesman</attribute>
+                </field>
+                <field name="propertySupplierPaymentTermId" position="attributes">
+                    <attribute name="groups">account.groupAccountInvoice, sales_team.groupSaleSalesman</attribute>
+                </field>
+            </field>
+        </record>
+</verp>

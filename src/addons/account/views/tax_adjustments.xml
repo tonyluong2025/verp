@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="taxAdjustmentsForm" model="ir.actions.actwindow">
+            <field name="label">Tax Adjustments</field>
+            <field name="resModel">tax.adjustments.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+</verp>

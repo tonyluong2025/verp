@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- Top menu item -->
+        <menuitem id="menuBoardRoot" name="Dashboards" sequence="260" webIcon="base,static/description/board.png" groups="base.groupUser"/>
+        <menuitem id="menuReportingDashboard" name="Dashboards" parent="menuBoardRoot" sequence="0"/>
+        <menuitem id="menuReportingConfig" name="Configuration" parent="menuBoardRoot" sequence="100" groups="base.groupSystem"/>
+
+        <!-- Top menu item -->
+        <menuitem name="Settings"
+            id="menuAdministration"
+            webIcon="base,static/description/settings.png"
+            sequence="550"
+            groups="base.groupErpManager"/>
+        <menuitem id="menuManagement" name="Apps" sequence="500" webIcon="base,static/description/modules.png" groups="base.groupSystem"/>
+            <menuitem id="menuAdministrationShortcut" parent="menuAdministration" name="Custom Shortcuts" sequence="50"/>
+            <!-- FYI The group noOne on 'User & Companies' and 'Translations' is a FP/APR request -->
+            <menuitem id="menuUsers" name="Users &amp; Companies" parent="menuAdministration" sequence="1"/>
+            <menuitem id="menuTranslation" name="Translations" parent="menuAdministration" sequence="2" groups="base.groupNoOne"/>
+                <menuitem id="menuTranslationApp" name="Application Terms" parent="menuTranslation" sequence="4" groups="base.groupNoOne"/>
+                <menuitem id="menuTranslationExport" name="Import / Export" parent="menuTranslation" sequence="3" groups="base.groupNoOne"/>
+            <menuitem id="menuConfig" name="General Settings" parent="menuAdministration" sequence='3'/>
+
+            <menuitem id="menuCustom" name="Technical" parent="menuAdministration" sequence="110" groups="base.groupNoOne"/>
+                <menuitem id="nextId2" name="User Interface" parent="menuCustom"/>
+                <menuitem id="menuEmail" name="Email" parent="menuCustom" sequence="1"/>
+                <menuitem id="nextId9" name="Database Structure" parent="base.menuCustom"/>
+                <menuitem id="menuAutomation" name="Automation" parent="base.menuCustom"/>
+                <menuitem id="menuSecurity" name="Security" parent="menuCustom" sequence="25"/>
+                <menuitem id="menuIrProperty" name="Parameters" parent="menuCustom" sequence="24"/>
+
+            <menuitem id="base.menuTests" name="Tests" sequence="1000" webIcon="test_exceptions,static/description/icon.png"/>
+
+        <record model="ir.ui.menu" id="base.menuAdministration">
+            <field name="groupsId" eval="[Command.set([refId('groupSystem'), refId('groupErpManager')])]"/>
+        </record>
+
+        <record id="actionClientBaseMenu" model="ir.actions.client">
+            <field name="label">Open Settings Menu</field>
+            <field name="tag">reload</field>
+            <field name="params" eval="{'menuId': refId('base.menuAdministration')}"/>
+        </record>
+        <record id="openMenu" model="ir.actions.todo">
+            <field name="label">Open Menu</field>
+            <field name="actionId" ref="actionClientBaseMenu"/>
+            <field name="sequence">100</field>
+            <field name="state">done</field>
+        </record>
+        <record id="actionOpenWebsite" model="ir.actions.acturl">
+            <field name="label">Home Menu</field>
+            <field name="target">self</field>
+            <field name="url">/web</field>
+        </record>
+</verp>

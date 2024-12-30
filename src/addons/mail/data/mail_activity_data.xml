@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="mailActivityDataEmail" model="mail.activity.type">
+            <field name="label">Email</field>
+            <field name="icon">fa-envelope</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="mailActivityDataCall" model="mail.activity.type">
+            <field name="label">Call</field>
+            <field name="icon">fa-phone</field>
+            <field name="category">phonecall</field>
+            <field name="delayCount">2</field>
+            <field name="sequence">6</field>
+        </record>
+        <record id="mailActivityDataMeeting" model="mail.activity.type">
+            <field name="label">Meeting</field>
+            <field name="icon">fa-users</field>
+            <field name="sequence">9</field>
+        </record>
+        <record id="mailActivityDataTodo" model="mail.activity.type">
+            <field name="label">To Do</field>
+            <field name="icon">fa-tasks</field>
+            <field name="delayCount">5</field>
+            <field name="sequence">12</field>
+        </record>
+        <record id="mailActivityDataUploadDocument" model="mail.activity.type">
+            <field name="label">Upload Document</field>
+            <field name="icon">fa-upload</field>
+            <field name="delayCount">5</field>
+            <field name="sequence">25</field>
+            <field name="category">uploadFile</field>
+        </record>
+        <record id="mailActivityDataWarning" model="mail.activity.type">
+            <field name="label">Exception</field>
+            <field name="icon">fa-warning</field>
+            <field name="delayCount">0</field>
+            <field name="sequence">99</field>
+            <field name="decorationType">warning</field>
+            <field name="active">false</field>
+        </record>
+    </data>
+</verp>

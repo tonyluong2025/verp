@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="removeExternalSnippets" inheritId="website.externalSnippets">
+    <xpath expr="//t[@t-install='website_payment']" position="replace"/>
+</template>
+
+<template id="snippets" inheritId="website.snippets" name="Snippet Donation">
+    <xpath expr="//t[@id='snippetDonationHook']" position="replace">
+        <!-- This snippet cannot be used in sanitized fields -->
+        <!-- because it contains inputs that would be removed -->
+        <t t-snippet="website_payment.sDonation" t-thumbnail="/website/static/src/img/snippets_thumbs/s_donation.svg" t-forbid-sanitize="form"/>
+    </xpath>
+    <xpath expr="//t[@id='snippetDonationButtonHook']" position="replace">
+        <!-- This snippet cannot be used in sanitized fields -->
+        <!-- because it contains inputs that would be removed -->
+        <t t-snippet="website_payment.sDonationButton" t-thumbnail="/website/static/src/img/snippets_thumbs/s_donation_button.svg" t-forbid-sanitize="form"/>
+    </xpath>
+</template>
+
+</verp>

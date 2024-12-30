@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="frontendLayout" name="Main Frontend Layout" inheritId ="web.frontendLayout">
+        <xpath expr="//div[@id='wrapwrap']" position="attributes">
+            <attribute name="t-attf-class" add="#{await (await env.items('res.lang')._langGet(env.lang)).direction === 'rtl' &amp;&amp; 'o-rtl' || ''}" separator=" "/>
+            <attribute name="t-attf-class" add="#{isPortal ? 'o-portal' : ''}" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']/header/img" position="replace">
+            <nav class="navbar navbar-expand navbar-light bg-light">
+                <div class="container">
+                    <a href="/" class="navbar-brand logo">
+                        <img t-att-src="format('/logo.png?company=%s', resCompany.id)" t-att-alt="format('Logo of %s', await resCompany.label)" t-att-title="await resCompany.label"/>
+                    </a>
+                    <ul id="topMenu" class="nav navbar-nav ml-auto">
+                        <t t-call="portal.placeholderUserSignIn">
+                            <t t-set="_itemClass" t-value="'nav-item'"/>
+                            <t t-set="_linkClass" t-value="'nav-link'"/>
+                        </t>
+                        <t t-call="portal.userDropdown">
+                            <t t-set="_userName" t-value="true"/>
+                            <t t-set="_itemClass" t-value="'nav-item dropdown'"/>
+                            <t t-set="_linkClass" t-value="'nav-link'"/>
+                            <t t-set="_dropdownMenuClass" t-value="'dropdown-menu-right'"/>
+                        </t>
+                    </ul>
+                </div>
+            </nav>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']/main/t[@t-out='0']" position="before">
+            <div t-if="oPortalFullwidthAlert" class="alert alert-info alert-dismissible rounded-0 fade show d-print-none css-editable-mode-hidden">
+                <div class="container">
+                    <t t-out="oPortalFullwidthAlert"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Added by another template so that it can be disabled if needed -->
+    <template id="footerLanguageSelector" inheritId="portal.frontendLayout" name="Footer Language Selector">
+        <xpath expr="//*[contains(@class,'o-footer-copyright-name mr-2')]" position="after">
+            <t id="languageSelectorCall" t-call="portal.languageSelector">
+                <t t-set="_divClasses" t-value="(_divClasses || '') + ' dropup'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="languageSelector" name="Language Selector">
+        <t t-set="activeLang" t-value="languages.filter(lg => lg[0] === lang)[0]"/>
+        <t t-set="languageSelectorVisible" t-value="len(languages) &gt; 1"/>
+        <div t-attf-class="js-language-selector #{_divClasses}" t-if="languageSelectorVisible">
+            <button t-attf-class="btn btn-sm btn-outline-secondary border-0 dropdown-toggle #{_btnClass}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span t-if="! noText"
+                        class="align-middle"
+                        t-esc="activeLang[2].split('/').pop()"/>
+            </button>
+            <div t-attf-class="dropdown-menu #{_dropdownMenuClass}" role="menu">
+                <t t-foreach="languages" t-as="lg">
+                    <a t-att-href="await urlFor(request, request.httpRequest.pathname + '?' + keepQuery(request), lg[0])"
+                       t-attf-class="dropdown-item js-change-lang #{activeLang == lg &amp;&amp; 'active'}"
+                       t-att-data-urlCode="lg[1]">
+                        <span t-if="! noText" t-esc="lg[2].split('/').pop()"/>
+                    </a>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="userDropdown" name="Portal User Dropdown">
+        <t t-set="isConnected" t-value="! await userId._isPublic()"/>
+        <li t-if="isConnected" t-attf-class="#{_itemClass} o-no-autohide-item">
+            <a href="#" role="button" data-toggle="dropdown" t-attf-class="dropdown-toggle #{_linkClass}">
+                <t t-if="_avatar">
+                    <t t-set="avatarSource" t-value="imageDataUri(await userId.avatar256)"/>
+                    <img t-att-src="avatarSource" t-attf-class="rounded-circle o-object-fit-cover #{_avatarClass}" width="24" height="24" alt="" loading="eager"/>
+                </t>
+                <i t-if="_icon" t-attf-class="fa fa-1x fa-fw fa-user-circle-o #{_iconClass}"/>
+                <t t-set="userLabel" t-value="await userId.label"/>
+                <span t-if="_userName" t-attf-class="#{_userNameClass}" t-esc="(userLabel &amp;&amp; len(userLabel) &gt; 25) ? (userLabel.slice(0,23) + '...') : userLabel"/>
+            </a>
+            <div t-attf-class="dropdown-menu js-usermenu #{_dropdownMenuClass}" role="menu">
+                <div id="oLogoutDivider" class="dropdown-divider"/>
+                <a t-attf-href="/web/session/logout?redirect=/" role="menuitem" id="oLogout" class="dropdown-item">Logout</a>
+            </div>
+        </li>
+    </template>
+
+    <template id="portalBreadcrumbs" name="Portal Breadcrumbs">
+        <ol t-if="pageName !== 'home'" class="o-portal-submenu breadcrumb mb-0 py-2 flex-grow-1 row">
+            <li class="breadcrumb-item ml-1"><a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a></li>
+            <li t-if="pageName === 'myDetails'" class="breadcrumb-item">Details</li>
+        </ol>
+    </template>
+
+    <template id="portalBackInEditMode" name="Back to edit mode">
+        <div t-ignore="true" class="text-center">
+            <t t-if="customHtml" t-out="customHtml"/>
+            <t t-else="">This is a preview of the customer portal.</t>
+            <a t-att-href="backendUrl"><i class="fa fa-arrow-right mr-1"/>Back to edit mode</a>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> &#215; </button>
+    </template>
+
+    <template id="portalLayout" name="Portal Layout">
+        <t t-call="portal.frontendLayout">
+            <t t-set="isPortal" t-value="true"/>
+
+            <div t-if="! noBreadcrumbs &amp;&amp; ! myDetails &amp;&amp; ! breadcrumbsSearchbar" class="o-portal container mt-3">
+                <div class="row align-items-center bg-white no-gutters border rounded">
+                    <div class="col-10">
+                        <t t-call="portal.portalBreadcrumbs"></t>
+                    </div>
+                    <div t-if="prevRecord || nextRecord" class="col-2 flex-grow-0 text-center">
+                        <t t-call='portal.recordPager'/>
+                    </div>
+                </div>
+            </div>
+            <div id="wrap" class='o-portal-wrap'>
+                <div class="container mb64">
+                    <t t-if="myDetails">
+                        <div class="row justify-content-between mt-4">
+                            <div t-attf-class="col-12 col-md col-lg-6">
+                                <t t-out="0"/>
+                            </div>
+                            <div id="oMySidebar" class="pt-3 pt-lg-0 col-12 col-md col-lg-4 col-xl-3 o-my-sidebar">
+                                <div class="o-my-contact" t-if="salesUser">
+                                    <t t-call="portal.portalContact"/>
+                                </div>
+                                <div class="o-portal-my-details">
+                                    <h4>Details <a role="button" href="/my/account" class="btn btn-sm btn-link"><i class="fa fa-pencil"/> Edit</a></h4>
+                                    <hr class="mt-1 mb-0"/>
+                                    <div t-field="userId.partnerId" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "label"]}'/>
+                                </div>
+                                <div class="o-portal-my-security mt-3">
+                                    <h4>Account Security </h4>
+                                    <hr class="mt-1 mb-1"/>
+                                    <a href="/my/security"><i class="fa fa-pencil mx-1"/>Edit Security Settings</a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <t t-out="0"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="placeholderUserSignIn" name="User Sign In Placeholder"/>
+
+    <template id="userSignIn" name="User Sign In" inheritId ="portal.placeholderUserSignIn">
+        <xpath expr="." position="inside">
+            <li groups="base.groupPublic" t-attf-class="#{_itemClass} o-no-autohide-item">
+                <a t-attf-href="/web/login" t-attf-class="#{_linkClass}">Sign in<span t-if="request.session.profileSession" class="text-danger fa fa-circle"/></a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portalMyHome" name="My Portal">
+        <t t-call="portal.portalLayout">
+            <t t-set="myDetails" t-value="true"/>
+            <div class="o-portal-my-home">
+                <div class="oe-structure" id="oeStructurePortalMyHome_1"/>
+                <h3>Documents</h3>
+                <div class="o-portal-docs list-group">
+                </div>
+            </div>
+            <div class="oe-structure" id="oeStructurePortalMyHome_2"/>
+        </t>
+    </template>
+
+    <template id="portalDocsEntry" name="My Portal Docs Entry">
+        <a t-att-href="url" t-att-title="title" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+            <t t-esc="title"/>
+            <t t-if='count'>
+                <span class="badge badge-secondary badge-pill" t-esc="count"/>
+            </t>
+            <t t-elif="placeholderCount">
+                <span class="badge badge-secondary badge-pill" t-att-data-placeholderCount="placeholderCount">
+                    <i class="fa fa-spin fa-circle-o-notch"></i>
+                </span>
+            </t>
+        </a>
+    </template>
+
+    <template id="portalTable" name="My Portal Table">
+        <div t-attf-class="table-responsive border rounded border-top-0 #{classes ? classes : ''}">
+            <table class="table rounded mb-0 bg-white o-portal-my-doc-table">
+                <t t-out="0"/>
+            </table>
+        </div>
+        <div t-if="pager" class="o-portal-pager text-center">
+            <t t-call="portal.pager"/>
+        </div>
+    </template>
+
+    <template id="portalRecordSidebar" name="My Portal Record Sidebar">
+        <div t-attf-class="#{classes}">
+            <div class="card bg-white mb-4 sticky-top" id="sidebarContent">
+                <div t-if="title" class="card-body text-center pb-2 pt-3">
+                    <t t-out="title"/>
+                </div>
+                <t t-if="entries" t-out="entries"/>
+                <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                    Powered by <a target="_blank" href="http://www.theverp.com?utmSource=db&amp;utmMedium=portal" title="verp"><img src="/web/static/img/logo.png" alt="verp Logo" height="15"/></a>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--
+        The search bar is composed of 2 buttons : a "filter by" and a "sort by". Changing the 'sortby'
+        criteria will keep the number of page, query params, ... Changing the 'filterby' param will
+        redirect the user to the beginning of document list, keeping query parameters.
+
+        These 2 buttons can be prepended by a advanced search input, to activate it, searchInput need
+        to be initialized at 'true' and the content of the t-call is the list of li elements searchable.
+
+        :param dict searchbarSortings : containing the sort criteria like
+            {'date': {'label': await _t('Newest'), 'order': 'createdAt desc'}}
+        :param string sortby : name of the sort criteria
+        :param dict searchbarFilters : containing the filter criteria like
+            {'open': {'label': await _t('In Progress'), 'domain': [['state', '=', 'open')]}}
+        :param string filterby : name of the filter criteria
+        :param defaultUrl : the base url of the pages (like '/my/orders')
+        :param boolean breadcrumbsSearchbar : set to true to show breadcrumbs rather than the title
+        :param boolean o-portal-searchpanel : set to true to active the input search
+        :param html $0 : content of the t-call
+        :param title : bavbar title
+        :param classes : navbar classes
+    -->
+    <template id="portalSearchbar" name="Portal Search Bar">
+        <nav t-attf-class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o-portal-navbar {{classes ? classes : ''}} {{breadcrumbsSearchbar ? 'mt-3 rounded' : 'border-top-0' }}">
+            <!--  Navbar breadcrumb or title  -->
+            <t t-if="breadcrumbsSearchbar">
+                <t t-call="portal.portalBreadcrumbs"/>
+            </t>
+            <span t-else="" class="navbar-brand mb-0 h1 mr-auto" t-esc="title or 'No title'"/>
+
+            <!--  Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#oPortalNavbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle filters">
+                <span class="navbar-toggler-icon small"/>
+            </button>
+
+            <!--  Collapsable content  -->
+            <div class="collapse navbar-collapse" id="oPortalNavbarContent">
+                <div class="nav flex-column flex-lg-row ml-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                    <div t-if="searchbarSortings" class="form-inline">
+                        <span class="small mr-1 navbar-text">Sort By:</span>
+                        <div class="btn-group">
+                            <button id="portalSearchbarSortby" data-toggle="dropdown" class="btn btn-secondary btn-sm dropdown-toggle">
+                                <t t-esc="searchbarSortings[sortby]['label'] || 'Newest'"/>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="portalSearchbarSortby">
+                                <t t-foreach="searchbarSortings" t-as="option">
+                                    <a t-att-href="request.httpRequest.pathname + '?' + keepQuery(request, '*', {[sortby]: option})"
+                                       t-attf-class="dropdown-item#{sortby == option ? ' active' : ''}">
+                                        <span t-esc="searchbarSortings[option]['label'] || ''"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <div t-if="searchbarFilters" class="form-inline ml-lg-2">
+                        <span class="small mr-1 navbar-text">Filter By:</span>
+                        <div class="btn-group">
+                            <button id="portalSearchbarFilters" data-toggle="dropdown" class="btn btn-secondary btn-sm dropdown-toggle">
+                                <t t-esc="(searchbarFilters[filterby] ?? searchbarFilters['all'])['label'] ?? 'All'"/>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="portalSearchbarFilters">
+                                <t t-foreach="searchbarFilters" t-as="option">
+                                    <a t-att-href="defaultUrl + '?' + keepQuery(request, '*', {[filterby]: option})"
+                                       t-attf-class="dropdown-item#{filterby == option ? ' active' : ''}">
+                                        <span t-esc="searchbarFilters[option]['label']"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <div t-if="searchbarGroupby" class="form-inline ml-lg-2">
+                        <span class="small mr-1 navbar-text">Group By:</span>
+                        <div class="btn-group">
+                            <button id="portalSearchbarGroupby" data-toggle="dropdown" class="btn btn-secondary btn-sm dropdown-toggle">
+                                <t t-esc="searchbarGroupby[groupby]['label'] || 'null'"/>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="portalSearchbarGroupby">
+                                <t t-foreach="searchbarGroupby" t-as="option">
+                                    <a t-att-href="defaultUrl + '?' + keepQuery(request, '*', {[groupby]: option})"
+                                       t-attf-class="dropdown-item#{groupby == option ? ' active' : ''}">
+                                        <span t-esc="searchbarGroupby[option]['label']"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-out="0"/>
+                </div>
+                <form t-if="searchbarInputs" class="form-inline o-portal-searchpanel ml-lg-4 col-xl-4 col-md-5">
+                    <div class="input-group input-group-sm w-100">
+                        <div class="input-group-prepend">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"/>
+                            <div class="dropdown-menu" role="menu">
+                                <t t-foreach='searchbarInputs' t-as='input'>
+                                    <a t-att-href="'#' + inputValue['input']"
+                                        t-attf-class="dropdown-item#{searchIn == inputValue['input'] ? ' active' : ''}">
+                                        <span t-out="inputValue['label']"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control form-control-sm" placeholder="Search" t-att-value='search' name="search"/>
+                        <span class="input-group-append">
+                            <button class="btn btn-secondary o-wait-lazy-js" type="submit">
+                                <span class="fa fa-search"/>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </template>
+
+    <template id="portalRecordLayout" name="Portal single record layout">
+        <div t-attf-class="card mt-0 border-top-0 rounded-0 rounded-bottom #{classes ? classes : ''}">
+            <div t-if="cardHeader" t-attf-class="card-header #{headerClasses ? headerClasses : ''}">
+                <t t-out="cardHeader"/>
+            </div>
+            <div t-if="cardBody" t-attf-class="card-body #{bodyClasses ? bodyClasses : ''}">
+                <t t-out="cardBody"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="portalContact" name="Contact">
+        <div class="o-portal-contact-details mb-5">
+            <h4><t t-if="title" t-esc="title"/><t t-else="">Your contact</t></h4>
+            <hr class="mt-1 mb0"/>
+            <h6 class="mb-1"><b t-esc="await salesUser.label"/></h6>
+            <div class="d-flex align-items-center mb-1">
+                <div class="fa fa-envelope fa-fw mr-1"></div>
+                <a t-att-href="'mailto:'+await salesUser.email" t-esc="await salesUser.email"/>
+            </div>
+            <div class="d-flex flex-nowrap align-items-center mb-1">
+                <div class="fa fa-phone fa-fw mr-1"></div>
+                <span t-esc="await salesUser.phone"/>
+            </div>
+            <div class="d-flex flex-nowrap align-items-center mb-1">
+                <div class="fa fa-map-marker fa-fw mr-1"></div>
+                <span t-esc="await salesUser.city"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="portalMyDetails">
+        <t t-call="portal.portalLayout">
+            <t t-set="additionalTitle">Contact Details</t>
+            <form action="/my/account" method="post">
+                <input type="hidden" name="csrfToken" t-att-value="request.csrfToken()"/>
+                <div class="row o-portal-details">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <t t-set="partnerCanEditVat" t-value="partner.canEditVat()"/>
+                            <div class="col-lg-12">
+                              <div t-if="errorMessage" class="alert alert-danger" role="alert">
+                                  <t t-foreach="errorMessage" t-as="err"><t t-esc="err"/><br /></t>
+                              </div>
+                            </div>
+                            <div t-attf-class="form-group #{error.get('label') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label" for="label">Name</label>
+                                <input type="text" name="label" t-attf-class="form-control #{error.get('label') ? 'is-invalid' : ''}" t-att-value="label ?? await partnerId.label" />
+                            </div>
+                            <div t-attf-class="form-group #{error.get('email') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label" for="email">Email</label>
+                                <input type="email" name="email" t-attf-class="form-control #{error.get('email') ? 'is-invalid' : ''}" t-att-value="email ?? await partnerId.email" />
+                            </div>
+
+                            <div class="clearfix" />
+                            <div t-attf-class="form-group mb-1 #{error.get('companyName') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label label-optional" for="companyName">Company Name</label>
+                                <!-- The <input> use "disabled" attribute to avoid sending an unauthorized value on form submit.
+                                     The user might not have rights to change companyName but should still be able to see it.
+                                -->
+                                <input type="text" name="companyName" t-attf-class="form-control #{error.get('companyName') ? 'is-invalid' : ''}" t-att-value="companyName ?? await partnerId.commercialCompanyName" t-att-disabled="partnerCanEditVat ? null : '1'" />
+                                <small t-if="! partnerCanEditVat" class="form-text text-muted d-block d-xl-none">
+                                    Changing company name is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.
+                                </small>
+                            </div>
+                            <div t-attf-class="form-group mb-1 #{error.get('vat') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label label-optional" for="vat">VAT Number</label>
+                                <!-- The <input> use "disabled" attribute to avoid sending an unauthorized value on form submit.
+                                     The user might not have rights to change companyName but should still be able to see it.
+                                -->
+                                <input type="text" name="vat" t-attf-class="form-control #{error.get('vat') ? 'is-invalid' : ''}" t-att-value="vat ?? await partnerId.vat" t-att-disabled="partnerCanEditVat ? null : '1'" />
+                                <small t-if="! partnerCanEditVat" class="form-text text-muted d-block d-xl-none">Changing VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
+                            </div>
+                            <div t-if="! partnerCanEditVat" class="col-12 d-none d-xl-block">
+                                <small class="form-text text-muted">Changing company name or VAT number is not allowed once document(s) have been issued for your account. <br/>Please contact us directly for this operation.</small>
+                            </div>
+                            <div t-attf-class="form-group #{error.get('phone') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label" for="phone">Phone</label>
+                                <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') ? 'is-invalid' : ''}" t-att-value="phone ?? await partnerId.phone" />
+                            </div>
+
+                            <div class="clearfix" />
+                            <div t-attf-class="form-group #{error.get('street') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label" for="street">Street</label>
+                                <input type="text" name="street" t-attf-class="form-control #{error.get('street') ? 'is-invalid' : ''}" t-att-value="street ?? await partnerId.street"/>
+                            </div>
+                            <div t-attf-class="form-group #{error.get('city') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label" for="city">City</label>
+                                <input type="text" name="city" t-attf-class="form-control #{error.get('city') ? 'is-invalid' : ''}" t-att-value="city ?? await partnerId.city" />
+                            </div>
+                            <div t-attf-class="form-group #{error.get('zip') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label label-optional" for="zipcode">Zip / Postal Code</label>
+                                <input type="text" name="zipcode" t-attf-class="form-control #{error.get('zip') ? 'is-invalid' : ''}" t-att-value="zipcode ?? await partnerId.zip" />
+                            </div>
+                            <div t-attf-class="form-group #{error.get('countryId') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label" for="countryId">Country</label>
+                                <select name="countryId" t-attf-class="form-control #{error.get('countryId') ? 'is-invalid' : ''}">
+                                    <option value="">Country...</option>
+                                    <t t-foreach="countries ?? []" t-as="country">
+                                        <option t-att-value="country.id" t-att-selected="country.id == countryId ? parseInt(countryId) : (await partner.countryId).id">
+                                            <t t-esc="await country.label" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div t-attf-class="form-group #{error.get('stateId') ? 'o-has-error' : ''} col-xl-6">
+                                <label class="col-form-label label-optional" for="stateId">State / Province</label>
+                                <select name="stateId" t-attf-class="form-control #{error.get('stateId') ? 'is-invalid' : ''}">
+                                    <option value="">select...</option>
+                                    <t t-foreach="states ?? []" t-as="state">
+                                        <option t-att-value="state.id" style="display:none;" t-att-data-countryId="(await state.countryId).id" t-att-selected="state.id == (await partnerId.stateId).id">
+                                            <t t-esc="await state.label" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <input type="hidden" name="redirect" t-att-value="redirect"/>
+                        </div>
+                        <div class="clearfix">
+                            <button type="submit" class="btn btn-primary float-right mb32 ">
+                                Confirm
+                                <span class="fa fa-long-arrow-right" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <template id="portalMySecurity">
+        <t t-call="portal.portalLayout"><div class="o-portal-security-body">
+            <t t-set="additionalTitle">Security</t>
+            <t t-set="noBreadcrumbs" t-value="1"/>
+            <div class="alert alert-danger" role="alert" t-if="getError(errors)">
+                <t t-esc="errors"/>
+            </div>
+            <section>
+                <h3>Change Password</h3>
+                <t t-set="path">password</t>
+                <div class="alert alert-success" role="alert" t-if="success &amp;&amp; success.get('password')">
+                    Password Updated!
+                </div>
+                <div class="alert alert-danger" role="alert" t-if="getError(errors, 'password')">
+                    <t t-esc="errors['password']"/>
+                </div>
+                <form action="/my/security" method="post" class="oe-reset-password-form">
+                    <input type="hidden" name="csrfToken" t-att-value="request.csrfToken()"/>
+                    <input type="hidden" name="op" value="password"/>
+                    <div class="form-group">
+                        <label for="current">Password:</label>
+                        <input type="password" t-attf-class="form-control form-control-sm {{ getError(errors, 'password.old') ? 'is-invalid' : '' }}"
+                               id="current" name="old"
+                               autocomplete="current-password" required="required"/>
+                        <div class="invalid-feedback">
+                            <t t-esc="getError(errors, 'password.old')"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new">New Password:</label>
+                        <input type="password" t-attf-class="form-control form-control-sm {{ getError(errors, 'password.new1') ? 'is-invalid' : '' }}"
+                               id="new" name="new1"
+                               autocomplete="new-password" required="required"/>
+                        <div class="invalid-feedback">
+                            <t t-esc="getError(errors, 'password.new1')"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new2">Verify New Password:</label>
+                        <input type="password" t-attf-class="form-control form-control-sm {{ getError(errors, 'password.new2') ? 'is-invalid' : '' }}"
+                               id="new2" name="new2"
+                               autocomplete="new-password" required="required"/>
+                        <div class="invalid-feedback">
+                            <t t-esc="getError(errors, 'password.new2')"/>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Change Password</button>
+                </form>
+            </section>
+            <section t-if="debug &amp;&amp; allowApiKeys">
+                <h3>
+                Developer API Keys
+                    <a href="https://www.theverp.com/documentation/1.0/developer/misc/api/external_api.html#api-keys" target="_blank">
+                        <i title="Documentation" class="fa fa-fw o-button-icon fa-info-circle"></i>
+                    </a>
+                </h3>
+                <div>
+                    <table class="table o-main-table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Scope</th>
+                                <th>Added On</th>
+                                <th/>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="await (await env.user()).apiKeyIds" t-as="key">
+                                <tr>
+                                    <td><span t-field="key.label"/></td>
+                                    <td><span t-field="key.scope"/></td>
+                                    <td><span t-field="key.createdAt"/></td>
+                                    <td>
+                                        <i class="fa fa-trash text-danger o-portal-remove-api-key" type="button" t-att-id="key.id"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary o-portal-new-api-key">New API Key</button>
+                </div>
+            </section>
+        </div></t>
+    </template>
+
+    <template id="recordPager" name="Portal Record Pager">
+        <t t-if='prevRecord ?? nextRecord'>
+            <div class="record-pager btn-group" role="group">
+                <a role="button" t-att-class="format('btn btn-link %s', !prevRecord ? 'disabled' : '')" t-att-href="prevRecord ?? '#'" ><i class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"></i></a>
+                <a role="button" t-att-class="format('btn btn-link %s', !nextRecord ? 'disabled' : '')" t-att-href="nextRecord ?? '#'" ><i class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"></i></a>
+            </div>
+        </t>
+    </template>
+
+    <template id="pager" name="Pager">
+        <ul t-if="pager['pageCount'] > 1" t-attf-class="#{ classname || '' } pagination m-0 #{_classes}" t-att-style="style ?? null">
+            <li t-attf-class="page-item #{pager['page']['num'] == 1 ? 'disabled' : ''}">
+                <a t-att-href=" pager['page']['num'] != 1 ? pager['pagePrevious']['url'] : null" t-attf-class="page-link #{extraLinkClass}">Prev</a>
+            </li>
+            <t t-foreach="pager['pages']" t-as="page">
+                <li t-attf-class="page-item #{page['num'] == pager['page']['num'] ? 'active' : ''}"> <a t-att-href="page['url']" t-attf-class="page-link #{extraLinkClass}" t-out="page['num']"/></li>
+            </t>
+            <li t-attf-class="page-item #{pager['page']['num'] == pager['pageCount'] ? 'disabled' : ''}">
+                <a t-att-href="pager['page']['num'] != pager['pageCount'] ? pager['pageNext']['url'] : null" t-attf-class="page-link #{extraLinkClass}">Next</a>
+            </li>
+        </ul>
+    </template>
+
+    <template id="myAccountLink" name="Link to frontend portal" inheritId ="portal.userDropdown">
+        <xpath expr="//*[@id='oLogoutDivider']" position="before">
+            <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>
+        </xpath>
+    </template>
+
+    <!--
+        Generic chatter template for the frontend
+        This template provide the container of the chatter. The rest is done in js.
+        To use this template, you need to call it after setting the following variable in your template or in your controller:
+            :object browserecord : the mailThread object
+            :messagePerPage int (optional): number of message per chatter page
+            :token string (optional): if you want your chatter to be available for non-logged user,
+                     you can use a token to verify the identity of the user;
+                     the message will be posted with the identity of the partnerId of the object
+            :hash : signed token with the partnerId using `_signToken` method (on mail.thread)
+            :pid : identifier of the partner signing the token
+    -->
+    <template id="messageThread">
+        <div id="discussion" data-anchor="true" class="d-print-none o-portal-chatter o-not-editable p-0"
+            t-att-data-token="token" t-att-data-resModel="object._name" t-att-data-pid="pid" t-att-data-hash="hash" t-att-data-resId="object.id" t-att-data-pagerStep="messagePerPage ?? 10" t-att-data-allowComposer="disableComposer ? '0' : '1'" t-att-data-twoColumns="twoColumns ? 'true' : 'false'">
+        </div>
+    </template>
+
+    <!--
+        Snippet to request user signature in the portal. The feature comes with
+        the JS file `portal_signature.js`.
+
+        The following variable has to be set:
+            - {string} callUrl: url where to send the name and signature by RPC
+                The url should contain a query string if additional parameters
+                have to be sent, such as an access token.
+
+        The following variables are optional:
+            - {string} defaultName: the default name to display
+            - {string} mode: 'draw', 'auto', or 'load'
+            - {string} sendLabel: label of the send button
+            - {number} signatureRatio: ratio of the signature area
+            - {string} signatureType: 'signature' or 'initial'
+
+        For the default values and more information, see init() of the widgets
+        SignatureForm and NameAndSignature.
+    -->
+    <template id="portal.signatureForm" name="Ask Signature">
+        <div class="o-portal-signature-form"
+            t-att-data-call-url="callUrl"
+            t-att-data-default-name="defaultName"
+            t-att-data-mode="mode"
+            t-att-data-send-label="sendLabel"
+            t-att-data-signature-ratio="signatureRatio"
+            t-att-data-signature-type="signatureType"
+            t-att-data-font-color="fontColor"
+            />
+    </template>
+
+    <template id="portalSidebar" name="Sidebar">
+        <t t-call="portal.portalLayout">
+            <body data-spy="scroll" data-target=".navspy" data-offset="50">
+                <div class="container o-portal-sidebar"></div>
+                <div class="oe-structure mb32" id="oeStructurePortalSidebar_1"/>
+            </body>
+        </t>
+    </template>
+</verp>

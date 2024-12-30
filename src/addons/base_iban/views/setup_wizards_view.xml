@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="setupBankAccountIbanWizard" model="ir.ui.view">
+        <field name="label">account.online.sync.res.partner.bank.setup.form.inherit</field>
+        <field name="model">account.setup.bank.manual.config</field>
+        <field name="inheritId" ref="account.setupBankAccountWizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='accNumber']" position="attributes">
+                <attribute name="widget">iban</attribute>
+            </xpath>
+        </field>
+    </record>
+</verp>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record model="ir.ui.view" id="emailComposeMessageWizardForm">
+            <field name="label">mail.compose.message.form</field>
+            <field name="model">mail.compose.message</field>
+            <field name="groupsId" eval="[Command.link(refId('base.groupUser'))]"/>
+            <field name="arch" type="xml">
+                <form string="Compose Email" class="o-mail-composer-form">
+                    <group>
+                        <!-- truly invisible fields for control and options -->
+                        <field name="compositionMode" invisible="1"/>
+                        <field name="model" invisible="1"/>
+                        <field name="resId" invisible="1"/>
+                        <field name="isLog" invisible="1"/>
+                        <field name="parentId" invisible="1"/>
+                        <field name="mailServerId" invisible="1"/>
+                        <field name="activeDomain" invisible="1"/>
+
+                        <!-- Various warnings -->
+                        <div colspan="2" class="oe-form-box-info bg-info oe-text-center"
+                                attrs="{'invisible': [['activeDomain', '=', false]]}">
+                            <p attrs="{'invisible': [['useActiveDomain', '=', false]]}">
+                                <strong>
+                                    All records matching your current search filter will be mailed,
+                                    not only the ids selected in the list view.
+                                </strong><br />
+                                The email will be sent for all the records selected in the list.<br />
+                                Confirming this wizard will probably take a few minutes blocking your browser.
+                            </p>
+                            <p attrs="{'invisible': [['useActiveDomain', '=', true]]}">
+                                <strong>Only records checked in list view will be used.</strong><br />
+                                The email will be sent for all the records selected in the list.
+                            </p>
+                            <p class="mt8">
+                                <span attrs="{'invisible': [['useActiveDomain', '=', true]]}">
+                                    If you want to send it for all the records matching your search criterion, check this box :
+                                </span>
+                                <span attrs="{'invisible': [['useActiveDomain', '=', false]]}">
+                                    If you want to use only selected records please uncheck this selection box :
+                                </span>
+                                <field class="oe-inline" name="useActiveDomain"/>
+                            </p>
+                        </div>
+                        <!-- visible wizard -->
+                        <field name="emailFrom"
+                            attrs="{'invisible':[['compositionMode', '!=', 'massMail']]}"/>
+                        <label for="partnerIds" string="Recipients"  attrs="{'invisible': [['isLog', '=', true]]}" groups="base.groupUser"/>
+                        <div groups="base.groupUser" attrs="{'invisible': [['isLog', '=', true]]}">
+                            <span attrs="{'invisible': [['compositionMode', '!=', 'massMail']]}">
+                                <strong>Email mass mailing</strong> on
+                                <span attrs="{'invisible': [['useActiveDomain', '=', true]]}">the selected records</span>
+                                <span attrs="{'invisible': [['useActiveDomain', '=', false]]}">the current search filter</span>.
+                            </span>
+                            <span name="documentFollowersText" attrs="{'invisible':['|', ['model', '=', false], ['compositionMode', '=', 'massMail']]}">Followers of the document and</span>
+                            <field name="partnerIds" widget="many2manyTagsEmail" placeholder="Add contacts to notify..."
+                                context="{'forceEmail':true, 'showEmail':true}"
+                                attrs="{'invisible': [['compositionMode', '!=', 'comment']]}"/>
+                        </div>
+                        <field name="subject" placeholder="Subject..." required="true"/>
+                        <!-- mass post -->
+                        <field name="notify"
+                            attrs="{'invisible':[['compositionMode', '!=', 'massPost']]}"/>
+                        <!-- mass mailing -->
+                        <field name="replyToForceNew" invisible="1"/>
+                        <field name="replyToMode" attrs="{'invisible':[['compositionMode', '!=', 'massMail']]}" widget="radio"/>
+                        <field name="replyTo" placeholder="Email address to which replies will be redirected"
+                            attrs="{'invisible':['|', ['replyToMode', '=', 'update'], ['compositionMode', '!=', 'massMail']],
+                                    'required':[['replyToMode', '!=', 'update'], ['compositionMode', '=', 'massMail']]}"/>
+                    </group>
+                    <field name="canEditBody" invisible="1"/>
+                    <field name="body" class="oe-bordered-editor" options="{'style-inline': true}" attrs="{'readonly': [['canEditBody', '=', false]]}" forceSave="1"/>
+                    <group col="4">
+                        <field name="attachmentIds" widget="many2manyBinary" string="Attach a file" nolabel="1" colspan="2"/>
+                        <field name="templateId" options="{'noCreate': true}"
+                               context="{'default_model': model, 'default_bodyHtml': body, 'default_subject': subject}"/>
+                    </group>
+                    <footer>
+                        <button string="Send" attrs="{'invisible': [['isLog', '=', true]]}" name="actionSendMail" type="object" class="btn-primary o-mail-send" data-hotkey="q"/>
+                        <button string="Log" attrs="{'invisible': [['isLog', '=', false]]}" name="actionSendMail" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                        <button icon="fa-lg fa-save" type="object"
+                                name="actionSaveAsTemplate" string="Save as new template"
+                                attrs="{'invisible': [['canEditBody', '=', false]]}"
+                                class="float-right btn-secondary" help="Save as a new template"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionEmailComposeMessageWizard" model="ir.actions.actwindow">
+            <field name="label">Compose Email</field>
+            <field name="resModel">mail.compose.message</field>
+            <field name="bindingModelId" ref="mail.model_mailComposeMessage"/>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</verp>

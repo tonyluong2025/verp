@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<verp>
+<data>
+
+    <record id="groupUseLead" model="res.groups">
+        <field name="label">Show Lead Menu</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupUseRecurringRevenues" model="res.groups">
+        <field name="label">Show Recurring Revenues Menu</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record model="res.users" id="base.userRoot">
+        <field eval="[[4,refId('base.groupPartnerManager')]]" name="groupsId"/>
+    </record>
+
+    <record model="res.users" id="base.userAdmin">
+        <field eval="[[4,refId('base.groupPartnerManager')]]" name="groupsId"/>
+    </record>
+
+    <record id="contacts.resPartnerMenuConfig" model="ir.ui.menu">
+        <field name="label">Configuration</field>
+        <field name="groupsId" eval="[[4, refId('sales_team.groupSaleManager')]]"/>
+    </record>
+
+</data>
+
+<data noupdate="1">
+
+    <record id="crmRulePersonalLead" model="ir.rule">
+        <field name="label">Personal Leads</field>
+        <field name="modelId" ref="model_crmLead"/>
+        <field name="domainForce">['|',['userId','=',user.id],['userId','=',false]]</field>
+        <field name="groups" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+    </record>
+
+    <record id="crmLeadCompanyRule" model="ir.rule">
+        <field name="label">CRM Lead Multi-Company</field>
+        <field name="modelId" ref="model_crmLead"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record id="crmRuleAllLead" model="ir.rule">
+        <field name="label">All Leads</field>
+        <field name="modelId" ref="model_crmLead"/>
+        <field name="domainForce">[[1,'=',1]]</field>
+        <field name="groups" eval="[[4, refId('sales_team.groupSaleSalesmanAllLeads')]]"/>
+    </record>
+
+    <record id="crmActivityReportRuleAllActivities" model="ir.rule">
+        <field name="label">All Activities</field>
+        <field name="modelId" ref="model_crmActivityReport"/>
+        <field name="domainForce">[[1,'=',1]]</field>
+        <field name="groups" eval="[[4, refId('sales_team.groupSaleSalesmanAllLeads')]]"/>
+    </record>
+
+    <record id="crmActivityReportRulePersonalActivities" model="ir.rule">
+        <field name="label">Personal Activities</field>
+        <field name="modelId" ref="model_crmActivityReport"/>
+        <field name="domainForce">['|',['userId','=',user.id],['userId','=',false]]</field>
+        <field name="groups" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+    </record>
+
+    <record id="crmActivityReportRuleMultiCompany" model="ir.rule">
+        <field name="label">CRM Lead Multi-Company</field>
+        <field name="modelId" ref="model_crmActivityReport"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+</data>
+
+</verp>

@@ -1,0 +1,32 @@
+{
+    "label": "Cash Book, Day Book, Bank Book Financial Reports",
+    "version": "2.2.0",
+    "category": "Accounting",
+    "summary": "Cash Book, Day Book and Bank Book Report For Verp 1",
+    "description": "Cash Book, Day Book and Bank Book Report For Verp 1",
+    "sequence": "10",
+    "author": "Verp Mates",
+    "company": "Verp Mates",
+    "maintainer": "Verp Mates",
+    "support": "verpmates@gmail.com",
+    "website": "https://www.verpmates.tech",
+    "depends": ["account"],
+    "demo": [],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/account_daily_reports.xml",
+        "wizard/daybook.xml",
+        "wizard/cashbook.xml",
+        "wizard/bankbook.xml",
+        "report/reports.xml",
+        "report/report_daybook.xml",
+        "report/report_cashbook.xml",
+        "report/report_bankbook.xml"
+    ],
+    "installable": true,
+    "application": false,
+    "autoInstall": false,
+    "liveTestUrl": "https://www.youtube.com/watch?v=PEh-an8iCO0",
+    "images": ["static/description/banner.gif"],
+    "license": "MIT Expat"
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="websiteConfigurator" name="Website Configurator" inheritId="web.frontendLayout" primary="true">
+    <xpath expr="//head/t[@t-call-assets][last()]" position="after">
+        <t t-call-assets="website.websiteConfiguratorAssetsJs" lazyLoad="true"/>
+    </xpath>
+    <xpath expr="//t[@t-call-assets='web.assetsFrontend']" position="replace">
+        <t t-call-assets="website.websiteConfiguratorAssetsScss" t-js="false"/>
+    </xpath>
+    <xpath expr="//nav" position="replace"/>
+    <xpath expr="//div[@id='wrapwrap']" position="replace"/>
+</template>
+
+</verp>

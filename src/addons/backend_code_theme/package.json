@@ -1,0 +1,41 @@
+{
+    "label": "Code Backend Theme V1",
+    "description": "Minimalist and elegant backend theme for Verp 1, Backend Theme, Theme",
+    "summary": "Code Backend Theme V1 is an attractive theme for backend",
+    "category": "Themes/Backend",
+    "version": "1.0.0",
+    "depends": ["base", "web", "mail"],
+    "data": [
+        "views/icons.xml",
+        "views/layout.xml"
+    ],
+    "assets": {
+        "web.assetsFrontend": [
+            "backend_code_theme/static/src/scss/login.scss"
+        ],
+        "web.assetsBackend": [
+            "backend_code_theme/static/src/scss/theme_accent.scss",
+            "backend_code_theme/static/src/scss/navigation_bar.scss",
+            "backend_code_theme/static/src/scss/datetimepicker.scss",
+            "backend_code_theme/static/src/scss/theme.scss",
+            "backend_code_theme/static/src/scss/sidebar.scss",
+
+            "backend_code_theme/static/src/js/fields/colors.js",
+            "backend_code_theme/static/src/js/chrome/sidebar_menu.js"
+        ],
+        "web.assetsQweb": [
+            "backend_code_theme/static/src/xml/styles.xml",
+            "backend_code_theme/static/src/xml/top_bar.xml"
+        ]
+    },
+    "images": [
+        "static/description/banner.png",
+        "static/description/theme_screenshot.png"
+    ],
+    "preInitHook": "testPreInitHook",
+    "postInitHook": "testPostInitHook",
+    "installable": true,
+    "application": false,
+    "autoInstall": false,
+    "license": "MIT Expat"
+}

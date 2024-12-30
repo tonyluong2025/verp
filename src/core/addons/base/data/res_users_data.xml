@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- user 1 is the technical admin user -->
+        <record model="res.users" id="base.userRoot">
+            <field name="partnerId" ref="base.partnerRoot"/>
+            <field name="companyId" ref="mainCompany"/>
+            <field name="companyIds" eval="[Command.link(refId('mainCompany'))]"/>
+            <field name="email">root@example.com</field>
+            <field name="signature"><![CDATA[<span>-- <br/>
+System</span>]]></field>
+        </record>
+
+        <!-- user 2 is the human admin user -->
+        <record id="userAdmin" model="res.users">
+            <field name="login">admin</field>
+            <field name="password">admin</field>
+            <field name="partnerId" ref="base.partnerAdmin"/>
+            <field name="companyId" ref="mainCompany"/>
+            <field name="companyIds" eval="[Command.link(refId('mainCompany'))]"/>
+            <field name="groupsId" eval="[Command.set([])]"/>
+            <field name="signature"><![CDATA[<span>-- <br/>
+Administrator</span>]]></field>
+        </record>
+
+        <!-- Default user with full access rights for newly created users -->
+        <record id="defaultUser" model="res.users">
+            <field name="label">Default User Template</field>
+            <field name="login">default</field>
+            <field name="active">false</field>
+        </record>
+
+        <record id="publicUser" model="res.users">
+            <field name="label">Public user</field>
+            <field name="login">public</field>
+            <field name="password"></field>
+            <!-- Avoid auto-including this demo user in any default group -->
+            <field name="groupsId" eval="[Command.set([])]"/>
+            <field name="image1920" type="base64" file="base/static/img/public_user_image.png"/>
+            <field name="partnerId" ref="publicPartner"/>
+            <field name="active">false</field>
+        </record>
+    </data>
+</verp>

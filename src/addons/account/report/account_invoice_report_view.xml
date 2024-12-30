@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data>
+    <record id="viewAccountInvoiceReportPivot" model="ir.ui.view">
+         <field name="label">account.invoice.report.pivot</field>
+         <field name="model">account.invoice.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Invoices Analysis" sample="1">
+                 <field name="productCategId" type="col"/>
+                 <field name="invoiceDate" type="row"/>
+                 <field name="priceSubtotal" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+
+    <record id="viewAccountInvoiceReportGraph" model="ir.ui.view">
+         <field name="label">account.invoice.report.graph</field>
+         <field name="model">account.invoice.report</field>
+         <field name="arch" type="xml">
+             <graph string="Invoices Analysis" type="line" sample="1">
+                 <field name="productCategId"/>
+                 <field name="priceSubtotal" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+     <record id="accountInvoiceReportViewTree" model="ir.ui.view">
+         <field name="label">account.invoice.report.view.tree</field>
+         <field name="model">account.invoice.report</field>
+         <field name="arch" type="xml">
+             <tree string="Invoices Analysis">
+                <field name="moveId" string="Invoice Number"/>
+                <field name="journalId" optional="hide"/>
+                <field name="partnerId" optional="show"/>
+                <field name="countryId" optional="hide"/>
+                <field name="invoiceDate" optional="show"/>
+                <field name="invoiceDateDue" optional="show"/>
+                <field name="invoiceUserId" optional="hide" widget="many2oneAvatarUser"/>
+                <field name="productCategId" optional="hide"/>
+                <field name="productId" optional="show"/>
+                <field name="companyId"  groups="base.groupMultiCompany"/>
+                <field name="priceAverage" optional="hide" sum="Total"/>
+                <field name="quantity" optional="hide" sum="Total"/>
+                <field name="priceSubtotal" optional="show" sum="Total"/>
+                <field name="state" optional="hide"/>
+                <field name="paymentState" optional="hide"/>
+                <field name="moveType" optional="hide"/>
+             </tree>
+         </field>
+     </record>
+
+    <!-- Custom reports (aka filters) -->
+    <record id="filterInvoiceReportSalespersons" model="ir.filters">
+        <field name="label">By Salespersons</field>
+        <field name="modelId">account.invoice.report</field>
+        <field name="domain">[]</field>
+        <field name="userId" eval="false"/>
+        <field name="context">{'groupby': ['invoiceDate:month', 'invoiceUserId']}</field>
+    </record>
+    <record id="filterInvoiceProduct" model="ir.filters">
+        <field name="label">By Product</field>
+        <field name="modelId">account.invoice.report</field>
+        <field name="domain">[]</field>
+        <field name="userId" eval="false"/>
+        <field name="context">{'groupby': ['invoiceDate:month', 'productId'], 'setVisible':true, 'residualInvisible':true}</field>
+    </record>
+    <record id="filterInvoiceProductCategory" model="ir.filters">
+        <field name="label">By Product Category</field>
+        <field name="modelId">account.invoice.report</field>
+        <field name="domain">[]</field>
+        <field name="userId" eval="false"/>
+        <field name="context">{'groupby': ['invoiceDate:month', 'productCategId'], 'residualInvisible':true}</field>
+    </record>
+    <record id="filterInvoiceRefund" model="ir.filters">
+        <field name="label">By Credit Note</field>
+        <field name="modelId">account.invoice.report</field>
+        <field name="domain">[['moveType', '=', 'outRefund']]</field>
+        <field name="userId" eval="false"/>
+        <field name="context">{'groupby': ['invoiceDate:month', 'invoiceUserId']}</field>
+    </record>
+    <record id="filterInvoiceCountry" model="ir.filters">
+        <field name="label">By Country</field>
+        <field name="modelId">account.invoice.report</field>
+        <field name="domain">[]</field>
+        <field name="userId" eval="false"/>
+        <field name="context">{'groupby': ['invoiceDate:month', 'countryId']}</field>
+    </record>
+
+    <record id="viewAccountInvoiceReportSearch" model="ir.ui.view">
+        <field name="label">account.invoice.report.search</field>
+        <field name="model">account.invoice.report</field>
+        <field name="arch" type="xml">
+            <search string="Invoices Analysis">
+                <filter string="My Invoices" name="myInvoice" domain="[['invoiceUserId', '=', uid]]"/>
+                <separator/>
+                <field name="invoiceDate"/>
+                <separator/>
+                <filter string="To Invoice" name="toinvoice" domain="[['state','=','draft']]" help = "Draft Invoices"/>
+                <filter string="Invoiced" name="current" domain="[['state','not in', ['draft','cancel']]]"/>
+                <separator/>
+                <filter string="Customers" name="customer" domain="['|', ['moveType','=','outInvoice'],['moveType','=','outRefund']]"/>
+                <filter string="Vendors" name="supplier" domain="['|', ['moveType','=','inInvoice'],['moveType','=','inRefund']]"/>
+                <separator/>
+                <filter string="Invoices" name="invoice" domain="['|', ['moveType','=','outInvoice'],['moveType','=','inInvoice']]"/>
+                <filter string="Credit Notes" name="creditnote" domain="['|', ['moveType','=','outRefund'],['moveType','=','inRefund']]"/>
+                <separator/>
+                <filter name="filterInvoiceDate" date="invoiceDate"/>
+                <filter name="invoiceDateDue" date="invoiceDateDue"/>
+                <field name="partnerId" operator="childOf"/>
+                <field name="invoiceUserId" />
+                <field name="productId" />
+                <field name="productCategId" filterDomain="[['productCategId', 'childOf', self]]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Salesperson" name='user' context="{'groupby':'invoiceUserId'}"/>
+                    <filter string="Partner" name="partnerId" context="{'groupby':'partnerId','residualVisible':true}"/>
+                    <filter string="Product Category" name="categoryProduct" context="{'groupby':'productCategId','residualInvisible':true}"/>
+                    <filter string="Status" name="status" context="{'groupby':'state'}"/>
+                    <filter string="Company" name="company" context="{'groupby':'companyId'}" groups="base.groupMultiCompany"/>
+                    <separator orientation="vertical" />
+                    <filter string="Date" name="invoiceDate" context="{'groupby':'invoiceDate'}"/>
+                    <filter string="Due Date" name="duemonth" context="{'groupby':'invoiceDateDue:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="viewAccountInvoiceReportSearchAnalyticAccounting" model="ir.ui.view">
+        <field name="label">account.invoice.report.searchAnalyticAccounting</field>
+        <field name="model">account.invoice.report</field>
+        <field name="inheritId" ref="account.viewAccountInvoiceReportSearch"/>
+        <field name="groupsId" eval="[[4, refId('analytic.groupAnalyticAccounting')]]"/>
+        <field name="arch" type="xml">
+            <filter name="status" position="after">
+                <filter string="Analytic Account" name="analyticAccountId" context="{'groupby':'analyticAccountId'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="actionAccountInvoiceReportAllSupp" model="ir.actions.actwindow">
+        <field name="label">Invoices Analysis</field>
+        <field name="resModel">account.invoice.report</field>
+        <field name="viewMode">graph,pivot</field>
+        <field name="context">{'searchDefault_current':1, 'searchDefault_supplier': 1, 'groupby':['invoiceDate'], 'groupbyNoLeaf':1}</field>
+        <field name="searchViewId" ref="viewAccountInvoiceReportSearch"/>
+        <field name="help">From this report, you can have an overview of the amount invoiced from your vendors. The search tool can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
+    </record>
+    <record id="actionAccountInvoiceReportAll" model="ir.actions.actwindow">
+        <field name="label">Invoices Analysis</field>
+        <field name="resModel">account.invoice.report</field>
+        <field name="viewMode">graph,pivot</field>
+        <field name="context">{'searchDefault_current':1, 'searchDefault_customer': 1, 'groupby':['invoiceDate'], 'groupbyNoLeaf':1}</field>
+        <field name="searchViewId" ref="viewAccountInvoiceReportSearch"/>
+        <field name="help">From this report, you can have an overview of the amount invoiced to your customers. The search tool can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
+    </record>
+
+</data>
+</verp>

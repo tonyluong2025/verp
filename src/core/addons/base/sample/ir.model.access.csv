@@ -1,0 +1,2 @@
+"id","label","modelId:id","groupId:id","permRead","permWrite","permCreate","permUnlink"
+"access_decimalPrecision_config","decimalPrecision configuration","model_decimalPrecision","groupSystem",1,1,0,0

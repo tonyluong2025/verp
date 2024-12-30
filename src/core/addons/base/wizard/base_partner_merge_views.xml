@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+        <record id="actionPartnerDeduplicate" model="ir.actions.actwindow">
+            <field name="label">Deduplicate Contacts</field>
+            <field name="resModel">base.partner.merge.automatic.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'activeTest': false}</field>
+        </record>
+
+        <record id="basePartnerMergeAutomaticWizardForm" model="ir.ui.view">
+            <field name='label'>base.partner.merge.automatic.wizard.form</field>
+            <field name='model'>base.partner.merge.automatic.wizard</field>
+            <field name='arch' type='xml'>
+                <form string='Automatic Merge Wizard'>
+                    <sheet>
+                        <group attrs="{'invisible': [['state', '!=', 'finished']]}" col="1">
+                            <h2>There are no more contacts to merge for this request</h2>
+                            <button name="%(actionPartnerDeduplicate)d" string="Deduplicate the other Contacts" class="oe-highlight" type="action"/>
+                        </group>
+                        <p class="oe-grey" attrs="{'invisible': [['state', '!=', ['option']]]}">
+                            Select the list of fields used to search for
+                            duplicated records. If you select several fields,
+                            Verp will propose you to merge only those having
+                            all these fields in common. (not one of the fields).
+                        </p>
+                        <group attrs="{'invisible': ['|', ['state', 'not in', ['selection', 'finished']], ['numberGroup', '=', 0]]}">
+                            <field name="state" invisible="1" />
+                            <field name="numberGroup"/>
+                        </group>
+                        <group string="Search duplicates based on duplicated data in"
+                            attrs="{'invisible': [['state', 'not in', ['option',]]]}">
+                            <field name='groupbyEmail' />
+                            <field name='groupbyName' />
+                            <field name='groupbyIsCompany' />
+                            <field name='groupbyVat' />
+                            <field name='groupbyParentId' />
+                        </group>
+                        <group string="Exclude contacts having"
+                            attrs="{'invisible': [['state', 'not in', ['option',]]]}">
+                            <field name='excludeContact' />
+                            <field name='excludeJournalItem' />
+                        </group>
+                        <separator string="Options" attrs="{'invisible': [['state', 'not in', ['option',]]]}"/>
+                        <group attrs="{'invisible': [['state', 'not in', ['option','finished']]]}">
+                            <field name='maximumGroup' attrs="{'readonly': [['state', 'in', ['finished']]]}"/>
+                        </group>
+                        <separator string="Merge the following contacts"
+                            attrs="{'invisible': [['state', 'in', ['option', 'finished']]]}"/>
+                        <group attrs="{'invisible': [['state', 'in', ['option', 'finished']]]}" col="1">
+                            <p class="oe-grey">
+                                Selected contacts will be merged together.
+                                All documents linked to one of these contacts
+                                will be redirected to the destination contact.
+                                You can remove contacts from this list to avoid merging them.
+                            </p>
+                            <group col="2">
+                                <field name="dstPartnerId"
+                                    domain="[['id', 'in', bool(partnerIds) ?? false]]"
+                                    attrs="{'required': [['state', '=', 'selection']]}"
+                                    context="{'partnerShowDbId': true}"
+                                    options="{'alwaysReload': true}"/>
+                            </group>
+                            <field name="partnerIds" nolabel="1">
+                                <tree string="Partners">
+                                    <field name="id" />
+                                    <field name="displayName" />
+                                    <field name="email" />
+                                    <field name="isCompany" />
+                                    <field name="vat" />
+                                    <field name="countryId" />
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name='actionMerge' string='Merge Contacts'
+                            class='oe-highlight'
+                            type='object' data-hotkey="q"
+                            attrs="{'invisible': [['state', 'in', ['option', 'finished']]]}" />
+                        <button name='actionSkip' string='Skip these contacts'
+                            type='object'
+                            attrs="{'invisible': [['state', '!=', 'selection']]}" />
+                        <button name='actionStartManualProcess'
+                            string='Merge with Manual Check' data-hotkey="x"
+                            type='object'  class='oe-highlight'
+                            attrs="{'invisible': [['state', '!=', 'option']]}" />
+                        <button name='actionStartAutomaticProcess'
+                            string='Merge Automatically' data-hotkey="l"
+                            type='object' class='oe-highlight'
+                            confirm="Are you sure to execute the automatic merge of your contacts ?"
+                            attrs="{'invisible': [['state', '!=', 'option']]}" />
+                        <button name='actionUpdateAllProcess'
+                            string='Merge Automatically all process'
+                            type='object' data-hotkey="y"
+                            confirm="Are you sure to execute the list of automatic merges of your contacts ?"
+                            attrs="{'invisible': [['state', '!=', 'option']]}" />
+                        <button special="cancel" data-hotkey="z" string="Cancel" type="object" class="btn btn-secondary oe-inline" attrs="{'invisible': [['state', '=', 'finished']]}"/>
+                        <button special="cancel" data-hotkey="z" string="Close" type="object" class="btn btn-secondary oe-inline" attrs="{'invisible': [['state', '!=', 'finished']]}"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionPartnerMerge" model="ir.actions.actwindow">
+            <field name="label">Merge</field>
+            <field name="resModel">base.partner.merge.automatic.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="bindingModelId" ref="base.model_resPartner"/>
+            <field name="bindingViewTypes">list</field>
+        </record>
+</verp>

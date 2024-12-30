@@ -1,0 +1,4 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_account_bank_statement_import,access.account.bank.statement.import,model_accountBankStatementImport,account.groupAccountUser,1,1,1,1
+access_account_bank_statement_import_journal_creation,access_account_bank_statement_import_journal_creation,model_accountBankStatementImportJournalCreation,base.groupUser,1,1,1,1
+

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <record id="viewWarehouse" model="ir.ui.view">
+            <field name="label">stock.warehouse</field>
+            <field name="model">stock.warehouse</field>
+            <field name="arch" type="xml">
+                <form string="Warehouse">
+                    <sheet>
+                        <div class="oe-button-box" name="buttonBox">
+                            <button name="actionViewAllRoutes"
+                                    string="Routes"
+                                    icon="fa-refresh"
+                                    class="oe-stat-button"
+                                    type="object"/>
+                        </div>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <label for="label"/>
+                        <h1><field name="label" placeholder="e.g. Central Warehouse"/></h1>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="code" placeholder="e.g. CW"/>
+                            </group>
+                            <group>
+                                <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                                <field name="partnerId"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4" groups="stock.groupAdvLocation,stock.groupStockMultiWarehouses">
+                            <page string="Warehouse Configuration" name="warehouseConfig" colspan="4">
+                                <group colspan="4">
+                                    <group string="Shipments" groups="stock.groupAdvLocation">
+                                        <field name="receptionSteps" widget='radio'/>
+                                        <field name="deliverySteps" widget='radio'/>
+                                    </group>
+                                    <group name="groupResupply" string="Resupply" groups="stock.groupStockMultiWarehouses">
+                                        <field name="resupplyWhIds" domain="[['id', '!=', id]]" widget="many2manyCheckboxes" groups="stock.groupStockMultiWarehouses"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Technical Information" name="technicalInfo" groups="base.groupNoOne">
+                                <group>
+                                    <group string="Locations">
+                                        <field name="viewLocationId" string="Warehouse view location" readonly="1" required="0"/>
+                                        <field name="lotStockId" readonly="1" required="0"/>
+                                        <field name="whInputStockLocId" readonly="1"/>
+                                        <field name="whQcStockLocId" readonly="1"/>
+                                        <field name="whPackStockLocId" readonly="1"/>
+                                        <field name="whOutputStockLocId" readonly="1"/>
+                                    </group>
+                                    <group string="Operation Types">
+                                        <field name="inTypeId" readonly="1"/>
+                                        <field name="intTypeId" readonly="1"/>
+                                        <field name="pickTypeId" readonly="1"/>
+                                        <field name="packTypeId" readonly="1"/>
+                                        <field name="outTypeId" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewWarehouseTree" model="ir.ui.view">
+            <field name="label">stock.warehouse.tree</field>
+            <field name="model">stock.warehouse</field>
+            <field name="arch" type="xml">
+                <tree string="Warehouse">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="active" invisible="1"/>
+                    <field name="lotStockId" groups="stock.groupStockMultiLocations"/>
+                    <field name="partnerId"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stockWarehouseViewSearch" model="ir.ui.view">
+            <field name="label">stock.warehouse.search</field>
+            <field name="model">stock.warehouse</field>
+            <field name="arch" type="xml">
+                <search string="Warehouse">
+                    <field name="label"/>
+                    <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionWarehouseForm" model="ir.actions.actwindow">
+            <field name="label">Warehouses</field>
+            <field name="resModel">stock.warehouse</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewId" ref="viewWarehouseTree"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Define a new warehouse
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="actionWarehouseForm" id="menuActionWarehouseForm"
+            parent="menuWarehouseConfig" sequence="1"/>
+
+</verp>

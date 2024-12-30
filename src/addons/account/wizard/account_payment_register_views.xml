@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewAccountPaymentRegisterForm" model="ir.ui.view">
+            <field name="label">account.payment.register.form</field>
+            <field name="model">account.payment.register</field>
+            <field name="arch" type="xml">
+                <form string="Register Payment">
+                    <!-- Invisible fields -->
+                    <field name="lineIds" invisible="1"/>
+                    <field name="canEditWizard" invisible="1" forceSave="1"/>
+                    <field name="canGroupPayments" invisible="1" forceSave="1"/>
+                    <field name="paymentType" invisible="1" forceSave="1"/>
+                    <field name="partnerType" invisible="1" forceSave="1"/>
+                    <field name="sourceAmount" invisible="1" forceSave="1"/>
+                    <field name="sourceAmountCurrency" invisible="1" forceSave="1"/>
+                    <field name="sourceCurrencyId" invisible="1" forceSave="1"/>
+                    <field name="companyId" invisible="1" forceSave="1"/>
+                    <field name="partnerId" invisible="1" forceSave="1"/>
+                    <field name="countryCode" invisible="1" forceSave="1"/>
+
+                    <field name="showPartnerBankAccount" invisible="1"/>
+                    <field name="requirePartnerBankAccount" invisible="1"/>
+                    <field name="hidePaymentMethodLine" invisible="1"/>
+                    <field name="availablePaymentMethodLineIds" invisible="1"/>
+                    <field name="companyCurrencyId" invisible="1"/>
+
+                    <group>
+                        <group name="group1">
+                            <field name="journalId" options="{'noOpen': true, 'noCreate': true}" required="1"/>
+                            <field name="paymentMethodLineId"
+                                   required="1"  options="{'noCreate': true, 'noOpen': true}"
+                                   attrs="{'invisible': [['hidePaymentMethodLine', '=', true]]}"/>
+                            <field name="partnerBankId"
+                                   attrs="{'invisible': ['|', ['showPartnerBankAccount', '=', false], '|', ['canEditWizard', '=', false], '&amp;', ['canGroupPayments', '=', true], ['groupPayment', '=', false]],
+                                           'required': [['requirePartnerBankAccount', '=', true], ['canEditWizard', '=', true], '|', ['canGroupPayments', '=', false], ['groupPayment', '=', false]]}"/>
+                            <field name="groupPayment"
+                                   attrs="{'invisible': [['canGroupPayments', '=', false]]}"/>
+                        </group>
+                        <group name="group2">
+                            <label for="amount"
+                                   attrs="{'invisible': ['|', ['canEditWizard', '=', false], '&amp;', ['canGroupPayments', '=', true], ['groupPayment', '=', false]]}"/>
+                            <div name="amountDiv" class="o-row"
+                                 attrs="{'invisible': ['|', ['canEditWizard', '=', false], '&amp;', ['canGroupPayments', '=', true], ['groupPayment', '=', false]]}">
+                                <field name="amount"/>
+                                <field name="currencyId"
+                                       options="{'noCreate': true, 'noOpen': true}"
+                                       groups="base.groupMultiCurrency"/>
+                            </div>
+                            <field name="paymentDate"/>
+                            <field name="communication"
+                                   attrs="{'invisible': ['|', ['canEditWizard', '=', false], '&amp;', ['canGroupPayments', '=', true], ['groupPayment', '=', false]]}"/>
+                        </group>
+                        <group name="group3"
+                               attrs="{'invisible': ['|', ['paymentDifference', '=', 0.0], '|', ['canEditWizard', '=', false], '&amp;', ['canGroupPayments', '=', true], ['groupPayment', '=', false]]}"
+                               groups="account.groupAccountReadonly">
+                            <label for="paymentDifference"/>
+                            <div>
+                                <field name="paymentDifference"/>
+                                <field name="paymentDifferenceHandling" widget="radio" nolabel="1"/>
+                                <div attrs="{'invisible': [['paymentDifferenceHandling','=','open']]}">
+                                    <label for="writeoffAccountId" string="Post Difference In" class="oe-edit-only"/>
+                                    <field name="writeoffAccountId"
+                                           string="Post Difference In"
+                                           options="{'noCreate': true}"
+                                           attrs="{'required': [['paymentDifferenceHandling', '=', 'reconcile']]}"/>
+                                    <label for="writeoffLabel" class="oe-edit-only" string="Label"/>
+                                    <field name="writeoffLabel" attrs="{'required': [['paymentDifferenceHandling', '=', 'reconcile']]}"/>
+                                </div>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Create Payment" name="actionCreatePayments" type="object" class="oe-highlight" data-hotkey="q"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</verp>

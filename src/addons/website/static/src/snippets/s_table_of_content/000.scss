@@ -1,0 +1,67 @@
+.s-table-of-content:not([data-vcss]) {
+    .s-table-of-content-navbar-wrap {
+        &.s-table-of-content-navbar-sticky {
+            &.s-table-of-content-horizontal-navbar, &.s-table-of-content-vertical-navbar .s-table-of-content-navbar {
+                @include o-position-sticky($top: 0px);
+            }
+        }
+        &:not(.s-table-of-content-navbar-sticky) {
+            &, .s-table-of-content-navbar {
+                top: 0px !important;
+            }
+        }
+        &.s-table-of-content-vertical-navbar .s-table-of-content-navbar {
+            overflow-wrap: break-word;
+
+            > a.list-group-item-action {
+                background: none;
+                color: inherit;
+                opacity: 0.7;
+                font-weight: $font-weight-normal + 100;
+                padding-left: 3px;
+                transition: padding 0.1s;
+
+                &:before {
+                    @include o-position-absolute(10px, auto, 10px, 0);
+                    width: 2px;
+                    content: "";
+                }
+                &:hover {
+                    opacity: 1;
+                }
+                &:focus {
+                    background: none;
+                }
+                &.active {
+                    background: none;
+                    padding-left: 8px;
+                    opacity: 1;
+
+                    &:before {
+                        background-color: theme-color('primary');
+                    }
+                }
+            }
+        }
+        &.s-table-of-content-horizontal-navbar {
+            z-index: 1;
+            padding-top: $navbar-padding-y;
+            padding-bottom: $navbar-padding-y;
+            margin-bottom: $spacer * 2;
+
+            .s-table-of-content-navbar {
+                display: inline;
+    
+                > a {
+                    &.list-group-item-action {
+                        width: auto;
+                    }
+                    &.list-group-item {
+                        display: inline-block;
+                        margin-bottom: 2px;
+                    }
+                }
+            }
+        }
+    }
+}

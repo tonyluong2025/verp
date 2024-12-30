@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="digestDigestViewTree" model="ir.ui.view">
+        <field name="label">digest.digest.view.tree</field>
+        <field name="model">digest.digest</field>
+        <field name="arch" type="xml">
+            <tree string="KPI Digest">
+                <field name="label"/>
+                <field name="periodicity"/>
+                <field name="nextRunDate" groups="base.groupNoOne"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+    <record id="digestDigestViewForm" model="ir.ui.view">
+        <field name="label">digest.digest.view.form</field>
+        <field name="model">digest.digest</field>
+        <field name="arch" type="xml">
+            <form string="KPI Digest">
+                <field name="isSubscribed" invisible="1"/>
+                <header>
+                    <button type="object" name="actionSubscribe" string="Subscribe"
+                        class="oe-highlight"
+                        attrs="{'invisible': ['|',['isSubscribed', '=', true], ['state','=','deactivated']]}"/>
+                    <button type="object" name="actionUnsubcribe" string="Unsubscribe me"
+                        class="oe-highlight"
+                        attrs="{'invisible': ['|',['isSubscribed', '=', false], ['state','=','deactivated']]}"/>
+                    <button type="object" name="actionDeactivate" string="Deactivate for everyone"
+                        class="oe-highlight"
+                        attrs="{'invisible': [['state','=','deactivated']]}" groups="base.groupSystem"/>
+                    <button type="object" name="actionActivate" string="Activate"
+                        class="oe-highlight"
+                        attrs="{'invisible': [['state','=','activated']]}" groups="base.groupSystem"/>
+                    <button type="object" name="actionSend" string="Send Now"
+                        class="oe-highlight"
+                        attrs="{'invisible': [['state','=','deactivated']]}" groups="base.groupSystem"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe-title">
+                        <label for="label" string="Digest Name"/>
+                        <h1>
+                            <field name="label" placeholder="e.g. Your Weekly Digest"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="periodicity" widget="radio" options="{'horizontal': true}"/>
+                            <field name="nextRunDate" groups="base.groupSystem"/>
+                            <field name="companyId" options="{'noCreate': true}" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="kpis" string="KPIs">
+                            <group name="kpis">
+                                <group name="kpiGeneral" string="General" groups="base.groupSystem">
+                                    <field name="kpiResUsersConnected"/>
+                                    <field name="kpiMailMessageTotal"/>
+                                </group>
+                                <group name="kpiSales"/>
+                            </group>
+                        </page>
+                        <page name="recipients" string="Recipients" groups="base.groupSystem">
+                            <group>
+                                <field name="userIds" options="{'noCreate': true}">
+                                    <tree string="Recipients">
+                                        <field name="label"/>
+                                        <field name="email"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page name="howTo" string="How to customize your digest?" groups="base.groupNoOne">
+                            <div class="alert alert-info" role="alert">
+                                In order to build your customized digest, follow these steps:
+                                <ol>
+                                    <li>
+                                        You may want to add new computed fields with Verp Studio:
+                                        <ul>
+                                            <li>
+                                                you must create 2 fields on the
+                                                <code>digest</code>
+                                                object:
+                                            </li>
+                                            <li>
+                                                first create a boolean field called
+                                                <code>kpiMyfield</code>
+                                                and display it in the KPI's tab;
+                                            </li>
+                                            <li>
+                                                then create a computed field called
+                                                <code>kpiMyfieldValue</code>
+                                                that will compute your customized KPI.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>Select your KPIs in the KPI's tab.</li>
+                                    <li>
+                                        Create or edit the mail template: you may get computed KPI's value using these fields:
+                                        <code>
+                                            <field name="availableFields" class="oe-inline" />
+                                        </code>
+                                    </li>
+                                </ol>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="digestDigestViewSearch" model="ir.ui.view">
+        <field name="label">digest.digest.view.search</field>
+        <field name="model">digest.digest</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="label"/>
+                <field name="userIds"/>
+                <group expand="1" string="Group by">
+                    <filter string="Periodicity" name="periodicity" context="{'groupby': 'periodicity'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="digestDigestAction" model="ir.actions.actwindow">
+        <field name="label">Digest Emails</field>
+        <field name="resModel">digest.digest</field>
+        <field name="searchViewId" ref="digestDigestViewSearch"/>
+    </record>
+
+    <menuitem id="digestMenu"
+        action="digestDigestAction"
+        parent="base.menuEmail"
+        groups="base.groupErpManager"
+        sequence="80"/>
+
+    <!-- DIGEST.TIP -->
+    <record id="digestTipViewTree" model="ir.ui.view">
+        <field name="label">digest.tip.view.tree</field>
+        <field name="model">digest.tip</field>
+        <field name="arch" type="xml">
+            <tree string="KPI Digest Tips">
+                <field name="sequence" widget="handle"/>
+                <field name="label"/>
+                <field name="groupId"/>
+            </tree>
+        </field>
+    </record>
+    <record id="digestTipViewForm" model="ir.ui.view">
+        <field name="label">digest.tip.view.form</field>
+        <field name="model">digest.tip</field>
+        <field name="arch" type="xml">
+            <form string="KPI Digest Tip">
+                <sheet>
+                    <group>
+                        <field name="label"/>
+                        <field name="tipDescription"/>
+                        <field name="groupId"/>
+                        <field name="userIds" widget="many2manyTags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="digestTipViewSearch" model="ir.ui.view">
+        <field name="label">digest.tip.view.search</field>
+        <field name="model">digest.tip</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="label"/>
+                <field name="tipDescription"/>
+                <field name="groupId"/>
+            </search>
+        </field>
+    </record>
+    <record id="digestTipAction" model="ir.actions.actwindow">
+        <field name="label">Digest Tips</field>
+        <field name="resModel">digest.tip</field>
+        <field name="searchViewId" ref="digestTipViewSearch"/>
+    </record>
+
+    <menuitem id="digestTipMenu"
+        action="digestTipAction"
+        parent="base.menuEmail"
+        groups="base.groupErpManager"
+        sequence="81"/>
+
+</verp>

@@ -1,0 +1,28 @@
+@include media-breakpoint-down(sm) {
+    .o-calendar-view .o-calendar-widget {
+        .fc-timeGridDay-view .fc-axis,
+        .fc-timeGridWeek-view .fc-axis {
+            padding-left: 0px;
+        }
+        .fc-dayGridMonth-view {
+            padding-left: 0px;
+            .fc-week-number {
+                display: none;
+            }
+        }
+        .fc-dayGridYear-view {
+            padding-left: 0px;
+            > .fc-month-container {
+                width: 95%;
+            }
+        }
+        .fc-timeGridDay-view .fc-widget-header {
+            margin: 0 4px;
+        }
+        .fc-timeGridWeek-view .fc-widget-header {
+            word-spacing: 4em;
+            white-space: normal;
+            text-align: center;
+        }
+    }
+}

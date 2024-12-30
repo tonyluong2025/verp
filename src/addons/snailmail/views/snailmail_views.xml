@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record model="ir.ui.view" id="snailmailLetterList">
+        <field name="label">snailmail.letter.tree</field>
+        <field name="model">snailmail.letter</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state=='error'" decoration-muted="state=='sent'" string="Letters">
+                <field name="attachmentId" string="Document"/>
+                <field name="partnerId"/>
+                <field name="userId"/>
+                <field name="state" invisible="1"/>
+                <field name="infoMsg" widget="html"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="snailmailLetterForm">
+        <field name="label">snailmail.letter.form</field>
+        <field name="model">snailmail.letter</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="snailmailPrint" string="Send Now" type="object" states="pending,error" class="oe-highlight"/>
+                    <button name="cancel" string="Cancel" type="object" states="pending,error"/>
+                    <field name="state" widget="statusbar" statusbarVisible="pending,sent,canceled"/>
+                </header>
+                <sheet>
+                    <div class="oe-title">
+                        <h1><field name="displayName"/></h1>
+                    </div>
+                    <group>
+                        <field name="reference" widget="reference"/>
+                        <field name="attachmentDatas" filename="attachmentFname"/>
+                        <field name="attachmentFname" invisible="1"/>
+                        <field name="partnerId"/>
+                        <field name="userId"/>
+                        <field name="infoMsg" widget="html"/>
+                    </group>
+                    <group groups="base.groupNoOne">
+                        <field name="model"/>
+                        <field name="resId"/>
+                        <field name="color"/>
+                        <field name="duplex"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.actwindow" id="actionMailLetters">
+        <field name="label">Snailmail Letters</field>
+        <field name="resModel">snailmail.letter</field>
+        <field name="viewMode">form,tree</field>
+        <field name="domain">[['state', '!=', 'draft']]</field>
+        <field name="viewId" ref="snailmailLetterList" />
+    </record>
+
+    <menuitem id="menuSnailmailLetters" parent="base.menuEmail" action="actionMailLetters"
+              sequence="50"/>
+</verp>

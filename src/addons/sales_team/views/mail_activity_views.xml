@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="mailActivityTypeActionConfigSales" model="ir.actions.actwindow">
+        <field name="label">Activity Types</field>
+        <field name="resModel">mail.activity.type</field>
+        <field name="viewMode">tree,form</field>
+        <field name="domain">['|', ['resModel', '=', false], ['resModel', '=', 'res.partner']]</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create an Activity Type
+            </p><p>
+                Those represent the different categories of things you have to do (e.g. "Call" or "Prepare meeting").
+            </p>
+        </field>
+    </record>
+</verp>

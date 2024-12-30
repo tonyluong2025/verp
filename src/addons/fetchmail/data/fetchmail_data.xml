@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="irCronMailGatewayAction" model="ir.cron">
+            <field name="label">Mail: Fetchmail Service</field>
+            <field name="modelId" ref="model_fetchmailServer"/>
+            <field name="state">code</field>
+            <field name="code">model._fetchMails()</field>
+            <field name="intervalNumber">5</field>
+            <field name="intervalType">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="false"/>
+            <!-- Active flag is set on fetchmail_server.create/write -->
+            <field name="active" eval="false"/>
+        </record>
+    </data>
+</verp>

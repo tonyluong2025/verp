@@ -1,0 +1,30 @@
+{
+    "label": "Website Payment",
+    "category": "Hidden",
+    "summary": "Payment integration with website",
+    "version": "1.0",
+    "description": "This is a bridge module that adds multi-website support for payment acquirers.",
+    "depends": [
+        "website",
+        "payment",
+        "portal"
+    ],
+    "data": [
+        "data/donation_data.xml",
+        "views/payment_acquirer.xml",
+        "views/donation_templates.xml",
+        "views/snippets/snippets.xml",
+        "views/snippets/s_donation.xml"
+    ],
+    "autoInstall": true,
+    "assets": {
+        "website.assetsWysiwyg": [
+            "website_payment/static/src/snippets/s_donation/options.js"
+        ],
+        "web.assetsFrontend": [
+            "website_payment/static/src/js/website_payment_donation.js",
+            "website_payment/static/src/js/website_payment_form.js"
+        ]
+    },
+    "license": "MIT Expat"
+}

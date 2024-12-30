@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!--
+        @param {mail.DocumentViewer} widget
+    -->
+    <t t-name="DocumentViewer.Content">
+        <div class="o-viewer-content">
+            <t t-set="model" t-value="widget.modelName"/>
+            <div class="o-viewer-header">
+                <span class="o-image-caption">
+                    <i class="fa fa-picture-o mr8" t-if="widget.activeAttachment.fileType == 'image'" role="img" aria-label="Image" title="Image"/>
+                    <i class="fa fa-file-text mr8" t-if="widget.activeAttachment.fileType == 'application/pdf'" role="img" aria-label="PDF file" title="PDF file"/>
+                    <i class="fa fa-video-camera mr8" t-if="widget.activeAttachment.fileType == 'video'" role="img" aria-label="Video" title="Video"/>
+                    <span class="o-viewer-document-name" t-esc="widget.activeAttachment.label"/>
+                </span>
+                <div class="o-autogrow"/>
+                <a class="o-download-btn o-document-viewer-topbar-button btn" href="#" title="Download">
+                    <i class="fa fa-fw fa-download" role="img" aria-label="Download"/>
+                    <span class="d-none d-md-inline ml-2">Download</span>
+                </a>
+                <a role="button" href="#" class="o-close-btn o-document-viewer-topbar-button btn" title="Close">
+                    <i class="fa fa-fw fa-close" role="img" aria-label="Close"/>
+                </a>
+            </div>
+            <div class="o-viewer-img-wrapper">
+                <div class="o-viewer-zoomer">
+                    <t t-if="widget.activeAttachment.fileType === 'image'">
+                        <div class="o-loading-img text-center">
+                            <i class="fa fa-circle-o-notch fa-spin text-gray-light fa-3x fa-fw" role="img" aria-label="Loading" title="Loading"/>
+                        </div>
+                        <t t-set="unique" t-value="widget.activeAttachment.checksum ? widget.activeAttachment.checksum.slice(-8) : ''"/>
+                        <img class="o-viewer-img" t-attf-src="/web/image/#{widget.activeAttachment.id}?unique=#{unique}&amp;model=#{model}" alt="Viewer"/>
+                    </t>
+                    <iframe t-if="widget.activeAttachment.fileType == 'application/pdf'" class="o-viewer-pdf"  t-attf-src="/web/static/lib/pdfjs/web/viewer.html?file=/web/content/#{widget.activeAttachment.id}?model%3D#{model}%26filename%3D#{window.encodeURIComponent(widget.activeAttachment.label)}" />
+                    <iframe t-if="(widget.activeAttachment.fileType || '').indexOf('text') !== -1" class="o-viewer-text" t-attf-src="/web/content/#{widget.activeAttachment.id}?model=#{model}" />
+                    <iframe t-if="widget.activeAttachment.fileType == 'youtu'" class="o-viewer-text"  allow="autoplay; encrypted-media" width="560" height="315" t-attf-src="https://www.youtube.com/embed/#{widget.activeAttachment.youtube}"/>
+                    <video t-if="widget.activeAttachment.fileType == 'video'" class="o-viewer-video" controls="controls">
+                        <source t-attf-src="/web/image/#{widget.activeAttachment.id}?model=#{model}" t-att-data-type="widget.activeAttachment.mimetype"/>
+                    </video>
+                </div>
+            </div>
+            <div t-if="widget.activeAttachment.fileType == 'image'" class="o-viewer-toolbar btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group">
+                    <a role="button" href="#" class="o-viewer-toolbar-btn btn o-zoom-in" data-toggle="tooltip" title="Zoom In"><i class="fa fa-fw fa-plus" role="img" aria-label="Zoom In"/></a>
+                    <a role="button" href="#" class="o-viewer-toolbar-btn btn o-zoom-reset disabled" data-toggle="tooltip" title="Reset Zoom"><i class="fa fa-fw fa-search" role="img" aria-label="Reset Zoom"/></a>
+                    <a role="button" href="#" class="o-viewer-toolbar-btn btn o-zoom-out disabled" data-toggle="tooltip" title="Zoom Out"><i class="fa fa-fw fa-minus" role="img" aria-label="Zoom Out"/></a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a role="button" href="#" class="o-viewer-toolbar-btn btn o-rotate" data-toggle="tooltip" title="Rotate"><i class="fa fa-fw fa-repeat" role="img" aria-label="Rotate"/></a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a role="button" href="#" class="o-viewer-toolbar-btn btn o-print-btn" data-toggle="tooltip" title="Print"><i class="fa fa-fw fa-print" role="img" aria-label="Print"/></a>
+                    <a role="button" href="#" class="o-viewer-toolbar-btn btn o-download-btn" data-toggle="tooltip" title="Download"><i class="fa fa-fw fa-download" role="img" aria-label="Download"/></a>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!--
+        @param {mail.DocumentViewer} widget
+    -->
+    <t t-name="DocumentViewer">
+        <div class="modal o-modal-fullscreen" tabindex="-1" data-keyboard="false" role="dialog">
+            <t class="o-document-viewer-content-call" t-call="DocumentViewer.Content"/>
+
+            <t t-if="widget.attachment.length !== 1">
+                <a class="arrow arrow-left move-previous" href="#">
+                    <span class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"/>
+                </a>
+                <a class="arrow arrow-right move-next" href="#">
+                    <span class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"/>
+                </a>
+            </t>
+        </div>
+    </t>
+
+    <!--
+        @param {string} src
+    -->
+    <t t-name="PrintImage">
+        <html>
+            <head>
+                <script>
+                    function onloadImg() {
+                        setTimeout('printImg()', 10);
+                    }
+                    function printImg() {
+                        window.print();
+                        window.close();
+                    }
+                </script>
+            </head>
+            <body onload='onloadImg()'>
+                <img t-att-src='src' alt=""/>
+            </body>
+        </html>
+    </t>
+
+</templates>

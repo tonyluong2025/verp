@@ -1,0 +1,27 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_product_product_public,product.product.public,product.model_productProduct,,1,0,0,0
+access_product_template_public,product.template.public,product.model_productTemplate,,1,0,0,0
+access_product_category_public,product.category.public,product.model_productCategory,,1,0,0,0
+access_product_category_pos_manager,product.public.category manager,model_productPublicCategory,sales_team.groupSaleManager,1,1,1,1
+access_product_public_category_public,product.category.public,model_productPublicCategory,,1,0,0,0
+access_product_pricelist_public,product.pricelist.public,product.model_productPricelist,,1,0,0,0
+access_product_pricelist_item_public,product.pricelist.item.public,product.model_productPricelistItem,,1,0,0,0
+access_product_ribbon_public,product.ribbon.public,website_sale.model_productRibbon,,1,0,0,0
+access_product_ribbon_sale_manager,product.ribbon.sale_manager,website_sale.model_productRibbon,sales_team.groupSaleManager,1,1,1,1
+access_product_attribute_public,product.attribute public,product.model_productAttribute,,1,0,0,0
+access_product_attribute_value_public,product.attribute value public,product.model_productAttributeValue,,1,0,0,0
+access_product_product_attribute,product.template.attribute value public,product.model_productTemplateAttributeValue,,1,0,0,0
+access_product_product_attribute_custom_value,product.attribute.custom value,sale.model_productAttributeCustomValue,,1,0,0,0
+access_product_template_attribute_exclusion,product.template.attribute exclusion public,product.model_productTemplateAttributeExclusion,,1,0,0,0
+access_product_template_attribute_line_public,product.template.attribute line public,product.model_productTemplateAttributeLine,,1,0,0,0
+access_fiscal_position_public,fiscal position public,account.model_accountFiscalPosition,base.groupPortal,1,0,0,0
+access_payment_term,payment term public,account.model_accountPaymentTerm,base.groupPortal,1,0,0,0
+access_account_tax_user,account.tax,account.model_accountTax,base.groupPublic,1,0,0,0
+access_product_image_public,product.image public,model_productImage,,1,0,0,0
+access_product_image_publisher,product.image wbesite publisher,model_productImage,website.groupWebsitePublisher,1,1,1,1
+access_product_image_sale,product.image sale,model_productImage,sales_team.groupSaleManager,1,1,1,1
+access_website_sale_payment_acquirer_onboarding_wizard,access.website.sale.payment.acquirer.onboarding.wizard,model_websiteSalePaymentAcquirerOnboardingWizard,base.groupSystem,1,1,1,0
+access_ecom_extra_fields_public,access_ecom_extra_field public,model_websiteSaleExtraField,,1,0,0,0
+access_ecom_extra_fields_publisher,access_ecom_extra_field publisher,model_websiteSaleExtraField,website.groupWebsitePublisher,1,1,1,1
+access_website_base_unit_public,website.base.unit public,model_websiteBaseUnit,,1,0,0,0
+access_website_base_unit_sale_manager,website.base.unit sale manager,model_websiteBaseUnit,sales_team.groupSaleManager,1,1,1,1

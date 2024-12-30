@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewResPartnerFormInheritPartnerAutocomplete" model="ir.ui.view">
+        <field name="label">res.partner.form.inherit.partner.autocomplete</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="base.viewPartnerForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class,'oe-title')]/h1/field[@id='company']" position="attributes">
+                <attribute name="widget">fieldPartnerAutocomplete</attribute>
+            </xpath>
+            <xpath expr="//div[contains(@class,'oe-title')]/h1/field[@id='individual']" position="attributes">
+                <attribute name="widget">fieldPartnerAutocomplete</attribute>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="widget">fieldPartnerAutocomplete</attribute>
+            </xpath>
+            <xpath expr="//field[last()]" position="after">
+                <field name="partnerGid" invisible="true"/>
+                <field name="additionalInfo" invisible="true"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="viewPartnerSimpleFormInheritPartnerAutocomplete" model="ir.ui.view">
+        <field name="label">res.partner.simplified.form.inherit.partner.autocomplete</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="base.viewPartnerSimpleForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class,'oe-title')]/h1/field[@id='company']" position="attributes">
+                <attribute name="widget">fieldPartnerAutocomplete</attribute>
+            </xpath>
+            <xpath expr="//div[contains(@class,'oe-title')]/h1/field[@id='individual']" position="attributes">
+                <attribute name="widget">fieldPartnerAutocomplete</attribute>
+            </xpath>
+            <xpath expr="//field[last()]" position="after">
+                <field name="partnerGid" invisible="true"/>
+                <field name="additionalInfo" invisible="true"/>
+            </xpath>
+        </field>
+    </record>
+</verp>

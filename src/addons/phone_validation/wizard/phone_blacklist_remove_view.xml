@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="phoneBlacklistRemoveViewForm" model="ir.ui.view">
+        <field name="label">phone.blacklist.remove.form</field>
+        <field name="model">phone.blacklist.remove</field>
+        <field name="arch" type="xml">
+            <form string="phoneBlacklistRemoval">
+                <group class="oe-title">
+                    <field name="phone" string="Phone Number"/>
+                    <field name="reason" string="Reason"/>
+                </group>
+                <footer>
+                    <button name="actionUnblacklistApply" string="Confirm" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

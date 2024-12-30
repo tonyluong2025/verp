@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="actionAccountReportPl" model="ir.actions.actwindow">
+        <field name="label">Profit and Loss</field>
+        <field name="resModel">accounting.report</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountingReportView"/>
+        <field name="target">new</field>
+        <field name="context" eval="{'default_accountReportId': refId('account_pdf_reports.accountFinancialReportProfitandloss0')}"/>
+    </record>
+
+    <menuitem id="menuAccountReportPl"
+              name="Profit and Loss"
+              sequence="6"
+              action="actionAccountReportPl"
+              parent="account_pdf_reports.menuFinanceLegalStatement"
+              groups="account.groupAccountUser,account.groupAccountManager"/>
+
+</verp>

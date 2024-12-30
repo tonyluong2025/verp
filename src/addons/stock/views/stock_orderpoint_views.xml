@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewStockWarehouseOrderpointKanban" model="ir.ui.view">
+        <field name="label">stock.warehouse.orderpoint.kanban</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="arch" type="xml">
+            <kanban class="o-kanban-mobile">
+                <field name="label"/>
+                <field name="productId"/>
+                <field name="trigger"/>
+                <field name="productMinQty"/>
+                <field name="productMaxQty"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe-kanban-global-click">
+                            <div class="o-kanban-record-top">
+                                <div class="o-kanban-record-headings">
+                                    <strong class="o-kanban-record-title"><t t-esc="record.label.value"/></strong>
+                                </div>
+                                <span class="badge badge-pill"><strong>Min qty :</strong><t t-esc="record.productMinQty.value"/></span>
+                            </div>
+                            <div class="o-kanban-record-bottom">
+                                <div class="oe-kanban-bottom-left">
+                                    <span><t t-esc="record.productId.value"/></span>
+                                </div>
+                                <div class="oe-kanban-bottom-right">
+                                    <span class="badge badge-pill"><strong>Max qty :</strong><t t-esc="record.productMaxQty.value"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="viewWarehouseOrderpointTreeEditable" model="ir.ui.view">
+        <field name="label">stock.warehouse.orderpoint.tree.editable</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="arch" type="xml">
+            <tree string="Reordering Rules" editable="bottom" jsClass="stockOrderpointList" sample="1" multiEdit="1">
+                <field name="active" invisible="1"/>
+                <field name="productCategoryId" invisible="1"/>
+                <field name="productTemplateId" invisible="1"/>
+                <field name="productId" attrs="{'readonly': [['productId', '!=', false]]}" invisible="context['default_productId'] ?? false" forceSave="1"/>
+                <field name="locationId" options="{'noCreate': true}" groups="stock.groupStockMultiLocations"/>
+                <field name="warehouseId" options="{'noCreate': true}" groups="stock.groupStockMultiWarehouses" optional="hide"/>
+                <field name="qtyOnHand" forceSave="1"/>
+                <field name="qtyForecast" forceSave="1"/>
+                <button name="actionProductForecastReport" type="object" icon="fa-area-chart" attrs="{'invisible': [['id', '=', false]]}"/>
+                <field name="routeId" options="{'noCreate': true, 'noOpen': true}"/>
+                <button name="actionStockReplenishmentInfo" type="object" icon="fa-info-circle" attrs="{'invisible': [['id', '=', false]]}"/>
+                <field name="trigger" optional="hide"/>
+                <field name="groupId" optional="hide" groups="stock.groupAdvLocation"/>
+                <field name="productMinQty" optional="show"/>
+                <field name="productMaxQty" optional="show"/>
+                <field name="qtyMultiple" optional="hide"/>
+                <field name="qtyToOrder"/>
+                <field name="productUomName" string="UoM" groups="uom.groupUom"/>
+                <field name="companyId" optional="hide" readonly="1" groups="base.groupMultiCompany"/>
+                <button name="actionReplenish" string="Order Once" type="object" class="o_replenish_buttons" icon="fa-truck"
+                    attrs="{'invisible': [['qtyToOrder', '&lt;', 1.0]]}"/>
+                <button name="actionReplenishAuto" string="Automate Orders" type="object" class="o_replenish_buttons" icon="fa-refresh"
+                    attrs="{'invisible': ['|', ['qtyToOrder', '&lt;', 1.0], ['trigger', '=', 'auto']]}"/>
+                <button name="%(actionOrderpointSnooze)d" string="Snooze" type="action" class="text-warning" icon="fa-bell-slash"
+                    attrs="{'invisible': [['trigger', '!=', 'manual']]}" context="{'default_orderpointIds': [id]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewWarehouseOrderpointTreeEditableConfig" model="ir.ui.view">
+        <field name="label">stock.warehouse.orderpoint.tree.editable.config</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="arch" type="xml">
+            <tree string="Reordering Rules" editable="bottom">
+                <field name="active" invisible="1"/>
+                <field name="warehouseId" invisible="1"/>
+                <field name="productTemplateId" invisible="1"/>
+                <field name="productId" invisible="context['default_productId'] ?? false" forceSave="1"/>
+                <field name="locationId" options="{'noCreate': true}" groups="stock.groupStockMultiLocations"/>
+                <field name="routeId" optional="hide"/>
+                <field name="trigger" optional="hide"/>
+                <field name="groupId" optional="hide" groups="stock.groupAdvLocation"/>
+                <field name="productMinQty" optional="show"/>
+                <field name="productMaxQty" optional="show"/>
+                <field name="qtyMultiple" optional="show"/>
+                <button name="stock.actionStockReplenishmentInfo" string="Forecast Description" type="action" icon="fa-area-chart" attrs="{'invisible': [['id', '=', false]]}"/>
+                <field name="productUomName" string="UoM" groups="uom.groupUom"/>
+                <field name="companyId" optional="hide" readonly="1" groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stockReorderReportSearch">
+        <field name="label">stock.warehouse.orderpoint.reorder.search</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="arch" type="xml">
+            <search string="Replenishment Report Search">
+                <field name="label" string="Reordering Rule"/>
+                <field name="productId"/>
+                <field name="trigger"/>
+                <field name="productCategoryId"/>
+                <field name="groupId" groups="stock.groupAdvLocation"/>
+                <field name="warehouseId" groups="stock.groupStockMultiWarehouses"/>
+                <field name="locationId" groups="stock.groupStockMultiLocations"/>
+                <filter string="To Reorder" name="filterToReorder" domain="[['qtyToOrder', '&gt;', 0.0]]"/>
+                <separator/>
+                <filter string="Not Snoozed" name="filterNotSnoozed" domain="['|', ['snoozedUntil', '=', false], ['snoozedUntil', '&lt;=', toTormat(today(), 'yyyy-MM-dd')]]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Warehouse" name="groupbyWarehouse" domain="[]"  context="{'groupby': 'warehouseId'}" groups="stock.groupStockMultiWarehouses"/>
+                    <filter string="Location" name="groupbyLocation" domain="[]" context="{'groupby': 'locationId'}" groups="stock.groupStockMultiLocations"/>
+                    <filter string="Product" name="groupbyProduct" domain="[]" context="{'groupby': 'productId'}"/>
+                    <filter string="Category" name="groupbyCategory" domain="[]" context="{'groupby': 'productCategoryId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="warehouseOrderpointSearch">
+        <field name="label">stock.warehouse.orderpoint.search</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="arch" type="xml">
+            <search string="Reordering Rules Search">
+                <field name="label" string="Reordering Rule"/>
+                <field name="productId"/>
+                <field name="trigger"/>
+                <field name="groupId" groups="stock.groupAdvLocation"/>
+                <field name="warehouseId" groups="stock.groupStockMultiWarehouses"/>
+                <field name="locationId" groups="stock.groupStockMultiLocations"/>
+                <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Warehouse" name="warehouse" domain="[]"  context="{'groupby': 'warehouseId'}" groups="stock.groupStockMultiWarehouses"/>
+                    <filter string="Location" name="location" domain="[]" context="{'groupby': 'locationId'}" groups="stock.groupStockMultiLocations"/>
+                    <filter string="Product" name="product" domain="[]" context="{'groupby': 'productId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="viewWarehouseOrderpointForm" model="ir.ui.view">
+        <field name="label">stock.warehouse.orderpoint.form</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="arch" type="xml">
+            <form string="Reordering Rules">
+                <div class="alert alert-info" role="alert">
+                    <a style="cursor: pointer" class="alert-link o-form-uri" type="action" name="%(actionProcurementCompute)d">Run the scheduler</a> manually to trigger the reordering rules right now.
+                </div>
+                <sheet>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <div class="oe-title">
+                        <h1>
+                            <field name="label"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="routeId" invisible="1"/>
+                            <field name="productId"/>
+                            <label for="productMinQty"/>
+                            <div class="o-row">
+                                <field name="productMinQty"/>
+                                <field name="productUomName"/>
+                                <button name="stock.actionStockReplenishmentInfo" string="Forecast Description" type="action" icon="fa-area-chart" attrs="{'invisible': [['id', '=', false]]}"/>
+                            </div>
+                            <label for="productMaxQty"/>
+                            <div class="o-row">
+                                <field name="productMaxQty"/>
+                                <field name="productUomName"/>
+                            </div>
+                            <field name="qtyMultiple" string="Quantity Multiple"/>
+                        </group>
+                        <group>
+                            <field name="allowedLocationIds" invisible="1"/>
+                            <field name="warehouseId" options="{'noOpen': true, 'noCreate': true}" groups="stock.groupStockMultiLocations"/>
+                            <field name="locationId" options="{'noCreate': true}" groups="stock.groupStockMultiLocations" domain="[['id', 'in', allowedLocationIds]]"/>
+                            <label for="groupId" groups="base.groupNoOne"/>
+                            <div groups="base.groupNoOne">
+                                <field name="groupId" groups="stock.groupAdvLocation"/>
+                            </div>
+                            <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionOrderpointReplenish" model="ir.actions.actwindow">
+        <field name="label">Replenishment</field>
+        <field name="resModel">stock.warehouse.orderpoint</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">tree</field>
+        <field name="viewId" ref="viewWarehouseOrderpointTreeEditable"/>
+        <field name="searchViewId" ref="stockReorderReportSearch"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_replenishment">
+            You are good, no replenishment to perform!
+          </p><p>
+            You'll find here smart replenishment propositions based on inventory forecasts.
+            Choose the quantity to buy or manufacture and launch orders in a click.
+            To save time in the future, set the rules as "automated".
+          </p>
+        </field>
+    </record>
+
+    <record id="actionOrderpoint" model="ir.actions.actwindow">
+        <field name="label">Reordering Rules</field>
+        <field name="resModel">stock.warehouse.orderpoint</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="viewId" ref="viewWarehouseOrderpointTreeEditableConfig"/>
+        <field name="searchViewId" ref="warehouseOrderpointSearch"/>
+        <field name="context">{'searchDefault_trigger': 'auto'}</field>
+        <field name="help" type="html">
+          <p class="o-view-nocontent-smiling-face">
+            No reordering rule found
+          </p><p>
+            Define a minimum stock rule so that Verp creates automatically requests for quotations or draft manufacturing orders to resupply your stock.
+          </p>
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="actionReplenishment">
+        <field name="label">Replenishment</field>
+        <field name="modelId" ref="model_stockWarehouseOrderpoint"/>
+        <field name="state">code</field>
+        <field name="code">
+            (await model.withContext({
+                searchDefault_trigger: 'manual',
+                searchDefault_filterToReorder: true,
+                searchDefault_filterNotSnoozed: true,
+                default_trigger: 'manual'
+            })).actionOpenOrderpoints();
+        </field>
+    </record>
+
+
+    <menuitem
+        id="menuReorderingRulesReplenish"
+        action="actionReplenishment"
+        name="Replenishment" parent="menuStockWarehouseMgmt" sequence="10"
+        groups="stock.groupStockManager"/>
+    <menuitem
+        id="menuReorderingRulesConfig"
+        action="actionOrderpoint"
+        name="Reordering Rules" parent="menuProductInConfigStock" sequence="10"/>
+</verp>

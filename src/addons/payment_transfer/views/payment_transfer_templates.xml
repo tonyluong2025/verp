@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="redirectForm">
+        <form t-att-action="apiurl" method="post">
+            <input type="hidden" name="reference" t-att-value="reference"/>
+        </form>
+    </template>
+
+    <template id="transferTransactionStatus" inheritId="payment.transactionStatus">
+        <t t-set="sudo" t-value="await (await tx.acquirerId).sudo()" />
+        <xpath expr="//span[@t-out='await sudo.pendingMsg']" position="after">
+            <t t-if="await sudo.provider == 'transfer'">
+                <div t-if="await tx.reference">
+                    <strong>Communication: </strong><span t-esc="await tx.reference"/>
+                </div>
+                <div t-if="await sudo.qrCode">
+                    <t t-set="qrCode" t-value="await (await (await (await (await tx.companyId).sudo()).partnerId).bankIds).slice(0,1).buildQrCodeBase64(await tx.amount, await tx.reference, null, await tx.currencyId, await tx.partnerId)"/>
+                    <div t-if="qrCode" class="mt-2">
+                        <h3>Or scan me with your banking app.</h3>
+                        <img class="border border-dark rounded" t-att-src="qrCode"/>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</verp>

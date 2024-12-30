@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="productTemplateSearchViewPos" model="ir.ui.view">
+        <field name="label">product.template.search.pos.form</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateSearchView"/>
+        <field name="arch" type="xml">
+            <filter name="filterToSell" position="before">
+               <filter name="filterToAvailabePos" string="Available in POS" domain="[['availableInPos', '=', true]]"/>
+            </filter>
+            <filter name="categId" position="after">
+                <filter string="POS Product Category" name="posCategId" context="{'groupby':'posCategId'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="productTemplateActionPosProduct" model="ir.actions.actwindow">
+        <field name="label">Products</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.template</field>
+        <field name="viewMode">kanban,tree,form,activity</field>
+        <field name="context" eval="{'searchDefault_filterToAvailabePos': 1, 'default_availableInPos': true, 'createVariantNever': 'noVariant'}"/>
+    </record>
+    <record id="productProductAction" model="ir.actions.actwindow">
+        <field name="label">Product Variants</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.product</field>
+        <field name="viewMode">kanban,tree,form,activity</field>
+        <field name="context" eval="{'searchDefault_filterToAvailabePos': 1, 'default_availableInPos': true}"/>
+        <field name="domain" eval="[]"/>
+        <field name="searchViewId" eval="false"/> <!-- Force empty -->
+        <field name="viewId" ref="product.productProductTreeView"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new product variant
+            </p><p>
+                You must define a product for everything you sell through
+                the point of sale interface.
+            </p>
+        </field>
+    </record>
+    <record id="productCategoryAction" model="ir.actions.actwindow">
+        <field name="label">Internal Categories</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.category</field>
+        <field name="searchViewId" ref="product.productCategorySearchView"/>
+        <field name="viewId" ref="product.productCategoryListView"/>
+    </record>
+
+    <record id="productTemplateOnlyFormView" model="ir.ui.view">
+        <field name="label">product.template.only.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateOnlyFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='attributeLineIds']//field[@name='attributeId']" position="attributes">
+                <attribute name="context">{'default_createVariant': context['createVariantNever'] ?? 'always'}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="productTemplateFormView" model="ir.ui.view">
+        <field name="label">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='sales']/group[@name='sale']" position="inside">
+                <group name="pos" string="Point of Sale" attrs="{'invisible': [['saleOk','=',false]]}">
+                    <field name="availableInPos"/>
+                    <field name="toWeight" attrs="{'invisible': [['availableInPos', '=', false]]}"/>
+                    <field name="posCategId" attrs="{'invisible': [['availableInPos', '=', false]]}" string="Category"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Catalog menus and sub menus -->
+    <menuitem id="posConfigMenuCatalog"
+        name="Products"
+        parent="point_of_sale.menuPointRoot"/>
+    <menuitem id="menuPosProducts"
+        action="productTemplateActionPosProduct"
+        parent="point_of_sale.posConfigMenuCatalog"
+        sequence="5"/>
+    <menuitem id="posConfigMenuActionProductProduct"
+        name="Product Variants"
+        parent="point_of_sale.posConfigMenuCatalog"
+        action="productProductAction"
+        groups="product.groupProductVariant"
+        sequence="10"/>
+    <menuitem id="posConfigMenuActionProductPricelist"
+        parent="point_of_sale.posConfigMenuCatalog"
+        action="product.productPricelistAction2"
+        groups="product.groupProductPricelist"
+        sequence="20"/>
+
+    <record id="productUomCategFormView" model="ir.ui.view">
+        <field name="label">uom.category.form.inherit</field>
+        <field name="model">uom.category</field>
+        <field name="inheritId" ref="uom.productUomCategFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='label']" position="after">
+                <field name="isPosGroupable" groups="base.groupNoOne"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="productUomCategTreeView" model="ir.ui.view">
+        <field name="label">uom.category.tree.inherit</field>
+        <field name="model">uom.category</field>
+        <field name="inheritId" ref="uom.productUomCategTreeView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='label']" position="after">
+                <field name="isPosGroupable" groups="base.groupNoOne"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="productTemplateTreeView" model="ir.ui.view">
+        <field name="label">product.template.product.tree.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateTreeView"/>
+        <field name="arch" type="xml">
+            <field name="categId" position="before">
+                <field name="posCategId" optional="hide" string="POS Product Category"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="productProductTreeView" model="ir.ui.view">
+        <field name="label">product.product.product.tree.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inheritId" ref="product.productProductTreeView"/>
+        <field name="arch" type="xml">
+            <field name="categId" position="before">
+                <field name="posCategId" optional="hide" string="POS Product Category"/>
+            </field>
+        </field>
+    </record>
+</verp>

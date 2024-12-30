@@ -1,0 +1,11 @@
+<verp noupdate="1">
+
+    <record id="userIapAccount" model="ir.rule">
+      <field name="label">User IAP Account</field>
+      <field name="modelId" ref="model_iapAccount"/>
+      <field name="groups" eval="[[4, refId('base.groupUser')]]"/>
+      <!-- partners can CUD services linked to themselves -->
+      <field name="domainForce">['|', ['companyIds', '=', false], ['companyIds', 'in', companyIds]]</field>
+    </record>
+
+</verp>

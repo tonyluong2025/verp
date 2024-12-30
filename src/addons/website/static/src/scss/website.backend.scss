@@ -1,0 +1,421 @@
+.o-dashboards {
+    background-color: #ececec;
+
+    .o-website-dashboard {
+        background-color: #ececec;
+        div.o-box {
+            @include clearfix;
+            color: $o-main-color-muted;
+            background-color: $o-view-background-color;
+            background-size: cover;
+            margin-top: $o-horizontal-padding;
+            position: static;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+
+            h2, h4 {
+                text-transform: uppercase;
+                margin-top: 0;
+                color: $o-brand-verp;
+            }
+
+            h4 { margin: 0 0 0 8px; }
+
+            .col-lg-7, .col-12 {
+                padding: 15px;
+
+                .js-field-selection {
+                    width: 30%;
+                    margin: 0 0 20px 0;
+                    float: right;
+                    border-radius: 0;
+                }
+
+                .table-responsive {
+                    border: none;
+                }
+
+                table {
+
+                    tr:first-child {
+                        background: white;
+                    }
+
+                    tr:nth-child(even):not(:hover) {
+                        background: #f5f6f7;
+                    }
+
+                    th {
+                        text-transform: uppercase;
+                        color: $o-main-text-color;
+                        border-top-width: 0px;
+                    }
+                    td, th {
+                        text-align: right;
+                        border-left: none;
+
+                        &:first-child {
+                            text-align: left;
+                        }
+                    }
+                    .o-tooltip-key {
+                        text-align: left;
+                    }
+                }
+            }
+        }
+
+        .o-dashboard-common {
+            .o-box {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: flex-start;
+                > .o-inner-box {
+                    @include media-breakpoint-down(sm) {
+                        flex: 1 1 200px;
+                        display: block !important;
+                    }
+                    @include media-breakpoint-up(md) {
+                        flex: 0 0 16.6%;
+                    }
+                }
+            }
+            .o-inner-box {
+                padding-top: 10px;
+                text-align: center;
+                border: 1px solid $o-view-background-color;
+                height: 80px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                cursor: pointer;
+                color: white;
+                background-color: $o-brand-primary;
+                    &:hover {
+                        background-color: darken($o-brand-primary, 10%);
+                    }
+                &.o-primary {
+                    background-color: $o-brand-verp;
+                    color: white;
+                    &:hover {
+                        background-color: darken($o-brand-verp, 10%);
+                    }
+                }
+                .o-highlight {
+                    font-size: 27px;
+                }
+            }
+        }
+
+        .o-graph-sales {
+            direction: ltr#{"/*rtl:ignore*/"};
+            .o-legend0 {
+                background-color: $o-brand-primary;
+            }
+            .o-legend1 {
+                background-color: $o-main-color-muted;
+            }
+        }
+
+        .o-dashboard-visits {
+
+            h2 {
+                padding: 15px;
+            }
+
+            .o-demo-background {
+
+                margin-top: 16px;
+                height: 300px;
+                background-size: 100% !important;
+                background: url("/website/static/src/img/website_dashboard_visit_demo.png") no-repeat;
+                position: relative;
+
+                .o-buttons {
+                    position: relative;
+
+                    > button {
+                        display: block;
+                    }
+                }
+
+                .o-layer {
+                    background-color: rgba(255,255,255,.3);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .o-properties-selection {
+
+                @include media-breakpoint-up(lg) {
+                    display: flex;
+                }
+
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            .gapi-analytics-auth-styles-signinbutton {
+                cursor: pointer;
+            }
+
+            .ActiveUsers {
+                position: relative;
+                float: right;
+                right: 10px;
+                border: 1px solid gray('200');
+                font-weight: 300;
+                white-space: nowrap;
+                padding: .5em 1.5em;
+                margin: .5em;
+                text-transform: uppercase;
+            }
+
+            .ActiveUsers-value {
+              font-weight: 300;
+              margin-right: -.25em;
+            }
+
+            .ActiveUsers.is-increasing {
+              animation: increase 3s;
+            }
+
+            .ActiveUsers.is-decreasing {
+              animation: decrease 3s;
+            }
+
+            @keyframes increase {
+              10% {
+                background-color: lighten($o-brand-primary, 30%);
+                border-color: $o-brand-primary;
+                color: $o-brand-primary;
+              }
+            }
+
+            @keyframes decrease {
+              10% {
+                background-color: lighten($o-brand-primary, 30%);
+                border-color: $o-brand-primary;
+                color: $o-brand-primary;
+              }
+            }
+        }
+
+        tr.o-product-template {
+            cursor: pointer;
+            color: $o-main-text-color;
+        }
+
+        .o-loader {
+            text-align: center;
+            width: 100%;
+            height: 20em;
+        }
+    }
+}
+
+.oe-stat-button.o-stat-button-info {
+    pointer-events: none;
+}
+
+.o-kanban-view.o-theme-kanban {
+    $o-theme-kanban-gray: #fcfcfc;
+    background-color: $o-theme-kanban-gray;
+
+    /// Un-grouped Layout (default)
+    &.o-kanban-ungrouped {
+        justify-content: space-between;
+        margin: 0 0 0 ($o-kanban-record-margin - 2 * $grid-gutter-width);
+
+        @include media-breakpoint-down(sm) {
+            padding-left: $o-horizontal-padding - $o-kanban-record-margin;
+            padding-right: $o-horizontal-padding;
+        }
+
+        .o-kanban-record {
+            flex: 1 0 220px;
+        }
+    }
+
+    .o-kanban-record {
+        margin-left: $grid-gutter-width * 2;
+        padding: 0;
+        box-shadow: none;
+        background: none;
+        border: none;
+
+        .o-theme-preview-top {
+            position: relative;
+            border: 1px solid darken($o-theme-kanban-gray, 20%);
+            border-radius: 2px;
+            transform-origin: center bottom;
+            transition: all .1s ease 0s;
+
+            .o-theme-cover, .o-theme-logo, .o-theme-screenshot {
+                width: 100%;
+                padding-bottom: 127%;
+                background-repeat: no-repeat;
+                background-position: center top;
+                background-size: 40% 32%;
+            }
+
+            .o-theme-cover {
+                background-size: contain;
+            }
+
+            .o-theme-screenshot {
+                background-size: cover;
+            }
+        }
+
+        .o-theme-preview-bottom {
+            h5, h6 {
+                line-height: 16px;
+            }
+        }
+
+        .o-button-area {
+            @include o-position-absolute(0, 0, 0, 0);
+            transition: opacity 100ms ease 0s;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            transform: translate3d(0,0,0);
+            background-image: linear-gradient(0deg, rgba(black, 0.6), rgba(black, 0.3));
+            padding: 10% 20%;
+            opacity: 0;
+            visibility: hidden;
+
+            > .btn {
+                padding: $btn-padding-y-lg $btn-padding-x-lg;
+            }
+
+            hr {
+                width: 100%;
+            }
+        }
+
+        .o-theme-preview-top:hover {
+            transition: all .3s ease 0s;
+            transform: translateY(-10px);
+            border-color: darken($o-theme-kanban-gray, 26%);
+            box-shadow: 0 15px 12px -8px rgba(0, 0, 0, .4);
+
+            .o-theme-screenshot {
+                animation: themeScreenshotScroll 4s linear .25s infinite alternate;
+            }
+            @keyframes themeScreenshotScroll {
+                25% {
+                    background-position: center top;
+                }
+                75%, 100% {
+                    background-position: center bottom;
+                }
+            }
+
+            .o-button-area {
+                opacity: 1;
+                visibility: visible;
+                transition: opacity 0.2s ease 0.1s;
+            }
+        }
+
+        &.o-theme-installed .o-theme-preview-top {
+            @include o-we-active-wrapper($top: 7px, $right: 7px);
+        }
+    }
+
+    /// Grouped Layout
+    &.o-kanban-grouped {
+        .o-kanban-group {
+            background-color: $o-theme-kanban-gray;
+            padding: 0 20px;
+
+            .o-kanban-header {
+                height: 30px;
+
+                .o-column-title {
+                    padding: 0;
+                    color: $body-color;
+                }
+
+                &:hover, &.show {
+                    .o-kanban-config {
+                        display: none;
+                    }
+                }
+            }
+
+            .o-theme-preview-top {
+                border-color: darken($o-theme-kanban-gray, 16%);
+            }
+
+            &:nth-child(even) {
+                background-color: darken($o-theme-kanban-gray, 4%);
+
+                .o-theme-cover, .o-theme-logo {
+                    background-color: white;
+                }
+            }
+        }
+
+        .o-kanban-record {
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+
+            .o-theme-preview-top {
+                .o-theme-cover, .o-theme-logo {
+                    padding-bottom: 50%;
+                    background-size: 32% 62%;
+                }
+
+                .o-theme-cover {
+                    background-size: cover;
+                }
+            }
+        }
+    }
+}
+
+.o-view-form-theme-preview-controller {
+    .o-control-panel > div:first-of-type {
+        display: none;
+    }
+    div.o-form-nosheet {
+        padding: 0px;
+        height:100%;
+        width:100%;
+    }
+
+    .is-mobile {
+        @include media-breakpoint-up(md) {
+            iframe {
+                // mobile frame is rounded
+                border-radius: 15px;
+                height: 735px;
+            }
+            .img-mobile {
+                pointer-events: none;
+                display: block !important;
+                position: absolute;
+                top: 16px;
+                left: calc(50% - 200px)
+            }
+            .o-field-iframe-preview {
+                margin: auto !important;
+                padding: 53px 11px 58px 28px;
+                width: 416px;
+            }
+        }
+    }
+
+}
+.o-view-kanban-theme-preview-controller {
+    .o-control-panel > div:nth-child(2) {
+        display: none;
+    }
+}

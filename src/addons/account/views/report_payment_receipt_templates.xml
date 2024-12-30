@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="reportPaymentReceiptDocument">
+        <t t-call="web.externalLayout">
+            <t t-set="o" t-value="await o.withContext({'lang': lang})"/>
+            <div class="page">
+                <h3><strong>Payment Receipt: <span t-field="o.label"/></strong></h3>
+                <div class="mb-4 mt-3">
+                    <div class="row">
+                        <div class="col-6" t-if="o.date">
+                            Payment Date: <span t-field="o.date"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" t-if="await o.partnerType">
+                            <t t-if="await o.partnerType == 'customer'">
+                                Customer:
+                            </t>
+                            <t t-if="await o.partnerType == 'supplier'">
+                                Vendor:
+                            </t><span t-field="o.partnerId"/>
+                        </div>
+                        <div class="col-6" t-if="(await o.paymentMethodId).ok">
+                            Payment Method: <span t-field="o.paymentMethodId.label"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" t-if="o.amount">
+                            Payment Amount: <span t-field="o.amount" t-options="{'widget': 'monetary', 'displayCurrency': await o.currencyId}"/>
+                         </div>
+                        <div class="col-6" t-if="o.ref">
+                            Memo: <span t-field="o.ref"/>
+                         </div>
+                    </div>
+                </div>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th><span>Invoice Date</span></th>
+                            <th><span>Invoice Number</span></th>
+                            <th><span>Reference</span></th>
+                            <th class="text-right"><span>Amount</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="await (await o.moveId)._getReconciledInvoicesPartials()" t-as="rec">
+                            <!-- MOVE -->
+                            <t t-set="inv" t-value="await rec[2].moveId"/>
+                            <t t-if="await inv.moveType != 'entry'">
+                                <tr>
+                                    <td><span t-field="inv.invoiceDate"/></td>
+                                    <td><span t-field="inv.label"/></td>
+                                    <td><span t-field="inv.ref"/></td>
+                                    <td class="text-right"><span t-field="inv.amountTotal"/></td>
+                                </tr>
+                                <!-- PAYMENTS/REVERSALS -->
+                                <tr t-foreach="await inv._getReconciledInvoicesPartials()" t-as="par">
+                                    <t t-set="amount" t-value="par[1]"/>
+                                    <t t-set="payment" t-value="await par[2].moveId"/>
+                                    <td><span t-field="payment.date"/></td>
+                                    <td><span t-field="payment.label"/></td>
+                                    <td><span t-field="payment.ref"/></td>
+                                    <td class="text-right">-<span t-esc="amount" t-options="{'widget': 'monetary', 'displayCurrency': await o.currencyId}"/></td>
+                                </tr>
+                                <!-- BALANCE -->
+                                <tr>
+                                    <td/>
+                                    <td><strong>Due Amount for <span t-field="inv.label"/></strong></td>
+                                    <td/>
+                                    <td class="text-right"><strong><span t-field="inv.amountResidual"/></strong></td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="reportPaymentReceipt">
+        <t t-call="web.htmlContainer">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="await (await o.partnerId).lang || await (await (await o.companyId).partnerId).lang"/>
+                <t t-call="account.reportPaymentReceiptDocument" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+</verp>

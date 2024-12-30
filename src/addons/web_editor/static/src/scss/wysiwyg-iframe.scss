@@ -1,0 +1,93 @@
+iframe.wysiwyg-iframe.o-fullscreen {
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    z-index: 1001 !important;
+    border: 0;
+}
+
+.o-wysiwyg-no-transform {
+    transform: none !important;
+}
+
+body.o-in-iframe {
+    background-color: $o-view-background-color;
+
+    .o-editable {
+        position: relative;
+    }
+
+    .note-editable {
+        border: none;
+    }
+
+    #oeSnippets {
+        top: 0;
+    }
+
+    .iframe-editor-wrapper {
+        flex: 1 1 auto;
+        overflow: auto;
+    }
+    &.oe-dropzone-active .note-editable {
+        overflow: hidden;
+    }
+
+    .iframe-utils-zone {
+        display: flex;
+    }
+
+    .note-statusbar {
+        display: none;
+    }
+
+    #oeSnippets .email-designer-top-actions {
+        display: flex;
+        margin: auto 9px auto auto;
+
+        .btn {
+            align-items: center;
+            width: 24px;
+            height: 24px;
+            background-color: #337ab7;
+            border: 1px solid #2e6da4;
+            border-radius: 4px;
+            padding: 0;
+            margin-left: 5px;
+        }
+
+        .o-fullscreen-btn img {
+            margin: auto;
+        }
+    }
+    textarea.o-codeview {
+        position: absolute;
+        font-family: 'Courier New', Courier, monospace;
+        outline: none;
+        resize: none;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 291px;
+        width: calc(100% - 291px);
+        height: 100%;
+        border: none;
+    }
+
+    .o-height-400 {
+        &, div.container, div.row {
+            min-height: 400px;
+        }
+    }
+    .o-height-800{
+        &, div.container, div.row {
+            min-height: 800px;
+        }
+    }
+    .btn {
+        user-select: auto;
+    }
+}

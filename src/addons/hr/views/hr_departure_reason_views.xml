@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="hrDepartureReasonViewList" model="ir.ui.view">
+            <field name="model">hr.departure.reason</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="sequence" widget="handle" />
+                    <field name="label" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="hrDepartureReasonViewForm" model="ir.ui.view">
+            <field name="model">hr.departure.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="sequence" />
+                            <field name="label" />
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="hrDepartureReasonAction" model="ir.actions.actwindow">
+            <field name="label">Departure Reasons</field>
+            <field name="resModel">hr.departure.reason</field>
+            <field name="viewMode">tree</field>
+        </record>
+    </data>
+</verp>

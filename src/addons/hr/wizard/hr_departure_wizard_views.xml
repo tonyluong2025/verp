@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="hrDepartureWizardViewForm" model="ir.ui.view">
+            <field name="label">hr.departure.wizard.view.form</field>
+            <field name="model">hr.departure.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h1><field name="employeeId" readonly="1" options="{'noOpen': true}"/></h1>
+                        <group>
+                            <group id="info">
+                                <field name="departureReasonId" options="{'noEdit': true, 'noCreate': true, 'noOpen': true}"/>
+                                <field name="departureDate"/>
+                            </group>
+                            <group id="action">
+                                <!-- Override invisible="1" when inheriting -->
+                                <div class="o-td-label" id="activitiesLabel" invisible="1">
+                                    <span class="o-form-label o-hr-form-label">Close Activities</span>
+                                </div>
+                                <!-- Override invisible="1" when inheriting -->
+                                <div class="column" id="activities" invisible="1">
+                                </div>
+                                <separator colspan="2"/>
+                                <div class="o-td-label" id="info">
+                                    <span class="o-form-label o-hr-form-label">Personal Info</span>
+                                </div>
+                                <div class="column" id="info">
+                                    <div><field name="archivePrivateAddress"/><label for="archivePrivateAddress"/></div>
+                                </div>
+                            </group>
+                        </group>
+                        <div>
+                            <span class="o-form-label o-hr-form-label">Detailed Reason</span>
+                            <field name="departureDescription"/>
+                        </div>
+                    </sheet>
+                    <footer>
+                        <button name="actionRegisterDeparture" string="Apply" type="object" class="oe-highlight" data-hotkey="q"/>
+                        <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="hrDepartureWizardAction" model="ir.actions.actwindow">
+            <field name="label">Register Departure</field>
+            <field name="resModel">hr.departure.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</verp>

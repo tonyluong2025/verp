@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<!-- Template -->
+<template name="Showcase" id="sShowcase">
+    <section class="s-showcase pt48 pb48" data-vcss="002">
+        <div class="container">
+            <div class="row no-gutters s-col-no-resize s-col-no-bgcolor s-nb-column-fixed">
+                <div class="col-lg text-lg-right">
+                    <div class="row">
+                        <div class="col-lg-12 pt24 pb24" data-name="Block">
+                            <div class="s-showcase-title d-flex flex-lg-row-reverse mb-2">
+                                <i class="s-showcase-icon fa fa-2x fa-desktop text-secondary mr-3 mr-lg-0 ml-lg-3"/>
+                                <h3>First feature</h3>
+                            </div>
+                            <p>A short description of this great feature.</p>
+                        </div>
+                        <div class="col-lg-12 pt24 pb24" data-name="Block">
+                            <div class="s-showcase-title d-flex flex-lg-row-reverse mb-2">
+                                <i class="s-showcase-icon fa fa-2x fa-paint-brush text-secondary mr-3 mr-lg-0 ml-lg-3"/>
+                                <h3>Second feature</h3>
+                            </div>
+                            <p>A short description of this great feature.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="w-50 h-100 border-right"/>
+                </div>
+                <div class="col-lg">
+                    <div class="row">
+                        <div class="col-lg-12 pt24 pb24" data-name="Block">
+                            <div class="s-showcase-title d-flex mb-2">
+                                <i class="s-showcase-icon fa fa-2x fa-heart text-secondary mr-3"/>
+                                <h3>Another feature</h3>
+                            </div>
+                            <p>A short description of this great feature.</p>
+                        </div>
+                        <div class="col-lg-12 pt24 pb24" data-name="Block">
+                            <div class="s-showcase-title d-flex mb-2">
+                                <i class="s-showcase-icon fa fa-2x fa-gift text-secondary mr-3"/>
+                                <h3>Last Feature</h3>
+                            </div>
+                            <p>A short description of this great feature.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container text-lg-center">
+            <p><br/></p>
+            <a href="#" class="btn btn-primary mb-2">Discover all the features</a>
+        </div>
+    </section>
+</template>
+
+<!-- Options -->
+<template id="sShowcaseOptions" inheritId="website.snippetOptions">
+    <xpath expr="//div[@data-js='Box']" position="before">
+        <div data-js="Showcase" data-selector=".s-showcase .row &gt; div:has(&gt; .s-showcase-title)"/>
+    </xpath>
+</template>
+
+<!-- Assets -->
+<record id="website.sShowcase.000.scss" model="ir.asset">
+    <field name="label">Showcase 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_showcase/000.scss</field>
+    <field name="active" eval="false"/>
+</record>
+
+<record id="website.sShowcase.001.scss" model="ir.asset">
+    <field name="label">Showcase 001 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_showcase/001.scss</field>
+    <field name="active" eval="false"/>
+</record>
+
+<record id="website.sShowcase.002.scss" model="ir.asset">
+    <field name="label">Showcase 002 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_showcase/002.scss</field>
+</record>
+
+</verp>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+
+<t t-name="web_editor.mediaLinkToolsButton">
+    <we-button class="fa fa-link"
+        data-name="mediaLinkOpt"
+        data-set-link="true" data-no-preview="true"
+        title="Redirect the user elsewhere when he clicks on the media."/>
+</t>
+
+<t t-name="web_editor.mediaLinkToolsFields">
+    <t t-set="urlInputLabel">⌙ Your URL</t>
+    <we-input t-att-string="urlInputLabel"
+        data-name="mediaUrlOpt" data-dependencies="mediaLinkOpt"
+        data-set-url="" data-no-preview="true"
+        class="o-we-large" placeholder="www.example.com"
+        data-request-focus="true"/>
+    <t t-set="newWindowCheckboxLabel">⌙ Open in new window</t>
+    <we-checkbox t-att-string="newWindowCheckboxLabel"
+        data-dependencies="mediaUrlOpt"
+        data-set-new-window="true" data-no-preview="true"/>
+</t>
+
+</templates>

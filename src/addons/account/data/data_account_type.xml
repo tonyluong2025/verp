@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- account.account.type -->
+        <record model="account.account.type" id="dataAccountTypeReceivable">
+          <field name="label">Receivable</field>
+          <field name="type">receivable</field>
+          <field name="internalGroup">asset</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypePayable">
+          <field name="label">Payable</field>
+          <field name="type">payable</field>
+          <field name="internalGroup">liability</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeLiquidity">
+          <field name="label">Bank and Cash</field>
+          <field name="type">liquidity</field>
+          <field name="internalGroup">asset</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeCreditCard">
+          <field name="label">Credit Card</field>
+          <field name="type">liquidity</field>
+          <field name="internalGroup">liability</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeCurrentAssets">
+          <field name="label">Current Assets</field>
+          <field name="type">other</field>
+          <field name="internalGroup">asset</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeNonCurrentAssets">
+          <field name="label">Non-current Assets</field>
+          <field name="type">other</field>
+          <field name="internalGroup">asset</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypePrepayments">
+          <field name="label">Prepayments</field>
+          <field name="type">other</field>
+          <field name="internalGroup">asset</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeFixedAssets">
+          <field name="label">Fixed Assets</field>
+          <field name="type">other</field>
+          <field name="internalGroup">asset</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeCurrentLiabilities">
+          <field name="label">Current Liabilities</field>
+          <field name="type">other</field>
+          <field name="internalGroup">liability</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeNonCurrentLiabilities">
+          <field name="label">Non-current Liabilities</field>
+          <field name="type">other</field>
+          <field name="internalGroup">liability</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeEquity">
+          <field name="label">Equity</field>
+          <field name="internalGroup">equity</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataUnaffectedEarnings">
+          <field name="label">Current Year Earnings</field>
+          <field name="internalGroup">equity</field>
+          <field name="includeInitialBalance" eval="true"/>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeRevenue">
+            <field name="label">Income</field>
+            <field name="type">other</field>
+            <field name="internalGroup">income</field>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeOtherIncome">
+          <field name="label">Other Income</field>
+          <field name="type">other</field>
+          <field name="internalGroup">income</field>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeExpenses">
+            <field name="label">Expenses</field>
+            <field name="type">other</field>
+            <field name="internalGroup">expense</field>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeDepreciation">
+          <field name="label">Depreciation</field>
+          <field name="type">other</field>
+          <field name="internalGroup">expense</field>
+        </record>
+        <record model="account.account.type" id="dataAccountTypeDirectCosts">
+          <field name="label">Cost of Revenue</field>
+          <field name="type">other</field>
+          <field name="internalGroup">expense</field>
+        </record>
+        <record model="account.account.type" id="dataAccountOffSheet">
+            <field name="label">Off-Balance Sheet</field>
+            <field name="type">other</field>
+            <field name="internalGroup">offBalance</field>
+        </record>
+    </data>
+</verp>

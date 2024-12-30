@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.WebClient" owl="1">
+        <body class="o-web-client" t-att-class="{'o-is-superuser': user.userId === 1, 'o-rtl': localization.direction === 'rtl' }">
+            <NotUpdatable>
+                <NavBar/>
+            </NotUpdatable>
+            <NotUpdatable>
+                <ActionContainer/>
+            </NotUpdatable>
+            <MainComponentsContainer/>
+        </body>
+    </t>
+
+</templates>

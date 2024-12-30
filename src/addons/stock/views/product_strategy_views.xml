@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="stockPutawayList" model="ir.ui.view">
+        <field name="label">stock.putaway.rule.tree</field>
+        <field name="model">stock.putaway.rule</field>
+        <field name="arch" type="xml">
+            <tree string="Putaway Rules" editable="bottom" sample='1'>
+                <field name="sequence" widget="handle"
+                       invisible="context['invisibleHandle'] ?? false"/>
+                <field name="locationInId" string="When product arrives in"
+                       options="{'noCreate': true}"
+                       readonly="context['fixedLocation'] ?? false"/>
+                <field name="productId" string="Product"
+                       attrs="{'readonly': [['categoryId', '!=', false]], 'required': [['categoryId', '=', false], ['packageTypeIds', '=', false]]}"
+                       options="{'noCreate': true, 'noOpen': true}"
+                       readonly="context['singleProduct'] ?? false"
+                       forceSave="1"/>
+                <field name="categoryId" string="Product Category"
+                       attrs="{'readonly': [['productId', '!=', false]], 'required': [['productId', '=', false], ['packageTypeIds', '=', false]]}"
+                       options="{'noCreate': true, 'noOpen': true}"
+                       readonly="context['fixedCategory'] ?? false"
+                       forceSave="1"/>
+                <field name="packageTypeIds" string="Package type"
+                       options="{'noCreate': true, 'noOpen': true}"
+                       groups="stock.groupTrackingLot" widget="many2manyTags"
+                       optional="show"/>
+                <field name="locationOutId"
+                       attrs="{'readonly': [['locationInId', '=', false]]}"
+                       options="{'noCreate': true}"
+                       optional="show"/>
+                <field name="storageCategoryId" string="Having Category"
+                       groups="stock.groupStockStorageCategories"
+                       options="{'noCreate': true}"
+                       optional="show"/>
+                <field name="companyId" groups="stock.groupStockMultiLocations" forceSave="1" readonly="context['fixedLocation'] ?? false" options="{'noCreate': true}" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewRemoval" model="ir.ui.view">
+        <field name="label">product.removal.form</field>
+        <field name="model">product.removal</field>
+        <field name="arch" type="xml">
+            <form string="Removal">
+                <group col="4">
+                    <field name="label"/>
+                    <field name="method"/>
+                </group>
+           </form>
+        </field>
+    </record>
+
+    <record id="actionPutawayTree" model="ir.actions.actwindow">
+        <field name="label">Putaways Rules</field>
+        <field name="resModel">stock.putaway.rule</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">tree</field>
+        <field name="viewId" ref="stockPutawayList"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                No putaway rule found. Let's create one!
+            </p><p>
+                Create new putaway rules to dispatch automatically specific products to their appropriate destination location upon receptions.
+            </p>
+        </field>
+    </record>
+
+    <record id="viewPutawaySearch" model="ir.ui.view">
+        <field name="label">stock.putaway.rule.search</field>
+        <field name="model">stock.putaway.rule</field>
+        <field name="arch" type="xml">
+            <search string="Putaway Rules">
+                <field name="productId"/>
+                <field name="categoryId"/>
+                <field name="locationInId"/>
+                <field name="locationOutId"/>
+                <group expand='0' string='Filters'>
+                    <filter name="filterToRulesOnProduct"
+                            string="Rules on Products"
+                            domain="[['productId', '!=', false]]"/>
+                    <filter name="filterToRulesOnCategory"
+                            string="Rules on Categories"
+                            domain="[['categoryId' ,'!=', false]]"/>
+                </group>
+                <group expand="0" string="Group By">
+                        <filter string="Location: When arrives to" name="locationIn" context="{'groupby':'locationInId'}"/>
+                        <filter string="Location: Store to" name="locationOut" context="{'groupby':'locationOutId'}"/>
+                    </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.actwindow" id="categoryOpenPutaway"> <!-- Putaway rules from category -->
+        <field name="label">Putaway Rules</field>
+        <field name="resModel">stock.putaway.rule</field>
+        <field name="context">{
+            'searchDefault_categoryId': [activeId],
+            'fixedCategory': true,
+        }</field>
+    </record>
+    <record model="ir.actions.actwindow" id="locationOpenPutaway"> <!-- Putaway rules from location -->
+        <field name="label">Putaway Rules</field>
+        <field name="resModel">stock.putaway.rule</field>
+        <field name="context">{'fixedLocation': true}</field>
+        <field name="domain">['|', ['locationOutId', '=', activeId], ['locationInId', '=', activeId]]</field>
+    </record>
+
+    <menuitem id="menuPutaway" name="Putaway Rules" parent="stock.menuWarehouseConfig"
+        action="actionPutawayTree" sequence="8" groups="stock.groupStockMultiLocations"/>
+</verp>

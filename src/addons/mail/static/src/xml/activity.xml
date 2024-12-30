@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mail.activityFeedbackForm">
+        <div>
+            <textarea class="form-control" rows="3" id="activityFeedback" placeholder="Write Feedback"/>
+            <div class="mt8">
+                <t t-if="chainingType === 'suggest'">
+                    <button type="button" class="btn btn-sm btn-primary o-activity-popover-done-next" t-att-data-previous-activity-type-id="previousActivityTypeId">
+                        Done &amp; Schedule Next</button>
+                    <button type="button" class="btn btn-sm btn-primary o-activity-popover-done">
+                        Done</button>
+                    <button type="button" class="btn btn-sm btn-link o-activity-popover-discard">
+                        Discard</button>
+                </t>
+                <t t-else="">
+                    <button type="button" class="btn btn-sm btn-primary o-activity-popover-done-next">
+                        Done &amp; Launch Next</button>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

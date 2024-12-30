@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id='baseUnitAction' model='ir.actions.actwindow'>
+        <field name="label">Base Units</field>
+        <field name="resModel">website.base.unit</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+    <menuitem name="Base Units" id="websiteBaseUnitMenu" action="baseUnitAction"
+              parent="website_sale.menuProductSettings" sequence="5" groups="website_sale.groupShowUomPrice"/>
+
+</verp>

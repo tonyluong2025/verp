@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="accountFinancialReportProfitandloss0" model="account.financial.report">
+        <field name="label">Profit and Loss</field>
+        <field name="sign">-1</field>
+        <field name="type">sum</field>
+    </record>
+
+    <record id="accountFinancialReportIncome0" model="account.financial.report">
+        <field name="label">Income</field>
+        <field name="sign">-1</field>
+        <field name="parentId" ref="accountFinancialReportProfitandloss0"/>
+        <field name="displayDetail">detailWithHierarchy</field>
+        <field name="type">accountType</field>
+        <field name="accountTypeIds" eval="[[4, refId('account.dataAccountTypeOtherIncome')], [4, refId('account.dataAccountTypeRevenue')]]"/>
+    </record>
+
+    <record id="accountFinancialReportExpense0" model="account.financial.report">
+        <field name="label">Expense</field>
+        <field name="sign">-1</field>
+        <field name="parentId" ref="accountFinancialReportProfitandloss0"/>
+        <field name="displayDetail">detailWithHierarchy</field>
+        <field name="type">accountType</field>
+        <field name="accountTypeIds" eval="[[4, refId('account.dataAccountTypeExpenses')], [4, refId('account.dataAccountTypeDirectCosts')], [4, refId('account.dataAccountTypeDepreciation')]]"/>
+    </record>
+
+    <record id="accountFinancialReportBalancesheet0" model="account.financial.report">
+        <field name="label">Balance Sheet</field>
+        <field name="type">sum</field>
+    </record>
+
+    <record id="accountFinancialReportAssets0" model="account.financial.report">
+        <field name="label">Assets</field>
+        <field name="parentId" ref="accountFinancialReportBalancesheet0"/>
+        <field name="displayDetail">detailWithHierarchy</field>
+        <field name="type">accountType</field>
+        <field name="accountTypeIds" eval="[[4, refId('account.dataAccountTypeReceivable')], [4, refId('account.dataAccountTypeLiquidity')], [4, refId('account.dataAccountTypeCurrentAssets')], [4, refId('account.dataAccountTypeNonCurrentAssets')], [4, refId('account.dataAccountTypePrepayments')], [4, refId('account.dataAccountTypeFixedAssets')]]"/>
+    </record>
+
+    <record id="accountFinancialReportLiabilitysum0" model="account.financial.report">
+        <field name="label">Liability</field>
+        <field name="parentId" ref="accountFinancialReportBalancesheet0"/>
+        <field name="displayDetail">noDetail</field>
+        <field name="type">sum</field>
+    </record>
+
+    <record id="accountFinancialReportLiability0" model="account.financial.report">
+        <field name="label">Liability</field>
+        <field name="parentId" ref="accountFinancialReportLiabilitysum0"/>
+        <field name="displayDetail">detailWithHierarchy</field>
+        <field name="type">accountType</field>
+        <field name="accountTypeIds" eval="[[4, refId('account.dataAccountTypePayable')], [4, refId('account.dataAccountTypeEquity')], [4, refId('account.dataAccountTypeCurrentLiabilities')], [4, refId('account.dataAccountTypeNonCurrentLiabilities')]]"/>
+    </record>
+
+    <record id="accountFinancialReportProfitlossToreport0" model="account.financial.report">
+        <field name="label">Profit (Loss) to report</field>
+        <field name="parentId" ref="accountFinancialReportLiabilitysum0"/>
+        <field name="displayDetail">noDetail</field>
+        <field name="type">accountReport</field>
+        <field name="accountReportId" ref="accountFinancialReportProfitandloss0"/>
+    </record>
+
+    <record id="accountingReportView" model="ir.ui.view">
+        <field name="label">Accounting Report</field>
+        <field name="model">accounting.report</field>
+        <field name="inheritId" ref="account.accountCommonReportView"/>
+        <field name="arch" type="xml">
+            <field name="targetMove" position="before">
+                <field name="accountReportId" domain="[['parentId','=',false]]"/>
+            </field>
+            <field name="targetMove" position="after">
+                <field name="enableFilter"/>
+                <field name="debitCredit" attrs="{'invisible': [['enableFilter','=',true]]}"/>
+            </field>
+            <field name="journalIds" position="after">
+                <notebook tabpos="up" colspan="4">
+                    <page string="Comparison" name="comparison" attrs="{'invisible': [['enableFilter','=',false]]}">
+                        <group>
+                            <field name="labelFilter" attrs="{'required': [['enableFilter', '=', true]]}"/>
+                            <field name="filterCmp"/>
+                        </group>
+                        <group string="Dates" attrs="{'invisible':[['filterCmp', '!=', 'filterDate']]}">
+                            <field name="dateFromCmp" attrs="{'required':[['filterCmp', '=', 'filterDate']]}"/>
+                            <field name="dateToCmp" attrs="{'required':[['filterCmp', '=', 'filterDate']]}"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </field>
+    </record>
+
+    <record id="actionAccountReportBs" model="ir.actions.actwindow">
+        <field name="label">Balance Sheet</field>
+        <field name="resModel">accounting.report</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountingReportView"/>
+        <field name="target">new</field>
+        <field name="context" eval="{'default_accountReportId': refId('account_pdf_reports.accountFinancialReportBalancesheet0')}"/>
+    </record>
+
+    <menuitem id="menuAccountReportBs"
+              name="Balance Sheet"
+              sequence="5"
+              action="actionAccountReportBs"
+              parent="menuFinanceLegalStatement"
+              groups="account.groupAccountUser,account.groupAccountManager"/>
+
+</verp>

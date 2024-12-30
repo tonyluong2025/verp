@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+
+    <record model="ir.ui.view" id="productTemplateSaleFormView">
+        <field name="label">product.template.sales</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='sale']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <field name="productTooltip" position="after">
+                <label for="productTooltip" string="" attrs="{'invisible': ['|', ['type', 'not in', ['product', 'consu']], ['invoicePolicy', '!=', 'order']]}"/>
+                <div attrs="{'invisible': ['|', ['type', 'not in', ['product', 'consu']], ['invoicePolicy', '!=', 'order']]}" class="font-italic text-muted">
+                    You can invoice them before they are delivered.
+                </div>
+                <label for="productTooltip" string="" attrs="{'invisible': ['|', ['type', 'not in', ['product', 'consu']], ['invoicePolicy', '!=', 'delivery']]}"/>
+                <div attrs="{'invisible': ['|', ['type', 'not in', ['product', 'consu']], ['invoicePolicy', '!=', 'delivery']]}" class="font-italic text-muted">
+                    Invoice after delivery, based on quantities delivered, not ordered.
+                </div>
+            </field>
+        </field>
+    </record>
+</verp>

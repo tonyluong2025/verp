@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="accountTaxReportTree" model="ir.ui.view">
+            <field name="label">account.tax.report.tree</field>
+            <field name="model">account.tax.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="label"/>
+                    <field name="countryId"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountTaxReportLineTree" model="ir.ui.view">
+            <field name="label">account.tax.report.line.tree</field>
+            <field name="model">account.tax.report.line</field>
+            <field name="arch" type="xml">
+                <tree create="1" delete="1">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="tagName"/>
+                    <field name="code"/>
+                    <field name="formula"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountTaxReportForm" model="ir.ui.view">
+            <field name="label">account.tax.report.form</field>
+            <field name="model">account.tax.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="label"/>
+                            </group>
+                            <group>
+                                <field name="countryId"/>
+                            </group>
+                        </group>
+
+                        <field name="id" invisible="1"/>
+                        <field name="rootLineIds" context="{'default_reportId': id}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="accountTaxCarryoverLineTree" model="ir.ui.view">
+            <field name="label">account.tax.carryover.line.tree</field>
+            <field name="model">account.tax.carryover.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="companyId" invisible="1"/>
+                    <field name="taxReportCountryId" invisible="1"/>
+                    <field name="taxReportId" invisible="1"/>
+                    <field name="label"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="foreignVatFiscalPositionId"  optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountTaxCarryoverLineForm" model="ir.ui.view">
+            <field name="label">account.tax.carryover.line.form</field>
+            <field name="model">account.tax.carryover.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="taxReportId" invisible="1"/>
+                                <field name="label"/>
+                                <field name="taxReportCountryId"/>
+                                <field name="foreignVatFiscalPositionId"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="amount"/>
+                                <field name="companyId"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="accountTaxReportLineForm" model="ir.ui.view">
+            <field name="label">account.tax.report.line.form</field>
+            <field name="model">account.tax.report.line</field>
+            <field name="arch" type="xml">
+                <form>
+                <sheet>
+                    <group>
+                        <field name="label"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="sequence" invisible="1"/>
+                            <field name="tagName"/>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="reportId" invisible="1"/>
+                            <field name="parentId" readonly="1"/>
+                            <field name="formula"/>
+                        </group>
+                    </group>
+                    <group string="Carryover">
+                        <group>
+                            <field name="carryOverConditionMethod" placeholder="No carryover"/>
+                            <field name="isCarryoverPersistent"/>
+                        </group>
+                        <group>
+                            <field name="carryOverDestinationLineId" placeholder="Same report line"/>
+                            <field name="isCarryoverUsedInBalance"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sublines">
+                            <field name="childrenLineIds" context="{'default_reportId': reportId}"/>
+                        </page>
+                        <page string="Carryover lines">
+                            <field name="carryoverLineIds"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="accountTaxReportSearch" model="ir.ui.view">
+            <field name="label">account.tax.report.search</field>
+            <field name="model">account.tax.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <group expand="0" string="Group By">
+                        <field name="label"/>
+                        <field name="countryId"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionConfigureTaxReport" model="ir.actions.actwindow">
+            <field name="label">Tax Reports</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">account.tax.report</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="accountTaxReportTree"/>
+        </record>
+
+    </data>
+</verp>

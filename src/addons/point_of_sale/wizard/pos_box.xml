@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+        <record id="actionPosBoxOut" model="ir.actions.actwindow">
+            <field name="label">Take Money In/Out</field>
+            <field name="resModel">cash.box.out</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+</verp>

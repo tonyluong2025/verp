@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="emailTemplateEdiSale" model="mail.template">
+            <field name="label">Sales Order: Send by email</field>
+            <field name="modelId" ref="sale.model_saleOrder"/>
+            <field name="subject">{{ await (await object.companyId).label }} {{ ['draft', 'sent'].includes(await object.state) &amp;&amp; (ctx['proforma'] &amp;&amp; 'Proforma' || 'Quotation') || 'Order' }} (Ref {{ await object.label || 'n/a' }})</field>
+            <field name="emailFrom">{{ (await (await object.userId).emailFormatted || await user.emailFormatted) }}</field>
+            <field name="partnerTo">{{ (await object.partnerId).id }}</field>
+            <field name="bodyHtml" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        <t t-set="docName" t-value="['draft', 'sent'].includes(await object.state) ? 'quotation' : 'order'"/>
+        Hello,
+        <br/><br/>
+        Your
+        <t t-if="ctx['proforma']">
+            Pro forma invoice for <t t-out="docName || ''">quotation</t> <strong t-out="await object.label || ''">S00052</strong>
+            <t t-if="await object.origin">
+                (with reference: <t t-out="await object.origin || ''"></t> )
+            </t>
+            amounting in <strong t-out="await formatAmount(env, await object.amountTotal, await (await object.pricelistId).currencyId) || ''">$ 10.00</strong> is available.
+        </t>
+        <t t-else="">
+            <t t-out="docName || ''">quotation</t> <strong t-out="await object.label || ''"></strong>
+            <t t-if="await object.origin">
+                (with reference: <t t-out="await object.origin || ''">S00052</t> )
+            </t>
+            amounting in <strong t-out="await formatAmount(env await object.amountTotal, await (await object.pricelistId).currencyId) || ''">$ 10.00</strong> is ready for review.
+        </t>
+        <br/><br/>
+        Do not hesitate to contact us if you have any questions.
+        <br/>
+    </p>
+</div>
+            </field>
+            <field name="reportTemplate" ref="actionReportSaleorder"/>
+            <field name="reportName">{{ (await object.label || '').replace('/','_') }}</field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+        <record id="mailTemplateSaleConfirmation" model="mail.template">
+            <field name="label">Sales Order: Confirmation Email</field>
+            <field name="modelId" ref="sale.model_saleOrder"/>
+            <field name="subject">{{ await (await object.companyId).label }} {{ (await (await object.getPortalLastTransaction()).state === 'pending') &amp;&amp; 'Pending Order' || 'Order' }} (Ref {{ await object.label || 'n/a' }})</field>
+            <field name="emailFrom">{{ (await (await object.userId).emailFormatted || await user.emailFormatted) }}</field>
+            <field name="partnerTo">{{ (await object.partnerId).id }}</field>
+            <field name="bodyHtml" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 12px;">
+        Hello,
+        <br/><br/>
+        <t t-set="transaction" t-value="await object.getPortalLastTransaction()"/>
+        Your order <strong t-out="await object.label || ''">S00049</strong> amounting in <strong t-out="await formatAmount(env, await object.amountTotal, await object.currencyId) || ''">$ 10.00</strong>
+        <t t-if="await object.state === 'sale' || (transaction.ok &amp;&amp; ['done', 'authorized'].includes(await transaction.state))">
+            has been confirmed.<br/>
+            Thank you for your trust!
+        </t>
+        <t t-elif="transaction.ok &amp;&amp; await transaction.state === 'pending'">
+            is pending. It will be confirmed when the payment is received.
+            <t t-if="await object.reference">
+                Your payment reference is <strong t-out="await object.reference || ''"></strong>.
+            </t>
+        </t>
+        <br/><br/>
+        Do not hesitate to contact us if you have any questions.
+        <br/><br/>
+    </p>
+<t t-if="bool(await object.websiteId)">
+    <div style="margin: 0px; padding: 0px;">
+        <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+            <tr style="border-bottom: 2px solid #dee2e6;">
+                <td style="width: 150px;"><strong>Products</strong></td>
+                <td></td>
+                <td width="15%" align="center"><strong>Quantity</strong></td>
+                <td width="20%" align="right"><strong>
+                <t t-if="await (await object.userId).hasGroup('account.groupShowLineSubtotalsTaxExcluded')">
+                    VAT Excl.
+                </t>
+                <t t-else="">
+                    VAT Incl.
+                </t>
+                </strong></td>
+            </tr>
+        </table>
+        <t t-foreach="await object.orderLine" t-as="line">
+            <t t-if="!bool(await line.isDelivery)) &amp;&amp; ['lineSection', 'lineNote'].includes(await line.displayType)">
+                <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+                    <t t-set="loopCycleNumber" t-value="0" />
+                    <tr t-att-style="loopCycleNumber % 2 == 0 ? 'background-color: #f2f2f2' : 'background-color: #ffffff'">
+                        <t t-set="loopCycleNumber" t-value="loopCycleNumber + 1" />
+                        <td colspan="4">
+                            <t t-if="await line.displayType == 'lineSection'">
+                                <strong t-out="await line.label || ''">Taking care of Trees Course</strong>
+                            </t>
+                            <t t-elif="await line.displayType === 'lineNote'">
+                                <i t-out="await line.label || ''">Taking care of Trees Course</i>
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+            </t>
+            <t t-elif="!bool(await line.isDelivery)">
+                <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+                    <t t-set="loopCycleNumber" t-value="0" />
+                    <tr t-att-style="loopCycleNumber % 2 == 0 ? 'background-color: #f2f2f2' : 'background-color: #ffffff'">
+                        <t t-set="loopCycleNumber" t-value="loopCycleNumber + 1" />
+                        <td style="width: 150px;">
+                            <img t-attf-src="/web/image/product.product/{{ (await line.productId).id }}/image128" style="width: 64px; height: 64px; object-fit: contain;" alt="Product image"></img>
+                        </td>
+                        <td align="left" t-out="await (await line.productId).label || ''">	Taking care of Trees Course</td>
+                        <td width="15%" align="center" t-out="await line.productUomQty || ''">1</td>
+                        <td width="20%" align="right"><strong>
+                        <t t-if="await (await object.userId).hasGroup('account.groupShowLineSubtotalsTaxExcluded')">
+                            <t t-out="await formatAmount(env, await line.priceReduceTaxexcl, await object.currencyId) || ''">$ 10.00</t>
+                        </t>
+                        <t t-else="">
+                            <t t-out="await formatAmount(env, await line.priceReduceTaxinc, await object.currencyId) || ''">$ 10.00</t>
+                        </t>
+                        </strong></td>
+                    </tr>
+                </table>
+            </t>
+        </t>
+    </div>
+    <div style="margin: 0px; padding: 0px;" t-if="bool(await object['carrierId'])">
+        <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;" align="right">
+            <tr>
+                <td style="width: 60%"/>
+                <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>Delivery:</strong></td>
+                <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right" t-out="await formatAmount(env, await object.amountDelivery, await object.currencyId) || ''">$ 0.00</td>
+            </tr>
+            <tr>
+                <td style="width: 60%"/>
+                <td style="width: 30%;" align="right"><strong>Subtotal:</strong></td>
+                <td style="width: 10%;" align="right" t-out="await formatAmount(env, await object.amountUntaxed, await object.currencyId) || ''">$ 10.00</td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin: 0px; padding: 0px;" t-else="">
+        <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;" align="right">
+            <tr>
+                <td style="width: 60%"/>
+                <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>Subtotal:</strong></td>
+                <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right" t-out="await formatAmount(env, await object.amountUntaxed, await object.currencyId) || ''">$ 10.00</td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin: 0px; padding: 0px;">
+        <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;" align="right">
+            <tr>
+                <td style="width: 60%"/>
+                <td style="width: 30%;" align="right"><strong>Taxes:</strong></td>
+                <td style="width: 10%;" align="right" t-out="await formatAmount(env, await object.amountTax, await object.currencyId) || ''">$ 0.00</td>
+            </tr>
+            <tr>
+                <td style="width: 60%"/>
+                <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>Total:</strong></td>
+                <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right" t-out="await formatAmount(env, await object.amountTotal, await object.currencyId) || ''">$ 10.00</td>
+            </tr>
+        </table>
+    </div>
+    <t t-set="partnerInvoiceId" t-value="await object.partnerInvoiceId" />
+    <div t-if="bool(partnerInvoiceId)" style="margin: 0px; padding: 0px;">
+        <table width="100%" style="color: #454748; font-size: 12px;">
+            <tr>
+                <td style="padding-top: 10px;">
+                    <strong>Bill to:</strong>
+                    <t t-out="await partnerInvoiceId.street || ''">1201 S Figueroa St</t>
+                    <t t-out="await partnerInvoiceId.city || ''">Los Angeles</t>
+                    <t t-out="await (await partnerInvoiceId.stateId).label || ''">California</t>
+                    <t t-out="await partnerInvoiceId.zip || ''">90015</t>
+                    <t t-out="await (await partnerInvoiceId.countryId).label || ''">United States</t>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Payment Method:</strong>
+                    <t t-if="bool(await transaction.tokenId)">
+                        <t t-out="await (await transaction.tokenId).label || ''"></t>
+                    </t>
+                    <t t-else="">
+                        <t t-out="await (await (await transaction.acquirerId).sudo()).label || ''"></t>
+                    </t>
+                    (<t t-out="await formatAmount(env, await transaction.amount, await object.currencyId) || ''">$ 10.00</t>)
+                </td>
+            </tr>
+        </table>
+    </div>
+    <t t-set="partnerShippingId" t-value="await object.partnerShippingId" />
+    <div t-if="partnerShippingId.ok &amp;&amp; ! await object.onlyServices" style="margin: 0px; padding: 0px;">
+        <table width="100%" style="color: #454748; font-size: 12px;">
+            <tr>
+                <td>
+                    <br/>
+                    <strong>Ship to:</strong>
+                    <t t-out="await partnerShippingId.street || ''">1201 S Figueroa St</t>
+                    <t t-out="await partnerShippingId.city || ''">Los Angeles</t>
+                    <t t-out="await (await partnerShippingId.stateId).label || ''">California</t>
+                    <t t-out="await partnerShippingId.zip || ''">90015</t>
+                    <t t-out="await (await partnerShippingId.countryId).label || ''">United States</t>
+                </td>
+            </tr>
+        </table>
+        <t t-set="carrierId" t-value="await object.carrierId" />
+        <table t-if="bool(carrierId)" width="100%" style="color: #454748; font-size: 12px;">
+            <tr>
+                <td>
+                    <strong>Shipping Method:</strong>
+                    <t t-out="await carrierId.label || ''"></t>
+                    <t t-if="await carrierId.fixedPrice == 0.0">
+                        (Free)
+                    </t>
+                    <t t-else="">
+                        (<t t-out="await formatAmount(env, await carrierId.fixedPrice, await object.currencyId) || ''">$ 10.00</t>)
+                    </t>
+                </td>
+            </tr>
+        </table>
+    </div>
+</t>
+</div></field>
+            <field name="reportTemplate" ref="actionReportSaleorder"/>
+            <field name="reportName">{{ (await object.label || '').replace('/','_') }}</field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+    </data>
+</verp>

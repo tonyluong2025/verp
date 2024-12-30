@@ -1,0 +1,8 @@
+
+.o-main-navbar {
+    .o-switch-company-menu {
+        > a .oe-topbar-name {
+            @include o-text-overflow($max-width: 250px);
+        }
+    }
+}

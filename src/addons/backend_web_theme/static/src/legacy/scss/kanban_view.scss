@@ -1,0 +1,78 @@
+@include media-breakpoint-down(sm) {
+    .o-kanban-view.o-kanban-grouped {
+        display: block;
+        position: relative;
+        overflow-x: hidden;
+        .o-kanban-mobile-tabs-container {
+            position: sticky;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            top: 0;
+            z-index: 1;
+            background-color: #5E5E5E;
+            .o-kanban-mobile-add-column {
+                height: $o-kanban-mobile-tabs-height;
+                padding: 10px;
+                border-left: grey 1px solid;
+                color: white;
+                font-size: 14px;
+            }
+            .o-kanban-mobile-tabs {
+                position: relative;
+                display: flex;
+                width: 100%;
+                height: $o-kanban-mobile-tabs-height;
+                overflow-x: auto;
+                .o-kanban-mobile-tab {
+                    height: $o-kanban-mobile-tabs-height;
+                    padding: 10px 20px;
+                    font-size: 14px;
+                    color: white;
+                    &.o-current {
+                        font-weight: bold;
+                        border-bottom: 3px solid $o-brand-primary;
+                    }
+                    .o-column-title {
+                        white-space: nowrap;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+        .o-kanban-columns-content {
+            position: relative;
+        }
+        &[class] .o-kanban-group:not(.o-column-folded) {
+            @include o-position-absolute($top: $o-kanban-mobile-tabs-height, $left: 0, $bottom: 0);
+            width: 100%;
+            padding: 0;
+            margin-left: 0;
+            border: none;
+            &.o-current {
+                position: inherit;
+                top: 0;
+                &.o-kanban-no-records {
+                    min-height: $o-kanban-mobile-empty-height;
+                }
+            }
+            .o-kanban-header {
+                display: none;
+            }
+            .o-kanban-record, .o-kanban-quick-create {
+                border: none;
+                border-bottom: 1px solid lightgray;
+                padding: 10px 16px;
+                margin: 0;
+            }
+        }
+    }
+    .o-kanban-view .o-column-quick-create {
+        .o-quick-create-folded {
+            display: none !important;
+        }
+        .o-quick-create-unfolded{
+            width: 100%;
+        }
+    }
+}

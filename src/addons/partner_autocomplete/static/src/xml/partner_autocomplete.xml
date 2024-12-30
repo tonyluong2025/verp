@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <div t-name="partner_autocomplete.dropdown" class="o-partner-autocomplete-dropdown dropdown-menu show" role="menu">
+        <t t-foreach="suggestions" t-as="info">
+            <a role="menuitem" href="#"
+                t-attf-class="dropdown-item o-partner-autocomplete-suggestion clearfix#{info-index == 0 ? ' active' : ''}"
+                t-att-data-index="info_index">
+                <img t-att-src="info['logo']" onerror="this.src='/base/static/img/company_image.png'" alt="Placeholder"/>
+                <div class="o-partner-autocomplete-info">
+                    <strong><t t-esc="info['label'] or '&#160;'"/></strong>
+                    <div><t t-esc="info['description']"/></div>
+                </div>
+            </a>
+        </t>
+    </div>
+
+    <!--
+        @param {string} creditsUrl
+    -->
+    <div t-name="partner_autocomplete.insufficientCreditNotification" class="o-hidden-ios">
+        <a class="btn btn-link" t-att-href="creditsUrl"><i class="fa fa-arrow-right"/> Buy more credits</a>
+    </div>
+
+    <div t-name="partner_autocomplete.accountToken" class="">
+        <a class="btn btn-link" t-att-href="accountUrl" ><i class="fa fa-arrow-right"/> Set Your Account Token</a>
+    </div>
+</templates>

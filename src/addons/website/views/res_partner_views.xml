@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="viewPartnerFormInheritWebsite" model="ir.ui.view">
+        <field name="label">res.partner.form.website.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="base.viewPartnerForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='misc']/field[@name='companyId']" position="after">
+                <field name="websiteId"/>
+            </xpath>
+        </field>
+    </record>
+</verp>

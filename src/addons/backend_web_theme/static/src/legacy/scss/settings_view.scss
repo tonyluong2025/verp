@@ -1,0 +1,16 @@
+@include media-breakpoint-down(sm) {
+	.o-base-settings .o-setting-container {
+        display: block;
+        .settings-tab {
+            flex-flow: row nowrap;
+            padding-top: 0px;
+            .tab {
+                padding-right: 16px;
+            }
+            .selected {
+                background-color: #212529;
+                box-shadow: inset 0 -5px #7c7bad;
+            }
+        }
+    }
+}

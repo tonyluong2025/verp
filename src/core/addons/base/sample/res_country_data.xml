@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="vn" model="res.country">
+            <field name="label">Vietnam</field>
+            <field name="code">vn</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="84" name="phoneCode" />
+            <field name='zipRequired'>0</field>
+            <field eval="'{street}\n{street2}\n{city}\n{stateName} {countryName}'" name="addressFormat" />
+        </record>
+    </data>
+</verp>

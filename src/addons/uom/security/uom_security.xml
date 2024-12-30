@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data noupdate="0">
+    <record id="groupUom" model="res.groups">
+        <field name="label">Manage Multiple Units of Measure</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+</data>
+</verp>

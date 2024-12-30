@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<!-- Template to fill with the chosen view -->
+<template id="sMasonryBlock" name="Masonry">
+    <section class="s-masonry-block" data-vcss="001">
+        <div class="container-fluid">
+            <t t-call="website.sMasonryBlockDefaultTemplate"/>
+        </div>
+    </section>
+</template>
+
+<template id="sMasonryBlockDefaultTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-6 oe-img-bg text-center pb224 pt224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+            <p><br/></p>
+        </div>
+        <div class="col-lg-6 s-col-no-resize">
+            <div class="row h-100">
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc3" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc4" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockReversedTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-6 s-col-no-resize">
+            <div class="row h-100">
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc3" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc4" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 oe-img-bg text-center pb224 pt224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+            <p><br/></p>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockImagesTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-6 oe-img-bg text-center pb224 pt224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+            <p><br/></p>
+        </div>
+        <div class="col-lg-6 oe-img-bg text-center pb224 pt224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_2);">
+            <p><br/></p>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockImageTextsImageTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-3 oe-img-bg text-center pt224 pb224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_2);">
+            <p><br/></p>
+        </div>
+        <div class="col-lg-3 s-col-no-resize">
+            <div class="row h-100">
+                <div class="col-lg-12 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-12 pt24 pb8 text-center o-cc o-cc4" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 oe-img-bg text-center pt224 pb224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+            <p><br/></p>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockMosaicTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-6 s-col-no-resize">
+            <div class="row">
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc3" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 oe-img-bg text-center pt224 pb224" data-name="Block"
+                    style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+                    <p><br/></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 s-col-no-resize">
+            <div class="row">
+                <div class="col-lg-12 oe-img-bg text-center pt224 pb224" data-name="Block"
+                    style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_2);">
+                    <p><br/></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-6 pt24 pb8 text-center o-cc o-cc4" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockTextsImageTextsTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-3 s-col-no-resize">
+            <div class="row h-100">
+                <div class="col-lg-12 pt24 pb8 text-center o-cc o-cc3" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-12 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 oe-img-bg text-center pt224 pb224" data-name="Block"
+            style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+            <p><br/></p>
+        </div>
+        <div class="col-lg-3 s-col-no-resize">
+            <div class="row h-100">
+                <div class="col-lg-12 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+                <div class="col-lg-12 pt24 pb8 text-center o-cc o-cc4" data-name="Block">
+                    <h3>A great title</h3>
+                    <p>And a great subtitle</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockAlternationTextTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc4" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc3" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockAlternationTextImageTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+        <div class="col-lg-3 oe-img-bg text-center pt224 pb224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+            <p><br/></p>
+        </div>
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+        <div class="col-lg-3 oe-img-bg text-center pt224 pb224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_2);">
+            <p><br/></p>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockAlternationImageTextTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-3 oe-img-bg text-center pt224 pb224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+            <p><br/></p>
+        </div>
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc4" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+        <div class="col-lg-3 oe-img-bg text-center pt224 pb224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_2);">
+            <p><br/></p>
+        </div>
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc3" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+    </div>
+</template>
+
+<template id="sMasonryBlockAlternationTextImageTextTemplate" groups="base.groupUser">
+    <div class="row">
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+        <div class="col-lg-6 oe-img-bg text-center pt224 pb224" data-name="Block" style="background-image: url(/web/image/website.sMasonryBlockDefaultImage_1);">
+            <p><br/></p>
+        </div>
+        <div class="col-lg-3 pt24 pb8 text-center o-cc o-cc2" data-name="Block">
+            <h3>A great title</h3>
+            <p>And a great subtitle</p>
+        </div>
+    </div>
+</template>
+
+<!-- Options -->
+<template id="sMasonryBlockOptions" inheritId="website.snippetOptions">
+    <xpath expr="//div[@data-js='layoutColumn']" position="after">
+        <div data-js="MasonryLayout" data-selector=".s-masonry-block">
+            <we-select string="Template"
+                data-name="masonryTemplateOpt"
+                data-attribute-name="masonryTemplate"
+                data-attribute-default-value="default">
+                <we-button title="Default"
+                    data-select-template="website.sMasonryBlockDefaultTemplate"
+                    data-select-data-attribute="default"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_default.svg"/>
+                <we-button title="Default Reversed"
+                    data-select-template="website.sMasonryBlockReversedTemplate"
+                    data-select-data-attribute="default_reversed"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_reversed.svg"/>
+                <we-button title="Images"
+                    data-select-template="website.sMasonryBlockImagesTemplate"
+                    data-select-data-attribute="images"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_images.svg"/>
+                <we-button title="Image Text Image"
+                    data-select-template="website.sMasonryBlockImageTextsImageTemplate"
+                    data-select-data-attribute="imageTextImage"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_image_texts_image.svg"/>
+                <we-button title="Mosaic"
+                    data-select-template="website.sMasonryBlockMosaicTemplate"
+                    data-select-data-attribute="mosaic"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_mosaic.svg"/>
+                <we-button title="Text Image Text"
+                    data-select-template="website.sMasonryBlockTextsImageTextsTemplate"
+                    data-select-data-attribute="textImageText"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_texts_image_texts.svg"/>
+                <we-button title="Alternate Text"
+                    data-select-template="website.sMasonryBlockAlternationTextTemplate"
+                    data-select-data-attribute="alternateText"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_alternate_texts.svg"/>
+                <we-button title="Alternate Text Image"
+                    data-select-template="website.sMasonryBlockAlternationTextImageTemplate"
+                    data-select-data-attribute="alternateTextImage"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_alternate_text_image.svg"/>
+                <we-button title="Alternate Image Text"
+                    data-select-template="website.sMasonryBlockAlternationImageTextTemplate"
+                    data-select-data-attribute="alternateImageText"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_alternate_image_text.svg"/>
+                <we-button title="Alternate Text Image Text"
+                    data-select-template="website.sMasonryBlockAlternationTextImageTextTemplate"
+                    data-select-data-attribute="alternateTextImageText"
+                    data-img="/website/static/src/img/snippets_options/masonry_template_alternate_text_image_text.svg"/>
+            </we-select>
+        </div>
+    </xpath>
+</template>
+
+<!-- Assets -->
+<record id="website.sMasonryBlock.000>scss" model="ir.asset">
+    <field name="label">Masonry block 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_masonry_block/000.scss</field>
+    <field name="active" eval="false"/>
+</record>
+
+<record id="website.sMasonryBlock.001.scss" model="ir.asset">
+    <field name="label">Masonry block 001 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_masonry_block/001.scss</field>
+</record>
+
+<record id="website.sMasonryBlock.000.variables.scss" model="ir.asset">
+    <field name="label">Masonry block 000 variables SCSS</field>
+    <field name="bundle">web._assetsPrimaryVariables</field>
+    <field name="path">website/static/src/snippets/s_masonry_block/000_variables.scss</field>
+    <field name="active" eval="false"/>
+</record>
+
+</verp>

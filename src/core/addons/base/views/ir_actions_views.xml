@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <!-- ir.actions -->
+
+        <record id="actionView" model="ir.ui.view">
+            <field name="label">ir.actions.actions</field>
+            <field name="model">ir.actions.actions</field>
+            <field name="arch" type="xml">
+                <form string="Action">
+                <sheet>
+                    <group>
+                        <field name="label"/>
+                        <field name="type"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="actionViewTree" model="ir.ui.view">
+            <field name="label">ir.actions.actions.tree</field>
+            <field name="model">ir.actions.actions</field>
+            <field name="arch" type="xml">
+                <tree string="Action">
+                    <field name="label"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+        <record id="actionViewSearch" model="ir.ui.view">
+            <field name="label">ir.actions.actions.search</field>
+            <field name="model">ir.actions.actions</field>
+            <field name="arch" type="xml">
+                <search string="Action">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['type','ilike',self]]" string="Action"/>
+                </search>
+            </field>
+        </record>
+        <record id="irSequenceActions" model="ir.actions.actwindow">
+            <field name="label">Actions</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.actions.actions</field>
+            <field name="viewId" ref="actionViewTree"/>
+            <field name="searchViewId" ref="actionViewSearch"/>
+        </record>
+        <menuitem id="nextId6" name="Actions" parent="base.menuCustom" sequence="5"/>
+        <menuitem action="irSequenceActions" id="menuIrSequenceActions" parent="nextId6"/>
+
+        <!-- ir.actions.report -->
+
+        <record id="actReportXmlView" model="ir.ui.view">
+            <field name="label">ir.actions.report</field>
+            <field name="model">ir.actions.report</field>
+            <field name="arch" type="xml">
+                <form string="Report">
+                    <field name="bindingModelId" invisible="1"/>
+                    <sheet>
+                        <div class="oe-button-box" name="buttonBox">
+                            <button name="createAction" string="Add in the 'Print' menu" type="object"
+                                    attrs="{'invisible':[['bindingModelId','!=',false]]}" icon="fa-plus-square"
+                                    help="Display an option on related documents to print this report" class="oe-stat-button"/>
+                            <button name="unlinkAction" string="Remove from the 'Print' menu" type="object"
+                                    attrs="{'invisible':[['bindingModelId','=',false]]}" icon="fa-minus-square"
+                                    help="Remove the contextual action related to this report" class="oe-stat-button"/>
+                            <button name="associatedView" string="QWeb views" type="object"
+                                    attrs="{'invisible':[['reportType', 'not in', ['qweb-pdf', 'qweb-html', 'qweb-text']]]}" icon='fa-code'
+                                    class="oe-stat-button"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="label"/>
+                                <field name="reportType"/>
+                                <field name="paperformatId"
+                                       attrs="{'invisible':[['reportType','not in',['qweb-pdf']]]}"/>
+                            </group>
+                            <group>
+                                <field name="model"/>
+                                <field name="reportName"/>
+                                <field name="printReportName" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="security" string="Security">
+                                <field name="groupsId"/>
+                            </page>
+                            <page name='advanced' string="Advanced Properties">
+                                <group>
+                                    <field name="attachmentUse"/>
+                                    <field name="attachment"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="actReportXmlViewTree" model="ir.ui.view">
+            <field name="label">ir.actions.report.tree</field>
+            <field name="model">ir.actions.report</field>
+            <field name="arch" type="xml">
+                <tree string="Report xml">
+                    <field name="label"/>
+                    <field name="model"/>
+                    <field name="type"/>
+                    <field name="reportName"/>
+                    <field name="reportType"/>
+                    <field name="attachment"/>
+                </tree>
+            </field>
+        </record>
+        <record id="actReportXmlSearchView" model="ir.ui.view">
+            <field name="label">ir.actions.report.search</field>
+            <field name="model">ir.actions.report</field>
+            <field name="arch" type="xml">
+                <search string="Report Xml">
+                    <field name="label"
+                        filterDomain="['|', '|', '|', '|', ['label','ilike',self], ['model','ilike',self], ['type','ilike',self], ['reportName','ilike',self], ['reportType','ilike',self]]"
+                        string="Report"/>
+                    <field name="model" filterDomain="[['model','=', self]]" string="Model"/>
+                    <group expand="0" string="Group By" colspan="4">
+                        <filter string="Report Type" name="reportType" domain="[]" context="{'groupby':'reportType'}"/>
+                        <filter string="Report Model" name="reportModel" domain="[]" context="{'groupby':'model'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="irActionReport" model="ir.actions.actwindow">
+            <field name="label">Reports</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.actions.report</field>
+            <field name="viewId" ref="actReportXmlViewTree"/>
+            <field name="searchViewId" ref="actReportXmlSearchView"/>
+        </record>
+        <menuitem action="irActionReport" id="menuIrActionReport" parent="base.nextId6"/>
+
+        <!-- ir.actions.actwindow -->
+
+        <record id="viewWindowActionTree" model="ir.ui.view">
+            <field name="label">ir.actions.windows.tree</field>
+            <field name="model">ir.actions.actwindow</field>
+            <field name="arch" type="xml">
+                <tree string="Open Window">
+                    <field name="label"/>
+                    <field name="resModel"/>
+                    <field name="viewId"/>
+                    <field name="domain"/>
+                    <field name="context"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewWindowActionForm" model="ir.ui.view">
+            <field name="label">ir.actions.windows.form</field>
+            <field name="model">ir.actions.actwindow</field>
+            <field name="arch" type="xml">
+                <form string="Open a Window">
+                <sheet>
+                    <group>
+                        <group name="mainDetails">
+                            <field name="label"/>
+                            <field name="xmlid" string="External ID"/>
+                            <field name="resModel" string="Object"/>
+                        </group>
+                        <group name="actionDetails">
+                            <field name="usage"/>
+                            <field name="type" readonly="1"/>
+                            <field name="target"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="general_settings" string="General Settings">
+                            <group>
+                                <group name="views" string="Views">
+                                    <field name="viewMode"/>
+                                    <field name="viewId"/>
+                                    <field name="searchViewId"/>
+                                </group>
+                                <group name="filters" string="Filters">
+                                    <field name="domain"/>
+                                    <field name="context"/>
+                                    <field name="limit"/>
+                                    <field name="filter"/>
+                                </group>
+                            </group>
+                            <group name="help" string="Help">
+                                <field colspan="2" name="help" nolabel="1"/>
+                            </group>
+                            <group name="viewsTree" string="Views">
+                                <field colspan="2" name="viewIds" nolabel="1">
+                                    <form string="Views">
+                                        <group>
+                                            <field colspan="4" name="sequence"/>
+                                            <field name="viewMode"/>
+                                            <field domain="[['type', '=', viewMode]]" name="viewId"/>
+                                        </group>
+                                    </form>
+                                    <tree string="Views">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="viewMode"/>
+                                        <field name="viewId"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Security" name="security">
+                            <field name="groupsId"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewWindowActionSearch" model="ir.ui.view">
+            <field name="label">ir.actions.windows.search</field>
+            <field name="model">ir.actions.actwindow</field>
+            <field name="arch" type="xml">
+                <search string="Open a Window">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['resModel','ilike',self]]" string="Action"/>
+                </search>
+            </field>
+        </record>
+        <record id="irActionWindow" model="ir.actions.actwindow">
+            <field name="label">Window Actions</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.actions.actwindow</field>
+            <field name="searchViewId" ref="viewWindowActionSearch"/>
+        </record>
+        <record id="irActionWindowView1" model="ir.actions.actwindow.view">
+            <field eval="1" name="sequence"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="viewWindowActionTree"/>
+            <field name="actwindowId" ref="irActionWindow"/>
+        </record>
+        <record id="irActionWindowView2" model="ir.actions.actwindow.view">
+            <field eval="2" name="sequence"/>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="viewWindowActionForm"/>
+            <field name="actwindowId" ref="irActionWindow"/>
+        </record>
+        <menuitem action="irActionWindow" id="menuIrActionWindow" parent="base.nextId6"/>
+
+        <!-- ir.actions.server -->
+
+        <record id="viewServerActionForm" model="ir.ui.view">
+            <field name="label">Server Action</field>
+            <field name="model">ir.actions.server</field>
+            <field name="arch" type="xml">
+                <form string="Server Action">
+                    <header>
+                        <field name="bindingModelId" invisible="1"/>
+                        <button name="createAction" string="Create Contextual Action" type="object"
+                                class="btn-primary"
+                                attrs="{'invisible':[['bindingModelId','!=',false]]}"
+                                help="Display an option in the 'More' top-menu in order to run this action."/>
+                        <button name="unlinkAction" string="Remove Contextual Action" type="object"
+                                attrs="{'invisible':[['bindingModelId','=',false]]}"
+                                help="Remove 'More' top-menu contextual action related to this action"/>
+                        <button name="run" string="Run" type="object"
+                                class="btn-primary"
+                                attrs="{'invisible':['|', ['modelId', '!=', %(base.model_irActionsServer)s], ['state', '!=', 'code']]}"
+                                help="Run this action manually."/>
+                    </header>
+                    <sheet>
+                        <div class="oe-title">
+                            <label for="label"/>
+                            <h1><field name="label" placeholder="e.g. Update order quantity"/></h1>
+                        </div>
+                        <group name="actionWrapper">
+                            <group name="actionContent">
+                                <field name="modelId" options="{'noCreate': true}"/>
+                                <field name="modelName" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                                <field name="type" invisible="1"/>
+                                <field name="crudModelId"
+                                    options="{'noCreate': true}"
+                                    attrs="{'invisible': [['state', '!=', 'objectCreate']], 'required': [['state', '=', 'objectCreate']]}"/>
+                                <field name="crudModelName" invisible="1"/>
+                                <field name="linkFieldId"
+                                    domain="[['modelId', '=', modelId], ['relation', '=', crudModelName],
+                                    ['ttype', 'in', ['many2one', 'one2many', 'many2many']]]"
+                                    attrs="{'invisible': [['state', '!=', 'objectCreate']]}"
+                                    context="{'default_modelId': modelId, 'default_relation': crudModelName}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Javascript Code" name='code' autofocus="autofocus"
+                                    attrs="{'invisible': [['state', '!=', 'code']]}">
+                                <field name="code" widget="ace" options="{'mode': 'javascript'}" placeholder="Enter Javascript code here. Help about Javascript expression is available in the help tab of this document."/>
+                            </page>
+
+                            <page string="Data to Write" name="pageObject" autofocus="autofocus"
+                                    attrs="{'invisible':[['state', 'not in', ['objectCreate', 'objectWrite']]]}">
+                                <p attrs="{'invisible': [['modelId', '!=', false]]}">
+                                    Please set the Model to Create before choosing values
+                                </p>
+                                <field name="fieldsLines">
+                                     <tree string="Field Mappings" editable="bottom">
+                                        <field name="col1"
+                                            options="{'noCreate': true}"
+                                            domain="['|', ['modelId', '=', parent.crudModelId], ['modelId', '=', parent.modelId]]"/>
+                                        <field name="evaluationType"/>
+                                        <field name="resourceRef"
+                                            options="{'hideModel': true, 'noCreate': true}"
+                                            attrs="{'readonly': [['evaluationType', '!=', 'reference']]}"/>
+                                        <field name="value"
+                                            attrs="{'readonly': [['evaluationType', '=', 'reference']]}"
+                                            options="{'noCreate': true}"
+                                            forceSave="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page name="security" string="Security">
+                                <field name="groupsId"/>
+                            </page>
+
+                            <page string="Actions" name="actions" autofocus="autofocus"
+                                    attrs="{'invisible': [['state', '!=', 'multi']]}">
+                                <p class="oe-grey">
+                                    If several child actions return an action, only the last one will be executed.
+                                    This may happen when having server actions executing code that returns an action, or server actions returning a client action.
+                                </p>
+                                <field name="childIds" domain="[['modelId', '=', modelId]]"/>
+                            </page>
+
+                            <page string="Help" name="helpInfo" autofocus="autofocus"
+                                    attrs="{'invisible': [['state', '!=', 'code']]}">
+                                <group>
+                                    <div style="margin-top: 4px;">
+                                        <h3>Help with Javascript expressions</h3>
+                                        <p>Various fields may use Javascript code or Javascript expressions. The following variables can be used:</p>
+                                        <ul>
+                                            <li><code>env</code>: Verp Environment on which the action is triggered</li>
+                                            <li><code>model</code>: Verp Model of the record on which the action is triggered; is a void recordset</li>
+                                            <li><code>record</code>: record on which the action is triggered; may be be void</li>
+                                            <li><code>records</code>: recordset of all records on which the action is triggered in multi mode; may be void</li>
+                                            <li><code>time</code>, <code>datetime</code>, <code>dateutil</code>, <code>timeZone</code>: useful Javascript libraries</li>
+                                            <li><code>log(message, level='info')</code>:logging function to record debug information in <code>ir.logging</code> table</li>
+                                            <li><code>UserError</code>: Warning Exception to use with <code>raise</code></li>
+                                            <li>To return an action, assign: <code>action = {...}</code></li>
+                                        </ul>
+                                        <div attrs="{'invisible': [['state', '!=', 'code']]}">
+                                            <p>Example of Javascript code</p>
+<code style='white-space: pre-wrap'>
+const partnerName = await record.label + 'Code';
+await env.items('res.partner').create({'label': partnerName});
+</code>
+                                        </div>
+                                    </div>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewServerActionTree" model="ir.ui.view">
+            <field name="label">Server Actions</field>
+            <field name="model">ir.actions.server</field>
+            <field name="arch" type="xml">
+                <tree string="Server Actions">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="state"/>
+                    <field name="modelId"/>
+                    <field name="usage"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewServerActionSearch" model="ir.ui.view">
+            <field name="label">ir.actions.server.search</field>
+            <field name="model">ir.actions.server</field>
+            <field name="arch" type="xml">
+                <search string="Server Actions">
+                    <field name="label" string="Server Action"/>
+                    <field name="modelId"/>
+                    <field name="state"/>
+                    <group expand="0" string="Group By" colspan="4" col="4">
+                        <filter string="Action Type" name="actionType" domain="[]" context="{'groupby':'state'}"/>
+                        <filter string="Model" name="model" domain="[]" context="{'groupby':'modelId'}"/>
+                        <filter string="Usage" name="usage" domain="[]" context="{'groupby':'usage'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="actionServerAction" model="ir.actions.actwindow">
+            <field name="label">Server Actions</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.actions.server</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="viewServerActionTree"/>
+            <field name="searchViewId" ref="viewServerActionSearch"/>
+            <field name="context">{'key':'serverAction'}</field>
+        </record>
+        <menuitem action="actionServerAction" id="menuServerAction" parent="base.nextId6"/>
+
+        <!-- ir.actions.todo -->
+
+        <record id="irActionsTodoTree" model="ir.ui.view">
+            <field name="model">ir.actions.todo</field>
+            <field name="label">Config Wizard Steps</field>
+            <field name="arch" type="xml">
+                <tree string="Config Wizard Steps">
+                    <field name="sequence" widget='handle'/>
+                    <field name="actionId"/>
+                    <field name="state" readonly="1"/>
+                    <button name="actionLaunch" states="open" string="Launch" type="object" icon="fa-cogs" help="Launch Configuration Wizard"/>
+                    <button name="actionOpen" states="done"
+                            string="Todo" type="object" help="Set as Todo"
+                            icon="fa-exchange"/>
+                </tree>
+            </field>
+        </record>
+        <record id="configWizardStepViewForm" model="ir.ui.view">
+            <field name="model">ir.actions.todo</field>
+            <field name="label">Config Wizard Steps</field>
+            <field name="arch" type="xml">
+                <form string="Config Wizard Steps">
+                  <header>
+                        <button name="actionLaunch"
+                            states="open" string="Launch"
+                            type="object" icon="fa-cogs" class="oe-highlight" 
+                            help="Launch Configuration Wizard"/>
+                        <button name="actionOpen" states="done"
+                            string="Set as Todo" type="object"
+                            icon="fa-exchange" class="oe-highlight"/>
+                        <field name="state" widget="statusbar" statusbarVisible="open,done" nolabel="1" readonly="1" />
+                  </header>
+                  <sheet>
+                    <group col="4">
+                        <field name="actionId"/>
+                        <field name="sequence"/>
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="configWizardStepViewSearch" model="ir.ui.view">
+            <field name="model">ir.actions.todo</field>
+            <field name="label">ir.actions.todo.select</field>
+            <field name="arch" type="xml">
+                <search string="Search Actions">
+                    <filter string="To Do" name="todo" domain=" [['state','=','open']]" help="Wizards to be Launched"/>
+                    <field name="actionId"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+        <record id="irActionsTodoForm" model="ir.actions.actwindow">
+            <field name="label">Configuration Wizards</field>
+            <field name="resModel">ir.actions.todo</field>
+            <field name="viewId" ref="irActionsTodoTree"/>
+            <field name="help">The configuration wizards are used to help you configure a new instance of Verp. They are launched during the installation of new modules, but you can choose to restart some wizards manually from this menu.</field>
+        </record>
+        <menuitem id="menuIrActionsTodoForm" action="irActionsTodoForm" parent="base.nextId6"/>
+        <record id="actionRunIrActionTodo" model="ir.actions.server">
+            <field name="label">Config: Run Remaining Action Todo</field>
+            <field name="type">ir.actions.server</field>
+            <field name="modelId" ref="model_resConfig"/>
+            <field name="state">code</field>
+            <field name="code">async () => {
+const config = model.next().value ?? {};
+if (!['ir.actions.actwindow.close',].includes(config['type'])) {
+    return config;
+}
+            }
+</field>
+        </record>
+
+</verp>

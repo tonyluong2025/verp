@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewAssetDepreciationConfirmationWizard" model="ir.ui.view">
+        <field name="label">asset.depreciation.confirmation.wizard</field>
+        <field name="model">asset.depreciation.confirmation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Compute Asset">
+                <div>
+                    <p>
+                        This wizard will post installment/depreciation lines for the selected month.<br/>
+                        This will generate journal entries for all related installment lines on this period
+                        of asset/revenue recognition as well.
+                    </p> 
+                </div>
+                <group>
+                    <field name="date"/>
+                </group>
+                <footer>
+                    <button string="Generate Entries" name="assetCompute" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+         </field>
+    </record>
+
+    <record id="actionAssetDepreciationConfirmationWizard" model="ir.actions.actwindow">
+        <field name="label">Post Depreciation Lines</field>
+        <field name="resModel">asset.depreciation.confirmation.wizard</field>
+        <field name="viewMode">tree,form</field>
+        <field name="viewId" ref="viewAssetDepreciationConfirmationWizard"/>
+        <field name="target">new</field>
+        <field name="context">{'assetType': 'purchase'}</field>
+    </record>
+
+    <menuitem id="menuAssetDepreciationConfirmationWizard"
+              name="Generate Assets Entries"
+              action="actionAssetDepreciationConfirmationWizard"
+              parent="account.menuFinanceEntriesGenerateEntries"
+              sequence="111"
+              groups="account.groupAccountManager"/>
+
+</verp>

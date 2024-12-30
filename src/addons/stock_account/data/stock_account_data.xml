@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record forcecreate="true" id="defaultCategoryCostMethod" model="ir.property">
+            <field name="label">Cost Method Property</field>
+            <field name="fieldsId" ref="field_productCategory_propertyCostMethod"/>
+            <field name="value">standard</field>
+            <field name="type">selection</field>
+        </record>
+        <record forcecreate="true" id="defaultCategoryValuation" model="ir.property">
+            <field name="label">Valuation Property</field>
+            <field name="fieldsId" ref="field_productCategory_propertyValuation"/>
+            <field name="value">manual</field>
+            <field name="type">selection</field>
+        </record>
+    </data>
+</verp>
+

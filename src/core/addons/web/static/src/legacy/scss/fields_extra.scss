@@ -1,0 +1,66 @@
+//
+// This file regroups all the rules which apply to field widgets wherever they
+// are in the DOM, in the community version.
+//
+
+// Required
+.o-required-modifier {
+    &.o-input, .o-input {
+        background-color: #D2D2FF!important;
+    }
+}
+
+//------------------------------------------------------------------------------
+// Fields
+//------------------------------------------------------------------------------
+
+.o-field-widget {
+    &.o-field-many2manytags {
+        .o-dropdown-button {
+            top: 0;
+            right: 0;
+        }
+
+        &.avatar .o-dropdown-button {
+            top: $o-input-padding-y;
+        }
+    }
+
+    // Many2one
+    &.o-field-many2one .o-external-button {
+        flex: 0 0 auto;
+        padding: 0;
+        margin-left: 2px;
+        font-size: 19px;
+        color: #7C7BAD;
+        border: none;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
+    // Percent pie field
+    &.o-field-percent-pie {
+        $pie-dimension: 34px;
+        $pie-ring-width: 4px;
+
+        .o-pie {
+            width: $pie-dimension;
+            height: $pie-dimension;
+            margin-left: 5px;
+
+            &:after { // Outside pie border to go over border-radius irregularities
+                border: 1px solid $o-brand-verp;
+            }
+
+            .o-pie-value {
+                @include o-position-absolute($pie-ring-width, $pie-ring-width);
+                width: $pie-dimension - 2 * $pie-ring-width;
+                height: $pie-dimension - 2 * $pie-ring-width;
+                border: 1px solid white;
+                background-color: white;
+                font-size: 10px;
+            }
+        }
+    }
+}

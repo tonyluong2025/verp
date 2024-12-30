@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="accountAssetsJsBackend" model="ir.asset">
+        <field name="label">Account Assets</field>
+        <field name="bundle">web.assetsBackend</field>
+        <field name="path">/account_asset/static/src/js/account_asset.js</field>
+        <field name="sequence" eval="17"/>
+    </record>
+
+    <record id="accountAssetsScssBackend" model="ir.asset">
+        <field name="label">aAccount Assets SCSS</field>
+        <field name="bundle">web.assetsBackend</field>
+        <field name="path">/account_asset/static/src/scss/account_asset.scss</field>
+        <field name="sequence" eval="17"/>
+    </record>
+
+
+    <!--    <template id="qunit_suite" name="account_asset_tests" inheritId="web.qunit_suite">-->
+    <!--        <xpath expr="//t[@t-set='head']" position="inside">-->
+    <!--            <script type="text/javascript" src="/account_asset/static/tests/account_asset_tests.js"></script>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+
+</verp>

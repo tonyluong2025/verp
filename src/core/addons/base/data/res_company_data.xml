@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="mainCompany" model="res.company">
+            <field name="label">My Company</field>
+            <field name="partnerId" ref="mainPartner"/>
+            <field name="currencyId" ref="base.USD"/>
+            <field name="favicon" model="res.company" eval="await obj._getDefaultFavicon(true)"/>
+        </record>
+    </data> 
+</verp>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewAccountGroupForm" model="ir.ui.view">
+            <field name="label">account.group.form</field>
+            <field name="model">account.group</field>
+            <field name="arch" type="xml">
+                <form string="Account Group">
+                <sheet>
+                    <group>
+                        <field name="label"/>
+                        <label for="codePrefixStart" string="Code Prefix"/>
+                        <div>
+                            From <field name="codePrefixStart" class="oe-inline"/> to <field name="codePrefixEnd" class="oe-inline"/>
+                        </div>
+                        <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountGroupSearch" model="ir.ui.view">
+            <field name="label">account.group.search</field>
+            <field name="model">account.group</field>
+            <field name="arch" type="xml">
+                <search string="Account groups">
+                    <field name="label"
+                           filterDomain="['|', ['codePrefixStart', '=like', String(self) + '%'], ['label', 'ilike', self]]"
+                           string="Account group"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="viewAccountGroupTree" model="ir.ui.view">
+            <field name="label">account.group.tree</field>
+            <field name="model">account.group</field>
+            <field name="arch" type="xml">
+                <tree string="Account Group">
+                    <field name="codePrefixStart"/>
+                    <field name="codePrefixEnd"/>
+                    <field name="label"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</verp>

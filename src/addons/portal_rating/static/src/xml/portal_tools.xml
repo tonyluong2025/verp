@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="portal_rating.ratingStarsStatic">
+        <t t-set="valInteger" t-value="Math.floor(val)"/>
+        <t t-set="valDecimal" t-value="val - valInteger"/>
+        <t t-set="emptyStar" t-value="5 - (valInteger+Math.ceil(valDecimal))"/>
+        <div class="o-website-rating-static" t-att-style="inlineMode ? 'display:inline' : ''" t-attf-aria-label="#{val} stars on 5" t-attf-title="#{val} stars on 5">
+            <t t-foreach="_.range(0, valInteger)" t-as="num">
+                <i class="fa fa-star" role="img"></i>
+            </t>
+            <t t-if="valDecimal">
+                <i class="fa fa-star-half-o" role="img"></i>
+            </t>
+            <t t-foreach="_.range(0, emptyStar)" t-as="num">
+                <i class="fa fa-star text-black-25" role="img"></i>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="portal_rating.ratingCard">
+        <t t-set="twoColumns" t-value="widget.options['twoColumns']"/>
+        <div class="row o-website-rating-card-container justify-content-center">
+            <div t-attf-class="#{twoColumns &amp;&amp; 'col-lg-12' || 'col-lg-3'}" t-if="!_.isEmpty(widget.get('ratingCardValues'))">
+                <p t-if="!twoColumns"><strong>Average</strong></p>
+                <div t-attf-class="o-website-rating-avg #{twoColumns &amp;&amp; 'mb-2' || 'text-center'}">
+                    <h1><t t-esc="widget.get('ratingCardValues')['avg']"/></h1>
+                    <t t-call="portal_rating.ratingStarsStatic">
+                        <t t-set="val" t-value="widget.get('ratingCardValues')['avg'] || 0"/>
+                    </t>
+                    <t t-call="portal.chatterMessageCount"/>
+                </div>
+            </div>
+            <div t-attf-class="#{twoColumns &amp;&amp; 'col-lg-12' || 'col-lg-6'}" t-if="!_.isEmpty(widget.get('ratingCardValues'))">
+                <hr t-if="twoColumns"/>
+                <p t-if="!twoColumns"><strong>Details</strong></p>
+                <div class="o-website-rating-progress-bars">
+                    <table class="o-website-rating-progress-table">
+                        <t t-foreach="widget.get('ratingCardValues')['percent']" t-as="percent">
+                            <tr class="o-website-rating-select" t-att-data-star="percent['num']" style="opacity: 1">
+                                <td class="o-website-rating-table-star-num text-nowrap" t-att-data-star="percent['num']">
+                                    <t t-esc="percent['num']"/> stars
+                                </td>
+                                <td class="o-website-rating-table-progress">
+                                    <div class="progress">
+                                        <div class="progress-bar o-rating-progressbar" role="progressbar" t-att-aria-valuenow="percent['percent']" aria-valuemin="0" aria-valuemax="100" t-att-style="'width:' + percent['percent'] + '%;'">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="o-website-rating-table-percent">
+                                    <strong><t t-esc="Math.round(percent['percent'] * 100) / 100"/>%</strong>
+                                </td>
+                                <td class="o-website-rating-table-reset">
+                                    <button class="btn btn-link o-website-rating-select-text" t-att-data-star="percent['num']">
+                                        <i t-attf-class="fa fa-times d-block #{!twoColumns &amp;&amp; 'd-sm-none' || ''}" role="img" aria-label="Remove Selection"/>
+                                        <span t-attf-class="d-none #{!twoColumns &amp;&amp; 'd-sm-block' || ''}">Remove Selection</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </t>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="portal_rating.ratingStarInput">
+        <div class="o-rating-star-card" t-if="widget.options['displayRating']">
+            <t t-set="valInteger" t-value="Math.floor(defaultRating)"/>
+            <t t-set="valDecimal" t-value="defaultRating - valInteger"/>
+            <t t-set="emptyStar" t-value="5 - (valInteger+Math.ceil(valDecimal))"/>
+
+            <div class="stars enabled">
+                <t t-foreach="_.range(0, valInteger)" t-as="num">
+                    <i class="fa fa-star" role="img" aria-label="One star" title="One star"></i>
+                </t>
+                <t t-if="valDecimal">
+                    <i class="fa fa-star-half-o" role="img" aria-label="Half a star" title="Half a star"></i>
+                </t>
+                <t t-foreach="_.range(0, emptyStar)" t-as="num" role="img" t-attf-aria-label="#{emptyStar} on 5" t-attf-title="#{emptyStar} on 5">
+                    <i class="fa fa-star-o text-black-25"></i>
+                </t>
+            </div>
+            <div class="rate-text">
+                <span class="badge badge-info"></span>
+            </div>
+            <input type="hidden" readonly="readonly" name="ratingValue" t-att-value="defaultRating || ''"/>
+        </div>
+    </t>
+</templates>

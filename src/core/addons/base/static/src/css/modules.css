@@ -1,0 +1,60 @@
+
+.oe-module-icon {
+    width: 70px;
+    max-height: 70px;
+    max-width: 23%;
+    float: left;
+}
+
+.oe-module-desc {
+    font-size: 13px;
+    padding-left: 10px;
+    width: 77%;
+}
+
+.o-kanban-view .oe-module-vignette.o-kanban-record {
+    align-items: center;
+    display: flex;
+}
+
+.o-modules-kanban.o-kanban-view .o-kanban-record .o-dropdown-kanban {
+    visibility: visible;
+    opacity: 0.5;
+}
+
+.o-modules-kanban.o-kanban-view .o-kanban-record:hover .o-dropdown-kanban,
+.o-modules-kanban.o-kanban-view .o-kanban-record .o-dropdown-kanban.show {
+    opacity: 1;
+}
+
+.oe-module-name > span  {
+    color: #999999;
+    min-height: 26px;
+    line-height: 1.1;
+    display: block;
+}
+
+.oe-module-desc p {
+    margin: 3px 0 3px;
+}
+
+.oe-module-desc > h4 {
+    margin-right: 20px;
+
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+.oe-module-desc {
+    min-width: 0;
+}
+
+.o-module-form.o-form-view .oe-avatar > img {
+    border: none;
+    box-shadow: none;
+    max-width: 70px;
+    max-height: 70px;
+}

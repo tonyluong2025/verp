@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="accountReportPartnerLedgerView" model="ir.ui.view">
+        <field name="label">Partner Ledger</field>
+        <field name="model">account.report.partner.ledger</field>
+        <field name="inheritId" ref="account.accountCommonReportView"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='journalIds']" position="before">
+                    <field name="partnerIds" widget="many2manyTags"
+                           options="{'noOpen': true, 'noCreate': true}"/>
+                </xpath>
+                <xpath expr="//field[@name='targetMove']" position="after">
+                    <field name="resultSelection"/>
+                    <field name="amountCurrency" groups="base.groupMultiCurrency"/>
+                    <newline/>
+                    <field name="reconciled"/>
+                    <newline/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="actionAccountPartnerLedgerMenu" model="ir.actions.actwindow">
+        <field name="label">Partner Ledger</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">account.report.partner.ledger</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountReportPartnerLedgerView"/>
+        <field name="target">new</field>
+        <field name="bindingModelId" ref="account.model_accountAccount" />
+        <field name="bindingType">report</field>
+    </record>
+
+    <menuitem id="menuPartnerLedger"
+              name="Partner Ledger"
+              sequence="5"
+              parent="menuFinancePartnerReports"
+              action="actionAccountPartnerLedgerMenu"
+              groups="account.groupAccountInvoice"/>
+
+     <!-- Add to Partner Print button -->
+    <record id="actionPartnerReportPartnerledger" model="ir.actions.actwindow">
+        <field name="label">Balance Statement (Partner Ledger)</field>
+        <field name="resModel">account.report.partner.ledger</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountReportPartnerLedgerView" />
+        <field name="target">new</field>
+        <field name="bindingModelId" ref="base.model_resPartner" />
+        <field name="bindingType">report</field>
+        <field name="context">{
+            'default_partnerIds':activeIds,
+            'default_targetMove': 'posted',
+            'default_resultSelection': 'customerSupplier',
+            'default_reconciled': true,
+            'hidePartner':1,
+        }</field>
+        <field name="groupsId" eval="[[4,refId('account.groupAccountInvoice')]]"/>
+    </record>
+
+</verp>

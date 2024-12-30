@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <t t-name="account.TaxGroupComponent" owl="1">
+        <tr>
+            <td class="o-td-label">
+                <label class="o-form-label o-tax-total-label" t-esc="props.taxGroup.taxGroupName"/>
+            </td>
+
+            <td>
+                <t t-if="allowTaxEdition">
+                    <t t-if="['edit', 'disable'].includes(state.value)">
+                        <span class="o-tax-group-edit-input">
+                            <input
+                                type="text"
+                                t-ref="taxValueInput"
+                                class="o-field-float
+                                o-field-number o-input"
+                                t-att-disabled="state.value === 'disable'"
+                                t-on-blur.prevent="_onchangeTaxValue"/>
+                        </span>
+                    </t>
+                    <t t-else="">
+                        <span class="o-tax-group-edit" t-on-click.prevent="setState('edit')">
+                            <i class="fa fa-pencil"/>
+                            <span class="o-tax-group-amount-value">
+                                <t t-esc="props.taxGroup.formattedTaxGroupAmount"/>
+                            </span>
+                        </span>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="o-tax-group-amount-value">
+                        <t t-esc="props.taxGroup.formattedTaxGroupAmount" style="white-space: nowrap;"/>
+                    </span>
+                </t>
+            </td>
+        </tr>
+    </t>
+
+    <div t-name="account.TaxTotalsField" owl="1">
+        <table t-if="totals.value" class="oe-right">
+            <tbody>
+                <t t-foreach="totals.value.subtotals" t-as="subtotal" t-key="subtotal['label']">
+                    <tr>
+                        <td class="o-td-label">
+                            <label class="o-form-label o-tax-total-label" t-esc="subtotal['label']"/>
+                        </td>
+
+                        <td>
+                            <span t-att-name="subtotal['label']" style="white-space: nowrap; font-weight: bold;" t-esc="subtotal['formattedAmount']"/>
+                        </td>
+                    </tr>
+                    <t t-foreach="totals.value.groupsBySubtotal[subtotal['label']]" t-as="taxGroup" t-key="taxGroup.groupKey">
+                        <!-- Tony must fix  -->
+                        <!-- <TaxGroupComponent
+                            taxGroup="taxGroup"
+                            record="record"
+                            allowTaxEdition="totals.value.allowTaxEdition"
+                            t-on-change-tax-group="_onchangeTaxValueByTaxGroup"
+                        /> -->
+                        <!-- Tony must fix  -->
+                        <tr>
+                            <td class="o-td-label">
+                                <label class="o-form-label o-tax-total-label" t-esc="taxGroup.taxGroupName"/>
+                            </td>
+                            <td>
+                                <span class="o-tax-group-amount-value">
+                                    <t t-esc="taxGroup.formattedTaxGroupAmount" style="white-space: nowrap;"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+
+                <!-- Total amount with all taxes-->
+                <tr>
+                    <td class="o-td-label">
+                        <label class="o-form-label o-tax-total-label">Total</label>
+                    </td>
+
+                    <td>
+                        <span
+                            name="amountTotal"
+                            t-att-class="Object.keys(totals.value.groupsBySubtotal).length > 0 ? 'oe-subtotal-footer-separator' : ''"
+                            t-esc="totals.value.formattedAmountTotal"
+                            style="white-space: nowrap; font-weight: bold; font-size: 1.3em;"
+                        />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</templates>

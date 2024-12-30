@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <!-- <record model="ir.module.module" id="base.module_web_studio">
+            <field name="label">web_studio</field>
+            <field name="shortdesc">Studio</field>
+            <field name="sequence">75</field>
+            <field name="categoryId" ref="base.category_administrationAdministration"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Create and Customize Applications</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/web_studio.png</field>
+            <field name="website">https://theverp.com/app/studio?utmSource=db&amp;utmMedium=module</field>
+        </record> -->
+
+        <!-- <record model="ir.module.module" id="base.module_timesheet_grid">
+            <field name="label">timesheetGrid</field>
+            <field name="shortdesc">Timesheets</field>
+            <field name="sequence">65</field>
+            <field name="categoryId" ref="base.category_servicesTimesheets"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Track time &amp; costs</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/timesheet_grid.png</field>
+            <field name="website">https://www.theverp.com/app/timesheet?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_account_accountant">
+            <field name="label">accountAccountant</field>
+            <field name="sequence">30</field>
+            <field name="shortdesc">Accounting</field>
+            <field name="categoryId" ref="base.category_accountingAccounting"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Accounting, Taxes, Budgets, Assets...</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/account_accountant.png</field>
+            <field name="website">https://www.theverp.com/app/accounting?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_industry_fsm">
+            <field name="label">industryFsm</field>
+            <field name="shortdesc">Field Service</field>
+            <field name="sequence">90</field>
+            <field name="categoryId" ref="base.category_servicesFieldService"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Schedule and track onsite operations, time and material</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/industry_fsm.png</field>
+            <field name="website">https://www.theverp.com/app/field-service?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_helpdesk">
+            <field name="label">helpdesk</field>
+            <field name="shortdesc">Helpdesk</field>
+            <field name="sequence">110</field>
+            <field name="categoryId" ref="base.category_servicesHelpdesk"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Track support tickets</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/helpdesk.png</field>
+            <field name="website">https://www.theverp.com/app/helpdesk?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_hr_appraisal">
+            <field name="label">hrAppraisal</field>
+            <field name="shortdesc">Appraisal</field>
+            <field name="sequence">180</field>
+            <field name="categoryId" ref="base.category_humanResourcesAppraisals"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Assess your employees</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/hr_appraisal.png</field>
+            <field name="website">https://www.theverp.com/app/appraisals?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_marketing_automation">
+            <field name="label">marketingAutomation</field>
+            <field name="shortdesc">Marketing Automation</field>
+            <field name="sequence">195</field>
+            <field name="categoryId" ref="base.category_marketingEmailMarketing"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Build automated mailing campaigns</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/marketing_automation.png</field>
+            <field name="website">https://www.theverp.com/app/marketing-automation?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_mrp_plm">
+            <field name="label">mrpPlm</field>
+            <field name="shortdesc">Product Lifecycle Management (PLM)</field>
+            <field name="categoryId" ref="base.category_manufacturingManufacturing"/>
+            <field name="sequence">155</field>
+            <field name="application" eval="true"/>
+            <field name="summary">PLM, ECOs, Versions</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/mrp_plm.png</field>
+            <field name="website">https://www.theverp.com/app/plm?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_quality_control">
+            <field name="label">qualityControl</field>
+            <field name="shortdesc">Quality</field>
+            <field name="sequence">120</field>
+            <field name="categoryId" ref="base.category_manufacturingManufacturing"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Quality Alerts, Control Points</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/quality_control.png</field>
+            <field name="website">https://www.theverp.com/app/quality?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_sale_ebay">
+            <field name="label">saleEbay</field>
+            <field name="shortdesc">eBay Connector</field>
+            <field name="sequence">325</field>
+            <field name="categoryId" ref="base.category_salesSales"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Sell on eBay easily</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/sale_ebay.png</field>
+            <field name="website">https://www.theverp.com/app/sales?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_planning">
+            <field name="label">planning</field>
+            <field name="shortdesc">Planning</field>
+            <field name="sequence">130</field>
+            <field name="categoryId" ref="base.category_servicesProject"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Manage your employees' schedule</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/planning.png</field>
+            <field name="website">https://www.theverp.com/app/planning?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_sale_subscription">
+            <field name="label">saleSubscription</field>
+            <field name="shortdesc">Subscriptions</field>
+            <field name="sequence">115</field>
+            <field name="categoryId" ref="base.category_salesSales"/>
+            <field name="application" eval="true"/>
+            <field name="summary">MRR, Churn, Recurring payments</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/sale_subscription.png</field>
+            <field name="website">https://www.theverp.com/app/subscriptions?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_sign">
+            <field name="label">sign</field>
+            <field name="shortdesc">Sign</field>
+            <field name="sequence">105</field>
+            <field name="categoryId" ref="base.category_salesSign"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Send documents to sign online</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/sign.png</field>
+            <field name="website">https://www.theverp.com/app/sign?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_stock_barcode">
+            <field name="label">stockBarcode</field>
+            <field name="shortdesc">Barcode</field>
+            <field name="sequence">255</field>
+            <field name="categoryId" ref="base.category_inventoryInventory"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Barcode scanner for warehouses</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/stock_barcode.png</field>
+            <field name="website">https://www.theverp.com/app/inventory?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_voip">
+            <field name="label">voip</field>
+            <field name="shortdesc">VoIP</field>
+            <field name="sequence">280</field>
+            <field name="categoryId" ref="base.category_salesSales"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Call using VoIP</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/voip.png</field>
+            <field name="website">https://www.theverp.com/app/crm?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_appointment">
+            <field name="label">appointment</field>
+            <field name="shortdesc">Appointments</field>
+            <field name="sequence">215</field>
+            <field name="categoryId" ref="base.category_salesSales"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Online appointments scheduler</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/appointment.png</field>
+            <field name="website">https://www.theverp.com/app/appointments?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_mrp_workorder">
+            <field name="label">mrpWorkorder</field>
+            <field name="sequence">16</field>
+            <field name="shortdesc">MRP II</field>
+            <field name="categoryId" ref="base.category_manufacturingManufacturing"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Work Orders, Planning, Routing</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/mrp_workorder.png</field>
+            <field name="website">https://www.theverp.com/page/manufacturing?utmSource=db&amp;utmMedium=module</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_web_mobile">
+            <field name="label">webMobile</field>
+            <field name="sequence">220</field>
+            <field name="shortdesc">Android &amp; iPhone</field>
+            <field name="categoryId" ref="base.category_administrationAdministration"/>
+            <field name="application" eval="true"/>
+            <field name="summary">Support for Android &amp; iOS Apps</field>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/web_mobile.png</field>
+            <field name="website">https://play.google.com/store/apps/details?id=com.verp.mobile</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_website_twitter_wall">
+            <field name="label">websiteTwitterWall</field>
+            <field name="shortdesc">Twitter Wall</field>
+            <field name="summary">Interactive twitter wall for events</field>
+            <field name="categoryId" ref="base.category_websiteWebsite"/>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/website_twitter_wall.png</field>
+        </record>
+
+        <record model="ir.module.module" id="base.module_payment_sepa_direct_debit">
+            <field name="label">paymentSepaDirectDebit</field>
+            <field name="shortdesc">Sepa Direct Debit Payment Acquirer</field>
+            <field name="summary">Checkout with SEPA Direct Debit</field>
+            <field name="categoryId" ref="base.category_accountingAccounting"/>
+            <field name="license">OEEL-1</field>
+            <field name="author">Verp S.A.</field>
+            <field name="toBuy" eval="true"/>
+            <field name="icon">/base/static/img/icons/payment_sepa_direct_debit.png</field>
+        </record> -->
+    </data>
+</verp>

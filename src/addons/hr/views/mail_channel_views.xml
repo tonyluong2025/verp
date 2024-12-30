@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<verp><data>
+    <record id="mailChannelViewForm" model="ir.ui.view">
+        <field name="label">mail.channel.view.form.inherit.hr</field>
+        <field name="model">mail.channel</field>
+        <field name="inheritId" ref="mail.mailChannelViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='groupIds']" position="after">
+                <field name="subscriptionDepartmentIds" widget="many2manyTags"
+                    string="Auto Subscribe Departments"/>
+            </xpath>
+        </field>
+    </record>
+</data></verp>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+    <data>
+        <template id="reportPackagingbarcode">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="packaging">
+                        <div class="col-4" style="padding:0;">
+                            <table class="table table-condensed" style="border-bottom: 0px solid white !important;width: 3in;">
+                                <tr>
+                                    <th style="text-align: left;">
+                                        <strong t-field="packaging.label"/>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong t-field="packaging.productId.displayName"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="o-row">
+                                            <strong>Qty: </strong>
+                                            <strong t-field="packaging.qty"/>
+                                            <strong t-field="packaging.productUomId" groups="uom.groupUom"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                  <t t-if="packaging.barcode">
+                                    <tr>
+                                    <td style="text-align: center; vertical-align: middle;" class="col-5">
+                                        <div t-field="packaging.barcode" t-options="{'widget': 'barcode', 'symbology': 'auto', 'width': 600, 'height': 150, 'imgStyle': 'width:100%;height:20%;'}"/>
+                                        <span t-field="packaging.barcode"/>
+                                    </td>
+                                </tr>
+                              </t>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </template>
+    </data>
+</verp>

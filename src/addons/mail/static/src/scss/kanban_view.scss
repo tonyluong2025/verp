@@ -1,0 +1,64 @@
+$o-kanban-attachement-image-size: 80px;
+
+.o-kanban-view {
+
+    .o-kanban-record.o-kanban-attachment {
+        padding: map-get($spacers, 0);
+
+        .o-kanban-image {
+            width: $o-kanban-attachement-image-size;
+
+            + div {
+                padding-left: $o-kanban-attachement-image-size + $o-kanban-inside-hgutter;
+                @include media-breakpoint-down(sm) {
+                    padding-left:  $o-kanban-attachement-image-size + $o-kanban-inside-hgutter-mobile;
+                }
+            }
+
+            .o-kanban-image-wrapper {
+                min-height: $o-kanban-attachement-image-size;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .o-attachment-image {
+                @include size($o-kanban-attachement-image-size);
+            }
+
+            .o-image {
+                @include size($o-kanban-attachement-image-size*0.7);
+            }
+        }
+
+        .o-kanban-details {
+            .o-kanban-details-wrapper {
+                display: flex;
+                flex-direction: column;
+                min-height: $o-kanban-attachement-image-size;
+                padding: $o-kanban-inside-vgutter $o-kanban-inside-hgutter;
+
+                .o-kanban-record-title {
+                    margin-bottom: $o-kanban-inside-vgutter*0.5;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: 95%;
+                }
+
+                .o-kanban-record-body {
+                    flex: 1 1 auto;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    font-size: smaller;
+                }
+
+                .oe-kanban-avatar {
+                    border-radius: 4px;
+                    border: 1px solid $component-active-color;
+                }
+            }
+        }
+    }
+}

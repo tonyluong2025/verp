@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="actionContacts" model="ir.actions.actwindow">
+        <field name="label">Contacts</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">res.partner</field>
+        <field name="viewMode">kanban,tree,form,activity</field>
+        <field name="searchViewId" ref="base.viewResPartnerFilter"/>
+        <field name="context">{'default_isCompany': true}</field>
+        <field name="help" type="html">
+          <p class="o-view-nocontent-smiling-face">
+            Create a Contact in your address book
+          </p><p>
+            Verp helps you track all activities related to your contacts.
+          </p>
+        </field>
+    </record>
+    <record id="actionContactsViewKanban" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="0"/>
+        <field name="viewMode">kanban</field>
+        <field name="viewId" ref="base.resPartnerKanbanView"/>
+        <field name="actwindowId" ref="actionContacts"/>
+    </record>
+    <record id="actionContactsViewTree" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="1"/>
+        <field name="viewMode">tree</field>
+        <field name="viewId" ref="base.viewPartnerTree"/>
+        <field name="actwindowId" ref="actionContacts"/>
+    </record>
+    <record id="actionContactsViewForm" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="2"/>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="base.viewPartnerForm"/>
+        <field name="actwindowId" ref="actionContacts"/>
+    </record>
+
+    <menuitem name="Contacts"
+        id="menuContacts"
+        sequence="20"
+        webIcon="contacts,static/description/icon.png"
+        groups="base.groupUser,base.groupPartnerManager"/>
+
+    <menuitem id="resPartnerMenuContacts"
+        name="Contacts"
+        action="actionContacts"
+        parent="menuContacts"
+        sequence="2"/>
+
+    <menuitem id="resPartnerMenuConfig"
+        name="Configuration"
+        parent="menuContacts"
+        groups="base.groupSystem"
+        sequence="2"/>
+
+    <menuitem id="menuPartnerCategoryForm"
+        action="base.actionPartnerCategoryForm"
+        name="Contact Tags"
+        sequence="1" parent="resPartnerMenuConfig"/>
+
+    <menuitem id="menuPartnerTitleContact"
+        action="base.actionPartnerTitleContact"
+        name="Contact Titles" parent="resPartnerMenuConfig"
+        sequence="3"/>
+
+    <menuitem id="resPartnerIndustryMenu" name="Industries"
+        action="base.resPartnerIndustryAction" parent="resPartnerMenuConfig"
+        sequence="4"/>
+
+    <menuitem id="menuLocalisation" name="Localization"
+        parent="resPartnerMenuConfig" sequence="5"/>
+
+    <menuitem id="menuCountryPartner"
+        action="base.actionCountry" parent="menuLocalisation"
+        sequence="1"/>
+
+    <menuitem id="menuCountryGroup"
+        action="base.actionCountryGroup"
+        name="Country Group" parent="menuLocalisation"
+        sequence="3"/>
+
+    <menuitem id="menuCountryStatePartner"
+        action="base.actionCountryState"
+        parent="menuLocalisation"
+        sequence="2"/>
+
+    <menuitem id="menuConfigBankAccounts"
+        name="Bank Accounts"
+        parent="resPartnerMenuConfig"
+        sequence="6"/>
+
+    <menuitem id="menuActionResBankForm"
+        action="base.actionResBankForm"
+        parent="menuConfigBankAccounts"
+        sequence="1"/>
+
+    <menuitem id="menuActionResPartnerBankForm"
+        action="base.actionResPartnerBankAccountForm"
+        parent="menuConfigBankAccounts"
+        sequence="2"/>
+</verp>

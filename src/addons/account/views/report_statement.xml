@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <template id="reportStatement">
+            <t t-call="web.htmlContainer">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internalLayout">
+                        <div class="page">
+                            <div class="border border-top-0 border-right-0 border-left-0 border-info">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-right w-100">
+                                            <strong>
+                                                <span t-if="await (await o.journalId).type === 'bank'">Bank Statement</span>
+                                                <span t-else="">Cash Statement</span>
+                                            </strong>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-2 pb-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5>
+                                            <strong>
+                                                <span t-field="o.journalId"/>
+                                                <t t-if="bool(await (await o.journalId).bankAccountId)"> -
+                                                    <span t-field="o.journalId.bankAccountId"/>
+                                                </t>
+                                                <t t-if="await (await o.journalId).code"> -                                                
+                                                    <span t-field="o.journalId.code"/>
+                                                </t>
+                                            </strong>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5>
+                                            <strong>
+                                                <t t-if="await o.label">
+                                                    <span t-field="o.label"/> 
+                                                - </t>
+                                                <span t-field="o.date"/>
+                                            </strong>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <t t-set="lineIds" t-value="await o.lineIds"/>
+                            <table class="table table-lg m-0 table-borderless border border-right-0 border-left-0 border-info">
+                                <tbody>
+                                    <tr>
+                                        <td class="pt-2 pb-2 pl-0 pr-0">
+                                            <table class="table table-borderless m-0">                                                
+                                                <tr>
+                                                    <td class="p-0 w-25">
+                                                        <strong>Starting Balance</strong>
+                                                    </td>
+                                                    <td class="p-0">
+                                                        <strong>
+                                                            <span t-esc="lineIds.ok &amp;&amp; await (await lineIds.sorted(line => line.date))[0].date" t-options='{"widget": "date"}'/>
+                                                        </strong>
+                                                    </td>
+                                                    <td class="text-right p-0">
+                                                        <strong>
+                                                            <span t-field="o.balanceStart"/>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="p-0 w-25">
+                                                        <strong>Ending Balance</strong>
+                                                    </td>
+                                                    <td class="p-0">
+                                                        <strong>
+                                                            <span t-esc="lineIds.ok &amp;&amp; await (await lineIds.sorted(line => line.date))[-1].date" t-options='{"widget": "date"}'/>
+                                                        </strong>
+                                                    </td>
+                                                    <td class="text-right p-0">
+                                                        <strong>
+                                                            <span t-field="o.balanceEndReal"/>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-borderless m-0">
+                                <tbody>
+                                    <tr t-foreach="lineIds" t-as="line" class="pb-2">
+                                        <td class="pl-0 pr-0">
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td class="p-0 w-25">
+                                                        <span class="d-block font-weight-bold" t-field="line.date"/>
+                                                    </td>
+                                                    <td class="p-0">
+                                                        <span class="d-block font-weight-bold" t-if="(await line.partnerId).ok" t-field="line.partnerId"/>
+                                                        <span class="d-block" t-if="(await line.partnerBankId).ok" t-field="line.partnerBankId"/>
+                                                        <span class="d-block" t-if="(await line.paymentRef).ok" t-field="line.paymentRef"/>
+                                                        <span class="d-block" t-if=" !isHtmlEmpty(await line.narration)" t-field="line.narration"/>
+                                                    </td>
+                                                    <td class="text-right p-0">
+                                                        <span class="d-block font-weight-bold" t-field="line.amount"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</verp>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <!-- report.paperformat -->
+        <record id="paperformatViewTree" model="ir.ui.view">
+            <field name="label">paperFormatViewTree</field>
+            <field name="model">report.paperformat</field>
+            <field name="arch" type="xml">
+                <tree string="Paper format configuration">
+                    <field name="label" />
+                </tree>
+            </field>
+        </record>
+        <record id="paperformatViewForm" model="ir.ui.view">
+            <field name="label">paperFormatViewForm</field>
+            <field name="model">report.paperformat</field>
+            <field name="arch" type="xml">
+                <form string="Paper format configuration">
+                <sheet>
+                    <group>
+                        <field name="label" />
+                        <field name="format" />
+                        <field name="pageHeight" attrs="{'invisible': [['format','!=','custom']]}" />
+                        <field name="pageWidth" attrs="{'invisible': [['format','!=','custom']]}" />
+                        <field name="orientation" />
+                        <field name="marginTop" />
+                        <field name="marginBottom" />
+                        <field name="marginLeft" />
+                        <field name="marginRight" />
+                        <field name="headerLine" />
+                        <field name="headerSpacing" />
+                        <field name="dpi" />
+                        <field name="reportIds" widget="many2manyTags" options="{'notDelete': true}"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="paperFormatAction" model="ir.actions.actwindow">
+            <field name="label">Paper Format General Configuration</field>
+            <field name="resModel">report.paperformat</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+        <record id='reportsAction' model='ir.actions.actwindow'>
+            <field name="label">Reports</field>
+            <field name="resModel">ir.actions.report</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+        <menuitem
+            id="reportingMenuitem"
+            name="Reporting"
+            parent="base.menuCustom"
+            sequence="15"
+            groups="base.groupNoOne"
+            />
+        <menuitem
+            id="paperFormatMenuitem"
+            name="Paper Format"
+            parent="reportingMenuitem"
+            action="paperFormatAction"
+            sequence="2"
+            groups="base.groupNoOne"
+            />
+        <menuitem
+            id="reportsMenuitem"
+            name="Reports"
+            parent="reportingMenuitem"
+            action="reportsAction"
+            sequence="3"
+            groups="base.groupNoOne"
+            />
+    </data>
+</verp>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<verp>
+    <record id="websiteVisitorCron" model="ir.cron">
+        <field name="label">Website Visitor : Archive old visitors</field>
+        <field name="modelId" ref="model_websiteVisitor"/>
+        <field name="state">code</field>
+        <field name="code">model._cronArchiveVisitors()</field>
+        <field name="intervalNumber">1</field>
+        <field name="intervalType">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="true"/>
+        <field name="doall" eval="false"/>
+    </record>
+</verp>

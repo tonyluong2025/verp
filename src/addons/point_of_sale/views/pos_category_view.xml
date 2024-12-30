@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="productPosCategoryFormView" model="ir.ui.view">
+        <field name="label">pos.category.form</field>
+        <field name="model">pos.category</field>
+        <field name="arch" type="xml">
+            <form string="Pos Product Categories">
+                <sheet>
+                    <field name="image128" widget="image" class="oe-avatar"/>
+                    <div class="oe-title">
+                        <label for="label"/>
+                        <h1>
+                            <field name="label" class="o-text-overflow" placeholder="e.g. Soft Drinks" required="true"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parentId" class="o-text-overflow"/>
+                            <field name="sequence" groups="base.groupNoOne" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="productPosCategoryTreeView" model="ir.ui.view">
+        <field name="label">pos.category.tree</field>
+        <field name="model">pos.category</field>
+        <field name="fieldParent" eval="false"/>
+        <field name="arch" type="xml">
+            <tree string="Product Product Categories">
+                <field name="sequence" widget="handle"/>
+                <field name="displayName" string="PoS Product Category"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewPosCategoryKanban" model="ir.ui.view">
+        <field name="label">pos.category.kanban</field>
+        <field name="model">pos.category</field>
+        <field name="arch" type="xml">
+            <kanban class="o-kanban-mobile">
+                <field name="label"/>
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe-kanban-global-click">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img height="100" width="100" t-att-src="kanbanImage('pos.category', 'image128', record.id.rawValue)" alt="Category"/>
+                                </div>
+                                <div class="col-8">
+                                    <strong class="o-kanban-record-title"><field name="label"/></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="productPosCategoryAction" model="ir.actions.actwindow">
+        <field name="label">PoS Product Categories</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.category</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="viewId" eval="false"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Define a new category
+            </p><p>
+                Categories are used to browse your products through the
+                touchscreen interface.
+            </p>
+        </field>
+    </record>
+
+</verp>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.accountant</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="account.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <div id="fiscalyear" position="replace">
+                <div class="col-12 col-lg-6" id="fiscalyear" style="padding-left: 0; padding-right: 0;">
+                    <div class="col-12 col-lg-12 o-setting-box">
+                        <div class="o-setting-left-pane"/>
+                        <div class="o-setting-right-pane">
+                            <separator string="Fiscal Year"/>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="fiscalyearLastMonth" string="Last Day"
+                                           class="col-lg-3 o-light-label"/>
+                                    <field name="fiscalyearLastMonth" style="width: 100px; margin-right: 8px;"/>
+                                    <field name="fiscalyearLastDay" class="oe-inline"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 o-setting-box">
+                        <div class="o-setting-left-pane">
+                            <field name="groupFiscalYear"/>
+                        </div>
+                        <div class="o-setting-right-pane">
+                            <label for="groupFiscalYear"/>
+                            <div class="text-muted">
+                                Define fiscal years of more or less than one year
+                            </div>
+                            <div class="mt16">
+                                <button name="%(account_fiscal_year.actionsAccountFiscalYear)d" icon="fa-arrow-right"
+                                        type="action" string="Fiscal Years" class="btn-link"
+                                        attrs="{'invisible': [['groupFiscalYear', '=', false]]}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 o-setting-box" id="fiscalyear">
+                    <div class="o-setting-left-pane"/>
+                    <div class="o-setting-right-pane">
+                        <separator string="Fiscal Period Closing"/>
+                        <div class="text-muted">
+                            Lock your fiscal period
+                        </div>
+                         <div class="content-group">
+                            <div class="row mt16">
+                                <label for="fiscalyearLockDate" class="col-md-5 o-light-label"/>
+                                <field name="fiscalyearLockDate"/>
+                                <label for="periodLockDate" class="col-md-5 o-light-label"/>
+                                <field name="periodLockDate"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+
+</verp>

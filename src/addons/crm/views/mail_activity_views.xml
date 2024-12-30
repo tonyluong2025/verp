@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="sales_team.mailActivityTypeActionConfigSales" model="ir.actions.actwindow">
+        <field name="domain">['|', ['resModel', '=', false], ['resModel', 'in', ['crm.lead', 'res.partner']]]</field>
+        <field name="context">{'default_resModel': 'crm.lead'}</field>
+    </record>
+</verp>

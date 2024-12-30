@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewPartnerPropertyIbanForm" model="ir.ui.view">
+        <field name="label">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="account.viewPartnerPropertyForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='accNumber']" position="attributes">
+                <attribute name="widget">iban</attribute>
+            </xpath>
+        </field>
+    </record>
+</verp>

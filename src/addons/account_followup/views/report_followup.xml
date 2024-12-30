@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <template id="reportFollowup">
+            <t t-call="web.htmlContainer">
+                <t t-foreach="await idsToObjects(data['partnerIds'])" t-as="o">
+                    <t t-set="o" t-value="await o.withContext({'lang': await (await o.partnerId).lang})"/>
+                    <t t-call="web.externalLayout">
+                        <div class="page">
+                            <p>
+                                <span t-field="o.invoicePartnerId"/>
+                                <br/>
+                                <t t-if="await (await o.partnerId).vat">
+                                    <span t-field="o.partnerId.vat"/>
+                                    <br/>
+                                </t>
+                                Document: Customer account statement
+                                <br/>
+                                Date:
+                                <span t-esc="data['date']"/>
+                                <br/>
+                                Customer ref:
+                                <span t-field="o.partnerId.ref"/>
+                            </p>
+
+                            <p t-raw="(await getText(o,data['followupId'])).replace('\n', '&lt;br&gt;')"/>
+
+                            <t t-foreach="await getLines(o)" t-as="curLines">
+                                <table class="table table-condensed"
+                                       style="margin-top: 50px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice Date</th>
+                                            <th>Description</th>
+                                            <th class="text-center">Ref</th>
+                                            <th class="text-center">Maturity Date</th>
+                                            <th class="text-right">Amount</th>
+                                            <th class="text-center">Due</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="curLines['line']"
+                                            t-as="line">
+                                            <td>
+                                                <span t-esc="line['date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['label']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['ref']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="line['dateMaturity']"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="line['balance']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['blocked'] &amp;&amp; 'X' or ''"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p>Total:
+                                    <span t-esc="curLines['total']"/>
+                                </p>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</verp>

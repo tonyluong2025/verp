@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="variants">
+        <t t-set="attributeExclusions" t-value="await product._getAttributeExclusions(parentCombination, parentName)"/>
+        <ul t-attf-class="list-unstyled js-add-cart-variants #{ulClass}" t-att-data-attribute-exclusions="escape(JSON.stringify(attributeExclusions))">
+            <t t-foreach="await product.validProductTemplateAttributeLineIds" t-as="ptal">
+                <!-- Attributes selection is hidden if there is only one value available &amp;&amp; it's not a custom value -->
+                <li t-att-data-attribute-id="(await ptal.attributeId).id"
+                    t-att-data-attribute-name="await (await ptal.attributeId).label"
+                    t-attf-class="variant-attribute #{len(await (await ptal.productTemplateValueIds)._onlyActive()) == 1 &amp;&amp; ! await (await (await ptal.productTemplateValueIds)._onlyActive())[0].isCustom ? 'd-none' : ''}">
+
+                    <!-- Used to customize layout if the only available attribute value is custom -->
+                    <t t-set="single" t-value="len(await (await ptal.productTemplateValueIds)._onlyActive()) == 1"/>
+                    <t t-set="singleAndCustom" t-value="single &amp;&amp; await (await (await ptal.productTemplateValueIds)._onlyActive())[0].isCustom" />
+                    <strong t-field="ptal.attributeId.label" class="attribute-name"/>
+
+                    <t t-if="await (await ptal.attributeId).displayType == 'select'">
+                        <select
+                            t-att-data-attribute-id="(await ptal.attributeId).id"
+                            t-attf-class="custom-select css-attribute-select js-variant-change #{await (await ptal.attributeId).createVariant} #{singleAndCustom ? 'd-none' : ''}"
+                            t-att-name="f('ptal-%s', ptal.id)">
+                            <t t-foreach="await (await ptal.productTemplateValueIds)._onlyActive()" t-as="ptav">
+                                <option t-att-value="ptav.id"
+                                    t-att-data-value-id="ptav.id"
+                                    t-att-data-value-label="await ptav.label"
+                                    t-att-data-attribute-name="await (await ptav.attributeId).label"
+                                    t-att-data-is-custom="await ptav.isCustom"
+                                    t-att-selected="combination.includes(ptav)"
+                                    t-att-data-is-single="single"
+                                    t-att-data-is-single-and-custom="singleAndCustom">
+                                    <span t-field="ptav.label"/>
+                                    <t t-call="sale.badgeExtraPrice"/>
+                                </option>
+                            </t>
+                        </select>
+                    </t>
+
+                    <t t-if="await (await ptal.attributeId).displayType == 'radio'">
+                        <ul t-att-data-attribut-id="(await ptal.attributeId).id" t-attf-class="list-inline list-unstyled #{singleAndCustom ? 'd-none' : ''}">
+                            <t t-foreach="await (await ptal.productTemplateValueIds)._onlyActive()" t-as="ptav">
+                                <li class="list-inline-item form-group js-attribute-value" style="margin: 0;">
+                                    <label class="col-form-label">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio"
+                                                t-attf-class="custom-control-input js-variant-change #{await (await ptal.attributeId).createVariant}"
+                                                t-att-checked="combination.includes(ptav)"
+                                                t-att-name="f('ptal-%s', ptal.id)"
+                                                t-att-value="ptav.id"
+                                                t-att-data-value-id="ptav.id"
+                                                t-att-data-value-name="await ptav.label"
+                                                t-att-data-attribute-name="await (await ptav.attributeId).label"
+                                                t-att-data-is-custom="await ptav.isCustom"
+                                                t-att-data-is-single="single"
+                                                t-att-data-is-single-and-custom="singleAndCustom" />
+                                            <div class="radio-input-value custom-control-label">
+                                                <span t-field="await ptav.label"/>
+                                                <t t-call="sale.badgeExtraPrice"/>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </li>
+                            </t>
+                        </ul>
+                    </t>
+
+                    <t t-if="await (await ptal.attributeId).displayType == 'pills'">
+                        <ul t-att-data-attribute-id="(await ptal.attributeId).id"
+                            t-attf-class="btn-group-toggle list-inline list-unstyled #{singleAndCustom ? 'd-none' : ''}"
+                            data-toggle="buttons">
+                            <t t-foreach="await (await ptal.productTemplateValueIds)._onlyActive()" t-as="ptav">
+                                <li t-attf-class="o-variant-pills btn btn-primary mb-1 list-inline-item js-attribute-value #{combination.includes(ptav) ? 'active' : ''}">
+                                    <input type="radio"
+                                        t-attf-class="js-variant-change #{await (await ptal.attributeId).createVariant}"
+                                        t-att-checked="combination.includes(ptav)"
+                                        t-att-name="f('ptal-%s', ptal.id)"
+                                        t-att-value="ptav.id"
+                                        t-att-data-value-id="ptav.id"
+                                        t-att-id="ptav.id"
+                                        t-att-data-value-name="await ptav.label"
+                                        t-att-data-attribute-name="await (await ptav.attributeId).label"
+                                        t-att-data-is-custom="await ptav.isCustom"
+                                        t-att-data-is-single-and-custom="singleAndCustom"
+                                        t-att-autocomplete="off"/>
+                                    <div class="radio-input-value o-variant-pills-input-value">
+                                        <span t-field="ptav.name"/>
+                                        <t t-call="sale.badgeExtraPrice"/>
+                                    </div>
+                                </li>
+                            </t>
+                        </ul>
+                    </t>
+
+                    <t t-if="await (await ptal.attributeId).displayType == 'color'">
+                        <ul t-att-data-attribute-id="(await ptal.attributeId).id" t-attf-class="list-inline  #{singleAndCustom ? 'd-none' : ''}">
+                            <li t-foreach="await (await ptal.productTemplateValueIds)._onlyActive()" t-as="ptav" class="list-inline-item mr-1">
+                                <label t-attf-style="background-color:#{await ptav.htmlColor || ! await ptav.isCustom ? await (await ptav.productAttributeValueId).label : ''}"
+                                    t-attf-class="css-attribute-color #{combination.includes(ptav) ? 'active' : ''} #{await ptav.isCustom ? 'custom-value' : ''}">
+                                    <input type="radio"
+                                        t-attf-class="js-variant-change  #{await (await ptal.attributeId).createVariant}"
+                                        t-att-checked="combination.includes(ptav)"
+                                        t-att-name="f('ptal-%s', ptal.id)"
+                                        t-att-value="ptav.id"
+                                        t-att-title="await ptav.label"
+                                        t-att-data-value-id="ptav.id"
+                                        t-att-data-value-name="await ptav.label"
+                                        t-att-data-attribute-name="await (await ptav.attributeId).label"
+                                        t-att-data-is-custom="await ptav.isCustom"
+                                        t-att-data-is-single="single"
+                                        t-att-data-is-single-and-custom="singleAndCustom"/>
+                                </label>
+                            </li>
+                        </ul>
+                    </t>
+                </li>
+            </t>
+        </ul>
+    </template>
+    <template id="badgeExtraPrice" name="Badge Extra Price">
+        <t t-set="combinationInfoVariant" t-value="await product._getCombinationInfo({'combination': ptav, 'addQty': 1, 'pricelist': pricelist})"/>
+        <span class="badge badge-pill badge-light border" t-if="combinationInfoVariant['priceExtra']">
+        <!--
+            priceExtra is displayed as catalog price instead of
+            price after pricelist because it is impossible to
+            compute. Indeed, the pricelist rule might depend on the
+            selected variant, so the priceExtra will be different
+            depending on the selected combination. The price of an
+            attribute is therefore variable &amp;&amp; it's not very
+            accurate to display it.
+
+            To cover some generic cases, the priceExtra also
+            covers the price-included taxes in e-commerce flows.
+            (See the override of `_getCombinationInfo`)
+        -->
+        <span class="signBadgePriceExtra" t-esc="combinationInfoVariant['priceExtra'] > 0 &amp;&amp; '+' || '-'"/>
+        <span t-esc="Math.abs(combinationInfoVariant['priceExtra'])" class="variant-price-extra text-muted font-italic" style="white-space: nowrap;"
+            t-options='{
+                "widget": "monetary",
+                "displayCurrency": await (pricelist.ok ? pricelist : product).currencyId
+            }'/>
+        </span>
+    </template>
+</verp>

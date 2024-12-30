@@ -1,0 +1,20 @@
+{
+    "label": "Customer Credit Limit With Warning and Blocking",
+    "author": "Verp Mates",
+    "category": "Accounting",
+    "version": "4.3.0",
+    "description": "Customer Credit Limit, Credit Limit With Warning and Blocking, Customer Credit Limit With Warning and Blocking",
+    "summary": "Customer Credit Limit, Credit Limit With Warning and Blocking, Customer Credit Limit With Warning and Blocking",
+    "sequence": 11,
+    "website": "https://www.verpmates.tech",
+    "liveTestUrl": "https://www.youtube.com/watch?v=wNhWs29T5Zs",
+    "depends": ["account", "sale"],
+    "data": [
+        "views/res_partner.xml",
+        "views/account_move.xml",
+        "views/sale_order.xml",
+        "views/res_config_settings.xml"
+    ],
+    "images": ["static/description/banner.png"],
+    "license": "MIT Expat"
+}

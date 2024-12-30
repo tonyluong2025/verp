@@ -1,0 +1,103 @@
+/**
+ * This file regroups the rules which apply on elements which are shared between
+ * all renderers. For field default rules, see the fields.scss file.
+ */
+
+// Invisible modifier (can be inside the view, the button area, ...)
+.o-invisible-modifier {
+    display: none!important;
+}
+// Status
+// This should normally be put in fields.scss but these classes are used outside
+// of `.o-field-widget` so it needs to be placed at an upper level.
+.o-status {
+    @extend .rounded-circle;
+    background-color: gray('200');
+    height: 12px;
+    width: 12px;
+    box-shadow: inset 0 0 0 1px rgba($black, .2);
+
+    &.o-status-green {
+        @extend .bg-success;
+    }
+
+    &.o-status-red {
+        @extend .bg-danger;
+    }
+
+    .dropdown-item > & {
+        margin-bottom: .2em;
+        transform: translateX(-50%);
+    }
+}
+
+.o-btn-link-as-button {
+    padding: 2px;
+    font-size:12px;
+
+    & > a {
+        margin-bottom: -4px !important;
+        margin-left: 3px;
+    }
+}
+
+// No content helper
+.o-view-nocontent {
+    @include o-position-absolute(30%, 0, 0, 0);
+    pointer-events: none;
+    z-index: 1;
+
+    .o-nocontent-help {
+        @include o-nocontent-empty;
+
+        .o-view-nocontent-smiling-face:before {
+            @extend %o-nocontent-init-image;
+            @include size(120px, 140px);
+            background: transparent url(/web/static/img/smiling_face.svg) no-repeat center;
+        }
+
+        .o-view-nocontent-neutral-face:before {
+            @extend %o-nocontent-init-image;
+            @include size(120px, 140px);
+            background: transparent url(/web/static/img/neutral_face.svg) no-repeat center;
+        }
+
+        .o-view-nocontent-empty-folder:before {
+            @extend %o-nocontent-empty-document;
+        }
+
+        .o-empty-custom-dashboard {
+            min-height: 327px;
+            margin-left: -$grid-gutter-width/2;
+            margin-top: -$grid-gutter-width/2;
+            padding: 100px 0 0 137px;
+            background: transparent url(/web/static/img/graph_background.png) no-repeat 0 0;
+        }
+    }
+}
+
+.o-view-sample-data {
+    .o-list-table {
+        cursor: default !important;
+
+        & > thead .o-list-record-selector {
+            pointer-events: none;
+        }
+    }
+
+    .custom-checkbox {
+        pointer-events: none !important;
+    }
+
+    .o-nocontent-help {
+        border-radius: 20%;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 120px 100px #f9f9f9;
+    }
+
+    .o-sample-data-disabled {
+        opacity: 0.33;
+        pointer-events: none;
+        user-select: none;
+    }
+}

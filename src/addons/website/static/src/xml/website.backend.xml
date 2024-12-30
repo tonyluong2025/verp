@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <div t-name="WidgetWebsiteButton" class="o-stat-info published">
+        <span class="o-stat-text o-value"/>
+        <span class="o-stat-text">On Website</span>
+    </div>
+
+    <t t-name="WidgetWebsiteButtonIcon">
+        <button type="button" class="btn oe-stat-button">
+            <i class="fa fa-fw o-button-icon fa-globe"/>
+            <div class="o-stat-info">
+                <span class="o-stat-text">Go to<br/>Website</span>
+            </div>
+        </button>
+    </t>
+
+    <t t-name="website.WebsiteDashboardMain">
+        <div class="o-dashboards">
+            <div class="container-fluid o-website-dashboard">
+                <t t-call="website.dashboardHeader"/>
+                <t t-call="website.dashboardContent"/>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="website.dashboardHeader">
+        <div class="row o-dashboard-common"/>
+    </t>
+
+    <t t-name="website.dashboardContent">
+        <div class="o-website-dashboard-content">
+            <t t-call="website.googleAnalyticsContent"/>
+        </div>
+    </t>
+    <t t-name="website.googleAnalyticsContent">
+        <div class="row o-dashboard-visits" t-if="widget.groups.websiteDesigner">
+            <div class="col-12 o-box">
+                <h2>Visits</h2>
+                <div t-if="widget.dashboardsData.visits &amp;&amp; widget.dashboardsData.visits.gaClientId">
+                    <div class="row js-analytics-components"/>
+                    <a href="#" class="js-link-analytics-settings">Edit my Analytics Client ID</a>
+                </div>
+                <div t-if="!(widget.dashboardsData.visits &amp;&amp; widget.dashboardsData.visits.gaClientId)" class="col-lg-12">
+                    <div class="o-demo-background">
+                        <div class="o-layer">
+                        </div>
+                        <div class="o-buttons text-center">
+                            <h3>There is no data currently available.</h3>
+                            <button class="btn btn-primary js-link-analytics-settings d-block mx-auto mb8">Connect Google Analytics</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <div t-name="website.unauthorizedAnalytics" class="col-12 js-unauthorized-message mb16">
+        <span t-if="reason === 'notConnected'">You need to log in to your Google Account before: </span>
+        <span t-if="reason === 'noRight'">You do not seem to have access to this Analytics Account.</span>
+        <p t-if="reason === 'notInitialized'">
+            Google deprecated both its "Universal Analytics" and "Google Sign-In" API. It means that only accounts and keys created before 2020 will be able to integrate their Analytics dashboard in Verp (or any other website). This will be possible only up to mid 2023. After that, those services won't work anymore, at all.<br />
+            New Google Analytics accounts and keys are now using Google Analytics 4 which, for now, can't be integrated/embed in external websites.<br />
+            Those accounts should now check their Analytics dashboard in the Google platform directly.
+        </p>
+        <span t-if="reason === 'notInitialized'">Google Analytics initialization failed. Maybe this domain is not whitelisted in your Google Analytics project for this client ID.</span>
+    </div>
+
+    <div t-name="website.gaDialogContent">
+        Your Measurement ID: <input type="text" name="gaAnalyticsKey" placeholder="G-XXXXXXXXXX" t-att-value="gaAnalyticsKey" style="width: 100%"></input>
+        <a href="https://support.google.com/analytics/answer/9304153" target="_blank">
+            <i class="fa fa-arrow-right"/>
+            How to get my Measurement ID
+        </a>
+        <br/><br/>
+        Your Client ID: <input type="text" name="gaClientId" t-att-value="gaKey" style="width: 100%"></input>
+        <a href="https://www.theverp.com/documentation/1.0/applications/websites/website/optimize/google_analytics_dashboard.html" target="_blank">
+            <i class="fa fa-arrow-right"/>
+            How to get my Client ID
+        </a>
+    </div>
+
+    <t t-name="website.DaterangeButtons">
+        <!-- TODO: Hide in mobile as it is going to push in control panel and it breaks UI, maybe we will improve it in future -->
+        <div class="btn-group o-date-range-buttons d-none d-md-inline-flex float-right">
+            <button class="btn btn-secondary js-date-range active" data-date="week">Last Week</button>
+            <button class="btn btn-secondary js-date-range" data-date="month">Last Month</button>
+            <button class="btn btn-secondary js-date-range" data-date="year">Last Year</button>
+        </div>
+        <div class="btn-group d-none d-md-inline-block float-right" style="margin-right: 20px;">
+            <t t-foreach="widget.websites" t-as="website">
+                <button t-attf-class="btn btn-secondary js-website #{website.selected ? 'active' : ''}"
+                        t-att-data-website-id="website.id">
+                    <t t-esc="website.label"/>
+                </button>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="website.GoToButtons">
+        <a role="button" href="/" class="btn btn-primary" title="Go to Website">
+            Go to Website
+        </a>
+    </t>
+
+</templates>

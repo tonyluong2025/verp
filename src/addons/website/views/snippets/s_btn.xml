@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<record id="website.sBtn.000.scss" model="ir.asset">
+    <field name="label">Btn 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_btn/000.scss</field>
+</record>
+
+</verp>

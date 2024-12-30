@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+    <record id="viewStockOrderpointSnooze" model="ir.ui.view">
+        <field name="label">Stock Orderpoint Snooze</field>
+        <field name="model">stock.orderpoint.snooze</field>
+        <field name="arch" type="xml">
+            <form string="Snooze">
+                <group>
+                    <field name="orderpointIds" invisible="1"/>
+                    <field name="predefinedDate" widget="radio"/>
+                    <field name="snoozedUntil" attrs="{'readonly': [['predefinedDate', '!=', 'custom']]}" forceSave="1"/>
+                </group>
+                <footer>
+                    <button string="Snooze" name="actionSnooze" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Discard" name="cancelButton" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionOrderpointSnooze" model="ir.actions.actwindow">
+        <field name="label">Snooze</field>
+        <field name="resModel">stock.orderpoint.snooze</field>
+        <field name="viewMode">form</field>
+        <field name="target">new</field>
+    </record>
+</verp>

@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="productTemplateSearchViewWebsite" model="ir.ui.view">
+        <field name="label">product.template.search.published</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateSearchView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='consumable']" position="after">
+                <separator/>
+                <filter string="Published" name="published" domain="[['isPublished', '=', true]]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="productProductWebsiteTreeView">
+        <field name="label">product.product.website.tree</field>
+        <field name="model">product.product</field>
+        <field name="inheritId" ref="product.productProductTreeView"/>
+        <field name="arch" type="xml">
+            <field name="label" position="after">
+                <field name="websiteId" groups="website.groupMultiWebsite" optional="show"/>
+                <field name="isPublished" string="Is Published" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- We want websiteId to be shown outside of website module like other models -->
+    <record model="ir.ui.view" id="productTemplateViewTree">
+        <field name="label">product.template.view.tree.inherit.website_sale</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateTreeView"/>
+        <field name="arch" type="xml">
+            <field name="defaultCode" position="after">
+                <field name="websiteId" groups="website.groupMultiWebsite" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- only website module template view should use the websiteSequence -->
+    <record model="ir.ui.view" id="productTemplateViewTreeWebsiteSale">
+        <field name="label">product.template.view.tree.website_sale</field>
+        <field name="mode">primary</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="website_sale.productTemplateViewTree"/>
+        <field name="arch" type="xml">
+            <xpath expr="/tree" position="attributes">
+              <attribute name="defaultOrder">websiteSequence</attribute>
+            </xpath>
+            <field name="priority" position="before">
+                <field name="websiteSequence" widget="handle"/>
+            </field>
+            <field name="websiteId" position="after">
+                <field name="publicCategIds" widget="many2manyTags" string="Categories" optional="show"/>
+                <field name="isPublished" string="Is Published" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="productTemplateViewKanbanWebsiteSale">
+        <field name="label">product.template.view.kanban.website_sale</field>
+        <field name="mode">primary</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateKanbanView"/>
+        <field name="arch" type="xml">
+            <xpath expr="/kanban" position="attributes">
+              <attribute name="defaultOrder">websiteSequence</attribute>
+            </xpath>
+            <field name="id" position="after">
+                <field name="websiteSequence"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="productTemplateActionWebsite" model="ir.actions.actwindow">
+        <field name="label">Products</field>
+        <field name="resModel">product.template</field>
+        <field name="viewMode">tree,kanban,form,activity</field>
+        <field name="viewId"/>
+        <field name="searchViewId" ref="productTemplateSearchViewWebsite"/>
+        <field name="context">{'searchDefault_published': 1, 'treeViewRef':'website_sale.productTemplateViewTreeWebsiteSale', 'kanbanViewRef':'website_sale.productTemplateViewKanbanWebsiteSale'}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new product
+            </p><p>
+                A product can be either a physical product or a service that you sell to your customers.
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="productTemplateOnlyWebsiteFormView">
+        <field name="label">product.template.product.only.website.form</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateOnlyFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uomId']" position="after">
+                <label for="baseUnitCount" groups="website_sale.groupShowUomPrice"/>
+                <div name="baseUnitPrice" groups="website_sale.groupShowUomPrice" class="o-row">
+                    <field name="baseUnitCount" attrs="{'invisible': [['productVariantCount', '>', 1]]}" />
+                    <field name="baseUnitId" options="{'noOpen': true}" attrs="{'invisible': [['productVariantCount', '>', 1]]}" />
+                    <span attrs="{'invisible': ['|', ['baseUnitPrice','=', 0], ['productVariantCount', '>', 1]]}">
+                        (<field name="baseUnitPrice"/> / <field name="baseUnitName"/>)
+                    </span>
+                    <span class='text-muted' attrs="{'invisible': [['productVariantCount', '&lt;=', 1]]}">Based on variants</span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="productProductNormalWebsiteFormView">
+        <field name="label">product.product.normal.view.website</field>
+        <field name="model">product.product</field>
+        <field name="inheritId" ref="product.productNormalFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uomId']" position="after">
+                <label for="baseUnitCount" groups="website_sale.groupShowUomPrice"/>
+                <div name="baseUnitPrice" groups="website_sale.groupShowUomPrice" class="o-row">
+                    <field name="baseUnitCount"/>
+                    <field name="baseUnitId" options="{'noOpen': true}"/>
+                    <span attrs="{'invisible': [['baseUnitPrice','=', 0]]}">
+                        (<field name="baseUnitPrice"/> / <field name="baseUnitName"/>)
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="productTemplateFormView">
+        <field name="label">product.template.product.website.form</field>
+        <field name="model">product.template</field>
+        <field name="inheritId" ref="product.productTemplateFormView"/>
+        <field name="arch" type="xml">
+            <!-- add state field in header -->
+            <div name="buttonBox" position="inside">
+                <field name="isPublished" widget="websiteRedirectButton" attrs="{'invisible': [['saleOk','=',false]]}"/>
+            </div>
+            <group name="upsell" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </group>
+            <xpath expr="//group[@name='upsell']" position="inside">
+                <field name="accessoryProductIds" widget="many2manyTags" attrs="{'invisible': [['saleOk','=',false]]}"
+                       placeholder="Suggested accessories in the eCommerce cart"/>
+                <field name="alternativeProductIds" widget="many2manyTags"
+                       domain="[['id', '!=', activeId], '|', ['companyId', '=', companyId], ['companyId', '=', false]]"
+                       attrs="{'invisible': [['saleOk','=',false]]}"
+                       placeholder="Displayed in bottom of product pages"/>
+            </xpath>
+            <xpath expr="//page[@name='sales']/group[@name='sale']" position="inside">
+                <group string="eCommerce Shop" name="shop" attrs="{'invisible': [['saleOk','=',false]]}">
+                    <field name="websiteUrl" invisible="1"/>
+                    <field name="websiteId" options="{'noCreate': true}" groups="website.groupMultiWebsite"/>
+                    <field name="websiteSequence" groups="base.groupNoOne"/>
+                    <field name="publicCategIds" widget="many2manyTags" string="Categories"/>
+                    <field name="websiteRibbonId" groups="base.groupNoOne" options="{'noQuickCreate': true}"/>
+                </group>
+                <group name="productTemplateImages" string="Extra Product Media" attrs="{'invisible': [['saleOk','=',false]]}">
+                    <field name="productTemplateImageIds" class="o-website-sale-image-list" context="{'default_label': label}" mode="kanban" add-label="Add a Media" nolabel="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="productProductViewFormEasyInheritWebsiteSale" model="ir.ui.view">
+        <field name="label">product.product.view.form.easy.inherit.website_sale</field>
+        <field name="model">product.product</field>
+        <field name="inheritId" ref="product.productVariantEasyEditView"/>
+        <field name="arch" type="xml">
+            <field name="standardPrice" position="after">
+                <label for="baseUnitCount" groups="website_sale.groupShowUomPrice"/>
+                <div name="baseUnitPrice" groups="website_sale.groupShowUomPrice" class="o-row">
+                    <field name="baseUnitCount"/>
+                    <field name="baseUnitId" options="{'noOpen': true}"/>
+                    <span attrs="{'invisible': [['baseUnitPrice','=', 0]]}">
+                        (<field name="baseUnitPrice"/> / <field name="baseUnitName"/>)
+                    </span>
+                </div>
+            </field>
+            <sheet position="inside">
+                <group name="productVariantImages" string="Extra Variant Media">
+                    <field name="productVariantImageIds" class="o-website-sale-image-list" context="{'default_label': label}" mode="kanban" add-label="Add a Media" nolabel="1"/>
+                </group>
+            </sheet>
+        </field>
+    </record>
+
+    <!-- Product ribbon -->
+    <record id="productRibbonFormView" model="ir.ui.view">
+        <field name="label">product.ribbon form view</field>
+        <field name="model">product.ribbon</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="html" widget="char"/>
+                            <field name="textColor"/>
+                        </group>
+                        <group>
+                            <field name="htmlClass"/>
+                            <field name="bgcolor"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Product Public Categories -->
+    <record id="productPublicCategoryFormView" model="ir.ui.view">
+        <field name="label">product.public.category.form</field>
+        <field name="model">product.public.category</field>
+        <field name="arch" type="xml">
+            <form string="Website Public Categories">
+                <sheet>
+                    <field name="image1920" widget="image" class="oe-avatar" options="{'previewImage': 'image128'}"/>
+                    <div class="oe-left">
+                        <group>
+                            <field name="label"/>
+                            <field name="parentId"/>
+                            <field name="websiteId" options="{'noCreate': true}" groups="website.groupMultiWebsite"/>
+                            <field name="sequence" groups="base.groupNoOne"/>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="productPublicCategoryTreeView" model="ir.ui.view">
+        <field name="label">product.public.category.tree</field>
+        <field name="model">product.public.category</field>
+        <field name="fieldParent" eval="false"/>
+        <field name="arch" type="xml">
+            <tree string="Product Public Categories">
+                <field name="sequence" widget="handle"/>
+                <field name="displayName"/>
+                <field name="websiteId" groups="website.groupMultiWebsite"/>
+            </tree>
+        </field>
+    </record>
+    <record id="productPublicCategoryAction" model="ir.actions.actwindow">
+        <field name="label">eCommerce Categories</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.public.category</field>
+        <field name="viewMode">tree,form</field>
+        <field name="viewId" eval="false"/>
+        <field name="help" type="html">
+          <p class="o-view-nocontent-smiling-face">
+            Define a new category
+          </p><p>
+            Categories are used to browse your products through the
+            touchscreen interface.
+          </p>
+        </field>
+    </record>
+
+    <record id="productRibbonViewTree" model="ir.ui.view">
+        <field name="label">product.ribbon.tree</field>
+        <field name="model">product.ribbon</field>
+        <field name="arch" type="xml">
+            <tree string="Products Ribbon">
+                <field name="html" string="Name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="websiteSalePricelistFormView" model="ir.ui.view">
+        <field name="label">website_sale.pricelist.form</field>
+        <field name="inheritId" ref="product.productPricelistView" />
+        <field name="model">product.pricelist</field>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='pricelistAvailability']" position="after">
+                <group name="pricelistWebsite" string="Website">
+                    <field name="websiteId" options="{'noCreate': true}"/>
+                    <field name="selectable"/>
+                    <field name="code"/>
+                </group>
+            </xpath>
+          </field>
+    </record>
+
+    <record id="websiteSalePricelistTreeView" model="ir.ui.view">
+        <field name="label">product.pricelist.tree.inherit.product</field>
+        <field name="model">product.pricelist</field>
+        <field name="inheritId" ref="product.productPricelistViewTree"/>
+        <field name="arch" type="xml">
+            <field name="currencyId" position="after">
+                <field name="selectable" />
+                <field name="websiteId" groups="website.groupMultiWebsite"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- This view should only be used from the product o2m because the required field productTemplateId has to be automatically set. -->
+    <record id="viewProductImageForm" model="ir.ui.view">
+        <field name="label">product.image.view.form</field>
+        <field name="model">product.image</field>
+        <field name="arch" type="xml">
+            <form string="Product Images">
+                <field name="sequence" invisible="1"/>
+                <div class="row o-website-sale-image-modal">
+                    <div class="col-md-6 col-xl-5">
+                        <label for="label" string="Image Name"/>
+                        <h2><field name="label" placeholder="Image Name"/></h2>
+                        <label for="videoUrl" string="Video URL"/><br/>
+                        <field name="videoUrl"/><br/>
+                    </div>
+                    <div class="col-md-6 col-xl-7 text-center o-website-sale-image-modal-container">
+                        <div class="row">
+                            <div class="col">
+                                <field name="image1920" widget="image"/>
+                            </div>
+                            <div class="col" attrs="{'invisible': [['videoUrl', 'in', ['', false]]]}">
+                                <div class="o-video-container p-2">
+                                    <span>Video Preview</span>
+                                    <field name="embedCode" class="mt-2" widget="videoPreview"/>
+                                    <h4 class="o-invalid-warning text-muted text-center" attrs="{'invisible': [['embedCode', '!=', false]]}">
+                                        Please enter a valid Video URL.
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="productImageViewKanban" model="ir.ui.view">
+        <field name="label">product.image.view.kanban</field>
+        <field name="model">product.image</field>
+        <field name="arch" type="xml">
+            <kanban string="Product Images" defaultOrder="sequence">
+                <field name="id"/>
+                <field name="label"/>
+                <field name="image1920"/>
+                <field name="sequence" widget="handle"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="card oe-kanban-global-click p-0">
+                            <div class="o-squared-image">
+                                <img class="card-img-top" t-att-src="kanbanImage('product.image', 'image1920', record.id.rawValue)" t-att-alt="record.label.value"/>
+                            </div>
+                            <div class="card-body p-0">
+                                <h4 class="card-title p-2 m-0 bg-200">
+                                    <small><field name="label"/></small>
+                                </h4>
+                            </div>
+                            <!-- below 100 Kb: good -->
+                            <t t-if="record.image1920.rawValue.length &lt; 100*1000">
+                                <t t-set="sizeStatus" t-value="'badge-success'"/>
+                                <t t-set="message">Acceptable file size</t>
+                            </t>
+                            <!-- below 1000 Kb: decent -->
+                            <t t-elif="record.image1920.rawValue.length &lt; 1000*1000">
+                                <t t-set="sizeStatus" t-value="'badge-warning'" />
+                                <t t-set="message">Huge file size. The image should be optimized/reduced.</t>
+                            </t>
+                            <!-- above 1000 Kb: bad -->
+                            <t t-else="1">
+                                <t t-set="sizeStatus" t-value="'badge-danger'"/>
+                                <t t-set="message">Optimization required! Reduce the image size or increase your compression settings.</t>
+                            </t>
+                            <span t-attf-class="badge #{sizeStatus} o-product-image-size" t-esc="record.image1920.value" t-att-title="message"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</verp>

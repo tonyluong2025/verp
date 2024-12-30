@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="reportJournal">
+        <t t-call="web.htmlContainer">
+            <t t-set="currencyId" t-value="await resCompany.currencyId"/>
+            <t t-set="dataReportMarginTop" t-value="12"/>
+            <t t-set="dataReportHeaderSpacing" t-value="9"/>
+            <t t-set="dataReportDpi" t-value="110"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internalLayout">
+                    <div class="page">
+                        <h2><t t-esc="await o.label"/> Journal</h2>
+
+                        <div class="row mt32">
+                            <div class="col-3">
+                                <strong>Company:</strong>
+                                <p t-esc="await resCompany.label"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Journal:</strong>
+                                <p t-esc="await o.label"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Entries Sorted By:</strong>
+                                <p t-if="data['form']['sortSelection'] !== 'l.date'">Journal Entry Number</p>
+                                <p t-if="data['form']['sortSelection'] === 'l.date'">Date</p>
+                            </div>
+                            <div class="col-3">
+                                <strong>Target Moves:</strong>
+                                <p t-if="data['form']['targetMove'] === 'all'">All Entries</p>
+                                <p t-if="data['form']['targetMove'] === 'posted'">All Posted Entries</p>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm table-reports">
+                            <thead>
+                                <tr>
+                                    <th>Move</th>
+                                    <th>Date</th>
+                                    <th>Account</th>
+                                    <th>Partner</th>
+                                    <th>Label</th>
+                                    <th>Debit</th>
+                                    <th>Credit</th>
+                                    <th t-if="data['form']['amountCurrency']">Currency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lines[o.id]" t-as="aml">
+                                    <td><span t-esc="await (await aml.moveId).label !== '/' &amp;&amp; await (await aml.moveId).label || ('*'+String((await aml.moveId).id))"/></td>
+                                    <td><span t-field="aml.date"/></td>
+                                    <td><span t-field="aml.accountId.code"/></td>
+                                    <t t-set="partnerId" t-value="await (await aml.sudo()).partnerId"/>
+                                    <td><span t-esc="partnerId.ok &amp;&amp; await partnerId.label &amp;&amp; (await partnerId.label).slice(0,23) || ''"/></td>
+                                    <td><span t-esc="await aml.label &amp;&amp; (await aml.label).slice(0,35)"/></td>
+                                    <td><span t-esc="await aml.debit" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></td>
+                                    <td><span t-esc="await aml.credit" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></td>
+                                    <td t-if="data['form']['amountCurrency'] &amp;&amp; await aml.amountCurrency">
+                                        <span t-esc="await aml.amountCurrency" t-options="{'widget': 'monetary', 'displayCurrency': await aml.currencyId}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row">
+                            <div class="col-4 pull-right">
+                                <table>
+                                    <tr>
+                                        <td><strong>Total</strong></td>
+                                        <td><span t-esc="await sumDebit(data, o)" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></td>
+                                        <td><span t-esc="await sumCredit(data, o)" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <table class="table table-sm table-reports">
+                                    <thead>
+                                        <tr><th colspan="3">Tax Declaration</th></tr>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Base Amount</th>
+                                            <th>Tax Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="taxes" t-value="await getTaxes(data, o)"/>
+                                        <tr t-foreach="taxes" t-as="tax">
+                                            <td><span t-esc="await tax.label"/></td>
+                                            <td><span t-esc="taxes[tax]['baseAmount']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></td>
+                                            <td><span t-esc="taxes[tax]['taxAmount']" t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</verp>

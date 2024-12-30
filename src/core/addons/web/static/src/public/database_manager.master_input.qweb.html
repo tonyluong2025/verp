@@ -1,0 +1,34 @@
+<t>
+    <t t-set="setMasterPwd" t-value="setMasterPwd || false" />
+    <t t-set="inputClass" t-value="'form-control'" />
+
+    <t t-if="insecure">
+        <t t-if="setMasterPwd">
+            <input type="hidden" name="masterPwd" class="form-control" value="admin"/>
+        </t>
+        <t t-else="">
+            <div class="alert alert-warning">
+                <p>Warning, your Verp database manager is not protected. To secure it, we have generated the following master password for it:</p>
+                <p style="text-align: center;"><strong class="generated-master-pwd"></strong></p>
+                <p>You can change it below but be sure to remember it, it will be asked for future operations on databases.</p>
+            </div>
+            <t t-set="inputClass" t-value="'form-control generated-master-pwd-input'" />
+        </t>
+    </t>
+    <t t-if="!insecure || !setMasterPwd">
+        <div class="form-group row">
+            <label for="masterPwd" class="col-md-4 col-form-label">Master Password</label>
+            <div class="col-md-8 input-group">
+                <input name="masterPwd"
+                    t-att-class="inputClass"
+                    required="required"
+                    autofocus="autofocus"
+                    type="password"
+                    autocomplete="current-password" />
+                <div class="input-group-append">
+                    <span class="fa fa-eye o-little-eye input-group-text" aria-hidden="true" style="cursor: pointer;"></span>
+                </div>
+            </div>
+        </div>
+    </t>
+</t>

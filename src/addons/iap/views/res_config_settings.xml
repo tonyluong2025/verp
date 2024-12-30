@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="openIapAccount" model="ir.actions.server">
+        <field name="label">Open IAP Account</field>
+        <field name="modelId" ref="base_setup.model_resConfigSettings"/>
+        <field name="bindingModelId" ref="base_setup.model_resConfigSettings"/>
+        <field name="state">code</field>
+        <field name="code">bool(records) ? await records._redirectToIapAccount(): null</field>
+    </record>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.base.setup.iap</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='contactsSettings']" position="inside">
+                <div id="iapPortal">
+                    <div class='row mt16 o-settings-container iap-portal' name="iapPurchasesSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="iapCreditsSetting">
+                            <div class='o-setting-right-pane'>
+                                <div class="o-form-label">
+                                Verp IAP
+                                <a href="https://www.theverp.com/documentation/1.0/applications/general/in_app_purchase.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <a href="https://www.theverp.com/documentation/1.0/developer/misc/api/iap.html" title="Documentation" class="ml-1 o-doc-link" target="_blank"></a>
+                                </div>
+                                <div class="text-muted">
+                                    View your IAP Services and recharge your credits
+                                </div>
+                                <div class='mt8'>
+                                    <button name="%(iap.openIapAccount)d" icon="fa-arrow-right" type="action" string="View My Services" class="btn-link"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</verp>

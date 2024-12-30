@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23" height="12" viewBox="0 0 23 12">
+  <g fill="none" fill-rule="evenodd" class="symbols">
+    <g class="3-buttons-shadow" transform="translate(-142 -5)">
+      <g class="shadow-in-s" transform="translate(142 5)">
+        <rect width="23" height="12" class="rectangle"/>
+        <path d="M6.5 9.5V3H17l2-3h1v12H3v-1l3.5-1.5z" class="o-graphic"/>
+        <polygon points="3.5 .5 17.5 .5 16.5 2 5.5 2 5.5 9 3.5 10" class="o-subdle"/>
+      </g>
+    </g>
+  </g>
+</svg>

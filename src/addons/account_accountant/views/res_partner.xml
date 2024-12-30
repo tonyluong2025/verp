@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<verp>
+
+    <record id="viewPartnerPropertyForm" model="ir.ui.view">
+        <field name="label">res.partner</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="account.viewPartnerPropertyForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='accounting']" position="attributes">
+                <attribute name="string">Accounting</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

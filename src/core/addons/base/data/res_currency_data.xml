@@ -1,0 +1,1699 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- Currencies -->
+        <record id="USD" model="res.currency">
+            <field name="label">USD</field>
+            <field name="fullName">United States dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="VEF" model="res.currency">
+            <field name="label">VEF</field>
+            <field name="fullName">Venezuelan bolívar fuerte</field>
+            <field name="symbol">Bs.F</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Bolivar</field>
+            <field name="currencySubunitLabel">Centimos</field>
+        </record>
+
+        <record id="CAD" model="res.currency">
+            <field name="label">CAD</field>
+            <field name="fullName">Canadian dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="CHF" model="res.currency">
+            <field name="label">CHF</field>
+            <field name="fullName">Swiss franc</field>
+            <field name="symbol">CHF</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centimes</field>
+        </record>
+
+        <record id="BRL" model="res.currency">
+            <field name="label">BRL</field>
+            <field name="fullName">Brazilian real</field>
+            <field name="symbol">R$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Real</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="CNY" model="res.currency">
+            <field name="label">CNY</field>
+            <field name="fullName">Chinese yuan</field>
+            <field name="symbol">¥</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Yuan</field>
+            <field name="currencySubunitLabel">Fen</field>
+            <field name="position">before</field>
+        </record>
+
+        <record id="COP" model="res.currency">
+            <field name="label">COP</field>
+            <field name="fullName">Colombian peso</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="CZK" model="res.currency">
+            <field name="label">CZK</field>
+            <field name="fullName">Czech koruna</field>
+            <field name="symbol">Kč</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Koruna</field>
+            <field name="currencySubunitLabel">Halers</field>
+        </record>
+
+        <record id="DKK" model="res.currency">
+            <field name="label">DKK</field>
+            <field name="fullName">Danish krone</field>
+            <field name="symbol">kr</field>
+            <field name="rounding">0.01</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Krone</field>
+            <field name="currencySubunitLabel">Ore</field>
+        </record>
+
+        <record id="HUF" model="res.currency">
+            <field name="label">HUF</field>
+            <field name="fullName">Hungarian forint</field>
+            <field name="symbol">Ft</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Forint</field>
+            <field name="currencySubunitLabel">Filler</field>
+        </record>
+
+        <record id="IDR" model="res.currency">
+            <field name="label">IDR</field>
+            <field name="fullName">Indonesian rupiah</field>
+            <field name="symbol">Rp</field>
+            <field name="rounding">0.01</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rupiah</field>
+            <field name="currencySubunitLabel">Sen</field>
+        </record>
+
+        <record id="LVL" model="res.currency">
+            <field name="label">LVL</field>
+            <field name="fullName">Latvian lats</field>
+            <field name="symbol">Ls</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Lats</field>
+            <field name="currencySubunitLabel">Santims</field>
+        </record>
+
+        <record id="NOK" model="res.currency">
+            <field name="label">NOK</field>
+            <field name="fullName">Norwegian krone</field>
+            <field name="symbol">kr</field>
+            <field name="rounding">0.01</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Krone</field>
+            <field name="currencySubunitLabel">Ore</field>
+        </record>
+
+        <record id="XPF" model="res.currency">
+            <field name="label">XPF</field>
+            <field name="fullName">CFP franc</field>
+            <field name="symbol">XPF</field>
+            <field name="rounding">1.00</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centimes</field>
+        </record>
+
+        <record id="PAB" model="res.currency">
+            <field name="label">PAB</field>
+            <field name="fullName">Panamanian balboa</field>
+            <field name="symbol">B/.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Balboa</field>
+            <field name="currencySubunitLabel">Centesimo</field>
+        </record>
+
+        <record id="PLN" model="res.currency">
+            <field name="label">PLN</field>
+            <field name="fullName">Polish złoty</field>
+            <field name="symbol">zł</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Zloty</field>
+            <field name="currencySubunitLabel">Groszy</field>
+        </record>
+
+        <record id="SEK" model="res.currency">
+            <field name="label">SEK</field>
+            <field name="fullName">Swedish krona</field>
+            <field name="symbol">kr</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Krona</field>
+            <field name="currencySubunitLabel">Ore</field>
+        </record>
+
+        <record id="ARS" model="res.currency">
+            <field name="label">ARS</field>
+            <field name="fullName">Argentine peso</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="INR" model="res.currency">
+            <field name="label">INR</field>
+            <field name="fullName">Indian rupee</field>
+            <field name="symbol">₹</field>
+            <field name="rounding">0.01</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rupees</field>
+            <field name="currencySubunitLabel">Paise</field>
+        </record>
+
+        <record id="AUD" model="res.currency">
+            <field name="label">AUD</field>
+            <field name="fullName">Australian dollar</field>
+            <field name="symbol">$</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="UAH" model="res.currency">
+            <field name="label">UAH</field>
+            <field name="fullName">Ukraine Hryvnia</field>
+            <field name="symbol">₴</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Hryvnia</field>
+            <field name="currencySubunitLabel">Kopiyka</field>
+        </record>
+
+        <record id="VND" model="res.currency">
+            <field name="label">VND</field>
+            <field name="fullName">Vietnamese đồng</field>
+            <field name="symbol">₫</field>
+            <field name="rounding">1.00</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dong</field>
+            <field name="currencySubunitLabel">Xu</field>
+        </record>
+
+        <record id="HKD" model="res.currency">
+            <field name="label">HKD</field>
+            <field name="fullName">Hong Kong dollar</field>
+            <field name="symbol">$</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="JPY" model="res.currency">
+            <field name="label">JPY</field>
+            <field name="fullName">Japanese yen</field>
+            <field name="symbol">¥</field>
+            <field name="rounding">1.00</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Yen</field>
+            <field name="currencySubunitLabel">Cen</field>
+        </record>
+
+        <record id="BGN" model="res.currency">
+            <field name="label">BGN</field>
+            <field name="fullName">Bulgarian lev</field>
+            <field name="symbol">лв</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Lev</field>
+            <field name="currencySubunitLabel">Stotinki</field>
+        </record>
+
+        <record id="LTL" model="res.currency">
+            <field name="label">LTL</field>
+            <field name="fullName">Lithuanian litas</field>
+            <field name="symbol">Lt</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Litas</field>
+            <field name="currencySubunitLabel">Centas</field>
+        </record>
+
+        <record id="RON" model="res.currency">
+            <field name="label">RON</field>
+            <field name="fullName">Romanian leu</field>
+            <field name="symbol">lei</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Leu</field>
+            <field name="currencySubunitLabel">Bani</field>
+        </record>
+
+        <record id="HRK" model="res.currency">
+            <field name="label">HRK</field>
+            <field name="fullName">Croatian kuna</field>
+            <field name="symbol">kn</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Kuna</field>
+            <field name="currencySubunitLabel">Lipa</field>
+        </record>
+
+        <record id="RUB" model="res.currency">
+            <field name="label">RUB</field>
+            <field name="fullName">Russian ruble</field>
+            <field name="symbol">руб</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Ruble</field>
+            <field name="currencySubunitLabel">Kopek</field>
+        </record>
+
+        <record id="TRY" model="res.currency">
+            <field name="label">TRY</field>
+            <field name="fullName">Turkish lira</field>
+            <field name="symbol">₺</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Lira</field>
+            <field name="currencySubunitLabel">Kurus</field>
+        </record>
+
+        <record id="KRW" model="res.currency">
+            <field name="label">KRW</field>
+            <field name="fullName">South Korean won</field>
+            <field name="symbol">₩</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Won</field>
+            <field name="currencySubunitLabel">Chon</field>
+        </record>
+
+        <record id="MXN" model="res.currency">
+            <field name="label">MXN</field>
+            <field name="fullName">Mexican peso</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Pesos</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="MYR" model="res.currency">
+            <field name="label">MYR</field>
+            <field name="fullName">Malaysian ringgit</field>
+            <field name="symbol">RM</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Ringgit</field>
+            <field name="currencySubunitLabel">Sen</field>
+        </record>
+
+        <record id="NZD" model="res.currency">
+            <field name="label">NZD</field>
+            <field name="fullName">New Zealand dollar</field>
+            <field name="symbol">$</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="PHP" model="res.currency">
+            <field name="label">PHP</field>
+            <field name="fullName">Philippine peso</field>
+            <field name="symbol">₱</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="SGD" model="res.currency">
+            <field name="label">SGD</field>
+            <field name="fullName">Singapore dollar</field>
+            <field name="symbol">S$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="ZAR" model="res.currency">
+            <field name="label">ZAR</field>
+            <field name="fullName">South African rand</field>
+            <field name="symbol">R</field>
+            <field name="rounding">0.01</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rand</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="CRC" model="res.currency">
+            <field name="label">CRC</field>
+            <field name="fullName">Costa Rican colón</field>
+            <field name="rounding">0.01</field>
+            <field name="symbol">₡</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Colon</field>
+            <field name="currencySubunitLabel">Centimos</field>
+        </record>
+
+        <record id="MUR" model="res.currency">
+            <field name="label">MUR</field>
+            <field name="fullName">Mauritian rupee</field>
+            <field name="symbol">Rs</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rupee</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="XOF" model="res.currency">
+            <field name="label">XOF</field>
+            <field name="fullName">CFA franc BCEAO</field>
+            <field name="symbol">CFA</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centimes</field>
+        </record>
+
+        <record id="XAF" model="res.currency">
+            <field name="label">XAF</field>
+            <field name="fullName">CFA franc BEAC</field>
+            <field name="symbol">FCFA</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centimes</field>
+        </record>
+
+        <record id="UGX" model="res.currency">
+            <field name="label">UGX</field>
+            <field name="fullName">Ugandan shilling</field>
+            <field name="symbol">USh</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Shilling</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="HNL" model="res.currency">
+            <field name="label">HNL</field>
+            <field name="fullName">Honduran lempira</field>
+            <field name="symbol">L</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Lempiras</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="CLP" model="res.currency">
+            <field name="label">CLP</field>
+            <field name="fullName">Chilean peso</field>
+            <field name="symbol">$</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="UYU" model="res.currency">
+            <field name="label">UYU</field>
+            <field name="fullName">Uruguayan peso</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">Centesimos</field>
+        </record>
+
+        <record id="AFN" model="res.currency">
+            <field name="label">AFN</field>
+            <field name="fullName">Afghan afghani</field>
+            <field name="symbol">Afs</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Afghani</field>
+            <field name="currencySubunitLabel">Puls</field>
+        </record>
+
+        <record id="AOA" model="res.currency">
+            <field name="label">AOA</field>
+            <field name="fullName">Angolan kwanza</field>
+            <field name="symbol">Kz</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Kwanza</field>
+            <field name="currencySubunitLabel">Centimos</field>
+        </record>
+
+        <record id="XCD" model="res.currency">
+            <field name="label">XCD</field>
+            <field name="fullName">East Caribbean dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="AMD" model="res.currency">
+            <field name="label">AMD</field>
+            <field name="fullName">Armenian dram</field>
+            <field name="symbol">դր.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dram</field>
+            <field name="currencySubunitLabel">Luma</field>
+        </record>
+
+        <record id="AWG" model="res.currency">
+            <field name="label">AWG</field>
+            <field name="fullName">Aruban florin</field>
+            <field name="symbol">Afl.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Guilder</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="AZN" model="res.currency">
+            <field name="label">AZN</field>
+            <field name="fullName">Azerbaijani manat</field>
+            <field name="symbol">m</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Manat</field>
+            <field name="currencySubunitLabel">Qapik</field>
+        </record>
+
+        <record id="BSD" model="res.currency">
+            <field name="label">BSD</field>
+            <field name="fullName">Bahamian dollar</field>
+            <field name="symbol">B$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="BHD" model="res.currency">
+            <field name="label">BHD</field>
+            <field name="fullName">Bahraini dinar</field>
+            <field name="symbol">BD</field>
+            <field name="rounding">0.001</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Fils</field>
+        </record>
+
+        <record id="BDT" model="res.currency">
+            <field name="label">BDT</field>
+            <field name="fullName">Bangladeshi taka</field>
+            <field name="symbol">৳</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Taka</field>
+            <field name="currencySubunitLabel">Paisa</field>
+        </record>
+
+        <record id="BBD" model="res.currency">
+            <field name="label">BBD</field>
+            <field name="fullName">Barbados dollar</field>
+            <field name="symbol">Bds$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="BYR" model="res.currency">
+            <field name="label">BYR</field>
+            <field name="fullName">Belarusian ruble</field>
+            <field name="symbol">BR</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Ruble BYR</field>
+            <field name="currencySubunitLabel">Kapeyka</field>
+        </record>
+
+        <record id="BYN" model="res.currency">
+            <field name="label">BYN</field>
+            <field name="fullName">Belarusian ruble</field>
+            <field name="symbol">Br</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rubles</field>
+            <field name="currencySubunitLabel">Kopeks</field>            
+        </record>
+
+        <record id="BZD" model="res.currency">
+            <field name="label">BZD</field>
+            <field name="fullName">Belize dollar</field>
+            <field name="symbol">BZ$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="BMD" model="res.currency">
+            <field name="label">BMD</field>
+            <field name="fullName">Bermudian dollar</field>
+            <field name="symbol">BD$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="BTN" model="res.currency">
+            <field name="label">BTN</field>
+            <field name="fullName">Bhutanese ngultrum</field>
+            <field name="symbol">Nu.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Ngultrum</field>
+            <field name="currencySubunitLabel">Chhertum</field>
+        </record>
+
+        <record id="BOB" model="res.currency">
+            <field name="label">BOB</field>
+            <field name="fullName">Boliviano</field>
+            <field name="symbol">Bs.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Boliviano</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="BAM" model="res.currency">
+            <field name="label">BAM</field>
+            <field name="fullName">Bosnia and Herzegovina convertible mark</field>
+            <field name="symbol">KM</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Mark</field>
+            <field name="currencySubunitLabel">Fening</field>
+        </record>
+
+        <record id="BWP" model="res.currency">
+            <field name="label">BWP</field>
+            <field name="fullName">Botswana pula</field>
+            <field name="symbol">P</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pula</field>
+            <field name="currencySubunitLabel">Thebe</field>
+        </record>
+
+        <record id="BIF" model="res.currency">
+            <field name="label">BIF</field>
+            <field name="fullName">Burundian franc</field>
+            <field name="symbol">FBu</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centime</field>
+        </record>
+
+        <record id="KHR" model="res.currency">
+            <field name="label">KHR</field>
+            <field name="fullName">Cambodian riel</field>
+            <field name="symbol">៛</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Riel</field>
+            <field name="currencySubunitLabel">Sen</field>
+        </record>
+
+        <record id="KYD" model="res.currency">
+            <field name="label">KYD</field>
+            <field name="fullName">Cayman Islands dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="KMF" model="res.currency">
+            <field name="label">KMF</field>
+            <field name="fullName">Comorian franc</field>
+            <field name="symbol">CF</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centime</field>
+        </record>
+
+        <record id="CDF" model="res.currency">
+            <field name="label">CDF</field>
+            <field name="fullName">Congolese franc</field>
+            <field name="symbol">Fr</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centime</field>
+        </record>
+
+        <record id="CUP" model="res.currency">
+            <field name="label">CUP</field>
+            <field name="fullName">Cuban peso</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="ANG" model="res.currency">
+            <field name="label">ANG</field>
+            <field name="fullName">Netherlands Antillean guilder</field>
+            <field name="symbol">ƒ</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Guilder</field>
+            <field name="currencySubunitLabel">Cents</field>
+            <field name="position">before</field>
+        </record>
+
+        <record id="DJF" model="res.currency">
+            <field name="label">DJF</field>
+            <field name="fullName">Djiboutian franc</field>
+            <field name="symbol">Fdj</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centime</field>
+        </record>
+
+        <record id="DOP" model="res.currency">
+            <field name="label">DOP</field>
+            <field name="fullName">Dominican peso</field>
+            <field name="symbol">RD$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pesos</field>
+            <field name="currencySubunitLabel">Centavos</field>
+            <field name="position">before</field>
+        </record>
+
+        <record id="EGP" model="res.currency">
+            <field name="label">EGP</field>
+            <field name="fullName">Egyptian pound</field>
+            <field name="symbol">E£</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pound</field>
+            <field name="currencySubunitLabel">Piastres</field>
+        </record>
+
+        <record id="SVC" model="res.currency">
+            <field name="label">SVC</field>
+            <field name="fullName">Salvadoran Colon</field>
+            <field name="symbol">¢</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Colones</field>
+            <field name="currencySubunitLabel">Centavo</field>
+        </record>
+
+        <record id="ERN" model="res.currency">
+            <field name="label">ERN</field>
+            <field name="fullName">Eritrean nakfa</field>
+            <field name="symbol">Nfk</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Nakfa</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="ETB" model="res.currency">
+            <field name="label">ETB</field>
+            <field name="fullName">Ethiopian birr</field>
+            <field name="symbol">Br</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Birr</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="FKP" model="res.currency">
+            <field name="label">FKP</field>
+            <field name="fullName">Falkland Islands pound</field>
+            <field name="symbol">£</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pound</field>
+            <field name="currencySubunitLabel">Penny</field>
+        </record>
+
+        <record id="FJD" model="res.currency">
+            <field name="label">FJD</field>
+            <field name="fullName">Fiji dollar</field>
+            <field name="symbol">FJ$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="GEL" model="res.currency">
+            <field name="label">GEL</field>
+            <field name="fullName">Georgian lari</field>
+            <field name="symbol">ლ</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Lari</field>
+            <field name="currencySubunitLabel">Tetri</field>
+        </record>
+
+        <record id="GIP" model="res.currency">
+            <field name="label">GIP</field>
+            <field name="fullName">Gibraltar pound</field>
+            <field name="symbol">£</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pound</field>
+            <field name="currencySubunitLabel">Penny</field>
+        </record>
+
+        <record id="GNF" model="res.currency">
+            <field name="label">GNF</field>
+            <field name="fullName">Guinean franc</field>
+            <field name="symbol">FG</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Centime</field>
+        </record>
+
+        <record id="GYD" model="res.currency">
+            <field name="label">GYD</field>
+            <field name="fullName">Guyanese dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="HTG" model="res.currency">
+            <field name="label">HTG</field>
+            <field name="fullName">Haitian gourde</field>
+            <field name="symbol">G</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Gourde</field>
+            <field name="currencySubunitLabel">Centime</field>
+        </record>
+
+        <record id="ISK" model="res.currency">
+            <field name="label">ISK</field>
+            <field name="fullName">Icelandic króna</field>
+            <field name="symbol">kr</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Krona</field>
+            <field name="currencySubunitLabel">Aurar</field>
+        </record>
+
+        <record id="IRR" model="res.currency">
+            <field name="label">IRR</field>
+            <field name="fullName">Iranian rial</field>
+            <field name="symbol">﷼</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Fils</field>
+        </record>
+
+        <record id="IQD" model="res.currency">
+            <field name="label">IQD</field>
+            <field name="fullName">Iraqi dinar</field>
+            <field name="symbol"> ع.د</field>
+            <field name="rounding">0.001</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Fils</field>
+        </record>
+
+        <record id="ILS" model="res.currency">
+            <field name="label">ILS</field>
+            <field name="fullName">Israeli new shekel</field>
+            <field name="symbol">₪</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Shekel</field>
+            <field name="currencySubunitLabel">Agorot</field>
+        </record>
+
+        <record id="JMD" model="res.currency">
+            <field name="label">JMD</field>
+            <field name="fullName">Jamaican dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="JOD" model="res.currency">
+            <field name="label">JOD</field>
+            <field name="fullName">Jordanian dinar</field>
+            <field name="symbol"> د.ا </field>
+            <field name="rounding">0.001</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Fils</field>
+        </record>
+
+        <record id="KZT" model="res.currency">
+            <field name="label">KZT</field>
+            <field name="fullName">Kazakhstani tenge</field>
+            <field name="symbol">лв</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Tenge</field>
+            <field name="currencySubunitLabel">Tiin</field>
+        </record>
+
+        <record id="KES" model="res.currency">
+            <field name="label">KES</field>
+            <field name="fullName">Kenyan shilling</field>
+            <field name="symbol">KSh</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Shilling</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="KWD" model="res.currency">
+            <field name="label">KWD</field>
+            <field name="fullName">Kuwaiti dinar</field>
+            <field name="symbol"> د.ك </field>
+            <field name="rounding">0.001</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Fils</field>
+        </record>
+
+        <record id="KGS" model="res.currency">
+            <field name="label">KGS</field>
+            <field name="fullName">Kyrgyzstani som</field>
+            <field name="symbol">лв</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Som</field>
+            <field name="currencySubunitLabel">Tyiyn</field>
+        </record>
+
+        <record id="LAK" model="res.currency">
+            <field name="label">LAK</field>
+            <field name="fullName">Lao kip</field>
+            <field name="symbol">₭</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Kip</field>
+            <field name="currencySubunitLabel">Att</field>
+        </record>
+
+        <record id="LBP" model="res.currency">
+            <field name="label">LBP</field>
+            <field name="fullName">Lebanese pound</field>
+            <field name="symbol">ل.ل</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pound</field>
+            <field name="currencySubunitLabel">Piastres</field>
+        </record>
+
+        <record id="LSL" model="res.currency">
+            <field name="label">LSL</field>
+            <field name="fullName">Lesotho loti</field>
+            <field name="symbol">M</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Loti</field>
+            <field name="currencySubunitLabel">Sente</field>
+        </record>
+
+        <record id="LRD" model="res.currency">
+            <field name="label">LRD</field>
+            <field name="fullName">Liberian dollar</field>
+            <field name="symbol">L$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="LYD" model="res.currency">
+            <field name="label">LYD</field>
+            <field name="fullName">Libyan dinar</field>
+            <field name="symbol"> ل.د </field>
+            <field name="rounding">0.001</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Dirham</field>
+        </record>
+
+        <record id="MOP" model="res.currency">
+            <field name="label">MOP</field>
+            <field name="fullName">Macanese pataca</field>
+            <field name="symbol">MOP$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pataca</field>
+            <field name="currencySubunitLabel">Sin</field>
+        </record>
+
+        <record id="MKD" model="res.currency">
+            <field name="label">MKD</field>
+            <field name="fullName">Macedonian denar</field>
+            <field name="symbol">ден</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Denar</field>
+            <field name="currencySubunitLabel">Deni</field>
+        </record>
+
+        <record id="MGA" model="res.currency">
+            <field name="label">MGA</field>
+            <field name="fullName">Malagasy ariary</field>
+            <field name="symbol">Ar</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Ariary</field>
+            <field name="currencySubunitLabel">Iraimbilanja</field>
+        </record>
+
+        <record id="MWK" model="res.currency">
+            <field name="label">MWK</field>
+            <field name="fullName">Malawian kwacha</field>
+            <field name="symbol">MK</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Kwacha</field>
+            <field name="currencySubunitLabel">Tambala</field>
+        </record>
+
+        <record id="MVR" model="res.currency">
+            <field name="label">MVR</field>
+            <field name="fullName">Maldivian rufiyaa</field>
+            <field name="symbol">.ރ</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rufiyaa</field>
+            <field name="currencySubunitLabel">Laari</field>
+        </record>
+
+        <record id="MRO" model="res.currency">
+            <field name="label">MRO</field>
+            <field name="fullName">Mauritanian ouguiya (old)</field>
+            <field name="symbol">UM</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Ouguiya</field>
+            <field name="currencySubunitLabel">Khoums</field>
+        </record>
+
+        <record id="MRU" model="res.currency">
+            <field name="label">MRU</field>
+            <field name="fullName">Mauritanian ouguiya</field>
+            <field name="symbol">UM</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Ouguiya</field>
+            <field name="currencySubunitLabel">Khoums</field>
+        </record>
+
+        <record id="MDL" model="res.currency">
+            <field name="label">MDL</field>
+            <field name="fullName">Moldovan leu</field>
+            <field name="symbol">L</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Leu</field>
+            <field name="currencySubunitLabel">Ban</field>
+        </record>
+
+        <record id="MNT" model="res.currency">
+            <field name="label">MNT</field>
+            <field name="fullName">Mongolian tögrög</field>
+            <field name="symbol">₮</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Tugrik</field>
+            <field name="currencySubunitLabel">Mongo</field>
+        </record>
+
+        <record id="MAD" model="res.currency">
+            <field name="label">MAD</field>
+            <field name="fullName">Moroccan dirham</field>
+            <field name="symbol">DH</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dirham</field>
+            <field name="currencySubunitLabel">Centimes</field>
+        </record>
+
+        <record id="BND" model="res.currency">
+            <field name="label">BND</field>
+            <field name="fullName">Brunei dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="DZD" model="res.currency">
+            <field name="label">DZD</field>
+            <field name="fullName">Algerian dinar</field>
+            <field name="symbol">DA</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Centimes</field>
+        </record>
+
+        <record id="GHS" model="res.currency">
+            <field name="label">GHS</field>
+            <field name="fullName">Ghanaian cedi</field>
+            <field name="symbol">GH¢</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Cedi</field>
+            <field name="currencySubunitLabel">Pesewas</field>
+        </record>
+
+        <record id="GMD" model="res.currency">
+            <field name="label">GMD</field>
+            <field name="fullName">Gambian dalasi</field>
+            <field name="symbol">D</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dalasi</field>
+            <field name="currencySubunitLabel">Butut</field>
+        </record>
+
+        <record id="MZN" model="res.currency">
+            <field name="label">MZN</field>
+            <field name="fullName">Mozambican metical</field>
+            <field name="symbol">MT</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Metical</field>
+            <field name="currencySubunitLabel">Centavo</field>
+        </record>
+
+        <record id="MMK" model="res.currency">
+            <field name="label">MMK</field>
+            <field name="fullName">Myanmar kyat</field>
+            <field name="symbol">K</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Kyat</field>
+            <field name="currencySubunitLabel">Pya</field>
+        </record>
+
+        <record id="NAD" model="res.currency">
+            <field name="label">NAD</field>
+            <field name="fullName">Namibian dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="NPR" model="res.currency">
+            <field name="label">NPR</field>
+            <field name="fullName">Nepalese rupee</field>
+            <field name="symbol">₨</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rupee</field>
+            <field name="currencySubunitLabel">Paisa</field>
+        </record>
+
+        <record id="ALL" model="res.currency">
+            <field name="label">ALL</field>
+            <field name="fullName">Albanian lek</field>
+            <field name="symbol">L</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Lek</field>
+            <field name="currencySubunitLabel">Qindarke</field>
+        </record>
+
+        <record id="NIO" model="res.currency">
+            <field name="label">NIO</field>
+            <field name="fullName">Nicaraguan córdoba</field>
+            <field name="symbol">C$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Cordoba</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="NGN" model="res.currency">
+            <field name="label">NGN</field>
+            <field name="fullName">Nigerian naira</field>
+            <field name="symbol">₦</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Naira</field>
+            <field name="currencySubunitLabel">Kobo</field>
+        </record>
+
+        <record id="KPW" model="res.currency">
+            <field name="label">KPW</field>
+            <field name="fullName">North Korean won</field>
+            <field name="symbol">₩</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Won</field>
+            <field name="currencySubunitLabel">Chon</field>
+        </record>
+
+        <record id="ZWL" model="res.currency">
+            <field name="label">ZWL</field>
+            <field name="fullName">Zimbabwean dollar</field>
+            <field name="symbol">Z$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="ZMW" model="res.currency">
+            <field name="label">ZMW</field>
+            <field name="fullName">Zambian kwacha</field>
+            <field name="symbol">ZK</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Kwacha</field>
+            <field name="currencySubunitLabel">Ngwee</field>
+        </record>
+
+        <record id="YER" model="res.currency">
+            <field name="label">YER</field>
+            <field name="fullName">Yemeni rial</field>
+            <field name="symbol">﷼</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rial</field>
+            <field name="currencySubunitLabel">Fils</field>
+        </record>
+
+        <record id="EUR" model="res.currency">
+            <field name="label">EUR</field>
+            <field name="fullName">Euro</field>
+            <field name="symbol">€</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Euros</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="VUV" model="res.currency">
+            <field name="label">VUV</field>
+            <field name="fullName">Vanuatu vatu</field>
+            <field name="symbol">VT</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Vatu</field>
+        </record>
+
+        <record id="UZS" model="res.currency">
+            <field name="label">UZS</field>
+            <field name="fullName">Uzbekistan som</field>
+            <field name="symbol">лв</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Som</field>
+            <field name="currencySubunitLabel">Tiyin</field>
+        </record>
+
+        <record id="AED" model="res.currency">
+            <field name="label">AED</field>
+            <field name="fullName">United Arab Emirates dirham</field>
+            <field name="symbol">د.إ</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dirham</field>
+            <field name="currencySubunitLabel">Fils</field>
+        </record>
+
+        <record id="TMT" model="res.currency">
+            <field name="label">TMT</field>
+            <field name="fullName">Turkmenistan manat</field>
+            <field name="symbol">T</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Manat</field>
+            <field name="currencySubunitLabel">Tenge</field>
+        </record>
+
+        <record id="TND" model="res.currency">
+            <field name="label">TND</field>
+            <field name="fullName">Tunisian dinar</field>
+            <field name="symbol">DT</field>
+            <field name="rounding">0.001</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Millimes</field>
+        </record>
+
+        <record id="TTD" model="res.currency">
+            <field name="label">TTD</field>
+            <field name="fullName">Trinidad and Tobago dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="TOP" model="res.currency">
+            <field name="label">TOP</field>
+            <field name="fullName">Tongan paʻanga</field>
+            <field name="symbol">T$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Paanga</field>
+            <field name="currencySubunitLabel">Seniti</field>
+        </record>
+
+        <record id="THB" model="res.currency">
+            <field name="label">THB</field>
+            <field name="fullName">Thai baht</field>
+            <field name="symbol">฿</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Baht</field>
+            <field name="currencySubunitLabel">Satang</field>
+        </record>
+
+        <record id="TZS" model="res.currency">
+            <field name="label">TZS</field>
+            <field name="fullName">Tanzanian shilling</field>
+            <field name="symbol">TSh</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Shilling</field>
+            <field name="currencySubunitLabel">Senti</field>
+        </record>
+
+        <record id="TJS" model="res.currency">
+            <field name="label">TJS</field>
+            <field name="fullName">Tajikistani somoni</field>
+            <field name="symbol">TJS</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Somoni</field>
+            <field name="currencySubunitLabel">Diram</field>
+        </record>
+
+        <record id="TWD" model="res.currency">
+            <field name="label">TWD</field>
+            <field name="fullName">New Taiwan dollar</field>
+            <field name="symbol">NT$</field>
+            <field name="rounding">1.00</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="SYP" model="res.currency">
+            <field name="label">SYP</field>
+            <field name="fullName">Syrian pound</field>
+            <field name="symbol">£</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pound</field>
+            <field name="currencySubunitLabel">Piastrp</field>
+        </record>
+
+        <record id="SZL" model="res.currency">
+            <field name="label">SZL</field>
+            <field name="fullName">Swazi lilangeni</field>
+            <field name="symbol">E</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Lilangeni</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="SRD" model="res.currency">
+            <field name="label">SRD</field>
+            <field name="fullName">Surinamese dollar</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="SDG" model="res.currency">
+            <field name="label">SDG</field>
+            <field name="fullName">Sudanese pound</field>
+            <field name="symbol">ج.س.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+        </record>
+
+        <record id="LKR" model="res.currency">
+            <field name="label">LKR</field>
+            <field name="fullName">Sri Lankan rupee</field>
+            <field name="symbol">Rs</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rupee</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="SSP" model="res.currency">
+            <field name="label">SSP</field>
+            <field name="fullName">South Sudanese pound</field>
+            <field name="symbol">£</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pounds</field>
+            <field name="currencySubunitLabel">Piasters</field>
+        </record>
+
+        <record id="GBP" model="res.currency">
+            <field name="label">GBP</field>
+            <field name="fullName">Pound sterling</field>
+            <field name="symbol">£</field>
+            <field name="rounding">0.01</field>
+            <field name="position">before</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Sterling</field>
+            <field name="currencySubunitLabel">Penny</field>
+        </record>
+
+        <record id="SOS" model="res.currency">
+            <field name="label">SOS</field>
+            <field name="fullName">Somali shilling</field>
+            <field name="symbol">Sh.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Shillings</field>
+            <field name="currencySubunitLabel">Senti</field>
+        </record>
+
+        <record id="SBD" model="res.currency">
+            <field name="label">SBD</field>
+            <field name="fullName">Solomon Islands dollar</field>
+            <field name="symbol">SI$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dollars</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="SLL" model="res.currency">
+            <field name="label">SLL</field>
+            <field name="fullName">Sierra Leonean leone</field>
+            <field name="symbol">Le</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Leone</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="SCR" model="res.currency">
+            <field name="label">SCR</field>
+            <field name="fullName">Seychellois rupee</field>
+            <field name="symbol">SR</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rupee</field>
+            <field name="currencySubunitLabel">Cents</field>
+        </record>
+
+        <record id="RSD" model="res.currency">
+            <field name="label">RSD</field>
+            <field name="fullName">Serbian dinar</field>
+            <field name="symbol">din.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dinar</field>
+            <field name="currencySubunitLabel">Para</field>
+        </record>
+
+        <record id="SAR" model="res.currency">
+            <field name="label">SAR</field>
+            <field name="fullName">Saudi riyal</field>
+            <field name="symbol">SR</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Riyal</field>
+            <field name="currencySubunitLabel">Halala</field>
+        </record>
+
+        <record id="STD" model="res.currency">
+            <field name="label">STD</field>
+            <field name="fullName">São Tomé and Príncipe dobra</field>
+            <field name="symbol">Db</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dobra</field>
+            <field name="currencySubunitLabel">Centimo</field>
+        </record>
+
+        <record id="WST" model="res.currency">
+            <field name="label">WST</field>
+            <field name="fullName">Samoan tālā</field>
+            <field name="symbol">WS$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Tala</field>
+            <field name="currencySubunitLabel">Sene</field>
+        </record>
+
+        <record id="SHP" model="res.currency">
+            <field name="label">SHP</field>
+            <field name="fullName">Saint Helena pound</field>
+            <field name="symbol">£</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Pound</field>
+            <field name="currencySubunitLabel">Penny</field>
+        </record>
+
+        <record id="RWF" model="res.currency">
+            <field name="label">RWF</field>
+            <field name="fullName">Rwandan franc</field>
+            <field name="symbol">RF</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Franc</field>
+            <field name="currencySubunitLabel">Santime</field>
+        </record>
+
+        <record id="QAR" model="res.currency">
+            <field name="label">QAR</field>
+            <field name="fullName">Qatari riyal</field>
+            <field name="symbol">QR</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rial</field>
+            <field name="currencySubunitLabel">Dirham</field>
+        </record>
+
+        <record id="PEN" model="res.currency">
+            <field name="label">PEN</field>
+            <field name="fullName">Peruvian sol</field>
+            <field name="symbol">S/</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Soles</field>
+            <field name="currencySubunitLabel">Centimos</field>
+        </record>
+
+        <record id="PYG" model="res.currency">
+            <field name="label">PYG</field>
+            <field name="fullName">Paraguayan guaraní</field>
+            <field name="symbol">₲</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Guarani</field>
+            <field name="currencySubunitLabel">Centimos</field>
+        </record>
+
+        <record id="PGK" model="res.currency">
+            <field name="label">PGK</field>
+            <field name="fullName">Papua New Guinean kina</field>
+            <field name="symbol">K</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Kina</field>
+            <field name="currencySubunitLabel">Toea</field>
+        </record>
+
+        <record id="PKR" model="res.currency">
+            <field name="label">PKR</field>
+            <field name="fullName">Pakistani rupee</field>
+            <field name="symbol">Rs.</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rupee</field>
+            <field name="currencySubunitLabel">Paisa</field>
+        </record>
+
+        <record id="OMR" model="res.currency">
+            <field name="label">OMR</field>
+            <field name="fullName">Omani rial</field>
+            <field name="symbol">ر.ع.</field>
+            <field name="rounding">0.001</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Rial</field>
+            <field name="currencySubunitLabel">Baisa</field>
+        </record>
+
+        <record id="CVE" model="res.currency">
+            <field name="label">CVE</field>
+            <field name="fullName">Cape Verdean escudo</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Escudo</field>
+            <field name="currencySubunitLabel">Centavo</field>
+        </record>
+
+        <record id="COU" model="res.currency">
+            <field name="label">COU</field>
+            <field name="fullName">Unidad de Valor Real</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">centavo</field>
+        </record>
+
+        <record id="CLF" model="res.currency">
+            <field name="label">CLF</field>
+            <field name="fullName">Unidad de Fomento</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.0001</field>
+            <field name="active">false</field>
+            <field name="position">before</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">Centavos</field>
+        </record>
+
+        <record id="CUC" model="res.currency">
+            <field name="label">CUC</field>
+            <field name="fullName">Cuban convertible peso</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Cuban convertible peso</field>
+        </record>
+
+        <record id="GTQ" model="res.currency">
+            <field name="label">GTQ</field>
+            <field name="fullName">Guatemalan Quetzal</field>
+            <field name="symbol">Q</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Quetzales</field>
+            <field name="currencySubunitLabel">Centavo</field>
+        </record>
+
+        <record id="VES" model="res.currency">
+            <field name="label">VES</field>
+            <field name="fullName">Venezuelan bolívar soberano</field>
+            <field name="symbol">Bs</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+        </record>
+
+        <record id="UYW" model="res.currency">
+            <field name="label">UYW</field>
+            <field name="fullName">Unidad previsional</field>
+            <field name="symbol">$</field>
+            <field name="rounding">0.0001</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">peso</field>
+            <field name="currencySubunitLabel">centésimo</field>
+        </record>
+
+        <record id="UYI" model="res.currency">
+            <field name="label">UYI</field>
+            <field name="fullName">Uruguay Peso en Unidades Indexadas</field>
+            <field name="symbol">$</field>
+            <field name="rounding">1</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Peso</field>
+            <field name="currencySubunitLabel">centésimo</field>
+        </record>
+
+        <record id="STN" model="res.currency">
+            <field name="label">STN</field>
+            <field name="fullName">São Tomé and Príncipe dobra</field>
+            <field name="symbol">Db</field>
+            <field name="rounding">0.01</field>
+            <field name="active">false</field>
+            <field name="currencyUnitLabel">Dobra</field>
+            <field name="currencySubunitLabel">cêntimo</field>
+        </record>
+
+    </data>
+</verp>

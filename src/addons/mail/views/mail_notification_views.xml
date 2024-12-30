@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<verp><data>
+    <record id="mailNotificationViewTree" model="ir.ui.view">
+        <field name="label">mail.notification.view.tree</field>
+        <field name="model">mail.notification</field>
+        <field name="arch" type="xml">
+            <tree string="Notifications">
+                <field name="mailMessageId"/>
+                <field name="notificationType"/>
+                <field name="resPartnerId"/>
+                <field name="isRead"/>
+                <field name="failureType"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mailNotificationViewForm" model="ir.ui.view">
+        <field name="label">mail.notification.view.form</field>
+        <field name="model">mail.notification</field>
+        <field name="arch" type="xml">
+            <form string="Notification" duplicate="0">
+                <header>
+                    <field name="notificationStatus" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Source">
+                            <field name="mailMessageId"/>
+                            <field name="notificationType"/>
+                            <field name="mailMailId"/>
+                            <field name="resPartnerId"/>
+                        </group>
+                        <group string="Status">
+                            <field name="isRead"/>
+                            <field name="readDate"/>
+                            <field name="failureType"/>
+                            <field name="failureReason"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mailNotificationAction" model="ir.actions.actwindow">
+        <field name="label">Notifications</field>
+        <field name="resModel">mail.notification</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+</data></verp>

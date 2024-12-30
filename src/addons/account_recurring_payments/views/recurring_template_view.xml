@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewRecurringTemplateForm" model="ir.ui.view">
+        <field name="label">account.recurring.template.form</field>
+        <field name="model">account.recurring.template</field>
+        <field name="arch" type="xml">
+            <form string="Recurring Template">
+                <header>
+                    <button name="actionDone" states="draft" string="Confirm" type="object" class="oe-highlight"/>
+                    <button name="actionDraft" states="done" string="Set To Draft" type="object"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="label"/>
+                            <field name="journalId" domain="[['type', 'in', ['bank', 'cash']]]"/>
+                            <field name="recurringPeriod"/>
+                        </group>
+                        <group>
+                            <field name="recurringInterval"/>
+                            <field name="journalState"/>
+                            <field name="companyId"/>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Description..." nolabel="1" colspan="4"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="viewAccountRecurringTemplateTree" model="ir.ui.view">
+        <field name="label">account.recurring.template.tree</field>
+        <field name="model">account.recurring.template</field>
+        <field name="arch" type="xml">
+            <tree string="Recurring Template">
+                <field name="label"/>
+                <field name="journalId"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="actionAccountRecurringTemplate" model="ir.actions.actwindow">
+        <field name="label">Recurring Template</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">account.recurring.template</field>
+        <field name="viewMode">tree,form</field>
+        <field name="viewId" ref="viewAccountRecurringTemplateTree"/>
+    </record>
+
+    <menuitem id="menuRecurringPayments"
+              name="Recurring Payment"
+              sequence="10"
+              groups="account.groupAccountUser,account.groupAccountManager"
+              parent="account.menuFinanceConfiguration"/>
+
+    <menuitem id="menuRecurringTemplate"
+              name="Recurring Template"
+              sequence="20"
+              action="actionAccountRecurringTemplate"
+              groups="account.groupAccountUser,account.groupAccountManager"
+              parent="menuRecurringPayments"/>
+
+</verp>

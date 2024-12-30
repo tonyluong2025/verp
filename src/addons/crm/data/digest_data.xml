@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<verp>
+    <data noupdate="1">
+        <record id="digest.digestDigestDefault" model="digest.digest">
+            <field name="kpiCrmLeadCreated">true</field>
+            <field name="kpiCrmOpportunitiesWon">true</field>
+        </record>
+    </data>
+
+    <data>
+        <record id="digestTipCrm_0" model="digest.tip">
+            <field name="label">Tip: Convert incoming emails into opportunities</field>
+            <field name="sequence">200</field>
+            <field name="groupId" ref="sales_team.groupSaleSalesmanAllLeads"/>
+            <field name="tipDescription" type="html">
+<div>
+    <t t-set="record" t-value="await object.env.items('crm.team').search([['aliasName', '!=', 'false']], {limit: 1})" />
+    <p class="tipTitle">Tip: Convert incoming emails into opportunities</p>
+    <t t-if="record.ok &amp;&amp; await record.aliasDomain">
+        <p class="tipContent">Did you know emails sent to <t t-out="await (await record.aliasId).displayName || ''"></t> generate opportunities in your pipeline?<br/>
+        <a t-attf-href="mailto:{{await (await record.aliasId).displayName}}" target="_blank">Try sending an email</a> to your CRM. This email address is configurable by sales team members.</p>
+    </t>
+    <t t-else="">
+        <p class="tipContent">Did you know emails sent to a Sales Team alias generate opportunities in your pipeline?</p>
+    </t>
+</div>
+            </field>
+        </record>
+        <record id="digestTipCrm_1" model="digest.tip">
+            <field name="label">Tip: Did you know Verp has built-in lead mining?</field>
+            <field name="sequence">1500</field>
+            <field name="groupId" ref="sales_team.groupSaleSalesmanAllLeads"/>
+            <field name="tipDescription" type="html">
+<div>
+    <p class="tipTitle">Tip: Did you know Verp has built-in lead mining?</p>
+    <p class="tipContent">For a sales team, there is nothing worse than being dry on leads. Fortunately, in just a few clicks, you can generate leads specifically targeted to your needs: company size, industry, etc. To help you test the feature, we offer you 200 credits for free.</p>
+    <img src="/crm/static/src/img/generate-leads.gif" class="illustration-border" />
+</div>
+            </field>
+        </record>
+        <record id="digestTipCrm_2" model="digest.tip">
+            <field name="label">Tip: Opportunity win rate is predicted with AI</field>
+            <field name="sequence">1700</field>
+            <field name="groupId" ref="sales_team.groupSaleSalesmanAllLeads"/>
+            <field name="tipDescription" type="html">
+<div>
+    <p class="tipTitle">Tip: Opportunity win rate is predicted with AI</p>
+    <p class="tipContent">Verp's artificial intelligence engine predicts the success rate of each opportunity based on your history. You can always update the success rate manually, but if you let Verp do the job the score is updated while the opportunity moves forward in your sales cycle.</p>
+    <img src="/crm/static/src/img/probability-rate.gif" class="illustration-border" />
+</div>
+            </field>
+        </record>
+        <record id="digestTipCrm_3" model="digest.tip">
+            <field name="label">Tip: Manage your pipeline</field>
+            <field name="sequence">2600</field>
+            <field name="groupId" ref="sales_team.groupSaleSalesmanAllLeads"/>
+            <field name="tipDescription" type="html">
+<div>
+    <p class="tipTitle">Tip: Manage your pipeline</p>
+    <p class="tipContent">A great tip to boost sales efficiency is to always define a next step on each opportunity. To manage ongoing activities, click on any status of the progress bar to filter opportunities based on their next activities' status. Click on the grey area of the progress bar to see all opportunities that have no next activity.</p>
+    <img src="/crm/static/src/img/pipeline-progress.gif" class="illustration-border" />
+</div>
+            </field>
+        </record>
+        <record id="digestTipCrm_4" model="digest.tip">
+            <field name="label">Tip: Do not waste time recording customers' data</field>
+            <field name="sequence">2800</field>
+            <field name="groupId" ref="sales_team.groupSaleSalesmanAllLeads"/>
+            <field name="tipDescription" type="html">
+<div>
+    <p class="tipTitle">Tip: Do not waste time recording customers' data</p>
+    <p class="tipContent">Did you know you can search a company by name or VAT number to instantly fill in all its data? Verp autocompletes everything for you: logo, address, company size, business information, social media accounts, etc.</p>
+    <img src="/crm/static/src/img/autofill.gif" class="illustration-border" />
+</div>
+            </field>
+        </record>
+        <record id="digestTipCrm_5" model="digest.tip">
+            <field name="label">Tip: Turn a selection of opportunities into a map</field>
+            <field name="sequence">3000</field>
+            <field name="groupId" ref="sales_team.groupSaleSalesmanAllLeads"/>
+            <field name="tipDescription" type="html">
+<div>
+    <p class="tipTitle">Tip: Turn a selection of opportunities into a map</p>
+    <p class="tipContent">Did you know you can turn a list of opportunities into a map view, using the top-right map icon? A lot of screens in Verp can be turned into a map: tasks, contacts, delivery orders, etc.</p>
+    <img src="/crm/static/src/img/mapview-toggle.gif" class="illustration-border" />
+</div>
+            </field>
+        </record>
+    </data>
+</verp>

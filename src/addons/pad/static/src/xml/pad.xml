@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="FieldPad">
+        <div class="oe-form-field-text oe-pad">
+            <p class="oe-unconfigured d-none">
+                Please, enter your Etherpad credentials through the Settings.
+            </p>
+            <t t-if="widget.mode === 'readonly'">
+                <div class="oe-pad-content etherpad-readonly oe-configured" />
+            </t>
+            <t t-if="widget.mode === 'edit'">
+                <div class="oe-pad-switch-positioner oe-configured">
+                    <span class="fa fa-expand oe-pad-switch" role="img" aria-label="Switch pad" title="Switch pad"/>
+                </div>
+                <div class="oe-pad-content oe-editing oe-configured" />
+            </t>
+        </div>
+    </t>
+
+</templates>

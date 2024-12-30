@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="quantSearchView" model="ir.ui.view">
+        <field name="label">stock.quant.search</field>
+        <field name="model">stock.quant</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <search string="Quants">
+                <field name="productId"/>
+                <field name="locationId"/>
+                <field name="userId"/>
+                <field name="inventoryDate"/>
+                <field name="productCategId"/>
+                <field name="packageId" groups="stock.groupTrackingLot"/>
+                <field name="lotId" groups="stock.groupProductionLot"/>
+                <field name="ownerId" groups="stock.groupTrackingOwner"/>
+                <group expand='0' string='Filters'>
+                    <filter name='internalLoc' string="Internal Locations" domain="[['locationId.usage','=', 'internal']]"/>
+                    <filter name='transitLoc' string="Transit Locations" domain="[['locationId.usage' ,'=', 'transit']]"/>
+                    <separator/>
+                    <filter name="onHand" string="On Hand" domain="[['onHand', '=', true]]"/>
+                    <filter name="toCount" string="To Count" domain="[['inventoryDate', '&lt;=', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                    <filter name="toApply" string="To Apply" domain="[['inventoryQuantitySet', '=', true]]"/>
+                    <separator/>
+                    <filter name="negative" string="Negative Stock" domain="[['quantity', '&lt;', 0.0]]"/>
+                    <filter name="reserved" string="Reservations" domain="[['reservedQuantity', '&gt;', 0.0]]"/>
+                    <separator/>
+                    <filter name="filterInDate" date="inDate"/>
+                    <separator/>
+                    <filter name="myCount" string="My Counts" domain="[['userId', '=', uid]]"/>
+                </group>
+                <group expand='0' string='Group by...'>
+                    <filter string='Product' name="productgroup" context="{'groupby': 'productId'}"/>
+                    <filter string='Location' name="locationgroup" domain="[]" context="{'groupby': 'locationId'}"/>
+                    <filter string='Owner' name="owner" context="{'groupby': 'ownerId'}" groups="stock.groupTrackingOwner"/>
+                    <filter string='Lot/Serial Number' name="lotSerialNumber" context="{'groupby': 'lotId'}" groups="stock.groupProductionLot"/>
+                    <filter string='Package' name="package" domain="[]" context="{'groupby': 'packageId'}" groups="stock.groupTrackingLot"/>
+                    <filter string='Company' name="company" domain="[]" context="{'groupby': 'companyId'}" groups="base.groupMultiCompany"/>
+               </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewStockQuantFormEditable">
+        <field name="label">stock.quant.form.editable</field>
+        <field name="model">stock.quant</field>
+        <field eval="11" name="priority"/>
+        <field name="arch" type="xml">
+            <form string="Inventory Valuation" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tracking" invisible="1"/>
+                            <field name="productId" readonly="0" options="{'noCreate': true}"/>
+                            <field name="locationId" readonly="0" options="{'noCreate': true}"/>
+                            <field name="lotId" groups="stock.groupProductionLot"
+                                attrs="{'readonly': [['tracking', 'not in', ['serial', 'lot']]], 'required': [['tracking', '!=', 'none']]}"
+                                context="{'default_productId': productId, 'default_companyId': companyId }"/>
+                            <field name="packageId" readonly="0" groups="stock.groupTrackingLot"/>
+                            <field name="ownerId" readonly="0" groups="stock.groupTrackingOwner" options="{'noCreate': true}"/>
+                            <field name='companyId' groups="base.groupMultiCompany"/>
+                        </group>
+                        <group>
+                            <label for="inventoryQuantity" string="Quantity On Hand"/>
+                            <div class="o-row">
+                                <field name="inventoryQuantity"/>
+                                <field name="productUomId" groups="uom.groupUom"/>
+                            </div>
+                            <label for="reservedQuantity" string="Quantity Reserved"/>
+                            <div class="o-row">
+                                <field name="reservedQuantity"/>
+                                <field name="productUomId" groups="uom.groupUom"/>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Inventory Report + Update Quantity (via product) view -->
+    <record model="ir.ui.view" id="viewStockQuantTreeEditable">
+        <field name="label">stock.quant.tree.editable</field>
+        <field name="model">stock.quant</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <tree editable="bottom"
+                  create="1" edit="1" jsClass="singletonList"
+                  sample="1">
+                <field name="id" invisible="1"/>
+                <field name="tracking" invisible="1"/>
+                <field name="productId" attrs="{'readonly': [['id', '!=', false]]}"
+                       readonly="context['singleProduct'] ?? false" forceSave="1"
+                       options="{'noCreate': true}"/>
+                <field name="productCategId" optional="hide"/>
+                <field name="locationId" attrs="{'readonly': [['id', '!=', false]]}"
+                       invisible="context['hideLocation'] ?? false"
+                       options="{'noCreate': true}"/>
+                <field name="lotId" groups="stock.groupProductionLot"
+                       attrs="{
+                            'readonly': ['|', ['id', '!=', false], ['tracking', 'not in', ['serial', 'lot']]],
+                            'required': [['tracking', '!=', 'none']]
+                       }"
+                       invisible="context['hideLot'] ?? false"
+                       context="{'default_productId': productId, 'default_companyId': companyId }"/>
+                <field name="packageId" groups="stock.groupTrackingLot"
+                       attrs="{'readonly': [['id', '!=', false]]}"/>
+                <field name="ownerId" groups="stock.groupTrackingOwner"
+                       attrs="{'readonly': [['id', '!=', false]]}"
+                       options="{'noCreate': true}"/>
+                <field name="inventoryQuantityAutoApply" string="On Hand Quantity" readonly="0"/>
+                <field name="availableQuantity" optional="show"/>
+                <field name="productUomId" groups="uom.groupUom"/>
+                <field name='companyId' groups="base.groupMultiCompany" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewStockQuantTree">
+        <field name="label">stock.quant.tree</field>
+        <field name="model">stock.quant</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <tree string="Inventory Valuation" jsClass="inventoryReportList"
+                  create="0" delete="0">
+                <field name="productId" invisible="context['singleProduct'] ?? false"/>
+                <field name="locationId" invisible="context['hideLocation'] ?? false"/>
+                <field name="lotId" groups="stock.groupProductionLot"
+                       invisible="context['hideLot'] ?? false"/>
+                <field name="packageId" groups="stock.groupTrackingLot"/>
+                <field name="ownerId" groups="stock.groupTrackingOwner"/>
+                <field name="availableQuantity"/>
+                <field name="quantity" string="On Hand Quantity"/>
+                <field name="productUomId" groups="uom.groupUom"/>
+                <field name='companyId' groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewStockQuantPivot">
+        <field name="label">stock.quant.pivot</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <pivot string="Inventory" sample="1">
+                <field name="productId" type="row"/>
+                <field name="locationId" type="col"/>
+                <field name="quantity" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="stockQuantViewGraph" model="ir.ui.view">
+        <field name="label">stock.quant.graph</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <graph string="Stock Quant" sample="1">
+                <field name="locationId"/>
+                <field name="quantity" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="actionViewQuants"> <!-- Menu + code -->
+        <field name="label">Inventory</field>
+        <field name="modelId" ref="model_stockQuant"/>
+        <field name="state">code</field>
+        <field name="groupsId" eval="[[4, refId('stock.groupStockUser')]]"/>
+        <field name="code">
+            (await model.withContext({
+                searchDefault_internalLoc: 1,
+                searchDefault_productgroup: 1,
+                searchDefault_locationgroup: 1,
+            })).actionViewQuants();
+        </field>
+    </record>
+
+    <record model="ir.actions.actwindow" id="dashboardOpenQuants"> <!-- Used in dashboard -->
+        <field name="label">Stock On Hand</field>
+        <field name="context">{'searchDefault_internalLoc': 1, 'searchDefault_productgroup':1, 'searchDefault_locationgroup':1}</field>
+        <field name="resModel">stock.quant</field>
+    </record>
+    <record model="ir.actions.actwindow" id="locationOpenQuants"> <!-- Used in location -->
+        <field name="context">{'searchDefault_productgroup': 1}</field>
+        <field name="domain">[['locationId', 'childOf', activeIds]]</field>
+        <field name="label">Current Stock</field>
+        <field name="resModel">stock.quant</field>
+    </record>
+
+    <record id="quantPackageSearchView" model="ir.ui.view">
+        <field name="label">stock.quant.package.search</field>
+        <field name="model">stock.quant.package</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <search string="Package">
+                <field name="label" string="Package Name"/>
+                <field name="locationId"/>
+                <field name="packageTypeId"/>
+                <group  expand='0' string='Group by...'>
+                   <filter string='Location' name="location" domain="[]" context="{'groupby' : 'locationId'}"/>
+                   <filter string='Package Type' name="packageType" domain="[]" context="{'groupby' : 'packageTypeId'}"/>
+               </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewQuantPackageForm">
+        <field name="label">stock.quant.package.form</field>
+        <field name="model">stock.quant.package</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <form string="Package">
+                <header>
+                    <button name="unpack" string="Unpack" type="object"/>
+                </header>
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button class="oe-stat-button" name="actionViewPicking"
+                        string="Package Transfers" type="object"
+                        widget="statinfo" icon="fa-arrows-v"/>
+                    </div>
+                    <div class="oe-title">
+                        <label for="label" string="Package Reference"/>
+                        <h1><field name="label" class="oe-inline" placeholder="e.g. PACK0000007"/></h1>
+                    </div>
+                    <group>
+                        <group id='stock.packageLocationGroup'>
+                            <field name="packageTypeId"/>
+                            <field name='companyId' groups="base.groupMultiCompany"/>
+                            <field name='ownerId' groups="stock.groupTrackingOwner"/>
+                            <field name="locationId" options="{'noCreate': true}"/>
+                        </group>
+                    </group>
+                    <separator string="Content"/>
+                    <field name="quantIds">
+                        <tree>
+                            <field name="productId"/>
+                            <field name="lotId" groups="stock.groupProductionLot"/>
+                            <field name="quantity"/>
+                            <field name="productUomId" groups="uom.groupUom"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewQuantPackageTree">
+        <field name="label">stock.quant.package.tree</field>
+        <field name="model">stock.quant.package</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <tree string="Package" sample="1">
+                <field name="displayName"/>
+                <field name="packageTypeId"/>
+                <field name="locationId" options="{'noCreate': true}"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewQuantPackageKanban">
+        <field name="label">stock.quant.package.kanban</field>
+        <field name="model">stock.quant.package</field>
+        <field name="arch" type="xml">
+            <kanban sample="1">
+                <templates>
+                <field name="label"/>
+                    <t t-name="kanban-box">
+                        <div class="oe-kanban-global-click">
+                            <div class="o-kanban-record-top mb0">
+                                <div class="col-6">
+                                    <strong class="o-kanban-record-title"><field name="label"/></strong>
+                                </div>
+                                <div class="col-6">
+                                    <field name="packageTypeId"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.actions.actwindow" id="actionPackageView">
+        <field name="context">{}</field>
+        <field name="label">Packages</field>
+        <field name="resModel">stock.quant.package</field>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new package
+            </p><p>
+                Packages are usually created via transfers (during pack operation) and can contain different products.
+                Once created, the whole package can be moved at once, or products can be unpacked and moved as single units again.
+            </p>
+        </field>
+    </record>
+
+    <!-- Inventory Adjustments view -->
+    <record model="ir.ui.view" id="viewStockQuantTreeInventoryEditable">
+        <field name="label">stock.quant.inventory.tree.editable</field>
+        <field name="model">stock.quant</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <tree defaultOrder="locationId, inventoryDate, productId, packageId, lotId, ownerId" decoration-warning='isOutdated' editable="bottom" create="1" edit="1" import="1" jsClass="singletonList" sample="1">
+                <header>
+                    <button name="stock.actionStockInventoryAdjustementName" groups="stock.groupStockManager" type="action" string="Apply"/>
+                    <button name="actionReset" type="object" string="Clear"/>
+                    <button name="stock.actionStockRequestCount" groups="stock.groupStockManager" type="action" string="Request a Count"/>
+                </header>
+                <field name="id" invisible="1"/>
+                <field name="isOutdated" invisible="1"/>
+                <field name="tracking" invisible="1"/>
+                <field name="inventoryQuantitySet" invisible="1"/>
+                <field name="locationId" domain="[['usage', 'in', ['internal', 'transit']]]" attrs="{'readonly': [['id', '!=', false]]}" invisible="context['hideLocation'] ?? false" options="{'noCreate': true}"/>
+                <field name="productId" attrs="{'readonly': [['id', '!=', false]]}" readonly="context['singleProduct'] ?? false" forceSave="1" options="{'noCreate': true}"/>
+                <field name="productCategId" optional="hide"/>
+                <field name="lotId" groups="stock.groupProductionLot"
+                    attrs="{'readonly': ['|', ['id', '!=', false], ['tracking', 'not in', ['serial', 'lot']]]}"
+                    invisible="context['hideLot'] ?? false"
+                    context="{'default_productId': productId, 'default_companyId': companyId }"/>
+                <field name="packageId" groups="stock.groupTrackingLot" attrs="{'readonly': [['id', '!=', false]]}"/>
+                <field name="ownerId" groups="stock.groupTrackingOwner" attrs="{'readonly': [['id', '!=', false]]}" options="{'noCreate': true}"/>
+                <field name="availableQuantity" string="Available Quantity" decoration-danger="availableQuantity &lt; 0" optional="hidden"/>
+                <field name="quantity" optional="show" string="On Hand Quantity"/>
+                <field name="productUomId" groups="uom.groupUom" string="UoM"/>
+                <field name="inventoryQuantity" widget="countedQuantityWidget"/>
+                <field name="inventoryDiffQuantity" string="Difference"  attrs="{'invisible': [['inventoryQuantitySet', '=', false]]}" decoration-muted="inventoryDiffQuantity == 0" decoration-danger="inventoryDiffQuantity &lt; 0" decoration-success="inventoryDiffQuantity &gt; 0" decoration-bf="inventoryDiffQuantity != 0"/>
+                <field name="inventoryDate" optional="show"/>
+                <field name="userId" string="User" optional="show"/>
+                <field name='companyId' groups="base.groupMultiCompany" optional="hide"/>
+                <button name="actionInventoryHistory" type="object" class="btn btn-link text-info" icon="fa-history" string="History"/>
+                <button name="actionApplyInventory" groups="stock.groupStockManager" type="object" string="Apply" class="btn btn-link" icon="fa-save" attrs="{'invisible': [['inventoryQuantitySet', '=', false]]}"/>
+                <button name="actionSetInventoryQuantity" type="object" string="Set" class="btn btn-link" icon="fa-bullseye" attrs="{'invisible': [['inventoryQuantitySet', '=', true]]}"/>
+                <button name="actionSetInventoryQuantityToZero" type="object" string="Clear" class="btn text-warning" icon="fa-times" attrs="{'invisible': [['inventoryQuantitySet', '=', false]]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="actionViewSetQuantsTree">
+        <field name="label">Set</field>
+        <field name="modelId" ref="model_stockQuant"/>
+        <field name="bindingModelId" ref="stock.model_stockQuant"/>
+        <field name="bindingViewTypes">list</field>
+        <field name="state">code</field>
+        <field name="groupsId" eval="[[4, refId('stock.groupStockUser')]]"/>
+        <field name="code">records.actionSetInventoryQuantity()</field>
+    </record>
+
+    <record model="ir.actions.server" id="actionViewInventoryTree"> <!-- Menu + code -->
+        <field name="label">Inventory</field>
+        <field name="modelId" ref="model_stockQuant"/>
+        <field name="state">code</field>
+        <field name="groupsId" eval="[[4, refId('stock.groupStockUser')]]"/>
+        <field name="code">model.actionViewInventory()</field>
+    </record>
+
+    <menuitem id="menuActionInventoryTree" name="Inventory Adjustments" parent="menuStockWarehouseMgmt" sequence="30" action="actionViewInventoryTree" />
+    <menuitem id="menuPackage" name="Packages" parent="menuStockInventoryControl" action="actionPackageView" groups="stock.groupTrackingLot" sequence="102"/>
+    <menuitem id="menuValuation" name="Inventory Report"
+              parent="stock.menuWarehouseReport" sequence="100"
+              action="actionViewQuants"/>
+</verp>

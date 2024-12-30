@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+
+        <record id="actionReportFollowup" model="ir.actions.report">
+            <field name="label">Follow-up Report</field>
+            <field name="model">followup.followup</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportModelName">report.account.followup</field>
+            <field name="reportName">account_followup.reportFollowup</field>
+            <field name="reportFile">account_followup.reportFollowup</field>
+        </record>
+
+    </data>
+</verp>

@@ -1,0 +1,174 @@
+<verp>
+    <template id="portalMyHomeMenuInvoice" name="Portal layout : invoice menu entries" inheritId="portal.portalBreadcrumbs" priority="30">
+        <xpath expr="//ol[contains(@class, 'o-portal-submenu')]" position="inside">
+            <li t-if="pageName === 'invoice'" t-attf-class="breadcrumb-item #{! bool(invoice) ? 'active ' : ''}">
+                <a t-if="invoice" t-attf-href="/my/invoices?{{ keepQuery(request) }}">Invoices &amp; Bills</a>
+                <t t-else="">Invoices &amp; Bills</t>
+            </li>
+            <li t-if="invoice" class="breadcrumb-item active">
+                <t t-esc="await invoice.label" t-if="await invoice.label != '/'"/>
+                <t t-else=""><em>Draft Invoice</em></t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portalMyHomeInvoice" name="Show Invoices &amp; Bills" inheritId="portal.portalMyHome" customizeShow="true" priority="30">
+        <xpath expr="//div[contains(@class,'o-portal-docs')]" position="inside">
+            <t t-call="portal.portalDocsEntry">
+                <t t-set="title">Invoices &amp; Bills</t>
+                <t t-set="url" t-value="'/my/invoices'"/>
+                <t t-set="placeholderCount" t-value="'invoiceCount'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portalMyInvoices" name="My Invoices &amp;&amp; Payments">
+      <t t-call="portal.portalLayout">
+        <t t-set="breadcrumbsSearchbar" t-value="true"/>
+
+        <t t-call="portal.portalSearchbar">
+            <t t-set="title">Invoices</t>
+        </t>
+        <t t-if="not invoices">
+            <p>There are currently no invoices &amp;&amp; payments for your account.</p>
+        </t>
+        <t t-if="invoices" t-call="portal.portalTable">
+            <thead>
+                <tr class="active">
+                    <th>Invoice #</th>
+                    <th>Invoice Date</th>
+                    <th class='d-none d-md-table-cell'>Due Date</th>
+                    <th/>
+                    <th class="text-right">Amount Due</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="invoices" t-as="invoice">
+                    <tr>
+                        <td>
+                            <a t-att-href="await invoice.getPortalUrl()" t-att-title="await invoice.label">
+                                <t t-esc="await invoice.label" t-if="await invoice.label != '/'"/>
+                                <em t-else="">Draft Invoice</em>
+                            </a>
+                        </td>
+                        <td><span t-field="invoice.invoiceDate"/></td>
+                        <td class='d-none d-md-table-cell'><span t-field="invoice.invoiceDateDue"/></td>
+                        <td class="tx_status">
+                            <t t-if="await invoice.state == 'posted' &amp;&amp; !['inPayment', 'paid', 'reversed'].includes(await invoice.paymentState)">
+                                <span class="badge badge-pill badge-info"><i class="fa fa-fw fa-clock-o" aria-label="Opened" title="Opened" role="img"></i><span class="d-none d-md-inline"> Waiting for Payment</span></span>
+                            </t>
+                            <t t-if="await invoice.state == 'posted' &amp;&amp; ['paid', 'inPayment'].includes(invoice.paymentState)">
+                                <span class="badge badge-pill badge-success"><i class="fa fa-fw fa-check" aria-label="Paid" title="Paid" role="img"></i><span class="d-none d-md-inline"> Paid</span></span>
+                            </t>
+                            <t t-if="await invoice.state == 'posted' &amp;&amp; await invoice.paymentState == 'reversed'">
+                                <span class="badge badge-pill badge-success"><i class="fa fa-fw fa-check" aria-label="Reversed" title="Reversed" role="img"></i><span class="d-none d-md-inline"> Reversed</span></span>
+                            </t>
+                            <t t-if="await invoice.state == 'cancel'">
+                                <span class="badge badge-pill badge-warning"><i class="fa fa-fw fa-remove" aria-label="Cancelled" title="Cancelled" role="img"></i><span class="d-none d-md-inline"> Cancelled</span></span>
+                            </t>
+                        </td>
+                        <td class="text-right"><span t-esc="await invoice.moveType == 'outRefund' ? - await invoice.amountResidual : await invoice.amountResidual" t-options='{"widget": "monetary", "displayCurrency": await invoice.currencyId}'/></td>
+                    </tr>
+                </t>
+            </tbody>
+        </t>
+      </t>
+    </template>
+
+    <template id="portalInvoicePage" name="Invoice Portal Template" inheritId="portal.portalSidebar" primary="true">
+        <xpath expr="//div[contains(@class,'o-portal-sidebar')]" position="inside">
+            <t t-set="oPortalFullwidthAlert" groups="sales_team.groupSaleSalesman,account.groupAccountInvoice,account.groupAccountReadonly">
+                <t t-call="portal.portalBackInEditMode">
+                    <t t-set="backendUrl" t-value="f('/web#model=%s&amp;id=%s&amp;action=%s&amp;viewType=form', invoice._name, invoice.id, (await invoice.env.ref('account.actionMoveOutInvoiceType')).id)"/>
+                </t>
+            </t>
+
+            <div class="row mt16 o-portal-invoice-sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portalRecordSidebar">
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                    <t t-set="title">
+                        <h2 class="mb-0">
+                            <b t-if="await invoice.amountResidual > 0" t-field="invoice.amountResidual"/>
+                            <b t-else="1" t-field="invoice.amountTotal"/>
+                        </h2>
+                        <div class="small" t-if="!['paid', 'inPayment'].includes(await invoice.paymentState) &amp;&amp; invoice.moveType == 'outInvoice'"><i class="fa fa-clock-o"/><span class="o-portal-sidebar-timeago ml4" t-att-datetime="await invoice.invoiceDateDue"/></div>
+                    </t>
+
+                    <t t-set="entries">
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                    <div class="btn-group  flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o-download-btn" t-att-href="await invoice.getPortalUrl('', 'pdf', true)" title="Download"><i class="fa fa-download"/> Download</a>
+                                    </div>
+                                    <div class="btn-group flex-grow-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o-print-btn o-portal-invoice-print" t-att-href="await invoice.getPortalUrl('', 'pdf')" id="printInvoiceReport" title="Print" target="_blank"><i class="fa fa-print"/> Print</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li t-if="(await invoice.invoiceUserId).ok" class="list-group-item flex-grow-1">
+                                <div class="small mb-1"><strong class="text-muted">
+                                    <t t-if="await invoice.moveType == 'outInvoice'">
+                                        Salesperson
+                                    </t>
+                                    <t t-if="await invoice.moveType == 'inInvoice'">
+                                        Purchase Representative
+                                    </t>
+                                </strong></div>
+                                <div class="row">
+                                    <div class="col flex-grow-0 pr-2">
+                                        <img class="rounded-circle mt-1 o-portal-contact-img" t-att-src="imageDataUri(await (await invoice.invoiceUserId).avatar1024)" alt="Contact"/>
+                                    </div>
+                                    <div class="col pl-0">
+                                        <span t-field="invoice.invoiceUserId" t-options='{"widget": "contact", "fields": ["label", "phone"], "noMarker": true}'/>
+                                        <a href="#discussion" class="small"><i class="fa fa-fw fa-comments"/><b>Send message</b></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </t>
+                </t>
+
+                <!-- Page Content -->
+                <div id="invoiceContent" class="col-12 col-lg">
+                    <t t-if="error || warning" t-call="account.portalInvoiceError"/>
+                    <t t-if="success &amp;&amp; (! error &amp;&amp; ! warning)" t-call="account.portalInvoiceSuccess"/>
+
+                    <div class="o-portal-html-view shadow p-3">
+                        <div class="o_portal_html_loader text-center">
+                            <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw text-black-50"></i>
+                        </div>
+                        <iframe id="invoiceHtml" class="mt8 mb8" width="100%" height="100%" frameborder="0" scrolling="no" t-att-src="await invoice.getPortalUrl('', 'html')"/>
+                    </div>
+                    <!-- chatter -->
+                    <div id="invoiceCommunication" class="mt-4">
+                        <h2>History</h2>
+                        <t t-call="portal.messageThread">
+                            <t t-set="object" t-value="invoice"/>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portalInvoiceError" name="Invoice error/warning display">
+        <div class="row mr16">
+            <div t-attf-class="'col-lg-12 mr16 ml16 alert alert-dismissable' #{error ? 'alert-danger' : 'alert-warning'}" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                <t t-if="error == 'generic'" name="generic">
+                    There was an error processing this page.
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="portalInvoiceSuccess" name="Invoice success display">
+        <div class="row mr16">
+            <div class="col-lg-12 mr16 ml16 alert alert-dismissable alert-success" role="status">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+            </div>
+        </div>
+    </template>
+</verp>

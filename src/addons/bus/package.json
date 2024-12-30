@@ -1,0 +1,27 @@
+{
+    "label" : "IM Bus",
+    "version": "1.0",
+    "category": "Hidden",
+    "complexity": "easy",
+    "description": "Instant Messaging Bus allow you to send messages to users, in live.",
+    "depends": ["base", "web"],
+    "data": [
+        "security/ir.model.access.csv"
+    ],
+    "installable": true,
+    "autoInstall": false,
+    "assets": {
+        "web.assetsBackend": [
+            "bus/static/src/**/*"
+        ],
+        "web.assetsFrontend": [
+            "bus/static/src/js/longpolling_bus.js",
+            "bus/static/src/js/crosstab_bus.js",
+            "bus/static/src/js/services/bus_service.js"
+        ],
+        "web.qunitSuiteTests": [
+            "bus/static/tests/*.js"
+        ]
+    },
+    "license": "MIT Expat"
+}

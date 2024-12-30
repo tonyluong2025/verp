@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="reportIrModelOverview" model="ir.actions.report">
+            <field name="label">Model Overview</field>
+            <field name="model">ir.model</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">base.reportIrmodeloverview</field>
+            <field name="reportFile">base.reportIrmodeloverview</field>
+            <field name="bindingModelId" ref="model_irModel"/>
+            <field name="bindingType">report</field>
+        </record>
+
+</verp>
+

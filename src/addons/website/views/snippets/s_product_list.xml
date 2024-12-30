@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template name="Items" id="sProductList">
+    <t t-set="url" value="url || '#'"/>
+    <section class="s-product-list">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a t-att-href="url">
+                        <img src="/web/image/website.sProductListDefaultImage_1" alt="" class="img img-fluid"/>
+                    </a>
+                    <div class="s-product-list-item-link">
+                        <a t-att-href="url" class="btn btn-primary">Furniture</a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a t-att-href="url">
+                        <img src="/web/image/website.sProductListDefaultImage_2" alt="" class="img img-fluid"/>
+                    </a>
+                    <div class="s-product-list-item-link">
+                        <a t-att-href="url" class="btn btn-primary">Clothes</a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a t-att-href="url">
+                        <img src="/web/image/website.sProductListDefaultImage_3" alt="" class="img img-fluid"/>
+                    </a>
+                    <div class="s-product-list-item-link">
+                        <a t-att-href="url" class="btn btn-primary">Books</a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a t-att-href="url">
+                        <img src="/web/image/website.sProductListDefaultImage_4" alt="" class="img img-fluid"/>
+                    </a>
+                    <div class="s-product-list-item-link">
+                        <a t-att-href="url" class="btn btn-primary">Essential oils</a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a t-att-href="url">
+                        <img src="/web/image/website.sProductListDefaultImage_5" alt="" class="img img-fluid"/>
+                    </a>
+                    <div class="s-product-list-item-link">
+                        <a t-att-href="url" class="btn btn-primary">Service</a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <a t-att-href="url">
+                        <img src="/web/image/website.sProductListDefaultImage_6" alt="" class="img img-fluid"/>
+                    </a>
+                    <div class="s-product-list-item-link">
+                        <a t-att-href="url" class="btn btn-primary">Multimedia</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<record id="website.sProductList.000.variables.scss" model="ir.asset">
+    <field name="label">Product list 000 variables SCSS</field>
+    <field name="bundle">web._assetsPrimaryVariables</field>
+    <field name="path">website/static/src/snippets/s_product_list/000_variables.scss</field>
+</record>
+
+<record id="website.sProductList.000.scss" model="ir.asset">
+    <field name="label">Product list 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_product_list/000.scss</field>
+</record>
+
+</verp>

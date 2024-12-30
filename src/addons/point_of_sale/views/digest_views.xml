@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="digestDigestViewForm" model="ir.ui.view">
+        <field name="label">digest.digest.view.form.inherit.sale.order</field>
+        <field name="model">digest.digest</field>
+        <field name="inheritId" ref="digest.digestDigestViewForm" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='kpiGeneral']" position="after">
+                <group name="kpiPos" string="Point of Sale">
+                    <field name="kpiPosTotal"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</verp>

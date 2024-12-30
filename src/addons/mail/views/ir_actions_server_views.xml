@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record model="ir.ui.view" id="viewServerActionFormTemplate">
+            <field name="label">ir.actions.server.form</field>
+            <field name="model">ir.actions.server</field>
+            <field name="inheritId" ref="base.viewServerActionForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='pageObject']" position="after">
+                    <page string="Activity" name="nextActivity" autofocus="autofocus" attrs="{'invisible': [['state', '!=', 'nextActivity']]}">
+                        <group>
+                            <group>
+                                <field name="activityTypeId" options="{'noCreate': true, 'noOpen': true}" attrs="{'required': [['state', '=', 'nextActivity']]}"/>
+                                <field name="activitySummary" placeholder="e.g. Discuss proposal"/>
+                            </group>
+                            <group>
+                                <label for="activityDateDeadlineRange"/>
+                                <div class="o-row">
+                                    <field name="activityDateDeadlineRange"/>
+                                    <field name="activityDateDeadlineRangeType" attrs="{
+                                        'required': [['state', '=', 'nextActivity'], ['activityDateDeadlineRange', '>', 0]]
+                                    }"/>
+                                </div>
+                                <field name="activityUserType" attrs="{
+                                    'required': [['state', '=', 'nextActivity']]
+                                }"/>
+                                <field name="activityUserFieldName" attrs="{
+                                    'invisible': [['activityUserType', '=', 'specific']],
+                                    'required': [['state', '=', 'nextActivity'], ['activityUserType', '=', 'generic']]
+                                }"/>
+                                <field name="activityUserId" attrs="{
+                                    'invisible': [['activityUserType', '=', 'generic']],
+                                    'required': [['state', '=', 'nextActivity'], ['activityUserType', '=', 'specific']]
+                                }"/>
+                            </group>
+                        </group>
+                        <field name="activityNote" class="oe-bordered-editor" placeholder="Log a note..."/>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='linkFieldId']" position="after">
+                    <field name="partnerIds" widget="many2manyTags"
+                        attrs="{'invisible': [['state', '!=', 'followers']]}"/>
+                    <field name="templateId"
+                        attrs="{'invisible': [['state', '!=', 'email']],
+                                'required': [['state', '=', 'email']]}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</verp>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- Activities -->
+        <record id="mailActSaleUpsell" model="mail.activity.type">
+            <field name="label">Order Upsell</field>
+            <field name="icon">fa-line-chart</field>
+            <field name="resModel">sale.order</field>
+        </record>
+
+        <!-- Sale-related subtypes for messaging / Chatter -->
+        <record id="mtOrderSent" model="mail.message.subtype">
+            <field name="label">Quotation sent</field>
+            <field name="resModel">sale.order</field>
+            <field name="default" eval="false"/>
+            <field name="description">Quotation sent</field>
+        </record>
+        <record id="mtOrderConfirmed" model="mail.message.subtype">
+            <field name="label">Sales Order Confirmed</field>
+            <field name="resModel">sale.order</field>
+            <field name="default" eval="false"/>
+            <field name="description">Quotation confirmed</field>
+        </record>
+
+        <!-- Salesteam-related subtypes for messaging / Chatter -->
+        <record id="mtSalesteamOrderSent" model="mail.message.subtype">
+            <field name="label">Quotation sent</field>
+            <field name="sequence">20</field>
+            <field name="resModel">crm.team</field>
+            <field name="default" eval="true"/>
+            <field name="parentId" ref="sale.mtOrderSent"/>
+            <field name="relationField">teamId</field>
+        </record>
+        <record id="mtSalesteamOrderConfirmed" model="mail.message.subtype">
+            <field name="label">Sales Order Confirmed</field>
+            <field name="sequence">21</field>
+            <field name="resModel">crm.team</field>
+            <field name="default" eval="true"/>
+            <field name="parentId" ref="sale.mtOrderConfirmed"/>
+            <field name="relationField">teamId</field>
+        </record>
+        <record id="mtSalesteamInvoiceCreated" model="mail.message.subtype">
+            <field name="label">Invoice Created</field>
+            <field name="sequence">22</field>
+            <field name="resModel">crm.team</field>
+            <field name="parentId" ref="account.mtInvoiceCreated"/>
+            <field name="relationField">teamId</field>
+        </record>
+        <record id="mtSalesteamInvoiceConfirmed" model="mail.message.subtype">
+            <field name="label">Invoice Confirmed</field>
+            <field name="sequence">23</field>
+            <field name="resModel">crm.team</field>
+            <field name="parentId" ref="account.mtInvoiceValidated"/>
+            <field name="relationField">teamId</field>
+        </record>
+    </data>
+</verp>

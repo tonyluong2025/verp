@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record model="ir.cron" id="snailmailPrint">
+            <field name="label">Snailmail: process letters queue</field>
+            <field name="modelId" ref="model_snailmailLetter"/>
+            <field name="state">code</field>
+            <field name="code">model._snailmailCron()</field>
+            <field name="intervalNumber">1</field>
+            <field name="intervalType">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="false"/>
+        </record>
+    </data>
+</verp>

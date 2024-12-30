@@ -1,0 +1,104 @@
+.o-legacy-pivot {
+
+    .o-pivot-cell-value {
+        font-size: 1em;
+        .o-comparison {
+            font-size: 0.61em;
+        }
+        .o-variation {
+            &.o-positive {
+                color: green;
+            }
+            &.o-negative {
+                color: red;
+            }
+        }
+    }
+
+    table {
+        background-color: $o-view-background-color;
+        width: auto;  // bootstrap override
+
+        // Inform the user that he may click on a cell to be redirected to a list view of the
+        // items corresponding to the clicked cell
+        &.o-enable-linking {
+            .o-pivot-cell-value:not(.o-empty):hover {
+                color: $o-brand-primary;
+                cursor: pointer;
+
+            }
+        }
+
+        thead th:not(.o-pivot-header-cell-closed):not(.o-pivot-header-cell-opened):not(.o-pivot-header-cell) {
+            text-align: center;
+        }
+
+        th {
+            font-weight: normal;  // bootstrap override
+            background-color: lighten($o-brand-secondary, 40%);
+        }
+
+        @mixin o-pivot-header-cell {
+            background-color: lighten($o-brand-secondary, 40%);
+            cursor: pointer;
+            white-space: nowrap;
+            user-select: none;
+            &:hover {
+                background-color: lighten($o-brand-secondary, 30%);
+            }
+        }
+
+        .o-pivot-measure-row {
+            @include o-pivot-header-cell;
+        }
+
+        .o-pivot-header-cell {
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .o-pivot-header-cell-closed {
+            @include o-pivot-header-cell;
+            &::before {
+                font-family: FontAwesome;
+                content: "";
+                margin-right: 8px;
+            }
+        }
+
+        .o-pivot-header-cell-opened {
+            @include o-pivot-header-cell;
+            &::before {
+                font-family: FontAwesome;
+                content: "";
+                margin-right: 8px;
+            }
+        }
+
+        .o-pivot-sort-order-asc::after {
+            @include o-caret-up;
+            margin-left: 5px;
+        }
+
+        .o-pivot-sort-order-desc::after {
+            @include o-caret-down;
+            margin-left: 5px;
+        }
+
+        .o-pivot-cell-value.o-cell-hover {
+            background-color: $table-hover-bg;
+        }
+    }
+
+    .o-pivot-field-selection::after {
+        @include o-caret-right;
+        position: absolute;
+        right: 6px;
+        top: 9px;
+    }
+
+    .o-pivot-field-menu .dropdown-item.disabled {
+        color: $text-muted;
+        cursor: default;
+    }
+}

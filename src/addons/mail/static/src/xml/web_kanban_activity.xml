@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="mail.KanbanActivity">
+    <div class="o-kanban-inline-block dropdown o-mail-activity">
+        <!-- Dropdowns are created in JS to avoid some bugs, that's why the <a/> contains no args for the dropdown creation -->
+        <a class="dropdown-toggle o-no-caret o-activity-btn" data-boundary="viewport" data-flip="false" data-toggle="dropdown" role="button">
+            <!-- span classes are generated dynamically (see _render) -->
+            <span t-att-title="widget.selection[widget.activityState]" role="img" t-att-aria-label="widget.selection[widget.activityState]"/>
+       </a>
+        <div class="dropdown-menu o-activity" role="menu"/>
+    </div>
+</t>
+
+<t t-name="mail.ListActivity" t-extend="mail.KanbanActivity">
+    <t t-jquery=".o-mail-activity" t-operation="append">
+        <span class="o-activity-summary"/>
+    </t>
+</t>
+
+<t t-name="mail.KanbanActivityLoading">
+    <div class="dropdown-item text-center o-no-activity">
+        <span class="fa fa-circle-o-notch fa-spin fa-2x" role="img" aria-label="Loading..." title="Loading..."/>
+    </div>
+</t>
+
+<t t-name="mail.KanbanActivityDropdown">
+    <span role="menuitem" t-if="_.isEmpty(records)" class="dropdown-item-text text-center o-no-activity">
+        <i>Schedule activities to help you get things done.</i>
+    </span>
+    <div t-else="" aria-haspopup="true" role="menu" class="o-activity-log-container dropdown-item bg-100 p-0">
+        <ul class="o-activity-log list-group list-group-flush mb-2" role="menu">
+            <t t-foreach="_.keys(records)" t-as="key">
+                <t t-set="logs" t-value="records[key]" />
+                <t t-set="contextualClass" t-value="key == 'planned' ? 'success' : (key == 'today' ? 'warning' : 'danger') "/>
+
+                <li role="menuitem" t-attf-class="o-activity-label list-group-item list-group-item list-group-item-light d-flex justify-content-between align-items-center o-activity-color-{{key}} {{!key_first ? 'mt-2' : ''}}">
+                    <strong><t t-esc="selection[key]"/></strong>
+                    <span t-attf-class="badge badge-pill badge-{{contextualClass}} border-0 mr-0"><t t-esc="logs.length"/></span>
+                </li>
+                <t t-foreach="logs" t-as="log">
+                    <t t-set="editClass" t-value="'o-edit-activity'"/>
+                    <t t-if="log.chainingType === 'trigger'">
+                        <t t-set="editClass" t-value=""/>
+                    </t>
+                    <t class="activities-list-group-item">
+                        <t t-call="mail.activities-list-group-item"/>
+                    </t>
+                    <li t-attf-id="oActivityForm_{{log.id}}" class="o-activity-form list-group-item border-top-0 py-0 mb-2 collapse"></li>
+                </t>
+            </t>
+        </ul>
+    </div>
+    <div class="dropdown-divider m-0"/>
+    <div role="menuitem" class="o-schedule-activity dropdown-header p-0 text-center">
+        <button class="btn btn-secondary btn-block p-3">
+            <i class="fa fa-plus fa-fw"></i><strong>Schedule an activity</strong>
+        </button>
+    </div>
+</t>
+
+<t t-name="mail.activities-list-group-item">
+    <li t-attf-class="list-group-item o-log-activity d-flex #{log_last ? 'border-bottom' : ''}" role="menuitem">
+        <div t-attf-class="o-activity-title o-log-activity #{editClass}" t-att-data-activity-id="log.id">
+            <div t-attf-class="o-activity-title-entry o-mail-activity {{ log.chainingType === 'suggest' ? 'align-items-center' : 'mb-1'}}">
+                <span t-attf-class="fa #{log.icon ? log.icon : 'fa-bell' } fa-fw mr-2 text-center text-muted" role="img" aria-label="Log" title="Log"/>
+                <strong class="text-dark o-activity-summary"><t t-esc="log.titleAction or log.summary or log.activityTypeId[1]"/></strong>
+                <button t-if="log.chainingType === 'suggest' and log.canWrite" class="btn btn-sm btn-link py-0 o-edit-button"><i class="fa fa-pencil"/></button>
+            </div>
+            <div class="o-activity-title-entry mt-1" t-if="log.state != 'today'">
+                <span class="fa fa-clock-o fa-fw mr-2 text-center text-muted" role="img" aria-label="Deadline" title="Deadline"/>
+                <small t-if="log.userId[0] !== session.uid and log.mailTemplateIds" class="mr-1"><t t-esc="log.userId[1]"/> -</small>
+                <small t-att-title="log.dateDeadline"><t t-esc="log.labelDelay" /></small>
+            </div>
+            <t t-if="log.mailTemplateIds">
+                <div t-foreach="log.mailTemplateIds" t-as="mailTemplate" class="o-activity-title-entry mt-2" t-att-data-activity-id="log.id" t-att-data-chaining-type-activity="log.chainingType" t-att-data-previous-activity-type-id="log.activityTypeId[0]">
+                    <i class="fa fa-envelope-o fa-fw mr-2 text-center text-muted" aria-label="Mail" title="Mail" role="img"></i>
+                    <small>
+                        <div class="mb-1" t-esc="mailTemplate.label + ':'"/>
+                        <a class="o-activity-template-preview" t-att-data-template-id="mailTemplate.id" href="#"><b>Preview</b></a>
+                        <small>or</small>
+                        <a class="o-activity-template-send" t-att-data-template-id="mailTemplate.id" href="#"><b>Send Now</b></a>
+                    </small>
+                </div>
+            </t>
+        </div>
+        <div t-if="log.canWrite" class="flex-grow-1 text-right">
+            <t t-if="log.activityCategory === 'uploadFile'">
+                <a  t-att-data-chaining-type-activity="log.chainingType"
+                    t-att-data-previous-activity-type-id="log.activityTypeId[0]"
+                    t-att-data-activity-id="log.id"
+                    class="o-mark-as-done-upload-file o-activity-link o-activity-link-kanban fa fa-upload"
+                    title="Upload file" role="img" t-att-data-fileupload-id="log.fileuploadID"/>
+                    <span class="d-none">
+                        <t t-call="HiddenInputFile">
+                            <t t-set="fileuploadId" t-value="log.fileuploadID"/>
+                            <t t-set="fileuploadAction" t-translation="off">/web/binary/uploadAttachment</t>
+                            <input type="hidden" name="model" t-att-value="log.resModel"/>
+                            <input type="hidden" name="id" t-att-value="log.resId"/>
+                        </t>
+                    </span>
+            </t>
+            <t t-else="">
+                <a  t-att-data-chaining-type-activity="log.chainingType"
+                    t-att-data-previous-activity-type-id="log.activityTypeId[0]"
+                    t-att-data-activity-id="log.id"
+                    t-attf-href="#o-mark-done-form{{log.id}}"
+                    class="o-mark-as-done o-activity-link o-activity-link-kanban fa fa-check-circle"
+                    data-toggle="collapse" title="Mark as done" role="img" aria-label="Mark as done"/>
+            </t>
+        </div>
+    </li>
+</t>
+
+</templates>

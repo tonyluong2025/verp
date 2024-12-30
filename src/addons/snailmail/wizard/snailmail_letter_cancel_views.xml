@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="snailmailLetterCancel" model="ir.ui.view">
+        <field name="label">snailmail.letter.cancel.form</field>
+        <field name="model">snailmail.letter.cancel</field>
+        <field name="groupsId" eval="[[4, refId('base.groupUser')]]"/>
+        <field name="arch" type="xml">
+            <form string="Cancel notification in failure">
+                <field name="model" invisible='1'/>
+                <field name="helpMessage"/>
+                <p>If you want to re-send them, click Cancel now, then click on the notification and review them one by one by clicking on the red paper-plane next to each message.</p>
+                <footer>  
+                    <button string="Discard delivery failures" name="cancelResendAction" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="snailmailLetterCancelAction" model="ir.actions.actwindow">
+        <field name="label">Discard snailmail delivery failures</field>
+        <field name="resModel">snailmail.letter.cancel</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">form</field>
+        <field name="target">new</field>
+    </record>
+</verp>

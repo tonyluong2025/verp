@@ -1,0 +1,1437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<!-- Snippets menu -->
+<template id="snippets" inheritId="web_editor.snippets" primary="true" groups="base.groupUser">
+    <xpath expr="//div[@id='snippetsMenu']" position="inside">
+        <button type="button" tabindex="3" class="o-we-customize-theme-btn text-uppercase"
+                groups="website.groupWebsiteDesigner" accesskey="2">
+            <span>Theme</span>
+        </button>
+    </xpath>
+    
+    <xpath expr="//t[@id='defaultSnippets']" position="replace">
+        <t id="defaultSnippets">
+            <t t-set="ctaBtnText" t-value="false"/>
+            <t t-set="ctaBtnHref">/contactus</t>
+
+            <div id="snippetStructure" class="o-panel">
+                <div class="o-panel-header">Structure</div>
+                <div class="o-panel-body">
+                    <t t-snippet="website.sBanner" t-thumbnail="/website/static/src/img/snippets_thumbs/s_banner.svg">
+                        <keywords>hero, jumbotron</keywords>
+                    </t>
+                    <t t-snippet="website.sCover" t-thumbnail="/website/static/src/img/snippets_thumbs/s_cover.svg">
+                        <keywords>hero, jumbotron</keywords>
+                    </t>
+                    <t t-snippet="website.sTextImage" t-thumbnail="/website/static/src/img/snippets_thumbs/s_text_image.svg">
+                        <keywords>content</keywords>
+                    </t>
+                    <t t-snippet="website.sImageText" t-thumbnail="/website/static/src/img/snippets_thumbs/s_image_text.svg">
+                        <keywords>content</keywords>
+                    </t>
+                    <t t-snippet="website.sTitle" t-thumbnail="/website/static/src/img/snippets_thumbs/s_title.svg">
+                        <keywords>heading, h1</keywords>
+                    </t>
+                    <t t-snippet="website.sTextBlock" t-thumbnail="/website/static/src/img/snippets_thumbs/s_text_block.svg">
+                        <keywords>content</keywords>
+                    </t>
+                    <t t-snippet="website.sNumbers" t-thumbnail="/website/static/src/img/snippets_thumbs/s_numbers.svg">
+                        <keywords>statistics, stats, KPI</keywords>
+                    </t>
+                    <t t-snippet="website.sPicture" t-thumbnail="/website/static/src/img/snippets_thumbs/s_picture.svg">
+                        <keywords>image, media, illustration</keywords>
+                    </t>
+                    <t t-snippet="website.sThreeColumns" t-thumbnail="/website/static/src/img/snippets_thumbs/s_three_columns.svg">
+                        <keywords>columns, description</keywords>
+                    </t>
+                    <t t-snippet="website.sColorBlocks2" t-thumbnail="/website/static/src/img/snippets_thumbs/s_color_blocks_2.svg">
+                        <keywords>big</keywords>
+                    </t>
+                    <t t-snippet="website.sFeatures" t-thumbnail="/website/static/src/img/snippets_thumbs/s_features.svg">
+                        <keywords>promotion, characteristic, quality</keywords>
+                    </t>
+                    <t t-snippet="website.sMasonryBlock" t-thumbnail="/website/static/src/img/snippets_thumbs/s_masonry_block.svg">
+                        <keywords>masonry, grid</keywords>
+                    </t>
+                    <t t-snippet="website.sImageGallery" t-thumbnail="/website/static/src/img/snippets_thumbs/s_image_gallery.svg">
+                        <keywords>gallery, carousel</keywords>
+                    </t>
+                    <t t-snippet="website.sImagesWall" t-thumbnail="/website/static/src/img/snippets_thumbs/s_images_wall.svg"/>
+                    <t t-snippet="website.sCarousel" t-thumbnail="/website/static/src/img/snippets_thumbs/s_carousel.svg">
+                        <keywords>gallery, carousel</keywords>
+                    </t>
+                    <t t-snippet="website.sMediaList" t-thumbnail="/website/static/src/img/snippets_thumbs/s_media_list.svg"/>
+                    <t t-snippet="website.sShowcase" t-thumbnail="/website/static/src/img/snippets_thumbs/s_showcase.svg"/>
+                    <t t-snippet="website.sParallax" t-thumbnail="/website/static/src/img/snippets_thumbs/s_parallax.svg"/>
+                </div>
+            </div>
+
+            <div id="snippetFeature" class="o-panel">
+                <div class="o-panel-header">Features</div>
+                <div class="o-panel-body">
+                    <t t-snippet="website.sComparisons" t-thumbnail="/website/static/src/img/snippets_thumbs/s_comparisons.svg">
+                        <keywords>pricing</keywords>
+                    </t>
+                    <t t-snippet="website.sCompanyTeam" t-thumbnail="/website/static/src/img/snippets_thumbs/s_company_team.svg">
+                        <keywords>organization, structure</keywords>
+                    </t>
+                    <t t-snippet="website.sCallToAction" t-thumbnail="/website/static/src/img/snippets_thumbs/s_call_to_action.svg">
+                        <keywords>CTA</keywords>
+                    </t>
+                    <t t-snippet="website.sReferences" t-thumbnail="/website/static/src/img/snippets_thumbs/s_references.svg">
+                        <keywords>customers, clients</keywords>
+                    </t>
+                    <t t-snippet="website.sFaqCollapse" t-thumbnail="/website/static/src/img/snippets_thumbs/s_faq_collapse.svg">
+                        <keywords>common answers, common questions</keywords>
+                    </t>
+                    <t t-snippet="website.sFeaturesGrid" t-thumbnail="/website/static/src/img/snippets_thumbs/s_features_grid.svg"/>
+                    <t t-snippet="website.sTableOfContent" t-thumbnail="/website/static/src/img/snippets_thumbs/s_table_of_content.svg"/>
+                    <t t-snippet="website.sProductCatalog" t-thumbnail="/website/static/src/img/snippets_thumbs/s_product_catalog.svg">
+                        <keywords>menu, pricing</keywords>
+                    </t>
+                    <t t-snippet="website.sProductList" t-thumbnail="/website/static/src/img/snippets_thumbs/s_product_list.svg"/>
+                    <t t-snippet="website.sTabs" t-thumbnail="/website/static/src/img/snippets_thumbs/s_tabs.svg"/>
+                    <t t-snippet="website.sTimeline" t-thumbnail="/website/static/src/img/snippets_thumbs/s_timeline.svg"/>
+                    <t t-snippet="website.sProcessSteps" t-thumbnail="/website/static/src/img/snippets_thumbs/s_process_steps.svg"/>
+                    <t t-snippet="website.sQuotesCarousel" t-thumbnail="/website/static/src/img/snippets_thumbs/s_quotes_carousel.svg">
+                        <keywords>testimonials</keywords>
+                    </t>
+                </div>
+            </div>
+
+            <div id="snippetEffect" class="o-panel">
+                <div class="o-panel-header">Dynamic Content</div>
+                <div class="o-panel-body">
+                    <!-- This snippet cannot be used in sanitized fields -->
+                    <!-- because it contains inputs that would be removed -->
+                    <t t-snippet="website.sWebsiteForm" t-thumbnail="/website/static/src/img/snippets_thumbs/s_website_form.svg" t-forbid-sanitize="form"/>
+                    <t t-set="googleMapsApiKey" t-value="await (await env.items('website').getCurrentWebsite()).googleMapsApiKey"/>
+                    <t t-if="debug || !googleMapsApiKey" t-snippet="website.sMap" t-thumbnail="/website/static/src/img/snippets_thumbs/s_map.svg"/>
+                    <t t-if="debug || googleMapsApiKey" t-snippet="website.sGoogleMap" t-thumbnail="/website/static/src/img/snippets_thumbs/s_google_map.svg"/>
+                    <t t-if="debug" t-snippet="website.sDynamicSnippet" t-thumbnail="/website/static/src/img/snippets_thumbs/s_dynamic_snippet.svg"/>
+                    <t t-if="debug" t-snippet="website.sDynamicSnippetCarousel" t-thumbnail="/website/static/src/img/snippets_thumbs/s_dynamic_carousel.svg"/>
+                    <t id="saleProductsHook"/>
+                    <!-- This snippet cannot be used in sanitized fields -->
+                    <!-- because it contains an input that would be removed -->
+                    <t t-snippet="website.sSearchbar" t-thumbnail="/website/static/src/img/snippets_thumbs/s_searchbar.svg" t-forbid-sanitize="form"/>
+                    <t id="blogPostsHook"/>
+                    <t id="eventLocalEventsHook"/>
+                    <t id="snippetGoogleMapHook"/>
+                    <t id="massMailingNewsletterBlockHook"/>
+                    <t id="massMailingNewsletterPopupHook"/>
+                    <t t-snippet="website.sPopup" t-thumbnail="/website/static/src/img/snippets_thumbs/s_popup.svg"/>
+                    <t t-snippet="website.sFacebookPage" t-thumbnail="/website/static/src/img/snippets_thumbs/s_facebook_page.svg"/>
+                    <t t-snippet="website.sCountdown" t-thumbnail="/website/static/src/img/snippets_thumbs/s_countdown.svg">
+                        <keywords>celebration, launch</keywords>
+                    </t>
+                    <t id="mailGroupHook"/>
+                    <t id="twitterFavoriteTweetsHook"/>
+                    <!-- This snippet cannot be used in sanitized fields -->
+                    <!-- because it might have content that would be removed -->
+                    <t t-snippet="website.sEmbedCode" t-thumbnail="/website/static/src/img/snippets_thumbs/s_embed_code.svg" t-forbid-sanitize="true"/>
+                    <t id="snippetDonationHook"/>
+                </div>
+            </div>
+
+            <div id="snippetContent" class="o-panel">
+                <div class="o-panel-header">Inner content</div>
+                <div class="o-panel-body">
+                    <t t-snippet="website.sHr" t-thumbnail="/website/static/src/img/snippets_thumbs/s_hr.svg">
+                        <keywords>separator, divider</keywords>
+                    </t>
+                    <t t-snippet="website.sAlert" t-thumbnail="/website/static/src/img/snippets_thumbs/s_alert.svg"/>
+                    <t t-snippet="website.sRating" t-thumbnail="/website/static/src/img/snippets_thumbs/s_rating.svg">
+                        <keywords>valuation, rank</keywords>
+                    </t>
+                    <t t-snippet="website.sCard" t-thumbnail="/website/static/src/img/snippets_thumbs/s_card.svg"/>
+                    <t t-snippet="website.sShare" t-thumbnail="/website/static/src/img/snippets_thumbs/s_share.svg"/>
+                    <!-- This snippet cannot be used in sanitized fields -->
+                    <!-- because it contains an input that would be removed -->
+                    <t t-snippet="website.sSearchbarInput" t-thumbnail="/website/static/src/img/snippets_thumbs/s_searchbar_inline.svg" t-forbid-sanitize="form"/>
+                    <t id="massMailingNewsletterHook"/>
+                    <t t-snippet="website.sTextHighlight" t-thumbnail="/website/static/src/img/snippets_thumbs/s_text_highlight.svg"/>
+                    <t t-snippet="website.sChart" t-thumbnail="/website/static/src/img/snippets_thumbs/s_chart.svg">
+                        <keywords>chart, table, diagram, pie</keywords>
+                    </t>
+                    <t t-snippet="website.sProgressBar" t-thumbnail="/website/static/src/img/snippets_thumbs/s_progress_bar.svg">
+                        <keywords>evolution, growth</keywords>
+                    </t>
+                    <t t-snippet="website.sBadge" t-thumbnail="/website/static/src/img/snippets_thumbs/s_badge.svg"/>
+                    <t t-snippet="website.sBlockquote" t-thumbnail="/website/static/src/img/snippets_thumbs/s_blockquote.svg">
+                        <keywords>cite</keywords>
+                    </t>
+                    <t id="eventSpeakerBioHook"/>
+                    <t id="snippetDonationButtonHook"/>
+                </div>
+            </div>
+        </t>
+    </xpath>
+
+    <xpath expr="//div[@id='snippetOptions']/t" position="attributes">
+        <attribute name="t-call">website.snippetOptions</attribute>
+    </xpath>
+</template>
+
+<template id="externalSnippets" inheritId="website.snippets" priority="8">
+    <xpath expr="//div[@id='snippetEffect']//t[@t-snippet][last()]" position="after">
+        <t id="newsletterPopupSnippet" t-install="mass_mailing" string="Newsletter Popup" t-thumbnail="/website/static/src/img/snippets_thumbs/newsletter_subscribe_popup.svg"/>
+        <t t-install="website_mail_group" string="Discussion Group" t-thumbnail="/website/static/src/img/snippets_thumbs/s_group.svg"/>
+        <t t-install="website_twitter" string="Twitter Scroller" t-thumbnail="/website/static/src/img/snippets_thumbs/s_twitter_scroll.svg"/>
+        <t t-install="website_payment" string="Donation" t-thumbnail="/website/static/src/img/snippets_thumbs/s_donation.svg"/>
+    </xpath>
+    <xpath expr="//div[@id='snippetContent']//t[@t-snippet][last()]" position="after">
+        <t id="newsletterSnippet" t-install="mass_mailing" string="Newsletter" t-thumbnail="/website/static/src/img/snippets_thumbs/s_newsletter_subscribe_form.svg"/>
+        <t t-install="website_payment" string="Donation Button" t-thumbnail="/website/static/src/img/snippets_thumbs/s_donation_button.svg"/>
+    </xpath>
+</template>
+
+<template id="snippetOptionsBackgroundOptions" inheritId="web_editor.snippetOptionsBackgroundOptions">
+    <xpath expr="//we-button[@data-toggle-bg-image]" position="after">
+        <we-button title="Video" class="fa fa-fw fa-film"
+                   data-name="bgVideoTogglerOpt"
+                   t-att-data-dependencies="imagesDependencies"
+                   data-toggle-bg-video="true"
+                   data-no-preview="true"/>
+    </xpath>
+    <xpath expr="//t[@t-set='colorFilterDependencies']" position="after">
+        <t t-set="colorFilterDependencies" t-valuef="#{colorFilterDependencies}, bgVideoTogglerOpt"/>
+    </xpath>
+    <xpath expr="//div[@data-js='BackgroundOptimize']" position="after">
+        <!-- Parallax -->
+        <div data-js="Parallax"
+             t-att-data-selector="selector"
+             t-att-data-exclude="exclude"
+             t-att-data-target="target">
+            <!-- &emsp; -->
+            <we-select string=" ⌙ Parallax"
+                       data-attribute-name="scrollBackgroundRatio"
+                       data-attribute-default-value="0"
+                       data-parallax-type-opt="true"
+                       data-no-preview="true"
+                       data-dependencies="bgImageOpt">
+                <we-button data-name="parallaxNoneOpt" data-select-data-attribute="0">None</we-button>
+                <we-button data-select-data-attribute="1">Fixed</we-button>
+                <we-button data-name="parallaxTopOpt" data-select-data-attribute="1.5">Bottom to Top</we-button>
+                <we-button data-name="parallaxBottomOpt" data-select-data-attribute="-1.5">Top to Bottom</we-button>
+            </we-select>
+            <we-range string="  ⌙ Intensity"
+                      data-dependencies="parallaxTopOpt"
+                      data-select-data-attribute=""
+                      data-attribute-name="scrollBackgroundRatio"
+                      data-attribute-default-value="0"
+                      data-no-preview="true"
+                      data-min="0"
+                      data-max="3"
+                      data-step="0.15"/> <!-- Make sure this cannot land on 1 -->
+            <we-range string="  ⌙ Intensity"
+                      data-dependencies="parallaxBottomOpt"
+                      data-select-data-attribute=""
+                      data-attribute-name="scrollBackgroundRatio"
+                      data-attribute-default-value="0"
+                      data-no-preview="true"
+                      data-min="0"
+                      data-max="-3"
+                      data-step="0.15"/> <!-- Make sure this cannot land on 1 -->
+        </div>
+        <div data-js="BackgroundVideo"
+             t-att-data-selector="selector"
+             t-att-data-exclude="exclude"
+             t-att-data-target="target">
+            <we-row string="⌙ Video">
+                <we-videopicker title="Edit video"
+                                data-background=""
+                                data-name="bgVideoOpt"
+                                data-dependencies="bgVideoOpt"/>
+            </we-row>
+        </div>
+    </xpath>
+</template>
+
+<template id="snippetOptionsBorderLineWidgets">
+    <we-row t-att-string="label">
+        <we-input data-name="borderWidthOpt"
+                  t-att-data-apply-to="applyTo"
+                  data-select-style="0"
+                  t-attf-data-css-property="border-#{direction &amp;&amp; f('%s-', direction) || ''}width"
+                  data-unit="px"
+                  t-att-data-extra-class="withBsClass &amp;&amp; 'border'"
+                  t-att-data-variable="widthVariable"/>
+        <we-select t-attf-data-css-property="border-#{direction &amp;&amp; f('%s-', direction) || ''}style"
+                   data-dependencies="borderWidthOpt"
+                   t-att-data-apply-to="applyTo"
+                   t-att-data-variable="styleVariable">
+            <we-button title="Solid" data-select-style="solid"><div class="o-we-fake-img-item o-we-border-preview" style="border-style: solid;"/></we-button>
+            <we-button title="Dashed" data-select-style="dashed"><div class="o-we-fake-img-item o-we-border-preview" style="border-style: dashed;"/></we-button>
+            <we-button title="Dotted" data-select-style="dotted"><div class="o-we-fake-img-item o-we-border-preview" style="border-style: dotted;"/></we-button>
+            <we-button title="Double" data-select-style="double"><div class="o-we-fake-img-item o-we-border-preview" style="border-style: double; border-left: none; border-right: none;"/></we-button>
+        </we-select>
+        <we-colorpicker data-dependencies="borderWidthOpt"
+                        t-att-data-apply-to="applyTo"
+                        data-select-style="true"
+                        t-attf-data-css-property="border-#{direction &amp;&amp; f('%s-', direction) || ''}color"
+                        data-color-prefix="border-"
+                        t-att-data-color="colorVariable"/>
+    </we-row>
+</template>
+
+<template id="snippetOptionsBorderWidgets">
+    <t t-call="website.snippetOptionsBorderLineWidgets">
+        <t t-set="label">Border</t>
+        <t t-set="withBsClass" t-value="true"/>
+    </t>
+    <we-input string="Round Corners"
+              t-att-data-apply-to="applyTo"
+              t-att-data-dependencies="! soRoundedNoDependencies &amp;&amp; 'borderWidthOpt,bgColorOpt'"
+              data-select-style="0" data-css-property="border-radius"
+              data-unit="px" data-extra-class="rounded"
+              t-att-data-variable="radiusVariable"/>
+</template>
+
+<template id="snippetOptionsShadowWidgets">
+    <we-button-group string="Shadow" data-shadow-class="shadow" t-att-data-variable="shadowVariable">
+        <we-button data-set-shadow="">None</we-button>
+        <we-button data-set-shadow="outset"
+                   data-img="/website/static/src/img/snippets_options/shadow_out.svg"
+                   data-name="shadowActiveOpt"
+                   title="Outset"/>
+        <we-button data-set-shadow="inset"
+                   data-img="/website/static/src/img/snippets_options/shadow_in.svg"
+                   data-name="shadowInsetOpt"
+                   title="Inset"/>
+    </we-button-group>
+    <we-multi data-css-property="box-shadow" data-dependencies="shadowActiveOpt, shadowInsetOpt" t-att-data-variable="shadowVariable">
+        <we-colorpicker string="⌙ Color" data-select-style="" data-css-compatible=""/>
+        <we-row string="⌙ Offset (X, Y)">
+            <we-input data-select-style="" data-unit="px"/>
+            <we-input data-select-style="" data-unit="px"/>
+        </we-row>
+        <we-input string="⌙ Blur" data-select-style="" data-unit="px"/>
+        <we-input string="⌙ Spread" data-select-style="" data-unit="px"/>
+        <!-- Inset parameter always hidden (as controlled above) but needed -->
+        <!-- for the we-multi widget to work properly. -->
+        <we-checkbox data-name="fakeInsetShadowOpt" data-select-style="inset"/>
+    </we-multi>
+</template>
+
+<template id="snippetOptionsConditionalVisibility">
+    <we-select t-att-string="optionName" t-att-data-attribute-name="attributeRule" data-no-preview="true" data-dependencies="visibilityConditional" data-is-visibility-condition="true">
+        <we-button data-select-data-attribute="">Visible for</we-button>
+        <we-button data-select-data-attribute="hide">Hidden for</we-button>
+    </we-select>
+    <we-many2many string=" "
+        data-dependencies="visibilityConditional"
+        t-att-data-save-attribute="saveAttribute"
+        t-att-data-attribute-name="attributeName"
+        data-no-preview="true"
+        t-att-data-model="model" t-att-data-call-with="callWith" data-select-record="" t-att-data-fields="dataFields" t-att-data-domain="domain"
+        data-allow-delete="true" data-fakem2m="true"/>
+</template>
+
+<template id="snippetOptionsHeaderBrand">
+    <we-select t-att-string="label" data-reload="/" t-att-data-dependencies="dependencies">
+        <we-button data-customize-website-views="" data-name="optionHeaderBrandNone">None</we-button>
+        <we-button data-customize-website-views="website.optionHeaderBrandName">Text</we-button>
+        <we-button data-customize-website-views="website.optionHeaderBrandLogo">Image</we-button>
+    </we-select>
+</template>
+
+<template id="snippetOptions">
+    <t t-call="web_editor.snippetOptions"/>
+
+    <!-- COLOR, BORDER, SHADOW | .s-three-columns | s-comparisons -->
+    <div data-js="Box"
+         data-selector=".s-three-columns .row > div, s-comparisons .row > div"
+         data-target=".card">
+        <we-colorpicker string="Colors"
+            data-select-style="true"
+            data-css-property="background-color"
+            data-color-prefix="bg-"/>
+        <t t-call="website.snippetOptionsBorderWidgets">
+            <t t-set="soRoundedNoDependencies" t-value="true"/>
+        </t>
+        <t t-call="website.snippetOptionsShadowWidgets"/>
+    </div>
+
+    <!-- COLOR | .s-cards -->
+    <div data-selector=".s-card, .accordion .card">
+        <we-colorpicker string="Color"
+            data-select-style="true"
+            data-css-property="background-color"
+            data-color-prefix="bg-"/>
+    </div>
+
+    <!-- H-ALIGN -->
+    <div id="so-text-align" data-selector=".s-share, .s-text-highlight">
+        <we-button-group string="Alignment">
+            <we-button class="fa fa-fw fa-align-left" title="Left" data-select-class="text-left"/>
+            <we-button class="fa fa-fw fa-align-center" title="Center" data-select-class="text-center"/>
+            <we-button class="fa fa-fw fa-align-right" title="Right" data-select-class="text-right"/>
+        </we-button-group>
+    </div>
+
+    <div id="soWidth" data-selector=".s-lert, .s-card, .s-blockquote, .s-text-highlight">
+        <we-select string="Width">
+            <we-button data-select-class="w-25">25%</we-button>
+            <we-button data-select-class="w-50">50%</we-button>
+            <we-button data-select-class="w-75">75%</we-button>
+            <we-button data-select-class="w-100" data-name="soWidth100">100%</we-button>
+        </we-select>
+    </div>
+
+    <div id="soBlockAlign" data-selector=".s-lert, .s-card, .s-blockquote, .s-text-highlight">
+        <we-button-group string="Alignment" data-dependencies="!soWidth100">
+            <we-button class="fa fa-fw fa-align-left" title="Left" data-select-class="mr-auto"/>
+            <we-button class="fa fa-fw fa-align-center" title="Center" data-select-class="mx-auto"/>
+            <we-button class="fa fa-fw fa-align-right" title="Right" data-select-class="ml-auto"/>
+        </we-button-group>
+    </div>
+
+    <!-- Carousel | .s-carousel | .s-quotes-carousel -->
+    <!-- Dedicated colorpicker so that there is not 3 level of
+         o-colored-level. Use inline-style color for the same reason. -->
+    <t t-call="web_editor.snippetOptionsBackgroundOptions">
+        <t t-set="selector" t-value="'section'"/>
+        <t t-set="target" t-value="'> .carousel'"/>
+        <t t-set="withColors" t-value="true"/>
+        <t t-set="withImages" t-value="true"/>
+        <t t-set="cssCompatible" t-value="true"/>
+        <t t-set="withGradients" t-value="true"/>
+    </t>
+    <div data-js="Carousel"
+         data-selector="section"
+         data-target="> .carousel">
+        <we-row string="Slide">
+            <we-button data-add-slide="true" data-no-preview="true" class="o-we-bg-brand-primary">Add Slide</we-button>
+        </we-row>
+        <we-select string="Style">
+            <we-button data-select-class="s-carousel-default">Default</we-button>
+            <we-button data-select-class="s-carousel-bordered">Bordered</we-button>
+            <we-button data-select-class="s-carousel-boxed">Boxed</we-button>
+            <we-button data-select-class="s-carousel-rounded">Rounded</we-button>
+        </we-select>
+        <we-select string="Transition">
+            <we-button data-select-class="slide">Slide</we-button>
+            <we-button data-select-class="carousel-fade slide">Fade</we-button>
+            <we-divider/>
+            <we-button data-select-class="">None</we-button>
+        </we-select>
+        <we-input string="Speed"
+                  data-select-data-attribute="0s" data-attribute-name="interval"
+                  data-unit="s" data-save-unit="ms" data-step="0.1"/>
+    </div>
+
+    <div data-js="CarouselItem"
+         data-selector=".s-carousel .carousel-item, .s-quotes-carousel .carousel-item">
+        <we-button class="fa fa-fw fa-angle-left" data-slide="left" data-no-preview="true" data-tooltip="true" title="Move Backward"/>
+        <we-button class="fa fa-fw fa-angle-right mr-2" data-slide="right" data-no-preview="true" data-tooltip="true" title="Move Forward"/>
+        <we-button class="fa fa-fw fa-plus o-we-bg-success" data-add-slide-item="true" data-no-preview="true" data-tooltip="true" title="Add Slide"/>
+        <we-button class="fa fa-fw fa-minus o-we-bg-danger" data-remove-slide="true" data-no-preview="true" data-tooltip="true" title="Remove Slide"/>
+    </div>
+
+    <!-- Accordion -->
+    <div data-js="collapse"
+         data-selector='.accordion > .card'
+         data-drop-in='.accordion:has(> .card)'/>
+
+    <div data-js="MultipleItems" data-selector=".s-faq-collapse">
+        <we-row string="Item">
+            <we-button data-add-item="" data-item=".accordion > .card:last" data-select-item="" data-no-preview="true" class="o-we-bg-brand-primary">
+                Add Item
+            </we-button>
+        </we-row>
+    </div>
+
+    <div data-js="layoutColumn"
+        data-selector="section"
+        data-target="> *:has(> .row:not(.s-nb-column-fixed)), > .s-allow-columns"
+        data-exclude=".s-masonry-block">
+        <we-select string="Columns" data-no-preview="true">
+            <we-button data-select-count="0" data-name="zeroColsOpt">None</we-button>
+            <we-button data-select-count="1">1</we-button>
+            <we-button data-select-count="2">2</we-button>
+            <we-button data-select-count="3">3</we-button>
+            <we-button data-select-count="4">4</we-button>
+            <we-button data-select-count="5">5</we-button>
+            <we-button data-select-count="6">6</we-button>
+        </we-select>
+    </div>
+
+    <!-- Move snippets around -->
+    <div data-js="SnippetMove" data-selector="section, .accordion > .card, .s-showcase .row:not(.s-col-no-resize) > div" data-noScroll=".accordion > .card">
+        <we-button class="fa fa-fw fa-angle-up" data-move-snippet="prev" data-no-preview="true" data-name="moveUpOpt"/>
+        <we-button class="fa fa-fw fa-angle-down" data-move-snippet="next" data-no-preview="true" data-name="moveDownOpt"/>
+    </div>
+    <div data-js="SnippetMove"
+         data-selector=".row:not(.s-col-no-resize) > div, .nav-item"
+         data-exclude=".s-showcase .row > div"
+         data-name="moveHorizontallyOpt">
+        <we-button class="fa fa-fw fa-angle-left" data-move-snippet="prev" data-no-preview="true" data-name="moveLeftOpt"/>
+        <we-button class="fa fa-fw fa-angle-right" data-move-snippet="next" data-no-preview="true" data-name="moveRightOpt"/>
+    </div>
+
+    <!-- Background -->
+    <t t-set="onlyBgColorSelector" t-value="'section .row > div, .s-text-highlight, .s-mega-menu-thumbnails-footer'"/>
+    <t t-set="onlyBgColorExclude" t-value="'.s-col-no-bgcolor, .s-col-no-bgcolor.row > div, .s-masonry-block .row > div, .s-color-blocks-2 .row > div, .s-image-gallery .row > div'"/>
+
+    <t t-set="baseOnlyBgImageSelector" t-value="'.s-tabs .oe-structure > *, footer .oe-structure > *'"/>
+    <t t-set="onlyBgImageSelector" t-value="baseOnlyBgImageSelector"/>
+    <t t-set="onlyBgImageExclude" t-value="''"/>
+
+    <t t-set="bothBgColorImageSelector" t-value="'section, .carousel-item, .s-masonry-block .row > div, .s-color-blocks-2 .row > div, .parallax'"/>
+    <t t-set="bothBgColorImageExclude" t-value="baseOnlyBgImageSelector + ', .s-carousel-wrapper, .s-color-blocks-2, .s-image-gallery .carousel-item, .s-google-map, .s-map, [data-snippet] :not(.oe-structure) > [data-snippet], .s-masonry-block, .s-masonry-block .s-col-no-resize'"/>
+
+    <t t-call="web_editor.snippetOptionsBackgroundOptions">
+        <t t-set="selector" t-value="bothBgColorImageSelector"/>
+        <t t-set="exclude" t-value="bothBgColorImageExclude"/>
+        <t t-set="withColors" t-value="true"/>
+        <t t-set="withImages" t-value="true"/>
+        <t t-set="withColorCombinations" t-value="true"/>
+        <t t-set="withGradients" t-value="true"/>
+    </t>
+
+    <t t-call="web_editor.snippetOptionsBackgroundOptions">
+        <t t-set="selector" t-value="onlyBgColorSelector"/>
+        <t t-set="exclude" t-value="onlyBgColorExclude"/>
+        <t t-set="withColors" t-value="true"/>
+        <t t-set="withImages" t-value="false"/>
+        <t t-set="withColorCombinations" t-value="true"/>
+        <t t-set="withGradients" t-value="true"/>
+    </t>
+
+    <t t-call="web_editor.snippetOptionsBackgroundOptions">
+        <t t-set="selector" t-value="onlyBgImageSelector"/>
+        <t t-set="exclude" t-value="onlyBgImageExclude"/>
+        <t t-set="withColors" t-value="false"/>
+        <t t-set="withImages" t-value="true"/>
+    </t>
+
+    <!-- Border | Columns -->
+    <div data-js="Box"
+         data-selector="section .row > div"
+         data-exclude=".s-col-no-bgcolor, .s-col-no-bgcolor.row > div, .s-image-gallery .row > div, .s-masonry-block .s-col-no-resize">
+        <t t-call="website.snippetOptionsBorderWidgets"/>
+        <t t-call="website.snippetOptionsShadowWidgets"/>
+    </div>
+
+    <!-- Mobile display options -->
+    <div data-js="MobileVisibility" data-selector="section, section .row > div"
+         data-exclude=".s-col-no-resize.row > div, .s-masonry-block .s-col-no-resize">
+        <we-button class="o-we-link o-we-mobile" data-show-on-mobile="true" data-no-preview="true"
+                   data-img="/website/static/src/img/snippets_options/mobile_invisible.svg"
+                   data-active-img="/website/static/src/img/snippets_options/mobile_visible.svg"/>
+    </div>
+
+    <div data-js="sizingY"
+        data-selector="section, .row > div, .parallax, .s-hr, .carousel-item, .s-rating"
+        data-exclude="section:has(> .carousel), .s-image-gallery .carousel-item, .s-col-no-resize.row > div, .s-col-no-resize"/>
+
+    <div data-js="sizingX"
+        data-selector=".row > div"
+        data-drop-near=".row:not(.s-col-no-resize) > div"
+        data-exclude=".s-col-no-resize.row > div, .s-col-no-resize"/>
+
+    <t t-set="soSnippetAdditionSelector" t-translation="off">section, .parallax, .s-popup</t>
+    <div id="soSnippetAddition"
+        t-att-data-selector="soSnippetAdditionSelector"
+        data-drop-in=":not(p).oe-structure:not(.oe-structure-solo), :not(.o-mega-menu):not(p)[data-oe-type=html], :not(p).oe-structure.oe-structure-solo:not(:has(> section, > div))"/>
+
+    <t t-set="soContentAdditionSelector" t-translation="off">blockquote, .s-card:not(.s-timeline-card), .s-lert, .o-facebook-page, .s-share, .s-rating, .s-hr, .s-google-map, .s-map, .s-countdown, .s-chart, .s-text-highlight, .s-progress-bar, .s-badge, .s-embed-code, .s-donation</t>
+    <div id="soContentAddition"
+        t-att-data-selector="soContentAdditionSelector"
+        t-attf-data-drop-near="p, h1, h2, h3, ul, ol, .row > div > img, #{soContentAdditionSelector}"
+        data-drop-in=".content, nav"/>
+    <!-- TODO in master: remove the '.content' above, as it will not refer to
+        anything when the 'content' classes in carousel will be removed. -->
+
+    <div data-js="SnippetSave"
+        t-attf-data-selector="#{soSnippetAdditionSelector}, #{soContentAdditionSelector}"
+        data-exclude=".o-no-save">
+        <we-button class="fa fa-fw fa-save o-we-link o-we-hover-warning"
+                   title="Save the block to use it elsewhere"
+                   data-save-snippet=""
+                   data-no-preview="true"/>
+    </div>
+
+    <div data-js="menuData"
+         data-selector="#topMenu li > a, [data-content-menu-id] li > a"
+         data-exclude=".dropdown-toggle, li.o-header-menu-button a, [data-toggle], .o-offcanvas-logo"
+         data-no-check="true"/>
+
+    <div data-js="companyData"
+         data-selector="[data-oe-expression='resCompany.partnerId']"
+         data-no-check="true"/>
+
+    <div data-js="WebsiteLevelColor"
+         data-selector="#wrapwrap > header"
+         data-no-check="true"
+         groups="website.groupWebsiteDesigner">
+        <we-select string="Template" data-variable="header-template" data-reload="/">
+            <we-button title="Default"
+                       data-name="headerDefaultOpt"
+                       data-customize-website-views="website.templateHeaderDefault"
+                       data-customize-website-variable="'default'"
+                       data-img="/website/static/src/img/snippets_options/header_template_default.svg"/>
+            <we-button title="Hamburger menu"
+                       data-name="headerHamburgerOpt"
+                       data-customize-website-views="website.templateHeaderHamburger"
+                       data-customize-website-variable="'hamburger'"
+                       data-img="/website/static/src/img/snippets_options/header_template_hamburger.svg"/>
+            <we-button title="Vertical"
+                       data-name="headerVerticalOpt"
+                       data-customize-website-views="website.templateHeaderVertical"
+                       data-customize-website-variable="'vertical'"
+                       data-img="/website/static/src/img/snippets_options/header_template_vertical.svg"/>
+            <we-button title="Sidebar"
+                       data-name="headerSidebarOpt"
+                       data-customize-website-views="website.templateHeaderSidebar, website.noAutohideMenu"
+                       data-customize-website-variable="'sidebar'"
+                       data-img="/website/static/src/img/snippets_options/header_template_sidebar.svg"/>
+            <we-button title="Slogan"
+                       data-name="headerSloganOpt"
+                       data-customize-website-views="website.templateHeaderSlogan"
+                       data-customize-website-variable="'slogan'"
+                       data-img="/website/static/src/img/snippets_options/header_template_slogan.svg"/>
+            <we-button title="Contact"
+                       data-name="headerContactOpt"
+                       data-customize-website-views="website.templateHeaderContact"
+                       data-customize-website-variable="'Contact'"
+                       data-img="/website/static/src/img/snippets_options/header_template_contact.svg"/>
+            <we-button title="Boxed"
+                       data-name="headerBoxedOpt"
+                       data-customize-website-views="website.templateHeaderBoxed"
+                       data-customize-website-variable="'boxed'"
+                       data-img="/website/static/src/img/snippets_options/header_template_boxed.svg"/>
+            <we-button title="Centered Logo"
+                       data-name="headerCenteredLogoOpt"
+                       data-customize-website-views="website.templateHeaderCenteredLogo"
+                       data-customize-website-variable="'centeredLogo'"
+                       data-img="/website/static/src/img/snippets_options/header_template_centered_logo.svg"/>
+            <we-button title="Image"
+                       data-name="headerImageOpt"
+                       data-customize-website-views="website.templateHeaderImage"
+                       data-customize-website-variable="'image'"
+                       data-img="/website/static/src/img/snippets_options/header_template_image.svg"/>
+            <we-button title="Hamburger Full"
+                       data-name="headerHamburgerFullOpt"
+                       data-customize-website-views="website.templateHeaderHamburgerFull"
+                       data-customize-website-variable="'hamburgerFull'"
+                       data-img="/website/static/src/img/snippets_options/header_template_hamburger_full.svg"/>
+            <we-button title="Magazine"
+                       data-name="headerMagazineOpt"
+                       data-customize-website-views="website.templateHeaderMagazine"
+                       data-customize-website-variable="'magazine'"
+                       data-img="/website/static/src/img/snippets_options/header_template_magazine.svg"/>
+        </we-select>
+
+        <!-- Header Sidebar Template - Options -->
+        <we-input string="⌙ Width"
+                  data-dependencies="headerSidebarOpt"
+                  data-customize-website-variable="null"
+                  data-variable="sidebar-width"
+                  data-unit="px"
+                  data-save-unit="rem"/>
+
+        <we-row string="Colors">
+            <we-colorpicker data-customize-website-color="" data-color="menu"
+                            data-customize-website-layer2-color="" data-layer-color="menu-custom" data-layer-gradient="menu-gradient"
+                            data-no-bundle-reload="true"
+                            data-null-value="'NULL'"
+                            data-with-combinations="customizeWebsiteColor"
+                            data-with-gradients="true"/>
+            <we-colorpicker data-dependencies="headerBoxedOpt"
+                            data-customize-website-color="" data-color="header-boxed"
+                            data-customize-website-layer2-color="" data-layer-color="header-boxed-custom" data-layer-gradient="header-boxed-gradient"
+                            data-no-bundle-reload="true"
+                            data-null-value="'NULL'"
+                            data-with-combinations="customizeWebsiteColor"
+                            data-with-gradients="true"/>
+        </we-row>
+    </div>
+
+    <!-- Header - Borders & Shadows -->
+    <div data-js="HeaderBox"
+         id="optionHeaderShadow"
+         data-selector="#wrapwrap > header"
+         data-target="nav"
+         data-no-check="true"
+         groups="website.groupWebsiteDesigner">
+        <t t-call="website.snippetOptionsBorderWidgets">
+            <t t-set="soRoundedNoDependencies" t-value="true"/>
+            <t t-set="widthVariable" t-value="'menu-border-width'"/>
+            <t t-set="styleVariable" t-value="'menu-border-style'"/>
+            <t t-set="colorVariable" t-value="'menu-border-color'"/>
+            <t t-set="radiusVariable" t-value="'menu-border-radius'"/>
+        </t>
+        <t t-call="website.snippetOptionsShadowWidgets">
+            <t t-set="shadowVariable" t-value="'menu-box-shadow'"/>
+        </t>
+    </div>
+
+    <div data-selector="#wrapwrap > header"
+         data-no-check="true"
+         groups="website.groupWebsiteDesigner">
+
+        <we-select string="Scroll Effect" data-dependencies="!headerSidebarOpt" class="o-scroll-effects-selector">
+            <t t-set="headerEffectStandardLabel">Standard</t>
+            <t t-set="headerEffectScrollLabel">Scroll</t>
+            <t t-set="headerEffectFixedLabel">Fixed</t>
+            <t t-set="headerEffectDisappearsLabel">Disappears</t>
+            <t t-set="headerEffectFadeoutLabel">Fade Out</t>
+            <we-button id="optionHeaderVisibilityStandard"
+                       t-att-data-select-label="headerEffectStandardLabel"
+                       class="o-we-img-animate"
+                       data-name="headerVisibilityStandardOpt"
+                       data-select-class="o-header-standard"
+                       data-customize-website-views="website.headerVisibilityStandard"
+                       data-img="/website/static/src/img/snippets_options/header_effect_standard.png">
+                <span t-esc='headerEffectStandardLabel'/>
+            </we-button>
+            <we-button id="optionHeaderEffectScroll"
+                       t-att-data-select-label="headerEffectScrollLabel"
+                       class="o-we-img-animate"
+                       data-name="headerEffectScrollOpt"
+                       data-select-class=""
+                       data-customize-website-views=""
+                       data-img="/website/static/src/img/snippets_options/header_effect_scroll.png">
+                <span t-esc='headerEffectScrollLabel'/>
+            </we-button>
+            <we-button id="optionHeaderEffectFixed"
+                       t-att-data-select-label="headerEffectFixedLabel"
+                       class="o-we-img-animate"
+                       data-name="headerEffectFixedOpt"
+                       data-select-class="o-header-fixed"
+                       data-customize-website-views="website.headerVisibilityFixed"
+                       data-img="/website/static/src/img/snippets_options/header_effect_fixed.png">
+                <span t-esc='headerEffectFixedLabel'/>
+            </we-button>
+            <we-button id="optionHeaderEffectDisappears"
+                       t-att-data-select-label="headerEffectDisappearsLabel"
+                       class="o-we-img-animate"
+                       data-name="headerEffectDisappearsOpt"
+                       data-select-class="o-header-disappears"
+                       data-customize-website-views="website.headerVisibilityDisappears"
+                       data-img="/website/static/src/img/snippets_options/header_effect_disappears.png">
+                <span t-esc="headerEffectDisappearsLabel" />
+            </we-button>
+            <we-button id="optionHeaderEffectFadeOut"
+                       t-att-data-select-label="headerEffectFadeoutLabel"
+                       class="o-we-img-animate"
+                       data-name="headerEffectFadeOutOpt"
+                       data-select-class="o-header-fade-out"
+                       data-customize-website-views="website.headerVisibilityFadeOut"
+                       data-img="/website/static/src/img/snippets_options/header_effect_fade_out.png">
+               <span t-esc='headerEffectFadeoutLabel'/>
+            </we-button>
+        </we-select>
+    </div>
+
+    <div data-js="TopMenuVisibility"
+         data-selector="[data-main-object^='website.page('] #wrapwrap > header"
+         data-no-check="true">
+        <we-select string="Header Position" id="optionHeaderVisibility" data-no-preview="true">
+            <we-button data-visibility="transparent">Over The Content</we-button>
+            <we-button data-name="regularHeaderVisibilityOpt"
+                       data-visibility="regular">Regular</we-button>
+            <we-button data-visibility="hidden">Hidden</we-button>
+        </we-select>
+    </div>
+
+    <div data-js="topMenuColor"
+         data-selector="[data-main-object^='website.page('] #wrapwrap > header"
+         data-no-check="true">
+        <we-colorpicker string="⌙ Background"
+            id="optionHeaderTransparentColor"
+            data-select-style="true"
+            data-css-property="background-color"
+            data-color-prefix="bg-"
+            data-excluded="theme, common, custom"/>
+    </div>
+
+    <!-- Header > Navbar Options -->
+    <div data-js="HeaderNavbar"
+         data-selector="#wrapwrap > header nav.navbar"
+         data-no-check="true"
+         groups="website.groupWebsiteDesigner">
+        <!-- Generic alignment option controling all the template at once. -->
+        <!-- Currently needed to be this way as the SCSS variable controls -->
+        <!-- the mobile alignement which is the same for all templates. -->
+        <we-select string="Alignment"
+                   data-name="headerAlignmentOpt"
+                   data-variable="hamburger-position"
+                   data-reload="/">
+            <we-button data-customize-website-views="" data-customize-website-variable="'left'">Left</we-button>
+            <we-button data-customize-website-views="website.templateHeaderDefaultAlignCenter, website.templateHeaderHamburgerAlignCenter, website.templateHeaderSloganAlignCenter" data-customize-website-variable="'center'">Center</we-button>
+            <we-button data-customize-website-views="website.templateHeaderDefaultAlignRight, website.templateHeaderHamburgerAlignRight, website.templateHeaderSloganAlignRight" data-customize-website-variable="'right'">Right</we-button>
+        </we-select>
+
+        <!-- Generic Hamburger Options (mobile or not) -->
+        <we-select string="Hamburger Type"
+                   data-name="headerHamburgerTypeOpt"
+                   data-variable="hamburger-type"
+                   data-reload="/">
+            <we-button data-name="defaultHamburgerOpt"
+                       data-customize-website-variable="'default'"
+                       data-customize-website-views="">Default</we-button>
+            <we-button data-name="offCanvasMenuOpt"
+                       data-customize-website-variable="'off-canvas'"
+                       data-customize-website-views="website.optionHeaderOffCanvas, website.optionHeaderOffCanvasTemplateHeaderHamburger, website.optionHeaderOffCanvasTemplateHeaderSidebar, website.optionHeaderOffCanvasTemplateHeaderHamburgerFull">Off-Canvas</we-button>
+            <we-button data-name="noHamburgerOpt"
+                       data-customize-website-variable="'no-hamburger'"
+                       data-customize-website-views="website.optionHeaderNoMobileHamburger">Same as desktop</we-button>
+        </we-select>
+
+        <we-select string="⌙ Off-Canvas Logo" data-dependencies="offCanvasMenuOpt" data-reload="/">
+            <we-button data-customize-website-views="">Text</we-button>
+            <we-button data-customize-website-views="website.optionHeaderOffCanvasLogoShow">Image</we-button>
+        </we-select>
+
+        <we-row string="Font">
+            <we-fontfamilypicker data-variable="navbar-font"/>
+            <we-input data-customize-website-variable="null" data-variable="header-font-size" data-unit="px" data-save-unit="rem"/>
+        </we-row>
+
+        <we-select string="Links Style" data-variable="header-links-style" data-reload="/">
+            <we-button data-name="optionHeaderNavbarLinksDefault"
+                       data-customize-website-views=""
+                       data-customize-website-variable="'default'">Default</we-button>
+            <we-button data-name="optionHeaderNavbarLinksFill"
+                       data-customize-website-views="website.headerNavbarPillsStyle"
+                       data-customize-website-variable="'fill'">Fill</we-button>
+            <we-button data-name="optionHeaderNavbarLinksOutline"
+                       data-customize-website-views=""
+                       data-customize-website-variable="'outline'">Outline</we-button>
+            <we-button data-name="optionHeaderNavbarLinksPills"
+                       data-customize-website-views="website.headerNavbarPillsStyle"
+                       data-customize-website-variable="'pills'">Pills</we-button>
+            <we-button data-name="optionHeaderNavbarBlock"
+                       data-customize-website-views="website.headerNavbarPillsStyle"
+                       data-customize-website-variable="'block'">Block</we-button>
+            <we-button data-name="optionHeaderNavbarBorderBottom"
+                       data-customize-website-views=""
+                       data-customize-website-variable="'border-bottom'">Border Bottom</we-button>
+        </we-select>
+
+        <we-select id="optionHeaderDropdown" string="Sub Menus" data-dependencies="!headerHamburgerOpt" data-no-preview="true">
+            <we-button data-select-class="o-hoverable-dropdown"
+                       data-customize-website-views="website.headerHoverableDropdown">On Hover</we-button>
+            <we-button data-select-class="" data-name="headerDropdownOnClickOpt">On Click</we-button>
+        </we-select>
+
+        <we-checkbox string="Show Sign In" data-customize-website-views="portal.userSignIn" data-reload="/" data-no-preview="true"/>
+        <we-checkbox string="Call to Action" data-customize-website-views="website.headerCallToAction"
+                     data-reset-view-arch="true" data-reload="/"/>
+        <we-select string="Language Selector" data-reload="/">
+            <we-button data-name="headerLanguageSelectorNoneOpt"
+                       data-customize-website-views="">None</we-button>
+            <we-button data-customize-website-views="website.headerLanguageSelector">Dropdown</we-button>
+            <we-button data-customize-website-views="website.headerLanguageSelector, website.headerLanguageSelectorInline">Inline</we-button>
+        </we-select>
+        <we-select string="⌙ Label" data-dependencies="!headerLanguageSelectorNoneOpt" data-reload="/">
+            <we-button data-customize-website-views="">Text</we-button>
+            <we-button data-customize-website-views="website.headerLanguageSelectorFlag, website.headerLanguageSelectorNoText">Flag</we-button>
+            <we-button data-customize-website-views="website.headerLanguageSelectorFlag">Flag and Text</we-button>
+        </we-select>
+        <t t-call="website.snippetOptionsHeaderBrand">
+            <t t-set="label">Logo Type</t>
+            <t t-set="dependencies" t-valuef="optionHeaderBrandNone"/>
+        </t>
+    </div>
+    <!-- TODO adapt in master, the logo image options related to type and -->
+    <!-- height are moved back in the navbar section in JS -->
+    <div data-selector="#wrapwrap > header nav.navbar .navbar-brand img" data-no-check="true">
+        <t t-call="website.snippetOptionsHeaderBrand">
+            <t t-set="label">Type</t>
+        </t>
+
+        <we-input string="Height"
+                  data-dependencies="!optionHeaderBrandNone"
+                  data-customize-website-variable="null"
+                  data-variable="logo-height"
+                  data-unit="px"
+                  data-save-unit="rem"/>
+        <we-input string="Height (Scrolled)"
+                  data-name="optionLogoHeightScrolled"
+                  data-customize-website-variable="null"
+                  data-variable="fixed-logo-height"
+                  data-unit="px"
+                  data-save-unit="rem"
+                  data-dependencies="!headerEffectScrollOpt"/>
+    </div>
+
+    <!-- Footer - Colors & Layouts -->
+    <div data-js="WebsiteLevelColor"
+         data-selector="#wrapwrap > footer"
+         data-no-check="true"
+         groups="website.groupWebsiteDesigner">
+
+        <!-- Layouts -->
+        <we-select string="Template"
+            data-variable="footer-template"
+            data-reload="/">
+            <we-button title="Default"
+                       data-customize-website-views="website.footerCustom"
+                       data-customize-website-variable="'default'"
+                       data-img="/website/static/src/img/snippets_options/footer_template_default.svg"/>
+            <we-button title="Descriptive"
+                       data-customize-website-views="website.templateFooterDescriptive"
+                       data-customize-website-variable="'descriptive'"
+                       data-img="/website/static/src/img/snippets_options/footer_template_descriptive.svg"/>
+            <we-button title="Centered"
+                       data-customize-website-views="website.templateFooterCentered"
+                       data-customize-website-variable="'centered'"
+                       data-img="/website/static/src/img/snippets_options/footer_template_centered.svg"/>
+            <we-button title="Links"
+                       data-customize-website-views="website.templateFooterLinks"
+                       data-customize-website-variable="'links'"
+                       data-img="/website/static/src/img/snippets_options/footer_template_links.svg"/>
+            <we-button title="Minimalist"
+                       data-customize-website-views="website.templateFooterMinimalist"
+                       data-customize-website-variable="'minimalist'"
+                       data-img="/website/static/src/img/snippets_options/footer_template_minimalist.svg"/>
+            <we-button title="Contact"
+                       data-customize-website-views="website.templateFooterContact"
+                       data-customize-website-variable="'contact'"
+                       data-img="/website/static/src/img/snippets_options/footer_template_contact.svg"/>
+            <we-button title="Call-to-action"
+                       data-customize-website-views="website.templateFooterCallToAction"
+                       data-customize-website-variable="'callToAction'"
+                       data-img="/website/static/src/img/snippets_options/footer_template_call_to_action.svg"/>
+            <we-button title="Headline"
+                       data-customize-website-views="website.templateFooterHeadline"
+                       data-customize-website-variable="'headline'"
+                       data-img="/website/static/src/img/snippets_options/footer_template_headline.svg"/>
+        </we-select>
+        <!-- Colors -->
+        <we-colorpicker string="Colors"
+                        data-customize-website-color="" data-color="footer"
+                        data-customize-website-layer2-color="" data-layer-color="footer-custom" data-layer-gradient="footer-gradient"
+                        data-no-bundle-reload="true"
+                        data-null-value="'NULL'"
+                        data-with-combinations="customizeWebsiteColor"
+                        data-with-gradients="true"/>
+        <we-select string="Slideout Effect" data-variable="footer-effect" data-reload="/">
+            <we-button string="Regular"
+                       data-customize-website-views=""
+                       data-customize-website-variable=""/>
+            <we-button string="Slide Hover"
+                       data-customize-website-views="website.templateFooterSlideout"
+                       data-customize-website-variable="'slideoutSlideHover'"/>
+            <we-button string="Shadow"
+                       data-customize-website-views="website.templateFooterSlideout"
+                       data-customize-website-variable="'slideoutShadow'"/>
+        </we-select>
+        <we-checkbox string="Copyright"
+                data-name="footerCopyrightOpt"
+                data-customize-website-views="website.footerNoCopyright|"
+                data-no-preview="true"
+                data-reload="/"/>
+        <we-checkbox string="Language Selector"
+                data-dependencies="!footerCopyrightOpt"
+                data-customize-website-views="website.footerNoCopyright|portal.footerLanguageSelector"
+                data-no-preview="true"
+                data-reload="/"/>
+    </div>
+
+    <!-- Footer - Borders & Shadows -->
+    <div data-js="Box"
+         data-selector="#wrapwrap > footer"
+         data-target="#footer"
+         data-no-check="true"
+         groups="website.groupWebsiteDesigner">
+        <t t-call="website.snippetOptionsBorderWidgets"/>
+        <t t-call="website.snippetOptionsShadowWidgets"/>
+    </div>
+
+    <!-- Scroll to Top -->
+    <div data-selector="#wrapwrap > footer"
+         data-no-check="true"
+         groups="website.groupWebsiteDesigner">
+        <we-row string="Scroll Top Button">
+            <we-checkbox data-name="footerScrolltopOpt"
+                         data-customize-website-views="website.optionFooterScrolltop"
+                         data-customize-website-variable="false|true"
+                         data-variable="footer-scrolltop"
+                         data-reload="/"/>
+            <we-select data-dependencies="footerScrolltopOpt" data-apply-to="#oFooterScrolltopWrapper">
+                <we-button string="Left" data-select-class="justify-content-start"/>
+                <we-button string="Center" data-select-class="justify-content-center"/>
+                <we-button string="Right" data-select-class="justify-content-end"/>
+            </we-select>
+        </we-row>
+    </div>
+
+    <div data-js="HideFooter"
+        data-selector="[data-main-object^='website.page('] #wrapwrap > footer"
+        data-no-check="true"
+        groups="website.groupWebsiteDesigner">
+        <we-checkbox string="Page Visibility"
+                     data-name="hideFooterPageOpt"
+                     data-visibility="hidden|shown"
+                     data-no-preview="true"/>
+    </div>
+
+    <!-- Copyright -->
+    <div data-js="WebsiteLevelColor"
+         data-selector=".o-footer-copyright"
+         data-no-check="true"
+         groups="website.groupWebsiteDesigner">
+        <we-colorpicker string="Colors"
+                        data-customize-website-color="" data-color="copyright"
+                        data-customize-website-layer2-color="" data-layer-color="copyright-custom" data-layer-gradient="copyright-gradient"
+                        data-no-bundle-reload="true"
+                        data-null-value="'NULL'"
+                        data-with-combinations="customizeWebsiteColor"
+                        data-with-gradients="true"/>
+        <we-select string="Language Selector" data-reload="/">
+            <we-button data-name="languageSelectorNoneOpt"
+                       data-customize-website-views="">None</we-button>
+            <we-button data-customize-website-views="portal.footerLanguageSelector">Dropdown</we-button>
+            <we-button data-customize-website-views="portal.footerLanguageSelector, website.footerLanguageSelectorInline">Inline</we-button>
+        </we-select>
+        <we-select string="⌙ Label" data-dependencies="!languageSelectorNoneOpt" data-reload="/">
+            <we-button data-customize-website-views="">Text</we-button>
+            <we-button data-customize-website-views="website.footerLanguageSelectorFlag, website.footerLanguageSelectorNoText">Flag</we-button>
+            <we-button data-customize-website-views="website.footerLanguageSelectorFlag">Flag and Text</we-button>
+        </we-select>
+    </div>
+
+    <!-- Anchor Name -->
+    <div data-js="anchor"
+        data-selector=":not(p).oe-structure > *, :not(p)[data-oe-type=html] > *"
+        data-exclude=".modal *, .oe-structure .oe-structure *, [data-oe-type=html] .oe-structure *, .s-popup">
+        <we-button class="fa fa-fw fa-link o-we-link"
+                   title="Create a link to target this section"
+                   data-no-preview="true"/>
+    </div>
+
+    <!-- Mega Menu settings -->
+    <div data-js="MegaMenuLayout" data-selector=".o-mega-menu">
+        <we-select string="Template" data-name="megaMenuTemplateOpt">
+            <t t-set="_label">Multi Menus</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuMultiMenus" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_multi_menus.svg" t-out="_label"/>
+            <t t-set="_label">Image Menu</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuMenuImageMenu" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_menu_image_menu.svg" t-out="_label"/>
+            <t t-set="_label">Verp Menu</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuVerpMenu" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_verp_menu.svg" t-out="_label"/>
+            <t t-set="_label">Little Icons</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuLittleIcons" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_little_icons.svg" t-out="_label"/>
+            <t t-set="_label">Big Icons Subtitles</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuBigIconsSubtitles" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_big_icons_subtitles.svg" t-out="_label"/>
+            <t t-set="_label">Images Subtitles</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuImagesSubtitles" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_images_subtitles.svg" t-out="_label"/>
+            <t t-set="_label">Logos</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuMenusLogos" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_menus_logos.svg" t-out="_label"/>
+            <t t-set="_label">Thumbnails</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuThumbnails" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_thumbnails.svg" t-out="_label"/>
+            <t t-set="_label">Cards</t>
+            <we-button t-att-data-select-label="_label" data-select-template="website.sMegaMenuCards" data-img="/website/static/src/img/snippets_thumbs/s_mega_menu_cards.svg" t-out="_label"/>
+        </we-select>
+        <we-select string="Size">
+            <we-button data-select-class="">Full-Width</we-button>
+            <we-button data-select-class="o-mega-menu-container-size">Narrow</we-button>
+        </we-select>
+    </div>
+
+    <div data-js="MegaMenuNoDelete" data-selector=".o-mega-menu > section"/>
+
+    <div data-selector=".o-mega-menu .nav > .nav-link"
+         data-drop-in=".o-mega-menu nav"
+         data-drop-near=".o-mega-menu .nav-link"/>
+
+    <div data-js="CoverProperties" data-selector=".o-record-cover-container" data-no-check="true">
+        <we-row string="Background" class="o-we-full-row">
+            <t t-call="web_editor.snippetOptionsBackgroundColorWidget">
+                <t t-set="withColorCombinations" t-value="true"/>
+                <t t-set="withGradients" t-value="true"/>
+            </t>
+            <we-button-group class="ml-auto">
+                <we-imagepicker title="Image" data-background="" data-button-style="true"/>
+                <we-button class="fa fa-fw fa-ban" title="None" data-background="">
+                </we-button>
+            </we-button-group>
+        </we-row>
+        <we-select string="Size" data-cover-opt-name="size">
+            <we-button data-select-class="o-full-screen-height">Full Screen</we-button>
+            <we-button class="o-record-cover-opt-size-default" data-select-class="o-half-screen-height">Half Screen</we-button>
+            <we-button data-select-class="cover-auto">Fit text</we-button>
+        </we-select>
+        <we-select string="Filter Intensity" data-cover-opt-name="filters">
+            <we-button data-filter-value="0.0">None</we-button>
+            <we-button data-filter-value="0.2">Low</we-button>
+            <we-button data-filter-value="0.4">Medium</we-button>
+            <we-button data-filter-value="0.6">High</we-button>
+        </we-select>
+        <we-select string="Text Alignment" data-cover-opt-name="textAlign">
+            <we-button data-select-class="">Left</we-button>
+            <we-button data-select-class="text-center">Centered</we-button>
+            <we-button data-select-class="text-right">Right</we-button>
+        </we-select>
+    </div>
+
+    <!-- Stretch section -->
+    <div data-js="ContainerWidth" data-selector="section, .s-carousel .carousel-item, s-quotes-carousel .carousel-item"
+        data-exclude="[data-snippet] :not(.oe-structure) > [data-snippet]" data-target="> .container, > .container-fluid, > .o-container-small">
+        <we-button-group string="Content Width">
+            <we-button data-select-class="o-container-small"
+                       data-img="/website/static/src/img/snippets_options/content_width_small.svg"
+                       title="Small"/>
+            <we-button data-select-class="container"
+                       data-img="/website/static/src/img/snippets_options/content_width_normal.svg"
+                       title="Regular"/>
+            <we-button data-select-class="container-fluid"
+                       data-img="/website/static/src/img/snippets_options/content_width_full.svg"
+                       title="Full"/>
+        </we-button-group>
+    </div>
+
+    <!-- Scroll to next section button (only for full height) -->
+    <div data-js="ScrollButton" data-selector="section" data-exclude="[data-snippet] :not(.oe-structure) > [data-snippet]">
+        <!-- Min height of section -->
+        <!-- TODO adapt in master, this is patched in JS -->
+        <we-button-group string="Height" data-show-scroll-button="">
+            <we-button data-name="minheightAutoOpt" data-select-class="" title="Fit content">Auto</we-button>
+            <we-button data-select-class="o-half-screen-height" title="Half screen">50%</we-button>
+            <we-button data-select-class="o-full-screen-height" title="Full screen" data-name="fullHeightOpt" data-show-scroll-button="true">100%</we-button>
+        </we-button-group>
+
+        <we-checkbox string="Scroll down button"
+                     data-toggle-button="true"
+                     data-no-preview="true"
+                     data-dependencies="fullHeightOpt"
+                     data-name="scrollButtonOpt"/>
+        <!-- &emsp; -->
+        <we-row string=" ⌙ Colors">
+            <we-colorpicker
+                data-select-style="true"
+                data-css-property="background-color"
+                data-color-prefix="bg-"
+                data-apply-to=".o-scroll-button"
+                data-dependencies="scrollButtonOpt"/>
+            <we-colorpicker data-select-style="true"
+                data-css-property="color"
+                data-color-prefix="text-"
+                data-apply-to=".o-scroll-button"
+                data-dependencies="scrollButtonOpt"/>
+        </we-row>
+        <we-select string=" ⌙ Spacing"
+                   data-apply-to=".o-scroll-button"
+                   data-dependencies="scrollButtonOpt">
+            <we-button data-select-class="">None</we-button>
+            <we-button data-select-class="mb-1">Extra-Small</we-button>
+            <we-button data-select-class="mb-2">Small</we-button>
+            <we-button data-select-class="mb-3">Medium</we-button>
+            <we-button data-select-class="mb-4">Large</we-button>
+            <we-button data-select-class="mb-5">Extra-Large</we-button>
+        </we-select>
+    </div>
+
+    <!--  Vertical Alignment -->
+    <div data-option-name="vAlignment" id="rowValignSnippetOption" data-selector=".s-text-image, .s-image-text, .s-three-columns" data-target=".row">
+        <we-button-group string="Vert. Alignment" title="Vertical Alignment">
+            <we-button title="Align Top"
+                       data-select-class="align-items-start"
+                       data-img="/website/static/src/img/snippets_options/align_top.svg"/>
+            <we-button title="Align Middle"
+                       data-select-class="align-items-center"
+                       data-img="/website/static/src/img/snippets_options/align_middle.svg"/>
+            <we-button title="Align Bottom"
+                       data-select-class="align-items-end"
+                       data-img="/website/static/src/img/snippets_options/align_bottom.svg"/>
+            <we-button title="Stretch to Equal Height"
+                       data-select-class="align-items-stretch"
+                       data-img="/website/static/src/img/snippets_options/align_stretch.svg"/>
+        </we-button-group>
+    </div>
+
+    <div data-js="ConditionalVisibility" data-selector="section">
+        <t t-set="currentWebsite" t-value="await env.items('website').getCurrentWebsite()"/>
+        <we-collapse>
+            <we-select string="Visibility" data-attribute-name="visibility" data-no-preview="true">
+                <we-button data-select-data-attribute="">Always visible</we-button>
+                <we-button data-select-data-attribute="conditional" data-select-class="o-snippet-invisible" data-name="visibilityConditional">Conditionally</we-button>
+            </we-select>
+
+            <t t-if="(request.session['geoip'] ?? {})['countryCode']">
+                <t t-call="website.snippetOptionsConditionalVisibility">
+                    <t t-set="optionName">⌙ Country</t>
+                    <t t-set="attributeRule" t-valuef="visibilityValueCountryRule"/>
+                    <t t-set="saveAttribute" t-valuef="visibilityValueCountry"/>
+                    <t t-set="attributeName" t-valuef="data-country"/>
+                    <t t-set="model" t-valuef="res.country"/>
+                    <t t-set="callWith" t-valuef="code"/>
+                    <t t-set="dataFields" t-valuef="[&quot;code&quot;]"/>
+                </t>
+            </t>
+            <t t-if="len(currentWebsite.languageIds) > 1">
+                <t t-call="website.snippetOptionsConditionalVisibility">
+                    <t t-set="optionName">⌙ Languages</t>
+                    <t t-set="attributeRule" t-valuef="visibilityValueLangRule"/>
+                    <t t-set="saveAttribute" t-valuef="visibilityValueLang"/>
+                    <t t-set="attributeName" t-valuef="lang"/>
+                    <t t-set="model" t-valuef="res.lang"/>
+                    <t t-set="callWith" t-valuef="code"/>
+                    <t t-set="domain" t-translation="off">[["id", "in", <t t-out="currentWebsite.languageIds.ids"/>]]</t>
+                    <t t-set="dataFields" t-valuef="[&quot;code&quot;]"/>
+                </t>
+            </t>
+            <t t-call="website.snippetOptionsConditionalVisibility">
+                <t t-set="optionName">⌙ UTM Campaign</t>
+                <t t-set="attributeRule" t-valuef="visibilityValueUtmCampaignRule"/>
+                <t t-set="saveAttribute" t-valuef="visibilityValueUtmCampaign"/>
+                <t t-set="attributeName" t-valuef="data-utmCampaign"/>
+                <t t-set="model" t-valuef="utm.campaign"/>
+                <t t-set="callWith" t-valuef="displayName"/>
+            </t>
+            <t t-call="website.snippetOptionsConditionalVisibility">
+                <t t-set="optionName">⌙ UTM Medium</t>
+                <t t-set="attributeRule" t-valuef="visibilityValueUtmMediumRule"/>
+                <t t-set="saveAttribute" t-valuef="visibilityValueUtmMedium"/>
+                <t t-set="attributeName" t-valuef="data-utm-medium"/>
+                <t t-set="model" t-valuef="utm.medium"/>
+                <t t-set="callWith" t-valuef="displayName"/>
+            </t>
+            <t t-call="website.snippetOptionsConditionalVisibility">
+                <t t-set="optionName">⌙ UTM Source</t>
+                <t t-set="attributeRule" t-valuef="visibilityValueUtmSourceRule"/>
+                <t t-set="saveAttribute" t-valuef="visibilityValueUtmSource"/>
+                <t t-set="attributeName" t-valuef="data-utm-source"/>
+                <t t-set="model" t-valuef="utm.source"/>
+                <t t-set="callWith" t-valuef="displayName"/>
+            </t>
+            <we-select string="⌙ Users"
+                data-dependencies="visibilityConditional"
+                data-attribute-name="data-logged"
+                data-save-attribute="visibilityValueLogged"
+                data-no-preview="true"
+                data-attribute-default-value="">
+                <we-button data-select-value="true">Visible for Logged In</we-button>
+                <we-button data-select-value="false">Visible for Logged Out</we-button>
+                <we-button data-select-value="">Visible for Everyone</we-button>
+            </we-select>
+        </we-collapse>
+    </div>
+
+    <!-- Cookies Bar -->
+    <div data-selector="#websiteCookiesBar" data-js="CookiesBar" data-target=".modal">
+        <we-select string="Layout" class="o-we-inline">
+            <we-button data-select-class="o-cookies-discrete" data-select-layout="discrete" data-trigger="positionBottom,sPopupSizeFull">Discrete</we-button>
+            <we-button data-select-class="o-cookies-classic" data-select-layout="classic" data-trigger="positionBottom,sPopupSizeFull">Classic</we-button>
+            <we-button data-name="layoutPopupOpt" data-select-class="o-cookies-popup" data-select-layout="popup" data-trigger="positionMiddle,sPopupSizeMd">Popup</we-button>
+        </we-select>
+    </div>
+
+    <!-- Website Animate -->
+    <div data-js="WebsiteAnimate"
+         data-selector=".o-animable, section .row > div, img, .fa, .btn, .o-animated-text"
+         data-exclude=".o-not-animable, .s-col-no-resize.row > div, .s-col-no-resize">
+        <!-- TODO adapt in master, this is patched in JS to simulate a data-dependencies -->
+        <we-select string="Animate" data-is-animation-type-selection="true">
+            <we-button data-select-class="" data-name="noAnimationOpt">No Animation</we-button>
+            <we-divider/>
+            <we-button data-select-class="o-anim-fade-in">Fade In</we-button>
+            <we-button data-select-class="o-anim-fade-in-down">Fade In-Down</we-button>
+            <we-button data-select-class="o-anim-fade-in-left">Fade In-Left</we-button>
+            <we-button data-select-class="o-anim-fade-in-right">Fade In-Right</we-button>
+            <we-button data-select-class="o-anim-fade-in-up">Fade In-Up</we-button>
+            <we-divider/>
+            <we-button data-select-class="o-anim-bounce-in">Bounce In</we-button>
+            <we-button data-select-class="o-anim-bounce-in-down">Bounce In-Down</we-button>
+            <we-button data-select-class="o-anim-bounce-in-left">Bounce In-Left</we-button>
+            <we-button data-select-class="o-anim-bounce-in-right">Bounce In-Right</we-button>
+            <we-divider/>
+            <we-button data-select-class="o-anim-rotate-in">Rotate In</we-button>
+            <we-button data-select-class="o-anim-rotate-in-down-left">Rotate In-Down-Left</we-button>
+            <we-button data-select-class="o-anim-rotate-in-down-right">Rotate In-Down-Right</we-button>
+            <we-divider/>
+            <we-button data-select-class="o-anim-zoom-out">Zoom Out</we-button>
+            <we-button data-select-class="o-anim-zoom-in">Zoom In</we-button>
+            <we-button data-select-class="o-anim-zoom-in-down">Zoom In-Down</we-button>
+            <we-button data-select-class="o-anim-zoom-in-left">Zoom In-Left</we-button>
+            <we-button data-select-class="o-anim-zoom-in-right">Zoom In-Right</we-button>
+            <we-divider/>
+            <we-button data-select-class="o-anim-flash">Flash</we-button>
+            <we-button data-select-class="o-anim-pulse">Pulse</we-button>
+            <we-button data-select-class="o-anim-shake">Shake</we-button>
+            <we-button data-select-class="o-anim-tada">Tada</we-button>
+            <we-divider/>
+            <we-button data-select-class="o-anim-flip-in-x">Flip-In-X</we-button>
+            <we-button data-select-class="o-anim-flip-in-y">Flip-In-Y</we-button>
+        </we-select>
+        <we-select string="Animation Launch" data-dependencies="!noAnimationOpt" data-name="animationLaunchOpt">
+            <we-button data-select-class="">First Time Only</we-button>
+            <we-button data-select-class="o-animate-both-scroll">Every Time</we-button>
+        </we-select>
+        <we-input string="Animation Duration" data-dependencies="!noAnimationOpt" class="o-we-small-input"
+            data-select-style="0.4s" data-css-property="animation-duration" data-unit="s"/>
+        <we-input string="Animation Delay" data-dependencies="!noAnimationOpt" class="o-we-small-input"
+            data-select-style="0s" data-css-property="animation-delay" data-unit="s"/>
+    </div>
+
+    <!-- Theme options -->
+    <div data-js="ThemeColors" data-selector="theme-colors" data-no-check="true">
+        <we-alert class="o-old-color-system-warning d-none">
+            It appears your website is still using the old color system of
+            Verp 13.0 in some places. We made sure it is still working but
+            we recommend you to try to use the new color system, which is
+            still customizable.
+        </we-alert>
+        <we-row class="o-we-theme-colors-selector">
+            <we-colorpicker data-name="color1Opt" title="Primary"
+                            data-customize-website-color="" data-color="o-color-1"
+                            data-use-css-color="true" data-selected-tab="custom-colors"/>
+            <we-colorpicker data-customize-website-color="" data-color="o-color-3"
+                            data-use-css-color="true" data-selected-tab="custom-colors"/>
+            <we-colorpicker data-name="color2Opt" title="Secondary"
+                            data-customize-website-color="" data-color="o-color-2"
+                            data-use-css-color="true" data-selected-tab="custom-colors"/>
+            <we-colorpicker data-customize-website-color="" data-color="o-color-4"
+                            data-use-css-color="true" data-selected-tab="custom-colors"/>
+            <we-colorpicker data-customize-website-color="" data-color="o-color-5"
+                            data-use-css-color="true" data-selected-tab="custom-colors"/>
+            <we-select data-img="/website/static/src/img/snippets_options/palette.svg" class="o-we-theme-colors-select" data-variable="color-palettes-name"/>
+        </we-row>
+    </div>
+    <div data-js="OptionsTab" data-selector="theme-options" data-no-check="true">
+        <we-checkbox string="Show Header"
+                     data-customize-website-views="website.optionLayoutHideHeader|"
+                     data-reload="/"/>
+        <we-select string="Page Layout" data-variable="layout">
+            <we-button data-customize-website-variable="'full'" data-name="layoutFullOpt">Full</we-button>
+            <we-button data-customize-website-variable="'boxed'">Boxed</we-button>
+            <we-button data-customize-website-variable="'framed'">Framed</we-button>
+            <we-button data-customize-website-variable="'postcard'">Postcard</we-button>
+        </we-select>
+        <we-row string="⌙ Background" data-no-preview="true">
+            <we-colorpicker data-dependencies="!layoutFullOpt"
+                            data-customize-website-color=""
+                            data-color="body"/>
+            <we-button-group data-imagepicker="bodyBgImageOpt">
+                <we-button title="Image" class="fa fa-fw fa-camera"
+                           data-customize-body-bg-type="'image'"/>
+                <we-button title="Pattern" class="fa fa-fw fa-th"
+                           data-customize-body-bg-type="'pattern'"/>
+                <we-button title="None" class="fa fa-fw fa-ban"
+                           data-customize-body-bg-type="NONE"/>
+            </we-button-group>
+            <!-- Hidden imagepicker enabled by above button-group -->
+            <we-imagepicker data-name="bodyBgImageOpt"
+                            data-customize-body-bg=""/>
+        </we-row>
+        <we-input string="Font size"
+                  data-customize-website-variable="null"
+                  data-variable="font-size-base"
+                  data-unit="px"
+                  data-save-unit="rem"/>
+        <we-collapse>
+            <we-fontfamilypicker string="Font family" data-variable="font"/>
+            <we-fontfamilypicker string="⌙ Headings" data-variable="headings-font"/>
+            <we-fontfamilypicker string="⌙ Buttons" data-variable="buttons-font"/>
+        </we-collapse>
+
+        <!-- Buttons & Links -->
+        <we-title>Buttons</we-title>
+        <we-select string="Primary Style" data-variable="btn-primary-outline" class="">
+            <we-button data-customize-website-variable="false">Fill</we-button>
+            <we-button data-customize-website-variable="true">Outline</we-button>
+        </we-select>
+        <we-select string="Secondary Style" data-variable="btn-secondary-outline">
+            <we-button data-customize-website-variable="false">Fill</we-button>
+            <we-button data-customize-website-variable="true">Outline</we-button>
+        </we-select>
+        <we-collapse>
+            <we-row string="Paddings">
+                <we-input title="Y" data-customize-website-variable="" data-variable="btn-padding-y" data-unit="px" data-save-unit="rem"/>
+                <we-input title="X" data-customize-website-variable="" data-variable="btn-padding-x" data-unit="px" data-save-unit="rem"/>
+            </we-row>
+            <we-row string="⌙ Small">
+                <we-input title="Y" data-customize-website-variable="" data-variable="btn-padding-y-sm" data-unit="px" data-save-unit="rem"/>
+                <we-input title="X" data-customize-website-variable="" data-variable="btn-padding-x-sm" data-unit="px" data-save-unit="rem"/>
+            </we-row>
+            <we-row string="⌙ Large">
+                <we-input title="Y" data-customize-website-variable="" data-variable="btn-padding-y-lg" data-unit="px" data-save-unit="rem"/>
+                <we-input title="X" data-customize-website-variable="" data-variable="btn-padding-x-lg" data-unit="px" data-save-unit="rem"/>
+            </we-row>
+        </we-collapse>
+        <we-collapse>
+            <we-input string="Font Size" data-customize-website-variable="" data-variable="btn-font-size" data-unit="px" data-save-unit="rem"/>
+            <we-input string="⌙ Small" data-customize-website-variable="" data-variable="btn-font-size-sm" data-unit="px" data-save-unit="rem"/>
+            <we-input string="⌙ Large" data-customize-website-variable="" data-variable="btn-font-size-lg" data-unit="px" data-save-unit="rem"/>
+        </we-collapse>
+        <we-input string="Border Width" data-customize-website-variable="" data-variable="btn-border-width" data-unit="px" data-save-unit="rem"/>>
+        <we-collapse>
+            <we-input string="Border Radius" data-customize-website-variable="" data-variable="btn-border-radius" data-unit="px" data-save-unit="rem"/>
+            <we-input string="⌙ Small" data-customize-website-variable="" data-variable="btn-border-radius-sm" data-unit="px" data-save-unit="rem"/>
+            <we-input string="⌙ Large" data-customize-website-variable="" data-variable="btn-border-radius-lg" data-unit="px" data-save-unit="rem"/>
+        </we-collapse>
+        <we-checkbox string="Ripple Effect"
+                     data-customize-website-assets="website.rippleEffectScss, website.rippleEffectJs"
+                     data-customize-website-variable="false|true"
+                     data-variable="btn-ripple"/>
+        <we-select string="Link Style" data-variable="link-underline">
+            <we-button data-customize-website-variable="'never'">Normal</we-button>
+            <we-button data-customize-website-variable="'hover'">Underline On Hover</we-button>
+            <we-button data-customize-website-variable="'always'">Always Underlined</we-button>
+        </we-select>
+
+        <!-- Inputs -->
+        <we-title>Inputs</we-title>
+        <we-collapse>
+            <we-row string="Paddings">
+                <we-input title="Y" data-customize-website-variable="" data-variable="input-padding-y" data-unit="px" data-save-unit="rem"/>
+                <we-input title="X" data-customize-website-variable="" data-variable="input-padding-x" data-unit="px" data-save-unit="rem"/>
+            </we-row>
+            <we-row string="⌙ Small">
+                <we-input title="Y" data-customize-website-variable="" data-variable="input-padding-y-sm" data-unit="px" data-save-unit="rem"/>
+                <we-input title="X" data-customize-website-variable="" data-variable="input-padding-x-sm" data-unit="px" data-save-unit="rem"/>
+            </we-row>
+            <we-row string="⌙ Large">
+                <we-input title="Y" data-customize-website-variable="" data-variable="input-padding-y-lg" data-unit="px" data-save-unit="rem"/>
+                <we-input title="X" data-customize-website-variable="" data-variable="input-padding-x-lg" data-unit="px" data-save-unit="rem"/>
+            </we-row>
+        </we-collapse>
+        <we-collapse>
+            <we-input string="Font Size" data-customize-website-variable="" data-variable="input-font-size" data-unit="px" data-save-unit="rem"/>
+            <we-input string="⌙ Small" data-customize-website-variable="" data-variable="input-font-size-sm" data-unit="px" data-save-unit="rem"/>
+            <we-input string="⌙ Large" data-customize-website-variable="" data-variable="input-font-size-lg" data-unit="px" data-save-unit="rem"/>
+        </we-collapse>
+        <we-input string="Border Width" data-customize-website-variable="" data-variable="input-border-width" data-unit="px" data-save-unit="rem"/>
+        <we-collapse>
+            <we-input string="Border Radius" data-customize-website-variable="" data-variable="input-border-radius" data-unit="px" data-save-unit="rem"/>
+            <we-input string="⌙ Small" data-customize-website-variable="" data-variable="input-border-radius-sm" data-unit="px" data-save-unit="rem"/>
+            <we-input string="⌙ Large" data-customize-website-variable="" data-variable="input-border-radius-lg" data-unit="px" data-save-unit="rem"/>
+        </we-collapse>
+
+        <we-row string="Status Colors">
+            <we-colorpicker title="Success" data-customize-website-color="" data-color-type="theme" data-color="success" data-selected-tab="custom-colors"/>
+            <we-colorpicker title="Info" data-customize-website-color="" data-color-type="theme" data-color="info" data-selected-tab="custom-colors"/>
+            <we-colorpicker title="Warning" data-customize-website-color="" data-color-type="theme" data-color="warning" data-selected-tab="custom-colors"/>
+            <we-colorpicker title="Error" data-customize-website-color="" data-color-type="theme" data-color="danger" data-selected-tab="custom-colors"/>
+        </we-row>
+        <we-collapse>
+            <we-row string="Grays" class="o-we-gray-preview o-we-collapse-toggler">
+                <t t-foreach="9" t-as="i">
+                    <t t-set="grayCode" t-value="String((9 - i) * 100)"/>
+                    <span t-attf-title="Gray #{grayCode}"
+                          t-attf-variable="#{grayCode}"
+                          t-attf-class="o-we-user-value-widget o-we-gray-preview bg-#{grayCode}"/>
+                </t>
+            </we-row>
+            <we-range string="⌙ Hue" class="o-we-slider-tint" data-customize-gray="" data-param="gray-hue" data-min="0" data-max="359.9" data-step="0.1"/>
+            <we-range string="⌙ Saturation" data-customize-gray="" data-param="gray-extra-saturation" data-step="0.1"/>
+        </we-collapse>
+    </div>
+    <div data-js="OptionsTab" data-selector="website-settings" data-no-check="true">
+        <we-row string="Theme">
+            <we-button data-switch-theme="" data-no-preview="true">Switch Theme</we-button>
+        </we-row>
+        <we-row string="Code Injection" title="Enter code that will be added into every page of your site">
+            <we-button data-no-preview="true" data-open-custom-code-dialog="head">&amp;lt;head&amp;gt;</we-button>
+            <we-button data-no-preview="true" data-open-custom-code-dialog="footer">&amp;lt;/body&amp;gt;</we-button>
+        </we-row>
+        <we-row string="Google Map">
+            <we-button data-configure-api-key="" data-no-preview="true">Custom Key</we-button>
+        </we-row>
+    </div>
+</template>
+</verp>

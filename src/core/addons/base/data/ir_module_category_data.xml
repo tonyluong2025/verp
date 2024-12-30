@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record model="ir.module.category" id="category_hidden">
+            <field name="label">Technical</field>
+            <field name="sequence">60</field>
+            <field name="visible">0</field>
+        </record>
+
+        <record model="ir.module.category" id="category_accounting">
+            <field name="label">Accounting</field>
+            <field name="sequence">15</field>
+        </record>
+
+        <record model="ir.module.category" id="category_accountingLocalizations">
+            <field name="label">Localization</field>
+            <field name="sequence">65</field>
+            <field name="visible">0</field>
+            <field name="parentId" ref="category_accounting"/>
+        </record>
+
+        <record model="ir.module.category" id="category_payrollLocalization">
+            <field name="label">Payroll Localization</field>
+            <field name="visible">0</field>
+        </record>
+
+        <record model="ir.module.category" id="category_accountingLocalizationsAccountCharts">
+            <field name="parentId" ref="category_accountingLocalizations" />
+            <field name="label">Account Charts</field>
+            <field name="visible">0</field>
+        </record>
+
+        <record model="ir.module.category" id="category_userType">
+            <field name="label">User types</field>
+            <field name="description">Helps you manage users.</field>
+            <field name="sequence">9</field>
+        </record>
+
+        <record model="ir.module.category" id="category_accountingAccounting">
+            <field name="label">Invoicing</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <record model="ir.module.category" id="category_sales">
+            <field name="label">Sales</field>
+            <field name="sequence">5</field>
+        </record>
+
+        <record model="ir.module.category" id="category_humanResources">
+            <field name="label">Human Resources</field>
+            <field name="sequence">45</field>
+        </record>
+
+        <record model="ir.module.category" id="category_marketing">
+            <field name="label">Marketing</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record model="ir.module.category" id="category_manufacturing">
+            <field name="label">Manufacturing</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record model="ir.module.category" id="category_website">
+            <field name="label">Website</field>
+            <field name="sequence">35</field>
+        </record>
+
+        <record model="ir.module.category" id="category_theme">
+            <field name="label">Theme</field>
+            <field name="exclusive" eval="0"/>
+            <field name="sequence">50</field>
+        </record>
+
+        <record model="ir.module.category" id="category_administration">
+            <field name="label">Administration</field>
+            <field name="sequence">100</field>
+            <field name="parentId" eval="false"/>
+        </record>
+
+        <record model="ir.module.category" id="category_humanResourcesAppraisals">
+            <field name="label">Appraisals</field>
+            <field name="description">Helps you manage your appraisals.</field>
+            <field name="sequence">15</field>
+        </record>
+
+        <record model="ir.module.category" id="category_salesAign">
+            <field name="label">Sign</field>
+            <field name="description">Helps you sign and complete your documents easily.</field>
+            <field name="sequence">25</field>
+        </record>
+
+        <record model="ir.module.category" id="category_services">
+            <field name="label">Services</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record model="ir.module.category" id="category_servicesHelpdesk">
+            <field name="label">Helpdesk</field>
+            <field name="description">After-sales services</field>
+            <field name="sequence">14</field>
+        </record>
+
+        <record model="ir.module.category" id="category_servicesFieldService">
+            <field name="label">Field Service</field>
+            <field name="parentId" ref="category_services"/>
+        </record>
+
+        <record model="ir.module.category" id="category_inventory">
+            <field name="label">Inventory</field>
+            <field name="sequence">25</field>
+        </record>
+
+        <record model="ir.module.category" id="category_productivity">
+            <field name="label">Productivity</field>
+            <field name="sequence">50</field>
+        </record>
+
+        <record model="ir.module.category" id="category_customizations">
+            <field name="label">Customizations</field>
+            <field name="sequence">55</field>
+        </record>
+
+        <record model="ir.module.category" id="category_administrationAdministration">
+            <field name="label">Administration</field>
+            <field name="parentId" ref="category_administration"/>
+        </record>
+
+        <record model="ir.module.category" id="category_usability">
+            <field name="label">Extra Rights</field>
+            <field name="sequence">101</field>
+        </record>
+
+        <record model="ir.module.category" id="category_extra">
+            <field name="label">Other Extra Rights</field>
+            <field name="sequence">102</field>
+        </record>
+
+        <!-- add applications to base groups -->
+        <record id="groupErpManager" model="res.groups">
+            <field name="categoryId" ref="category_administrationAdministration"/>
+        </record>
+        <record id="groupSystem" model="res.groups">
+            <field name="categoryId" ref="category_administrationAdministration"/>
+        </record>
+
+        <record id="groupUser" model="res.groups">
+            <field name="categoryId" ref="category_userType"/>
+        </record>
+
+        <record id="groupMultiCompany" model="res.groups">
+            <field name="categoryId" ref="category_usability"/>
+        </record>
+
+        <record id="groupMultiCurrency" model="res.groups">
+            <field name="categoryId" ref="category_usability"/>
+        </record>
+
+        <record id="groupNoOne" model="res.groups">
+            <field name="categoryId" ref="category_usability"/>
+        </record>
+
+        <record id="groupPortal" model="res.groups">
+            <field name="categoryId" ref="category_userType"/>
+        </record>
+
+        <record id="groupPublic" model="res.groups">
+            <field name="categoryId" ref="category_userType"/>
+        </record>
+
+        <record id="groupPartnerManager" model="res.groups">
+            <field name="categoryId" ref="category_usability"/>
+        </record>
+
+    </data>
+</verp>

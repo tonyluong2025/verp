@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- activate B2C portal by default -->
+        <function model="ir.config.parameter" name="setParam" eval="['auth_signup.invitationScope', 'b2c']"/>
+        <!-- activate Reset password by default -->
+        <function model="ir.config.parameter" name="setParam" eval="['auth_signup.resetPassword', 'true']"/>
+    </data>
+</verp>

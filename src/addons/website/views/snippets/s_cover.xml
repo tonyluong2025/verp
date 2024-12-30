@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="sCover" name="Cover">
+    <section class="s-cover parallax s-parallax-is-fixed bg-black-50 pt96 pb96" data-scroll-background-ratio="1">
+        <span class="s-parallax-bg oe-img-bg" style="background-image: url('/web/image/website.sCoverDefaultimage'); background-position: 50% 0;"/>
+        <div class="o-we-bg-filter bg-black-50"/>
+        <div class="container s-allow-columns">
+            <h1 style="text-align: center;"><font style="font-size: 62px; font-weight: bold;">Catchy Headline</font></h1>
+            <p class="lead" style="text-align: center;">Write one or two paragraphs describing your product, services or a specific feature.<br/> To be successful your content needs to be useful to your readers.</p>
+            <p style="text-align: center;">
+                <a t-att-href="ctaBtnHref" class="btn btn-primary mb-2"><t t-esc="ctaBtnText">Contact us</t></a>
+            </p>
+        </div>
+    </section>
+</template>
+
+</verp>

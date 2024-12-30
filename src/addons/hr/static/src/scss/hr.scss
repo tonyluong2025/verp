@@ -1,0 +1,60 @@
+.o-web-client .o-hr-employee-kanban {
+
+    .o-follow-btn.o-following {
+        .o-unfollow {
+            display: none;
+        }
+
+        &:hover {
+            .o-following {
+                display: none;
+            }
+            .o-unfollow {
+                display: inline;
+            }
+        }
+    }
+
+    .o-employee-summary-icons > span {
+        white-space: nowrap;
+    }
+
+    .oe-kanban-content.fixed-bottom {
+        z-index: 100;
+    }
+
+    .hr-activity-container {
+        margin-bottom: 2px;
+        margin-right: -3px;
+    }
+
+    .o-hr-employee-kanban-bottom {
+        //Prevent bottom row from preventing to click on buttons
+        pointer-events: none;
+        .oe-kanban-bottom-right {
+            pointer-events: auto;
+        }
+    }
+
+}
+
+.o-kanban-dashboard.o-hr-department-kanban {
+    &.o-kanban-ungrouped {
+        .o-kanban-record {
+            width: 350px;
+        }
+    }
+    .o-kanban-group {
+        &:not(.o-column-folded) {
+            width: 350px + 2*$o-kanban-group-padding;
+
+            @include media-breakpoint-down(sm) {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.o-form-label.o-hr-form-label {
+    cursor: default;
+}

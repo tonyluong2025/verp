@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record model="ir.ui.view" id="accountInvoiceSendInheritAccountWizardForm">
+            <field name="label">account.invoice.send.form.inherited.snailmail</field>
+            <field name="model">account.invoice.send</field>
+            <field name="inheritId" ref="account.accountInvoiceSendWizardForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='optionEmail']" position='before'>
+                    <div name="optionLetter">
+                        <field name="invalidAddresses" invisible="1"/>
+                        <div name="option" class="text-left d-inline-block">
+                            <field name="snailmailIsLetter" />
+                            <b><label for="snailmailIsLetter"/></b>
+                        </div>
+                        <span attrs="{'invisible': [['snailmailIsLetter','=', false]]}">
+                            <span class="mr4" attrs="{'invisible': [['snailmailCost', '=', 0]]}">
+                                <b>(
+                                    <span>
+                                        <field name="snailmailCost" options="{'digits':[0,0]}" class="mr4"/>
+                                        <label for="snailmailCost" class="mr4"/>
+                                    </span>
+                                    <i class="fa fa-info-circle" role="img" aria-label="Warning" title="Make sure you have enough Stamps on your account."/>
+                                )</b>
+                            </span>
+                            <span class="text-right d-inline-block " attrs="{'invisible': ['|', ['compositionMode', '=', 'massMail'], ['partnerId', '=', false]]}" name="address">
+                                <span class="text-muted" attrs="{'invisible': [['invalidAddresses', '!=', 0]]}"> to: </span>
+                                <span class="text-danger" attrs="{'invisible': [['invalidAddresses', '=', 0]]}"> The customer's address is incomplete: </span>
+                                <field name="partnerId" readonly="1" forceSave="1" context="{'showAddress': 1, 'addressInline': 1}" options="{'alwaysReload': true, 'noQuickCreate': true}"/>
+                            </span>
+                            <span attrs="{'invisible': ['|', ['compositionMode', '!=', 'massMail'], ['invalidAddresses', '=', 0]]}">
+                                <span class="text-danger">
+                                    Some customer addresses are incomplete.
+                                </span>
+                                <button type="object" name="invalidAddressesAction" class="btn btn-link" role="button"><field name="invalidAddresses" readonly="1" options="{'digits':[0,0]}"/> Contacts</button>
+                            </span>
+                        </span>
+                    </div>
+                </xpath>
+                <xpath expr="//footer/button[contains(@class,'sendAndPrint')]" position='attributes'>
+                    <attribute name="attrs">{'invisible': ['|', ['isPrint', '=', false], '&amp;', '&amp;', ['isPrint', '=', true], ['snailmailIsLetter', '=', false], ['isEmail', '=', false]]}</attribute>
+                </xpath>
+                <xpath expr="//footer/button[contains(@class,'send')]" position='attributes'>
+                    <attribute name="attrs">{'invisible': ['|', ['isPrint', '=', true], '&amp;', '&amp;', ['isPrint', '=', false], ['snailmailIsLetter', '=', false], ['isEmail', '=', false]]}</attribute>
+                </xpath>
+                <xpath expr="//footer/button[contains(@class,'print')]" position='attributes'>
+                    <attribute name="attrs">{'invisible': ['|', '|', ['isPrint', '=', false], ['snailmailIsLetter', '=', true], ['isEmail', '=', true]]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</verp>

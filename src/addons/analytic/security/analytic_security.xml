@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data noupdate="1">
+
+    <record id="analyticCompRule" model="ir.rule">
+        <field name="label">Analytic multi company rule</field>
+        <field name="modelId" ref="model_accountAnalyticAccount"/>
+        <field eval="true" name="global"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+     
+    <record id="analyticLineCompRule" model="ir.rule">
+        <field name="label">Analytic line multi company rule</field>
+        <field name="modelId" ref="model_accountAnalyticLine"/>
+        <field eval="true" name="global"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record id="analyticGroupCompRule" model="ir.rule">
+        <field name="label">Analytic line multi company rule</field>
+        <field name="modelId" ref="model_accountAnalyticGroup"/>
+        <field eval="true" name="global"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record id="analyticTagCompRule" model="ir.rule">
+        <field name="label">Analytic line multi company rule</field>
+        <field name="modelId" ref="model_accountAnalyticTag"/>
+        <field eval="true" name="global"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+</data>
+<data noupdate="0">
+
+    <record id="groupAnalyticAccounting" model="res.groups">
+        <field name="label">Analytic Accounting</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupAnalyticTags" model="res.groups">
+        <field name="label">Analytic Accounting Tags</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+</data>
+</verp>

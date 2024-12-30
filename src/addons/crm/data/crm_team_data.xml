@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data noupdate="1">
+    <record id="sales_team.teamSalesDepartment" model="crm.team" forcecreate="false">
+        <field name="aliasName">info</field>
+        <field name="aliasUserId" ref="base.userAdmin"/>
+    </record>
+
+    <record id="sales_team.salesteamWebsiteSales" model="crm.team" forcecreate="false">
+        <field name="useOpportunities" eval="false"/>
+    </record>
+
+    <record id="sales_team.posSalesTeam" model="crm.team" forcecreate="false">
+        <field name="useOpportunities" eval="false"/>
+    </record>
+
+    <record id="sales_team.ebaySalesTeam" model="crm.team" forcecreate="false">
+        <field name="useOpportunities" eval="false"/>
+    </record>
+</data></verp>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="paymentAcquirerForm" model="ir.ui.view">
+        <field name="label">Wire Transfer Acquirer Form</field>
+        <field name="model">payment.acquirer</field>
+        <field name="inheritId" ref="payment.paymentAcquirerForm"/>
+        <field name="arch" type="xml">
+            <field name="captureManually" position="after">
+                <field name="qrCode" attrs="{'invisible': [['provider', '!=', 'transfer']]}" />
+            </field>
+            <xpath expr="//group[@name='paymentFollowup']" position="attributes">
+                <attribute name="attrs">
+                    {'invisible': [['provider', '=', 'transfer']]}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

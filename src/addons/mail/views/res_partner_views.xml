@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<verp>
+    <data>
+
+        <record id="resPartnerViewFormInheritMail" model="ir.ui.view">
+            <field name="label">res.partner.view.form.inherit.mail</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewPartnerForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="replace">
+                    <field name="isBlacklisted" invisible="1"/>
+                    <label for="email" class="oe-inline"/>
+                    <div class="o-row o-row-readonly">
+                        <button name="mailActionBlacklistRemove" class="fa fa-ban text-danger"
+                            title="This email is blacklisted for mass mailings. Click to unblacklist."
+                            type="object" context="{'default_email': email}" groups="base.groupUser"
+                            attrs="{'invisible': [['isBlacklisted', '=', false]]}"/>
+                        <field name="email" widget="email" context="{'gravatarImage': true}" attrs="{'required': [['userIds','!=', []]]}"/>
+                    </div>
+                </xpath>
+                <xpath expr="//sheet" position="after">
+                    <div class="oe-chatter">
+                        <field name="messageFollowerIds"/>
+                        <field name="activityIds"/>
+                        <field name="messageIds"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="resPartnerViewKanbanInheritMail" model="ir.ui.view">
+            <field name="label">res.partner.view.kanban.inherit.mail</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.resPartnerKanbanView"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="activityState"/>
+                </field>
+                <xpath expr="//span[contains(@class,'oe-kanban-partner-links')]" position="after">
+                    <field name="activityIds" widget="kanbanActivity"/>
+                </xpath>
+            </field>
+        </record>
+
+       <record id="resPartnerViewSearchInheritMail" model="ir.ui.view">
+            <field name="label">res.partner.view.search.inherit.mail</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewResPartnerFilter"/>
+            <field name="arch" type="xml">
+                    <filter name="inactive" position="after">
+                        <filter invisible="1" string="Late Activities" name="activitiesOverdue"
+                                domain="[['myActivityDateDeadline', '&lt;', contextToday().toFormat('yyyy-MM-dd')]]"
+                                help="Show all records which has next action date is before today"/>
+                        <filter invisible="1" string="Today Activities" name="activitiesToday"
+                                domain="[['myActivityDateDeadline', '=', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                        <filter invisible="1" string="Future Activities" name="activitiesUpcomingAll"
+                                domain="[['myActivityDateDeadline', '&gt;', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                        <separator/>
+                    </filter>
+            </field>
+        </record>
+
+        <record id="resPartnerViewTreeInheritMail" model="ir.ui.view">
+            <field name="label">res.partner.view.tree.inherit.mail</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewPartnerTree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='userId']" position="after">
+                    <field name="activityIds" optional="show" widget="listActivity"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="resPartnerViewActivity" model="ir.ui.view">
+            <field name="label">res.partner.activity</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <activity string="Contacts">
+                    <field name="id"/>
+                    <templates>
+                        <div t-name="activity-box">
+                            <img t-att-src="activityImage('res.partner', 'avatar128', record.id.rawValue)" role="img" t-att-title="record.id.value" t-att-alt="record.id.value"/>
+                            <div>
+                                <field name="label" display="full"/>
+                                <field name="parentId" muted="1" display="full"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record>
+
+        <!-- Add mail-defined activity view to standard action on partners to manage activities related to partner model -->
+        <record id="base.actionPartnerForm" model="ir.actions.actwindow">
+            <field name="viewMode">kanban,tree,form,activity</field>
+        </record>
+        <record id="base.actionPartnerCustomerForm" model="ir.actions.actwindow">
+            <field name="viewMode">kanban,tree,form,activity</field>
+        </record>
+        <record id="base.actionPartnerSupplierForm" model="ir.actions.actwindow">
+            <field name="viewMode">kanban,tree,form,activity</field>
+        </record>
+
+        <!--  Replace the default mass-mailing wizard in base with the composition wizard -->
+        <record id="actionPartnerMassMail" model="ir.actions.actwindow">
+            <field name="label">Send email</field>
+            <field name="resModel">mail.compose.message</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="context" eval="{
+                'default_compositionMode': 'massMail',
+                'default_partnerTo': '{{ object.id ?? \'\' }}',
+                'default_useTemplate': false,
+                'default_replyToForceNew': true,
+            }"/>
+            <field name="bindingModelId" ref="base.model_resPartner"/>
+            <field name="bindingViewTypes">list</field>
+        </record>
+
+    </data>
+</verp>

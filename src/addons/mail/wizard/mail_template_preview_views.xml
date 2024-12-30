@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="mailTemplatePreviewViewForm" model="ir.ui.view">
+            <field name="label">mail.template.preview.view.form</field>
+            <field name="model">mail.template.preview</field>
+            <field name="arch" type="xml">
+                <form string="Email Preview">
+                    <h3>Preview of <field name="mailTemplateId" readonly="1" nolabel="1" options="{'noOpen' : true}"/></h3>
+                    <div class="alert alert-danger" role="alert" attrs="{'invisible' : [['errorMsg', '=', false]]}">
+                        <field name="errorMsg" />
+                    </div>
+                    <field name="noRecord" invisible="1"/>
+                    <div class="container">
+                        <div class="row">
+                            <span class="col-md-5 col-lg-4 col-sm-12 pl-0">Choose an example <field name="modelId" readonly="1"/> record:</span>
+                            <div class="col-md-7 col-lg-6 col-sm-12 pl-0">
+                                <field name="resourceRef" readonly="false"
+                                    options="{'hideModel': true, 'noCreate': true, 'noEdit': true, 'noOpen': true}"
+                                    attrs="{'invisible': [['noRecord', '=', true]]}"/>
+                                <b attrs="{'invisible': [['noRecord', '=', false]]}" class="text-warning">No record for this model</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span class="col-md-5 col-lg-4 col-sm-12 pl-0">Force a language: </span>
+                            <div class="col-md-7 col-lg-6 col-sm-12 pl-0">
+                                <field name="lang"/>
+                            </div>
+                        </div>
+                    </div>
+                    <group>
+                        <field name="subject"/>
+                        <field name="emailFrom" attrs="{'invisible':[['emailFrom','=', false]]}"/>
+                        <field name="partnerIds" widget="many2manyTags" attrs="{'invisible':[['partnerIds', '=', []]]}"/>
+                        <field name="emailTo" attrs="{'invisible':[['emailTo','=', false]]}"/>
+                        <field name="emailCc" attrs="{'invisible':[['emailCc','=', false]]}"/>
+                        <field name="replyTo" attrs="{'invisible':[['replyTo','=', false]]}"/>
+                        <field name="scheduledDate" attrs="{'invisible':[['scheduledDate','=', false]]}"/>
+                    </group>
+                    <field name="bodyHtml" widget="html" nolabel="1" options='{"safe": true}'/>
+                    <field name="attachmentIds" widget="many2manyBinary"/>
+                    <footer>
+                        <button string="Close" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="mailTemplatePreviewAction" model="ir.actions.actwindow">
+            <field name="label">Template Preview</field>
+            <field name="resModel">mail.template.preview</field>
+            <field name="bindingModelId" eval="false"/>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="mailTemplatePreviewViewForm"/>
+            <field name="target">new</field>
+            <field name="context">{'default_mailTemplateId':activeId}</field>
+        </record>
+
+    </data>
+</verp>

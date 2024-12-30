@@ -1,0 +1,1632 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="ad" model="res.country">
+            <field name="label">Andorra</field>
+            <field name="code">ad</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="376" name="phoneCode" />
+        </record>
+        <record id="ae" model="res.country">
+            <field name="label">United Arab Emirates</field>
+            <field name="code">ae</field>
+            <field name="currencyId" ref="AED" />
+            <field eval="971" name="phoneCode" />
+        </record>
+        <record id="af" model="res.country">
+            <field name="label">Afghanistan</field>
+            <field name="code">af</field>
+            <field name="currencyId" ref="AFN" />
+            <field eval="93" name="phoneCode" />
+        </record>
+        <record id="ag" model="res.country">
+            <field name="label">Antigua and Barbuda</field>
+            <field name="code">ag</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="1268" name="phoneCode" />
+        </record>
+        <record id="ai" model="res.country">
+            <field name="label">Anguilla</field>
+            <field name="code">ai</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="1264" name="phoneCode" />
+        </record>
+        <record id="al" model="res.country">
+            <field name="label">Albania</field>
+            <field name="code">al</field>
+            <field name="currencyId" ref="ALL" />
+            <field eval="355" name="phoneCode" />
+        </record>
+        <record id="am" model="res.country">
+            <field name="label">Armenia</field>
+            <field name="code">am</field>
+            <field name="currencyId" ref="AMD" />
+            <field eval="374" name="phoneCode" />
+        </record>
+        <record id="ao" model="res.country">
+            <field name="label">Angola</field>
+            <field name="code">ao</field>
+            <field name='zipRequired'>0</field>
+            <field name="currencyId" ref="AOA" />
+            <field eval="244" name="phoneCode" />
+        </record>
+        <record id="aq" model="res.country">
+            <field name="label">Antarctica</field>
+            <field name="code">aq</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="672" name="phoneCode" />
+        </record>
+        <record id="ar" model="res.country">
+            <field name="label">Argentina</field>
+            <field name="code">ar</field>
+            <field name='stateRequired'>1</field>
+            <field name="currencyId" ref="ARS" />
+            <field eval="54" name="phoneCode" />
+            <field name="vatLabel">CUIT</field>
+            <field eval="'{street}\n{street2}\n{city} {stateName} {zip}\n{countryName}'" name="addressFormat"/>
+        </record>
+        <record id="as" model="res.country">
+            <field name="label">American Samoa</field>
+            <field name="code">as</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="1684" name="phoneCode" />
+        </record>
+        <record id="at" model="res.country">
+            <field name="label">Austria</field>
+            <field name="code">at</field>
+            <field eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="EUR" />
+            <field eval="43" name="phoneCode" />
+            <field name="vatLabel">USt</field>
+        </record>
+        <record id="au" model="res.country">
+            <field name="label">Australia</field>
+            <field name="code">au</field>
+            <field name='stateRequired'>1</field>
+            <field eval="'{street}\n{street2}\n{city} {stateCode} {zip}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="AUD" />
+            <field eval="61" name="phoneCode" />
+        </record>
+        <record id="aw" model="res.country">
+            <field name="label">Aruba</field>
+            <field name="code">aw</field>
+            <field name="currencyId" ref="AWG" />
+            <field eval="297" name="phoneCode" />
+        </record>
+        <record id="ax" model="res.country">
+            <field name="label">Åland Islands</field>
+            <field name="code">ax</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="358" name="phoneCode" />
+        </record>
+        <record id="az" model="res.country">
+            <field name="label">Azerbaijan</field>
+            <field name="code">az</field>
+            <field name="currencyId" ref="AZN" />
+            <field eval="994" name="phoneCode" />
+        </record>
+        <record id="ba" model="res.country">
+            <field name="label">Bosnia and Herzegovina</field>
+            <field name="code">ba</field>
+            <field name="currencyId" ref="BAM" />
+            <field eval="387" name="phoneCode" />
+        </record>
+        <record id="bb" model="res.country">
+            <field name="label">Barbados</field>
+            <field name="code">bb</field>
+            <field name="currencyId" ref="BBD" />
+            <field eval="1246" name="phoneCode" />
+        </record>
+        <record id="bd" model="res.country">
+            <field name="label">Bangladesh</field>
+            <field name="code">bd</field>
+            <field name="currencyId" ref="BDT" />
+            <field eval="880" name="phoneCode" />
+        </record>
+        <record id="be" model="res.country">
+            <field name="label">Belgium</field>
+            <field name="code">be</field>
+            <field eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="EUR" />
+            <field eval="32" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="bf" model="res.country">
+            <field name="label">Burkina Faso</field>
+            <field name="code">bf</field>
+            <field name="currencyId" ref="XOF" />
+            <field eval="226" name="phoneCode" />
+        </record>
+        <record id="bg" model="res.country">
+            <field name="label">Bulgaria</field>
+            <field name="code">bg</field>
+            <field name="currencyId" ref="BGN" />
+            <field eval="359" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="bh" model="res.country">
+            <field name="label">Bahrain</field>
+            <field name="code">bh</field>
+            <field name="currencyId" ref="BHD" />
+            <field eval="973" name="phoneCode" />
+        </record>
+        <record id="bi" model="res.country">
+            <field name="label">Burundi</field>
+            <field name="code">bi</field>
+            <field name="currencyId" ref="BIF" />
+            <field eval="257" name="phoneCode" />
+        </record>
+        <record id="bj" model="res.country">
+            <field name="label">Benin</field>
+            <field name="code">bj</field>
+            <field name='zipRequired'>0</field>
+            <field name="currencyId" ref="XOF" />
+            <field eval="229" name="phoneCode" />
+        </record>
+        <record id="bl" model="res.country">
+            <field name="label">Saint Barthélémy</field>
+            <field name="code">bl</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="590" name="phoneCode" />
+        </record>
+        <record id="bm" model="res.country">
+            <field name="label">Bermuda</field>
+            <field name="code">bm</field>
+            <field name="currencyId" ref="BMD" />
+            <field eval="1441" name="phoneCode" />
+        </record>
+        <record id="bn" model="res.country">
+            <field name="label">Brunei Darussalam</field>
+            <field name="code">bn</field>
+            <field name="currencyId" ref="BND" />
+            <field eval="673" name="phoneCode" />
+        </record>
+        <record id="bo" model="res.country">
+            <field name="label">Bolivia</field>
+            <field name="code">bo</field>
+            <field name="currencyId" ref="BOB" />
+            <field eval="591" name="phoneCode" />
+        </record>
+        <record id="bq" model="res.country">
+            <field name="label">Bonaire, Sint Eustatius and Saba</field>
+            <field name="code">bq</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="599" name="phoneCode" />
+        </record>
+        <record id="br" model="res.country">
+            <field name="label">Brazil</field>
+            <field name="code">br</field>
+            <field eval="'{street}\n{street2}\n{city} {stateCode}\n{zip}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="BRL" />
+            <field eval="55" name="phoneCode" />
+        </record>
+        <record id="bs" model="res.country">
+            <field name="label">Bahamas</field>
+            <field name="code">bs</field>
+            <field name="currencyId" ref="BSD" />
+            <field eval="1242" name="phoneCode" />
+        </record>
+        <record id="bt" model="res.country">
+            <field name="label">Bhutan</field>
+            <field name="code">bt</field>
+            <field name="currencyId" ref="BTN" />
+            <field eval="975" name="phoneCode" />
+        </record>
+        <record id="bv" model="res.country">
+            <field name="label">Bouvet Island</field>
+            <field name="code">bv</field>
+            <field name="currencyId" ref="NOK" />
+            <field eval="55" name="phoneCode" />
+        </record>
+        <record id="bw" model="res.country">
+            <field name="label">Botswana</field>
+            <field name="code">bw</field>
+            <field name="currencyId" ref="BWP" />
+            <field eval="267" name="phoneCode" />
+        </record>
+        <record id="by" model="res.country">
+            <field name="label">Belarus</field>
+            <field name="code">by</field>
+            <field name="currencyId" ref="BYN" />
+            <field eval="375" name="phoneCode" />
+        </record>
+        <record id="bz" model="res.country">
+            <field name="label">Belize</field>
+            <field name="code">bz</field>
+            <field name='zipRequired'>0</field>
+            <field name="currencyId" ref="BZD" />
+            <field eval="501" name="phoneCode" />
+        </record>
+        <record id="ca" model="res.country">
+            <field name="label">Canada</field>
+            <field name="code">ca</field>
+            <field name='stateRequired'>1</field>
+            <field eval="'{street}\n{street2}\n{city} {stateCode} {zip}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="CAD" />
+            <field eval="1" name="phoneCode" />
+            <field name="vatLabel">HST</field>
+        </record>
+        <record id="cc" model="res.country">
+            <field name="label">Cocos (Keeling) Islands</field>
+            <field name="code">cc</field>
+            <field name="currencyId" ref="AUD" />
+            <field eval="61" name="phoneCode" />
+        </record>
+        <record id="cf" model="res.country">
+            <field name="label">Central African Republic</field>
+            <field name="code">cf</field>
+            <field name="currencyId" ref="XAF" />
+            <field eval="236" name="phoneCode" />
+        </record>
+        <record id="cd" model="res.country">
+            <field name="label">Democratic Republic of the Congo</field>
+            <field name="code">cd</field>
+            <field name="currencyId" ref="CDF" />
+            <field eval="242" name="phoneCode" />
+        </record>
+        <record id="cg" model="res.country">
+            <field name="label">Congo</field>
+            <field name="code">cg</field>
+            <field name="currencyId" ref="XAF" />
+            <field eval="243" name="phoneCode" />
+        </record>
+        <record id="ch" model="res.country">
+            <field name="label">Switzerland</field>
+            <field name="code">ch</field>
+            <field name="addressFormat" eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" />
+            <field name="currencyId" ref="CHF" />
+            <field eval="41" name="phoneCode" />
+        </record>
+        <record id="ci" model="res.country">
+            <field name="label">Côte d'Ivoire</field>
+            <field name="code">ci</field>
+            <field name="currencyId" ref="XOF" />
+            <field eval="225" name="phoneCode" />
+        </record>
+        <record id="ck" model="res.country">
+            <field name="label">Cook Islands</field>
+            <field name="code">ck</field>
+            <field name="currencyId" ref="NZD" />
+            <field eval="682" name="phoneCode" />
+        </record>
+        <record id="cl" model="res.country">
+            <field name="label">Chile</field>
+            <field name="code">cl</field>
+            <field name="currencyId" ref="CLP" />
+            <field eval="56" name="phoneCode" />
+        </record>
+        <record id="cm" model="res.country">
+            <field name="label">Cameroon</field>
+            <field name="code">cm</field>
+            <field name="currencyId" ref="XAF" />
+            <field eval="237" name="phoneCode" />
+        </record>
+        <record id="cn" model="res.country">
+            <field name="label">China</field>
+            <field name="code">cn</field>
+            <field eval="'{countryName}, {zip}\n{stateName} {city} {street} {street2}'" name="addressFormat" />
+            <field name="currencyId" ref="CNY" />
+            <field eval="86" name="phoneCode" />
+        </record>
+        <record id="co" model="res.country">
+            <field name="label">Colombia</field>
+            <field name="code">co</field>
+            <field name="vatLabel">NIT</field>
+            <field name="currencyId" ref="COP" />
+            <field eval="57" name="phoneCode" />
+            <field name="addressFormat" eval="'{street}\n{street2}\n{city} {stateName} {zip}\n{countryName}'" />
+        </record>
+        <record id="cr" model="res.country">
+            <field name="label">Costa Rica</field>
+            <field name="code">cr</field>
+            <field name="currencyId" ref="CRC" />
+            <field eval="506" name="phoneCode" />
+        </record>
+        <record id="cu" model="res.country">
+            <field name="label">Cuba</field>
+            <field name="code">cu</field>
+            <field name="currencyId" ref="CUP" />
+            <field eval="53" name="phoneCode" />
+        </record>
+        <record id="cv" model="res.country">
+            <field name="label">Cape Verde</field>
+            <field name="code">cv</field>
+            <field name="currencyId" ref="CVE" />
+            <field eval="238" name="phoneCode" />
+        </record>
+        <record id="cw" model="res.country">
+            <field name="label">Curaçao</field>
+            <field name="code">cw</field>
+            <field name="currencyId" ref="ANG" />
+            <field eval="599" name="phoneCode" />
+        </record>
+        <record id="cx" model="res.country">
+            <field name="label">Christmas Island</field>
+            <field name="code">cx</field>
+            <field name="currencyId" ref="AUD" />
+            <field eval="61" name="phoneCode" />
+        </record>
+        <record id="cy" model="res.country">
+            <field name="label">Cyprus</field>
+            <field name="code">cy</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="357" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="cz" model="res.country">
+            <field name="label">Czech Republic</field>
+            <field name="code">cz</field>
+            <field name="currencyId" ref="CZK" />
+            <field eval="420" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="de" model="res.country">
+            <field name="label">Germany</field>
+            <field name="code">de</field>
+            <field eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="EUR" />
+            <field eval="49" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="dj" model="res.country">
+            <field name="label">Djibouti</field>
+            <field name="code">dj</field>
+            <field name="currencyId" ref="DJF" />
+            <field eval="253" name="phoneCode" />
+        </record>
+        <record id="dk" model="res.country">
+            <field name="label">Denmark</field>
+            <field name="code">dk</field>
+            <field eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="DKK" />
+            <field eval="45" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="dm" model="res.country">
+            <field name="label">Dominica</field>
+            <field name="code">dm</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="1767" name="phoneCode" />
+        </record>
+        <record id="do" model="res.country">
+            <field name="label">Dominican Republic</field>
+            <field name="code">do</field>
+            <field eval="'{street}\n{street2}\n{city} {stateName} {zip}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="DOP" />
+            <field eval="1849" name="phoneCode" />
+            <field name="vatLabel">RNC</field>
+        </record>
+        <record id="dz" model="res.country">
+            <field name="label">Algeria</field>
+            <field name="code">dz</field>
+            <field name="currencyId" ref="DZD" />
+            <field eval="213" name="phoneCode" />
+        </record>
+        <record id="ec" model="res.country">
+            <field name="label">Ecuador</field>
+            <field name="code">ec</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="593" name="phoneCode" />
+            <field name="vatLabel">RUC</field>
+        </record>
+        <record id="ee" model="res.country">
+            <field name="label">Estonia</field>
+            <field name="code">ee</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="372" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="eg" model="res.country">
+            <field name="label">Egypt</field>
+            <field name="code">eg</field>
+            <field name="currencyId" ref="EGP" />
+            <field eval="20" name="phoneCode" />
+        </record>
+        <record id="eh" model="res.country">
+            <field name="label">Western Sahara</field>
+            <field name="code">eh</field>
+            <field name="currencyId" ref="MAD" />
+            <field eval="212" name="phoneCode" />
+        </record>
+        <record id="er" model="res.country">
+            <field name="label">Eritrea</field>
+            <field name="code">er</field>
+            <field name="currencyId" ref="ERN" />
+            <field eval="291" name="phoneCode" />
+        </record>
+        <record id="es" model="res.country">
+            <field name="label">Spain</field>
+            <field name="code">es</field>
+            <field eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="EUR" />
+            <field eval="34" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="et" model="res.country">
+            <field name="label">Ethiopia</field>
+            <field name="code">et</field>
+            <field name="currencyId" ref="ETB" />
+            <field eval="251" name="phoneCode" />
+        </record>
+        <record id="fi" model="res.country">
+            <field name="label">Finland</field>
+            <field name="code">fi</field>
+            <field name="addressFormat" eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" />
+            <field name="currencyId" ref="EUR" />
+            <field eval="358" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="fj" model="res.country">
+            <field name="label">Fiji</field>
+            <field name="code">fj</field>
+            <field name="currencyId" ref="FJD" />
+            <field eval="679" name="phoneCode" />
+        </record>
+        <record id="fk" model="res.country">
+            <field name="label">Falkland Islands</field>
+            <field name="code">fk</field>
+            <field name="currencyId" ref="FKP" />
+            <field eval="500" name="phoneCode" />
+        </record>
+        <record id="fm" model="res.country">
+            <field name="label">Micronesia</field>
+            <field name="code">fm</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="691" name="phoneCode" />
+        </record>
+        <record id="fo" model="res.country">
+            <field name="label">Faroe Islands</field>
+            <field name="code">fo</field>
+            <field name="currencyId" ref="DKK" />
+            <field eval="298" name="phoneCode" />
+        </record>
+        <record id="fr" model="res.country">
+            <field name="label">France</field>
+            <field name="code">fr</field>
+            <field eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="EUR" />
+            <field eval="33" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="ga" model="res.country">
+            <field name="label">Gabon</field>
+            <field name="code">ga</field>
+            <field name="currencyId" ref="XAF" />
+            <field eval="241" name="phoneCode" />
+        </record>
+        <record id="gd" model="res.country">
+            <field name="label">Grenada</field>
+            <field name="code">gd</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="1473" name="phoneCode" />
+        </record>
+        <record id="ge" model="res.country">
+            <field name="label">Georgia</field>
+            <field name="code">ge</field>
+            <field name="currencyId" ref="GEL" />
+            <field eval="995" name="phoneCode" />
+        </record>
+        <record id="gf" model="res.country">
+            <field name="label">French Guiana</field>
+            <field name="code">gf</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="594" name="phoneCode" />
+        </record>
+        <record id="gh" model="res.country">
+            <field name="label">Ghana</field>
+            <field name="code">gh</field>
+            <field name="currencyId" ref="GHS" />
+            <field eval="233" name="phoneCode" />
+        </record>
+        <record id="gi" model="res.country">
+            <field name="label">Gibraltar</field>
+            <field name="code">gi</field>
+            <field name="currencyId" ref="GIP" />
+            <field eval="350" name="phoneCode" />
+        </record>
+        <record id="gg" model="res.country">
+            <field name="label">Guernsey</field>
+            <field name="code">gg</field>
+            <field name="currencyId" ref="GBP" />
+            <field eval="44" name="phoneCode" />
+        </record>
+        <record id="gl" model="res.country">
+            <field name="label">Greenland</field>
+            <field name="code">gl</field>
+            <field name="currencyId" ref="DKK" />
+            <field eval="299" name="phoneCode" />
+        </record>
+        <record id="gm" model="res.country">
+            <field name="label">Gambia</field>
+            <field name="code">gm</field>
+            <field name="currencyId" ref="GMD" />
+            <field eval="220" name="phoneCode" />
+        </record>
+        <record id="gn" model="res.country">
+            <field name="label">Guinea</field>
+            <field name="code">gn</field>
+            <field name="currencyId" ref="GNF" />
+            <field eval="224" name="phoneCode" />
+        </record>
+        <record id="gp" model="res.country">
+            <field name="label">Guadeloupe</field>
+            <field name="code">gp</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="590" name="phoneCode" />
+        </record>
+        <record id="gq" model="res.country">
+            <field name="label">Equatorial Guinea</field>
+            <field name="code">gq</field>
+            <field name="currencyId" ref="XAF" />
+            <field eval="240" name="phoneCode" />
+        </record>
+        <record id="gr" model="res.country">
+            <field name="label">Greece</field>
+            <field name="code">gr</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="30" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="gs" model="res.country">
+            <field name="label">South Georgia and the South Sandwich Islands</field>
+            <field name="code">gs</field>
+            <field name="currencyId" ref="GBP" />
+            <field eval="500" name="phoneCode" />
+        </record>
+        <record id="gt" model="res.country">
+            <field name="label">Guatemala</field>
+            <field name="code">gt</field>
+            <field name="currencyId" ref="GTQ" />
+            <field eval="502" name="phoneCode" />
+            <field name="vatLabel">NIT</field>
+        </record>
+        <record id="gu" model="res.country">
+            <field name="label">Guam</field>
+            <field name="code">gu</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="1671" name="phoneCode" />
+        </record>
+        <record id="gw" model="res.country">
+            <field name="label">Guinea-Bissau</field>
+            <field name="code">gw</field>
+            <field name="currencyId" ref="XOF" />
+            <field eval="245" name="phoneCode" />
+        </record>
+        <record id="gy" model="res.country">
+            <field name="label">Guyana</field>
+            <field name="code">gy</field>
+            <field name="currencyId" ref="GYD" />
+            <field eval="592" name="phoneCode" />
+        </record>
+        <record id="hk" model="res.country">
+            <field name="label">Hong Kong</field>
+            <field name="code">hk</field>
+            <field name='zipRequired'>0</field>
+            <field name="currencyId" ref="HKD" />
+            <field eval="852" name="phoneCode" />
+        </record>
+        <record id="hm" model="res.country">
+            <field name="label">Heard Island and McDonald Islands</field>
+            <field name="code">hm</field>
+            <field name="currencyId" ref="AUD" />
+            <field eval="672" name="phoneCode" />
+        </record>
+        <record id="hn" model="res.country">
+            <field name="label">Honduras</field>
+            <field name="code">hn</field>
+            <field name="currencyId" ref="HNL" />
+            <field eval="504" name="phoneCode" />
+            <field name="vatLabel">RTN</field>
+        </record>
+        <record id="hr" model="res.country">
+            <field name="label">Croatia</field>
+            <field name="code">hr</field>
+            <field name="currencyId" ref="HRK" />
+            <field eval="'{street}\n{street2}\n{zip} {city} \n{countryName}'" name="addressFormat" />
+            <field eval="385" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="ht" model="res.country">
+            <field name="label">Haiti</field>
+            <field name="code">ht</field>
+            <field name="currencyId" ref="HTG" />
+            <field eval="509" name="phoneCode" />
+        </record>
+        <record id="hu" model="res.country">
+            <field name="label">Hungary</field>
+            <field name="code">hu</field>
+            <field name="currencyId" ref="HUF" />
+            <field eval="36" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="id" model="res.country">
+            <field name="label">Indonesia</field>
+            <field name="code">id</field>
+            <field name='stateRequired'>1</field>
+            <field name="currencyId" ref="IDR" />
+            <field eval="62" name="phoneCode" />
+            <field name="vatLabel">NPWP</field>
+        </record>
+        <record id="ie" model="res.country">
+            <field name="label">Ireland</field>
+            <field name="code">ie</field>
+            <field name='zipRequired'>0</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="353" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="il" model="res.country">
+            <field name="label">Israel</field>
+            <field name="code">il</field>
+            <field name="currencyId" ref="ILS" />
+            <field eval="972" name="phoneCode" />
+        </record>
+        <record id="im" model="res.country">
+            <field name="label">Isle of Man</field>
+            <field name="code">im</field>
+            <field name="currencyId" ref="GBP" />
+            <field eval="44" name="phoneCode" />
+        </record>
+        <record id="in" model="res.country">
+            <field name="label">India</field>
+            <field name="code">in</field>
+            <field name='stateRequired'>1</field>
+            <field eval="'{street}\n{street2}\n{city} {zip}\n{stateName} {stateCode}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="INR" />
+            <field eval="91" name="phoneCode" />
+            <field name="vatLabel">GSTIN</field>
+        </record>
+        <record id="io" model="res.country">
+            <field name="label">British Indian Ocean Territory</field>
+            <field name="code">io</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="246" name="phoneCode" />
+        </record>
+        <record id="iq" model="res.country">
+            <field name="label">Iraq</field>
+            <field name="code">iq</field>
+            <field name="currencyId" ref="IQD" />
+            <field eval="964" name="phoneCode" />
+        </record>
+        <record id="ir" model="res.country">
+            <field name="label">Iran</field>
+            <field name="code">ir</field>
+            <field name="currencyId" ref="IRR" />
+            <field eval="98" name="phoneCode" />
+        </record>
+        <record id="is" model="res.country">
+            <field name="label">Iceland</field>
+            <field name="code">is</field>
+            <field name="currencyId" ref="ISK" />
+            <field eval="354" name="phoneCode" />
+        </record>
+        <record id="it" model="res.country">
+            <field name="label">Italy</field>
+            <field name="code">it</field>
+            <field name='stateRequired'>1</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="39" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="je" model="res.country">
+            <field name="label">Jersey</field>
+            <field name="code">je</field>
+            <field name="currencyId" ref="GBP" />
+            <field eval="44" name="phoneCode" />
+        </record>
+        <record id="jm" model="res.country">
+            <field name="label">Jamaica</field>
+            <field name="code">jm</field>
+            <field name="currencyId" ref="JMD" />
+            <field eval="1876" name="phoneCode" />
+        </record>
+        <record id="jo" model="res.country">
+            <field name="label">Jordan</field>
+            <field name="code">jo</field>
+            <field name="currencyId" ref="JOD" />
+            <field eval="962" name="phoneCode" />
+        </record>
+        <record id="jp" model="res.country">
+            <field name="label">Japan</field>
+            <field name="code">jp</field>
+            <field name='stateRequired'>1</field>
+            <field name="currencyId" ref="JPY" />
+            <field name="addressFormat" eval="'{zip}\n{stateName} {city}\n{street}\n{street2}\n{countryName}'"/>
+            <field name="namePosition">after</field>
+            <field eval="81" name="phoneCode" />
+        </record>
+        <record id="ke" model="res.country">
+            <field name="label">Kenya</field>
+            <field name="code">ke</field>
+            <field name="currencyId" ref="KES" />
+            <field eval="254" name="phoneCode" />
+        </record>
+        <record id="kg" model="res.country">
+            <field name="label">Kyrgyzstan</field>
+            <field name="code">kg</field>
+            <field name="currencyId" ref="KGS" />
+            <field eval="996" name="phoneCode" />
+        </record>
+        <record id="kh" model="res.country">
+            <field name="label">Cambodia</field>
+            <field name="code">kh</field>
+            <field name="currencyId" ref="KHR" />
+            <field eval="855" name="phoneCode" />
+        </record>
+        <record id="ki" model="res.country">
+            <field name="label">Kiribati</field>
+            <field name="code">ki</field>
+            <field name="currencyId" ref="AUD" />
+            <field eval="686" name="phoneCode" />
+        </record>
+        <record id="km" model="res.country">
+            <field name="label">Comoros</field>
+            <field name="code">km</field>
+            <field name="currencyId" ref="KMF" />
+            <field eval="269" name="phoneCode" />
+        </record>
+        <record id="kn" model="res.country">
+            <field name="label">Saint Kitts and Nevis</field>
+            <field name="code">kn</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="1869" name="phoneCode" />
+        </record>
+        <record id="kp" model="res.country">
+            <field name="label">North Korea</field>
+            <field name="code">kp</field>
+            <field name="currencyId" ref="KPW" />
+            <field eval="850" name="phoneCode" />
+        </record>
+        <record id="kr" model="res.country">
+            <field name="label">South Korea</field>
+            <field name="code">kr</field>
+            <field name="currencyId" ref="KRW" />
+            <field eval="82" name="phoneCode" />
+        </record>
+        <record id="kw" model="res.country">
+            <field name="label">Kuwait</field>
+            <field name="code">kw</field>
+            <field name="currencyId" ref="KWD" />
+            <field eval="965" name="phoneCode" />
+        </record>
+        <record id="ky" model="res.country">
+            <field name="label">Cayman Islands</field>
+            <field name="code">ky</field>
+            <field name="currencyId" ref="KYD" />
+            <field eval="1345" name="phoneCode" />
+        </record>
+        <record id="kz" model="res.country">
+            <field name="label">Kazakhstan</field>
+            <field name="code">kz</field>
+            <field name="currencyId" ref="KZT" />
+            <field eval="7" name="phoneCode" />
+        </record>
+        <record id="la" model="res.country">
+            <field name="label">Laos</field>
+            <field name="code">la</field>
+            <field name="currencyId" ref="LAK" />
+            <field eval="856" name="phoneCode" />
+        </record>
+        <record id="lb" model="res.country">
+            <field name="label">Lebanon</field>
+            <field name="code">lb</field>
+            <field name="currencyId" ref="LBP" />
+            <field eval="961" name="phoneCode" />
+        </record>
+        <record id="lc" model="res.country">
+            <field name="label">Saint Lucia</field>
+            <field name="code">lc</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="1758" name="phoneCode" />
+        </record>
+        <record id="li" model="res.country">
+            <field name="label">Liechtenstein</field>
+            <field name="code">li</field>
+            <field name="addressFormat" eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" />
+            <field name="currencyId" ref="CHF" />
+            <field eval="423" name="phoneCode" />
+        </record>
+        <record id="lk" model="res.country">
+            <field name="label">Sri Lanka</field>
+            <field name="code">lk</field>
+            <field name="currencyId" ref="LKR" />
+            <field eval="94" name="phoneCode" />
+        </record>
+        <record id="lr" model="res.country">
+            <field name="label">Liberia</field>
+            <field name="code">lr</field>
+            <field name="currencyId" ref="LRD" />
+            <field eval="231" name="phoneCode" />
+        </record>
+        <record id="ls" model="res.country">
+            <field name="label">Lesotho</field>
+            <field name="code">ls</field>
+            <field name="currencyId" ref="LSL" />
+            <field eval="266" name="phoneCode" />
+        </record>
+        <record id="lt" model="res.country">
+            <field name="label">Lithuania</field>
+            <field name="code">lt</field>
+            <field name="currencyId" ref="EUR"/>
+            <field eval="370" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="lu" model="res.country">
+            <field name="label">Luxembourg</field>
+            <field name="code">lu</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="352" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="lv" model="res.country">
+            <field name="label">Latvia</field>
+            <field name="code">lv</field>
+            <field name="currencyId" ref="EUR"/>
+            <field eval="371" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="ly" model="res.country">
+            <field name="label">Libya</field>
+            <field name="code">ly</field>
+            <field name="currencyId" ref="LYD" />
+            <field eval="218" name="phoneCode" />
+        </record>
+        <record id="ma" model="res.country">
+            <field name="label">Morocco</field>
+            <field name="code">ma</field>
+            <field name="currencyId" ref="MAD" />
+            <field eval="212" name="phoneCode" />
+        </record>
+        <record id="mc" model="res.country">
+            <field name="label">Monaco</field>
+            <field name="currencyId" ref="EUR" />
+            <field name="code">mc</field>
+            <field eval="377" name="phoneCode" />
+        </record>
+        <record id="md" model="res.country">
+            <field name="label">Moldova</field>
+            <field name="code">md</field>
+            <field name="currencyId" ref="MDL" />
+            <field eval="373" name="phoneCode" />
+        </record>
+        <record id="me" model="res.country">
+            <field name="label">Montenegro</field>
+            <field name="code">me</field>
+            <field name="currencyId" ref="LYD" />
+            <field eval="382" name="phoneCode" />
+        </record>
+        <record id="mf" model="res.country">
+            <field name="label">Saint Martin (French part)</field>
+            <field name="code">mf</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="590" name="phoneCode" />
+        </record>
+        <record id="mg" model="res.country">
+            <field name="label">Madagascar</field>
+            <field name="code">mg</field>
+            <field name="currencyId" ref="MGA" />
+            <field eval="261" name="phoneCode" />
+        </record>
+        <record id="mh" model="res.country">
+            <field name="label">Marshall Islands</field>
+            <field name="code">mh</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="692" name="phoneCode" />
+        </record>
+        <record id="mk" model="res.country">
+            <field name="label">North Macedonia</field>
+            <field name="code">mk</field>
+            <field name="currencyId" ref="MKD" />
+            <field eval="389" name="phoneCode" />
+        </record>
+        <record id="ml" model="res.country">
+            <field name="label">Mali</field>
+            <field name="code">ml</field>
+            <field name="currencyId" ref="XOF" />
+            <field eval="223" name="phoneCode" />
+        </record>
+        <record id="mm" model="res.country">
+            <field name="label">Myanmar</field>
+            <field name="code">mm</field>
+            <field name="currencyId" ref="MMK" />
+            <field eval="95" name="phoneCode" />
+        </record>
+        <record id="mn" model="res.country">
+            <field name="label">Mongolia</field>
+            <field name="code">mn</field>
+            <field name="currencyId" ref="MNT" />
+            <field eval="976" name="phoneCode" />
+        </record>
+        <record id="mo" model="res.country">
+            <field name="label">Macau</field>
+            <field name="code">mo</field>
+            <field name='zipRequired'>0</field>
+            <field name="currencyId" ref="MOP" />
+            <field eval="853" name="phoneCode" />
+        </record>
+        <record id="mp" model="res.country">
+            <field name="label">Northern Mariana Islands</field>
+            <field name="code">mp</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="1670" name="phoneCode" />
+        </record>
+        <record id="mq" model="res.country">
+            <field name="label">Martinique</field>
+            <field name="code">mq</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="596" name="phoneCode" />
+        </record>
+        <record id="mr" model="res.country">
+            <field name="label">Mauritania</field>
+            <field name="code">mr</field>
+            <field name="currencyId" ref="MRU" />
+            <field eval="222" name="phoneCode" />
+        </record>
+        <record id="ms" model="res.country">
+            <field name="label">Montserrat</field>
+            <field name="code">ms</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="1664" name="phoneCode" />
+        </record>
+        <record id="mt" model="res.country">
+            <field name="label">Malta</field>
+            <field name="code">mt</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="356" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="mu" model="res.country">
+            <field name="label">Mauritius</field>
+            <field name="code">mu</field>
+            <field name="currencyId" ref="MUR" />
+            <field eval="'{street}\n{street2}\n{city} {stateCode} {zip}\n{countryName}'" name="addressFormat" />
+            <field eval="230" name="phoneCode" />
+        </record>
+        <record id="mv" model="res.country">
+            <field name="label">Maldives</field>
+            <field name="code">mv</field>
+            <field name="currencyId" ref="MVR" />
+            <field eval="960" name="phoneCode" />
+        </record>
+        <record id="mw" model="res.country">
+            <field name="label">Malawi</field>
+            <field name="code">mw</field>
+            <field name="currencyId" ref="MWK" />
+            <field eval="265" name="phoneCode" />
+        </record>
+        <record id="mx" model="res.country">
+            <field name="label">Mexico</field>
+            <field name="code">mx</field>
+            <field name='stateRequired'>1</field>
+            <field name="currencyId" ref="MXN" />
+            <field eval="52" name="phoneCode" />
+            <field name="vatLabel">RFC</field>
+            <field eval="'{street} {street2}\n{zip} {city}, {stateCode}\n{countryName}'"  name="addressFormat" />
+        </record>
+        <record id="my" model="res.country">
+            <field name="label">Malaysia</field>
+            <field name="code">my</field>
+            <field name="currencyId" ref="MYR" />
+            <field eval="60" name="phoneCode" />
+        </record>
+        <record id="mz" model="res.country">
+            <field name="label">Mozambique</field>
+            <field name="code">mz</field>
+            <field name="currencyId" ref="MZN" />
+            <field eval="258" name="phoneCode" />
+        </record>
+        <record id="na" model="res.country">
+            <field name="label">Namibia</field>
+            <field name="code">na</field>
+            <field name="currencyId" ref="NAD" />
+            <field eval="264" name="phoneCode" />
+        </record>
+        <record id="nc" model="res.country">
+            <field name="label">New Caledonia</field>
+            <field name="code">nc</field>
+            <field name="currencyId" ref="XPF" />
+            <field eval="687" name="phoneCode" />
+        </record>
+        <record id="ne" model="res.country">
+            <field name="label">Niger</field>
+            <field name="code">ne</field>
+            <field name="currencyId" ref="XOF" />
+            <field eval="227" name="phoneCode" />
+        </record>
+        <record id="nf" model="res.country">
+            <field name="label">Norfolk Island</field>
+            <field name="code">nf</field>
+            <field name="currencyId" ref="AUD" />
+            <field eval="672" name="phoneCode" />
+        </record>
+        <record id="ng" model="res.country">
+            <field name="label">Nigeria</field>
+            <field name="code">ng</field>
+            <field name="currencyId" ref="NGN" />
+            <field eval="234" name="phoneCode" />
+        </record>
+        <record id="ni" model="res.country">
+            <field name="label">Nicaragua</field>
+            <field name="code">ni</field>
+            <field name="currencyId" ref="NIO" />
+            <field eval="505" name="phoneCode" />
+        </record>
+        <record id="nl" model="res.country">
+            <field name="label">Netherlands</field>
+            <field name="code">nl</field>
+            <field eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="EUR" />
+            <field eval="31" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="no" model="res.country">
+            <field name="label">Norway</field>
+            <field name="code">no</field>
+            <field eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="NOK" />
+            <field eval="47" name="phoneCode" />
+        </record>
+        <record id="np" model="res.country">
+            <field name="label">Nepal</field>
+            <field name="code">np</field>
+            <field name="currencyId" ref="NPR" />
+            <field eval="977" name="phoneCode" />
+        </record>
+        <record id="nr" model="res.country">
+            <field name="label">Nauru</field>
+            <field name="code">nr</field>
+            <field name="currencyId" ref="AUD" />
+            <field eval="674" name="phoneCode" />
+        </record>
+        <record id="nu" model="res.country">
+            <field name="label">Niue</field>
+            <field name="code">nu</field>
+            <field name="currencyId" ref="NZD" />
+            <field eval="683" name="phoneCode" />
+        </record>
+        <record id="nz" model="res.country">
+            <field name="label">New Zealand</field>
+            <field name="code">nz</field>
+            <field name="currencyId" ref="NZD" />
+            <field eval="64" name="phoneCode" />
+        </record>
+        <record id="om" model="res.country">
+            <field name="label">Oman</field>
+            <field name="code">om</field>
+            <field name="currencyId" ref="OMR" />
+            <field eval="968" name="phoneCode" />
+        </record>
+        <record id="pa" model="res.country">
+            <field name="label">Panama</field>
+            <field name="code">pa</field>
+            <field name="currencyId" ref="PAB" />
+            <field eval="507" name="phoneCode" />
+            <field name="addressFormat" eval="'{street}\n{street2}\n{city} {stateName} {zip}\n{countryName}'" />
+        </record>
+        <record id="pe" model="res.country">
+            <field name="label">Peru</field>
+            <field name="code">pe</field>
+            <field name="currencyId" ref="PEN" />
+            <field eval="51" name="phoneCode" />
+        </record>
+        <record id="pf" model="res.country">
+            <field name="label">French Polynesia</field>
+            <field name="code">pf</field>
+            <field name="currencyId" ref="XPF" />
+            <field eval="689" name="phoneCode" />
+            <field name="vatLabel">N° Tahiti</field>
+        </record>
+        <record id="pg" model="res.country">
+            <field name="label">Papua New Guinea</field>
+            <field name="code">pg</field>
+            <field name="currencyId" ref="PGK" />
+            <field eval="675" name="phoneCode" />
+        </record>
+        <record id="ph" model="res.country">
+            <field name="label">Philippines</field>
+            <field name="code">ph</field>
+            <field name="currencyId" ref="PHP" />
+            <field eval="63" name="phoneCode" />
+        </record>
+        <record id="pk" model="res.country">
+            <field name="label">Pakistan</field>
+            <field name="code">pk</field>
+            <field name="currencyId" ref="PKR" />
+            <field eval="92" name="phoneCode" />
+        </record>
+        <record id="pl" model="res.country">
+            <field name="label">Poland</field>
+            <field name="code">pl</field>
+            <field name="addressFormat" eval="'{street}\n{street2}\n{zip} {city}\n{countryName}'" />
+            <field name="currencyId" ref="PLN" />
+            <field eval="48" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="pm" model="res.country">
+            <field name="label">Saint Pierre and Miquelon</field>
+            <field name="code">pm</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="508" name="phoneCode" />
+        </record>
+        <record id="pn" model="res.country">
+            <field name="label">Pitcairn Islands</field>
+            <field name="code">pn</field>
+            <field name="currencyId" ref="NZD" />
+            <field eval="64" name="phoneCode" />
+        </record>
+        <record id="pr" model="res.country">
+            <field name="label">Puerto Rico</field>
+            <field name="code">pr</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="1939" name="phoneCode" />
+        </record>
+        <record id="ps" model="res.country">
+            <field name="label">State of Palestine</field>
+            <field name="code">ps</field>
+            <field name="currencyId" ref="ILS" />
+            <field eval="970" name="phoneCode" />
+        </record>
+        <record id="pt" model="res.country">
+            <field name="label">Portugal</field>
+            <field name="code">pt</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="351" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="pw" model="res.country">
+            <field name="label">Palau</field>
+            <field name="code">pw</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="680" name="phoneCode" />
+        </record>
+        <record id="py" model="res.country">
+            <field name="label">Paraguay</field>
+            <field name="code">py</field>
+            <field name="currencyId" ref="PYG" />
+            <field eval="595" name="phoneCode" />
+        </record>
+        <record id="qa" model="res.country">
+            <field name="label">Qatar</field>
+            <field name="code">qa</field>
+            <field name="currencyId" ref="QAR" />
+            <field eval="974" name="phoneCode" />
+        </record>
+        <record id="re" model="res.country">
+            <field name="label">Réunion</field>
+            <field name="code">re</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="262" name="phoneCode" />
+        </record>
+        <record id="ro" model="res.country">
+            <field name="label">Romania</field>
+            <field name="code">ro</field>
+            <field name="currencyId" ref="RON" />
+            <field eval="40" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="rs" model="res.country">
+            <field name="label">Serbia</field>
+            <field name="code">rs</field>
+            <field name="currencyId" ref="RSD" />
+            <field eval="381" name="phoneCode" />
+        </record>
+        <record id="ru" model="res.country">
+            <field name="label">Russian Federation</field>
+            <field name="code">ru</field>
+            <field name="currencyId" ref="RUB" />
+            <field eval="7" name="phoneCode" />
+        </record>
+        <record id="rw" model="res.country">
+            <field name="label">Rwanda</field>
+            <field name="code">rw</field>
+            <field name="currencyId" ref="RWF" />
+            <field eval="250" name="phoneCode" />
+        </record>
+        <record id="sa" model="res.country">
+            <field name="label">Saudi Arabia</field>
+            <field name="code">sa</field>
+            <field name="currencyId" ref="SAR" />
+            <field eval="966" name="phoneCode" />
+        </record>
+        <record id="sb" model="res.country">
+            <field name="label">Solomon Islands</field>
+            <field name="code">sb</field>
+            <field name="currencyId" ref="SBD" />
+            <field eval="677" name="phoneCode" />
+        </record>
+        <record id="sc" model="res.country">
+            <field name="label">Seychelles</field>
+            <field name="code">sc</field>
+            <field name="currencyId" ref="SCR" />
+            <field eval="248" name="phoneCode" />
+        </record>
+        <record id="sd" model="res.country">
+            <field name="label">Sudan</field>
+            <field name="code">sd</field>
+            <field name="currencyId" ref="SDG" />
+            <field eval="249" name="phoneCode" />
+        </record>
+        <record id="se" model="res.country">
+            <field name="label">Sweden</field>
+            <field name="code">se</field>
+            <field name="currencyId" ref="SEK" />
+            <field eval="46" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="sg" model="res.country">
+            <field name="label">Singapore</field>
+            <field name="code">sg</field>
+            <field name="currencyId" ref="SGD" />
+            <field eval="65" name="phoneCode" />
+            <field name="vatLabel">GST No.</field>
+        </record>
+        <record id="sh" model="res.country">
+            <field name="label">Saint Helena, Ascension and Tristan da Cunha</field>
+            <field name="code">sh</field>
+            <field name="currencyId" ref="SHP" />
+            <field eval="290" name="phoneCode" />
+        </record>
+        <record id="si" model="res.country">
+            <field name="label">Slovenia</field>
+            <field name="code">si</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="386" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="sj" model="res.country">
+            <field name="label">Svalbard and Jan Mayen</field>
+            <field name="code">sj</field>
+            <field name="currencyId" ref="NOK" />
+            <field eval="47" name="phoneCode" />
+        </record>
+        <record id="sk" model="res.country">
+            <field name="label">Slovakia</field>
+            <field name="code">sk</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="421" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="sl" model="res.country">
+            <field name="label">Sierra Leone</field>
+            <field name="code">sl</field>
+            <field name="currencyId" ref="SLL" />
+            <field eval="232" name="phoneCode" />
+        </record>
+        <record id="sm" model="res.country">
+            <field name="label">San Marino</field>
+            <field name="code">sm</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="378" name="phoneCode" />
+        </record>
+        <record id="sn" model="res.country">
+            <field name="label">Senegal</field>
+            <field name="code">sn</field>
+            <field name="currencyId" ref="XOF" />
+            <field eval="221" name="phoneCode" />
+        </record>
+        <record id="so" model="res.country">
+            <field name="label">Somalia</field>
+            <field name="code">so</field>
+            <field name="currencyId" ref="SOS" />
+            <field eval="252" name="phoneCode" />
+        </record>
+        <record id="sr" model="res.country">
+            <field name="label">Suriname</field>
+            <field name="code">sr</field>
+            <field name="currencyId" ref="SRD" />
+            <field eval="597" name="phoneCode" />
+        </record>
+        <record id="ss" model="res.country">
+            <field name="label">South Sudan</field>
+            <field name="code">ss</field>
+            <field name="currencyId" ref="SSP" />
+            <field eval="211" name="phoneCode" />
+        </record>
+        <record id="st" model="res.country">
+            <field name="label">São Tomé and Príncipe</field>
+            <field name="code">st</field>
+            <field name="currencyId" ref="STD" />
+            <field eval="239" name="phoneCode" />
+        </record>
+        <record id="sv" model="res.country">
+            <field name="label">El Salvador</field>
+            <field name="code">sv</field>
+            <field name="currencyId" ref="SVC" />
+            <field eval="503" name="phoneCode" />
+        </record>
+        <record id="sx" model="res.country">
+            <field name="label">Sint Maarten (Dutch part)</field>
+            <field name="code">sx</field>
+            <field name="currencyId" ref="ANG" />
+            <field eval="1721" name="phoneCode" />
+        </record>
+        <record id="sy" model="res.country">
+            <field name="label">Syria</field>
+            <field name="code">sy</field>
+            <field name="currencyId" ref="SYP" />
+            <field eval="963" name="phoneCode" />
+        </record>
+        <record id="sz" model="res.country">
+            <field name="label">Swaziland</field>
+            <field name="code">sz</field>
+            <field name="currencyId" ref="SZL" />
+            <field eval="268" name="phoneCode" />
+        </record>
+        <record id="tc" model="res.country">
+            <field name="label">Turks and Caicos Islands</field>
+            <field name="code">tc</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="1649" name="phoneCode" />
+        </record>
+        <record id="td" model="res.country">
+            <field name="label">Chad</field>
+            <field name="code">td</field>
+            <field name="currencyId" ref="XAF" />
+            <field eval="235" name="phoneCode" />
+        </record>
+        <record id="tf" model="res.country">
+            <field name="label">French Southern Territories</field>
+            <field name="code">tf</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="262" name="phoneCode" />
+        </record>
+        <record id="tg" model="res.country">
+            <field name="label">Togo</field>
+            <field name="code">tg</field>
+            <field name="currencyId" ref="XOF" />
+            <field eval="228" name="phoneCode" />
+        </record>
+        <record id="th" model="res.country">
+            <field name="label">Thailand</field>
+            <field name="code">th</field>
+            <field name="currencyId" ref="THB" />
+            <field eval="66" name="phoneCode" />
+        </record>
+        <record id="tj" model="res.country">
+            <field name="label">Tajikistan</field>
+            <field name="code">tj</field>
+            <field name="currencyId" ref="TJS" />
+            <field eval="992" name="phoneCode" />
+        </record>
+        <record id="tk" model="res.country">
+            <field name="label">Tokelau</field>
+            <field name="code">tk</field>
+            <field name="currencyId" ref="NZD" />
+            <field eval="690" name="phoneCode" />
+        </record>
+        <record id="tm" model="res.country">
+            <field name="label">Turkmenistan</field>
+            <field name="code">tm</field>
+            <field name="currencyId" ref="TMT" />
+            <field eval="993" name="phoneCode" />
+        </record>
+        <record id="tn" model="res.country">
+            <field name="label">Tunisia</field>
+            <field name="code">tn</field>
+            <field name="currencyId" ref="TND" />
+            <field eval="216" name="phoneCode" />
+        </record>
+        <record id="to" model="res.country">
+            <field name="label">Tonga</field>
+            <field name="code">to</field>
+            <field name="currencyId" ref="TOP" />
+            <field eval="676" name="phoneCode" />
+        </record>
+        <record id="tl" model="res.country">
+            <field name="label">Timor-Leste</field>
+            <field name="code">tl</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="670" name="phoneCode" />
+        </record>
+        <record id="tr" model="res.country">
+            <field name="label">Turkey</field>
+            <field name="code">tr</field>
+            <field eval="'{street}\n{street2}\n{city} {stateName} {zip}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="TRY" />
+            <field eval="90" name="phoneCode" />
+        </record>
+        <record id="tt" model="res.country">
+            <field name="label">Trinidad and Tobago</field>
+            <field name="code">tt</field>
+            <field name="currencyId" ref="TTD" />
+            <field eval="1868" name="phoneCode" />
+        </record>
+        <record id="tv" model="res.country">
+            <field name="label">Tuvalu</field>
+            <field name="code">tv</field>
+            <field name="currencyId" ref="AUD" />
+            <field eval="688" name="phoneCode" />
+        </record>
+        <record id="tw" model="res.country">
+            <field name="label">Taiwan</field>
+            <field name="code">tw</field>
+            <field name="currencyId" ref="TWD" />
+            <field eval="886" name="phoneCode" />
+        </record>
+        <record id="tz" model="res.country">
+            <field name="label">Tanzania</field>
+            <field name="code">tz</field>
+            <field name="currencyId" ref="TZS" />
+            <field eval="255" name="phoneCode" />
+        </record>
+        <record id="ua" model="res.country">
+            <field name="label">Ukraine</field>
+            <field name="code">ua</field>
+            <field name="currencyId" ref="UAH" />
+            <field eval="380" name="phoneCode" />
+        </record>
+        <record id="ug" model="res.country">
+            <field name="label">Uganda</field>
+            <field name="code">ug</field>
+            <field name="currencyId" ref="UGX" />
+            <field eval="256" name="phoneCode" />
+        </record>
+        <record id="uk" model="res.country">
+            <field name="label">United Kingdom</field>
+            <field eval="'{street}\n{street2}\n{city}\n{stateName}\n{zip}\n{countryName}'" name="addressFormat" />
+            <field name="code">gb</field>
+            <field name="currencyId" ref="GBP" />
+            <field eval="44" name="phoneCode" />
+            <field name="vatLabel">VAT</field>
+        </record>
+        <record id="um" model="res.country">
+            <field name="label">USA Minor Outlying Islands</field>
+            <field name="code">um</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="699" name="phoneCode" />
+        </record>
+        <record id="us" model="res.country">
+            <field name="label">United States</field>
+            <field name="code">us</field>
+            <field name='stateRequired'>1</field>
+            <field eval="'{street}\n{street2}\n{city} {stateCode} {zip}\n{countryName}'" name="addressFormat" />
+            <field name="currencyId" ref="USD" />
+            <field eval="1" name="phoneCode" />
+            <field name="vatLabel">EIN</field>
+        </record>
+        <record id="uy" model="res.country">
+            <field name="label">Uruguay</field>
+            <field name="code">uy</field>
+            <field name="currencyId" ref="UYU" />
+            <field eval="598" name="phoneCode" />
+        </record>
+        <record id="uz" model="res.country">
+            <field name="label">Uzbekistan</field>
+            <field name="code">uz</field>
+            <field name="currencyId" ref="UZS" />
+            <field eval="998" name="phoneCode" />
+        </record>
+        <record id="va" model="res.country">
+            <field name="label">Holy See (Vatican City State)</field>
+            <field name="code">va</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="379" name="phoneCode" />
+        </record>
+        <record id="vc" model="res.country">
+            <field name="label">Saint Vincent and the Grenadines</field>
+            <field name="code">vc</field>
+            <field name="currencyId" ref="XCD" />
+            <field eval="1784" name="phoneCode" />
+        </record>
+        <record id="ve" model="res.country">
+            <field name="label">Venezuela</field>
+            <field name="code">ve</field>
+            <field name="currencyId" ref="VEF" />
+            <field eval="58" name="phoneCode" />
+        </record>
+        <record id="vg" model="res.country">
+            <field name="label">Virgin Islands (British)</field>
+            <field name="code">vg</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="1284" name="phoneCode" />
+        </record>
+        <record id="vi" model="res.country">
+            <field name="label">Virgin Islands (USA)</field>
+            <field name="code">vi</field>
+            <field name="currencyId" ref="USD" />
+            <field eval="1340" name="phoneCode" />
+        </record>
+        <record id="vn" model="res.country">
+            <field name="label">Vietnam</field>
+            <field name="code">vn</field>
+            <field name="currencyId" ref="VND" />
+            <field eval="84" name="phoneCode" />
+            <field name='zipRequired'>0</field>
+            <field eval="'{street}\n{street2}\n{city}\n{stateName} {countryName}'" name="addressFormat" />
+        </record>
+        <record id="vu" model="res.country">
+            <field name="label">Vanuatu</field>
+            <field name="code">vu</field>
+            <field name="currencyId" ref="VUV" />
+            <field eval="678" name="phoneCode" />
+        </record>
+        <record id="wf" model="res.country">
+            <field name="label">Wallis and Futuna</field>
+            <field name="code">wf</field>
+            <field name="currencyId" ref="XPF" />
+            <field eval="681" name="phoneCode" />
+        </record>
+        <record id="ws" model="res.country">
+            <field name="label">Samoa</field>
+            <field name="code">ws</field>
+            <field name="currencyId" ref="WST" />
+            <field eval="685" name="phoneCode" />
+        </record>
+        <record id="ye" model="res.country">
+            <field name="label">Yemen</field>
+            <field name="code">ye</field>
+            <field name="currencyId" ref="YER" />
+            <field eval="967" name="phoneCode" />
+        </record>
+        <record id="yt" model="res.country">
+            <field name="label">Mayotte</field>
+            <field name="code">yt</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="262" name="phoneCode" />
+        </record>
+        <record id="za" model="res.country">
+            <field name="label">South Africa</field>
+            <field name="code">za</field>
+            <field name="currencyId" ref="ZAR" />
+            <field eval="27" name="phoneCode" />
+        </record>
+        <record id="zm" model="res.country">
+            <field name="label">Zambia</field>
+            <field name="code">zm</field>
+            <field name="currencyId" ref="ZMW" />
+            <field eval="260" name="phoneCode" />
+        </record>
+        <record id="zw" model="res.country">
+            <field name="label">Zimbabwe</field>
+            <field name="code">zw</field>
+            <field name="currencyId" ref="ZWL" />
+            <field eval="263" name="phoneCode" />
+        </record>
+        <record id="xk" model="res.country">
+            <field name="label">Kosovo</field>
+            <field name="code">xk</field>
+            <field name="currencyId" ref="EUR" />
+            <field eval="383" name="phoneCode" />
+        </record>
+
+        <record id="europe" model="res.country.group">
+            <field name="label">Europe</field>
+            <field name="countryIds" eval="[Command.set([
+                refId('at'),refId('be'),refId('bg'),refId('hr'),refId('cy'),
+                refId('cz'),refId('dk'),refId('ee'),refId('fi'),refId('fr'),
+                refId('de'),refId('gr'),refId('hu'),refId('ie'),refId('it'),
+                refId('lv'),refId('lt'),refId('lu'),refId('mt'),refId('nl'),
+                refId('pl'),refId('pt'),refId('ro'),refId('sk'),refId('si'),
+                refId('es'),refId('se')])]"/>
+        </record>
+
+        <record id="southAmerica" model="res.country.group">
+            <field name="label">South America</field>
+            <field name="countryIds" eval="[Command.set([
+                refId('ar'),refId('bo'),refId('br'),refId('cl'),refId('co'),
+                refId('ec'),refId('fk'),refId('gs'),refId('gf'),refId('gy'),
+                refId('py'),refId('pe'),refId('sr'),refId('uy'),refId('ve')])]"/>
+        </record>
+
+        <record id="sepaZone" model="res.country.group">
+            <field name="label">SEPA Countries</field>
+            <field name="countryIds" eval="[Command.set([
+                refId('ad'),refId('at'),refId('ax'),refId('be'),refId('bg'),
+                refId('bl'),refId('ch'),refId('cy'),refId('cz'),refId('de'),
+                refId('dk'),refId('ee'),refId('es'),refId('fi'),refId('fr'),
+                refId('uk'),refId('gf'),refId('gg'),refId('gi'),refId('gp'),
+                refId('gr'),refId('hr'),refId('hu'),refId('ie'),refId('im'),
+                refId('is'),refId('it'),refId('je'),refId('li'),refId('lt'),
+                refId('lu'),refId('lv'),refId('mc'),refId('mf'),refId('mq'),
+                refId('mt'),refId('nl'),refId('no'),refId('pl'),refId('pm'),
+                refId('pt'),refId('re'),refId('ro'),refId('se'),refId('si'),
+                refId('sk'),refId('sm'),refId('va'),refId('yt')])]"/>
+        </record>
+
+        <record id="gulfCooperationCouncil" model="res.country.group">
+            <field name="label">Gulf Cooperation Council (GCC)</field>
+            <field name="countryIds" eval="[[6,0, [refId('base.sa'), refId('base.ae'), refId('base.bh'), refId('base.om'), refId('base.qa'), refId('base.kw')]]]"/>
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="assetViewForm" model="ir.ui.view">
+        <field name="model">ir.asset</field>
+        <field name="arch" type="xml">
+            <form string="Assets">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="label"/>
+                            <field name="bundle"/>
+                            <field name="directive"/>
+                            <field name="sequence"/>
+                            <field name="active" widget="booleanToggle"/>
+                        </group>
+                        <group>
+                            <field name="target" attrs="{ 'invisible': [['directive', '!=', 'replace']] }"/>
+                            <field name="path"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="assetViewTree" model="ir.ui.view">
+        <field name="model">ir.asset</field>
+        <field name="arch" type="xml">
+            <tree string="Assets">
+                <field name="label"/>
+                <field name="bundle"/>
+                <field name="sequence"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="assetViewSearch" model="ir.ui.view">
+        <field name="model">ir.asset</field>
+        <field name="arch" type="xml">
+            <search string="Assets">
+                <field name="label"/>
+                <field name="bundle"/>
+                <field name="directive"/>
+                <field name="sequence"/>
+                <field name="path"/>
+                <filter string="Active" name="active" domain="[['active', '=', true]]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionAsset" model="ir.actions.actwindow">
+        <field name="label">Assets</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">ir.asset</field>
+        <field name="viewId" ref="assetViewTree"/>
+        <field name="context">{'searchDefault_active': 1}</field>
+    </record>
+    
+    <menuitem action="actionAsset" id="menuActionAsset" parent="base.nextId9"/>
+</verp>

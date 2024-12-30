@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <record id="ratingRatingViewTree" model="ir.ui.view">
+            <field name="label">rating.rating.tree</field>
+            <field name="model">rating.rating</field>
+            <field name="arch" type="xml">
+                <tree string="Ratings" create="false" edit="false" sample="1">
+                    <field name="createdAt"/>
+                    <field name="ratedPartnerId" optional="show"/>
+                    <field name="partnerId" optional="show"/>
+                    <field name="parentResName" optional="show"/>
+                    <field name="resName" optional="show"/>
+                    <field name="feedback" optional="hide"/>
+                    <field name="ratingText" decoration-danger="ratingText == 'ko'" decoration-warning="ratingText == 'ok'" decoration-success="ratingText == 'top'" class="font-weight-bold" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ratingRatingViewForm" model="ir.ui.view">
+            <field name="label">rating.rating.form</field>
+            <field name="model">rating.rating</field>
+            <field name="arch" type="xml">
+                <form string="Ratings" create="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="resourceRef" string="Document"/>
+                                <field name="resName" string="Document" invisible="1"/>
+                                <field name="parentRef" string="Parent Holder"/>
+                                <field name="parentResName" string="Parent Holder" invisible="1"/>
+                                <field name="ratedPartnerId" widget="many2oneAvatar"/>
+                                <field name="rating" invisible="1"/>
+                                <field name="isInternal"/>
+                            </group>
+                            <group>
+                                <field name="partnerId"/>
+                                <div colspan="2" class="text-center" name="ratingImageContainer">
+                                    <field name="ratingImage" widget='image'/>
+                                    <div class="mt4">
+                                        <strong><field name="ratingText"/></strong>
+                                    </div>
+                                </div>
+                                <field name="createdAt"/>
+                                <field name="feedback" attrs="{'invisible': [['feedback','=',false]]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ratingRatingViewKanban" model="ir.ui.view">
+            <field name="label">rating.rating.kanban</field>
+            <field name="model">rating.rating</field>
+            <field name="arch" type="xml">
+                <kanban create="false" sample="1">
+                    <field name="rating"/>
+                    <field name="resName"/>
+                    <field name="feedback"/>
+                    <field name="partnerId"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe-kanban-global-click d-flex align-items-center justify-content-center">
+                                <div class="row oe-kanban-details">
+                                    <div class="col-4 o-kanban-image my-auto">
+                                        <field name="ratingImage" widget="image"/>
+                                    </div>
+                                    <div class="col-8 pl-1">
+                                        <strong>
+                                            <field name="ratedPartnerName"/>
+                                        </strong>
+                                        <ul>
+                                            <li t-if="record.partnerId.value">
+                                                <span class="o-text-overflow">
+                                                    by
+                                                    <span t-att-title="record.partnerId.value">
+                                                        <field name="partnerId" />
+                                                    </span>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="o-text-overflow">
+                                                    for
+                                                    <a type="object" name="actionOpenRatedObject" t-att-title="record.resName.rawValue">
+                                                        <field name="resName" />
+                                                    </a>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                on <field name="createdAt" />
+                                            </li>
+                                            <li t-if="record.feedback.rawValue" class="o-text-overflow" t-att-title="record.feedback.rawValue">
+                                                <field name="feedback"/>
+                                            </li>
+                                        </ul>
+                                </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="ratingRatingViewPivot" model="ir.ui.view">
+            <field name="label">rating.rating.pivot</field>
+            <field name="model">rating.rating</field>
+            <field name="arch" type="xml">
+                <pivot string="Ratings" displayQuantity="1" sample="1">
+                    <field name="ratedPartnerId" type="row"/>
+                    <field name="createdAt" type="col"/>
+                    <field name="rating" type="measure" string="Rating Value (/5)"/>
+                    <field name="parentResId" invisible="1"/>
+                    <field name="resId" invisible="1"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="ratingRatingViewGraph" model="ir.ui.view">
+           <field name="label">rating.rating.graph</field>
+           <field name="model">rating.rating</field>
+           <field name="arch" type="xml">
+                <graph string="Ratings" sample="1">
+                    <field name="createdAt"/>
+                    <field name="rating" type="measure" string="Rating Value (/5)"/>
+                    <field name="parentResId" invisible="1"/>
+                    <field name="resId" invisible="1"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="ratingRatingViewSearch" model="ir.ui.view">
+            <field name="label">rating.rating.search</field>
+            <field name="model">rating.rating</field>
+            <field name="arch" type="xml">
+                <search string="Ratings">
+                    <field name="ratedPartnerId"/>
+                    <field name="rating"/>
+                    <field name="partnerId"/>
+                    <field name="resName" filterDomain="[['resName','ilike',self]]"/>
+                    <field name="resId"/>
+                    <field name="parentResName" filterDomain="[['parentResName','ilike',self]]"/>
+                    <filter string="My Ratings" name="myRatings" domain="[['ratedPartnerId.userIds', 'in', [uid]]]"/>
+                    <separator/>
+                    <filter string="Satisfied" name="ratingHappy" domain="[['ratingText', '=', 'top']]"/>
+                    <filter string="Okay" name="ratingOkay" domain="[['ratingText', '=', 'ok']]"/>
+                    <filter string="Dissatisfied" name="ratingUnhappy" domain="[['ratingText', '=', 'ko']]"/>
+                    <separator/>
+                    <filter string="Today" name="today" domain="[['createdAt', '&gt;', toFormat(subDate(contextToday(), {days: 1}), 'yyyy-MM-dd')]]"/>
+                    <filter string="Last 7 days" name="last7days" domain="[['createdAt', '&gt;', toFormat(subDate(contextToday(), {days: 7}), 'yyyy-MM-dd')]]"/>
+                    <filter string="Last 30 days" name="lastMonth" domain="[['createdAt', '&gt;', toFormat(subDate(contextToday(), {days: 30}), 'yyyy-MM-dd')]]"/>
+                    <separator/>
+                    <filter name="filterCreateDate" date="createdAt"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Rated Operator" name="responsible" context="{'groupby':'ratedPartnerId'}"/>
+                        <filter string="Customer" name="customer" context="{'groupby':'partnerId'}"/>
+                        <filter string="Rating" name="ratingText" context="{'groupby':'ratingText'}"/>
+                        <filter string="Resource" name="resource" context="{'groupby':'resName'}"/>
+                        <filter string="Date" name="month" context="{'groupby':'createdAt:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="ratingRatingView" model="ir.actions.actwindow">
+            <field name="label">Ratings</field>
+            <field name="resModel">rating.rating</field>
+            <field name="viewMode">kanban,tree,graph,pivot,form</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-empty-folder">
+                    No rating yet
+                </p><p>
+                    There is no rating for this object at the moment.
+                </p>
+            </field>
+        </record>
+
+        <!-- Add menu entry in Technical/Discuss -->
+        <menuitem name="Ratings"
+            id="ratingRatingMenuTechnical"
+            parent="mail.mailMenuTechnical"
+            action="ratingRatingView"
+            sequence="30"/>
+
+</verp>

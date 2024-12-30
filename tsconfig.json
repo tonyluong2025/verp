@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "lib": [
+      "es2020",
+      "es2020.string",
+      "esnext.asynciterable"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "pretty": true,
+    "sourceMap": true,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "allowJs": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.json", "src/test/test_http/html.js", "src/test/test_transpiler/input.js", "src/core/models.js", "src/test/test_decorator.js", "src/test/test_xlsx/index.ts", "src/test/test_http/upload.js",
+  ],
+  "exclude": [
+    "node_modules",
+    "./src/test",
+    "./src/test.ts",
+  ],
+  "resolveSourceMapLocations": [
+    "${workspaceFolder}/**",
+    "!**/node_modules/**"
+  ],
+}

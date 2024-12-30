@@ -1,0 +1,726 @@
+@keyframes item-in {
+  0% {
+    opacity: 0;
+    margin-top: -30px;
+  }
+  50% {
+    margin-top: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes item-in {
+  0% {
+    opacity: 0;
+    margin-top: -30px;
+  }
+  50% {
+    margin-top: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  font-smooth: always;
+}
+body .pos-customer-facing-display {
+  background-color: #f6f6f6;
+  font-size: 2vw;
+  font-family: Futura, HelveticaNeue, Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+}
+body .pos-customer-facing-display .pos-customer-products,
+body .pos-customer-facing-display .pos-payment-info {
+  height: 100%;
+  padding: 2%;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -moz-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+body .pos-customer-facing-display .pos-orderlines {
+  width: 100%;
+  height: 100%;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-list {
+  overflow-y: scroll;
+  padding-right: 1.5vw;
+  position: relative;
+  height: 100%;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item {
+  margin-bottom: 1vw;
+  padding: 1%;
+  border-radius: 0.3vw;
+  height: auto;
+  -webkit-box-flex: 0 1 auto;
+  -webkit-flex: 0 1 auto;
+  -moz-box-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -ms-grid-row-align: center;
+  align-items: center;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item:last-of-type {
+  animation: item-in 1s ease;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item.pos-orderlines-header {
+  background-color: transparent;
+  box-shadow: none;
+  animation: none;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item.pos-orderlines-header > div, body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item.pos-orderlines-header > div:last-child {
+  border-left-width: 0;
+  text-align: center;
+  font-size: 70%;
+  font-weight: normal;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item.pos-orderlines-header > div:last-child {
+  text-align: left;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item > div {
+  width: 5%;
+  text-align: left;
+  margin-right: 4%;
+  font-size: 80%;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -moz-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item > div:first-child {
+  margin-right: 2%;
+  -webkit-box-flex: 1 1 1%;
+  -webkit-flex: 1 1 1%;
+  -moz-box-flex: 1 1 1%;
+  -ms-flex: 1 1 1%;
+  flex: 1 1 1%;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item > div:nth-child(2) {
+  width: 40%;
+  border-left: 1px solid;
+  padding-left: 2%;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item > div:nth-child(3) {
+  text-align: center;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item > div:last-child {
+  margin-right: 0;
+  font-weight: bold;
+}
+body .pos-customer-facing-display .pos-orderlines .pos-orderlines-item > div div {
+  background-position: center;
+  background-size: cover;
+  padding-top: 75%;
+  display: block;
+}
+body .pos-customer-facing-display .pos-payment-info {
+  max-width: 30%;
+  padding: 2% 2% 1% 2%;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: space-between;
+  -webkit-justify-content: space-between;
+  -moz-box-pack: space-between;
+  -ms-flex-pack: space-between;
+  justify-content: space-between;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-adv,
+body .pos-customer-facing-display .pos-payment-info .pos-company-logo {
+  background-position: center top;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-adv[style*="url(http://placehold.it"],
+body .pos-customer-facing-display .pos-payment-info .pos-company-logo[style*="url(http://placehold.it"] {
+  background-color: #ccc;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-company-logo {
+  background-image: url(/logo);
+  margin-bottom: 10%;
+  -webkit-box-flex: 0 0 20%;
+  -webkit-flex: 0 0 20%;
+  -moz-box-flex: 0 0 20%;
+  -ms-flex: 0 0 20%;
+  flex: 0 0 20%;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-adv {
+  margin-bottom: 5%;
+  border-bottom: 10px solid transparent;
+  box-shadow: 0 1px rgba(246, 246, 246, 0.2);
+  -webkit-box-flex: 1 1 60%;
+  -webkit-flex: 1 1 60%;
+  -moz-box-flex: 1 1 60%;
+  -ms-flex: 1 1 60%;
+  flex: 1 1 60%;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-total,
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-paymentlines {
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: space-between;
+  -webkit-justify-content: space-between;
+  -moz-box-pack: space-between;
+  -ms-flex-pack: space-between;
+  justify-content: space-between;
+  -webkit-box-align: baseline;
+  -webkit-align-items: baseline;
+  -moz-box-align: baseline;
+  -ms-flex-align: baseline;
+  -ms-grid-row-align: baseline;
+  align-items: baseline;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-total > div,
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-paymentlines > div {
+  -webkit-box-flex: 1 0 48%;
+  -webkit-flex: 1 0 48%;
+  -moz-box-flex: 1 0 48%;
+  -ms-flex: 1 0 48%;
+  flex: 1 0 48%;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-total > div:nth-child(even),
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-paymentlines > div:nth-child(even) {
+  font-weight: bold;
+  font-size: 120%;
+  margin-right: 0;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-total {
+  font-size: 2vw;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-paymentlines {
+  margin-top: 2%;
+  font-size: 1.5vw;
+  line-height: 1.3;
+}
+body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-verp-logo-container {
+  background-image: url(/web/static/img/logo_inverse_white_206px.png);
+  background-position: right top;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 1.5vw;
+  margin-top: 10%;
+}
+@media all and (orientation: portrait) {
+  body .pos-customer-facing-display {
+    font-size: 2vh;
+    height: 100%;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+  }
+  body .pos-customer-facing-display:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 17vh;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-adv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 15vh;
+    width: 99vw;
+    margin: 0.5vh;
+    border-width: 0;
+    -webkit-display: flex;
+    -moz-display: flex;
+    -ms-display: flex;
+    -o-display: flex;
+    display: flex;
+  }
+  body .pos-customer-facing-display.pos-js-no-ADV:before {
+    display: none;
+  }
+  body .pos-customer-facing-display.pos-js-no-ADV .pos-customer-products {
+    padding-top: 0;
+  }
+  body .pos-customer-facing-display .pos-customer-products {
+    padding-top: 17vh;
+    height: 72vw;
+    overflow: hidden;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines {
+    -webkit-box-flex: 1 0 auto;
+    -webkit-flex: 1 0 auto;
+    -moz-box-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-item > div:nth-child(2) {
+    width: 30%;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-item.pos-orderlines-header div {
+    font-size: 90%;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-list {
+    padding-right: 1.5vh;
+    height: auto;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-list .pos-orderlines-item {
+    box-shadow: 0 0.1vh 0.1vh #dddddd;
+    margin-bottom: 1vh;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-list .pos-orderlines-item > div {
+    font-size: 100%;
+  }
+  body .pos-customer-facing-display .pos-payment-info {
+    max-width: 100%;
+    overflow: hidden;
+    padding-top: 0;
+    min-height: 120px;
+    -webkit-box-flex: 0 1 23vw;
+    -webkit-flex: 0 1 23vw;
+    -moz-box-flex: 0 1 23vw;
+    -ms-flex: 0 1 23vw;
+    flex: 0 1 23vw;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    -o-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    -ms-grid-row-align: center;
+    align-items: center;
+    -webkit-box-pack: space-between;
+    -webkit-justify-content: space-between;
+    -moz-box-pack: space-between;
+    -ms-flex-pack: space-between;
+    justify-content: space-between;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-company-logo {
+    margin: 0;
+    background-position: left center;
+    margin-right: 5%;
+    height: 100%;
+    padding: 0;
+    -webkit-box-flex: 1 1 20%;
+    -webkit-flex: 1 1 20%;
+    -moz-box-flex: 1 1 20%;
+    -ms-flex: 1 1 20%;
+    flex: 1 1 20%;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details {
+    -webkit-box-flex: 0 1 50%;
+    -webkit-flex: 0 1 50%;
+    -moz-box-flex: 0 1 50%;
+    -ms-flex: 0 1 50%;
+    flex: 0 1 50%;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+    min-width: 170px;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-total {
+    font-size: 3vw;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-total .pos-total-amount {
+    font-size: 3.5vw;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-paymentlines {
+    margin-top: 2%;
+    font-size: 80%;
+    line-height: 1.2;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-verp-logo-container {
+    position: absolute;
+    right: 3%;
+    bottom: 1%;
+  }
+}
+@media all and (orientation: portrait) and (max-width: 340px) {
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-list {
+    padding-right: 0;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-list .pos-orderlines-item > div {
+    font-size: 70%;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-header > div {
+    font-size: 60%;
+  }
+  body .pos-customer-facing-display .pos-customer-products .pos-orderlines .pos-orderlines-header > div:last-child {
+    text-align: center;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-company-logo {
+    display: none !important;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details {
+    -webkit-box-flex: 1 0 100%;
+    -webkit-flex: 1 0 100%;
+    -moz-box-flex: 1 0 100%;
+    -ms-flex: 1 0 100%;
+    flex: 1 0 100%;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-total {
+    font-size: 6vw;
+  }
+  body .pos-customer-facing-display .pos-payment-info .pos-payment-info-details .pos-total .pos-total-amount {
+    font-size: 6.5vw;
+  }
+}
+
+body .pos-hidden {
+  opacity: 0;
+}
+
+.pos-palette-01 .pos-payment-info {
+  background: #3E3E3E;
+  color: #f6f6f6;
+}
+.pos-palette-01 .pos-customer-products {
+  background: #f6f6f6;
+  color: #585858;
+}
+.pos-palette-01 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #aaaaaa;
+}
+.pos-palette-01 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-01:before {
+    background: #3E3E3E;
+  }
+}
+
+.pos-palette-02 .pos-payment-info {
+  background: #364152;
+  color: #e6e7e8;
+}
+.pos-palette-02 .pos-customer-products {
+  background: #ecf2f6;
+  color: #364152;
+}
+.pos-palette-02 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #364152;
+}
+.pos-palette-02 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-02:before {
+    background: #364152;
+  }
+}
+
+.pos-palette-03 .pos-payment-info {
+  background: #1BA39C;
+  color: #f6f6f6;
+}
+.pos-palette-03 .pos-customer-products {
+  background: #ececec;
+  color: #585858;
+}
+.pos-palette-03 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #a0a0a0;
+}
+.pos-palette-03 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-03:before {
+    background: #1BA39C;
+  }
+}
+
+.pos-palette-04 .pos-payment-info {
+  background: #0b7b6c;
+  color: #f6f6f6;
+}
+.pos-palette-04 .pos-customer-products {
+  background: #efeeec;
+  color: #585858;
+}
+.pos-palette-04 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #a9a499;
+}
+.pos-palette-04 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-04:before {
+    background: #0b7b6c;
+  }
+}
+
+.pos-palette-05 .pos-payment-info {
+  background: #E26868;
+  color: #f6f6f6;
+}
+.pos-palette-05 .pos-customer-products {
+  background: #ececec;
+  color: #585858;
+}
+.pos-palette-05 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #a0a0a0;
+}
+.pos-palette-05 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-05:before {
+    background: #E26868;
+  }
+}
+
+.pos-palette-06 .pos-payment-info {
+  background: #9E373B;
+  color: #f6f6f6;
+}
+.pos-palette-06 .pos-customer-products {
+  background: #f6f6f6;
+  color: #585858;
+}
+.pos-palette-06 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #aaaaaa;
+}
+.pos-palette-06 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-06:before {
+    background: #9E373B;
+  }
+}
+
+.pos-palette-07 .pos-payment-info {
+  background: #ce9934;
+  color: white;
+}
+.pos-palette-07 .pos-customer-products {
+  background: #ececec;
+  color: #585858;
+}
+.pos-palette-07 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #a0a0a0;
+}
+.pos-palette-07 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-07:before {
+    background: #ce9934;
+  }
+}
+
+.pos-palette-08 .pos-payment-info {
+  background: #a48c77;
+  color: #f6f6f6;
+}
+.pos-palette-08 .pos-customer-products {
+  background: #ececec;
+  color: #585858;
+}
+.pos-palette-08 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #a0a0a0;
+}
+.pos-palette-08 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-08:before {
+    background: #a48c77;
+  }
+}
+
+.pos-palette-09 .pos-payment-info {
+  background: linear-gradient(30deg, #014d43, #127e71);
+  color: #f6f6f6;
+}
+.pos-palette-09 .pos-customer-products {
+  background: #ececec;
+  color: #585858;
+}
+.pos-palette-09 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #a0a0a0;
+}
+.pos-palette-09 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-09:before {
+    background: linear-gradient(30deg, #014d43, #127e71);
+  }
+}
+
+.pos-palette-10 .pos-payment-info {
+  background: linear-gradient(30deg, #e2316c, #ea4c89);
+  color: white;
+}
+.pos-palette-10 .pos-customer-products {
+  background: #ececec;
+  color: #585858;
+}
+.pos-palette-10 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #a0a0a0;
+}
+.pos-palette-10 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-10:before {
+    background: linear-gradient(30deg, #e2316c, #ea4c89);
+  }
+}
+
+.pos-palette-11 .pos-payment-info {
+  background: linear-gradient(30deg, #362b3d, #5b4a63);
+  color: white;
+}
+.pos-palette-11 .pos-customer-products {
+  background: #ececec;
+  color: #585858;
+}
+.pos-palette-11 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: white;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #a0a0a0;
+}
+.pos-palette-11 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-11:before {
+    background: linear-gradient(30deg, #362b3d, #5b4a63);
+  }
+}
+
+.pos-palette-12 .pos-payment-info {
+  background: #434343;
+  color: #e6e6e6;
+}
+.pos-palette-12 .pos-customer-products {
+  background: #5b5b5b;
+  color: #bdb9b9;
+}
+.pos-palette-12 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: #f5f5f5;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #0f0f0f;
+}
+.pos-palette-12 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-12:before {
+    background: #434343;
+  }
+}
+
+.pos-palette-13 .pos-payment-info {
+  background: linear-gradient(30deg, #1a1b1f, #3d3f45);
+  color: white;
+}
+.pos-palette-13 .pos-customer-products {
+  background: #a2a2ab;
+  color: #f6f6f6;
+}
+.pos-palette-13 .pos-customer-products .pos-orderlines-list .pos-orderlines-item {
+  background-color: #f6f6f6;
+  color: #3E3E3E;
+  box-shadow: 0 0.1vh 0.1vh #55555f;
+}
+.pos-palette-13 .pos-customer-products .pos-orderlines-list .pos-orderlines-item div:nth-child(2) {
+  border-color: rgba(62, 62, 62, 0.3);
+}
+@media all and (orientation: portrait) {
+  .pos-palette-13:before {
+    background: linear-gradient(30deg, #1a1b1f, #3d3f45);
+  }
+}

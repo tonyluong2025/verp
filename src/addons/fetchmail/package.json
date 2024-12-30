@@ -1,0 +1,18 @@
+{
+    "label": "Email Gateway",
+    "version": "1.0",
+    "depends": ["mail"],
+    "category": "Hidden/Tools",
+    "description": "Retrieve incoming email on POP/IMAP servers. \n============================================\n\nEnter the parameters of your POP/IMAP account(s), and any incoming emails on\nthese accounts will be automatically downloaded into your Verp system. All\nPOP3/IMAP-compatible servers are supported, included those that require an\nencrypted SSL/TLS connection.\n\nThis can be used to easily create email-based workflows for many email-enabled Verp documents, such as:\n----------------------------------------------------------------------------------------------------------\n    * CRM Leads/Opportunities\n    * CRM Claims\n    * Project Issues\n    * Project Tasks\n    * Human Resource Recruitments (Applicants)\n\nJust install the relevant application, and you can assign any of these document\ntypes (Leads, Project Issues) to your incoming email accounts. New emails will\nautomatically spawn new documents of the chosen type, so it's a snap to create a\nmailbox-to-Verp integration. Even better: these documents directly act as mini\nconversations synchronized by email. You can reply from within Verp, and the\nanswers will automatically be collected when they come back, and attached to the\nsame *conversation* document.\n\nFor more specific needs, you may also assign custom-defined actions\n(technically: Server Actions) to be triggered for each incoming mail.\n",
+    "data": [
+        "data/fetchmail_data.xml",
+        "security/ir.model.access.csv",
+        "views/fetchmail_views.xml",
+        "views/mail_mail_views.xml",
+        "views/res_config_settings_views.xml"
+    ],
+    "demo": [],
+    "installable": true,
+    "autoInstall": true,
+    "license": "MIT Expat"
+}

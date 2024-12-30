@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+    <data>
+        <template id="labelProductProductView">
+            <t t-foreach="Object.entries(quantity)" t-as="qtyByProduct">
+                <t t-set="product" t-value="qtyByProduct[0]"/>
+                <t t-set="defaultCode" t-value="await product.defaultCode"/>
+                <t t-set="currencyId" t-value="await product.currencyId"/>
+                <t t-foreach="range(qtyByProduct[1])" t-as="qty">
+                    <t t-translation="off">
+^XA
+^FT100,80^A0N,40,30^FD<t t-esc="await product.displayName"/>^FS
+<t t-if="defaultCode &amp;&amp; len(defaultCode) &gt; 15">
+^FT100,115^A0N,30,24^FD<t t-esc="defaultCode.slice(0,15)"/>^FS
+^FT100,150^A0N,30,24^FD<t t-esc="defaultCode.slice(15,30)"/>^FS
+</t>
+<t t-else="">
+^FT100,150^A0N,30,24^FD<t t-esc="defaultCode"/>^FS
+</t>
+<t t-if="priceIncluded">
+^FO600,100,1
+^CI28
+<t t-if="await currencyId.position === 'after'">
+^A0N,66,48^FH^FD<t t-esc="await product.listPrice" t-options='{"widget": "float", "precision": 2}'/><t t-esc="await currencyId.symbol"/>^FS
+</t>
+<t t-if="await currencyId.position === 'before'">
+^A0N,66,48^FH^FD<t t-esc="await currencyId.symbol"/><t t-esc="await product.listPrice" t-options='{"widget": "float", "precision": 2}'/>^FS
+</t>
+</t>
+<t t-if="await product.barcode">
+^FO100,160^BY3
+^BCN,100,Y,N,N
+^FD<t t-esc="await product.barcode"/>^FS
+</t>
+^XZ
+                        </t>
+                    </t>
+            </t>
+        </template>
+        <template id="labelLotTemplateView">
+            <t t-foreach="docs" t-as="lot">
+                <t t-translation="off">
+^XA
+^FO100,50
+^A0N,44,33^FD<t t-esc="await (await lot.productId).displayName"/>^FS
+^FO100,100
+^A0N,44,33^FDLN/SN: <t t-esc="lot.label"/>^FS
+^FO100,150^BY3
+^BCN,100,Y,N,N
+^FD<t t-esc="await lot.label"/>^FS
+^XZ
+                </t>
+            </t>
+        </template>
+    </data>
+</verp>

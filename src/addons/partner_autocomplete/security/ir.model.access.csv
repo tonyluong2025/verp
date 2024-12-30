@@ -1,0 +1,5 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_partner_autocomplete_sync_all_all,res.partner.autocomplete.sync.all,model_resPartnerAutocompleteSync,,1,0,0,0
+access_partner_autocomplete_sync_portal,res.partner.autocomplete.sync.portal,model_resPartnerAutocompleteSync,base.groupPortal,1,0,1,0
+access_partner_autocomplete_sync_user,res.partner.autocomplete.sync.user,model_resPartnerAutocompleteSync,base.groupUser,1,1,1,0
+access_partner_autocomplete_sync_system,res.partner.autocomplete.sync.system,model_resPartnerAutocompleteSync,base.groupSystem,1,1,1,1

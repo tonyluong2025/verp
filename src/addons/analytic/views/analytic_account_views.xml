@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="accountAnalyticTagTreeView" model="ir.ui.view">
+            <field name="label">account.analytic.tag.tree</field>
+            <field name="model">account.analytic.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Analytic Tags">
+                    <field name="label"/>
+                    <field name="displayName" invisible="1"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountAnalyticTagFormView" model="ir.ui.view">
+            <field name="label">account.analytic.tag.form</field>
+            <field name="model">account.analytic.tag</field>
+            <field name="arch" type="xml">
+                <form string="Analytic Tags">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="label"/>
+                            <field name="activeAnalyticDistribution" groups="analytic.groupAnalyticAccounting"/>
+                            <field name="companyId" groups="base.groupMultiCompany"/>
+                        </group>
+                        <field name="analyticDistributionIds" nolabel="1" widget="one2many"
+                            attrs="{'invisible': [['activeAnalyticDistribution', '=', false]]}" groups="analytic.groupAnalyticAccounting">
+                            <tree string="Analytic Distribution" editable="bottom">
+                                <field name="accountId"/>
+                                <field name="percentage"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="accountAnalyticTagViewSearch" model="ir.ui.view">
+            <field name="label">account.analytic.tag.view.search</field>
+            <field name="model">account.analytic.tag</field>
+            <field name="arch" type="xml">
+                <search string="Search Analytic Tags">
+                    <field name="label" />
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="accountAnalyticTagAction" model="ir.actions.actwindow">
+            <field name="label">Analytic Tags</field>
+            <field name="resModel">account.analytic.tag</field>
+            <field name="viewMode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Add a new tag
+              </p>
+            </field>
+        </record>
+
+        <record id="accountAnalyticGroupFormView" model="ir.ui.view">
+            <field name="label">account.analytic.group.form</field>
+            <field name="model">account.analytic.group</field>
+            <field name="arch" type="xml">
+                <form string="Analytic Account Groups">
+                    <sheet>
+                        <group>
+                            <field name="label"/>
+                            <field name="parentId"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                            <field name="companyId" groups="base.groupMultiCompany"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="accountAnalyticGroupTreeView" model="ir.ui.view">
+            <field name="label">account.analytic.group.tree</field>
+            <field name="model">account.analytic.group</field>
+            <field name="arch" type="xml">
+                <tree string="Analytic Account Groups">
+                    <field name="label"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountAnalyticGroupAction" model="ir.actions.actwindow">
+            <field name="label">Analytic Account Groups</field>
+            <field name="resModel">account.analytic.group</field>
+            <field name="viewMode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                  Click to add a new analytic account group.
+              </p>
+              <p>
+                  This allows you to classify your analytic accounts.
+              </p>
+            </field>
+        </record>
+
+
+        <record id="viewAccountAnalyticLineTree" model="ir.ui.view">
+            <field name="label">account.analytic.line.tree</field>
+            <field name="model">account.analytic.line</field>
+            <field name="arch" type="xml">
+                <tree string="Analytic Entries">
+                    <field name="date" optional="show"/>
+                    <field name="label"/>
+                    <field name="accountId"/>
+                    <field name="currencyId" invisible="1"/>
+                    <field name="unitAmount" sum="Quantity" optional="hide"/>
+                    <field name="productUomId" optional="hide"/>
+                    <field name="partnerId" optional="hide"/>
+                    <field name="companyId" groups="base.groupMultiCompany" optional="show"/>
+                    <field name="amount" sum="Total" optional="show"/>
+                    <field name="tagIds" optional="hide" widget="many2manyTags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticLineFilter" model="ir.ui.view">
+            <field name="label">account.analytic.line.select</field>
+            <field name="model">account.analytic.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Analytic Lines">
+                    <field name="label"/>
+                    <field name="date"/>
+                    <field name="accountId"/>
+                    <field name="tagIds"/>
+                    <filter string="Date" name="date" date="date"/>
+                    <group string="Group By..." expand="0" name="groupby">
+                        <filter string="Analytic Account" name="accountId" context="{'groupby': 'accountId'}"/>
+                        <filter string="Date" name="groupDate" context="{'groupby': 'date'}"/>
+                        <filter string="Category" name='category' context="{'groupby': 'category'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.actwindow" id="accountAnalyticLineAction">
+            <field name="context">{'searchDefault_groupDate': 1, 'default_accountId': activeId}</field>
+            <field name="domain">[['accountId','=', activeId]]</field>
+            <field name="label">Gross Margin</field>
+            <field name="resModel">account.analytic.line</field>
+            <field name="viewMode">tree,form,graph,pivot</field>
+            <field name="viewId" ref="viewAccountAnalyticLineTree"/>
+            <field name="searchViewId" ref="viewAccountAnalyticLineFilter"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-empty-folder">
+                No activity yet on this account
+              </p><p>
+                In Verp, sales orders and projects are implemented using
+                analytic accounts. You can track costs and revenues to analyse
+                your margins easily.
+              </p><p>
+                Costs will be created automatically when you register supplier
+                invoices, expenses or timesheets.
+              </p><p>
+                Revenues will be created automatically when you create customer
+                invoices. Customer invoices can be created based on sales orders
+                (fixed price invoices), on timesheets (based on the work done) or
+                on expenses (e.g. reinvoicing of travel costs).
+              </p>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticAccountForm" model="ir.ui.view">
+            <field name="label">analytic.analytic.account.form</field>
+            <field name="model">account.analytic.account</field>
+            <field name="arch" type="xml">
+                <form string="Analytic Account">
+                    <sheet string="Analytic Account">
+                        <div class="oe-button-box" name="buttonBox">
+                            <button class="oe-stat-button" type="action" name="%(accountAnalyticLineAction)d" icon="fa-usd">
+                                <div class="o-form-field o-stat-info">
+                                    <span class="o-stat-text">Gross Margin</span>
+                                    <span class="o-stat-value">
+                                        <field name="balance" widget='monetary'/>
+                                    </span>
+                                </div>
+                            </button>
+                        </div>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <div class="oe-title">
+                            <label for="label"/>
+                            <h1>
+                                <field name="label" class="oe-inline" placeholder="e.g. Project XYZ"/>
+                            </h1>
+                        </div>
+                        <div name="project"/>
+                        <group name="main">
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="partnerId"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="groupId"/>
+                                <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                                <field name="currencyId" options="{'noCreate': true}" groups="base.groupMultiCurrency"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe-chatter">
+                        <field name="messageFollowerIds"/>
+                        <field name="messageIds"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticAccountList" model="ir.ui.view">
+            <field name="label">account.analytic.account.list</field>
+            <field name="model">account.analytic.account</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Analytic Accounts">
+                    <field name="label" string="Name"/>
+                    <field name="code"/>
+                    <field name="partnerId"/>
+                    <field name="active" invisible="1"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <field name="debit" sum="Debit"/>
+                    <field name="credit" sum="Credit"/>
+                    <field name="balance" sum="Balance"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticAccountKanban" model="ir.ui.view">
+            <field name="label">account.analytic.account.kanban</field>
+            <field name="model">account.analytic.account</field>
+            <field name="arch" type="xml">
+               <kanban class="o-kanban-mobile">
+                   <field name="displayName"/>
+                   <field name="balance"/>
+                   <field name="currencyId"/>
+                   <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-card oe-kanban-global-click">
+                                <div t-attf-class="#{!selectionMode ? 'text-center' : ''}">
+                                   <strong><span><field name="displayName"/></span></strong>
+                                </div>
+                                <hr class="mt8 mb8"/>
+                                <div class="row">
+                                    <div t-attf-class="col-12 #{!selectionMode ? 'text-center' : ''}">
+                                        <span>
+                                            Balance: <field name="balance" widget="monetary"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticAccountSearch" model="ir.ui.view">
+            <field name="label">account.analytic.account.search</field>
+            <field name="model">account.analytic.account</field>
+            <field name="arch" type="xml">
+                <search string="Analytic Account">
+                    <field name="label" filterDomain="['|', ['label', 'ilike', self], ['code', 'ilike', self]]" string="Analytic Account"/>
+                    <field name="partnerId"/>
+                    <separator/>
+                    <filter string="Archived" domain="[['active', '=', false]]" name="inactive"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Associated Partner" name="associatedpartner" domain="[]" context="{'groupby': 'partnerId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionAnalyticAccountForm" model="ir.actions.actwindow">
+            <field name="label">Chart of Analytic Accounts</field>
+            <field name="resModel">account.analytic.account</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="searchViewId" ref="viewAccountAnalyticAccountSearch"/>
+            <field name="context">{'searchDefault_active':1}</field>
+            <field name="viewId" ref="viewAccountAnalyticAccountList"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Add a new analytic account
+              </p>
+            </field>
+        </record>
+
+        <record id="actionAccountAnalyticAccountForm" model="ir.actions.actwindow">
+            <field name="label">Analytic Accounts</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">account.analytic.account</field>
+            <field name="searchViewId" ref="viewAccountAnalyticAccountSearch"/>
+            <field name="context">{'searchDefault_active':1}</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Add a new analytic account
+              </p>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticLineForm" model="ir.ui.view">
+            <field name="label">account.analytic.line.form</field>
+            <field name="model">account.analytic.line</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Analytic Entry">
+                <sheet>
+                    <group>
+                        <group name="analyticEntry" string="Analytic Entry">
+                            <field name="label"/>
+                            <field name="accountId"/>
+                            <field name="tagIds" widget="many2manyTags"/>
+                            <field name="date"/>
+                            <field name="companyId" groups="base.groupMultiCompany"/>
+                        </group>
+                        <group name="amount" string="Amount">
+                            <field name="amount"/>
+                            <field name="unitAmount"/>
+                            <field name="productUomCategoryId" invisible="1"/>
+                            <field name="productUomId" class="oe-inline"/>
+                            <field name="currencyId" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticLineGraph" model="ir.ui.view">
+            <field name="label">account.analytic.line.graph</field>
+            <field name="model">account.analytic.line</field>
+            <field name="arch" type="xml">
+                <graph string="Analytic Entries" sample="1">
+                    <field name="accountId"/>
+                    <field name="unitAmount" type="measure"/>
+                    <field name="amount" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticLinePivot" model="ir.ui.view">
+            <field name="label">account.analytic.line.pivot</field>
+            <field name="model">account.analytic.line</field>
+            <field name="arch" type="xml">
+                <pivot string="Analytic Entries" sample="1">
+                    <field name="accountId" type="row"/>
+                    <field name="unitAmount" type="measure"/>
+                    <field name="amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticLineKanban" model="ir.ui.view">
+            <field name="label">account.analytic.line.kanban</field>
+            <field name="model">account.analytic.line</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile">
+                    <field name="date"/>
+                    <field name="label"/>
+                    <field name="accountId"/>
+                    <field name="currencyId"/>
+                    <field name="amount"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-card oe-kanban-global-click">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><span><t t-esc="record.label.value"/></span></strong>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <strong><t t-esc="record.date.value"/></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 text-muted">
+                                        <span><t t-esc="record.accountId.value"/></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right text-right">
+                                            <field name="amount" widget="monetary"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.actwindow" id="accountAnalyticLineActionEntries">
+            <field name="label">Analytic Items</field>
+            <field name="resModel">account.analytic.line</field>
+            <field name="viewMode">tree,kanban,form,graph,pivot</field>
+            <field name="viewId" ref="viewAccountAnalyticLineTree"/>
+            <field name="searchViewId" ref="analytic.viewAccountAnalyticLineFilter"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-empty-folder">
+                No activity yet
+              </p><p>
+                In Verp, sales orders and projects are implemented using
+                analytic accounts. You can track costs and revenues to analyse
+                your margins easily.
+              </p><p>
+                Costs will be created automatically when you register supplier
+                invoices, expenses or timesheets.
+              </p><p>
+                Revenues will be created automatically when you create customer
+                invoices. Customer invoices can be created based on sales orders
+                (fixed price invoices), on timesheets (based on the work done) or
+                on expenses (e.g. reinvoicing of travel costs).
+              </p>
+            </field>
+        </record>
+</verp>

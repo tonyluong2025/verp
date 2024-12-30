@@ -1,0 +1,147 @@
+// Systray icon and dropdown
+.o-mail-systray-item {
+    > a {
+        > i {
+            font-size: larger;
+        }
+    }
+    &.o-no-notification > a {
+        @include o-mail-systray-no-notification-style();
+
+        .o-notification-counter {
+            display: none;
+        }
+    }
+    &.show .o-mail-systray-dropdown {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+    .o-notification-counter {
+        margin-top: -0.8rem;
+        margin-right: 0;
+        margin-left: -0.6rem;
+        background: $o-enterprise-primary-color;
+        color: white;
+        vertical-align: super;
+        font-size: 0.7em;
+    }
+    .o-mail-systray-dropdown {
+        direction: ltr;
+        width: 350px;
+        padding: 0;
+
+        .o-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $o-main-text-color;
+            height: 50px;
+        }
+
+        .o-mail-systray-dropdown-top {
+            display: flex;
+            flex: 0 0 auto;
+            justify-content: space-between;
+            border-bottom: 1px solid gray('400');
+            box-shadow: 0 0 2px gray('400');
+            .o-filter-button, .o-new-message {
+                padding: 5px;
+            }
+            .o-filter-button {
+                color: $o-main-color-muted;
+                &:hover, &.active {
+                    color: $o-brand-primary;
+                }
+                &.active {
+                    cursor: default;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .o-mail-systray-dropdown-items {
+            flex: 0 1 auto;
+            max-height: 400px;
+            min-height: 50px;
+            overflow-y: auto;
+
+            @include media-breakpoint-up(md) {
+                .o-mail-preview {
+                    min-height: 50px;
+                    padding: 5px;
+                    .o-mail-preview-image .fa-circle-o {
+                        display: none;
+                    }
+                    .o-preview-info {
+                        margin-left: 10px;
+                        .o-preview-title {
+                            .o-last-message-date {
+                                padding-top: 2px;
+                                font-size: x-small;
+                                margin-left: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .o-activity-filter-button {
+            padding: 2px;
+        }
+        .o-no-activity {
+            cursor: initial;
+            align-items: center;
+            color: grey;
+            opacity: 0.5;
+            padding: 3px;
+            min-height: inherit;
+        }
+    }
+}
+
+.o-no-thread-window .o-mail-systray-dropdown .o-new-message {
+    display: none;  // hide 'new message' button if chat windows are disabled
+}
+
+// Mobile rules
+// Goal: mock the design of Discuss in mobile
+@include media-breakpoint-down(sm) {
+    .o-mail-systray-item {
+        .o-notification-counter {
+            top: 10%;
+        }
+        .o-mail-systray-dropdown {
+
+            position: fixed;
+            top: $o-mail-chat-window-header-height-mobile;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: map-get($sizes, 100);
+            margin: 0;
+            max-height: none;
+
+            .o-mail-systray-dropdown-top {
+                padding: 5px;
+            }
+            .o-mail-systray-mobile-header {
+                padding: 5px;
+                height: 44px;
+                border-bottom: 1px solid #ebebeb;
+                box-shadow: 0 0 2px gray('400');
+            }
+            .o-mail-systray-dropdown-items {
+                max-height: none;
+                padding-bottom: 52px; // leave space for tabs
+            }
+            .o-mail-mobile-tabs {
+                position: fixed;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                background-color: white;
+                color: $o-main-text-color;
+            }
+        }
+    }
+}

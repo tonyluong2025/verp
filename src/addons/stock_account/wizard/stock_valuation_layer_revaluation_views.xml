@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="stockValuationLayerRevaluationFormView" model="ir.ui.view">
+        <field name="label">stock.valuation.layer.revaluation.form</field>
+        <field name="model">stock.valuation.layer.revaluation</field>
+        <field name="arch" type="xml">
+            <form string="Product Revaluation">
+                <sheet>
+                    <group>
+                        <label for="currentValueSvl" string="Current Value"/>
+                        <div class="o-row">
+                            <span><field name="currentValueSvl" widget="monetary"/> for <field name="currentQuantitySvl"/> <field name="productUomName" class="mx-1"/> </span>
+                        </div>
+                        <label for="addedValue" string="Added Value"/>
+                        <div class="o-row">
+                            <span><field name="addedValue" class="oe-inline"/> = <field name="newValue"/> (<field name="newValueByQty"/> by <field name="productUomName" class="mx-1"/>)
+                            <small class="mx-2 font-italic">Use a negative added value to record a decrease in the product value</small></span>
+                        </div>
+                        <field name="companyId" invisible="1"/>
+                        <field name="currencyId" invisible="1"/>
+                        <field name="productId" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="propertyValuation" invisible="1"/>
+                        <group>
+                            <field name="reason"/>
+                            <field name="accountJournalId" attrs="{'invisible':[['propertyValuation', '!=', 'auto']], 'required': [['propertyValuation', '=', 'auto']]}"/>
+                        </group>
+                        <group>
+                            <field name="accountId" attrs="{'invisible':[['propertyValuation', '!=', 'auto']], 'required': [['propertyValuation', '=', 'auto']]}"/>
+                            <field name="date" attrs="{'invisible':[['propertyValuation', '!=', 'auto']]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="actionValidateRevaluation" string="Revalue" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</verp>

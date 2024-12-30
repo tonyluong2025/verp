@@ -1,0 +1,10 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_resource_calendar_user,resource.calendar.user,model_resourceCalendar,base.groupUser,1,0,0,0
+access_resource_calendar_system,resource.calendar.system,model_resourceCalendar,base.groupSystem,1,1,1,1
+access_resource_calendar_attendance_user,resource.calendar.attendance.user,model_resourceCalendarAttendance,base.groupUser,1,0,0,0
+access_resource_calendar_attendance_system,resource.calendar.attendance.system,model_resourceCalendarAttendance,base.groupSystem,1,1,1,1
+access_resource_resource,resource.resource,model_resourceResource,base.groupSystem,1,0,0,0
+access_resource_resource_all,resource.resource all,model_resourceResource,base.groupUser,1,0,0,0
+access_resource_calendar_leaves_user,resource.calendar.leaves,model_resourceCalendarLeaves,base.groupUser,1,1,1,1
+access_resource_calendar_leaves,resource.calendar.leaves,model_resourceCalendarLeaves,base.groupSystem,1,1,1,1
+access_resource_test_all,resource.test.all,model_resourceTest,base.groupUser,1,1,1,1

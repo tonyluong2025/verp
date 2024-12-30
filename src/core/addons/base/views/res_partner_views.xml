@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <!-- Partner Titles -->
+        <record id="viewPartnerTitleTree" model="ir.ui.view">
+            <field name="label">res.partner.title.tree</field>
+            <field name="model">res.partner.title</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Titles" editable="bottom">
+                    <field name="label"/>
+                    <field name="shortcut"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewPartnerTitleForm" model="ir.ui.view">
+            <field name="label">res.partner.title.form</field>
+            <field name="model">res.partner.title</field>
+            <field name="arch" type="xml">
+                <form string="Partner Titles">
+                    <sheet>
+                        <group col="4">
+                            <field name="label"/>
+                            <field name="shortcut"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionPartnerTitleContact" model="ir.actions.actwindow">
+            <field name="label">Contact Titles</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.partner.title</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a Title
+                </p><p>
+                    Manage Contact Titles as well as their abbreviations (e.g. "Mr.", "Mrs.", etc).
+                </p>
+            </field>
+        </record>
+
+        <!-- PARTNER TREE VIEW + MUTI_EDIT: VISIBLE FIELDS WITH ONCHANGE ON BASE/PARTNER
+             VIEW WON'T BE EDITABLE ON "MULTI_EDIT" MODE:
+                - parentId
+                - countryId
+                - stateId
+                - companyType
+                - companyId
+        -->
+        <!-- Partner -->
+        <record id="viewPartnerTree" model="ir.ui.view">
+            <field name="label">res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Contacts" sample="1" multiEdit="1">
+                    <field name="displayName" string="Name"/>
+                    <field name="position" invisible="1"/>
+                    <field name="phone" class="o-force-ltr" optional="show"/>
+                    <field name="email" optional="show"/>
+                    <field name="userId" optional="show" widget="many2oneAvatarUser" domain="[['share', '=', false]]"/>
+                    <field name="city" optional="show"/>
+                    <field name="stateId" optional="hide" readonly="1"/>
+                    <field name="countryId" optional="show" readonly="1"/>
+                    <field name="vat" optional="hide" readonly="1"/>
+                    <field name="categoryId" optional="hide" widget="many2manyTags" options="{'colorField': 'color'}"/>
+                    <field name="companyId" groups="base.groupMultiCompany" readonly="1"/>
+                    <field name="isCompany" invisible="1"/>
+                    <field name="parentId" invisible="1" readonly="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewPartnerSimpleForm" model="ir.ui.view">
+            <field name="label">res.partner.simplified.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Contact">
+                    <field name="isCompany" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <field name="avatar128" invisible="1"/>
+                    <field name="image1920" widget='image' class="oe-avatar" options='{"previewImage": "avatar128"}'/>
+                    <div class="oe-title">
+                        <field name="companyType" options="{'horizontal': true}" widget="radio" groups="base.groupNoOne"/>
+                        <h1>
+                            <field id="company" name="label" defaultFocus="1" placeholder="e.g. Lumber Inc" attrs="{'required' : [['type', '=', 'contact'],['isCompany','=', true]], 'invisible': [['isCompany','=', false]]}"/>
+                            <field id="individual" name="label" defaultFocus="1" placeholder="e.g. Brandom Freeman" attrs="{'required' : [['type', '=', 'contact'],['isCompany','=', false]], 'invisible': [['isCompany','=', true]]}"/>
+                        </h1>
+                        <field name="parentId"
+                            widget="resPartnerMany2one"
+                            placeholder="Company Name..."
+                            domain="[['isCompany', '=', true]]" context="{'default_isCompany': true, 'showVat': true}"
+                            attrs="{'invisible': [['isCompany','=', true]]}"/>
+                    </div>
+                    <group>
+                        <field name="position" placeholder="e.g. Sales Director" attrs="{'invisible': [['isCompany','=', true]]}"/>
+                        <field name="userIds" invisible="1"/>
+                        <field name="email" widget="email" context="{'gravatarImage': true}" required="context['forceEmail'] ?? false" attrs="{'required': [['userIds','!=', []]]}"/>
+                        <field name="phone" widget="phone" options="{'enableSms': false}"/>
+                        <field name="mobile" widget="phone" options="{'enableSms': false}"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Open partner address -->
+        <record id="viewPartnerAddressForm" model="ir.ui.view">
+            <field name="label">res.partner.form.address</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Partner">
+                    <field name="avatar128" invisible="1"/>
+                    <field name="image1920" widget='image' class="oe-avatar" options='{"previewImage": "avatar128"}' readonly="1"/>
+                    <div class="oe-title">
+                        <h1>
+                            <field name="label" readonly="1"/>
+                        </h1>
+                    </div>
+                    <field name="parentId" invisible="1"/>
+                    <group>
+                        <group>
+                            <label for="type" attrs="{'invisible': [['parentId','=', false]]}" groups="base.groupNoOne"/>
+                            <div attrs="{'invisible': [['parentId','=', false]]}" name="divType" groups="base.groupNoOne">
+                                <field name="type" class="oe-inline"/>
+                            </div>
+                            <label for="street" string="Address"/>
+                            <div class="o-address-format">
+                                <field name="street" placeholder="Street..." class="o-address-street"/>
+                                <field name="street2" placeholder="Street 2..." class="o-address-street"/>
+                                <field name="city" placeholder="City" class="o-address-city"/>
+                                <field name="stateId" class="o-address-state" placeholder="State" options="{'noOpen': true, 'noQuickCreate': true}" context="{'defaultCountryId': countryId}"/>
+                                <field name="zip" placeholder="ZIP" class="o-address-zip"/>
+                                <field name="countryId" placeholder="Country" class="o-address-country" options='{"noOpen": true, "noCreate": true}'/>
+                            </div>
+                            <field name="website" string="Website" widget="url" placeholder="e.g. https://www.theverp.com"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewPartnerForm" model="ir.ui.view">
+            <field name="label">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Partners">
+                <div class="alert alert-warning oe-edit-only" role="alert" attrs="{'invisible': [['sameVatPartnerId', '=', false]]}">
+                  A partner with the same <span><span class="o-vat-label">Tax ID</span></span> already exists (<field name="sameVatPartnerId"/>), are you sure to create a new one?
+                </div>
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox"/>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <field name="avatar128" invisible="1"/>
+                    <field name="image1920" widget='image' class="oe-avatar" options='{"previewImage": "avatar128"}'/>
+                    <div class="oe-title mb24">
+                        <field name="isCompany" invisible="1"/>
+                        <field name="commercialPartnerId" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                        <field name="countryCode" invisible="1"/>
+                        <field name="companyType" widget="radio" options="{'horizontal': true}"/>
+                        <h1>
+                            <field id="company" class="text-break" name="label" defaultFocus="1" placeholder="e.g. Lumber Inc" attrs="{'required' : [['type', '=', 'contact'],['isCompany', '=', true]], 'invisible': [['isCompany','=', false]]}"/>
+                            <field id="individual" class="text-break" name="label" defaultFocus="1" placeholder="e.g. Brandom Freeman" attrs="{'required' : [['type', '=', 'contact'], ['isCompany', '=', false]], 'invisible': [['isCompany','=', true]]}"/>
+                        </h1>
+                        <div class="o-row">
+                            <field name="parentId"
+                                widget="resPartnerMany2one"
+                                placeholder="Company Name..."
+                                domain="[['isCompany', '=', true]]" context="{'default_isCompany': true, 'showVat': true}"
+                                attrs="{'invisible': ['|', '&amp;', ['isCompany','=', true],['parentId', '=', false],['companyName', '!=', false],['companyName', '!=', '']]}"/>
+                                <field name="companyName" attrs="{'invisible': ['|', '|', ['companyName', '=', false], ['companyName', '=', ''], ['isCompany', '=', true]]}"/>
+                                <button name="createCompany" icon="fa-plus-square" string="Create company"
+                                    type="object" class="oe-edit-only btn-link"
+                                    attrs="{'invisible': ['|', '|', ['isCompany','=', true], ['companyName', '=', ''], ['companyName', '=', false]]}"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group>
+                            <span class="o-form-label o-td-label" name="addressName">
+                                <field name="type" attrs="{'invisible': [['isCompany','=', true]], 'required': [['isCompany','!=', true]], 'readonly': [['userIds', '!=', []]]}" class="font-weight-bold"/>
+                                <b attrs="{'invisible': [['isCompany', '=', false]]}">Address</b>
+                            </span>
+                            <div class="o-address-format">
+                                <field name="street" placeholder="Street..." class="o-address-street"
+                                    attrs="{'readonly': [['type', '=', 'contact'],['parentId', '!=', false]]}"/>
+                                <field name="street2" placeholder="Street 2..." class="o-address-street"
+                                    attrs="{'readonly': [['type', '=', 'contact'],['parentId', '!=', false]]}"/>
+                                <field name="city" placeholder="City" class="o-address-city"
+                                    attrs="{'readonly': [['type', '=', 'contact'],['parentId', '!=', false]]}"/>
+                                <field name="stateId" class="o-address-state" placeholder="State" options="{'noOpen': true, 'noQuickCreate': true}"
+                                    attrs="{'readonly': [['type', '=', 'contact'],['parentId', '!=', false]]}" context="{'countryId': countryId, 'default_countryId': countryId, 'zip': zip}"/>
+                                <field name="zip" placeholder="ZIP" class="o-address-zip"
+                                    attrs="{'readonly': [['type', '=', 'contact'],['parentId', '!=', false]]}"/>
+                                <field name="countryId" placeholder="Country" class="o-address-country" options='{"noOpen": true, "noCreate": true}'
+                                    attrs="{'readonly': [['type', '=', 'contact'],['parentId', '!=', false]]}"/>
+                            </div>
+                            <field name="vat" placeholder="e.g. BE0477472701" attrs="{'readonly': [['parentId','!=',false]]}"/>
+                        </group>
+                        <group>
+                            <field name="position" placeholder="e.g. Sales Director"
+                                attrs="{'invisible': [['isCompany','=', true]]}"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="mobile" widget="phone"/>
+                            <field name="userIds" invisible="1"/>
+                            <field name="email" widget="email" context="{'gravatarImage': true}" attrs="{'required': [['userIds','!=', []]]}"/>
+                            <field name="website" string="Website" widget="url" placeholder="e.g. https://www.theverp.com"/>
+                            <field name="title" options='{"noOpen": true}' placeholder="e.g. Mister"
+                                attrs="{'invisible': [['isCompany', '=', true]]}"/>
+                            <field name="activeLangCount" invisible="1"/>
+                            <label for="lang" attrs="{'invisible': [['activeLangCount', '&lt;=', 1]]}"/>
+                            <div class="o-row" attrs="{'invisible': [['activeLangCount', '&lt;=', 1]]}">
+                                <field name="lang"/>
+                                <button
+                                    type="action"
+                                    name="%(base.resLangActwindow)d"
+                                    class="btn-sm btn-link mb4 fa fa-globe"
+                                    aria-label="More languages"
+                                    groups="base.groupSystem"
+                                    title="More languages"
+                                />
+                            </div>
+                            <field name="categoryId" widget="many2manyTags" options="{'colorField': 'color', 'noCreateEdit': true}" placeholder="Tags..."/>
+                        </group>
+                    </group>
+
+                    <notebook colspan="4">
+                        <page string="Contacts &amp; Addresses" name="contactAddresses" autofocus="autofocus">
+                            <field name="childIds" mode="kanban" context="{'default_parentId': activeId, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_stateId': stateId, 'default_zip': zip, 'default_countryId': countryId, 'default_lang': lang, 'default_userId': userId, 'default_type': 'other'}">
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="color"/>
+                                    <field name="label"/>
+                                    <field name="title"/>
+                                    <field name="type"/>
+                                    <field name="email"/>
+                                    <field name="parentId"/>
+                                    <field name="isCompany"/>
+                                    <field name="position"/>
+                                    <field name="phone"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="zip"/>
+                                    <field name="city"/>
+                                    <field name="countryId"/>
+                                    <field name="mobile"/>
+                                    <field name="stateId"/>
+                                    <field name="image128"/>
+                                    <field name="avatar128"/>
+                                    <field name="lang"/>
+                                    <!-- fields in form x2many view to diminish requests -->
+                                    <field name="comment"/>
+                                    <field name="displayName"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <t t-set="color" t-value="kanbanColor(record.color.rawValue)"/>
+                                            <div t-att-class="color + (record.title.rawValue == 1 ? ' oe-kanban-color-alert' : '') + ' oe-kanban-global-click'">
+                                                <div class="o-kanban-image">
+                                                    <img alt="Contact image" t-att-src="kanbanImage('res.partner', 'avatar128', record.id.rawValue)"/>
+                                                </div>
+                                                <div class="oe-kanban-details">
+                                                    <field name="label"/>
+                                                    <div t-if="record.position.rawValue"><field name="position"/></div>
+                                                    <div t-if="record.email.rawValue"><field name="email" widget="email"/></div>
+                                                    <div t-if="record.type.rawValue != 'contact'">
+                                                        <div>
+                                                            <field name="zip"/>
+                                                            <field name="city"/>
+                                                        </div>
+                                                        <field t-if="record.stateId.rawValue" name="stateId"/>
+                                                        <field name="countryId"/>
+                                                    </div>
+                                                    <div t-if="record.phone.rawValue">Phone: <t t-esc="record.phone.value"/></div>
+                                                    <div t-if="record.mobile.rawValue">Mobile: <t t-esc="record.mobile.value"/></div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form string="Contact / Address">
+                                    <sheet>
+                                        <!-- parentId and type fields needed in attrs in baseAddressCity module which overwrites
+                                        _fieldsViewGet() of partner. It would be better to put those fields there but the web client
+                                        dosen't support when a field is displayed several times in the same view.-->
+                                        <field name="type" required="1" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="parentId" invisible="1"/>
+                                        <hr/>
+                                        <group>
+                                            <group>
+                                                <field name="label" string="Contact Name" attrs="{'required' : [['type', '=', 'contact']]}"/>
+                                                <field name="title" options="{'noOpen': true}" placeholder="e.g. Mr."
+                                                    attrs="{'invisible': [['type','!=', 'contact']]}"/>
+                                                <field name="position" placeholder="e.g. Sales Director"
+                                                    attrs="{'invisible': [['type','!=', 'contact']]}"/>
+                                                <label for="street" string="Address" attrs="{'invisible': [['type','=', 'contact']]}"/>
+                                                <div attrs="{'invisible': [['type','=', 'contact']]}">
+                                                    <div class="o-address-format" name="divAddress">
+                                                        <field name="street" placeholder="Street..." class="o-address-street"/>
+                                                        <field name="street2" placeholder="Street 2..." class="o-address-street"/>
+                                                        <field name="city" placeholder="City" class="o-address-city"/>
+                                                        <field name="stateId" class="o-address-state" placeholder="State" options="{'noOpen': true, 'noQuickCreate': true}" context="{'countryId': countryId, 'default_countryId': countryId, 'zip': zip}"/>
+                                                        <field name="zip" placeholder="ZIP" class="o-address-zip"/>
+                                                        <field name="countryId" placeholder="Country" class="o-address-country" options='{"noOpen": true, "noCreate": true}'/>
+                                                    </div>
+                                                </div>
+                                            </group>
+                                            <group>
+                                                <field name="email" widget="email"/>
+                                                <field name="phone" widget="phone"/>
+                                                <field name="mobile" widget="phone"/>
+                                                <field name="companyId" invisible="1"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="comment" placeholder="Internal notes..."/>
+                                        </group>
+                                        <field name="lang" invisible="true"/>
+                                        <field name="userId" invisible="true"/>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page name='salesPurchases' string="Sales &amp; Purchase">
+                            <group name="containerRow2">
+                                <group string="Sales" name="sale" priority="1">
+                                    <field name="userId" domain="[['share', '=', false]]"/>
+                                </group>
+                                <group string="Purchase" name="purchase" priority="2">
+                                </group>
+                                <group name="misc" string="Misc">
+                                    <field name="ref" string="Reference"/>
+                                    <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}" attrs="{'readonly': [['parentId', '!=', false]]}" forceSave="1"/>
+                                    <field name="industryId" attrs="{'invisible': [['isCompany', '=', false]]}" options="{'noCreate': true}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name='internalNotes' string="Internal Notes">
+                            <field name="comment" placeholder="Internal note..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+      <!-- Special restricted view for private address, with limited "named" info that
+           can be traced back to the employee -->
+        <record id="resPartnerViewFormPrivate" model="ir.ui.view">
+            <field name="label">res.partner.view.form.private</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="300"/>
+            <field name="arch" type="xml">
+                <form string="Private Address Form">
+                    <sheet>
+                        <field name="type" invisible="1"/>
+                        <field name="parentId" invisible="1"/>
+                        <label for="label" class="oe-edit-only"/>
+                        <field name="label" required="0"/>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div>
+                                    <div class="o-address-format" name="divAddress">
+                                        <field name="street" placeholder="Street..." class="o-address-street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o-address-street"/>
+                                        <field name="city" placeholder="City" class="o-address-city"/>
+                                        <field name="stateId" class="o-address-state" placeholder="State" options="{'noOpen': true, 'noQuickCreate': true}" context="{'countryId': countryId, 'default_countryId': countryId, 'zip': zip}"/>
+                                        <field name="zip" placeholder="ZIP" class="o-address-zip"/>
+                                        <field name="countryId" placeholder="Country" class="o-address-country" options='{"noOpen": true, "noCreate": true}'/>
+                                    </div>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="phone" widget="phone" options="{'enableSms': false}"/>
+                                <field name="mobile" widget="phone" options="{'enableSms': false}"/>
+                                <field name="email"/>
+                                <field name="lang"/>
+                            </group>
+                        </group>
+                        <group string="Bank Accounts">
+                            <field name="bankIds">
+                                <tree editable="bottom">
+                                    <field name="bankId"/>
+                                    <field name="accNumber"/>
+                                    <field name="accHolderName" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       <record id="viewResPartnerFilter" model="ir.ui.view">
+            <field name="label">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+                    <field name="label"
+                        filterDomain="['|', '|', ['displayName', 'ilike', self], ['ref', '=', self], ['email', 'ilike', self]]"/>
+                    <field name="parentId" domain="[['isCompany', '=', true]]" operator="childOf"/>
+                    <field name="email" filterDomain="[['email', 'ilike', self]]"/>
+                    <field name="phone" filterDomain="['|', ['phone', 'ilike', self], ['mobile', 'ilike', self]]"/>
+                    <field name="categoryId" string="Tag" filterDomain="[['categoryId', 'childOf', self]]"/>
+                    <field name="userId"/>
+                    <separator/>
+                    <filter string="Individuals" name="typePerson" domain="[['isCompany', '=', false]]"/>
+                    <filter string="Companies" name="typeCompany" domain="[['isCompany', '=', true]]"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                    <separator/>
+                    <group expand="0" name="groupby" string="Group By">
+                        <filter name="salesperson" string="Salesperson" domain="[]" context="{'groupby' : 'userId'}" />
+                        <filter name="groupCompany" string="Company" context="{'groupby': 'parentId'}"/>
+                        <filter name="groupCountry" string="Country" context="{'groupby': 'countryId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Partner Kanban View -->
+        <record model="ir.ui.view" id="resPartnerKanbanView">
+            <field name="label">res.partner.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <kanban class="o-res-partner-kanban" sample="1">
+                    <field name="id"/>
+                    <field name="color"/>
+                    <field name="displayName"/>
+                    <field name="title"/>
+                    <field name="email"/>
+                    <field name="parentId"/>
+                    <field name="isCompany"/>
+                    <field name="position"/>
+                    <field name="phone"/>
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="countryId"/>
+                    <field name="mobile"/>
+                    <field name="stateId"/>
+                    <field name="categoryId"/>
+                    <field name="avatar128"/>
+                    <field name="type"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe-kanban-global-click o-kanban-record-has-image-fill o-res-partner-kanban">
+                                <t t-if="!record.isCompany.rawValue">
+                                    <t t-set="backgroundImage" t-value="kanbanImage('res.partner', 'avatar128', record.id.rawValue)"/>
+                                    <div class="o-kanban-image-fill-left d-none d-md-block" t-attf-style="background-image:url('#{backgroundImage}')">
+                                        <img class="o-kanban-image-inner-pic" t-if="record.parentId.rawValue" t-att-alt="record.parentId.value" t-att-src="kanbanImage('res.partner', 'avatar128', record.parentId.rawValue)"/>
+                                    </div>
+                                    <div class="o-kanban-image d-md-none" t-attf-style="background-image: url(#{backgroundImage})">
+                                        <img class="o-kanban-image-inner-pic" t-if="record.parentId.rawValue" t-att-alt="record.parentId.value" t-att-src="kanbanImage('res.partner', 'avatar128', record.parentId.rawValue)"/>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="o-kanban-image-fill-left o-kanban-image-full" t-attf-style="background-image: url(#{kanbanImage('res.partner', 'avatar128', record.id.rawValue)})" role="img"/>
+                                </t>
+                                <div class="oe-kanban-details d-flex flex-column">
+                                    <strong class="o-kanban-record-title oe-partner-heading"><field name="displayName"/></strong>
+                                    <div class="o-kanban-tags-section oe-kanban-partner-categories"/>
+                                    <ul>
+                                        <li t-if="record.parentId.rawValue and !record.position.rawValue"><field name="parentId"/></li>
+                                        <li t-if="!record.parentId.rawValue and record.position.rawValue"><field name="position"/></li>
+                                        <li t-if="record.parentId.rawValue and record.position.rawValue"><field name="position"/> at <field name="parentId"/></li>
+                                        <li t-if="record.city.rawValue or record.countryId.rawValue">
+                                            <t t-if="record.city.rawValue"><field name="city"/><t t-if="record.countryId.rawValue">, </t></t>
+                                            <t t-if="record.countryId.rawValue"><field name="countryId"/></t>
+                                        </li>
+                                        <li t-if="record.email.rawValue" class="o-text-overflow"><field name="email"/></li>
+                                    </ul>
+                                    <div class="o-row">
+                                        <span class="oe-kanban-partner-links"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="actionPartnerForm" model="ir.actions.actwindow">
+            <field name="label">Customers</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.partner</field>
+            <field name="viewMode">kanban,tree,form</field>
+            <field name="context">{'resPartnerSearchMode': 'customer'}</field>
+            <field name="searchViewId" ref="viewResPartnerFilter"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a Contact in your address book
+              </p><p>
+                Verp helps you track all activities related to your contacts.
+              </p>
+            </field>
+        </record>
+        <record id="actionPartnerFormView1" model="ir.actions.actwindow.view">
+            <field eval="0" name="sequence"/>
+            <field name="viewMode">kanban</field>
+            <field name="viewId" ref="resPartnerKanbanView"/>
+            <field name="actwindowId" ref="actionPartnerForm"/>
+        </record>
+        <record id="actionPartnerFormView2" model="ir.actions.actwindow.view">
+            <field eval="2" name="sequence"/>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="viewPartnerForm"/>
+            <field name="actwindowId" ref="actionPartnerForm"/>
+        </record>
+        <record id="actionPartnerTreeView1" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="1"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="viewPartnerTree"/>
+            <field name="actwindowId" ref="actionPartnerForm"/>
+        </record>
+
+        <record id="actionPartnerCustomerForm" model="ir.actions.actwindow">
+            <field name="label">Customers</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.partner</field>
+            <field name="viewMode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'resPartnerSearchMode': 'customer', 'default_isCompany': true}</field>
+            <field name="filter" eval="true"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new customer in your address book
+              </p><p>
+                Verp helps you easily track all activities related to a customer.
+              </p>
+            </field>
+        </record>
+        <record id="actionPartnerCustomerFormView1" model="ir.actions.actwindow.view">
+            <field eval="1" name="sequence"/>
+            <field name="viewMode">kanban</field>
+            <field name="viewId" ref="resPartnerKanbanView"/>
+            <field name="actwindowId" ref="actionPartnerCustomerForm"/>
+        </record>
+        <record id="actionPartnerCustomerFormView2" model="ir.actions.actwindow.view">
+            <field eval="2" name="sequence"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="viewPartnerTree"/>
+            <field name="actwindowId" ref="actionPartnerCustomerForm"/>
+        </record>
+        <record id="actionPartnerCustomerFormView3" model="ir.actions.actwindow.view">
+            <field eval="3" name="sequence"/>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="viewPartnerForm"/>
+            <field name="actwindowId" ref="actionPartnerCustomerForm"/>
+        </record>
+
+        <record id="actionPartnerSupplierForm" model="ir.actions.actwindow">
+            <field name="label">Vendors</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.partner</field>
+            <field name="domain">[]</field>
+            <field name="viewMode">kanban,tree,form</field>
+            <field name="context">{'resPartnerSearchMode': 'supplier', 'default_isCompany': true}</field>
+            <field name="filter" eval="true"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new vendor in your address book
+              </p><p>
+                Verp helps you easily track all activities related to a vendor.
+              </p>
+            </field>
+        </record>
+        <record id="actionPartnerVendorFormView1" model="ir.actions.actwindow.view">
+            <field eval="1" name="sequence"/>
+            <field name="viewMode">kanban</field>
+            <field name="viewId" ref="resPartnerKanbanView"/>
+            <field name="actwindowId" ref="actionPartnerSupplierForm"/>
+        </record>
+        <record id="actionPartnerVendorFormView2" model="ir.actions.actwindow.view">
+            <field eval="2" name="sequence"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="viewPartnerTree"/>
+            <field name="actwindowId" ref="actionPartnerSupplierForm"/>
+        </record>
+        <record id="actionPartnerVendorFormView3" model="ir.actions.actwindow.view">
+            <field eval="3" name="sequence"/>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="viewPartnerForm"/>
+            <field name="actwindowId" ref="actionPartnerSupplierForm"/>
+        </record>
+
+        <!-- Categories -->
+        <record id="viewPartnerCategoryForm" model="ir.ui.view">
+            <field name="label">Contact Tags</field>
+            <field name="model">res.partner.category</field>
+            <field name="arch" type="xml">
+                <form string="Contact Tag">
+                    <sheet>
+                        <group col="4">
+                            <field name="label" placeholder='e.g. "Consulting Services"'/>
+                            <field name="color" widget="colorPicker"/>
+                            <field name="parentId"/>
+                            <field name="active" widget="booleanToggle"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewPartnerCategoryList" model="ir.ui.view">
+            <field name="label">Contact Tags</field>
+            <field name="model">res.partner.category</field>
+            <field eval="6" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Contact Tags">
+                    <field name="displayName"/>
+                    <field name="color" widget="colorPicker"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="resPartnerCategoryViewSearch" model="ir.ui.view">
+            <field name="label">res.partner.category.view.search</field>
+            <field name="model">res.partner.category</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner Category">
+                    <field name="label"/>
+                    <field name="displayName"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionPartnerCategoryForm" model="ir.actions.actwindow">
+            <field name="label">Contact Tags</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.partner.category</field>
+            <field name="searchViewId" ref="resPartnerCategoryViewSearch"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a Contact Tag
+              </p><p>
+                Assign tags to your contacts to organize, filter and track them.
+              </p>
+            </field>
+        </record>
+
+        <!-- Industry -->
+        <record id="resPartnerIndustryViewForm" model="ir.ui.view">
+            <field name="label">Industry</field>
+            <field name="model">res.partner.industry</field>
+            <field name="arch" type="xml">
+                <form string="Industry">
+                    <sheet>
+                        <group col="4">
+                            <field name="label"/>
+                            <field name="fullName"/>
+                            <field name="active" widget="booleanToggle"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="resPartnerIndustryViewTree" model="ir.ui.view">
+            <field name="label">Industry</field>
+            <field name="model">res.partner.industry</field>
+            <field eval="6" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Industry" editable="bottom">
+                    <field name="label"/>
+                    <field name="fullName"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="resPartnerIndustryViewSearch" model="ir.ui.view">
+            <field name="label">res.partner.industry.view.search</field>
+            <field name="model">res.partner.industry</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner Industry">
+                    <field name="label"/>
+                    <field name="fullName"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="resPartnerIndustryAction" model="ir.actions.actwindow">
+            <field name="label">Industries</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.partner.industry</field>
+            <field name="viewMode">tree,form</field>
+            <field name="searchViewId" ref="resPartnerIndustryViewSearch"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create an Industry
+              </p><p>
+                Specify industries to classify your contacts and draw up reports.
+              </p>
+            </field>
+        </record>
+    </data>
+</verp>

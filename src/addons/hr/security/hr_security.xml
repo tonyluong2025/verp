@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="base.category_humanResourcesEmployees" model="ir.module.category">
+        <field name="description">Helps you manage your employees.</field>
+        <field name="sequence">9</field>
+    </record>
+
+    <record id="groupHrUser" model="res.groups">
+        <field name="label">Officer</field>
+        <field name="categoryId" ref="base.category_humanResourcesEmployees"/>
+        <field name="impliedIds" eval="[[6, 0, [refId('base.groupPrivateAddresses'), refId('base.groupUser')]]]"/>
+        <field name="comment">The user will be able to approve document created by employees.</field>
+    </record>
+
+    <record id="groupHrManager" model="res.groups">
+        <field name="label">Administrator</field>
+        <field name="comment">The user will have access to the human resources configuration as well as statistic reports.</field>
+        <field name="categoryId" ref="base.category_humanResourcesEmployees"/>
+        <field name="impliedIds" eval="[[4, refId('groupHrUser')]]"/>
+        <field name="users" eval="[[4, refId('base.userRoot')], [4, refId('base.userAdmin')]]"/>
+    </record>
+
+<data noupdate="1">
+    <record id="base.defaultUser" model="res.users">
+        <field name="groupsId" eval="[[4,refId('groupHrManager')]]"/>
+    </record>
+
+    <record id="hrEmployeeCompRule" model="ir.rule">
+        <field name="label">Employee multi company rule</field>
+        <field name="modelId" ref="model_hrEmployee"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record id="hrDeptCompRule" model="ir.rule">
+        <field name="label">Department multi company rule</field>
+        <field name="modelId" ref="model_hrDepartment"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record id="hrEmployeePublicCompRule" model="ir.rule">
+        <field name="label">Employee multi company rule</field>
+        <field name="modelId" ref="model_hrEmployeePublic"/>
+        <field name="domainForce">['|',['companyId', '=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record id="hrJobCompRule" model="ir.rule">
+        <field name="label">Job multi company rule</field>
+        <field name="modelId" ref="model_hrJob"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+</data>
+</verp>

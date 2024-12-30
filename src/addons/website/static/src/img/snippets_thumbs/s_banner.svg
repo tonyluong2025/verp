@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="60" viewBox="0 0 82 60">
+  <defs>
+    <linearGradient id="linearGradient_1" x1="0%" x2="100%" y1="23.23%" y2="76.77%">
+      <stop offset="0%" stop-color="#00A09D"/>
+      <stop offset="100%" stop-color="#00E2FF"/>
+    </linearGradient>
+    <rect id="path_2" width="21" height="2" x="3" y="3"/>
+    <filter id="filter_3" width="104.8%" height="200%" x="-2.4%" y="-25%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0.259587944   0 0 0 0 0.259629577   0 0 0 0 0.259574831  0 0 0 0.525895979 0"/>
+    </filter>
+    <path id="path_4" d="M18 11v1H3v-1h15zm2-3v1H3V8h17z"/>
+    <filter id="filter_5" width="105.9%" height="150%" x="-2.9%" y="-12.5%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.0995137675 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" class="snippets-thumbs">
+    <g class="s-banner">
+      <rect width="82" height="60" class="bg"/>
+      <g fill="url(#linearGradient_1)" class="group" opacity=".4">
+        <g class="image-1">
+          <rect width="82" height="60" class="rectangle"/>
+        </g>
+      </g>
+      <g class="group" transform="translate(13 22)">
+        <rect width="28" height="16" fill="#FFF" class="rectangle"/>
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_3)" xlink:href="#path_2"/>
+          <use fill="#000" fill-opacity=".697" xlink:href="#path_2"/>
+        </g>
+        <g class="combined-shape">
+          <use fill="#000" filter="url(#filter_5)" xlink:href="#path_4"/>
+          <use fill="#000" fill-opacity=".348" xlink:href="#path_4"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="WrappedProductNameLines" owl="1">
+        <span>
+            <t t-foreach="props.line.productNameWrapped.slice(1)" t-as="wrappedLine"><t t-esc="wrappedLine"/></t>
+        </span>
+    </t>
+
+</templates>

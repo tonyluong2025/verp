@@ -1,0 +1,55 @@
+
+.s-rating:not([data-vcss]) {
+    $star: "\f005";
+    $star-o: "\f006";
+    $circle: "\f111";
+    $circle-o: "\f10c";
+    $heart: "\f004";
+    $heart-o: "\f08a";
+    @mixin sRatingGenerateIcons($off, $on) {
+        .fa:before {
+            content: $off;
+        }
+        @for $counter from 5 to 0 {
+            &.s-rating-#{$counter} {
+                .fa:nth-of-type(-n+#{$counter}):before {
+                    content: $on;
+                }
+            }
+        }
+    }
+    > .s-rating-stars   { @include sRatingGenerateIcons($star-o, $star);     }
+    > .s-rating-squares { @include sRatingGenerateIcons($circle-o, $circle); }
+    > .s-rating-hearts  { @include sRatingGenerateIcons($heart-o, $heart);   }
+    > .s-rating-bar {
+        .fa {
+            display: none;
+        }
+        .s-rating-bar {
+            display: flex;
+            height: $progress-height;
+            background-color: $gray-300;
+            &:before {
+                content: "";
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                @include transition($progress-bar-transition);
+                @include gradient-striped();
+                background-size: $progress-height $progress-height;
+                background-color: theme-color('primary');
+                animation: progress-bar-stripes $progress-bar-animation-timing;
+            }
+        }
+        @for $counter from 5 to 0 {
+            &.s-rating-#{$counter} {
+                .s-rating-bar:before {
+                    width: percentage($counter/5);
+                }
+            }
+        }
+    }
+    > .s-rating-1x { .fa { font-size: 1em; }; }
+    > .s-rating-2x { .fa { font-size: 2em; }; }
+    > .s-rating-3x { .fa { font-size: 3em; }; }
+}

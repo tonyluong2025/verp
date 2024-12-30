@@ -1,0 +1,65 @@
+
+.s-share {
+    > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .s-share-title {
+        margin: 0 .4rem 0 0;
+    }
+    a {
+        i.fa {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        margin: .2rem;
+    }
+    &:not(.no-icon-color) {
+        .s-share-facebook {
+            &, &:hover, &:focus {
+                @extend .text-facebook;
+            }
+        }
+        .s-share-twitter {
+            &, &:hover, &:focus {
+                @extend .text-twitter;
+            }
+        }
+        .s-share-linkedin {
+            &, &:hover, &:focus {
+                @extend .text-linkedin;
+            }
+        }
+        .s-share-google {
+            &, &:hover, &:focus {
+                @extend .text-google-plus;
+            }
+        }
+        .s-share-whatsapp {
+            &, &:hover, &:focus {
+                @extend .text-whatsapp;
+            }
+        }
+        .s-share-pinterest {
+            &, &:hover, &:focus {
+                @extend .text-pinterest;
+            }
+        }
+        .s-share-github {
+            &, &:hover, &:focus {
+                @extend .text-github;
+            }
+        }
+        .s-share-instagram {
+            &, &:hover, &:focus {
+                @extend .text-instagram;
+            }
+        }
+        .s-share-youtube {
+            &, &:hover, &:focus {
+                @extend .text-youtube;
+            }
+        }
+    }
+}

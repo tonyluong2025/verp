@@ -1,0 +1,51 @@
+{
+  "label": "Snail Mail",
+  "description": "Allows users to send documents by post\n=====================================================",
+  "category": "Hidden/Tools",
+  "version": "0.3",
+  "depends": [
+    "iap_mail",
+    "mail"
+  ],
+  "data": [
+    "data/snailmail_data.xml",
+    "views/report_assets.xml",
+    "views/snailmail_views.xml",
+    "wizard/snailmail_confirm_views.xml",
+    "wizard/snailmail_letter_cancel_views.xml",
+    "wizard/snailmail_letter_format_error_views.xml",
+    "wizard/snailmail_letter_missing_required_fields_views.xml",
+    "security/ir.model.access.csv"
+  ],
+  "autoInstall": true,
+  "assets": {
+    "mail.assetsDiscussPublic": [
+      "snailmail/static/src/components/*/*",
+      "snailmail/static/src/models/*/*.js"
+    ],
+    "snailmail.reportAssetsSnailmail": [
+      [
+        "include",
+        "web._assetsHelpers"
+      ],
+      "web/static/lib/bootstrap/scss/_variables.scss",
+      "snailmail/static/src/scss/snailmail_external_layout_asset.scss",
+      "snailmail/static/src/js/snailmail_external_layout.js"
+    ],
+    "web.assetsBackend": [
+      "snailmail/static/src/components/*/*.js",
+      "snailmail/static/src/components/*/*.scss",
+      "snailmail/static/src/models/*/*.js"
+    ],
+    "web.testsAssets": [
+      "snailmail/static/tests/**/*"
+    ],
+    "web.qunitSuiteTests": [
+      "snailmail/static/src/components/*/tests/*.js"
+    ],
+    "web.assetsQweb": [
+      "snailmail/static/src/components/*/*.xml"
+    ]
+  },
+  "license": "MIT Expat"
+}

@@ -1,0 +1,12 @@
+<verp>
+    <record id="accountJournalDashboardKanbanViewJs" model="ir.ui.view">
+        <field name="label">account.journal.dashboard.kanban.js</field>
+        <field name="model">account.journal</field>
+        <field name="inheritId" ref="account.accountJournalDashboardKanbanView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="jsClass">accountSetupBar</attribute>
+            </xpath>
+        </field>
+    </record>
+</verp>

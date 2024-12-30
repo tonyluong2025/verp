@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<verp>
+
+    <menuitem id="menuAccountingBankAndCash"
+              name="Bank and Cash"
+              parent="account.menuFinanceEntries"
+              sequence="15"/>
+
+    <menuitem id="menuAccountingStatementBank"
+              action="account.actionBankStatementTree"
+              parent="menuAccountingBankAndCash"
+              sequence="10"/>
+
+    <menuitem id="menuAccountingStatementCash"
+              action="account.actionViewBankStatementTree"
+              parent="menuAccountingBankAndCash"
+              sequence="20"/>
+
+</verp>

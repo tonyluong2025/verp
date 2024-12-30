@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.web.recaptcha</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='websiteRecaptchaSettings']/div[contains(@class,'text-muted')]" position="inside">
+                <p>If no keys are provided, no checks will be done.</p>
+            </xpath>
+            <div id="recaptchaWarning" position="replace">
+                <div class="content-group" id="reacaptchaConfigurationSettings" attrs="{'invisible': [['moduleGoogleRecaptcha', '=', false]]}">
+                    <div class="mt16 row">
+                        <label for="recaptchaPublicKey" class="col-3 o-light-label"/>
+                        <field name="recaptchaPublicKey"/>
+                        <label for="recaptchaPrivateKey" class="col-3 o-light-label"/>
+                        <field name="recaptchaPrivateKey"/>
+                        <label for="recaptchaMinScore" class="col-3 o-light-label"/>
+                        <field name="recaptchaMinScore"/>
+                    </div>
+                    <div>
+                        <a href="https://www.google.com/recaptcha/admin/create" class="oe-link" target="_blank">
+                            <i class="fa fa-arrow-right"> Generate reCAPTCHA v3 keys</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+</verp>

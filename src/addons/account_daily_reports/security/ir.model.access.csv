@@ -1,0 +1,4 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_account_daybook_report,access_account_daybook_report,model_accountDaybookReport,account.groupAccountManager,1,1,1,1
+access_account_cashbook_report,access_account_cashbook_report,model_accountCashbookReport,account.groupAccountManager,1,1,1,1
+access_account_bankbook_report,access_account_bankbook_report,model_accountBankbookReport,account.groupAccountManager,1,1,1,1

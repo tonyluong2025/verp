@@ -1,0 +1,11 @@
+
+.s-mega-menu-menus-logos:not([data-vcss]) {
+    .s-mega-menu-gray-area:last-child {
+        @extend %s-mega-menu-gray-area;
+    }
+
+    .s-mega-menu-menus-logos-wrapper {
+        // Apply color transparency to match with the preset used
+        border-color: rgba(0, 0, 0, .05) !important;
+    }
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="viewSaleAdvancePaymentInv" model="ir.ui.view">
+            <field name="label">Invoice Orders</field>
+            <field name="model">sale.advance.payment.inv</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Sales Order">
+                    <p class="oe-grey">
+                        Invoices will be created in draft so that you can review
+                        them before validation.
+                    </p>
+                    <group>
+                        <field name="count" attrs="{'invisible': [['count','=', 1]]}" readonly="true"/>
+                        <field name="advancePaymentMethod" class="oe-inline" widget="radio"
+                            attrs="{'invisible': [['count','&gt;',1]]}"/>
+                        <field name="hasDownPayments" invisible="1" />
+                        <label for="deductDownPayments" string="" attrs="{'invisible': ['|', ['hasDownPayments', '=', false], ['advancePaymentMethod', '!=', 'delivered']]}"/>
+                        <div attrs="{'invisible': ['|', ['hasDownPayments', '=', false], ['advancePaymentMethod', '!=', 'delivered']]}"
+                            id="downPaymentDetails">
+                            <field name="deductDownPayments" nolabel="1"/>
+                            <label for="deductDownPayments"/>
+                        </div>
+                        <field name="productId"
+                            context="{'default_invoicePolicy': 'order'}" class="oe-inline"
+                            invisible="1"/>
+                        <label for="amount" attrs="{'invisible': [['advancePaymentMethod', 'not in', ['fixed','percentage']]]}"/>
+                        <div attrs="{'invisible': [['advancePaymentMethod', 'not in', ['fixed','percentage']]]}"
+                            id="paymentMethodDetails">
+                            <field name="currencyId" invisible="1"/>
+                            <field name="fixedAmount"
+                                attrs="{'required': [['advancePaymentMethod', '=', 'fixed']], 'invisible': [['advancePaymentMethod', '!=','fixed']]}" class="oe-inline"/>
+                            <field name="amount"
+                                attrs="{'required': [['advancePaymentMethod', '=', 'percentage']], 'invisible': [['advancePaymentMethod', '!=', 'percentage']]}" class="oe-inline"/>
+                            <span
+                                attrs="{'invisible': [['advancePaymentMethod', '!=', 'percentage']]}" class="oe-inline">%</span>
+                        </div>
+                        <field name="depositAccountId" options="{'noCreate': true}" class="oe-inline"
+                            attrs="{'invisible': ['|', ['advancePaymentMethod', 'not in', ['fixed', 'percentage']], ['productId', '!=', false]]}" groups="account.groupAccountManager"/>
+                        <field name="depositTaxesId" class="oe-inline" widget="many2manyTags"
+                            domain="[['typeTaxUse','=','sale']]"
+                            attrs="{'invisible': ['|', ['advancePaymentMethod', 'not in', ['fixed', 'percentage']], ['productId', '!=', false]]}"/>
+                    </group>
+                    <footer>
+                        <button name="createInvoices" id="createInvoiceOpen" string="Create and View Invoice" type="object"
+                            context="{'openInvoices': true}" class="btn-primary" data-hotkey="q"/>
+                        <button name="createInvoices" id="createInvoice" string="Create Invoice" type="object" data-hotkey="w"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionViewSaleAdvancePaymentInv" model="ir.actions.actwindow">
+            <field name="label">Create invoices</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">sale.advance.payment.inv</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <!-- TODO: check if we need this -->
+            <field name="bindingModelId" ref="sale.model_saleOrder" />
+            <field name="bindingViewTypes">list</field>
+        </record>
+
+</verp>

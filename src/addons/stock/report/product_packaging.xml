@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+    <data>
+        <template id="labelProductPackagingView">
+            <t t-foreach="docs" t-as="packaging">
+                <t t-translation="off">
+^XA
+^FO100,50
+^A0N,44,33^FD<t t-esc="await packaging.label"/>^FS
+^FO100,100
+^A0N,44,33^FD<t t-esc="await (await packaging.productId).displayName"/>^FS
+^FO100,150
+^A0N,44,33^FDQty: <t t-esc="await packaging.qty"/> <t t-esc="await (await packaging.productUomId).label" groups="uom.groupUom"/>^FS
+<t t-if="await packaging.barcode">
+^FO100,200^BY3
+^BCN,100,Y,N,N
+^FD<t t-esc="await packaging.barcode"/>^FS
+</t>
+^XZ
+                </t>
+            </t>
+        </template>
+    </data>
+</verp>

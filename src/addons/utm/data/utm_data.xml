@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- UTM Stage -->
+        <!-- This one is kept in data instead of demo to avoid crashing if the user starts creating campaigns
+        before stages have been created, as they are mandatory -->
+        <record id="defaultUtmStage" model="utm.stage">
+            <field name="label">New</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- UTM Source -->
+        <record model="utm.source" id="utmSourceSearchEngine">
+            <field name="label">Search engine</field>
+        </record>
+        <record model="utm.source" id="utmSourceMailing">
+            <field name="label">Lead Recall</field>
+        </record>
+        <record model="utm.source" id="utmSourceNewsletter">
+            <field name="label">Newsletter</field>
+        </record>
+        <record model="utm.source" id="utmSourceFacebook">
+            <field name="label">Facebook</field>
+        </record>
+        <record model="utm.source" id="utmSourceTwitter">
+            <field name="label">Twitter</field>
+        </record>
+        <record model="utm.source" id="utmSourceLinkedin">
+            <field name="label">LinkedIn</field>
+        </record>
+        <record model="utm.source" id="utmSourceMonster">
+            <field name="label">Monster</field>
+        </record>
+        <record model="utm.source" id="utmSourceGlassdoor">
+            <field name="label">Glassdoor</field>
+        </record>
+        <record model="utm.source" id="utmSourceCraigslist">
+            <field name="label">Craigslist</field>
+        </record>
+
+        <!-- UTM Medium -->
+        <record model="utm.medium" id="utmMediumWebsite">
+            <field name="label">Website</field>
+        </record>
+        <record model="utm.medium" id="utmMediumPhone">
+            <field name="label">Phone</field>
+        </record>
+        <record model="utm.medium" id="utmMediumDirect">
+            <field name="label">Direct</field>
+        </record>
+        <record model="utm.medium" id="utmMediumEmail">
+            <field name="label">Email</field>
+        </record>
+        <record model="utm.medium" id="utmMediumBanner">
+            <field name="label">Banner</field>
+        </record>
+        <record model="utm.medium" id="utmMediumTwitter">
+            <field name="label">Twitter</field>
+        </record>
+        <record model="utm.medium" id="utmMediumFacebook">
+            <field name="label">Facebook</field>
+        </record>
+        <record model="utm.medium" id="utmMediumLinkedin">
+            <field name="label">LinkedIn</field>
+        </record>
+        <record model="utm.medium" id="utmMediumTelevision">
+            <field name="label">Television</field>
+        </record>
+        <record model="utm.medium" id="utmMediumGoogleAdwords">
+            <field name="label">Google Adwords</field>
+        </record>
+
+        <!-- UTM Tag -->
+        <record id="utmTag_1" model="utm.tag">
+            <field name="label">Marketing</field>
+            <field name="color" eval="1"/>
+        </record>
+</verp>

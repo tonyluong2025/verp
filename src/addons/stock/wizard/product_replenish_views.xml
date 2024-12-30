@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewProductReplenish" model="ir.ui.view">
+        <field name="label">Replenish</field>
+        <field name="model">product.replenish</field>
+        <field name="arch" type="xml">
+            <form string="Replenish wizard">
+                <p>
+                Use this assistant to replenish your stock.
+                Depending on your product configuration, launching a replenishment may trigger a request for quotation,
+                a manufacturing order or a transfer.
+                </p>
+                <group>
+                    <field name="productTemplateId" invisible="1"/>
+                    <field name="productHasVariants" invisible="1"/>
+                    <field name="productId"
+                        domain="[['productTemplateId', '=', productTemplateId]]"
+                        attrs="{'readonly': [['productHasVariants', '=', false]]}"
+                        options="{'noCreateEdit':1}"/>
+                    <field name="productUomCategoryId" invisible="1"/>
+                    <label for="quantity"/>
+                    <div class="o-row">
+                        <field name="quantity" />
+                        <field name="productUomId"
+                            domain="[['categoryId', '=', productUomCategoryId]]"
+                            groups="uom.groupUom"/>
+                    </div>
+                    <field name="datePlanned"/>
+                    <field name="warehouseId"
+                        groups="stock.groupStockMultiWarehouses"/>
+                    <field name="routeIds"
+                        widget="many2manyTags"/>
+                    <field name="companyId" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="launchReplenishment"
+                        string="Confirm"
+                        type="object"
+                        data-hotkey="q"
+                        class="btn-primary"/>
+                    <button string="Discard"
+                        class="btn-secondary"
+                        special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionProductReplenish" model="ir.actions.actwindow">
+        <field name="label">Replenish</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.replenish</field>
+        <!-- bindingModelId evaluated to false
+        to remove it in existing db's as it was bug-prone -->
+        <field name="bindingModelId" eval="false"/>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="viewProductReplenish"/>
+        <field name="target">new</field>
+    </record>
+</verp>

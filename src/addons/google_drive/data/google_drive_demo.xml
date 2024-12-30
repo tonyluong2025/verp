@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<verp>
+    <data noupdate="1">
+
+        <!-- filter demo -->
+        <record id="filterPartner" model="ir.filters">
+            <field name="label">Customer</field>
+            <field name="modelId">res.partner</field>
+            <field name="userId" eval="false" />
+        </record>
+
+        <!-- template demo -->
+        <record id="templatePartner" model="google.drive.config">
+            <field name="label">Partner Review</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="filterId" ref="filterPartner"/>
+            <field name="googleDriveTemplateUrl">https://docs.google.com/spreadsheet/ccc?key=1eIM-q7PX9wp1vEUUdUvrmAe8V3Do60vXDETulNmI9mA#gid=0</field>
+            <field name="nameTemplate">Partner Review %(name)s</field>
+        </record>
+
+    </data>
+</verp>

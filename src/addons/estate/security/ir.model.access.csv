@@ -1,0 +1,5 @@
+id,label,modelId/id,groupId/id,permRead,permWrite,permCreate,permUnlink
+access_estateProperty_read,access.estate.property.read,model_estateProperty,base.groupUser,1,0,0,0
+access_estateProperty_full,access.estate.property.full,model_estateProperty,base.groupSystem,1,1,1,1
+access_estatePortfolio_read,access.estate.portfolio.read,model_estatePortfolio,base.groupUser,1,0,0,0
+access_estatePortfolio_full,access.estate.portfolio.full,model_estatePortfolio,base.groupSystem,1,1,1,1

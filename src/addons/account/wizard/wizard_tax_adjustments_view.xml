@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="taxAdjustmentsWizard" model="ir.ui.view">
+        <field name="label">tax.adjustments.wizard.form</field>
+        <field name="model">tax.adjustments.wizard</field>
+        <field name="arch" type="xml">
+        <form>
+            <h1>
+                <field name="reason" class="oe-inline" placeholder="Reason..."/>
+            </h1>
+            <group>
+                <field name="reportId" invisible="1"/>
+                <field name="taxReportLineId" options="{'noOpen': true, 'noCreate': true}" domain="[['tagName', '!=', null]]"/>
+            </group>
+            <group>
+                <group>
+                    <field name="amount"/>
+                </group>
+                <group>
+                    <field name="adjustmentType"/>
+                </group>
+                <group string="Accounts">
+                    <field name="debitAccountId"/>
+                    <field name="creditAccountId"/>
+                </group>
+                <group string="Options">
+                    <field name="journalId"/>
+                    <field name="date"/>
+                </group>
+            </group>
+            <footer>
+                <button name="createMove" string="Create and post move" type="object" defaultFocus="1" class="oe-highlight" data-hotkey="q"/>
+                <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z" />
+            </footer>
+        </form>
+        </field>
+    </record>
+</verp>

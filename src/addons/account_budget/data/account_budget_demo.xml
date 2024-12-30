@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <data noupdate="1">
+
+        <record id="crossoveredBudgetBudgetoptimistic0" model="crossovered.budget">
+            <field eval="'Budget '+String(now().getFullYear()+1)+': Optimistic'" name="label"/>
+            <field eval="String(now().getFullYear()+1)+'-01-01'" name="dateFrom"/>
+            <field eval="'draft'" name="state"/>
+            <field eval="String(now().getFullYear()+1)+'-12-31'" name="dateTo"/>
+            <field name="userId" ref="base.userRoot"/>
+        </record>
+
+        <record id="budgetLineAnalyticAdmin" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-01-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-12-31'" name="dateTo"/>
+            <field name="plannedAmount">-35000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAdministratif"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait1" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-01-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-01-31'" name="dateTo"/>
+            <field name="plannedAmount">10000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait2" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-02-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-02-28'" name="dateTo"/>
+            <field name="plannedAmount">10000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait3" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-03-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-03-31'" name="dateTo"/>
+            <field name="plannedAmount">12000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait4" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-04-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-04-30'" name="dateTo"/>
+            <field name="plannedAmount">15000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait5" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-05-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-05-31'" name="dateTo"/>
+            <field name="plannedAmount">15000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait6" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-06-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-06-30'" name="dateTo"/>
+            <field name="plannedAmount">15000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait7" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-07-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-07-31'" name="dateTo"/>
+            <field name="plannedAmount">13000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait8" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-08-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-08-31'" name="dateTo"/>
+            <field name="plannedAmount">9000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait9" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-09-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-09-30'" name="dateTo"/>
+            <field name="plannedAmount">8000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait10" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-10-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-10-31'" name="dateTo"/>
+            <field name="plannedAmount">15000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait11" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-11-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-11-30'" name="dateTo"/>
+            <field name="plannedAmount">15000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolait12" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetoptimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-12-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-12-31'" name="dateTo"/>
+            <field name="plannedAmount">18000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <!-- pessimistic-->
+        <record id="crossoveredBudgetBudgetpessimistic0" model="crossovered.budget">
+            <field eval="'Budget '+String(now().getFullYear()+1)+': Pessimistic'" name="label"/>
+            <field eval="String(now().getFullYear()+1)+'-01-01'" name="dateFrom"/>
+            <field eval="'draft'" name="state"/>
+            <field eval="String(now().getFullYear()+1)+'-12-31'" name="dateTo"/>
+            <field name="userId" ref="base.userRoot"/>
+        </record>
+
+        <record id="budgetLineAnalyticAdminPessim" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-01-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-12-31'" name="dateTo"/>
+            <field name="plannedAmount">-55000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAdministratif"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim1" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-01-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-01-31'" name="dateTo"/>
+            <field name="plannedAmount">9000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim2" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-02-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-02-28'" name="dateTo"/>
+            <field name="plannedAmount">8000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim3" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-03-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-03-31'" name="dateTo"/>
+            <field name="plannedAmount">10000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim4" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-04-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-04-30'" name="dateTo"/>
+            <field name="plannedAmount">14000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim5" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-05-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-05-31'" name="dateTo"/>
+            <field name="plannedAmount">16000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim6" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-06-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-06-30'" name="dateTo"/>
+            <field name="plannedAmount">13000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim7" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-07-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-07-31'" name="dateTo"/>
+            <field name="plannedAmount">10000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim8" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-08-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-08-31'" name="dateTo"/>
+            <field name="plannedAmount">8000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim9" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-09-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-09-30'" name="dateTo"/>
+            <field name="plannedAmount">7000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim10" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-10-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-10-31'" name="dateTo"/>
+            <field name="plannedAmount">12000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim11" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-11-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-11-30'" name="dateTo"/>
+            <field name="plannedAmount">17000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+
+        <record id="budgetLineAnalyticAgrolaitPessim12" model="crossovered.budget.lines">
+            <field name="crossoveredBudgetId" ref="crossoveredBudgetBudgetpessimistic0"/>
+            <field eval="String(now().getFullYear()+1)+'-12-01'" name="dateFrom"/>
+            <field eval="String(now().getFullYear()+1)+'-12-31'" name="dateTo"/>
+            <field name="plannedAmount">17000</field>
+            <field name="analyticAccountId" ref="analytic.analyticAgrolait"/>
+        </record>
+    </data>
+
+</verp>

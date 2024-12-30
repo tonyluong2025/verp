@@ -1,0 +1,27 @@
+{
+    "label": "Verp 1 Fiscal Year & Lock Date",
+    "version": "2.2.0",
+    "category": "Accounting",
+    "summary": "Verp 1 Fiscal Year, Fiscal Year in Verp 1, Lock Date in Verp 1",
+    "description": "Verp 1 Fiscal Year, Fiscal Year in Verp 1",
+    "liveTestUrl": "https://www.youtube.com/watch?v=Kj4hR7_uNs4",
+    "sequence": "1",
+    "website": "https://www.verpmates.tech",
+    "author": "Verp Mates, Verp SA",
+    "maintainer": "Verp Mates",
+    "support": "verpmates@gmail.com",
+    "depends": ["account"],
+    "demo": [],
+    "data": [
+        "security/ir.model.access.csv",
+        "security/account_security.xml",
+        "wizard/change_lock_date.xml",
+        "views/fiscal_year.xml",
+        "views/settings.xml"
+    ],
+    "installable": true,
+    "application": true,
+    "autoInstall": false,
+    "images": ["static/description/banner.png"],
+    "license": "MIT Expat"
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewPosDetailsWizard" model="ir.ui.view">
+        <field name="label">pos.details.wizard.form</field>
+        <field name="model">pos.details.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sales Details">
+                <group>
+                    <field name="startDate"/>
+                    <field name="endDate"/>
+                </group>
+                <group>
+                    <field name="posConfigIds" mode="tree" colspan="4" nolabel="1" />
+                </group>
+                <footer>
+                    <button name="generateReport" string="Print" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

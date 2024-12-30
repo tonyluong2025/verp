@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.base.setup</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="0"/>
+        <field name="inheritId" ref="base.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='settings']" position="inside">
+                <div class="app-settings-block" data-string="RealEstate" string="Real Settings" data-key="estate">
+                    <div id="estateUsers">
+                        <h2>Real Users</h2>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="actionGeneralConfiguration" model="ir.actions.actwindow">
+        <field name="label">Settings</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">res.config.settings</field>
+        <field name="viewMode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'general_settings', 'binSize': false}</field>
+    </record>
+
+    <!-- <menuitem id="menuConfig" name="Real Settings" parent="base.menuAdministration" sequence="0" action="actionGeneralConfiguration" groups="base.groupSystem"/> -->
+
+</verp>

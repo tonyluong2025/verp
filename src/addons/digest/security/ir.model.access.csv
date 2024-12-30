@@ -1,0 +1,5 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_digest_digest_system,digest.digest.administration,model_digestDigest,base.groupErpManager,1,1,1,1
+access_digest_digest_user,digest.digest.user,model_digestDigest,base.groupUser,1,0,0,0
+access_digest_tip_system,digest.tip.administration,model_digestTip,base.groupErpManager,1,1,1,1
+access_digest_tip_user,digest.tip.user,model_digestTip,base.groupUser,1,0,0,0

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="trackMoveTemplate">
+        <div>
+            <t t-call="stock.messageHead"/>
+            <t t-call="stock.messageBody"/>
+        </div>
+    </template>
+
+    <template id="exceptionOnPicking">
+        <div> Exception(s) occurred on the picking
+            <a href="#" data-oe-model="stock.picking" t-att-data-oe-id="originPicking.id"><t t-esc="await originPicking.label"/></a>.
+            Manual actions may be needed.
+            <div class="mt16">
+                <p>Exception(s):</p>
+                <ul t-foreach="movesInformation" t-as="exception">
+                    <t t-set="move" t-value="exception[0]"/>
+                    <t t-set="newQty" t-value="exception[1][0]"/>
+                    <t t-set="oldQty" t-value="exception[1][1]"/>
+                    <li><t t-esc="newQty"/> <t t-esc="await (await move.productUom).label"/>
+                    of <t t-esc="await (await move.productId).displayName"/> processed instead of <t t-esc="oldQty"/> <t t-esc="await (await move.productUom).label"/></li>
+                </ul>
+            </div>
+            <div class="mt16" t-if="impactedPickings">
+                <p>Next transfer(s) impacted:</p>
+                <ul t-foreach="impactedPickings" t-as="picking">
+                    <li><a href="#" data-oe-model="stock.picking" t-att-data-oe-id="picking.id"><t t-esc="await picking.label"/></a></li>
+                </ul>
+            </div>
+        </div>
+    </template>
+</verp>

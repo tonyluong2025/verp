@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="assetsBackend" name="CRM assets backend" inheritId="web.assetsBackend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/crm/static/src/js/crm_form.js"/>
+            <script type="text/javascript" src="/crm/static/src/js/crm_kanban.js"/>
+            <script type="text/javascript" src="/crm/static/src/js/systray_activity_menu.js"/>
+            <script type="text/javascript" src="/crm/static/src/js/tours/crm.js"></script>
+        </xpath>
+    </template>
+    <template id="assetsTests" name="CRM Assets Tests" inheritId="web.assetsTests">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/crm/static/tests/tours/crm_rainbowman.js"></script>
+            <script type="text/javascript" src="/crm/static/tests/tours/crm_email_and_phone_propagation.js"></script>
+        </xpath>
+    </template>
+    <template id="qunitSuite" name="crm tests" inheritId="web.qunitSuiteTests">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/crm/static/tests/mock_server.js"></script>
+            <script type="text/javascript" src="/crm/static/tests/crm_rainbowman_tests.js"></script>
+        </xpath>
+    </template>         
+</verp>

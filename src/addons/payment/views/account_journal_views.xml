@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewAccountJournalForm" model="ir.ui.view">
+        <field name="label">account.journal.form.inherit.payment</field>
+        <field name="model">account.journal</field>
+        <field name="inheritId" ref="account.viewAccountJournalForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='inboundPaymentMethodLineIds']//field[@name='paymentAccountId']" position="after">
+                <field name="paymentAcquirerId" invisible="1"/>
+                <field name="paymentAcquirerState" invisible="1"/>
+                <button name="actionOpenAcquirerForm"
+                        type="object"
+                        string="SETUP"
+                        class="float-right btn-secondary"
+                        attrs="{'invisible': [['paymentAcquirerId', '=', false]]}"
+                        groups="base.groupSystem"/>
+            </xpath>
+            <xpath expr="//field[@name='inboundPaymentMethodLineIds']/tree" position="attributes">
+                <attribute name="decoration-muted">paymentAcquirerState == 'disabled'</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

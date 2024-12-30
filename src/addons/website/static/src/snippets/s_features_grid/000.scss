@@ -1,0 +1,13 @@
+
+.s-features-grid {
+    .s-features-grid-contentcontent {
+        overflow: hidden;
+        p {
+            margin-bottom: 0;
+        }
+    }
+    .s-features-grid-contenticon {
+        float: left;
+        margin-right: $grid-gutter-width/2;
+    }
+}

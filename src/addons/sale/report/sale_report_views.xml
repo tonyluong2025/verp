@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewOrderProductPivot" model="ir.ui.view">
+         <field name="label">sale.report.pivot</field>
+         <field name="model">sale.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Sales Analysis" sample="1">
+                 <field name="teamId" type="col"/>
+                 <field name="date" interval="month" type="row"/>
+                 <field name="priceSubtotal" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+
+    <record id="viewOrderProductGraph" model="ir.ui.view">
+         <field name="label">sale.report.graph</field>
+         <field name="model">sale.report</field>
+         <field name="arch" type="xml">
+             <graph string="Sales Analysis" type="line" sample="1">
+                 <field name="date" interval="day"/>
+                 <field name="priceSubtotal" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="saleReportViewTree" model="ir.ui.view">
+        <field name="label">sale.report.view.tree</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Analysis">
+                <field name="date" widget="date"/>
+                <field name="orderId" optional="show"/>
+                <field name="partnerId" optional="hide"/>
+                <field name="userId" optional="show" widget="many2oneAvatarUser"/>
+                <field name="teamId" optional="show"/>
+                <field name="companyId" optional="show" groups="base.groupMultiCompany"/>
+                <field name="priceSubtotal" optional="hide" sum="Sum of Untaxed Total"/>
+                <field name="priceTotal" optional="show" sum="Sum of Total"/>
+                <field name="state" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewOrderProductSearch" model="ir.ui.view">
+        <field name="label">sale.report.search</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <search string="Sales Analysis">
+                <field name="date"/>
+                <filter string="Date" name="year" invisible="1" date="date" default_period="thisYear"/>
+                <filter name="Quotations" string="Quotations" domain="[['state','in', ['draft', 'sent']]]"/>
+                <filter name="Sales" string="Sales Orders" domain="[['state','not in',['draft', 'cancel', 'sent']]]"/>
+                <separator/>
+                <filter name="filterDate" date="date" default_period="thisMonth"/>
+                <filter name="filterOrderDate" invisible="1" string="Order Date: Last 365 Days" domain="[['date', '&gt;=', contextToday().sub({days: 365}).combine('min').toFormat('yyyy-MM-dd HH:mm:ss')]]"/>
+                <separator/>
+                <field name="userId"/>
+                <field name="teamId"/>
+                <field name="productId"/>
+                <field name="categId"/>
+                <field name="partnerId"/>
+                <field name="countryId"/>
+                <field name="industryId"/>
+                <group expand="0" string="Extended Filters">
+                    <field name="categId" filterDomain="[['categId', 'childOf', self]]"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </group>
+                <group expand="1" string="Group By">
+                    <filter string="Salesperson" name="User" context="{'groupby':'userId'}"/>
+                    <filter string="Sales Team" name="salesChannel" context="{'groupby':'teamId'}"/>
+                    <filter string="Customer" name="Customer" context="{'groupby':'partnerId'}"/>
+                    <filter string="Customer Country" name="countryId" context="{'groupby':'countryId'}"/>
+                    <filter string="Customer Industry" name="industryId" context="{'groupby':'industryId'}"/>
+                    <filter string="Product" name="Product" context="{'groupby':'productId'}"/>
+                    <filter string="Product Category" name="Category" context="{'groupby':'categId'}"/>
+                    <filter name="status" string="Status" context="{'groupby':'state'}"/>
+                    <filter string="Company" name="company" groups="base.groupMultiCompany" context="{'groupby':'companyId'}"/>
+                    <separator/>
+                    <filter string="Order Date" name="date" context="{'groupby':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionOrderReportAll" model="ir.actions.actwindow">
+        <field name="label">Sales Analysis</field>
+        <field name="resModel">sale.report</field>
+        <field name="viewMode">graph,pivot</field>
+        <field name="viewId"></field>  <!-- force empty -->
+        <field name="searchViewId" ref="viewOrderProductSearch"/>
+        <field name="context">{'searchDefault_sales':1, 'groupby_noLeaf':1,'groupby':[], 'searchDefault_filterOrderDate': 1}</field>
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+</verp>

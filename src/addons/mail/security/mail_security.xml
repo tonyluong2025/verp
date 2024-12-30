@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+
+        <!-- RULES -->
+        <record id="mailChannelRule" model="ir.rule">
+            <field name="label">Mail.channel: access only public and joined groups</field>
+            <field name="modelId" ref="model_mailChannel"/>
+            <field name="groups" eval="[Command.link(refId('base.groupUser')), Command.link(refId('base.groupPortal')), Command.link(refId('base.groupPublic'))]"/>
+            <field name="domainForce">['|', '|',
+['isPublic', '=', 'public'],
+'&amp;', ['isPublic', '=', 'private'], ['channelPartnerIds', 'in', [(await user.partnerId).id]],
+'&amp;', ['isPublic', '=', 'groups'], ['groupPublicId', 'in', await (await user.groupsId).map(g => g.id)]]</field>
+            <field name="permCreate" eval="false"/>
+        </record>
+
+        <record id="mailChannelAdmin" model="ir.rule">
+            <field name="label">Mail.channel: admin full access</field>
+            <field name="modelId" ref="model_mailChannel"/>
+            <field name="groups" eval="[Command.link(refId('base.groupSystem'))]"/>
+            <field name="domainForce">[[1, '=', 1]]</field>
+        </record>
+
+        <record id="irRuleMailChannelPartnerGroupUser" model="ir.rule">
+            <field name="label">mail.channel.partner: write its own entries</field>
+            <field name="modelId" ref="model_mailChannelPartner"/>
+            <field name="groups" eval="[[4, refId('base.groupUser')], [4, refId('base.groupPortal')]]"/>
+            <field name="domainForce">['|', '|',
+['channelId.isPublic', '=', 'public'],
+'&amp;', ['channelId.isPublic', '=', 'private'], ['channelId.channelPartnerIds', 'in', [(await user.partnerId).id]],
+'&amp;', ['channelId.isPublic', '=', 'groups'], ['channelId.groupPublicId', 'in', await (await user.groupsId).map(g => g.id)]]</field>
+            <field name="permRead" eval="false"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permCreate" eval="false"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+        <record id="irRuleMailChannelPartnerGroupSystem" model="ir.rule">
+            <field name="label">mail.channel.partner: admin can manipulate all entries</field>
+            <field name="modelId" ref="model_mailChannelPartner"/>
+            <field name="groups" eval="[Command.link(refId('base.groupSystem'))]"/>
+            <field name="domainForce">[[1, '=', 1]]</field>
+        </record>
+
+        <record id="irRuleMailNotificationsGroupUser" model="ir.rule">
+            <field name="label">mail.notifications: groupUser: write its own entries</field>
+            <field name="modelId" ref="model_mailNotification"/>
+            <field name="groups" eval="[Command.link(refId('base.groupUser')), Command.link(refId('base.groupPortal'))]"/>
+            <field name="domainForce">[['resPartnerId', '=', (await user.partnerId).id]]</field>
+            <field name="permCreate" eval="false"/>
+            <field name="permUnlink" eval="false"/>
+            <field name="permRead" eval="false"/>
+        </record>
+
+        <record id="mailMessageSubtypeRulePublic" model="ir.rule">
+            <field name="label">mail.message.subtype: portal/isPublic: read public subtypes</field>
+            <field name="modelId" ref="model_mailMessageSubtype"/>
+            <field name="domainForce">[['internal', '=', false]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupPortal')), Command.link(refId('base.groupPublic'))]"/>
+        </record>
+
+        <record id="mailActivityRuleUser" model="ir.rule">
+            <field name="label">mail.activity: user: write/unlink only (created or assigned)</field>
+            <field name="modelId" ref="model_mailActivity"/>
+            <field name="domainForce">['|', ['userId', '=', user.id], ['createdUid', '=', user.id]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupUser'))]"/>
+            <field name="permCreate" eval="false"/>
+            <field name="permRead" eval="false"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+        <record id="mailComposeMessageRule" model="ir.rule">
+            <field name="label">Mail Compose Message Rule</field>
+            <field name="modelId" ref="model_mailComposeMessage"/>
+            <field name="domainForce">[['createdUid', '=', user.id]]</field>
+            <field name="permCreate" eval="false"/>
+            <field name="permRead" eval="true"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permUnlink" eval="false"/>
+        </record>
+
+        <record id="mailTemplateEmployeeRule" model="ir.rule">
+            <field name="label">Employees can only change their own templates</field>
+            <field name="modelId" ref="model_mailTemplate"/>
+            <field name="domainForce">[['createdUid', '=', user.id]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupUser'))]"/>
+            <field name="permCreate" eval="true"/>
+            <field name="permRead" eval="false"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+        <record id="mailTemplateEditorRule" model="ir.rule">
+            <field name="label">Mail Template Editors - Edit All Templates</field>
+            <field name="modelId" ref="model_mailTemplate"/>
+            <field name="domainForce">[[1, '=', 1]]</field>
+            <field name="groups" eval="[Command.link(refId('groupMailTemplateEditor')), Command.link(refId('base.groupSystem'))]"/>
+            <field name="permCreate" eval="true"/>
+            <field name="permRead" eval="false"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+        <record id="resUsersSettingsRuleAdmin" model="ir.rule">
+            <field name="label">Administrators can access all User Settings.</field>
+            <field name="modelId" ref="model_resUsersSettings"/>
+            <field name="groups" eval="[Command.link(refId('base.groupSystem'))]"/>
+            <field name="domainForce">[[1, '=', 1]]</field>
+            <field name="permRead" eval="true"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permCreate" eval="true"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+        <record id="resUsersSettingsRuleUser" model="ir.rule">
+            <field name="label">res.users.settings: access their own entries</field>
+            <field name="modelId" ref="model_resUsersSettings"/>
+            <field name="groups" eval="[Command.link(refId('base.groupUser'))]"/>
+            <field name="domainForce">[['userId', '=', user.id]]</field>
+            <field name="permRead" eval="true"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permCreate" eval="true"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+        <record id="resUsersSettingsVolumesRuleUser" model="ir.rule">
+            <field name="label">res.users.settings.volumes: access their own entries</field>
+            <field name="modelId" ref="model_resUsersSettingsVolumes"/>
+            <field name="groups" eval="[Command.link(refId('base.groupUser'))]"/>
+            <field name="domainForce">[['userSettingId.userId', '=', user.id]]</field>
+            <field name="permRead" eval="true"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permCreate" eval="true"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+        <record id="resUsersSettingsVolumesRuleAdmin" model="ir.rule">
+            <field name="label">Administrators can access all User Settings volumes.</field>
+            <field name="modelId" ref="model_resUsersSettingsVolumes"/>
+            <field name="groups" eval="[Command.link(refId('base.groupSystem'))]"/>
+            <field name="domainForce">[[1, '=', 1]]</field>
+            <field name="permRead" eval="true"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permCreate" eval="true"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+</verp>

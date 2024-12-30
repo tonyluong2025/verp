@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ProductConfiguratorPopup" owl="1">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-text popup-med product-configurator-popup">
+                <header class="title">
+                    <t t-esc="props.product.displayName" />
+                </header>
+
+                <main class="body product-configurator-attributes col-lg-4 col-md-6 col-sm-12">
+                    <div t-foreach="props.attributes" t-as="attribute" class="attribute">
+                        <div class="attribute-name" t-esc="attribute.label"/>
+                        <RadioProductAttribute t-if="attribute.displayType === 'radio' or attribute.displayType === 'pills'" attribute="attribute"/>
+                        <SelectProductAttribute t-elif="attribute.displayType === 'select'" attribute="attribute"/>
+                        <ColorProductAttribute t-elif="attribute.displayType === 'color'" attribute="attribute"/>
+                    </div>
+                </main>
+
+                <footer class="footer">
+                    <div class="button highlight confirm" t-on-click="confirm">
+                        Add
+                    </div>
+                    <div class="button cancel" t-on-click="cancel">
+                        Cancel
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="RadioProductAttribute" owl="1">
+        <div class="configurator-radio">
+            <div class="table">
+                <t t-foreach="values" t-as="value">
+                    <div class="attribute-name-cell">
+                        <input type="radio" t-model="state.selectedValue" t-att-name="attribute.id"
+                                   t-attf-id="{{ attribute.id }}_{{ value.id }}" t-att-value="value.id"/>
+                        <label t-attf-for="{{ attribute.id }}_{{ value.id }}">
+                                <t t-esc="value.label"/>
+                        </label>
+                    </div>
+                    <div t-if="value.priceExtra" class="price-extra-cell">
+                        <label t-attf-for="{{ attribute.id }}_{{ value.id }}">
+                            <span class="price-extra">
+                                + <t t-esc="env.pos.formatCurrency(value.priceExtra)"/>
+                            </span>
+                        </label>
+                    </div>
+                    <div t-if="value.id == state.selectedValue &amp;&amp; value.isCustom" class="custom-value-cell">
+                        <label t-attf-for="{{ attribute.id }}_{{ value.id }}">
+                            <input class="custom-value" type="text" t-model="state.customValue"/>
+                        </label>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="SelectProductAttribute" owl="1">
+        <div>
+            <t t-set="isCustom" t-value="false"/>
+
+            <select class="configurator-select" t-model="state.selectedValue">
+                <option t-foreach="values" t-as="value" t-att-value="value.id">
+                    <t t-set="isCustom" t-value="isCustom || (value.isCustom &amp;&amp; value.id == state.selectedValue)"/>
+                    <t t-esc="value.label"/>
+                    <t t-if="value.priceExtra">
+                        + <t t-esc="env.pos.formatCurrency(value.priceExtra)"/>
+                    </t>
+                </option>
+            </select>
+
+            <input class="custom-value" t-if="isCustom" type="text" t-model="state.customValue"/>
+        </div>
+    </t>
+
+    <t t-name="ColorProductAttribute" owl="1">
+        <div>
+            <t t-set="isCustom" t-value="false"/>
+
+            <ul class="color-attribute-list">
+                <li t-foreach="values" t-as="value" class="color-attribute-list-item">
+                    <t t-set="isCustom" t-value="isCustom || (value.isCustom &amp;&amp; value.id == state.selectedValue)"/>
+                    <label t-attf-class="configurator-color {{ value.id == state.selectedValue ? 'active' : '' }}"
+                        t-attf-style="background-color: {{ value.htmlColor }};" t-att-data-color="value.label">
+                        <input type="radio" t-model="state.selectedValue" t-att-value="value.id" t-att-name="attribute.id"/>
+                    </label>
+                </li>
+            </ul>
+
+            <input class="custom-value" t-if="isCustom" type="text" t-model="state.customValue"/>
+        </div>
+    </t>
+
+</templates>

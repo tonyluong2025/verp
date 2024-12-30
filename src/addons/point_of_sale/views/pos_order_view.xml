@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewPosPosForm" model="ir.ui.view">
+        <field name="label">pos.order.form</field>
+        <field name="model">pos.order</field>
+        <field name="arch" type="xml">
+            <form string="Point of Sale Orders" create="0">
+                <header>
+                    <button name="%(actionPosPayment)d" string="Payment" class="oe-highlight" type="action" states="draft" />
+                    <button name="actionPosOrderInvoice" string="Invoice" type="object"
+                            attrs="{'invisible': ['|', ['invoiceGroup', '=', false], ['state','!=','paid']]}"/>
+                    <button name="refund" string="Return Products" type="object"
+                        attrs="{'invisible':['|', ['state','=','draft'], ['hasRefundableLines', '=', false]]}"/>
+                    <field name="state" widget="statusbar" statusbarVisible="draft,paid,done" />
+                    <field name="hasRefundableLines" invisible="1" />
+                    <field name="refundedOrdersCount" invisible="1" />
+                </header>
+                <sheet>
+                <field name="failedPickings" invisible="1"/>
+                <field name="isRefunded" invisible="1"/>
+                <div class="oe-button-box" name="buttonBox">
+                    <button name="actionStockPicking"
+                        type="object"
+                        class="oe-stat-button"
+                        icon="fa-truck"
+                        attrs="{'invisible':[['pickingCount', '=', 0]]}">
+                        <field name="pickingCount" widget="statinfo" string="Pickings" attrs="{'invisible': [['failedPickings', '!=', false]]}"/>
+                        <field name="pickingCount" widget="statinfo" string="Pickings" class="text-danger" attrs="{'invisible': [['failedPickings', '=', false]]}"/>
+                    </button>
+                    <button name="actionViewInvoice"
+                        string="Invoice"
+                        type="object"
+                        class="oe-stat-button"
+                        icon="fa-pencil-square-o"
+                        attrs="{'invisible':[['state','!=','invoiced']]}">
+                    </button>
+                    <button name="actionViewRefundOrders"
+                        type="object"
+                        class="oe-stat-button"
+                        icon="fa-undo"
+                        attrs="{'invisible':[['isRefunded', '=', false]]}">
+                        <field name="refundOrdersCount" widget="statinfo" string="Refunds" />
+                    </button>
+                    <button name="actionViewRefundedOrders"
+                        type="object"
+                        class="oe-stat-button"
+                        icon="fa-shopping-cart "
+                        attrs="{'invisible':[['refundedOrdersCount', '=', 0]]}">
+                        <field name="refundedOrdersCount" widget="statinfo" string="Refunded Orders" />
+                    </button>
+                </div>
+                <group col="4" colspan="4" name="orderFields">
+                    <field name="label"/>
+                    <field name="dateOrder"/>
+                    <field name="sessionId" />
+                    <field string="User" name="userId"/>
+                    <field name="partnerId" context="{'resPartnerSearchMode': 'customer'}" attrs="{'readonly': [['state','=','invoiced']]}"/>
+                    <field name="fiscalPositionId" options="{'noCreate': true}"/>
+                    <field name="invoiceGroup" invisible="1"/>
+                </group>
+                <notebook colspan="4">
+                    <page string="Products" name="products">
+                        <field name="lines" colspan="4" nolabel="1">
+                            <tree string="Order lines" editable="bottom">
+                                <field name="fullProductName"/>
+                                <field name="packLotIds" widget="many2manyTags" groups="stock.groupProductionLot"/>
+                                <field name="qty"/>
+                                <field name="customerNote" optional="hide"/>
+                                <field name="productUomId" string="UoM" groups="uom.groupUom"/>
+                                <field name="priceUnit" widget="monetary"/>
+                                <field name="isTotalCostComputed" invisible="1"/>
+                                <field name="totalCost" attrs="{'invisible': [['isTotalCostComputed','=', false]]}" optional="hide" widget="monetary"/>
+                                <field name="margin" attrs="{'invisible': [['isTotalCostComputed','=', false]]}" optional="hide" widget="monetary"/>
+                                <field name="marginPercent" attrs="{'invisible': [['isTotalCostComputed','=', false]]}" optional="hide" widget="percentage"/>
+                                <field name="discount" string="Disc.%"/>
+                                <field name="taxIdsAfterFiscalPosition" widget="many2manyTags" string="Taxes"/>
+                                <field name="taxIds" widget="many2manyTags" invisible="1"/>
+                                <field name="priceSubtotal" widget="monetary" forceSave="1"/>
+                                <field name="priceSubtotalIncl" widget="monetary" forceSave="1"/>
+                                <field name="currencyId" invisible="1"/>
+                                <field name="refundedQty" optional="hide" />
+                            </tree>
+                            <form string="Order lines">
+                                <group col="4">
+                                    <field name="fullProductName"/>
+                                    <field name="qty"/>
+                                    <field name="discount"/>
+                                    <field name="priceUnit" widget="monetary"/>
+                                    <field name="priceSubtotal" invisible="1" widget="monetary" forceSave="1"/>
+                                    <field name="priceSubtotalIncl" invisible="1" widget="monetary" forceSave="1"/>
+                                    <field name="taxIdsAfterFiscalPosition" widget="many2manyTags" string="Taxes"/>
+                                    <field name="taxIds" widget="many2manyTags" invisible="1"/>
+                                    <field name="packLotIds" widget="many2manyTags" groups="stock.groupProductionLot"/>
+                                    <field name="notice"/>
+                                    <field name="currencyId" invisible="1"/>
+                                </group>
+                            </form>
+                        </field>
+                        <group class="oe-subtotal-footer oe-right" colspan="2" name="orderTotal">
+                            <field name="amountTax"
+                                   forceSave="1"
+                                   widget="monetary"/>
+                            <div class="oe-subtotal-footer-separator oe-inline">
+                                <label for="amountTotal" />
+                                <button name="buttonDummy"
+                                    states="draft" string="(update)" class="oe-edit-only oe-link"/>
+                            </div>
+                            <field name="amountTotal"
+                                   forceSave="1"
+                                   nolabel="1"
+                                   class="oe-subtotal-footer-separator"
+                                   widget="monetary"/>
+                            <field name="amountPaid"
+                                string="Total Paid (with rounding)"
+                                class="oe-subtotal-footer-separator"
+                                widget="monetary"
+                                attrs="{'invisible': [['amountPaid','=', 'amountTotal']]}"/>
+                            <label for="margin"/>
+                            <div class="text-nowrap">
+                                <field name="margin" class="oe-inline" attrs="{'invisible': [['isTotalCostComputed','=', false]]}"/>
+                                <span class="oe-inline" attrs="{'invisible': [['isTotalCostComputed','=', false]]}">
+                                    (<field name="marginPercent" nolabel="1" class="oe-inline" widget="percentage"/>)
+                                </span>
+                                <span attrs="{'invisible': [['isTotalCostComputed','=', true]]}">TBD</span>
+                            </div>
+                            <field name="isTotalCostComputed" invisible="1"/>
+                            <field name="currencyId" invisible="1"/>
+                        </group>
+                        <div class="oe-clear"/>
+                    </page>
+                    <page string="Payments" name="payments">
+                        <field name="paymentIds" colspan="4" nolabel="1">
+                            <tree string="Payments">
+                                <field name="currencyId" invisible="1" />
+                                <field name="paymentDate"/>
+                                <field name="paymentMethodId"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="extra" string="Extra Info">
+                        <group >
+                            <group
+                                string="Accounting"
+                                groups="account.groupAccountManager"
+                                attrs="{'invisible':['|', ['sessionMoveId','=', false], ['state', '=', 'invoiced']]}"
+                            >
+                                <field name="sessionMoveId" readonly="1" />
+                            </group>
+                            <group string="Other Information">
+                                <field name="posReference"/>
+                                <field name="companyId" groups="base.groupMultiCompany"/>
+                                <field name="pricelistId" groups="product.groupProductPricelist"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Notes" name="notes">
+                        <field name="note"/>
+                    </page>
+                </notebook>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewPosOrderKanban">
+        <field name="label">pos.order.kanban</field>
+        <field name="model">pos.order</field>
+        <field name="arch" type="xml">
+            <kanban class="o-kanban-mobile" create="0" sample="1">
+                <field name="label"/>
+                <field name="partnerId"/>
+                <field name="amountTotal"/>
+                <field name="dateOrder"/>
+                <field name="state"/>
+                <field name="posReference"/>
+                <field name="partnerId"/>
+                <field name="currencyId"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe-kanban-card oe-kanban-global-click">
+                            <div class="o-kanban-record-top">
+                                <div class="o-kanban-record-headings">
+                                    <strong class="o-kanban-record-title">
+                                        <span t-if="record.partnerId.value">
+                                            <t t-esc="record.partnerId.value"/>
+                                        </span>
+                                        <span t-else="">
+                                            <t t-esc="record.name.value"/>
+                                        </span>
+                                    </strong>
+                                </div>
+                                <strong><field name="amountTotal" widget="monetary"/></strong>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                <span><t t-esc="record.posReference.value"/></span>
+                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 text-muted">
+                                    <span><t t-esc="record.dateOrder.value"/></span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="float-right text-right">
+                                        <field name="state" widget="labelSelection" options="{'classes': {'draft': 'default',
+                                        'invoiced': 'success', 'cancel': 'danger'}}"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="viewPosOrderPivot">
+        <field name="label">pos.order.pivot</field>
+        <field name="model">pos.order</field>
+        <field name="arch" type="xml">
+            <pivot string="PoS Orders" sample="1">
+                <field name="dateOrder" type="row"/>
+                <field name="margin"/>
+                <field name="marginPercent" invisible="1"/>
+                <field name="amountTotal" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="actionPosPosForm" model="ir.actions.actwindow">
+        <field name="label">Orders</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.order</field>
+        <field name="viewMode">tree,form,kanban,pivot</field>
+        <field name="viewId" eval="false"/>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                No orders found
+            </p><p>
+                To record new orders, start a new session.
+            </p>
+        </field>
+    </record>
+
+    <record id="actionPosSaleGraph" model="ir.actions.actwindow">
+        <field name="label">Orders</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.order</field>
+        <field name="viewMode">graph,tree,form,kanban,pivot</field>
+        <field name="domain">[['state', 'not in', ['draft', 'cancel', 'invoiced']]]</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                No data yet!
+            </p><p>
+                Create a new POS order
+            </p>
+        </field>
+    </record>
+
+    <record id="viewPosOrderTree" model="ir.ui.view">
+        <field name="label">pos.order.tree</field>
+        <field name="model">pos.order</field>
+        <field name="arch" type="xml">
+            <tree string="POS Orders" create="0" sample="1" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'">
+                <field name="currencyId" invisible="1"/>
+                <field name="label" decoration-bf="1"/>
+                <field name="sessionId" />
+                <field name="dateOrder"/>
+                <field name="posReference"/>
+                <field name="partnerId"/>
+                <field name="userId" string="Cashier" widget="many2oneAvatarUser"/>
+                <field name="amountTotal" sum="Amount total" widget="monetary" decoration-bf="1"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="!['draft','cancel'].includes(state)"/>
+            </tree>
+        </field>
+    </record>
+    <record id="viewPosOrderTreeNoSessionId" model="ir.ui.view">
+        <field name="label">pos.order.treeNoSessionId</field>
+        <field name="model">pos.order</field>
+        <field name="mode">primary</field>
+        <field name="priority">1000</field>
+        <field name="inheritId" ref="point_of_sale.viewPosOrderTree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sessionId']" position="replace"></xpath>
+        </field>
+    </record>
+
+    <record id="viewPosOrderSearch" model="ir.ui.view">
+        <field name="label">pos.order.search.view</field>
+        <field name="model">pos.order</field>
+        <field name="arch" type="xml">
+            <search string="Point of Sale Orders">
+                <field name="label"/>
+                <field name="configId"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menuPointOfsale" parent="menuPointOfSale" action="actionPosPosForm" sequence="2" groups="groupPosManager,groupPosUser"/>
+
+    <record id="viewPosOrderLine" model="ir.ui.view">
+        <field name="label">pos.order.line.tree</field>
+        <field name="model">pos.order.line</field>
+        <field name="arch" type="xml">
+            <tree string="POS Order lines">
+                <field name="productId" readonly="1"/>
+                <field name="qty" readonly="1" sum="Total qty"/>
+                <field name="discount" readonly="1"/>
+                <field name="priceUnit" readonly="1" widget="monetary"/>
+                <field name="priceSubtotal" readonly="1" sum="Sum of subtotals" widget="monetary"/>
+                <field name="priceSubtotalIncl" readonly="1" sum="Sum of subtotals" widget="monetary"/>
+                <field name="createdAt" readonly="1"/>
+                <field name="currencyId" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewPosOrderLineForm" model="ir.ui.view">
+        <field name="label">pos.order.line.form</field>
+        <field name="model">pos.order.line</field>
+        <field name="arch" type="xml">
+            <form string="POS Order line">
+                <group col="4">
+                    <field name="productId" />
+                    <field name="qty" />
+                    <field name="discount"/>
+                    <field name="priceUnit" widget="monetary"/>
+                    <field name="createdAt" />
+                    <field name="currencyId"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionPosOrderLine" model="ir.actions.actwindow">
+        <field name="label">Sale line</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.order.line</field>
+        <field name="viewMode">tree</field>
+        <field name="viewId" ref="viewPosOrderLine"/>
+    </record>
+
+    <record id="actionPosOrderLineForm" model="ir.actions.actwindow">
+        <field name="label">Sale line</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.order.line</field>
+        <field name="viewMode">form,tree</field>
+        <field name="viewId" ref="viewPosOrderLineForm"/>
+    </record>
+
+    <record id="actionPosOrderLineDay" model="ir.actions.actwindow">
+        <field name="label">Sale line</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.order.line</field>
+        <field name="viewMode">tree</field>
+        <field name="viewId" ref="viewPosOrderLine"/>
+        <field name="domain">[['createdAt', '&gt;=', time().toFormat('yyyy-MM-dd 00:00:00')],['createdAt', '&lt;=', time().toFormat('yyyy-MM-dd 23:59:59')]]</field>
+    </record>
+
+    <record id="viewPosOrderTreeAllSalesLines" model="ir.ui.view">
+        <field name="label">pos.order.line.all.sales.tree</field>
+        <field name="model">pos.order.line</field>
+        <field name="arch" type="xml">
+            <tree string="POS Orders lines">
+                <field name="orderId" />
+                <field name="createdAt" />
+                <field name="productId" />
+                <field name="qty" />
+                <field name="priceUnit" widget="monetary"/>
+                <field name="currencyId" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+     <record id="actionPosAllSalesLines" model="ir.actions.actwindow">
+        <field name="label">All sales lines</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.order.line</field>
+        <field name="viewId" ref="viewPosOrderTreeAllSalesLines" />
+    </record>
+
+    <record id="viewPosOrderFilter" model="ir.ui.view">
+        <field name="label">pos.order.list.select</field>
+        <field name="model">pos.order</field>
+        <field name="arch" type="xml">
+            <search string="Search Sales Order">
+                <field name="label"/>
+                <field name="posReference"/>
+                <field name="dateOrder"/>
+                <field name="userId"/>
+                <field name="partnerId"/>
+                <field name="sessionId"/>
+                <filter string="Invoiced" name="invoiced" domain="[['state', '=', 'invoiced']]"/>
+                <filter string="Posted" name="posted" domain="[['state', '=', 'done']]"/>
+                <separator/>
+                <filter string="Order Date" name="orderDate" date="dateOrder"/>
+                <group expand="0" string="Group By">
+                    <filter string="Session" name="session" domain="[]" context="{'groupby': 'sessionId'}"/>
+                    <filter string="User" name="userId" domain="[]" context="{'groupby': 'userId'}"/>
+                    <filter string="Customer" name="customer" domain="[]" context="{'groupby': 'partnerId'}"/>
+                    <filter string="Status" name="status" domain="[]" context="{'groupby': 'state'}"/>
+                    <filter string="Order Date" name="orderMonth" domain="[]" context="{'groupby': 'dateOrder'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="posRoundingFormViewInherited" model="ir.ui.view">
+        <field name="label">pos.cash.rounding.form.inherited</field>
+        <field name="model">account.cash.rounding</field>
+        <field name="inheritId" ref="account.roundingFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class,'oe-title')]" position="before">
+                <div class="o-notification-alert alert alert-warning" role="alert">
+                  The Point of Sale only supports the "add a rounding line" rounding strategy.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</verp>

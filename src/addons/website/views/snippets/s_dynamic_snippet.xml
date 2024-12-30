@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="website.sDynamicSnippetTemplate">
+        <!-- TODO In master, replace 'd-none' by 'o-dynamic-empty' -->
+        <section t-attf-class="#{snippetName} #{snippetClasses} s-dynamic d-none pt32 pb32" t-att-data-snippet="snippetName">
+            <div class="container o-not-editable">
+                <div class="css-non-editable-mode-hidden">
+                    <div class="missing-option-warning alert alert-info rounded-0 fade show d-none d-print-none">
+                        Your Dynamic Snippet will be displayed here... This message is displayed because you did not provided both a filter and a template to use.<br/>
+                    </div>
+                </div>
+                <div class="dynamic-snippet-template"/>
+            </div>
+        </section>
+    </template>
+    <template id="sDynamicSnippet" name="Dynamic Snippet">
+        <t t-call="website.sDynamicSnippetTemplate">
+            <t t-set="snippetName" t-value="'sDynamicSnippet'"/>
+        </t>
+    </template>
+    <template id="website.sDynamicSnippetOptionsTemplate">
+        <div t-attf-data-js="#{snippetName}" t-attf-data-selector="#{snippetSelector}" data-no-preview="true">
+            <we-select string="Filter" data-name="filterOpt" data-attribute-name="filterId" data-no-preview="true">
+            </we-select>
+            <we-select string="Template" data-name="templateOpt" data-attribute-name="templateKey" data-no-preview="true">
+            </we-select>
+            <we-select string="Fetched elements" data-name="numberOfRecordsOpt" data-attribute-name="numberOfRecords" data-no-preview="true">
+                <we-button t-foreach="range(1, 17)" t-as="value" t-att-data-select-data-attribute="value" t-esc="value"/>
+            </we-select>
+            <we-title class="mt-2 o-grouping-message"><t t-esc="groupingMessage"/></we-title>
+            <we-select string="⌙ Desktop" data-name="numberOfElementsOpt" data-attribute-name="numberOfElements" data-no-preview="true"><!-- &emsp; -->
+                <we-button data-select-data-attribute="1">1</we-button>
+                <we-button data-select-data-attribute="2">2</we-button>
+                <we-button data-select-data-attribute="3">3</we-button>
+                <we-button data-select-data-attribute="4">4</we-button>
+                <we-button data-select-data-attribute="6">6</we-button>
+            </we-select>
+            <we-select string="⌙ Mobile" data-name="numberOfElementsSmallDevicesOpt" data-attribute-name="numberOfElementsSmallDevices" data-no-preview="true"><!-- &emsp; -->
+                <we-button data-select-data-attribute="1">1</we-button>
+                <we-button data-select-data-attribute="2">2</we-button>
+                <we-button data-select-data-attribute="3">3</we-button>
+            </we-select>
+            <t t-out="0"/>
+        </div>
+    </template>
+    <template id="sDynamicSnippetOptions" inheritId="website.snippetOptions">
+        <xpath expr="." position="inside">
+            <t t-call="website.sDynamicSnippetOptionsTemplate">
+                <t t-set="snippetName" t-value="'dynamicSnippet'"/>
+                <t t-set="snippetSelector" t-value="'.s-dynamic-snippet'"/>
+                <t t-set="groupingMessage">Items per row</t>
+            </t>
+        </xpath>
+    </template>
+
+<record id="website.sDynamicSnippet.000.scss" model="ir.asset">
+    <field name="label">Dynamic snippet 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_dynamic_snippet/000.scss</field>
+</record>
+
+<record id="website.sDynamicSnippet.000.js" model="ir.asset">
+    <field name="label">Dynamic snippet 000 JS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_dynamic_snippet/000.js</field>
+</record>
+
+</verp>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewAccountFollowupStatGraph" model="ir.ui.view">
+            <field name="label">report.account.followup.stat.graph</field>
+            <field name="model">report.account.followup.stat</field>
+            <field name="arch" type="xml">
+                <graph string="Follow-up lines">
+                    <field name="followupId" type="row"/>
+                    <field name="dateFollowup" type="col"/>
+                    <field name="balance" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="viewAccountFollowupStatSearch" model="ir.ui.view">
+            <field name="label">report.account.followup.stat.search</field>
+            <field name="model">report.account.followup.stat</field>
+            <field name="arch" type="xml">
+                <search string="Follow-ups Sent">
+                    <field name="dateMove"/>
+                    <field name="dateMoveLast"/>
+                    <separator/>
+                    <filter string="Not Litigation" name="notLitigation"
+                            domain="[['blocked','=', false]]"
+                            help="Including journal entries marked as a litigation"/>
+                    <field name="partnerId"/>
+                    <field name="balance"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Partner" name="partner"
+                                context="{'groupby':'partnerId'}"/>
+                        <filter string="Litigation" name="litigation"
+                                context="{'groupby':'blocked'}"/>
+                        <filter string="Follow-up Level" name="followupLevel"
+                                context="{'groupby':'followupId'}"/>
+                        <filter string="Company" name="company"
+                                groups="base.groupMultiCompany"
+                                context="{'groupby':'companyId'}"/>
+                        <separator/>
+                        <filter string="Latest Follow-up Month" name="lastestMonth"
+                                context="{'groupby':'dateFollowup:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionFollowupStat" model="ir.actions.actwindow">
+            <field name="label">Follow-ups Analysis</field>
+            <field name="resModel">report.account.followup.stat</field>
+            <field name="viewMode">graph</field>
+            <field name="context">{'searchDefault_followupLevel':1}</field>
+            <field name="searchViewId" ref="viewAccountFollowupStatSearch"/>
+        </record>
+
+        <menuitem action="actionFollowupStat"
+                  id="menuActionFollowupStatFollow"
+                  parent="account_followup.menuFinanceFollowup"
+                  groups="account.groupAccountInvoice"
+                  name="Follow-ups Analysis"
+                  sequence="20"/>
+
+    </data>
+</verp>

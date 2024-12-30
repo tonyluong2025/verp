@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="0">
+
+        <record id="groupFiscalYear" model="res.groups">
+            <field name="label">Allow to define fiscal years of more or less than a year</field>
+            <field name="categoryId" ref="base.category_hidden"/>
+            <field name="users" eval="[Command.link(refId('base.userRoot')), Command.link(refId('base.userAdmin'))]"/>
+        </record>
+
+    </data>
+</verp>

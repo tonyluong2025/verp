@@ -1,0 +1,25 @@
+// Tabs
+.s-tabs[data-vcss="001"] {
+    .s-tabs-content {
+        &.s-tabs-slide-up, &.s-tabs-slide-down, &.s-tabs-slide-left, &.s-tabs-slide-right {
+            > .tab-pane.fade {
+                transition: all 0.2s;
+            }
+            > .tab-pane.fade.show {
+                transform: translateX(0rem) translateY(0rem);
+            }
+        }
+        &.s-tabs-slide-up > .tab-pane.fade {
+            transform: translateY(-1rem);
+        }
+        &.s-tabs-slide-down > .tab-pane.fade {
+            transform: translateY(1rem);
+        }
+        &.s-tabs-slide-left > .tab-pane.fade {
+            transform: translateX(-1rem);
+        }
+        &.s-tabs-slide-right > .tab-pane.fade {
+            transform: translateX(1rem);
+        }
+    }
+}

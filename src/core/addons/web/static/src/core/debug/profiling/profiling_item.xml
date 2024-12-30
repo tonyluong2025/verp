@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.DebugMenu.ProfilingItem" owl="1">
+        <DropdownItem payload="{}">
+            <div class="o-debug-profiling-item">
+                <span class="o-profiling-switch">
+                    <span class="custom-control custom-switch" t-on-click.stop.prevent="profiling.toggleProfiling()">
+                        <input type="checkbox" class="custom-control-input" id="enableProfiling" t-att-checked="profiling.state.isEnabled"/>
+                        <label class="custom-control-label">
+                            Enable profiling
+                            <span t-if="profiling.state.isEnabled" class="profiling-items text-danger fa fa-circle"></span>
+                        </label>
+                    </span>
+                    <i class="o-open-profiling float-right fa fa-list fa-lg" t-on-click="openProfiles"/>
+                </span>
+                <t t-if="profiling.state.isEnabled">
+                    <span class="o-profiling-switch custom-control custom-switch" t-on-click.stop.prevent="profiling.toggleCollector('sql')">
+                        <input type="checkbox" class="custom-control-input" id="profileSql"
+                            t-att-checked="profiling.isCollectorEnabled('sql')"/>
+                        <label class="custom-control-label" for="profileSql">Record sql</label>
+                    </span>
+                    <span class="o-profiling-switch custom-control custom-switch" t-on-click.stop.prevent="profiling.toggleCollector('tracesAsync')">
+                        <input type="checkbox" class="custom-control-input" id="profileTracesAsync"
+                            t-att-checked="profiling.isCollectorEnabled('tracesAsync')"/>
+                        <label class="custom-control-label" for="profileTracesAsync">Record traces</label>
+                    </span>
+                    <div t-if="profiling.isCollectorEnabled('tracesAsync')" class="input-group input-group-sm" t-on-click.stop.prevent="">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Interval</div>
+                        </div>
+                        <select class="profile-param form-control" t-on-change="changeParam('tracesAsyncInterval')">
+                            <t t-set="interval" t-value="profiling.state.params.tracesAsyncInterval"/>
+                            <option value="">Default</option>
+                            <option value="0.001" t-att-selected="interval === '0.001'">0.001</option>
+                            <option value="0.01" t-att-selected="interval === '0.01'">0.01</option>
+                            <option value="0.1" t-att-selected="interval === '0.1'">0.1</option>
+                            <option value="1" t-att-selected="interval === '1'">1</option>
+                        </select>
+                    </div>
+                    <span t-if="profiling.isCollectorEnabled('sql') || profiling.isCollectorEnabled('tracesAsync')" class="o-profiling-switch custom-control custom-switch" t-on-click.stop.prevent="toggleParam('executionContextQweb')">
+                        <input type="checkbox" class="custom-control-input" id="profileExecutionContextQweb"
+                            t-att-checked="!!profiling.state.params.executionContextQweb"/>
+                        <label class="custom-control-label" for="profileExecutionContextQweb">Add qweb directive context</label>
+                    </span>
+                    <span class="o-profiling-switch custom-control custom-switch" t-on-click.stop.prevent="profiling.toggleCollector('qweb')">
+                        <input type="checkbox" class="custom-control-input" id="profileQweb"
+                            t-att-checked="profiling.isCollectorEnabled('qweb')"/>
+                        <label class="custom-control-label" for="profileQweb">Record qweb</label>
+                    </span>
+                </t>
+            </div>
+        </DropdownItem>
+    </t>
+
+</templates>

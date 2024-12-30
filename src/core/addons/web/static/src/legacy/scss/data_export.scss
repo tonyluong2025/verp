@@ -1,0 +1,64 @@
+.o-web-client .o-export {
+    .o-export-panel {
+        height: 100%;
+    }
+    .o-left-panel {
+        flex-flow: column nowrap;
+        height: 100%;
+        .o-left-field-panel {
+            flex: 1;
+            overflow: auto;
+        }
+        .o-export-tree-item {
+            cursor: pointer;
+            position: relative;
+            padding-left: 20px;
+            &.o-selected > .o-tree-column {
+                background-color: $o-brand-verp;
+                color: white;
+            }
+            .o-expand-parent {
+                @include o-position-absolute($top: 4px, $left: 5px);
+                font-size: 10px;
+            }
+            .o-required {
+                border-bottom: 2px solid $o-main-text-color;
+            }
+        }
+    }
+
+    .o-right-panel {
+        flex-flow: column nowrap;
+        height: 100%;
+        .o-save-list {
+            display: none;
+        }
+        .o-right-field-panel {
+            flex: 1;
+            overflow: auto;
+            .o-short-field {
+                @include o-grab-cursor;
+            }
+            .o-field-placeholder {
+                border: 1px dashed $o-brand-primary;
+            }
+            .o-remove-field {
+                cursor: pointer;
+            }
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        .ui-sortable-handle {
+            display: none;
+        }
+
+        .o-right-field-panel .o-export-field {
+            padding-left: map-get($spacers, 1);
+        }
+
+        .o-left-panel, .o-right-panel {
+            height: 50%;
+        }
+    }
+}

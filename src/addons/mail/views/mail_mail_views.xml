@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+        <record model="ir.ui.view" id="viewMailForm">
+            <field name="label">mail.mail.form</field>
+            <field name="model">mail.mail</field>
+            <field name="arch" type="xml">
+                <form string="Email message" duplicate="0">
+                    <header>
+                        <button name="send" string="Send Now" type="object" states='outgoing' class="oe-highlight"/>
+                        <button name="markOutgoing" string="Retry" type="object" states='exception,cancel'/>
+                        <button name="cancel" string="Cancel" type="object" states='outgoing'/>
+                        <field name="state" widget="statusbar" statusbarVisible="outgoing,sent,received,exception,cancel"/>
+                    </header>
+                    <sheet>
+                        <field name="mailMessageId" required="0" invisible="1"/>
+                        <label for="subject" class="oe-edit-only"/>
+                        <h2><field name="subject"/></h2>
+                        <div style="vertical-align: top;">
+                            by <field name="authorId" class="oe-inline" string="User"/> on <field name="date" readonly="1" class="oe-inline"/>
+                            <button name="%(actionEmailComposeMessageWizard)s" string="Reply" type="action" icon="fa-reply text-warning"
+                                context="{'default_compositionMode':'comment', 'default_parentId': mailMessageId}" states='received,sent,exception,cancel'/>
+                        </div>
+                        <group>
+                            <field name="emailFrom"/>
+                            <field name="emailTo"/>
+                            <field name="recipientIds" widget="many2manyTags"/>
+                            <field name="emailCc"/>
+                            <field name="replyTo"/>
+                            <field name="scheduledDate" placeholder="YYYY-MM-DD HH:MM:SS"/>
+                        </group>
+                        <notebook>
+                            <page string="Body" name="body">
+                                <field name="bodyHtml" widget="html" options="{'style-inline': true}"/>
+                            </page>
+                            <page string="Advanced" name="advanced" groups="base.groupNoOne">
+                                <group>
+                                    <group string="Status">
+                                        <field name="autoDelete"/>
+                                        <field name="isNotification"/>
+                                        <field name="messageType"/>
+                                        <field name="mailServerId"/>
+                                        <field name="model"/>
+                                        <field name="resId"/>
+                                    </group>
+                                    <group string="Headers">
+                                        <field name="messageId"/>
+                                        <field name="references"/>
+                                        <field name="headers"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Attachments" name="attachments">
+                                <field name="attachmentIds"/>
+                            </page>
+                            <page string="Failure Reason" name="failureReason" attrs="{'invisible': [['state', '!=', 'exception']]}">
+                                <field name="failureReason"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="viewMailTree">
+            <field name="label">mail.mail.tree</field>
+            <field name="model">mail.mail</field>
+            <field name="arch" type="xml">
+                <tree string="Emails" decoration-muted="['sent', 'cancel'].includes(state)" decoration-info="state==='outgoing'" decoration-danger="state==='exception'">
+                    <header>
+                        <button name="actionRetry" string="Retry" type="object"/>
+                    </header>
+                    <field name="date"/>
+                    <field name="subject"/>
+                    <field name="authorId" string="User"/>
+                    <field name="messageId" invisible="1"/>
+                    <field name="recipientIds" invisible="1"/>
+                    <field name="model" invisible="1"/>
+                    <field name="resId" invisible="1"/>
+                    <field name="emailFrom" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="messageType" invisible="1"/>
+                    <button name="send" string="Send Now" type="object" icon="fa-paper-plane" states='outgoing'/>
+                    <button name="markOutgoing" string="Retry" type="object" icon="fa-repeat" states='exception,cancel'/>
+                    <button name="cancel" string="Cancel Email" type="object" icon="fa-times-circle" states='outgoing'/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="viewMailSearch">
+            <field name="label">mail.mail.search</field>
+            <field name="model">mail.mail</field>
+            <field name="arch" type="xml">
+                <search string="Email Search">
+                    <field name="emailFrom" filterDomain="['|', '|',['emailFrom','ilike',self], ['emailTo','ilike',self], ['subject','ilike',self]]" string="Email"/>
+                    <field name="date"/>
+                    <filter name="received" string="Received" domain="[['state','=','received']]"/>
+                    <filter name="outgoing" string="Outgoing" domain="[['state','=','outgoing']]"/>
+                    <filter name="sent" string="Sent" domain="[['state','=','sent']]"/>
+                    <filter name="exception" string="Failed" domain="[['state','=','exception']]"/>
+                    <separator/>
+                    <filter name="typeEmail" string="Email" domain="[['messageType','=','email']]"/>
+                    <filter name="typeComment" string="Comment" domain="[['messageType','=','comment']]"/>
+                    <filter name="typeNotification" string="Notification" domain="[['messageType','=','notification']]"/>
+                    <group expand="0" string="Extended Filters...">
+                        <field name="authorId"/>
+                        <field name="recipientIds"/>
+                        <field name="model"/>
+                        <field name="resId"/>
+                    </group>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'groupby':'state'}"/>
+                        <filter string="Author" name="author" context="{'groupby':'authorId'}"/>
+                        <filter string="Thread" name="thread" domain="[]" context="{'groupby':'messageId'}"/>
+                        <filter string="Date" name="month" help="Creation Date" domain="[]" context="{'groupby':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionViewMailMail" model="ir.actions.actwindow">
+            <field name="label">Emails</field>
+            <field name="resModel">mail.mail</field>
+            <field name="viewMode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="searchViewId" ref="viewMailSearch"/>
+        </record>
+
+    </data>
+</verp>

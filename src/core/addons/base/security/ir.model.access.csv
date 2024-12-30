@@ -1,0 +1,125 @@
+"id","label","modelId:id","groupId:id","permRead","permWrite","permCreate","permUnlink"
+"access_decimalPrecision_config","decimalPrecision configuration","model_decimalPrecision","groupSystem",1,1,0,0
+"access_irAttachment_groupUser","irAttachment groupUser","model_irAttachment","groupUser",1,1,1,1
+"access_irAttachment_groupPortalPublic","irAttachment groupPortalPublic","model_irAttachment",,0,0,0,0
+"access_irCron_groupCron","irCron groupCron","model_irCron","groupSystem",1,1,1,1
+"access_irCronTrigger_groupCron","irCronTrigger groupCron","model_irCronTrigger","groupSystem",1,1,1,1
+"access_irExports_groupSystem","irExports groupSystem","model_irExports","base.groupAllowExport",1,1,1,1
+"access_irExportsLine_groupSystem","irExportsLine groupSystem","model_irExportsLine","base.groupUser",1,1,1,1
+"access_irModel_groupErpManager","irModel groupErpManager","model_irModel","groupErpManager",1,1,1,1
+"access_irModelConstraint_groupErpManager","irModelConstraint groupErpManager","model_irModelConstraint","groupErpManager",1,1,1,1
+"access_irModelRelation_groupErpManager","irModelRelation groupErpManager","model_irModelRelation","groupErpManager",1,1,1,1
+"access_irModelAccess_groupErpManager","irModelAccess_groupErpManager","model_irModelAccess","groupErpManager",1,1,1,1
+"access_irModelData_groupErpManager","irModelData groupErpManager","model_irModelData","groupErpManager",1,1,1,1
+"access_irModelFields_groupErpManager","irModelFields groupErpManager","model_irModelFields","groupErpManager",1,1,1,1
+"access_irModelFieldsSelection_groupErpManager","irModelFieldsSelection groupErpManager","model_irModelFieldsSelection","groupErpManager",1,1,1,1
+"access_irModel_user","irModel_all","model_irModel",base.groupUser,0,0,0,0
+"access_irModelData_user","irModelData user","model_irModelData",base.groupUser,0,0,0,0
+"access_irModelFields_user","irModelFields all","model_irModelFields",base.groupUser,0,0,0,0
+"access_irModelFieldsSelection_user","irModelFieldsSelection all","model_irModelFieldsSelection",base.groupUser,0,0,0,0
+"access_irModuleCategory_groupUser","irModuleCategory groupUser","model_irModuleCategory","groupErpManager",1,0,0,0
+"access_irModuleModule_groupUser","irModuleModule groupUser","model_irModuleModule","groupSystem",1,1,1,1
+"access_irModuleModuleDependency_groupSystem","irModuleModuleDependency groupSystem","model_irModuleModuleDependency","groupSystem",1,1,1,1
+"access_irModuleModuleExclusion_groupSystem","irModuleModuleExclusion groupSystem","model_irModuleModuleExclusion","groupSystem",1,1,1,1
+"access_irProperty_groupUser","irProperty groupUser","model_irProperty",,0,0,0,0
+"access_irProperty_groupSystem","irProperty groupSystem","model_irProperty","base.groupSystem",1,1,1,0
+"access_irRule_groupErpManager","irRule groupErpManager","model_irRule","groupErpManager",1,1,1,1
+"access_irSequence_groupUser","irSequence groupUser","model_irSequence","groupUser",1,0,0,0
+"access_irSequence_groupSystem","irSequence groupSystem","model_irSequence","groupSystem",1,1,1,1
+"access_irSequenceDaterange_groupUser","irSequenceDaterange groupUser","model_irSequenceDaterange","groupUser",1,0,0,0
+"access_irSequenceDaterange_groupSystem","irSequenceDaterange groupSystem","model_irSequenceDaterange","groupSystem",1,1,1,1
+"access_irTranslation_all","irTranslation all","model_irTranslation","groupUser",1,1,1,1
+"access_irTranslation_groupSystem","irTranslation groupSystem","model_irTranslation","groupSystem",1,1,1,1
+"access_irUiMenu_groupUser","irUiMenu groupUser","model_irUiMenu",base.groupUser,1,0,0,0
+"access_irUiMenu_groupSystem","irUiMenu groupSystem","model_irUiMenu","groupSystem",1,1,1,1
+"access_irUiView_groupUser","irUiView groupUser","model_irUiView",,0,0,0,0
+"access_irUiView_groupSystem","irUiView groupSystem","model_irUiView","groupSystem",1,1,1,1
+"access_resetViewArchWizard_groupSystem","resetViewArchWizard groupSystem","model_resetViewArchWizard","groupSystem",1,1,1,0
+"access_irUiViewCustom_groupUser","irUiViewCustom_groupUser","model_irUiViewCustom",,1,1,1,1
+"access_irDefault_all","irDefault all","model_irDefault",,1,0,0,0
+"access_irDefault_groupUser","irDefault groupUser","model_irDefault","groupUser",1,1,1,1
+"access_irDefault_groupSystem","irDefault groupSystem","model_irDefault","groupSystem",1,1,1,1
+"access_resCompany_groupErpManager","resCompany groupErpManager","model_resCompany","groupErpManager",1,1,1,1
+"access_resCompany_groupUser","resCompany groupUser","model_resCompany",,1,0,0,0
+"access_resCountry_groupAll","resCountry groupUserAll","model_resCountry",,1,0,0,0
+"access_resCountryState_groupAll","resCountryState groupUserAll","model_resCountryState",,1,0,0,0
+"access_resCountryGroup_groupAll","resCountryGroup groupUserAll","model_resCountryGroup",,1,0,0,0
+"access_resCountry_groupUser","resCountry groupUser","model_resCountry","groupPartnerManager",1,0,0,0
+"access_resCountry_groupSystem","resCountry groupSystem","model_resCountry","groupSystem",1,1,1,1
+"access_resCountryState_groupUser","resCountryState groupUser","model_resCountryState","groupPartnerManager",1,1,1,1
+"access_resCountryGroup_groupUser","resCountryGroup groupUser","model_resCountryGroup","groupPartnerManager",1,1,1,1
+"access_resCurrency_groupAll","resCurrency groupAll","model_resCurrency",,1,0,0,0
+"access_resCurrencyRate_groupAll","resCurrencyRate groupAll","model_resCurrencyRate",,1,0,0,0
+"access_resCurrency_groupSystem","resCurrency groupSystem","model_resCurrency","groupSystem",1,1,1,1
+"access_resCurrencyRate_groupSystem","resCurrencyRate groupSystem","model_resCurrencyRate","groupSystem",1,1,1,1
+"access_resGroups_groupErpManager","resGroups groupErpManager","model_resGroups","groupErpManager",1,1,1,1
+"access_resGroups_groupUser","resGroups groupUser","model_resGroups",groupUser,1,0,0,0
+"access_resLang_groupAll","resLang groupAll","model_resLang",,1,0,0,0
+"access_resLang_groupUser","resLang groupUser","model_resLang","groupSystem",1,1,1,1
+"access_resPartner_public","resPartner groupPublic","model_resPartner","groupPublic",1,0,0,0
+"access_resPartner_portal","resPartner groupPortal","model_resPartner","groupPortal",1,0,0,0
+"access_resPartner_groupPartnerManager","resPartner groupPartnerManager","model_resPartner","groupPartnerManager",1,1,1,1
+"access_resPartner_groupUser","resPartner groupUser","model_resPartner","groupUser",1,0,0,0
+"access_resPartnerBank_groupUser","resPartnerBank groupUser","model_resPartnerBank","groupUser",1,0,0,0
+"access_resPartnerBank_groupPartnerManager","resPartnerBank groupPartnerManager","model_resPartnerBank","groupPartnerManager",1,1,1,1
+"access_resPartnerCategory_groupUser","resPartnerCategory groupUser","model_resPartnerCategory","groupUser",1,0,0,0
+"access_resPartnerCategory_groupPartnerManager","resPartnerCategory groupPartnerManager","model_resPartnerCategory","groupPartnerManager",1,1,1,1
+"access_resPartnerIndustry_groupUser","resPartnerIndustry groupUser","model_resPartnerIndustry","groupUser",1,0,0,0
+"access_resPartnerIndustry_groupSystem","resPartnerIndustry groupSystem","model_resPartnerIndustry","groupSystem",1,1,1,1
+"access_resPartnerTitle_groupUser","resPartnerTitle groupPartnerManager","model_resPartnerTitle","groupPartnerManager",1,1,1,1
+"access_resPartnerTitle_groupPartnerManager","resPartnerTitle groupUser","model_resPartnerTitle",,1,0,0,0
+"access_resUsers_all","resUsers all","model_resUsers",,1,0,0,0
+"access_resUsers_groupErpManager","resUsers groupErpManager","model_resUsers","groupErpManager",1,1,1,1
+"access_resUsersLog_all","resUsersLog all","model_resUsersLog",,1,0,1,0
+"access_resUsersIdentitycheck_employee","id check employees","model_resUsersIdentitycheck","groupUser",1,1,1,0
+"access_resUsersIdentitycheck_portal","id check portal","model_resUsersIdentitycheck","groupPortal",1,1,1,0
+"access_resUsersApikeys_accessEmployee","API keys access employees","model_resUsersApikeys","groupUser",1,0,0,0
+"access_resUsersApikeys_accessPortal","API keys access portal","model_resUsersApikeys","groupPortal",1,0,0,0
+"access_resUsersApikeysDescription_employee","API key wizard employees","model_resUsersApikeysDescription","groupUser",1,0,1,0
+"access_resUsersApikeysDescription_portal","API key wizard","model_resUsersApikeysDescription","groupPortal",1,0,1,0
+"access_resUsersApikeysShow_employee","API key result employees","model_resUsersApikeysShow","groupUser",1,0,1,0
+"access_irAsset_groupSystem","irAsset groupSystem","model_irAsset","groupSystem",1,1,1,1
+"access_irActions_groupSystem","irActions groupSystem","model_irActionsActions","groupSystem",1,1,1,1
+"access_irActionsActwindow_system","irActionsActwindow groupSystem","model_irActionsActwindow","groupSystem",1,1,1,1
+"access_irActionsActwindowClose_groupSystem","irActionsActwindowClose groupSystem","model_irActionsActwindowClose","groupSystem",1,1,1,1
+"access_irActionsReport_groupSystem","irActionsReport groupSystem","model_irActionsReport","groupSystem",1,1,1,1
+"access_irActionsTodo_groupSystem","irActionsTodo groupSystem","model_irActionsTodo","groupSystem",1,1,1,1
+"access_irActionsActwindowView_groupSystem","irActionsActwindowView groupSystem","model_irActionsActwindowView","groupSystem",1,1,1,1
+"access_irActionsActurl_groupSystem","irActionsActurl groupSystem","model_irActionsActurl","groupSystem",1,1,1,1
+"access_irServerObjectLines_groupSystem","irServerObjectLines groupSystem","model_irServerObjectLines","groupSystem",1,1,1,1
+"access_irActionsServer_groupSystem","irActionsServer groupSystem","model_irActionsServer","groupSystem",1,1,1,1
+"access_irActionsClient","irActionsClient all","model_irActionsClient","groupSystem",1,1,1,1
+"access_resBank_groupSystem","resBank groupSystem","model_resBank","groupSystem",1,1,1,1
+"access_resBank_groupPartnerManager","resBank groupPartnerManager","model_resBank","groupPartnerManager",1,1,1,1
+"access_resBank_user","resBank user","model_resBank","groupUser",1,0,0,0
+"access_irFilter_erpManager","irFilters all","model_irFilters","groupErpManager",1,1,1,1
+"access_irFilter_user","irFilters all","model_irFilters","groupUser",1,1,1,1
+"access_irFilter_portal","irFilters all","model_irFilters","groupPortal",1,1,1,1
+"access_irFilter_public","irFilters all","model_irFilters","groupPublic",1,1,1,1
+"access_irConfigParameter_system","irConfigParameter groupSystem","model_irConfigParameter","groupSystem",1,1,1,1
+"access_irMailServer_system","irMailServer groupSystem","model_irMailServer","groupSystem",1,1,1,1
+"access_irLogging","irLogging admin","model_irLogging","groupErpManager",1,1,1,1
+"access_paperformat_portal","reportPaperformat groupPortal","model_reportPaperformat",,1,0,0,0
+"access_paperformat_employee","reportPaperformat groupSystem","model_reportPaperformat","groupSystem",1,1,1,1
+"access_reportLayout","reportLayout","model_reportLayout",,1,1,1,1
+"access_wizardIrModelMenuCreate","wizardIrModelMenuCreate","model_wizardIrModelMenuCreate","base.groupSystem",1,1,1,0
+"access_resetViewArchWizard","resetViewArchWizard","model_resetViewArchWizard","base.groupErpManager",1,1,1,0
+"access_irDemo","irDemo","model_irDemo","base.groupSystem",1,1,1,0
+"access_irDemoFailure","irDemoFailure","model_irDemoFailure","base.groupSystem",1,1,1,0
+"access_irDemoFailureWizard","irDemoFailureWizard","model_irDemoFailureWizard","base.groupSystem",1,1,1,0
+"access_resConfig","resConfig","model_resConfig","base.groupSystem",1,1,1,0
+"access_resConfigInstaller","resConfigInstaller","model_resConfigInstaller","base.groupSystem",1,1,1,0
+"access_resConfigSettings","resConfigSettings","model_resConfigSettings","base.groupSystem",1,1,1,0
+"access_changePasswordWizard","changePasswordWizard","model_changePasswordWizard","base.groupErpManager",1,1,1,0
+"access_changePasswordUser","changePasswordUser","model_changePasswordUser","base.groupErpManager",1,1,1,0
+"access_baseModuleUpdate","baseModuleUpdate","model_baseModuleUpdate","base.groupSystem",1,1,1,0
+"access_baseLanguageInstall","baseLanguageInstall","model_baseLanguageInstall","base.groupSystem",1,1,1,0
+"access_baseLanguageImport","baseLanguageImport","model_baseLanguageImport","base.groupSystem",1,1,1,0
+"access_baseModuleUpgrade","baseModuleUpgrade","model_baseModuleUpgrade","base.groupSystem",1,1,1,0
+"access_baseModuleUninstall","baseModuleUninstall","model_baseModuleUninstall","base.groupSystem",1,1,1,0
+"access_baseLanguageExport","baseLanguageExport","model_baseLanguageExport","base.groupUser",1,1,1,0
+"access_baseUpdateTranslations","baseUpdateTranslations","model_baseUpdateTranslations","base.groupSystem",1,1,1,0
+"access_basePartnerMergeLine","basePartnerMergeLine","model_basePartnerMergeLine","base.groupPartnerManager",1,1,1,1
+"access_basePartnerMergeAutomaticWizard","basePartnerMergeAutomaticWizard","model_basePartnerMergeAutomaticWizard","base.groupPartnerManager",1,1,1,0
+"access_irProfile","irProfile","model_irProfile","groupSystem",1,1,1,1
+"access_baseEnableProfilingWizard","baseEnableProfilingWizard","model_baseEnableProfilingWizard","groupSystem",1,1,1,0

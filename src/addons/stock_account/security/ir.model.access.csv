@@ -1,0 +1,9 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_account_account_stock_manager,account.account stock manager,account.model_accountAccount,stock.groupStockManager,1,0,0,0
+access_account_journal_stock_manager,account.journal stock manager,account.model_accountJournal,stock.groupStockManager,1,0,0,0
+access_stock_picking_invoicing_payments_readonly,stock.picking,stock.model_stockPicking,account.groupAccountReadonly,1,0,0,0
+access_stock_picking_invoicing_payments,stock.picking,stock.model_stockPicking,account.groupAccountInvoice,1,1,1,0
+access_stock_move_invoicing_payments_readonly,stock.move,model_stockMove,account.groupAccountReadonly,1,0,0,0
+access_stock_move_invoicing_payments,stock.move,model_stockMove,account.groupAccountInvoice,1,1,1,0
+access_stock_valuation_layer,access_stock_valuation_layer,model_stockValuationLayer,stock.groupStockManager,1,1,1,0
+access_stock_valuation_layer_revaluation,access_stock_valuation_layer_revaluation,model_stockValuationLayerRevaluation,stock.groupStockManager,1,1,1,0

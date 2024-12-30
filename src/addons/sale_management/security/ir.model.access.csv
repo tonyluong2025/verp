@@ -1,0 +1,10 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_sale_order_template,sale.order.template,model_saleOrderTemplate,sales_team.groupSaleSalesman,1,0,0,0
+access_sale_order_template_manager,sale.order.template,model_saleOrderTemplate,sales_team.groupSaleManager,1,1,1,1
+access_sale_order_template_system,sale.order.template,model_saleOrderTemplate,base.groupSystem,1,0,0,0
+access_sale_order_template_line,sale.order.template.line,model_saleOrderTemplateLine,sales_team.groupSaleSalesman,1,0,0,0
+access_sale_order_template_line_manager,sale.order.template.line,model_saleOrderTemplateLine,sales_team.groupSaleManager,1,1,1,1
+access_sale_order_template_option,sale.order.template.option,model_saleOrderTemplateOption,sales_team.groupSaleSalesman,1,0,0,0
+access_sale_order_template_option_manager,sale.order.template.option,model_saleOrderTemplateOption,sales_team.groupSaleManager,1,1,1,1
+access_sale_order_option,sale.order.option,model_saleOrderOption,sales_team.groupSaleSalesman,1,1,1,1
+access_sale_order_option_all,sale.order.option,model_saleOrderOption,,1,0,0,0

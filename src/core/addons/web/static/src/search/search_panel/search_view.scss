@@ -1,0 +1,120 @@
+.o-searchview {
+    align-items: flex-end;
+    padding: 0 20px 1px 1px;
+    position: relative;
+
+    .o-searchview-input-container {
+        display: flex;
+        flex-flow: row wrap;
+        position: relative;
+
+        .o-searchview-facet {
+            display: flex;
+            flex: 0 0 auto;
+            margin: 1px 3px 0 0;
+            max-width: 100%;
+            position: relative;
+            $o-searchView-facet-remove-width: 18px;
+
+            .o-searchview-facet-label {
+                align-items: center;
+                color: white;
+                flex: 0 0 auto;
+                padding: 0 3px;
+                @include o-text-overflow($display: flex);
+            }
+
+            .o-facet-values {
+                direction: ltr#{"/*rtl:ignore*/"};
+                padding: 0 $o-searchView-facet-remove-width 0 5px;
+
+                .o-facet-values-sep {
+                    font-style: italic;
+                    margin: 0 0.3rem;
+                }
+            }
+
+            .o-facet-remove {
+                align-items: center;
+                cursor: pointer;
+                display: flex;
+                flex: 0 0 auto;
+                justify-content: center;
+                width: $o-searchView-facet-remove-width;
+                @include o-position-absolute(0, 0, 0);
+            }
+        }
+
+        .o-searchview-input {
+            flex: 1 0 auto;
+            width: 75px;
+        }
+
+        .o-searchview-autocomplete {
+            width: 100%;
+            @include o-position-absolute(100%, $left: auto);
+
+            .o-menu-item {
+                align-items: center;
+                display: flex;
+                padding-left: 25px;
+
+                &.o-indent {
+                    padding-left: 50px;
+                }
+
+                a {
+                    &:hover {
+                        background-color: inherit;
+                    }
+
+                    &.o-expand {
+                        display: flex;
+                        justify-content: center;
+                        width: 25px;
+                        @include o-position-absolute($left: 0);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Filter menu
+.o-filter-menu {
+    .o-filter-condition {
+        &.o-filter-condition-with-buttons {
+            padding-right: 0;
+            padding-left: $dropdown-item-padding-x*1.5;
+        }
+
+        .o-or-filter {
+            @include o-position-absolute($left: $dropdown-item-padding-x*.2);
+        }
+
+        .o-generator-menu-value {
+            color: $o-main-text-color; // avoid to inherit .dropdown-item style
+
+            .datepickerbutton {
+                cursor: pointer;
+                @include o-position-absolute(3px, -20px);
+            }
+        }
+
+        .o-generator-menu-delete {
+            @include o-hover-opacity(0.8, 1);
+            @include o-position-absolute($dropdown-item-padding-x*.3, $dropdown-item-padding-x*.2, auto, auto);
+            
+            &:hover {
+                background-color: gray('100');
+            }
+        }
+    }
+    .o-add-condition {
+        line-height: 1.1;
+
+        .fa {
+            font-size: $font-size-lg;
+        }
+    }
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="actionAccountAssetReportPivot" model="ir.ui.view">
+        <field name="label">report.account.asset.pivot</field>
+        <field name="model">report.account.asset</field>
+        <field name="arch" type="xml">
+            <pivot string="Assets Analysis" disableLinking="true">
+                <field name="assetCategoryId" type="row"/>
+                <field name="grossValue" type="measure"/>
+                <field name="unpostedValue" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="actionAccountAssetReportGraph" model="ir.ui.view">
+        <field name="label">report.account.asset.graph</field>
+        <field name="model">report.account.asset</field>
+        <field name="arch" type="xml">
+            <graph string="Assets Analysis">
+                <field name="assetCategoryId" type="row"/>
+                <field name="grossValue" type="measure"/>
+                <field name="unpostedValue" type="measure"/>
+            </graph>
+        </field>
+    </record>
+ 
+    <record id="viewAccountAssetReportSearch" model="ir.ui.view">
+        <field name="label">report.account.asset.search</field>
+        <field name="model">report.account.asset</field>
+        <field name="arch" type="xml">
+            <search string="Assets Analysis">
+                <field name="date"/>
+                <field name="depreciationDate"/>
+                <filter string="Draft" name="draft" domain="[['state','=','draft']]"
+                        help="Assets in draft state"/>
+                <filter string="Running" name="running" domain="[['state','=','open']]"
+                        help="Assets in running state"/>
+                <separator/>
+                <filter string="Posted" name="posted" domain="[['moveCheck','=',true]]"
+                        help="Posted depreciation lines" context="{'unpostedValueVisible': 0}"/>
+                <field name="assetId"/>
+                <field name="assetCategoryId"/>
+                <group expand="0" string="Extended Filters...">
+                    <field name="partnerId" filterDomain="[['partnerId','childOf',self]]"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </group>
+                <group expand="1" string="Group By">
+                    <filter string="Asset" name="asset" context="{'groupby':'assetId'}"/>
+                    <filter string="Asset Category" name="assetCategory"
+                            context="{'groupby':'assetCategoryId'}"/>
+                    <filter string="Company" name="company" context="{'groupby':'companyId'}"
+                            groups="base.groupMultiCompany"/>
+                    <separator/>
+                    <filter string="Purchase Month" name="purchaseMonth" help="Date of asset purchase"
+                        context="{'groupby':'date:month'}"/>
+                    <filter string="Depreciation Month" name="deprecationMonth" help="Date of depreciation"
+                        context="{'groupby':'depreciationDate:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionAccountAssetReport" model="ir.actions.actwindow">
+        <field name="label">Assets Analysis</field>
+        <field name="resModel">report.account.asset</field>
+        <field name="viewMode">graph,pivot</field>
+        <field name="searchViewId" ref="viewAccountAssetReportSearch"/>
+        <field name="domain">[['assetCategoryId.type', '=', 'purchase']]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+          <p class="o-view-nocontent-empty-folder">
+            No content
+          </p><p>
+            From this report, you can have an overview on all depreciations. The
+            search bar can also be used to personalize your assets depreciation reporting.
+          </p>
+        </field>
+    </record>
+    
+    <menuitem id="menuActionAccountAssetReport"
+              name="Assets"
+              action="actionAccountAssetReport"
+              parent="account.accountReportsManagementMenu"
+              sequence="21"/>
+
+</verp>

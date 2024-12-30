@@ -1,0 +1,89 @@
+{
+    "label": "eCommerce",
+    "category": "Website/Website",
+    "sequence": 50,
+    "summary": "Sell your products online",
+    "website": "https://www.theverp.com/app/ecommerce",
+    "version": "1.1",
+    "description": "",
+    "depends": ["website", "sale", "website_payment", "website_mail", "portal_rating", "digest"],
+    "data": [
+        "security/ir.model.access.csv",
+        "security/website_sale.xml",
+        "data/data.xml",
+        "data/mail_template_data.xml",
+        "data/product_snippet_template_data.xml",
+        "data/digest_data.xml",
+        "views/product_attribute_views.xml",
+        "views/product_views.xml",
+        "views/account_views.xml",
+        "views/onboarding_views.xml",
+        "views/sale_report_views.xml",
+        "views/sale_order_views.xml",
+        "views/crm_team_views.xml",
+        "views/templates.xml",
+        "views/snippets/snippets.xml",
+        "views/snippets/s_dynamic_snippet_products.xml",
+        "views/res_config_settings_views.xml",
+        "views/digest_views.xml",
+        "views/website_sale_visitor_views.xml",
+        "views/base_unit_view.xml"
+    ],
+    "demo": [
+        "data/demo.xml"
+    ],
+    "installable": true,
+    "application": true,
+    "postInitHook": "_postInitHook",
+    "uninstallHook": "uninstallHook",
+    "assets": {
+        "web.assetsFrontend": [
+            "website_sale/static/src/scss/website_sale.scss",
+            "website_sale/static/src/scss/website_mail.scss",
+            "website_sale/static/src/scss/website_sale_frontend.scss",
+            "website/static/lib/multirange/multirange_custom.scss",
+            "sale/static/src/scss/sale_portal.scss",
+            "sale/static/src/scss/productConfigurator.scss",
+            "sale/static/src/js/variant_mixin.js",
+            "website_sale/static/src/js/variant_mixin.js",
+            "website_sale/static/src/js/website_sale.js",
+            "website_sale/static/src/js/website_sale_utils.js",
+            "website_sale/static/src/js/website_sale_payment.js",
+            "website_sale/static/src/js/website_sale_validate.js",
+            "website_sale/static/src/js/website_sale_recently_viewed.js",
+            "website_sale/static/src/js/website_sale_tracking.js",
+            "website/static/lib/multirange/multirange_custom.js",
+            "website_sale/static/src/js/website_sale_category_link.js"
+        ],
+        "web._assetsPrimaryVariables": [
+            "website_sale/static/src/scss/primary_variables.scss"
+        ],
+        "web.assetsBackend": [
+            "website_sale/static/src/js/website_sale_video_field_preview.js",
+            "website_sale/static/src/js/website_sale_backend.js",
+            "website_sale/static/src/scss/website_sale_dashboard.scss",
+            "website_sale/static/src/scss/website_sale_backend.scss",
+            "website_sale/static/src/js/tours/website_sale_shop_backend.js"
+        ],
+        "website.assetsWysiwyg": [
+            "website_sale/static/src/scss/website_sale.editor.scss",
+            "website_sale/static/src/snippets/s_dynamic_snippet_products/options.js"
+        ],
+        "website.assetsEditor": [
+            "website_sale/static/src/js/website_sale.editor.js",
+            "website_sale/static/src/js/website_sale_form_editor.js",
+            "website_sale/static/src/js/tours/website_sale_shop_frontend.js"
+        ],
+        "web.assetsCommon": [
+            "website_sale/static/src/js/tours/tour_utils.js",
+            "website_sale/static/src/js/tours/website_sale_shop.js"
+        ],
+        "web.assetsTests": [
+            "website_sale/static/tests/**/*"
+        ],
+        "web.assetsQweb": [
+            "website_sale/static/src/xml/*.xml"
+        ]
+    },
+    "license": "MIT Expat"
+}

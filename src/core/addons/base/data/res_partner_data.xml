@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="mainPartner" model="res.partner" context="{'defaultIsCompany': true}">
+            <field name="label">My Company</field>
+            <field name="companyId" eval="null"/>
+            <field name="isCompany">true</field>
+            <field name="street">Pasteur</field>
+            <field name="city">Saigon</field>
+            <field name="zip">700000</field>
+            <field name="phone">0912345678</field>
+            <field name="image1920" type="base64" file="base/static/img/res_company_logo.png"/>
+        </record>
+
+        <record id="base.partnerRoot" model="res.partner">
+            <field name="label">System</field>
+            <field name="companyId" ref="mainCompany"/>
+            <field name="email">root@example.com</field>
+            <field name="active">false</field>
+        </record>
+
+        <record id="base.partnerAdmin" model="res.partner">
+            <field name="label">Administrator</field>
+            <field name="companyId" ref="mainCompany"/>
+            <field name="email">admin@example.com</field>
+        </record>
+
+        <record id="publicPartner" model="res.partner">
+            <field name="label">Public user</field>
+            <field name="active">false</field>
+        </record>
+
+        <!--
+        Resource: res.partner.title
+        -->
+        <record id="resPartnerTitle_Madam" model="res.partner.title">
+            <field name="label">Madam</field>
+            <field name="shortcut">Mrs.</field>
+        </record>
+        <record id="resPartnerTitle_Miss" model="res.partner.title">
+            <field name="label">Miss</field>
+            <field name="shortcut">Miss</field>
+        </record>
+        <record id="resPartnerTitle_Mister" model="res.partner.title">
+            <field name="label">Mister</field>
+            <field name="shortcut">Mr.</field>
+        </record>
+        <record id="resPartnerTitle_Doctor" model="res.partner.title">
+            <field name="label">Doctor</field>
+            <field name="shortcut">Dr.</field>
+        </record>
+        <record id="resPartnerTitle_Prof" model="res.partner.title">
+            <field name="label">Professor</field>
+            <field name="shortcut">Prof.</field>
+        </record>
+
+        <record id="resPartner_IndustryA" model="res.partner.industry">
+            <field name="label">Agriculture</field>
+            <field name="fullName">A AGRICULTURE, FORESTRY AND FISHING</field>
+        </record>
+
+        <record id="resPartner_IndustryB" model="res.partner.industry">
+            <field name="label">Mining</field>
+            <field name="fullName">B MINING AND QUARRYING</field>
+        </record>
+
+        <record id="resPartner_IndustryC" model="res.partner.industry">
+            <field name="label">Manufacturing</field>
+            <field name="fullName">C MANUFACTURING</field>
+        </record>
+
+        <record id="resPartner_IndustryD" model="res.partner.industry">
+            <field name="label">Energy supply</field>
+            <field name="fullName">D ELECTRICITY,GAS,STEAM AND AIR CONDITIONING SUPPLY</field>
+        </record>
+
+        <record id="resPartner_IndustryE" model="res.partner.industry">
+            <field name="label">Water supply</field>
+            <field name="fullName">E WATER SUPPLY;SEWERAGE,WASTE MANAGEMENT AND REMEDIATION ACTIVITIES</field>
+        </record>
+
+        <record id="resPartner_IndustryF" model="res.partner.industry">
+            <field name="label">Construction</field>
+            <field name="fullName">F CONSTRUCTION</field>
+        </record>
+
+        <record id="resPartner_IndustryG" model="res.partner.industry">
+            <field name="label">Wholesale/Retail</field>
+            <field name="fullName">G WHOLESALE AND RETAIL TRADE;REPAIR OF MOTOR VEHICLES AND MOTORCYCLES</field>
+        </record>
+
+        <record id="resPartner_IndustryH" model="res.partner.industry">
+            <field name="label">Transportation</field>
+            <field name="fullName">H TRANSPORTATION AND STORAGE</field>
+        </record>
+
+        <record id="resPartner_IndustryI" model="res.partner.industry">
+            <field name="label">Food</field>
+            <field name="fullName">I ACCOMMODATION AND FOOD SERVICE ACTIVITIES</field>
+        </record>
+
+        <record id="resPartner_IndustryJ" model="res.partner.industry">
+            <field name="label">IT/Communication</field>
+            <field name="fullName">J INFORMATION AND COMMUNICATION</field>
+        </record>
+
+        <record id="resPartner_IndustryK" model="res.partner.industry">
+            <field name="label">Finance/Insurance</field>
+            <field name="fullName">K FINANCIAL AND INSURANCE ACTIVITIES</field>
+        </record>
+
+        <record id="resPartner_IndustryL" model="res.partner.industry">
+            <field name="label">Real Estate</field>
+            <field name="fullName">L REAL ESTATE ACTIVITIES</field>
+        </record>
+
+        <record id="resPartner_IndustryM" model="res.partner.industry">
+            <field name="label">Scientific</field>
+            <field name="fullName">M PROFESSIONAL, SCIENTIFIC AND TECHNICAL ACTIVITIES</field>
+        </record>
+
+        <record id="resPartner_IndustryN" model="res.partner.industry">
+            <field name="label">Administrative</field>
+            <field name="fullName">N ADMINISTRATIVE AND SUPPORT SERVICE ACTIVITIES</field>
+        </record>
+
+        <record id="resPartner_IndustryO" model="res.partner.industry">
+            <field name="label">Public Administration</field>
+            <field name="fullName">O PUBLIC ADMINISTRATION AND DEFENCE;COMPULSORY SOCIAL SECURITY</field>
+        </record>
+
+        <record id="resPartner_IndustryP" model="res.partner.industry">
+            <field name="label">Education</field>
+            <field name="fullName">P EDUCATION</field>
+        </record>
+
+        <record id="resPartner_IndustryQ" model="res.partner.industry">
+            <field name="label">Health/Social</field>
+            <field name="fullName">Q HUMAN HEALTH AND SOCIAL WORK ACTIVITIES</field>
+        </record>
+
+        <record id="resPartner_IndustryR" model="res.partner.industry">
+            <field name="label">Entertainment</field>
+            <field name="fullName">R ARTS, ENTERTAINMENT AND RECREATION</field>
+        </record>
+
+        <record id="resPartner_IndustryS" model="res.partner.industry">
+            <field name="label">Other Services</field>
+            <field name="fullName">S OTHER SERVICE ACTIVITIES</field>
+        </record>
+
+        <record id="resPartner_IndustryT" model="res.partner.industry">
+            <field name="label">Households</field>
+            <field name="fullName">T ACTIVITIES OF HOUSEHOLDS AS EMPLOYERS;UNDIFFERENTIATED GOODS- AND SERVICES-PRODUCING ACTIVITIES OF HOUSEHOLDS FOR OWN USE</field>
+        </record>
+
+        <record id="resPartner_IndustryU" model="res.partner.industry">
+            <field name="label">Extraterritorial</field>
+            <field name="fullName">U ACTIVITIES OF EXTRA TERRITORIAL ORGANISATIONS AND BODIES</field>
+        </record>
+
+    </data>
+</verp>

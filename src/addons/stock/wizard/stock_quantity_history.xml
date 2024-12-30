@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewStockQuantityHistory" model="ir.ui.view">
+        <field name="label">Inventory Report at Date</field>
+        <field name="model">stock.quantity.history</field>
+        <field name="arch" type="xml">
+            <form string="Choose your date">
+                <group>
+                    <field name="inventoryDatetime"/>
+                </group>
+                <footer>
+                    <button name="openAtDate" string="Confirm" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

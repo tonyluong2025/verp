@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="calendarEventRuleMy" model="ir.rule">
+            <field name="label">Own events</field>
+            <field name="modelId" ref="model_calendarEvent"/>
+            <field name="domainForce">[['partnerIds', 'in', (await user.partnerId).id]]</field>
+            <field name="groups" eval="[[4, refId('base.groupPortal')]]"/>
+        </record>
+
+        <record id="calendarEventRuleEmployee" model="ir.rule">
+            <field name="modelId" ref="model_calendarEvent"/>
+            <field name="label">All Calendar Event for employees</field>
+            <field name="domainForce">[[1, '=', 1]]</field>
+            <field name="groups" eval="[[4,refId('base.groupUser')]]"/>
+        </record>
+
+        <record id="calendarAttendeeRuleMy" model="ir.rule">
+            <field name="label">Own attendees</field>
+            <field name="modelId" ref="model_calendarAttendee"/>
+            <field name="domainForce">[[1, '=', 1]]</field>
+            <field name="groups" eval="[[4,refId('base.groupPortal')]]"/>
+        </record>
+
+        <record id="calendarEventRulePrivate" model="ir.rule">
+            <field name="modelId" ref="model_calendarEvent"/>
+            <field name="label">Private events</field>
+            <field name="domainForce">['|', ['privacy', '!=', 'private'], '&amp;', ['privacy', '=', 'private'], '|', ['userId', '=', user.id], ['partnerIds', 'in', (await user.partnerId).id]]</field>
+            <field name="permRead" eval="false"/>
+            <field name="permWrite" eval="true"/>
+            <field name="permCreate" eval="true"/>
+            <field name="permUnlink" eval="true"/>
+        </record>
+
+    </data>
+</verp>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.GroupByMenu" owl="1">
+        <Dropdown class="o-groupby-menu btn-group"
+            togglerClass="'btn btn-light'"
+            t-props="dropdownProps"
+            t-on-dropdown-item-selected="onGroupBySelected"
+        >
+            <t t-set-slot="toggler">
+                <i class="small mr-1" t-att-class="icon"/>
+                <span class="o-dropdown-title">Group By<t t-if="props.showCaretDown"> <i class="fa fa-caret-down ml-1"/></t></span>
+            </t>
+            <t t-set="currentGroup" t-value="null"/>
+            <t t-foreach="items" t-as="item" t-key="item.id">
+                <t t-if="currentGroup !== null &amp;&amp; currentGroup !== item.groupNumber">
+                    <div class="dropdown-divider" role="separator"/>
+                </t>
+                <t t-if="item.options">
+                    <Dropdown togglerClass="'o-menu-item' + (item.isActive ? ' selected' : '')">
+                        <t t-set-slot="toggler">
+                            <t t-esc="item.description"/>
+                        </t>
+                        <t t-set="subGroup" t-value="null"/>
+                        <t t-foreach="item.options" t-as="option" t-key="option.id">
+                            <t t-if="subGroup !== null &amp;&amp; subGroup !== option.groupNumber">
+                                <div class="dropdown-divider" role="separator"/>
+                            </t>
+                            <DropdownItem class="o-item-option"
+                                t-att-class="{ selected: option.isActive }"
+                                payload="{ itemId: item.id, optionId: option.id }"
+                                parentClosingMode="'none'"
+                                t-esc="option.description"
+                            />
+                            <t t-set="subGroup" t-value="option.groupNumber"/>
+                        </t>
+                    </Dropdown>
+                </t>
+                <t t-else="">
+                    <DropdownItem class="o-menu-item"
+                        t-att-class="{ selected: item.isActive }"
+                        payload="{ itemId: item.id }"
+                        parentClosingMode="'none'"
+                        t-esc="item.description"
+                    />
+                </t>
+                <t t-set="currentGroup" t-value="item.groupNumber"/>
+            </t>
+            <t t-if="fields.length">
+                <div t-if="items.length" role="separator" class="dropdown-divider"/>
+                <CustomGroupByItem fields="fields" t-on-add-custom-group="onAddCustomGroup"/>
+            </t>
+        </Dropdown>
+    </t>
+
+</templates>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data>
+<template id="reportIrmodulereference">
+    <t t-call="web.htmlContainer">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.internalLayout">
+                <div class="page">
+                    <h3 class="text-center">Introspection report on objects</h3>
+                        <table class="table table-bordered mt32">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"><span>Module</span></th>
+                                    <th class="text-center"><span>Name</span></th>
+                                    <th class="text-center"><span>Version</span></th>
+                                    <th class="text-center"><span>Directory</span></th>
+                                    <th class="text-center"><span>Web</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td><span t-field="o.label"/></td>
+                                    <td><span t-field="o.shortdesc"/></td>
+                                    <td><span t-field="o.latestVersion"/></td>
+                                    <td><span t-field="o.label"/></td>
+                                    <td><span t-field="o.website"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span t-field="o.description"/>
+                        <div>
+                            <strong>Reports :</strong>
+                        </div>
+                        <span t-field="o.reportsByModule"/>
+                        <div>
+                            <strong>Menu :</strong>
+                        </div>
+                        <span t-field="o.menusByModule"/>
+                        <div>
+                            <strong>View :</strong>
+                        </div>
+                        <span t-field="o.viewsByModule"/>
+                        <div>
+                            <strong>Dependencies :</strong>
+                        </div>
+                        <div t-foreach="o.dependenciesId" t-as="dependencyId">
+                            <span t-field="dependencyId.label"/> - <span t-field="dependencyId.moduleId.state"/>
+                        </div>
+
+                        <table t-foreach="await findobj(o)" t-as="_obj" class="table table-sm mt16 mb32">
+                            <tr>
+                                <th colspan="2"><span>Object:</span> <span t-esc="await _obj.model"/></th>
+                            </tr>
+                            <tr t-foreach="await findfields(await _obj.model, o)" t-as="field">
+                                <td class="col-3"><t t-esc="field[0]"/></td>
+                                <td>
+                                    <span t-esc="field[1]['string'] ?? 'Unknown'"/><span>, </span><span t-esc="field[1]['type']"/><span t-if="field[1]['required']">, required</span><span t-if="field[1]['readonly'] ?? false">, readonly</span>
+                                    <div t-esc="field[1]['help'] || ''"/>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</verp>

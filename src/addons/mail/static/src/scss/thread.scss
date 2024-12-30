@@ -1,0 +1,173 @@
+.o-mail-activity {
+
+    .o-thread-date-separator {
+        margin-top: 15px;
+        margin-bottom: 30px;
+        @include media-breakpoint-down(sm) {
+            margin-top: 0px;
+            margin-bottom: 15px;
+        }
+        border-bottom: 1px solid gray('400');
+        text-align: center;
+
+        .o-thread-date {
+            position: relative;
+            top: 10px;
+            margin: 0 auto;
+            padding: 0 10px;
+            font-weight: bold;
+            background: white;
+        }
+    }
+
+    .o-thread-message {
+        display: flex;
+        padding: 4px $o-horizontal-padding;
+        margin-bottom: 0px;
+
+        .o-thread-message-sidebar {
+            flex: 0 0 $o-mail-thread-avatar-size;
+            margin-right: 10px;
+            margin-top: 2px;
+            text-align: center;
+            font-size: smaller;
+            .o-thread-message-sidebar-image {
+                position: relative;
+                height: $o-mail-thread-avatar-size;
+
+                .o-updatable-im-status {
+                    width: $o-mail-thread-avatar-size;
+                }
+                .o-mail-user-status {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+
+                    &.fa-circle-o {
+                        display: none;
+                    }
+                }
+            }
+
+            @include media-breakpoint-down(sm) {
+                margin-top: 4px;
+                font-size: x-small;
+            }
+
+            .o-thread-message-avatar {
+                width: $o-mail-thread-avatar-size;
+                height: $o-mail-thread-avatar-size;
+                object-fit: cover;
+            }
+        }
+        .o-thread-icon {
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        &:hover {
+            .o-thread-icon {
+                display: inline-block;
+                opacity: $o-mail-thread-icon-opacity;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .o-mail-redirect {
+            cursor: pointer;
+        }
+
+        .o-thread-message-core {
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: 100%;
+            word-wrap: break-word;
+            .o-thread-message-content > pre {
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+
+            .o-mail-note-title {
+                margin-top: 9px;
+            }
+
+            .o-mail-subject {
+                font-style: italic;
+            }
+
+            .o-mail-notification {
+                font-style: italic;
+                color: gray;
+            }
+
+            [summary~=o-mail-notification] { // name conflicts with channel notifications, but is verp notification buttons to hide in chatter if present
+                display: none;
+            }
+
+            p {
+                margin: 0 0 9px; // Required by the old design to override a general rule on p's
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+            a {
+                display: inline-block;
+                word-break: break-all;
+            }
+            :not(.o-image-box) > img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .o-mail-body-long {
+                display: none;
+            }
+
+            .o-mail-info {
+                margin-bottom: 2px;
+
+                strong {
+                    color: $headings-color;
+                }
+            }
+
+            .o-thread-message-needaction, .o-thread-message-reply {
+                padding: 4px;
+            }
+        }
+    }
+    .o-thread-title {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 125%;
+
+        &.o-neutral-face-icon:before {
+            @extend %o-nocontent-init-image;
+            @include size(120px, 140px);
+            background: transparent url(/web/static/img/neutral_face.svg) no-repeat center;
+        }
+    }
+
+    .o-mail-no-content {
+        @include o-position-absolute(30%, 0, 0, 0);
+        text-align: center;
+        font-size: 115%;
+    }
+
+    .o-thread-message .o-thread-message-core .o-mail-read-more {
+        display: block;
+    }
+}
+
+.o-web-client .popover .o-thread-tooltip-icon {
+    min-width: 1rem;
+}
+
+.o-web-client.o-touch-device {
+    .o-mail-thread .o-thread-icon {
+        opacity: $o-mail-thread-icon-opacity;
+    }
+}

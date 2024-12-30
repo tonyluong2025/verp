@@ -1,0 +1,244 @@
+<verp>
+    <data>
+
+        <record id="viewAccountFollowupFollowupLineTree" model="ir.ui.view">
+            <field name="label">followup.line.tree</field>
+            <field name="model">followup.line</field>
+            <field name="arch" type="xml">
+                <tree string="Follow-up Steps">
+                    <field name="label"/>
+                    <field name="delay"/>
+                    <field name="sendEmail"/>
+                    <field name="sendLetter"/>
+                    <field name="manualAction"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountFollowupFollowupLineForm" model="ir.ui.view">
+            <field name="label">followup.line.form</field>
+            <field name="model">followup.line</field>
+            <field name="arch" type="xml">
+                <form string="Follow-up Steps">
+                    <label for="label" class="oe-edit-only"/>
+                    <h1>
+                        <field name="label"/>
+                    </h1>
+                    <div class="oe-inline">
+                        After
+                        <field name="delay" class="oe-inline"/>
+                        days overdue, do the following actions:
+                    </div>
+                    <div>
+                        <field name="manualAction" class="oe-inline"/>
+                        <label for="manualAction"/>
+                    </div>
+                    <div>
+                        <field name="sendEmail" class="oe-inline"/>
+                        <label for="sendEmail"/>
+                    </div>
+                    <div>
+                        <field name="sendLetter" class="oe-inline"/>
+                        <label for="sendLetter"/>
+                    </div>
+
+                    <group string="Manual Action"
+                           attrs="{'invisible': [['manualAction', '=', false]]}">
+                        <field name="manualActionResponsibleId"/>
+                        <field name="manualActionNote"
+                               attrs="{'required': [['manualAction', '&lt;&gt;', false]]}"
+                               placeholder="e.g. Call the customer, check if it's paid, ..."/>
+                    </group>
+                    <group string="Send an Email"
+                           attrs="{'invisible': [['sendEmail', '=', false]]}">
+                        <field name="emailTemplateId"
+                               attrs="{'required': [['sendEmail', '&lt;&gt;', false]]}"/>
+                    </group>
+                    <group string="Send a Letter or Email"
+                           attrs="{'invisible': [['sendEmail', '=', false], ['sendLetter', '=', false]]}">
+                        <p colspan="2" class="oe-grey">
+                            Write here the introduction in the letter,
+                            according to the level of the follow-up. You can
+                            use the following keywords in the text. Don't
+                            forget to translate in all languages you installed
+                            using to top right icon.
+                            <table>
+                                <tr>
+                                    <td t-translation="off">%%(partnerName)s
+                                    </td>
+                                    <td>: Partner Name</td>
+                                </tr>
+                                <tr>
+                                    <td t-translation="off">%%(date)s</td>
+                                    <td>: Current Date</td>
+                                </tr>
+                                <tr>
+                                    <td t-translation="off">
+                                        %%(userSignature)s
+                                    </td>
+                                    <td>: User Name</td>
+                                </tr>
+                                <tr>
+                                    <td t-translation="off">%%(companyName)s
+                                    </td>
+                                    <td>: User's Company Name</td>
+                                </tr>
+                            </table>
+                        </p>
+                        <field name="description" nolabel="1" colspan="2"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountFollowupFollowupForm" model="ir.ui.view">
+            <field name="label">followup.followup.form</field>
+            <field name="model">followup.followup</field>
+            <field name="arch" type="xml">
+                <form string="Follow-up">
+                    <h1>
+                        <field name="label"/>
+                    </h1>
+                    <label for="companyId" groups="base.groupMultiCompany"/>
+                    <field name="companyId" widget="selection"
+                           class="oe-inline"
+                           groups="base.groupMultiCompany"/>
+                    <p class="oe-grey">
+                        To remind customers of paying their invoices, you can
+                        define different actions depending on how severely
+                        overdue the customer is. These actions are bundled
+                        into follow-up levels that are triggered when the due
+                        date of an invoice has passed a certain
+                        number of days. If there are other overdue invoices for
+                        the
+                        same customer, the actions of the most
+                        overdue invoice will be executed.
+                    </p>
+                    <field name="followupLine"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountFollowupFollowupTree" model="ir.ui.view">
+            <field name="label">followup.followup.tree</field>
+            <field name="model">followup.followup</field>
+            <field name="arch" type="xml">
+                <tree string="Follow-up">
+                    <field name="companyId"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountFollowupFilter" model="ir.ui.view">
+            <field name="label">account.followup.select</field>
+            <field name="model">followup.followup</field>
+            <field name="arch" type="xml">
+                <search string="Search Follow-up">
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionAccountFollowupDefinitionForm" model="ir.actions.actwindow">
+            <field name="label">Follow-up Levels</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">followup.followup</field>
+            <field name="searchViewId" ref="viewAccountFollowupFilter"/>
+            <field name="viewMode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe-view-nocontent-create">
+                    Click to define follow-up levels and their related actions.
+                </p>
+                <p>
+                    For each step, specify the actions to be taken and delay in
+                    days. It is
+                    possible to use print and e-mail templates to send specific
+                    messages to
+                    the customer.
+                </p>
+            </field>
+        </record>
+
+        <record id="viewMoveLineReconcileTree" model="ir.ui.view">
+            <field name="label">account.move.line.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Journal Items to Reconcile" create="false">
+                    <field name="date"/>
+                    <field name="moveId"/>
+                    <field name="ref"/>
+                    <field name="label"/>
+                    <field name="partnerId"/>
+                    <field name="accountId"/>
+                    <field name="journalId" invisible="1"/>
+                    <field name="fullReconcileId"/>
+                    <field name="debit" sum="Total debit"/>
+                    <field name="credit" sum="Total credit"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountManualReconcileAction" model="ir.actions.actwindow">
+            <field name="context">{'searchDefault_unreconciled': 1,'viewMode':true}</field>
+            <field name="label">Journal Items to Reconcile</field>
+            <field name="resModel">account.move.line</field>
+            <field name="viewId" ref="viewMoveLineReconcileTree"/>
+            <field name="viewMode">tree</field>
+            <field name="help" type="html">
+                <p>
+                    No journal items found.
+                </p>
+            </field>
+        </record>
+
+<!--        <menuitem id="menu_manual_reconcile_followup"-->
+<!--                  name="Reconcile Invoices &amp; Payments" -->
+<!--                  action="account_manual_reconcile_action" -->
+<!--                  parent="menu_finance_followup" -->
+<!--                  sequence="0"/>-->
+
+        <menuitem id="accountFollowupMainMenu"
+                  parent="account.menuFinanceConfiguration"
+                  name="Follow-up"/>
+
+
+        <menuitem id="accountFollowupMenu"
+                  name="Follow-up Levels"
+                  action="actionAccountFollowupDefinitionForm"
+                  parent="accountFollowupMainMenu" />
+
+        <record id="accountMoveLinePartnerTree" model="ir.ui.view">
+            <field name="label">account.move.line.partner.tree</field>
+            <field name="model">account.move.line</field>
+            <field eval="32" name="priority"/>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Partner entries">
+                    <field name="date"/>
+                    <field name="moveId"/>
+                    <field name="ref"/>
+                    <field name="label"/>
+                    <field name="partnerId"/>
+                    <field name="accountId"/>
+                    <field name="followupLineId"/>
+                    <field name="followupDate"/>
+                    <field name="debit" sum="Total debit"/>
+                    <field name="credit" sum="Total credit"/>
+                    <field name="dateMaturity"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewMoveLineForm" model="ir.ui.view">
+            <field name="label">account.move.line.form.followup</field>
+            <field name="model">account.move.line</field>
+            <field name="inheritId" ref="account.viewMoveLineForm"/>
+            <field name="arch" type="xml">
+                <field name="dateMaturity" position="after">
+                    <field name="followupLineId"/>
+                    <field name="followupDate"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</verp>

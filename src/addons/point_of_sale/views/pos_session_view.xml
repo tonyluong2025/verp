@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewPosSessionForm" model="ir.ui.view">
+        <field name="label">pos.session.form.view</field>
+        <field name="model">pos.session</field>
+        <field name="arch" type="xml">
+            <form string="Point of Sale Session" create="0" edit="0">
+                <header>
+                    <button name="openFrontendCb" type="object" string="Continue Selling"
+                        attrs="{'invisible' : ['|', ['rescue', '=', true], ['state', 'not in', ['opening', 'opened']]]}"/>
+                    <button id="validateClosingControl" name="actionPosSessionClosingControl" type="object" string="Close Session &amp; Post Entries" states="closing"
+                            attrs="{'invisible': [ '|', '&amp;',['state', '!=', 'closing'], ['rescue', '=', false],
+                                '&amp;',['state', '=', 'closed'], ['rescue', '=', true]]}"
+                    class="oe-highlight"/>
+                    <field name="state" widget="statusbar" statusbarVisible="opened,closing,closed" nolabel="1" />
+                </header>
+                <sheet>
+                    <field name="cashRegisterId" invisible="1"/>
+                    <field name="failedPickings" invisible="1"/>
+                    <field name="rescue" invisible="1"/>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button name="actionViewOrder"
+                            class="oe-stat-button"
+                            icon="fa-shopping-basket"
+                            type="object">
+                            <field name="orderCount" widget="statinfo" string="Orders"/>
+                        </button>
+                        <button class="oe-stat-button" name="actionStockPicking" type="object" icon="fa-truck" attrs="{'invisible':[['pickingCount', '=', 0]]}">
+                            <field name="pickingCount" widget="statinfo" string="Pickings" attrs="{'invisible': [['failedPickings', '!=', false]]}"/>
+                            <field name="pickingCount" widget="statinfo" string="Pickings" class="text-danger" attrs="{'invisible': [['failedPickings', '=', false]]}"/>
+                        </button>
+                        <button
+                            name="actionShowPaymentsList"
+                            type="object"
+                            class="oe-stat-button"
+                            icon="fa-dollar"
+                            >
+                            <field name="totalPaymentsAmount" widget="statinfo" string="Payments"/>
+                        </button>
+                        <button
+                            name="showJournalItems"
+                            type="object"
+                            class="oe-stat-button"
+                            icon="fa-bars"
+                            string="Journal Items"
+                            groups="account.groupAccountReadonly"
+                            >
+                        </button>
+                        <button
+                            name="showCashRegister"
+                            type="object"
+                            class="oe-stat-button"
+                            icon="fa-bars"
+                            string="Cash Register"
+                            attrs="{'invisible':[['cashControl', '=', false]]}"
+                            groups="account.groupAccountReadonly"
+                        />
+                    </div>
+                    <h1 class="oe-title">
+                        <field name="label" attrs="{'invisible': [['label','=','/']]}" class="oe-inline"/>
+                    </h1>
+                    <group>
+                        <field name="cashControl" invisible="1" />
+                        <field name="userId"/>
+                        <field name="currencyId" invisible="1"/>
+                        <field name="configId" readonly="1"/>
+                        <field name="moveId" readonly="1" groups="account.groupAccountReadonly" />
+                        <field name="startAt" attrs="{'invisible' : [['state', '=', 'opening']]}"/>
+                        <field name="stopAt" attrs="{'invisible' : [['state', '!=', 'closed']]}"/>
+                    </group>
+                </sheet>
+                <div class="oe-chatter">
+                    <field name="activityIds"/>
+                    <field name="messageFollowerIds"/>
+                    <field name="messageIds"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="viewPosSessionTree" model="ir.ui.view">
+        <field name="label">pos.session.tree.view</field>
+        <field name="model">pos.session</field>
+        <field name="arch" type="xml">
+            <tree string="Point of Sale Session" create="0" sample="1">
+                <field name="label" decoration-bf="1"/>
+                <field name="configId" />
+                <field name="userId" widget="many2oneAvatarUser"/>
+                <field name="startAt" />
+                <field name="stopAt" />
+                <field name="state" widget="badge" decoration-info="['opening'].includes(state)" decoration-success="['opened', 'closed'].includes(state)" decoration-warning="state == 'closing'" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewPosSessionKanban">
+        <field name="label">pos.session.kanban</field>
+        <field name="model">pos.session</field>
+        <field name="arch" type="xml">
+            <kanban class="o-kanban-mobile" create="0" sample="1">
+                <field name="configId" />
+                <field name="label" />
+                <field name="userId" />
+                <field name="startAt" />
+                <field name="state" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe-kanban-card oe-kanban-global-click">
+                            <div class="o-kanban-record-top">
+                                <div class="o-kanban-record-headings">
+                                    <strong class="o-kanban-record-title"><span><field name="configId"/></span></strong>
+                                </div>
+                                <field name="state" widget="labelSelection" options="{'classes': {'opening': 'default', 'opened': 'success', 'closing': 'warning', 'closed': 'warning'}}"/>
+                            </div>
+                            <div class="o-kanban-record-body">
+                                <field name="label" />
+                            </div>
+                            <div class="o-kanban-record-bottom">
+                                <div class="oe-kanban-bottom-left">
+                                    <span><field name="startAt" /></span>
+                                </div>
+                                <div class="oe-kanban-bottom-right">
+                                    <field name="userId" widget="many2oneAvatarUser"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="viewPosSessionSearch" model="ir.ui.view">
+        <field name="label">pos.session.search.view</field>
+        <field name="model">pos.session</field>
+        <field name="arch" type="xml">
+            <search string="Point of Sale Session">
+                <field name="label"/>
+                <field name="configId" />
+                <field name="userId" />
+                <filter name="mySessions" string="My Sessions" domain="[['userId', '=', uid]]"/>
+                <separator/>
+                <filter name="openSessions" string="In Progress" domain="[['state', '=', 'opened']]"/>
+                <separator/>
+                <filter string="Opening Date" name="startDate" date="startAt" />
+                <group expand="0" string="Group By">
+                    <filter string="Opened By" name="user" domain="[]" context="{'groupby' : 'userId'}"/>
+                    <filter string="Point of Sale" name="pointOfSale" domain="[]" context="{'groupby': 'configId'}"/>
+                    <filter string="Status" name="status" domain="[]" context="{'groupby': 'state'}"/>
+                    <filter string="Opening Date" name="openingDate" domain="[]" context="{'groupby': 'startAt'}"/>
+                    <filter string="Closing Date" name="closingDate" domain="[]" context="{'groupby': 'stopAt'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionPosSession" model="ir.actions.actwindow">
+        <field name="label">Sessions</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.session</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="searchViewId" ref="viewPosSessionSearch" />
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+                No sessions found
+            </p><p>
+                A session is a period of time, usually one day, during which you sell through the Point of Sale.
+            </p>
+        </field>
+    </record>
+
+    <record id="mailActivityOldSession" model="mail.activity.type">
+        <field name="label">Session open over 7 days</field>
+        <field name="summary">note</field>
+        <field name="category">default</field>
+        <field name="resModel">pos.session</field>
+        <field name="icon">fa-tasks</field>
+        <field name="delayCount">0</field>
+    </record>
+
+    <menuitem
+        id="menuPosSessionAll"
+        parent="menuPointOfSale"
+        action="actionPosSession"
+        sequence="2"
+        groups="groupPosManager"/>
+</verp>

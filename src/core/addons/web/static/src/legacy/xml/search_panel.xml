@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+<t t-name="web.Legacy.SearchPanel" owl="1">
+    <div class="o-searchpanel" t-att-class="props.className">
+        <section t-foreach="model.get('sections', s => !s.empty)" t-as="section" t-key="section.id"
+            t-attf-class="o-searchpanel-section o-searchpanel-{{ section.type }}"
+            >
+            <header class="o-searchpanel-section-header text-uppercase">
+                <i t-attf-class="fa {{ section.icon }} o-searchpanel-section-icon mr-2"
+                    t-att-style="section.color and ('color: ' + section.color)"
+                />
+                <b t-esc="section.description"/>
+            </header>
+            <div t-if="section.errorMsg" class="alert alert-warning">
+                <span><t t-esc="section.errorMsg"/></span>
+            </div>
+            <ul t-else="" class="list-group d-block o-searchpanel-field">
+                <t t-if="section.type === 'category'" t-call="web.Legacy.SearchPanel.Category">
+                    <t t-set="values" t-value="section.rootIds"/>
+                </t>
+                <t t-elif="section.groups">
+                    <li t-foreach="section.sortedGroupIds" t-as="groupId" t-key="groupId"
+                        class="o-searchpanel-filter-group list-group-item border-0"
+                        >
+                        <!-- TODO: this is a workaround for issue https://github.com/verp/owl/issues/695 (remove when solved) -->
+                        <t t-set="_section" t-value="section"/>
+                        <t t-set="group" t-value="section.groups.get(groupId)"/>
+                        <header class="o-searchpanel-group-header">
+                            <div class="custom-control custom-checkbox">
+                                <!-- TODO: "indeterminate" could not be set in the template and had to be set in
+                                     JS manually. See https://github.com/verp/owl/issues/713 (adapt when solved)
+                                -->
+                                <input type="checkbox"
+                                    class="custom-control-input"
+                                    t-attf-id="{{ section.id }}_input_{{ groupId }})"
+                                    t-on-click="_toggleFilterGroup(section.id, group)"
+                                />
+                                <label t-attf-for="{{ section.id }}_input_{{ groupId }})"
+                                    class="o-searchpanel-label custom-control-label"
+                                    t-att-class="{ 'o-with-counters': group.enableCounters }"
+                                    t-att-title="group.tooltip or false"
+                                    >
+                                    <span class="o-searchpanel-label-title">
+                                        <span t-if="group.hexColor" class="mr-1" t-attf-style="color: {{ group.hexColor }};">●</span>
+                                        <t t-esc="groupName"/>
+                                    </span>
+                                </label>
+                            </div>
+                        </header>
+                        <ul class="list-group d-block">
+                            <t t-call="web.Legacy.SearchPanel.FiltersGroup">
+                                <t t-set="values" t-value="group.values"/>
+                                <!-- TODO: this is a workaround for issue https://github.com/verp/owl/issues/695 (remove when solved) -->
+                                <t t-set="section" t-value="_section"/>
+                            </t>
+                        </ul>
+                    </li>
+                    <ul t-if="section.groups.get(false)" class="list-group d-block">
+                        <t t-call="web.Legacy.SearchPanel.FiltersGroup">
+                            <t t-set="group" t-value="section.groups.get(false)"/>
+                            <t t-set="values" t-value="group.values"/>
+                            <!-- TODO: this is a workaround for issue https://github.com/verp/owl/issues/695 (remove when solved) -->
+                            <t t-set="section" t-value="section"/>
+                        </t>
+                    </ul>
+                </t>
+                <t t-else="" t-call="web.Legacy.SearchPanel.FiltersGroup">
+                    <t t-set="values" t-value="section.values"/>
+                </t>
+            </ul>
+        </section>
+    </div>
+</t>
+
+<t t-name="web.Legacy.SearchPanel.Category" owl="1">
+    <t t-foreach="values" t-as="valueId" t-key="valueId">
+        <t t-set="value" t-value="section.values.get(valueId)"/>
+        <li class="o-searchpanel-category-value list-group-item border-0">
+            <header class="list-group-item-action"
+                t-att-class="{ active: state.active[section.id] === valueId }"
+                t-on-click="_toggleCategory(section, value)"
+                >
+                <label class="o-searchpanel-label mb0" t-att-class="{ 'o-with-counters': section.enableCounters }">
+                    <div class="o-toggle-fold">
+                        <i t-if="value.childrenIds.length"
+                            t-attf-class="fa fa-caret-{{ state.expanded[section.id][valueId] ? 'down' : 'right' }}"
+                        />
+                    </div>
+                    <b t-if="value.bold" class="o-searchpanel-label-title" t-esc="value.displayName"/>
+                    <span t-else="" class="o-searchpanel-label-title" t-esc="value.displayName"/>
+                </label>
+                <span t-if="section.enableCounters and value.__count gt 0"
+                    class="o-searchpanel-counter text-muted ml-2 small"
+                    t-esc="value.__count"
+                />
+            </header>
+            <ul t-if="value.childrenIds.length and state.expanded[section.id][valueId]" class="list-group d-block">
+                <t t-call="web.Legacy.SearchPanel.Category">
+                    <t t-set="values" t-value="value.childrenIds"/>
+                </t>
+            </ul>
+        </li>
+    </t>
+</t>
+
+<t t-name="web.Legacy.SearchPanel.FiltersGroup" owl="1">
+    <li t-foreach="[...values.keys()]" t-as="valueId" t-key="valueId"
+        class="o-searchpanel-filter-value list-group-item border-0"
+        >
+        <t t-set="value" t-value="values.get(valueId)"/>
+        <div class="custom-control custom-checkbox w-100">
+            <input type="checkbox"
+                t-attf-id="{{ section.id }}_input_{{ valueId }}"
+                t-att-checked="state.active[section.id][valueId]"
+                class="custom-control-input"
+                t-on-click="_toggleFilterValue(section.id, valueId)"
+            />
+            <label class="o-searchpanel-label custom-control-label"
+                t-attf-for="{{ section.id }}_input_{{ valueId }}"
+                t-att-title="(group and group.tooltip) or false">
+                <span class="o-searchpanel-label-title" t-esc="value.displayName"/>
+                <span t-if="section.enableCounters and value.__count gt 0"
+                    class="o-searchpanel-counter text-muted ml-2 small"
+                    t-esc="value.__count"
+                />
+            </label>
+        </div>
+    </li>
+</t>
+
+</templates>

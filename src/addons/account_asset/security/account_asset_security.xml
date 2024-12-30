@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <data noupdate="1">
+
+        <record id="accountAssetCategoryMultiCompanyRule" model="ir.rule">
+            <field name="label">Account Asset Category multi-company</field>
+            <field ref="model_accountAssetCategory" name="modelId"/>
+            <field eval="true" name="global"/>
+            <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+        </record>
+
+        <record id="accountAssetAssetMultiCompanyRule" model="ir.rule">
+            <field name="label">Account Asset multi-company</field>
+            <field ref="model_accountAssetAsset" name="modelId"/>
+            <field eval="true" name="global"/>
+            <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+        </record>
+
+    </data>
+</verp>

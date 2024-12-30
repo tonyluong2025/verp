@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+    <!--
+        @param {mail.systray.ActivityMenu} widget
+        @param {Object[]} widget.activities
+    -->
+    <t t-name="mail.systray.ActivityMenu.Previews">
+        <t t-set="activities" t-value="widget._activities"/>
+        <t t-if="_.isEmpty(activities)">
+            <div class="dropdown-item-text text-center o-no-activity d-flex justify-content-center">
+                <span>Congratulations, you're done with your activities.</span>
+            </div>
+        </t>
+        <t t-foreach="activities" t-as="activity">
+            <div class="o-mail-preview o-systray-activity" t-att-data-resModel="activity.model" t-att-data-modelName="activity.label" t-att-data-domain="activity.domain" data-filter='my'>
+                <div t-if="activity.icon" class="o-mail-preview-image o-mail-preview-app">
+                    <img t-att-src="activity.icon" alt="Activity"/>
+                </div>
+                <div class="o-preview-info">
+                    <div class="o-preview-title">
+                        <span class="o-preview-name">
+                            <t t-esc="activity.label"/>
+                        </span>
+                        <div t-if="activity.actions" class="o-mail-activity-action-buttons">
+                            <t t-foreach="activity.actions" t-as="action">
+                                <button type="button"
+                                    t-att-title="action.label"
+                                    t-att-class="'o-mail-activity-action btn btn-link fa ' + action.icon"
+                                    t-att-data-actionXmlid="action.actionXmlid"
+                                    t-att-data-resModel="activity.model"
+                                    t-att-data-modelName="activity.label"
+                                    t-att-data-domain="activity.domain">
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+                    <div t-if="activity and activity.type == 'activity'">
+                        <button t-if="activity.overdueCount" type="button" class="btn btn-link o-activity-filter-button mr16" t-att-data-resModel="activity.model" t-att-data-modelName="activity.label" data-filter='overdue'><t t-esc="activity.overdueCount"/> Late </button>
+                        <span t-if="!activity.overdueCount" class="o-no-activity mr16">0 Late </span>
+                        <button t-if="activity.todayCount" type="button" class="btn btn-link o-activity-filter-button mr16" t-att-data-resModel="activity.model" t-att-data-modelName="activity.label" data-filter='today'> <t t-esc="activity.todayCount"/> Today </button>
+                        <span t-if="!activity.todayCount" class="o-no-activity mr16">0 Today </span>
+                        <button t-if="activity.plannedCount" type="button" class="btn btn-link o-activity-filter-button float-right" t-att-data-resModel="activity.model" t-att-data-modelName="activity.label" data-filter='upcomingAll'> <t t-esc="activity.plannedCount"/> Future </button>
+                        <span t-if="!activity.plannedCount" class="o-no-activity float-right">0 Future</span>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="mail.systray.ActivityMenu">
+        <div class="o-mail-systray-item dropdown">
+            <a class="dropdown-toggle o-no-caret o-dropdown--narrow" data-toggle="dropdown" data-display="static" aria-expanded="false" title="Activities" href="#" role="button">
+                <i class="fa fa-clock-o" role="img" aria-label="Activities"/> <span class="o-notification-counter badge badge-pill"/>
+            </a>
+            <div class="o-mail-systray-dropdown dropdown-menu dropdown-menu-right" role="menu">
+                <div class="o-mail-systray-dropdown-items"/>
+            </div>
+        </div>
+    </t>
+</templates>

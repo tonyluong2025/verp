@@ -1,0 +1,317 @@
+.o-configurator-container {
+    @include o-position-absolute(0, 0, 0, 0);
+
+    .o-configurator-screen {
+
+        // ==== Animations
+        @keyframes configuratorFadeIn{
+            from {opacity: 0}
+            to {opacity: 1}
+        }
+
+        @keyframes themeScreenshotScroll {
+            to { transform: translate3d(0, -24%, 0)}
+        }
+
+        @keyframes themeScreenshotScrollSmall {
+            to { transform: translate3d(0, -31.5%, 0)}
+        }
+
+        // ==== General Components
+        %o-configurator-titles-weight {
+            font-weight: 300;
+
+            b {
+                font-weight: 500;
+            }
+        }
+
+        .o-configurator-typing-text {
+            font-size: 28px;
+            @extend %o-configurator-titles-weight;
+
+            @include media-breakpoint-up(md) {
+                font-size: 32px;
+            }
+
+            @include media-breakpoint-up(lg) {
+                font-size: 36px;
+            }
+
+            @include media-breakpoint-up(xl) {
+                font-size: 40px;
+            }
+        }
+
+        @for $i from 1 through 6 {
+            .h#{$i} {
+                @extend %o-configurator-titles-weight;
+            }
+        }
+
+        .o-configurator-hide {
+            opacity: 0;
+        }
+
+        .o-configurator-show {
+            animation: configuratorFadeIn 1s;
+        }
+
+        .o-configurator-show-fast {
+            animation: configuratorFadeIn .35s;
+        }
+
+        // TODO review in master, this seems useless and had to be overridden
+        // in stable templates. All the templates can be improved.
+        .o-configurator-screen-content {
+            overflow-y: auto;
+        }
+
+        .o-configurator-logo-wrapper {
+            img {
+                object-fit: contain;
+            }
+        }
+
+        // ==== Screens
+
+        &.o-description-screen {
+            .dropdown, .industry-selection, .custom-ui-autocomplete {
+                font-weight: 500;
+                cursor: pointer;
+            }
+
+            .o-configurator-type-dd.o-step-todo {
+                min-width: 13ch;
+            }
+
+            .o-configurator-purpose-dd.o-step-todo {
+                min-width: 12ch;
+            }
+
+            .o-configurator-industry-wrapper {
+                position: relative;
+                display: inline-block;
+                height: $line-height-base * 1em;
+                min-width: 17ch;
+                cursor: pointer;
+
+                input, &::after {
+                    height: $line-height-base * 1em;
+                    font-weight: 500;
+                    font-style: italic;
+                    text-indent: 5px;
+                    padding: 0;
+                }
+
+                input {
+                    position: absolute;
+                    width: 100%;
+                    border: none;
+                    border-bottom: 3px solid theme-color(primary);
+                    color: theme-color(primary);
+
+                    &:focus {
+                        color: inherit;
+                        outline: none;
+                    }
+                }
+
+                &::after {
+                    content: attr(data-value) '|';
+                    display: inline-block;
+                    overflow: hidden;
+                }
+            }
+
+            .dropdown {
+                box-shadow: inset 0 -3px 0 theme-color(primary);
+
+                &.o-step-todo .fa-angle-down {
+                    transform: translateY(-0.26em);
+                }
+
+                &.o-step-completed {
+                    transition: all 300ms ease;
+
+                    .fa-angle-down {
+                        @include o-position-absolute($right: 0);
+                        opacity:0;
+                    }
+
+                    &:hover, &.show {
+                        padding-right: 1.3rem!important;
+
+                        .fa-angle-down {
+                            transition: all 300ms ease 100ms;
+                            opacity:1;
+                        }
+                    }
+                }
+            }
+
+            .dropdown-menu, .custom-ui-autocomplete {
+                @include border-bottom-radius($border-radius);
+                font-size: inherit;
+                min-width: 100%;
+            }
+
+            .dropdown-item, .fa-angle-down, .ui-menu-item a, .ui-menu-item a.ui-state-active {
+                font-size: .65em;
+                font-weight: inherit;
+            }
+
+            .custom-ui-autocomplete {
+                max-height: 300px; // <- Fallback
+                max-height: 35vh;
+
+                .ui-menu-item {
+                    list-style: none;
+
+                    a {
+                        padding: $dropdown-item-padding-y*2 $dropdown-item-padding-x;
+                        font-family: $font-family-base;
+                        text-decoration: none;
+                        line-height: 1.2;
+
+                        &.o-no-result, &.o-no-result:hover {
+                            background-color: transparent !important;
+                            color: gray('600') !important;
+                            cursor: default;
+                            padding: $dropdown-item-padding-y*4 $dropdown-item-padding-x;
+                            font-style: italic;
+                            font-size: .5em;
+                        }
+                    }
+                }
+            }
+
+            .dropdown-item, .custom-ui-autocomplete .ui-menu-item a {
+                &:hover, &:active, &.ui-state-active {
+                    background-color: $dropdown-link-hover-bg;
+                    color: $dropdown-link-color;
+                }
+            }
+        }
+
+        &.o-palette-selection-screen {
+            .palette-card {
+                cursor: pointer;
+                box-shadow: 0 0 0 1px gray('200');
+
+                .color-sample {
+                    padding-top: 30%;
+                }
+
+                &:hover, &.selected {
+                    box-shadow: 0 0 0 1px #FFF, 0 0 0 3px theme-color("primary")
+                }
+            }
+
+            .o-configurator-logo-wrapper {
+                transition: opacity .1s ease;
+
+                &:hover {
+                    transition: opacity .3s ease;
+                    opacity: .1;
+                }
+
+                img {
+                    height: 120px;
+                    max-width: 90%;
+                }
+            }
+
+            .o-configurator-logo-upload {
+                cursor: pointer;
+                @include o-hover-text-color(gray('400'), gray('800'));
+            }
+
+            .palette-selection-or {
+                @include o-position-absolute(50%);
+                transform: translateY(-50%);
+
+                @include media-breakpoint-up(lg) {
+                    right: 0;
+                }
+            }
+        }
+
+        &.o-feature-selection-screen {
+            .card {
+                cursor: pointer;
+
+                &.card-installed {
+                    cursor: default;
+                    opacity: 0.75;
+                }
+            }
+            .o-configurator-feature-status {
+                @include o-position-absolute($card-spacer-y * 0.5 , $card-spacer-x * 0.5);
+            }
+        }
+
+        &.o-theme-selection-screen{
+            .button-area, .theme-svg-container {
+                @include o-position-absolute(0, 0, 0, 0);
+            }
+
+            .theme-preview-tip {
+                @include o-position-absolute(0, 0, auto, 0);
+            }
+
+            .theme-preview, .theme-svg-container svg, .theme-preview-tip {
+                transform: translate3d(0,0,0);
+                will-change: transform;
+            }
+
+            .theme-preview, .theme-preview-tip {
+                transition: all .3s ease 0s;
+            }
+
+            .theme-svg-container svg {
+                width: 100%;
+                height: auto;
+            }
+
+            .button-area {
+                cursor: pointer;
+            }
+
+            .theme-preview {
+                padding-top: 65%;
+                box-shadow: $box-shadow-sm;
+
+                @include media-breakpoint-up(lg) {
+                    padding-top: 200%;
+
+                    &:hover {
+                        transform: translate3d(0,-10px,0);
+                    }
+
+                    &.small {
+                        padding-top: 180%;
+                    }
+                }
+
+                &:hover {
+                    border-color: theme-color(primary)!important;
+                    box-shadow: $box-shadow;
+
+                    .theme-preview-tip {
+                        transform: translate3d(0,-120%,0);
+                    }
+
+                    .theme-svg-container svg {
+                        animation: themeScreenshotScroll 4s cubic-bezier(0.455, 0.030, 0.515, 0.955) .1s infinite alternate;
+                    }
+
+                    &.small .theme-svg-container svg {
+                        animation-name: themeScreenshotScrollSmall;
+                        animation-duration: 5s;
+                    }
+                }
+            }
+        }
+    }
+}

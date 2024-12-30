@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="paymentTransactionForm" model="ir.ui.view">
+        <field name="label">payment.transaction.form</field>
+        <field name="model">payment.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Payment Transactions" create="false" edit="false">
+                <header>
+                    <button type="object" name="actionCapture" states="authorized" string="Capture Transaction" class="oe-highlight"/>
+                    <button type="object" name="actionVoid" states="authorized" string="Void Transaction"
+                            confirm="Are you sure you want to void the authorized transaction? This action can't be undone."/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button name="actionViewInvoices" type="object"
+                                class="oe-stat-button" icon="fa-money"
+                                attrs="{'invisible': [['invoicesCount', '=', 0]]}">
+                            <field name="invoicesCount" widget="statinfo" string="Invoice(s)"/>
+                        </button>
+                        <button name="actionViewRefunds"
+                                type="object"
+                                class="oe-stat-button"
+                                icon="fa-money"
+                                attrs="{'invisible': [['refundsCount', '=', 0]]}">
+                            <field name="refundsCount" widget="statinfo" string="Refunds"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group name="transactionDetails">
+                            <field name="reference"/>
+                            <field name="paymentId"/>
+                            <field name="sourceTransactionId"
+                                   attrs="{'invisible': [['sourceTransactionId', '=', false]]}"/>
+                            <field name="amount"/>
+                            <field name="fees" attrs="{'invisible': [['fees', '=', 0.0]]}"/>
+                            <field name="currencyId" invisible="1"/>
+                            <field name="acquirerId"/>
+                            <field name="companyId" groups="base.groupMultiCompany"/>
+                            <!-- Used by some acquirer-specific views -->
+                            <field name="provider" invisible="1"/>
+                            <field name="acquirerReference"/>
+                            <field name="tokenId" attrs="{'invisible': [['tokenId', '=', false]]}"/>
+                            <field name="createdAt"/>
+                            <field name="lastStateChange"/>
+                        </group>
+                        <group name="transactionPartner">
+                            <field name="partnerId" widget="resPartnerMany2one"/>
+                            <label for="partnerAddress" string="Address"/>
+                            <div class="o-address-format">
+                                <field name="partnerAddress" placeholder="Address" class="o-address-street"/>
+                                <field name="partnerCity" placeholder="City" class="o-address-city"/>
+                                <field name="partnerStateId" placeholder="State" class="o-address-state" options="{'noOpen': true}"/>
+                                <field name="partnerZip" placeholder="ZIP" class="o-address-zip"/>
+                                <field name="partnerCountryId" placeholder="Country" class="o-address-country" options="{'noOpen': true}"/>
+                            </div>
+                            <field name="partnerEmail" widget="email"/>
+                            <field name="partnerPhone" widget="phone"/>
+                            <field name="partnerLang"/>
+                        </group>
+                    </group>
+                    <group string="Message" attrs="{'invisible': [['stateMessage', '=', false]]}">
+                        <field name="stateMessage" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="paymentTransactionList" model="ir.ui.view">
+        <field name="label">payment.transaction.list</field>
+        <field name="model">payment.transaction</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Transactions" create="false">
+                <field name="reference"/>
+                <field name="createdAt"/>
+                <field name="acquirerId"/>
+                <field name="partnerId"/>
+                <field name="partnerName"/>
+                <!-- Needed to display the currency of the amounts -->
+                <field name="currencyId" invisible="1"/>
+                <field name="amount"/>
+                <field name="fees"/>
+                <field name="state"/>
+                <field name="companyId" groups="base.groupMultiCompany" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="paymentTransactionKanban" model="ir.ui.view">
+        <field name="label">payment.transaction.kanban</field>
+        <field name="model">payment.transaction</field>
+        <field name="arch" type="xml">
+            <kanban class="o-kanban-mobile" create="false">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe-kanban-content oe-kanban-global-click">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong><field name="reference"/></strong>
+                                </div>
+                                <div class="col-6">
+                                    <span><field name="partnerName"/></span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="float-right">
+                                        <field name="amount"/>
+                                        <field name="currencyId" invisible="1"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="paymentTransactionSearch" model="ir.ui.view">
+        <field name="label">payment.transaction.search</field>
+        <field name="model">payment.transaction</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reference"/>
+                <field name="acquirerId"/>
+                <field name="partnerId"/>
+                <field name="partnerName"/>
+                <group expand="1" string="Group By">
+                    <filter string="Acquirer" name="acquirerId" context="{'groupby': 'acquirerId'}"/>
+                    <filter string="Partner" name="partnerId" context="{'groupby': 'partnerId'}"/>
+                    <filter string="Status" name="state" context="{'groupby': 'state'}"/>
+                    <filter string="Company" name="company" context="{'groupby': 'companyId'}" groups="base.groupMultiCompany"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionPaymentTransaction" model="ir.actions.actwindow">
+        <field name="label">Payment Transactions</field>
+        <field name="resModel">payment.transaction</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-neutral-face">
+                There are no transactions to show
+            </p>
+        </field>
+    </record>
+
+    <record id="actionPaymentTransactionLinkedToToken" model="ir.actions.actwindow">
+        <field name="label">Payment Transactions Linked To Token</field>
+        <field name="resModel">payment.transaction</field>
+        <field name="viewMode">tree,form</field>
+        <field name="domain">[['tokenId','=', activeId]]</field>
+        <field name="context">{'create': false}</field>
+    </record>
+
+    <menuitem action="actionPaymentTransaction"
+              id="paymentTransactionMenu"
+              parent="account.rootPaymentMenu"
+              groups="base.groupNoOne"
+              sequence="20"/>
+
+</verp>

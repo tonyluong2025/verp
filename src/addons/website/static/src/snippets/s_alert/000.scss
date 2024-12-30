@@ -1,0 +1,29 @@
+.s-lert {
+    margin: $grid-gutter-width/2 0;
+    border: $alert-border-width solid;
+    border-radius: $alert-border-radius;
+    p, ul, ol {
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    &.s-alert-sm {
+        padding: $grid-gutter-width/3;
+        font-size: $font-size-sm;
+    }
+    &.s-alert-md {
+        padding: $grid-gutter-width/2;
+        font-size: $font-size-base;
+    }
+    &.s-alert-lg {
+        padding: $grid-gutter-width;
+        font-size: $font-size-lg;
+    }
+    .s-alert-icon {
+        float: left;
+        margin-right: 10px;
+    }
+    .s-alert-content {
+        overflow: hidden;
+    }
+}

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data>
+
+    <record id="crmTeamViewSearch" model="ir.ui.view">
+        <field name="label">crm.team.view.search</field>
+        <field name="model">crm.team</field>
+        <field name="arch" type="xml">
+            <search string="Salesteams Search">
+                <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+                <field name="label"/>
+                <field name="userId"/>
+                <field name="memberIds"/>
+                <group expand="0" string="Group By...">
+                    <filter string="Team Leader" name="teamLeader" domain="[]" context="{'groupby': 'userId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="crmTeamViewForm" model="ir.ui.view">
+        <field name="label">crm.team.form</field>
+        <field name="model">crm.team</field>
+        <field name="arch" type="xml">
+            <form string="Sales Team">
+                <div class="alert alert-info text-center" role="alert"
+                    attrs="{'invisible': ['|', ['isMembershipMulti', '=', true], ['memberWarning', '=', false]]}">
+                    <field name="memberWarning"/>
+                </div>
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox"/>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <div class="oe-title">
+                        <label for="label" string="Sales Team"/>
+                        <h1>
+                            <field class="o-text-overflow" name="label" placeholder="e.g. North America"/>
+                        </h1>
+                        <div name="optionsActive"/>
+                    </div>
+                    <group>
+                        <group name="left" string="Team Details">
+                            <field name="active" invisible="1"/>
+                            <field name="sequence" invisible="1"/>
+                            <field name="isMembershipMulti" invisible="1"/>
+                            <field name="userId" widget="many2oneAvatarUser" domain="[['share', '=', false]]"/>
+                            <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                            <field name="currencyId" invisible="1"/>
+                            <field name="memberCompanyIds" invisible="1"/>
+                        </group>
+                        <group name="right">
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Members" name="membersUsers">
+                            <field name="memberIds" mode="kanban"
+                                class="w-100">
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="label"/>
+                                    <field name="email"/>
+                                    <field name="avatar128"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe-kanban-card oe-kanban-global-click">
+                                                <div class="o-kanban-card-content d-flex">
+                                                    <div>
+                                                        <img t-att-src="kanbanImage('res.users', 'avatar128', record.id.rawValue)"
+                                                            class="o-kanban-image o-image-64_cover" alt="Avatar"/>
+                                                    </div>
+                                                    <div class="oe-kanban-details d-flex flex-column ml-3">
+                                                        <strong class="o-kanban-record-title oe-partner-heading"><field name="label"/></strong>
+                                                        <div class="d-flex align-items-baseline text-break">
+                                                            <i class="fa fa-envelope mr-1" role="img" aria-label="Email" title="Email"/><field name="email"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                            <field name="crmTeamMemberIds" mode="kanban"
+                                class="w-100"
+                                attrs="{'invisible': ['|', ['isMembershipMulti', '=', true], ['isMembershipMulti', '=', false]]}"
+                                context="{
+                                    'kanbanViewRef': 'sales_team.crmTeamMemberViewKanbanFromTeam',
+                                    'formViewRef': 'sales_team.crmTeamMemberViewFormFromTeam',
+                                    'treeViewRef': 'sales_team.crmTeamMemberViewTreeFromTeam',
+                                    'default_crmTeamId': activeId,
+                                }"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe-chatter">
+                    <field name="messageFollowerIds" help="Follow this salesteam to automatically track the events associated to users of this team."/>
+                    <field name="messageIds"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- SALES TEAMS TREE VIEW + MUTI_EDIT -->
+    <record id="crmTeamViewTree" model="ir.ui.view">
+        <field name="label">crm.team.tree</field>
+        <field name="model">crm.team</field>
+        <field name="fieldParent">childIds</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Team" sample="1" multiEdit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="label" readonly="1"/>
+                <field name="active" invisible="1"/>
+                <field name="userId" domain="[['share', '=', false]]" widget="many2oneAvatarUser"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="crmTeamViewKanban" model="ir.ui.view">
+        <field name="label">crm.team.view.kanban</field>
+        <field name="model">crm.team</field>
+        <field name="arch" type="xml">
+            <kanban class="o-kanban-mobile" sample="1">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe-kanban-content oe-kanban-global-click">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong><field name="label"/></strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="float-right"><field name="userId"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Case Teams Salesteams dashboard view -->
+   <record id="crmTeamViewKanbanDashboard" model="ir.ui.view" >
+        <field name="label">crm.team.view.kanban.dashboard</field>
+        <field name="model">crm.team</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban class="oe-background-grey o-kanban-dashboard o-crm-team-kanban" create="0" sample="1">
+                <field name="label"/>
+                <field name="userId"/>
+                <field name="memberIds"/>
+                <field name="color"/>
+                <field name="currencyId"/>
+                <field name="isFavorite"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selectionMode ? kanbanColor(record.color.rawValue) : ''}">
+                            <div t-attf-class="o-kanban-card-header">
+                                <div class="o-kanban-card-header-title">
+                                    <div class="o-primary o-text-overflow"><field name="label"/></div>
+                                </div>
+                                <div class="o-kanban-manage-button-section">
+                                    <a class="o-kanban-manage-toggle-button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                </div>
+                            </div>
+                            <div class="container o-kanban-card-content">
+                                <div class="row o-kanban-card-upper-content">
+                                    <div class="col-4 o-kanban-primary-left" name="toReplaceInSaleCrm">
+                                        <button type="object" class="btn btn-primary" name="actionPrimaryChannelButton"><field name="dashboardButtonName"/></button>
+                                    </div>
+                                    <div class="col-8 o-kanban-primary-right" style="padding-bottom:0;">
+                                        <t name="firstOptions"/>
+                                        <t name="secondOptions"/>
+                                        <t name="thirdOptions"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 o-kanban-primary-bottom">
+                                        <t t-call="SalesTeamDashboardGraph"/>
+                                    </div>
+                                </div>
+                            </div><div class="container o-kanban-card-manage-pane dropdown-menu" role="menu">
+                                <div class="row">
+                                    <div class="col-4 o-kanban-card-manage-section o-kanban-manage-view">
+                                        <div role="menuitem" class="o-kanban-card-manage-title">
+                                            <span>View</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 o-kanban-card-manage-section o-kanban-manage-new">
+                                        <div role="menuitem" class="o-kanban-card-manage-title">
+                                            <span>New</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 o-kanban-card-manage-section o-kanban-manage-reports">
+                                        <div role="menuitem" class="o-kanban-card-manage-title">
+                                            <span>Reporting</span>
+                                        </div>
+                                        <div name="oTeamKanbanReportSeparator"></div>
+                                    </div>
+                                </div>
+
+                                <div t-if="widget.editable" class="o-kanban-card-manage-settings row" groups="sales_team.groupSaleManager">
+                                    <div role="menuitem" aria-haspopup="true" class="col-8">
+                                        <ul class="oe-kanban-colorpicker" data-field="color" role="menu"/>
+                                    </div>
+                                    <div role="menuitem" class="col-4">
+                                        <a class="dropdown-item" type="edit">Configuration</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-name="SalesTeamDashboardGraph">
+                        <div t-if="record.dashboardGraphData.rawValue" class="o-sales-team-kanban-graph-section">
+                            <field name="dashboardGraphData" widget="dashboardGraph" t-att-graphType="'bar'"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Sales Teams Actions -->
+    <record id="crmTeamActionSales" model="ir.actions.actwindow">
+        <field name="label">Sales Teams</field>
+        <field name="resModel">crm.team</field>
+        <field name="viewMode">kanban,form</field>
+        <field name="context">{'inSalesApp': true}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Define a new sales team
+            </p><p>
+                Use Sales Teams to organize your sales departments.
+                Each team will work with a separate pipeline.
+            </p>
+        </field>
+    </record>
+
+      <record id="crmTeamActionPipeline" model="ir.actions.actwindow">
+        <field name="label">Teams</field>
+        <field name="resModel">crm.team</field>
+        <field name="viewMode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Define a new sales team
+            </p><p>
+                Use Sales Teams to organize your sales departments.
+                Each team will work with a separate pipeline.
+            </p>
+        </field>
+    </record>
+
+    <record id="crmTeamActionConfig" model="ir.actions.actwindow">
+        <field name="label">Sales Teams</field>
+        <field name="resModel">crm.team</field>
+        <field name="viewMode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a Sales Team
+            </p><p>
+                Use Sales Teams to organize your sales departments and draw up reports.
+            </p>
+        </field>
+    </record>
+
+</data>
+</verp>

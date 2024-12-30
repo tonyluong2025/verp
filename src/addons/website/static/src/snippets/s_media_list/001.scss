@@ -1,0 +1,11 @@
+.s-media-list[data-vcss="001"] {
+    .s-media-list-item > .row {
+        overflow: hidden; // To support rounded option
+    }
+    .s-media-list-body {
+        padding: $spacer * 2;
+    }
+    .s-media-list-img {
+        object-fit: cover;
+    }
+}

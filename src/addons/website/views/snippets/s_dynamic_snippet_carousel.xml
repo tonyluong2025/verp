@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="sDynamicSnippetCarousel" name="Dynamic Carousel">
+        <t t-call="website.sDynamicSnippetTemplate">
+            <t t-set="snippetName" t-value="'sDynamicSnippetCarousel'"/>
+        </t>
+    </template>
+    <template id="dynamicSnippetCarouselOptionsTemplate">
+        <t t-call="website.sDynamicSnippetOptionsTemplate">
+            <t t-set="snippetName" t-value="snippetName"/>
+            <t t-set="snippetSelector" t-value="snippetSelector"/>
+            <t t-set="groupingMessage">Items per slide</t>
+            <we-input string="Slider Speed"
+                  data-select-data-attribute="1s" data-name="speedOpt" data-attribute-name="carouselInterval" data-no-preview="true"
+                  data-unit="s" data-save-unit="ms" data-step="0.1"/>
+            <t t-out="0"/>
+        </t>
+    </template>
+    <template id="sDynamicSnippetCarouselOptions" inheritId="website.snippetOptions">
+        <xpath expr="." position="inside">
+            <t t-call="website.dynamicSnippetCarouselOptionsTemplate">
+                <t t-set="snippetName" t-value="'dynamicSnippetCarousel'"/>
+                <t t-set="snippetSelector" t-value="'.s-dynamic-snippet-carousel'"/>
+            </t>
+        </xpath>
+    </template>
+
+<record id="website.sDynamicSnippetCarousel.000.scss" model="ir.asset">
+    <field name="label">Dynamic snippet carousel 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_dynamic_snippet_carousel/000.scss</field>
+</record>
+
+<record id="website.sDynamicSnippetCarousel.000.js" model="ir.asset">
+    <field name="label">Dynamic snippet carousel 000 JS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_dynamic_snippet_carousel/000.js</field>
+</record>
+
+</verp>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewAccountFollowupPrint" model="ir.ui.view">
+            <field name="label">account.followup.print.form</field>
+            <field name="model">followup.print</field>
+            <field name="arch" type="xml">
+                <form string="Send follow-ups">
+                    <group col="4">
+                        <field name="date" groups="base.groupNoOne"/>
+                        <field name="followupId"
+                               groups="base.groupMultiCompany"/>
+                    </group>
+                    <p class="oe-grey">
+                        This action will send follow-up emails, print the
+                        letters and
+                        set the manual actions per customer, according to the
+                        follow-up levels defined.
+                    </p>
+                    <footer>
+                        <button name="doProcess"
+                                string="Send emails and generate letters"
+                                type="object" class="oe-highlight"/>
+                        or
+                        <button string="Cancel" class="oe-link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionAccountFollowupPrint" model="ir.actions.actwindow">
+            <field name="label">Send Follow-Ups</field>
+            <field name="resModel">followup.print</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menuFinanceFollowup" parent="account.menuFinance"
+                  name="Follow-Ups"
+                  groups="account.groupAccountInvoice"/>
+
+        <menuitem action="actionAccountFollowupPrint"
+                  id="accountFollowupPrintMenu"
+                  parent="menuFinanceFollowup"
+                  name="Send Letters and Emails"
+                  groups="account.groupAccountUser,account.groupAccountManager"
+                  sequence="2"/>
+
+    </data>
+</verp>

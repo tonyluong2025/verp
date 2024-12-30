@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+
+    <record model="ir.rule" id="stockValuationLayerCompanyRule">
+        <field name="label">Stock Valuation Layer Multicompany</field>
+        <field name="modelId" search="[['model','=','stock.valuation.layer']]" model="ir.model"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record id="groupLotOnInvoice" model="res.groups">
+        <field name="label">Display Serial &amp; Lot Number on Invoices</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+</verp>

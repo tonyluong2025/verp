@@ -1,0 +1,3 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_client_iap_account_manager,iap.account.manager,model_iapAccount,base.groupSystem,1,1,1,1
+access_client_iap_account_user,iap.account.user,model_iapAccount,base.groupUser,1,0,1,0

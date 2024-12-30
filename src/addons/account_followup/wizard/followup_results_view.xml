@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewAccountFollowupSendingResults" model="ir.ui.view">
+            <field name="label">followup.sending.results.form</field>
+            <field name="model">followup.sending.results</field>
+            <field name="arch" type="xml">
+                <form string="Summary of actions">
+                    <field name="description" widget="html"
+                           class="oe_view_only"/>
+                    <footer>
+                        <field name="needprinting" invisible="1"/>
+                        <div attrs="{'invisible':[['needprinting','=', false]]}">
+                            <button name="doReport" string="Download Letters"
+                                    type="object" class="oe-highlight"/>
+                        </div>
+                        <div attrs="{'invisible':[['needprinting','!=', false]]}">
+                            <button name="doDone" string="Close" type="object"
+                                    class="oe-highlight"/>
+                        </div>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</verp>

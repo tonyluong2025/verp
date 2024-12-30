@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<record model="ir.ui.view" id="utmCampaignViewKanban">
+    <field name="label">utm.campaign.view.kanban</field>
+    <field name="model">utm.campaign</field>
+    <field name="inheritId" ref="utm.utmCampaignViewKanban"/>
+    <field name="arch" type="xml">
+        <xpath expr="//div[@id='utmStatistics']" position="inside">
+            <div class="mr-3" title="Revenues" groups="sales_team.groupSaleSalesman">
+                <field name="currencyId" invisible="true"/>
+                <small class="font-weight-bold">
+                    <field name="invoicedAmount" widget="monetary" options="{'currencyField': 'currencyId'}"/>
+                </small>
+            </div>
+            <div class="mr-3" title="Quotations" groups="sales_team.groupSaleSalesman">
+                <i class="fa fa-money text-muted"></i>
+                <small class="font-weight-bold">
+                    <field name="quotationCount"/>
+                </small>
+            </div>
+        </xpath>
+    </field>
+</record>
+
+<record model="ir.ui.view" id="utmCampaignViewForm">
+    <field name="label">utm.campaign.view.form</field>
+    <field name="model">utm.campaign</field>
+    <field name="inheritId" ref="utm.utmCampaignViewForm"/>
+    <field name="arch" type="xml">
+        <xpath expr="//div[contains(@class,'oe-button-box')]" position="inside">
+            <button name="actionRedirectToInvoiced"
+                type="object" class="oe-stat-button order-1" icon="fa-usd" groups="sales_team.groupSaleSalesman">
+                <field name="invoicedAmount" widget="statinfo" string="Revenues"/>
+            </button>
+            <button name="actionRedirectToQuotations"
+                type="object" class="oe-stat-button order-2" icon="fa-money" groups="sales_team.groupSaleSalesman">
+                <field name="quotationCount" widget="statinfo" string="Quotations"/>
+            </button>
+        </xpath>
+    </field>
+</record>
+</verp>

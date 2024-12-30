@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="base.category_salesSales" model="ir.module.category">
+            <field name="description">Helps you handle your quotations, sale orders and invoicing.</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="groupSaleSalesman" model="res.groups">
+            <field name="label">User: Own Documents Only</field>
+            <field name="categoryId" ref="base.category_salesSales"/>
+            <field name="impliedIds" eval="[[4, refId('base.groupUser')]]"/>
+            <field name="comment">the user will have access to his own data in the sales application.</field>
+        </record>
+
+        <record id="groupSaleSalesmanAllLeads" model="res.groups">
+            <field name="label">User: All Documents</field>
+            <field name="categoryId" ref="base.category_salesSales"/>
+            <field name="impliedIds" eval="[[4, refId('groupSaleSalesman')]]"/>
+            <field name="comment">the user will have access to all records of everyone in the sales application.</field>
+        </record>
+
+        <record id="groupSaleManager" model="res.groups">
+            <field name="label">Administrator</field>
+            <field name="comment">the user will have an access to the sales configuration as well as statistic reports.</field>
+            <field name="categoryId" ref="base.category_salesSales"/>
+            <field name="impliedIds" eval="[[4, refId('groupSaleSalesmanAllLeads')]]"/>
+            <field name="users" eval="[[4, refId('base.userRoot')], [4, refId('base.userAdmin')]]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="sales_team.menuSaleConfig">
+            <field name="label">Configuration</field>
+            <field eval="[[6,0,[refId('base.groupSystem')]]]" name="groupsId"/>
+        </record>
+
+    <data noupdate="1">
+        <record id="crmRuleAllSalesteam" model="ir.rule">
+            <field name="label">All Salesteam</field>
+            <field ref="sales_team.model_crmTeam" name="modelId"/>
+            <field name="domainForce">[[1,'=',1]]</field>
+            <field name="groups" eval="[[4, refId('sales_team.groupSaleSalesmanAllLeads')]]"/>
+        </record>
+
+        <record model="ir.rule" id="saleTeamCompRule">
+            <field name="label">Sales Team multi-company</field>
+            <field name="modelId" ref="model_crmTeam"/>
+            <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+        </record>
+
+        <record id="base.defaultUser" model="res.users">
+            <field name="groupsId" eval="[[4,refId('sales_team.groupSaleManager')]]"/>
+        </record>
+    </data>
+</verp>

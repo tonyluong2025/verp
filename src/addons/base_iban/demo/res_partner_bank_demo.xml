@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="bankIbanAsustek" model="res.partner.bank">
+            <field name="accType">iban</field>
+            <field name="accNumber">BE39103123456719</field>
+            <field name="bankId" ref="base.bankBnp" />
+            <field name="partnerId" ref="base.resPartner_1"/>
+        </record>
+
+        <record id="bankIbanChinaExport" model="res.partner.bank">
+            <field name="accType">iban</field>
+            <field name="accNumber">SI56191000000123438</field>
+            <field name="bankId" ref="base.bankBnp" />
+            <field name="partnerId" ref="base.resPartner_3"/>
+        </record>
+
+        <record id="bankIbanMainPartner" model="res.partner.bank">
+            <field name="accType">iban</field>
+            <field name="accNumber">BE61310126985517</field>
+            <field name="bankId" ref="base.bankIng" />
+            <field name="partnerId" ref="base.resPartner_4"/>
+        </record>
+
+    </data>
+</verp>

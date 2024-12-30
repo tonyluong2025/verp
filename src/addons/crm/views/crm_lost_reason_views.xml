@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="crmLostReasonViewSearch" model="ir.ui.view">
+        <field name="label">crm.lost.reason.view.search</field>
+        <field name="model">crm.lost.reason</field>
+        <field name="arch" type="xml">
+            <search string="Search Opportunities">
+                <field name="label"/>
+                <filter string="Include archived" name="archived" domain="['|', ['active', '=', true], ['active', '=', false]]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="crmLostReasonViewForm" model="ir.ui.view">
+        <field name="label">crm.lost.reason.form</field>
+        <field name="model">crm.lost.reason</field>
+        <field name="arch" type="xml">
+            <form string="Lost Reason">
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button name="actionLostLeads" type="object"
+                            class="oe-stat-button" icon="fa-star">
+                            <div class="o-stat-info">
+                                <field name="leadsCount" class="o-stat-value"/>
+                                <span class="o-stat-text"> Leads</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <div class="oe-title">
+                        <div>
+                            <label for="label"/>
+                        </div>
+                        <h1 class="mb32">
+                            <field name="label" placeholder="e.g. Too expensive" class="mb16"/>
+                        </h1>
+                        <field name="active" invisible="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="crmLostReasonViewTree" model="ir.ui.view">
+        <field name="label">crm.lost.reason.tree</field>
+        <field name="model">crm.lost.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Channel" editable="bottom">
+                <field name="label"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Configuration/Lead & Opportunities/Lost Reasons Menu -->
+    <record id="crmLostReasonAction" model="ir.actions.actwindow">
+        <field name="label">Lost Reasons</field>
+        <field name="resModel">crm.lost.reason</field>
+        <field name="viewMode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o-view-nocontent-smiling-face">
+            Create a Lost Reason
+          </p><p>
+            Use Lost Reasons to report on why opportunities are lost (e.g."Undercut by competitors").
+          </p>
+        </field>
+    </record>
+</verp>

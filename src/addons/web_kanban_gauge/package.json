@@ -1,0 +1,17 @@
+{
+    "label": "Gauge Widget for Kanban",
+    "category": "Hidden",
+    "description": "This widget allows to display gauges using d3 library.",
+    "version": "1.0",
+    "depends": ["web"],
+    "assets" : {
+        "web.assetsBackend": [
+            "web_kanban_gauge/static/src/**/*"
+        ],
+        "web.qunitSuiteTests": [
+            "web_kanban_gauge/static/tests/**/*"
+        ]
+    },
+    "autoInstall": true,
+    "license": "MIT Expat"
+}

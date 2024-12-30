@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="resPartnerViewTeam" model="ir.ui.view">
+        <field name="label">res.partner.view.team</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="base.viewPartnerForm" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='salesPurchases']//field[@name='userId']" position="after">
+                <field name="teamId" groups="base.groupNoOne" />
+            </xpath>
+        </field>
+    </record>
+</verp>

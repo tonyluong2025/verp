@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="groupPrivateAddresses" model="res.groups">
+        <field name="label">Access to Private Addresses</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <data noupdate="1">
+        <record id="rule_resUsersLog" model="ir.rule">
+            <field name="label">res.users.log per user</field>
+            <field name="modelId" ref="model_resUsersLog"/>
+            <field name="domainForce">[["createdUid","=", user.id]]</field>
+            <field name="permRead">false</field>
+        </record>
+
+        <record id="rule_resPartner" model="ir.rule">
+            <field name="label">res.partner company</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <!-- We exclude partners that have internal users (`partner_share` field) from
+            the multi-company rule because it might interfere with the user's company rule
+            and make some users unselectable in relational fields. This means that partners
+            of internal users are always visible, not matter the company setting. -->
+            <field name="domainForce">["|", "|", ["partnerShare", "=", false], ["companyId", "in", companyIds], ["companyId", "=", false]]</field>
+        </record>
+
+        <record id="rule_resPartner_portalPublic" model="ir.rule">
+            <field name="label">resPartner: portal/isPublic: read access on my commercial partner</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="domainForce">[["id", "childOf", (await user.commercialPartnerId).id]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupPortal')), Command.link(refId('base.groupPublic'))]"/>
+            <field name="permCreate">false</field>
+            <field name="permUnlink">false</field>
+            <field name="permWrite">false</field>
+        </record>
+
+        <record id="rule_irDefault_user" model="ir.rule">
+            <field name="label">Defaults: alter personal defaults</field>
+            <field name="modelId" ref="model_irDefault"/>
+            <field name="domainForce">[["userId","=",user.id]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupUser'))]"/>
+            <field name="permRead">false</field>
+        </record>
+
+        <record id="rule_irDefault_system" model="ir.rule">
+            <field name="label">Defaults: alter all defaults</field>
+            <field name="modelId" ref="model_irDefault"/>
+            <field name="domainForce">[[1,"=",1]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupSystem'))]"/>
+            <field name="permRead">false</field>
+        </record>
+
+        <!-- Used for dashboard customizations, users should only be able to edit their own dashboards -->
+        <record id="rule_irUiViewCustom_personal" model="ir.rule">
+            <field name="label">ir.ui.viewCustom rule</field>
+            <field name="modelId" ref="model_irUiViewCustom"/>
+            <field name="domainForce">[["userId","=",user.id]]</field>
+        </record>
+
+        <record id="rule_resPartnerBank" model="ir.rule">
+            <field name="label">Partner bank company rule</field>
+            <field name="modelId" ref="model_resPartnerBank"/>
+            <field name="domainForce">["|", ["companyId", "in", companyIds], ["companyId", "=", false]]</field>
+        </record>
+
+        <record id="rule_resCurrencyRate" model="ir.rule">
+            <field name="label">multi-company currency rate rule</field>
+            <field name="modelId" ref="model_resCurrencyRate"/>
+            <field name="domainForce">["|",["companyId","=",false],["companyId", "in", companyIds]]</field>
+        </record>
+
+        <record id="rule_changePassword" model="ir.rule">
+            <field name="label">change user password rule</field>
+            <field name="modelId" ref="model_changePasswordUser"/>
+            <field name="domainForce">[["createdUid", "=", user.id]]</field>
+        </record>
+
+        <!-- Security restriction for private addresses -->
+        <record id="rule_resPartner_privateEmployee" model="ir.rule">
+            <field name="label">resPartner.rule.privateEmployee</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="domainForce">["|", ["type", "!=", "private"], ["type", "=", false]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupUser')),]"/>
+            <field name="permRead">true</field>
+            <field name="permWrite">true</field>
+            <field name="permCreate">true</field>
+            <field name="permUnlink">true</field>
+        </record>
+        <!-- Relex previous rule for groupPrivate_addresses -->
+        <record id="rule_resPartner_privateGroup" model="ir.rule">
+            <field name="label">resPartner.rule.privateGroup</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="domainForce">[["type", "=", "private"]]</field>
+            <field name="groups" eval="[
+                Command.link(refId('base.groupPrivateAddresses'))
+            ]"/>
+            <field name="permRead">true</field>
+            <field name="permWrite">true</field>
+            <field name="permCreate">true</field>
+            <field name="permUnlink">true</field>
+        </record>
+
+        <!-- Restrict modifications on ir.filters to owner only -->
+        <record id="rule_irFilters_adminAllRights" model="ir.rule">
+            <field name="label">ir.filters.admin.all.rights</field>
+            <field name="modelId" ref="model_irFilters"/>
+            <field name="domainForce">[[1, '=', 1]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupErpManager'))]"/>
+            <field name="permRead">true</field>
+            <field name="permWrite">true</field>
+            <field name="permCreate">true</field>
+            <field name="permUnlink">true</field>
+        </record>
+
+        <record id="rule_irFilters_employee" model="ir.rule">
+            <field name="label">ir.filters.owner</field>
+            <field name="modelId" ref="model_irFilters"/>
+            <field name="domainForce">[["userId","in",[false,user.id]]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupUser'))]"/>
+            <field name="permUnlink">false</field>
+        </record>
+
+        <record id="rule_irFilters_deleteOwn" model="ir.rule">
+            <field name="label">ir.filters.own.rule.delete</field>
+            <field name="modelId" ref="model_irFilters"/>
+            <field name="domainForce">[["userId", "=", user.id]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupUser'))]"/>
+            <field name="permRead">false</field>
+            <field name="permWrite">false</field>
+            <field name="permCreate">false</field>
+        </record>
+
+        <record id="rule_irFilters_portalPublic" model="ir.rule">
+            <field name="label">ir.filter: portal/public</field>
+            <field name="modelId" ref="model_irFilters"/>
+            <field name="domainForce">[["userId", "=", user.id]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupPortal')), Command.link(refId('base.groupPublic'))]"/>
+        </record>
+
+        <!-- Record Rules For Company -->
+        <record id="rule_resCompany_portal" model="ir.rule">
+            <field name="label">company rule portal</field>
+            <field name="modelId" ref="model_resCompany"/>
+            <field eval="false" name="global"/>
+            <field name="groups" eval="[Command.set([refId('base.groupPortal')])]"/>
+            <field name="domainForce">[["id","in", companyIds]]</field>
+        </record>
+        <record id="rule_resCompany_employee" model="ir.rule">
+            <field name="label">company rule employee</field>
+            <field name="modelId" ref="model_resCompany"/>
+            <field eval="false" name="global"/>
+            <field name="groups" eval="[Command.set([refId('base.groupUser')])]"/>
+            <field name="domainForce">[["id","in", companyIds]]</field>
+        </record>
+        <record id="rule_resCompany_public" model="ir.rule">
+            <field name="label">company rule public</field>
+            <field name="modelId" ref="model_resCompany"/>
+            <field eval="false" name="global"/>
+            <field name="groups" eval="[Command.set([refId('base.groupPublic')])]"/>
+            <field name="domainForce">[["id","in", companyIds]]</field>
+        </record>
+        <record id="rule_resCompany_erpManager" model="ir.rule">
+            <field name="label">company rule erp manager</field>
+            <field name="modelId" ref="model_resCompany"/>
+            <field eval="false" name="global"/>
+            <field name="groups" eval="[Command.set([refId('base.groupErpManager')])]"/>
+            <field name="domainForce">[[1,'=',1]]</field>
+        </record>
+
+        <record id="rule_resUsersIdentityCheck" model="ir.rule">
+            <field name="label">users can only access their own id check</field>
+            <field name="modelId" ref="model_resUsersIdentitycheck"/>
+            <field name="domainForce">[["createdUid", "=", user.id]]</field>
+        </record>
+
+        <!-- Record Rule For User -->
+        <record id="rule_resUsers" model="ir.rule">
+            <field name="label">user rule</field>
+            <field name="modelId" ref="model_resUsers"/>
+            <field eval="true" name="global"/>
+            <field name="domainForce">["|", ["share", "=", false], ["companyIds", "in", companyIds]]</field>
+        </record>
+
+        <!-- rules for API token -->
+        <record id="rule_apikey_public" model="ir.rule">
+            <field name="label">Public users can't interact with keys at all</field>
+            <field name="modelId" ref="model_resUsersApikeys"/>
+            <field name="domainForce">[[0, '=', 1]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupPublic'))]"/>
+        </record>
+        <record id="rule_apikey_user" model="ir.rule">
+            <field name="label">Users can read and delete their own keys</field>
+            <field name="modelId" ref="model_resUsersApikeys"/>
+            <field name="domainForce">[["userId", "=", user.id]]</field>
+            <field name="groups" eval="[
+                Command.link(refId('base.groupPortal')),
+                Command.link(refId('base.groupUser')),
+            ]"/>
+        </record>
+        <record id="rule_apikey_admin" model="ir.rule">
+            <field name="label">Administrators can view user keys to revoke them</field>
+            <field name="modelId" ref="model_resUsersApikeys"/>
+            <field name="domainForce">[[1, "=", 1]]</field>
+            <field name="groups" eval="[Command.link(refId('base.groupSystem'))]"/>
+        </record>
+    </data>
+</verp>

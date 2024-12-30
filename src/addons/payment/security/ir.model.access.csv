@@ -1,0 +1,14 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+payment_acquirer_onboarding_wizard,payment.acquirer.onboarding.wizard,model_paymentAcquirerOnboardingWizard,base.groupSystem,1,1,1,0
+payment_acquirer_system,payment.acquirer.system,model_paymentAcquirer,base.groupSystem,1,1,1,1
+payment_icon_all,payment.icon.all,model_paymentIcon,,1,0,0,0
+payment_icon_system,payment.icon.system,model_paymentIcon,base.groupSystem,1,1,1,1
+payment_link_wizard,payment.link.wizard,model_paymentLinkWizard,account.groupAccountInvoice,1,1,1,0
+payment_refund_wizard,payment.refund.wizard,model_paymentRefundWizard,account.groupAccountInvoice,1,1,1,0
+payment_token_all,payment.token.all,model_paymentToken,,1,0,0,0
+payment_token_portal,payment.token.portal,model_paymentToken,base.groupPortal,1,1,1,1
+payment_token_system,payment.token.system,model_paymentToken,base.groupSystem,1,1,1,1
+payment_token_user,payment.token.user,model_paymentToken,base.groupUser,1,1,1,1
+payment_transaction_all,payment.transaction.all,model_paymentTransaction,,1,0,0,0
+payment_transaction_system,payment.transaction.system,model_paymentTransaction,base.groupSystem,1,1,1,1
+payment_transaction_user,payment.transaction.user,model_paymentTransaction,base.groupUser,1,1,1,0

@@ -1,0 +1,5 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_barcode_nomenclature_user,barcode.nomenclature.user,model_barcodeNomenclature,base.groupUser,1,0,0,0
+access_barcode_nomenclature_manager,barcode.nomenclature.manager,model_barcodeNomenclature,base.groupErpManager,1,1,1,1
+access_barcode_rule_user,barcode.rule.user,model_barcodeRule,base.groupUser,1,0,0,0
+access_barcode_rule_manager,barcode.rule.manager,model_barcodeRule,base.groupErpManager,1,1,1,1

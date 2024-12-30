@@ -1,0 +1,5 @@
+li.oe-share-gdoc > a:after {
+    content: url('/google_drive/static/src/img/drive_icon.png');
+    position: absolute;
+    right: 5px;
+}

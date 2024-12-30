@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <!-- iap Client Account Views -->
+    <record id="iapAccountViewForm" model="ir.ui.view">
+        <field name="label">iap.account.form</field>
+        <field name="model">iap.account</field>
+        <field name="arch" type="xml">
+            <form string="IAP Account">
+                <sheet>
+                    <group name="account" string="Account Information">
+                        <field name="serviceName"/>
+                        <field name="companyIds" widget="many2manyTags" domain="[['id', 'in', allowedCompanyIds]]"/>
+                        <field name="accountToken"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="iapAccountViewTree" model="ir.ui.view">
+        <field name="label">iap.account.tree</field>
+        <field name="model">iap.account</field>
+        <field name="arch" type="xml">
+            <tree string="IAP Accounts">
+                <field name="serviceName"/>
+                <field name="companyIds" widget="many2manyTags"/>
+                <field name="accountToken" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Actions -->
+    <record id="iapAccountAction" model="ir.actions.actwindow">
+        <field name="label">IAP Account</field>
+        <field name="resModel">iap.account</field>
+        <field name='viewMode'>tree,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem
+        id="iapRootMenu"
+        name="IAP"
+        parent="base.menuCustom"
+        sequence="5"/>
+
+    <menuitem
+        id="iapAccountMenu"
+        name="IAP Accounts"
+        parent="iapRootMenu"
+        action="iapAccountAction"
+        sequence="10"/>
+
+</verp>

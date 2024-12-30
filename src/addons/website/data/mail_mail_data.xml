@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="mail.model_mailMail" model="ir.model">
+      <field name="websiteFormKey">sendMail</field>
+      <field name="websiteFormDefaultFieldId" ref="mail.field_mailMail_bodyHtml" />
+      <field name="websiteFormAccess">true</field>
+      <field name="websiteFormLabel">Send an E-mail</field>
+    </record>
+    <function model="ir.model.fields" name="formbuilderWhitelist">
+      <value>mail.mail</value>
+      <value eval="[
+        'subject',
+        'bodyHtml',
+        'emailTo',
+        'emailFrom',
+        'recordName',
+        'attachmentIds',
+        ]"/>
+    </function>
+</verp>

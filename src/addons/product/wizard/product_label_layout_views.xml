@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="productLabelLayoutForm" model="ir.ui.view">
+        <field name="label">product.label.layout.form</field>
+        <field name="model">product.label.layout</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="productIds" invisible="1"/>
+                        <field name="productTemplateIds" invisible="1"/>
+                        <field name="customQuantity"/>
+                        <field name="printFormat" widget="radio"/>
+                    </group>
+                    <group>
+                        <field name="extraHtml" widget="html" attrs="{'invisible': [['printFormat', 'not in', ['dymo', '2x7xprice']]]}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="process" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

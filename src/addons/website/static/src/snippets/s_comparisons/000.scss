@@ -1,0 +1,21 @@
+
+.s-comparisons {
+    .card-body {
+        .card-title {
+            margin: 0;
+        }
+       .s-comparisons-currency,
+       .s-comparisons-price,
+       .s-comparisons-decimal {
+            display: inline-block;
+            vertical-align: middle;
+        }
+       .s-comparisons-currency,
+       .s-comparisons-decimal {
+            font-size: 80%;
+        }
+       .s-comparisons-price {
+            font-size: 200%;
+        }
+    }
+}

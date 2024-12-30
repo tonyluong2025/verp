@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!-- Template rendered in route auth=None, for anonymous user. This allow them to see meeting details -->
+    <template id="invitationPageAnonymous" name="Calendar Invitation Page for anonymous users">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <t t-call-assets="web.assetsCommon" t-js="false"/>
+                <t t-call-assets="web.assetsFrontend" t-js="false"/>
+            </t>
+
+            <div class="container">
+                <div class="o-logo">
+                    <img t-attf-src="/web/binary/companyLogo?company={{ company.id }}" alt="Logo"/>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Calendar Invitation <small><t t-esc="await eventId.label"/></small></h2>
+                    </div>
+                    <div class="card-body">
+                        <t t-set="state" t-value="await attendee.state" />
+                        <div class="clearfix mb16" t-if="state !== 'needsAction'">
+                            <span class="float-right badge badge-info">
+                                <t t-if="state === 'accepted'">Yes I'm going.</t>
+                                <t t-if="state === 'declined'">No I'm not going.</t>
+                                <t t-if="state === 'tentative'">Tentative</t>
+                                <t t-if="state === 'needsAction'">No feedback yet</t>
+                            </span>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="o-event-table table table-striped">
+                                <tr>
+                                    <th>Invitation for</th>
+                                    <td><t t-esc="await attendee.commonName"/> (<t t-esc="await attendee.email"/>)</td>
+                                </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <td><t t-esc="await eventId.displayTime"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Location</th>
+                                    <td><t t-esc="await eventId.location || '-'"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Attendees</th>
+                                    <td>
+                                        <ul>
+                                            <li t-foreach="await eventId.attendeeIds" t-as="attendee" t-attf-class="o-#{state}">
+                                                <t t-esc="await attendee.commonName"/>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Description</th>
+                                    <td><t t-esc="await eventId.description || '-'"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</verp>

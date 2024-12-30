@@ -1,0 +1,53 @@
+{
+    "label": "Web Backend Theme", 
+    "summary": "Verp Community Backend Theme",
+    "version": "1.0.0", 
+    "category": "Themes/Backend",
+    "author": "Verp",
+    "website": "http://www.theverp.com",
+    "liveTestUrl": "https://theverp.com/r/SgN",
+    "depends": [
+        "base_setup",
+        "web_editor",
+        "mail"
+    ],
+    "_excludes": [
+        "web_enterprise"
+    ],
+    "data": [
+       "templates/webclient.xml",
+       "views/res_config_settings_view.xml",
+       "views/res_users.xml"
+    ],
+    "assets": {
+        "web.assetsQweb": [
+            "backend_web_theme/static/src/**/*.xml"
+        ],
+        "web._assetsPrimaryVariables": [
+            "backend_web_theme/static/src/colors.scss"
+        ],
+        "web._assetsBackendHelpers": [
+            "backend_web_theme/static/src/variables.scss",
+            "backend_web_theme/static/src/mixins.scss"
+        ],
+        "web.assetsBackend": [
+            "backend_web_theme/static/src/webclient/**/*.scss",
+            "backend_web_theme/static/src/webclient/**/*.js",
+            "backend_web_theme/static/src/search/**/*.scss",
+            "backend_web_theme/static/src/search/**/*.js",
+            "backend_web_theme/static/src/legacy/**/*.scss",
+            "backend_web_theme/static/src/legacy/**/*.js"
+        ]
+    },
+    "images": [
+        "static/description/banner.png",
+        "static/description/theme_screenshot.png"
+    ],
+    "externalDependencies": {
+    },
+    "installable": true,
+    "application": false,
+    "autoInstall": false,
+    "uninstallHook": "_uninstallResetChanges",
+    "license": "MIT Expat"
+}

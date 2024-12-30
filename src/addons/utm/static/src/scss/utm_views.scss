@@ -1,0 +1,27 @@
+.o-kanban-view.o-utm-kanban {
+    .o-kanban-group {
+        padding: 0 ($grid-gutter-width * .25) $grid-gutter-width;
+
+        &:not(.o-column-folded) {
+            width: 380px;
+		}
+	}
+
+    #oUtmActions {
+        margin: 0 ($o-kanban-dashboard-hpadding * -.5);
+
+        > a {
+            border-color: rgba($border-color, .5);
+            padding: ($o-kanban-dashboard-hpadding * .25) ($o-kanban-dashboard-hpadding * .5);
+            white-space: nowrap;
+        }
+
+        > :first-child {
+            border-left: 0;
+        }
+
+        > :last-child {
+            border-right: 0;
+        }
+    }
+}

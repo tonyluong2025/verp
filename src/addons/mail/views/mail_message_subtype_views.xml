@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+
+        <record model="ir.ui.view" id="viewMessageSubtypeTree">
+            <field name="label">mail.message.subtype.tree</field>
+            <field name="model">mail.message.subtype</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <tree string="Subtype">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="resModel"/>
+                    <field name="default"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="viewMailMessageSubtypeForm">
+            <field name="label">mail.message.subtype.form</field>
+            <field name="model">mail.message.subtype</field>
+            <field name="arch" type="xml">
+                <form string="Email message">
+                    <sheet>
+                        <group>
+                            <group string='Description'>
+                                <field name="label"/>
+                                <field name="sequence"/>
+                                <field name="resModel"/>
+                                <field name="description"/>
+                                <field name="default"/>
+                                <field name="internal"/>
+                                <field name="hidden"/>
+                            </group>
+                            <group string='Auto subscription'>
+                                <field name="parentId"/>
+                                <field name="relationField"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.actwindow" id="actionViewMessageSubtype">
+            <field name="label">Subtypes</field>
+            <field name="resModel">mail.message.subtype</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+
+    </data>
+</verp>

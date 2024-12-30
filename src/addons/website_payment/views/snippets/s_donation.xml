@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="sDonationButton" name="Donation Button">
+    <div class="s-donation"
+            data-name="Donation Button"
+            data-donation-email="info@yourcompany.example.com"
+            data-custom-amount="freeAmount"
+            t-att-data-display-options="displayOptions"
+            data-prefilled-options="true"
+            data-descriptions="true"
+            data-donation-amounts='["10", "25", "50", "100"]'
+            data-minimum-amount="5"
+            data-maximum-amount="100"
+            data-slider-step="5"
+            data-default-amount="25">
+        <form class="s-donation-form" action="/donation/pay" method="post" enctype="multipart/form-data">
+            <span id="sDonationDescriptionInputs">
+                <input type="hidden" class="o-translatable-input-hidden d-block mb-1 w-100" name="donationDescriptions" value="A year of cultural awakening."/>
+                <input type="hidden" class="o-translatable-input-hidden d-block mb-1 w-100" name="donationDescriptions" value="Caring for a baby for 1 month."/>
+                <input type="hidden" class="o-translatable-input-hidden d-block mb-1 w-100" name="donationDescriptions" value="One year in elementary school."/>
+                <input type="hidden" class="o-translatable-input-hidden d-block mb-1 w-100" name="donationDescriptions" value="One year in high school."/>
+            </span>
+            <a href="#" type="button" class="s-donation-donate-btn btn btn-secondary btn-lg mb-2">Donate Now</a>
+        </form>
+    </div>
+</template>
+
+<template id="sDonation" name="Donation">
+    <section class="pt32 pb32 o_cc o_cc1">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 pt16 pb16">
+                    <h2>Make a Donation</h2>
+                    <p>Small or large, your contribution is essential.</p>
+                    <t t-snippet-call="website_payment.sDonationButton">
+                        <t t-set="displayOptions" t-value="'true'"/>
+                    </t>
+                </div>
+                <div class="col-lg-5 pt16 pb16 d-none d-md-block">
+                    <img src="/web_editor/shape/website_payment/s_donation_gift.svg?c1=o-color-1" class="img img-fluid mx-auto" style="width: 75%;" alt=""/>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="sDonationOptions"  inheritId="website.snippetOptions">
+    <xpath expr="." position="inside">
+        <div data-js="Donation" data-selector=".s-donation">
+            <we-input class="o-we-large" string="Recipient Email" data-select-data-attribute=""
+                data-attribute-name="donationEmail"/>
+            <we-checkbox string="Display Options"
+                    data-name="displayOptionsOpt"
+                    data-display-options="true"
+                    data-no-preview="true">
+            </we-checkbox>
+            <we-checkbox string="Pre-filled Options"
+                    data-name="preFilledOpt"
+                    data-toggle-prefilled-options="true"
+                    data-dependencies="!noInputOpt"
+                    data-no-preview="true">
+            </we-checkbox>
+            <we-checkbox string="⌙ Descriptions"
+                    data-toggle-option-description="true"
+                    data-dependencies="preFilledOpt"
+                    data-no-preview="true">
+            </we-checkbox>
+            <we-select string="Custom Amount" data-no-preview="true">
+                <we-button data-name="freeAmountOpt" data-select-amount-input="freeAmount">Input</we-button>
+                <we-button data-name="sliderOpt" data-select-amount-input="slider" data-dependencies="displayOptionsOpt">Slider</we-button>
+                <we-button data-name="noInputOpt" data-select-amount-input="" data-dependencies="preFilledOpt">None</we-button>
+            </we-select>
+            <we-input string="⌙ Minimum" data-step="1" data-set-minimum-amount="" data-dependencies="!noInputOpt"/>
+            <we-input string="⌙ Maximum" data-step="1" data-set-maximum-amount="" data-dependencies="sliderOpt"/>
+            <we-input string="⌙ Step" data-step="1" data-set-slider-step="" data-dependencies="sliderOpt"/>
+            <we-input string="Default Amount" data-step="1" data-attribute-default-value="25"
+                data-select-data-attribute="" data-attribute-name="defaultAmount"/>
+        </div>
+    </xpath>
+</template>
+
+<record id="website_payment.s_donation_000_js" model="ir.asset">
+    <field name="label">Donation 000 JS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website_payment/static/src/snippets/s_donation/000.js</field>
+</record>
+
+<record id="website_payment.s_donation_000_scss" model="ir.asset">
+    <field name="label">Donation 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website_payment/static/src/snippets/s_donation/000.scss</field>
+</record>
+
+</verp>

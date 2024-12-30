@@ -1,0 +1,5 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_uomCategory_manager,uom.category.manager,model_uomCategory,base.groupSystem,1,1,1,1
+access_uomCategory_user,uom.category.user,model_uomCategory,base.groupUser,1,0,0,0
+access_uomUom_manager,uom.uom.manager,model_uomUom,base.groupSystem,1,1,1,1
+access_uomUom_user,uom.uom.user,model_uomUom,base.groupUser,1,0,0,0

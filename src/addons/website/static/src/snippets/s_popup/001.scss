@@ -1,0 +1,80 @@
+.s-popup[data-vcss='001']  {
+    .modal-content {
+        min-height: $font-size-lg * 2;
+        max-height: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: $modal-content-box-shadow-sm-up;
+    }
+
+    .modal-dialog {
+        height: auto;
+        min-height: 100%;
+        @include media-breakpoint-down(xs) {
+            min-height: calc(100% - 2 * #{$modal-dialog-margin});
+        }
+    }
+
+    // Close icon
+    .s-popup-close {
+        z-index: $zindex-modal;
+        @include o-position-absolute(0, 0);
+        width: $font-size-lg * 2;
+        height: $font-size-lg * 2;
+        line-height: $font-size-lg * 2;
+        @include o-bg-color(color-yiq(o-color('primary')), o-color('primary'), $with-extras: false);
+        box-shadow: $box-shadow-sm;
+        cursor: pointer;
+        font-size: $font-size-lg;
+        text-align: center;
+    }
+
+    // Size option - Full
+    .s-popup-size-full {
+        padding: 0 !important;
+        max-width: 100%;
+
+        > .modal-content {
+            // Use the backdrop color as background-color
+            background-color: transparent;
+            box-shadow: none;
+            border-radius: 0;
+        }
+    }
+
+    // Position option - Middle
+    .s-popup-middle .modal-dialog {
+        align-items: center;
+    }
+
+    // Position option - Top/Bottom
+    .s-popup-top,
+    .s-popup-bottom {
+        .modal-dialog {
+            margin-right: 0;
+            &:not(.s-popup-size-full) {
+                padding: $spacer !important;
+            }
+        }
+    }
+    .s-popup-top .modal-dialog {
+        align-items: flex-start;
+    }
+    .s-popup-bottom .modal-dialog {
+        align-items: flex-end;
+    }
+
+    // No backdrop
+    .s-popup-no-backdrop {
+        // If the popup is taller than the page you should not be able to
+        // interact with the elements behind, otherwise you should (when there
+        // is no backdrop).
+        &:not(.s-popup-overflow-page) {
+            pointer-events: none;
+        }
+
+        .modal-content {
+            pointer-events: auto;
+        }
+    }
+}

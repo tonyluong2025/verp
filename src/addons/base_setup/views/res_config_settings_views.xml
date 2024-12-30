@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.base.setup</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="0"/>
+        <field name="inheritId" ref="base.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='settings']" position="inside">
+                <div class="app-settings-block" data-string="General Settings" string="General Settings" data-key="general_settings">
+
+                    <div id="inviteUsers">
+                        <h2>Users</h2>
+                        <div class="row mt16 o-settings-container" name="usersSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box" id="inviteUsersSetting">
+                                <div class="o-setting-right-pane">
+                                    <widget name='resConfigInviteUsers'/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="activeUserSetting">
+                                <div class="o-setting-right-pane">
+                                    <span class="fa fa-lg fa-users" aria-label="Number of active users"/>
+                                    <field name='activeUserCount' class="w-auto pl-3 font-weight-bold"/>
+                                    <span class='o-form-label' attrs="{'invisible':[['activeUserCount', '&gt;', '1']]}">
+                                            Active User
+                                    </span>
+                                    <span class='o-form-label' attrs="{'invisible':[['activeUserCount', '&lt;=', '1']]}">
+                                            Active Users
+                                    </span>
+                                    <a href="https://www.theverp.com/documentation/1.0/applications/general/users.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <br/>
+                                    <button name="%(base.actionResUsers)d" icon="fa-arrow-right" type="action" string="Manage Users" class="btn-link o-web-settings-access-rights"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="languages">
+                        <h2>Languages</h2>
+                        <div class='row mt16 o-settings-container' name="languagesSettingContainer">
+                            <div class='col-xs-12 col-md-6 o-setting-box' id="languagesSetting">
+                                <div class='o-setting-right-pane'>
+                                    <!-- TODO This is not an ideal solution but it looks ok on the interface -->
+                                    <div class="w-50">
+                                        <field name="languageCount" class="w-auto pl-1 font-weight-bold"/>
+                                        <span class='o-form-label' attrs="{'invisible':[['languageCount', '&gt;', '1']]}">
+                                                Language
+                                        </span>
+                                        <span class='o-form-label' attrs="{'invisible':[['languageCount', '&lt;=', '1']]}">
+                                                Languages
+                                        </span>
+                                    </div>
+                                    <div class="mt8">
+                                        <button name="%(base.actionViewBaseLanguageInstall)d" icon="fa-arrow-right" type="action" string="Add Language" class="btn-link"/>
+                                    </div>
+                                    <div class="mt8" groups="base.groupNoOne">
+                                        <button name="%(base.resLangActwindow)d" icon="fa-arrow-right" type="action" string="Manage Languages" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="companies">
+                        <h2>Companies</h2>
+                        <div class="row mt16 o-settings-container" name="companiesSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box" id="companyDetailsSettings">
+                                <field name="companyId" invisible="1"/>
+                                <div class="o-setting-right-pane">
+                                    <field name="companyName" class="font-weight-bold"/>
+                                    <br/>
+                                    <field name="companyInformations" class="text-muted" style="width: 90%;"/>
+                                    <br/>
+                                    <button name="openCompany" icon="fa-arrow-right" type="object" string="Update Info" class="btn-link"/>
+                                </div>
+                                <br/>
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Document Layout</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                            Choose the layout of your documents
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16" groups="base.groupNoOne">
+                                            <label for="externalReportLayoutId" string="Layout" class="col-3 col-lg-3 o-light-label"/>
+                                            <field name="externalReportLayoutId" domain="[['type','=', 'qweb']]" class="oe-inline"/>
+                                        </div>
+                                        <div class="mt8">
+                                            <button name="%(web.actionBaseDocumentLayoutConfigurator)d" string="Configure Document Layout" type="action" class="oe-link" icon="fa-arrow-right"/>
+                                            <button name="editExternalHeader" string="Edit Layout" type="object" class="oe-link" groups="base.groupNoOne"/>
+                                            <button name="%(web.actionReportExternalpreview)d" string="Preview Document" type="action" class="oe-link" groups="base.groupNoOne"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="companiesSetting">
+                                <div class="o-setting-right-pane">
+                                    <field name='companyCount' class="w-auto pl-1 font-weight-bold"/>
+                                    <span class='o-form-label' attrs="{'invisible':[['companyCount', '&gt;', '1']]}">
+                                            Company
+                                    </span>
+                                    <span class='o-form-label' attrs="{'invisible':[['companyCount', '&lt;=', '1']]}">
+                                            Companies
+                                    </span>
+                                    <br/>
+                                    <div class="mt8">
+                                        <button name="%(base.actionResCompanyForm)d" icon="fa-arrow-right" type="action" string="Manage Companies" class="btn-link"/>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div id="interCompany" groups="base.groupMultiCompany" title="Configure company rules to automatically create SO/PO when one of your company sells/buys to another of your company.">
+                                    <field name="companyId" invisible="1"/>
+                                    <div class="o-setting-left-pane">
+                                        <field name="moduleAccountInterCompanyRules" widget="upgradeBoolean"/>
+                                    </div>
+                                    <div class="o-setting-right-pane">
+                                        <label string="Inter-Company Transactions" for="moduleAccountInterCompanyRules" class="o-module"/>
+                                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                        <div class="text-muted">
+                                                Automatically generate counterpart documents for orders/invoices between companies
+                                        </div>
+                                        <div class="content-group" attrs="{'invisible': [['moduleAccountInterCompanyRules','=',false]]}" id="interCompaniesRules">
+                                            <div class="mt16 text-warning">
+                                                <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="emails"/>
+
+                    <div id="contactsSettings">
+                        <h2>Contacts</h2>
+                        <div class="row mt16 o-settings-container" name="contactsSettingContainer">
+                            <div class="col-xs-12 col-md-6 o-setting-box" id="sms">
+                                <div class="o-setting-right-pane" id="smsSettings">
+                                    <div class="o-form-label">
+                                            Send SMS
+                                        <a href="https://www.theverp.com/documentation/1.0/applications/marketing/sms_marketing/pricing/pricing_and_faq.html" title="Documentation" class="ml-1 o-doc-link" target="_blank"></a>
+                                    </div>
+                                    <div class="text-muted">
+                                                Send texts to your contacts
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o-setting-box" title="When populating your address book, Verp provides a list of matching companies. When selecting one item, the company data and logo are auto-filled." id="partnerAutocomplete">
+                                <div class="o-setting-left-pane">
+                                    <field name="modulePartnerAutocomplete"/>
+                                </div>
+                                <div class="o-setting-right-pane" id="partnerAutocompleteSettings">
+                                    <label for="modulePartnerAutocomplete" class="o-module"/>
+                                    <div class="text-muted">
+                                            Automatically enrich your contact base with company data
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Permissions</h2>
+                    <div class="row mt16 o-settings-container" id="userDefaultRights">
+                        <div class="col-12 col-lg-6 o-setting-box" title="By default, new users get highest access rights for all installed apps." id="accessRights">
+                            <div class="o-setting-left-pane">
+                                <field name="userDefaultRights"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label string="Default Access Rights" for="userDefaultRights"/>
+                                <div class="text-muted">
+                                    Set custom access rights for new users
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['userDefaultRights','=',false]]}">
+                                    <div class="mt8">
+                                        <button type="object" name="openDefaultUser" string="Default Access Rights" icon="fa-arrow-right" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" groups="base.groupSystem">
+                            <div class="o-setting-left-pane"/>
+                            <div class="o-setting-right-pane">
+                                <button type="action" name="%(base.actionApikeysAdmin)d" string="Manage API Keys" icon="fa-arrow-right" class="btn-link"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" groups="base.groupNoOne" id="allowImport">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleBaseImport" />
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label string="Import &amp; Export" for="moduleBaseImport" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/general/export_import_data.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Allow users to import data from CSV/XLS/XLSX/ODS files
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="feedbackMotivateSetting" groups="base.groupNoOne">
+                            <div class="o-setting-left-pane">
+                                <field name="showEffect"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="showEffect"/>
+                                <div class="text-muted">
+                                    Add fun feedback and motivate your employees
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Integrations</h2>
+                    <div class="row mt16 o-settings-container" name="integration">
+                        <div class="col-12 col-lg-6 o-setting-box" id="mailPlugginSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleMailPlugin" />
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label string="Mail Plugin" for="moduleMailPlugin" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/productivity/mail_plugins.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                        Integrate with mail client plugins
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="syncOutlookCalendarSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleMicrosoftCalendar" />
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label string="Outlook Calendar" for="moduleMicrosoftCalendar" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/general/calendars/outlook/outlook_calendar.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                        Synchronize your calendar with Outlook
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['moduleMicrosoftCalendar', '=', false]]}" id="msgModuleMicrosoftCalendar">
+                                    <div class="text-warning mt16">
+                                        <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="externalPadsSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="modulePad"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="modulePad" class="o-module"/>
+                                <div class="text-muted">
+                                        Use external pads in Verp Notes
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['modulePad','=',false]]}" id="msgModulePad">
+                                    <div class="text-warning mt16">
+                                        <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="syncGoogleCalendarSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleGoogleCalendar" />
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label string="Google Calendar" for="moduleGoogleCalendar" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/general/calendars/google/google_calendar_credentials.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                        Synchronize your calendar with Google Calendar
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['moduleGoogleCalendar','=',false]]}" id="msgModuleGoogleCalendar">
+                                    <div class="text-warning mt16">
+                                        <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="googleDriveDocumentsSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleGoogleDrive" />
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label string="Google Drive" for="moduleGoogleDrive" class="o-module"/>
+                                <div class="text-muted">
+                                        Create and attach Google Drive documents to any record
+                                </div>
+                                <div class="content-group mt16" attrs="{'invisible': [['moduleGoogleDrive','=',false]]}" id="msgModuleGoogleDrive">
+                                    <div class="mt16 text-warning">
+                                        <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="productGetPicSetting"/>
+                        <div class="col-12 col-lg-6 o-setting-box" id="googleSpreadsheetSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleGoogleSpreadsheet" />
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleGoogleSpreadsheet" class="o-module"/>
+                                <div class="text-muted">
+                                        Extract and analyze Verp data from Google Spreadsheet
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['moduleGoogleSpreadsheet','=',false]]}" id="msgModuleGoogleSpreadsheet">
+                                    <div class="mt16 text-warning">
+                                        <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="moduleAuthOauth">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleAuthOauth" />
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label string="OAuth Authentication" for="moduleAuthOauth" class="o-module"/>
+                                <div class="text-muted">
+                                       Use external accounts to log in (Google, Facebook, etc.)
+                                </div>
+                                <div class="content-group mt16" attrs="{'invisible': [['moduleAuthOauth','=',false]]}" id="msgModuleAuthOauth">
+                                    <div class="mt16 text-warning">
+                                        <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="oauth">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleAuthLdap"/>
+                            </div>
+                            <div class="o-setting-right-pane" name="authLdapRightPane">
+                                <label string="LDAP Authentication" for="moduleAuthLdap" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/general/auth/ldap.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                       Use LDAP credentials to log in
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['moduleAuthLdap','=',false]]}" id="authLdapWarning">
+                                    <div class="mt16 text-warning">
+                                        <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="unsplash">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleWebUnsplash"/>
+                            </div>
+                            <div class="o-setting-right-pane" id="webUnsplashSettings">
+                                <label for="moduleWebUnsplash" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/websites/website/optimize/unsplash.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                        Find free high-resolution images from Unsplash
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['moduleWebUnsplash', '=', false]]}" id="webUnsplashWarning">
+                                    <div class="mt16 text-warning">
+                                        <strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="baseGeolocalize">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleBaseGeolocalize"/>
+                            </div>
+                            <div class="o-setting-right-pane" id="webGeolocalizeSettings">
+                                <label string="Geo Localization" for="moduleBaseGeolocalize" class="o-module"/>
+                                <div class="text-muted">
+                                       GeoLocalize your partners
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['moduleBaseGeolocalize','=', false]]}" name="baseGeolocalizeWarning">
+                                    <div class="mt16 text-warning">
+                                        <strong>Save</strong> this page and come back here to choose your Geo Provider.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="recaptcha">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleGoogleRecaptcha"/>
+                            </div>
+                            <div class="o-setting-right-pane" id="websiteRecaptchaSettings">
+                                <label for="moduleGoogleRecaptcha" class="o-module"/>
+                                <div class="text-muted tony">
+                                        Protect your forms from spam and abuse.
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['moduleGoogleRecaptcha', '=', false]]}" id="recaptchaWarning">
+                                    <div class="mt16 text-warning">
+                                        <strong>Save</strong> this page and come back here to set up reCaptcha.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 groups="base.groupNoOne">Performance</h2>
+                    <div groups="base.groupNoOne" class="row mt16 o-settings-container" name="performance">
+                        <div class="col-12 col-lg-6 o-setting-box" id="profilingEnabledUntil">
+                            <label for="profilingEnabledUntil"/>
+                            <field name="profilingEnabledUntil"/>
+                            <div class="text-muted">
+                                Enable the profiling tool. Profiling may impact performance while being active.
+                            </div>
+                        </div>
+                    </div>
+
+                    <widget name='resConfigDevTool'/>
+                    <div id='about'>
+                        <h2>About</h2>
+                        <div class="row mt16 o-settings-container" name="aboutSettingContainer">
+                            <!-- <div class='col-12 col-lg-6 o-setting-box' id='appstore'>
+                                <div class="d-flex">
+                                    <div class="o-setting-right-pane">
+                                        <a class="d-block mx-auto" href="https://play.google.com/store/apps/details?id=com.verp.mobile" target="blank">
+                                            <img alt="On Google Play" class="d-block mx-auto img img-fluid" src="/base_setup/static/src/img/google_play.png"/>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a class='d-block mx-auto' href="https://itunes.apple.com/us/app/verp/id1272543640" target="blank">
+                                            <img alt="On Apple Store" class="d-block mx-auto img img-fluid" src="/base_setup/static/src/img/app_store.png"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class='col-12 col-lg-6 o-setting-box' id='logo'>
+                                <img alt="Logo" style="max-height: 60px; max-width: 100%; width: auto" src="/web/static/img/logo2.png" class="o-setting-right-pane">
+                            </div>
+                            <widget name='resConfigEdition'/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="actionGeneralConfiguration" model="ir.actions.actwindow">
+        <field name="label">Settings</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">res.config.settings</field>
+        <field name="viewMode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'general_settings', 'binSize': false}</field>
+    </record>
+
+    <menuitem id="menuConfig" name="General Settings" parent="base.menuAdministration" sequence="0" action="actionGeneralConfiguration" groups="base.groupSystem"/>
+
+</verp>

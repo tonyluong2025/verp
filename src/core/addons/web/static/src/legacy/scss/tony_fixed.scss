@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box; // 1
+}
+*,
+*::before {
+  box-sizing: border-box; // 1
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box; // 1
+}
+
+.o-invisible-modifier {
+  display: none!important;
+}

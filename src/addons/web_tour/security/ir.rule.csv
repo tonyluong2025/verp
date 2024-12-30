@@ -1,0 +1,2 @@
+"id","modelId/id","label","active","permCreate","permUnlink","permRead","permWrite","domainForce"
+"ownTours","model_webTourTour","own tours","true","true","true","true","true","[['userId','=', user.id]]"

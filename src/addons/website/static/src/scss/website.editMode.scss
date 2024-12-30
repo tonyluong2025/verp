@@ -1,0 +1,279 @@
+$-editor-messages-margin-x: 2%;
+%o-editor-messages {
+    width: 100% - $-editor-messages-margin-x * 2; // Need to be forced here to avoid flickering
+    margin: 20px $-editor-messages-margin-x;
+    border: 2px dashed #999999;
+    padding: 12px 0px;
+    text-align: center;
+    color: #999999;
+
+    &:before {
+        content: attr(data-editor-message);
+        display: block;
+        font-size: 20px;
+        line-height: 50px; // Useful for the "wizz" animation on snippet click to be more visible
+    }
+    &:after {
+        content: attr(data-editor-sub-message);
+        display: block;
+    }
+}
+.o-we-snippet-area-animation {
+    animation-delay: 999ms; // Disable it but allow to inherit the animation
+
+    &::before {
+        animation: inherit;
+        animation-delay: 0ms;
+    }
+}
+
+.oe-structure-not-nearest .oe-drop-zone {
+    &:before {
+        opacity: 0.5;
+        line-height: 35px !important;
+    }
+}
+
+.o-editable {
+    &:not(:empty), &[data-oe-type] {
+        &:not([data-oe-model="ir.ui.view"]):not([data-oe-type="html"]):not(.o-editable-no-shadow):not([data-oe-type="image"]):hover,
+        &.o-editable-date-field-linked {
+            box-shadow: $o-brand-verp 0 0 5px 2px inset;
+        }
+        &[data-oe-type="image"]:not(.o-editable-no-shadow):hover {
+            position: relative;
+
+            &:after {
+                content: "";
+                pointer-events: none;
+                @include o-position-absolute(0, 0, 0, 0);
+                z-index: 1;
+                box-shadow: $o-brand-verp 0 0 5px 2px inset;
+            }
+        }
+    }
+    &:focus, &[data-oe-type] {
+        min-height: 0.8em;
+        min-width: 8px;
+
+        // TODO this feature just needs to be reviewed to not have to make
+        // exceptions such as this
+        &#oFooterScrolltopWrapper {
+            min-height: 0;
+            min-width: 0;
+        }
+    }
+    &.o-is-inline-editable {
+        display: inline-block;
+    }
+    .btn, &.btn {
+        -webkit-user-select: auto;
+        -moz-user-select: auto;
+        -ms-user-select: auto;
+        user-select: auto;
+        cursor: text!important;
+    }
+    /* Summernote not Support for placeholder text https://github.com/summernote/summernote/issues/581 */
+    &[placeholder]:empty:not(:focus):before {
+        content: attr(placeholder);
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    &.oe-structure.oe-empty, &[data-oe-type=html], .oe-structure.oe-empty {
+        &#wrap:empty, &#wrap > .oe-drop-zone.oe-insert:not(.oe-vertical):only-child {
+            @extend %o-editor-messages;
+            padding: 112px 0px;
+        }
+        > .oe-drop-zone.oe-insert:not(.oe-vertical):only-child {
+            @extend %o-editor-messages;
+            height: auto;
+            color: $o-brand-verp;
+        }
+        > p:empty:only-child {
+            color: #aaa;
+        }
+    }
+}
+.editor-enable [data-oe-readonly]:hover {
+    cursor: default;
+}
+.oe-structure-solo > .oe-drop-zone {
+    // TODO implement something more robust. This is currently for our only
+    // use case of oe-structure-solo: the footer. The dropzone in there need to
+    // be 1px lower that the end-of-page dropzone to distinguish them. The
+    // usability has to be reviewed anyway.
+    transform: translateY(10px); // For some reason "1px" is not enough...
+}
+
+/* Prevent the text contents of draggable elements from being selectable. */
+[draggable] {
+    user-select: none;
+}
+
+.oe-editable:focus,
+.css-editable-hidden,
+.editor-enable .css-editable-mode-hidden {
+    outline: none!important;
+}
+
+.editor-enable .css-non-editable-mode-hidden,
+.o-editable .media-iframe-video .css-editable-mode-display {
+    display: block!important;
+}
+
+// TODO: in master check if the class / rule is relevant at all
+.editor-enable [data-oe-type=html].oe-no-empty:empty {
+    height: 16px!important;
+}
+
+// EDITOR BAR
+table.editorbar-panel {
+    cursor: pointer;
+    width: 100%;
+    td { border: 1px solid #aaa}
+    td.selected { background-color: #b1c9d9}
+}
+.link-style {
+    .dropdown > .btn {
+        min-width: 160px;
+    }
+    .link-style {
+        display: none;
+    }
+    li {
+        text-align: center;
+        label {
+            width: 100px;
+            margin: 0 5px;
+        }
+    }
+    .col-md-2 > * {
+        line-height: 2em;
+    }
+}
+
+// fontawesome
+#wrap.o-editable .fa {
+    cursor: pointer;
+}
+
+// parallax dropzones are in conflict with outside of parallax dropzones
+.parallax .oe-structure > .oe-drop-zone {
+    &:first-child {
+        top: 16px;
+    }
+    &:last-child {
+        bottom: 16px;
+    }
+}
+
+.editor-enable .o-add-language {
+    display: none !important;
+}
+
+// Facebook Page
+.editor-enable .o-facebook-page:not(.o-facebook-preview) {
+    iframe {
+        pointer-events: none;
+    }
+    .o-facebook-alert .o-add-facebook-page {
+        cursor: pointer;
+    }
+}
+
+body.editor-enable.editor-has-snippets {
+    padding-top: 0 !important;
+
+    .s-popup .modal {
+        // s-popup in edit mode
+        background-color: transparent;
+
+        &.fade .modal-dialog {
+            transform: none;
+        }
+    }
+
+    #oeMainMenuNavbar + #wrapwrap .o-header-affixed {
+        top: 0;
+    }
+}
+
+.editor-has-snippets {
+    .o-header-affixed {
+        right: $o-we-sidebar-width !important;
+    }
+}
+
+.editor-enable {
+    @if o-website-value('header-template') == 'sidebar' {
+        #wrapwrap > header {
+            @if o-website-value('hamburger-position') != 'right' {
+                right: $o-we-sidebar-width;
+            }
+        }
+    }
+}
+
+// s-countdown preview classes
+body.editor-enable {
+    .s-countdown {
+        .s-countdown-enable-preview {
+            display: initial !important;
+        }
+        .s-countdown-none {
+            display: none !important;
+        }
+    }
+}
+
+//s-dynamic-snippet
+body.editor-enable {
+    .s-dynamic {
+        // TODO remove .stretched-link::after in master
+        // BS4 adds pointer-events: auto on it which breaks the editor.
+        // BS5 doesn't do that so this can safely be removed in master.
+        > *, .stretched-link::after {
+            pointer-events: none;
+        }
+        [data-url] {
+            cursor: inherit;
+        }
+    }
+}
+
+// Website Animate
+.editor-enable.o-animated-text-highlighted {
+    .o-animated-text {
+        position: relative;
+
+        &:after {
+            content: "";
+            pointer-events: none;
+            @include o-position-absolute(0, 0, 0, 0);
+            z-index: 1;
+            // This border is useful when there is a green background behind
+            // the text.
+            border: 1px dotted white;
+            background-color: rgba(greenyellow, .2);
+        }
+    }
+}
+
+// Inputs in editable zones should not be possible to interact with.
+// TODO as this was done as a fix in 13.0, this only targets the inputs of
+// specific snippets and even targets snippets of other apps (which do not
+// declare files for edit mode only). In master it should be refactored to
+// target all inputs and/or target specific snippets in their own app.
+.editor-enable {
+    .s-website-form, .s-searchbar-input, .js-subscribe, .s-group, .s-donation-form {
+        input {
+            pointer-events: none;
+        }
+    }
+    .s-website-form {
+        [data-toggle="datetimepicker"], textarea {
+            pointer-events: none;
+        }
+    }
+}

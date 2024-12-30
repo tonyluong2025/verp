@@ -1,0 +1,19 @@
+.o-loading-indicator {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: $zindex-modal + 1;
+
+  &.o-loading > span {
+    background-color: $o-brand-verp;
+    color: white;
+    padding: 4px;
+
+    &.fade-leave-active {
+      transition: opacity 0.4s;
+    }
+    &.fade-leave-to {
+      opacity: 0;
+    }
+  }
+}

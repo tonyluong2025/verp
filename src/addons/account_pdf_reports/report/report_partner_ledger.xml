@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="reportPartnerLedger">
+        <t t-call="web.htmlContainer">
+            <t t-call="web.internalLayout">
+                <t t-set="currencyId" t-value="await resCompany.currencyId"/>
+                <t t-set="dataReportMarginTop" t-value="12"/>
+                <t t-set="dataReportHeaderSpacing" t-value="9"/>
+                <t t-set="dataReportDpi" t-value="110"/>
+                <div class="page">
+                    <h2>Partner Ledger</h2>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>Company:</strong>
+                            <p t-esc="await resCompany.label"/>
+                        </div>
+                        <div class="col-3">
+                            <t t-if="data['form']['dateFrom']">
+                                <strong>Date from :</strong>
+                                <span t-esc="data['form']['dateFrom']"/>
+                                <br/>
+                            </t>
+                            <t t-if="data['form']['dateTo']">
+                                <strong>Date to :</strong>
+                                <span t-esc="data['form']['dateTo']"/>
+                            </t>
+                        </div>
+                        <div class="col-3">
+                            <strong>Target Moves:</strong>
+                            <p t-if="data['form']['targetMove'] == 'all'">All Entries</p>
+                            <p t-if="data['form']['targetMove'] == 'posted'">All Posted Entries</p>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm table-reports">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>JRNL</th>
+                                <th>Account</th>
+                                <th>Ref</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>Balance</th>
+                                <th t-if="data['form']['amountCurrency']">Currency</th>
+                            </tr>
+                        </thead>
+                        <t t-foreach="docs" t-as="o">
+                            <tbody>
+                                <tr>
+                                    <td colspan="4">
+                                        <strong t-esc="o.ref"/>
+                                        -
+                                        <strong t-esc="o.label"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="await sumPartner(data, o, 'debit')"
+                                                t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="await sumPartner(data, o, 'credit')"
+                                                t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="await sumPartner(data, o, 'debit - credit')"
+                                                t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                    </td>
+                                </tr>
+                                <tr t-foreach="await lines(data, o)" t-as="line">
+                                    <td>
+                                        <span t-esc="line['date']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line['code']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line['acode']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line['displayedName']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['debit']"
+                                              t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['credit']"
+                                              t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['progress']"
+                                              t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                                    </td>
+                                    <td class="text-right" t-if="data['form']['amountCurrency']">
+                                        <t t-if="line['currencyId']">
+                                            <span t-esc="line['amountCurrency']"
+                                                  t-options="{'widget': 'monetary', 'displayCurrency': line['currencyId']}"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</verp>

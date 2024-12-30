@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="posPaymentMethodViewForm" model="ir.ui.view">
+        <field name="label">pos.payment.method.form</field>
+        <field name="model">pos.payment.method</field>
+        <field name="arch" type="xml">
+            <form string="Payment Methods">
+                <sheet>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <field name="active" invisible="1"/>
+                    <field name="type" invisible="1" />
+                    <div class="oe-title">
+                        <label for="label"/>
+                        <h1><field name="label" placeholder="e.g. Cash" class="oe-inline"/></h1>
+                    </div>
+                    <group name="Payment methods">
+                        <field name="hideUsePaymentTerminal" invisible="1"/>
+                        <group>
+                            <field name="splitTransactions"/>
+                            <field name="journalId" attrs="{'required': [['splitTransactions', '=', false]]}" placeholder="Leave empty to use the receivable account of customer" />
+                            <field name="outstandingAccountId" groups="account.groupAccountReadonly" attrs="{'invisible': [['type', '!=', 'bank']]}" placeholder="Leave empty to use the default account from the company setting" />
+                            <field name="receivableAccountId" groups="account.groupAccountReadonly" attrs="{'invisible': [['splitTransactions', '=', true]]}" placeholder="Leave empty to use the default account from the company setting" />
+                            <field name="companyId" readonly="1" groups="base.groupMultiCompany" />
+                        </group>
+                        <group attrs="{'invisible': ['|', ['hideUsePaymentTerminal', '=', false], ['type', 'in', ['cash', 'payLater']]]}">
+                            <div>
+                                <h2>Tips:</h2>
+                                <p>
+                                    Go to <a href="#" name="%(actionPosConfiguration)d" type="action" class="btn-link o-form-uri" role="button">Configurations > Settings</a>
+                                    <strong> > Payment Terminals</strong>
+                                    in order to install a Payment Terminal and make a fully integrated payment method.
+                                </p>
+                            </div>
+                        </group>
+                        <group attrs="{'invisible': [['hideUsePaymentTerminal', '=', true]]}">
+                            <field name="usePaymentTerminal" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="posPaymentMethodViewTree" model="ir.ui.view">
+        <field name="label">pos.payment.method.tree</field>
+        <field name="model">pos.payment.method</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Methods" create="1" delete="1">
+                <field name="type" invisible="1"/>
+                <field name="label" />
+                <field name="splitTransactions" optional="hide" />
+                <field name="journalId" attrs="{'required': [['splitTransactions', '=', false]]}" />
+                <field name="outstandingAccountId" groups="account.groupAccountReadonly" optional="hide" attrs="{'invisible': [['type', '!=', 'bank']]}" />
+                <field name="receivableAccountId" groups="account.groupAccountReadonly" optional="hide" attrs="{'invisible': [['splitTransactions', '=', true]]}" />
+                <field name="companyId" groups="base.groupMultiCompany" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="posPaymentMethodViewSearch" model="ir.ui.view">
+        <field name="label">pos.payment.search.view</field>
+        <field name="model">pos.payment.method</field>
+        <field name="arch" type="xml">
+            <search string="Payment Methods">
+                <field name="label"/>
+                <field name="receivableAccountId" groups="account.groupAccountReadonly" />
+                <group expand="1" string="Group By">
+                    <filter name="groupbyReceivableAccount" string="Account" domain="[]"  context="{'groupby':'receivableAccountId'}"/>
+                </group>
+                <filter string="Archived" name="active" domain="[['active', '=', false]]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionPosPaymentMethodForm" model="ir.actions.actwindow">
+        <field name="label">Payment Methods</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.payment.method</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="viewId" eval="false"/>
+        <field name="domain">[]</field>
+        <field name="context">{'searchDefault_groupbyAccount': 1}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Add a new payment method
+            </p>
+            <p>
+                Installing chart of accounts from the General Settings of
+                Invocing/Accounting app will create Bank and Cash payment
+                methods automatically.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menuPosPaymentMethod" parent="menuPointConfigProduct" action="actionPosPaymentMethodForm" sequence="3" groups="groupPosManager,groupPosUser"/>
+
+    <record id="actionPaymentMethodsTree" model="ir.actions.actwindow">
+        <field name="context">{}</field>
+        <field name="label">Payments Methods</field>
+        <field name="resModel">pos.payment.method</field>
+        <field name="viewId" ref="posPaymentMethodViewTree"/>
+        <field name="viewMode">tree,form,kanban</field>
+    </record>
+</verp>

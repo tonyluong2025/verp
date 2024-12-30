@@ -1,0 +1,25 @@
+.o-debug-profiling-item {
+    .o-profiling-switch {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        .custom-switch {
+            display: inline-block;
+        }
+        .custom-control-label {
+            cursor: pointer;
+        }
+        .o-open-profiling {
+            padding-top: 3px;
+        }
+    }
+}
+
+.o-debug-manager .fa-bug {
+    position: relative;
+    .o-recording {
+        position: absolute;
+        bottom: -0.1em;
+        right: -0.4em;
+        font-size: 0.8em;
+    }
+}

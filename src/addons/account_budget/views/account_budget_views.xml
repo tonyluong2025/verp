@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewBudgetPostSearch" model="ir.ui.view">
+        <field name="label">account.budget.post.search</field>
+        <field name="model">account.budget.post</field>
+        <field name="arch" type="xml">
+            <search string="Budgetary Position">
+                <field name="label" filterDomain="[['label','ilike',self]]" string="Budgetary Position"/>
+                <field name="companyId" groups="base.groupMultiCompany"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="viewBudgetPostTree" model="ir.ui.view">
+        <field name="label">account.budget.post.tree</field>
+        <field name="model">account.budget.post</field>
+        <field name="arch" type="xml">
+            <tree string="Budgetary Position">
+                <field name="label"/>
+                <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="openBudgetPostForm" model="ir.actions.actwindow">
+        <field name="label">Budgetary Positions</field>
+        <field name="resModel">account.budget.post</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="viewId" ref="viewBudgetPostTree"/>
+        <field name="searchViewId" ref="viewBudgetPostSearch"/>
+    </record>
+
+    <menuitem id="menuBudgetPostForm"
+              action="openBudgetPostForm"
+              parent="account.accountManagementMenu"
+              sequence="5"/>
+
+    <record id="viewBudgetPostForm" model="ir.ui.view">
+        <field name="label">account.budget.post.form</field>
+        <field name="model">account.budget.post</field>
+        <field name="arch" type="xml">
+            <form string="Budgetary Position">
+                <group col="4">
+                    <field name="label"/>
+                    <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                </group>
+                <notebook>
+                    <page string="Accounts">
+                        <field name="accountIds">
+                            <tree>
+                                <field name="code"/>
+                                <field name="label"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="crossoveredBudgetViewForm" model="ir.ui.view">
+        <field name="label">crossovered.budget.view.form</field>
+        <field name="model">crossovered.budget</field>
+        <field name="arch" type="xml">
+            <form string="Budget">
+                <header>
+                    <button string="Confirm" name="actionBudgetConfirm" states="draft" type="object"
+                            class="oe-highlight"/>
+                    <button string="Approve" name="actionBudgetValidate" states="confirm" type="object"
+                            class="oe-highlight"/>
+                    <button string="Done" name="actionBudgetDone" states="validate" type="object"
+                            class="oe-highlight"/>
+                    <button string="Reset to Draft" name="actionBudgetDraft" states="cancel" type="object"/>
+                    <button string="Cancel Budget" name="actionBudgetCancel" states="confirm,validate" type="object"/>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet string="Budget">
+                    <div class="oe-title">
+                        <label for="label" class="oe-edit-only"/>
+                        <h1>
+                            <field name="label" attrs="{'readonly':[['state','!=','draft']]}" placeholder="Budget Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="userId" attrs="{'readonly':[['state','!=','draft']]}"/>
+                        </group>
+                        <group>
+                            <label for="dateFrom" string="Period"/>
+                            <div>
+                                <field name="dateFrom" class="oe-inline"
+                                       attrs="{'readonly':[['state','!=','draft']]}"/>
+                                -
+                                <field name="dateTo" class="oe-inline" attrs="{'readonly':[['state','!=','draft']]}"
+                                       nolabel="1"/>
+                            </div>
+                            <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Budget Lines">
+                            <field name="crossoveredBudgetLine"
+                                   context="{'default_dateFrom': dateFrom,'default_dateTo': dateTo}" colspan="4"
+                                   nolabel="1" attrs="{'readonly':[['state','!=','draft']]}">
+                                <tree string="Budget Lines" decoration-success="isAboveBudget &amp;&amp; plannedAmount &gt; 0" decoration-danger="isAboveBudget &amp;&amp; plannedAmount &lt; 0" editable="bottom">
+                                    <field name="generalBudgetId"/>
+                                    <field name="analyticAccountId" groups="analytic.groupAnalyticAccounting"/>
+                                    <field name="dateFrom"/>
+                                    <field name="dateTo"/>
+                                    <field name="paidDate" groups="base.groupNoOne"/>
+                                    <field name="currencyId" invisible="1"/>
+                                    <field name="plannedAmount" sum="Planned Amount"/>
+                                    <field name="practicalAmount" sum="Practical Amount"/>
+                                    <field name="theoriticalAmount" sum="Theoretical Amount"/>
+                                    <field name="percentage"  widget="percentage" />
+                                    <button type="object" name="actionOpenBudgetEntries" string="Entries..."
+                                            icon="fa-arrow-circle-o-right"/>
+                                    <field name="isAboveBudget" invisible="1"/>
+                                </tree>
+                                <form string="Budget Lines">
+                                    <group>
+                                        <group>
+                                            <field name="currencyId" invisible="1"/>
+                                            <field name="generalBudgetId"/>
+                                            <field name="plannedAmount"/>
+                                            <field name="analyticAccountId"
+                                                   groups="analytic.groupAnalyticAccounting"/>
+                                        </group>
+                                        <group>
+                                            <label for="dateFrom" string="Period"/>
+                                            <div>
+                                                <field name="dateFrom" class="oe-inline"/>
+                                                -
+                                                <field name="dateTo" class="oe-inline"/>
+                                            </div>
+                                            <field name="paidDate" groups="base.groupNoOne"/>
+                                            <field name="companyId" options="{'noCreate': true}"
+                                                   groups="base.groupMultiCompany"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe-chatter">
+                    <field name="messageFollowerIds" widget="mailFollowers" groups="base.groupUser"/>
+                    <field name="messageIds" widget="mailThread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="crossoveredBudgetViewTree" model="ir.ui.view">
+        <field name="label">crossovered.budget.view.tree</field>
+        <field name="model">crossovered.budget</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state === 'draft'" decoration-muted="['done','cancel'].includes(state)" string="Budget">
+                <field name="label" colspan="1"/>
+                <field name="dateFrom"/>
+                <field name="dateTo"/>
+                <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                <field name="userId"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewCrossoveredBudgetKanban" model="ir.ui.view">
+        <field name="label">crossovered.budget.kanban</field>
+        <field name="model">crossovered.budget</field>
+        <field name="arch" type="xml">
+            <kanban class="o-kanban-mobile">
+                <field name="label"/>
+                <field name="dateFrom"/>
+                <field name="dateTo"/>
+                <field name="userId"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe-kanban-global-click">
+                            <div class="row mb4">
+                                <div class="col-8">
+                                    <strong>
+                                        <field name="label"/>
+                                    </strong>
+                                </div>
+                                <div class="col-4">
+                                    <span class="float-right">
+                                        <field name="state" widget="kanbanLabelSelection"
+                                               options="{'classes': {'draft': 'default', 'done': 'success'}}"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <i class="fa fa-clock-o" role="img" aria-label="Period" title="Period"/>
+                                    <t t-esc="record.dateFrom.value"/>-
+                                    <t t-esc="record.dateTo.value"/>
+                                </div>
+                                <div class="col-2">
+                                    <span class="float-right">
+                                        <img t-att-src="kanbanImage('res.users', 'imageSmall', record.userId.rawValue)"
+                                             t-att-title="record.userId.value" t-att-alt="record.userId.value" width="24" height="24"
+                                             class="oe-kanban-avatar float-right"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="viewCrossoveredBudgetSearch" model="ir.ui.view">
+        <field name="label">crossovered.budget.search</field>
+        <field name="model">crossovered.budget</field>
+        <field name="arch" type="xml">
+            <search string="Budget">
+                <field name="label" filterDomain="[['label','ilike',self]]" string="Budget"/>
+                <field name="dateFrom"/>
+                <field name="dateTo"/>
+                <filter string="Draft" name="draft" domain="[['state','=','draft']]" help="Draft Budgets"/>
+                <filter string="To Approve" name="toapprove" domain="[['state','=','confirm']]"
+                        help="To Approve Budgets"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="actCrossoveredBudgetView" model="ir.actions.actwindow">
+        <field name="label">Budgets</field>
+        <field name="resModel">crossovered.budget</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="viewId" ref="crossoveredBudgetViewTree"/>
+        <field name="searchViewId" ref="viewCrossoveredBudgetSearch"/>
+         <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Click to create a new budget.
+            </p>
+            <p>
+                Use budgets to compare actual with expected revenues and costs
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menuActCrossoveredBudgetView"
+              parent="account.menuFinanceEntriesManagement"
+              name="Budgets"
+              action="actCrossoveredBudgetView"
+              sequence="60"
+              groups="account.groupAccountManager"/>
+
+    <record id="viewCrossoveredBudgetLineSearch" model="ir.ui.view">
+        <field name="label">account.budget.line.search</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="arch" type="xml">
+            <search string="Budget Lines">
+                <field name="analyticAccountId"/>
+                <field name="crossoveredBudgetId"/>
+                <filter name="filterNotCancelled" string="Not Cancelled"
+                        domain="[['crossoveredBudgetState','!=','cancel']]"/>
+                <group expand="0" string="Group By">
+                    <filter name="groupCrosseveredBudgdetId" string="Budgets"
+                            domain="[]" context="{'groupby':'crossoveredBudgetId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="viewCrossoveredBudgetLineTree" model="ir.ui.view">
+        <field name="label">crossovered.budget.line.tree</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="arch" type="xml">
+            <tree string="Budget Lines" create="0">
+                <field name="currencyId" invisible="1"/>
+                <field name="crossoveredBudgetId" invisible="1"/>
+                <field name="generalBudgetId" />
+                <field name="analyticAccountId" groups="analytic.groupAnalyticAccounting" />
+                <field name="dateFrom"  />
+                <field name="dateTo"  />
+                <field name="paidDate" groups="base.groupNoOne"  />
+                <field name="plannedAmount"/>
+                <field name="practicalAmount"/>
+                <field name="theoriticalAmount"/>
+                <field name="percentage" widget="percentage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="viewCrossoveredBudgetLineForm" model="ir.ui.view">
+        <field name="label">crossovered.budget.line.form</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="arch" type="xml">
+            <form string="Budget Lines">
+                <sheet>
+                    <group col="4">
+                        <field name="currencyId" invisible="1"/>
+                        <field name="crossoveredBudgetState" invisible="1"/>
+                        <field name="crossoveredBudgetId"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="analyticAccountId"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="generalBudgetId"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="dateFrom"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="dateTo"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="paidDate"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="plannedAmount"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="practicalAmount"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="theoriticalAmount"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="percentage"  widget="percentage"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                        <field name="companyId" options="{'noCreate': true}"
+                               groups="base.groupMultiCompany"
+                               attrs="{'readonly':[['crossoveredBudgetState','!=','draft']]}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="viewCrossoveredBudgetLinePivot" model="ir.ui.view">
+        <field name="label">crossovered.budget.line.pivot</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="arch" type="xml">
+            <pivot string="Budget Lines">
+                <field name="crossoveredBudgetId" type="row"/>
+                <field name="plannedAmount"  type="measure" string="Planned amount"/>
+                <field name="theoriticalAmount"  type="measure" string="Theoritical amount"/>
+                <field name="practicalAmount" type="measure" string="Practical amount"/>
+                <field name="percentage" type="measure" widget="percentage"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="viewCrossoveredBudgetLineGraph" model="ir.ui.view">
+        <field name="label">crossovered.budget.line.graph</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="arch" type="xml">
+            <graph string="Budget Lines">
+                <field name="crossoveredBudgetId" type="row"/>
+                <field name="plannedAmount"  type="measure" string="Planned amount"/>
+                <field name="theoriticalAmount"  type="measure" string="Theoritical amount"/>
+                <field name="practicalAmount" type="measure" string="Practical amount"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="actCrossoveredBudgetLinesView" model="ir.actions.actwindow">
+        <field name="label">Budgets Analysis</field>
+        <field name="resModel">crossovered.budget.lines</field>
+        <field name="viewMode">tree,form,pivot,graph</field>
+        <field name="viewId" eval="false"/>
+        <field name="context">{'searchDefault_groupCrosseveredBudgdetId': true,
+            'searchDefault_filterNotCancelled':true}</field>
+    </record>
+
+    <menuitem id="menuActCrossoveredBudgetLinesView"
+              parent="account.accountReportsManagementMenu"
+              action="actCrossoveredBudgetLinesView"
+              sequence="20"
+              groups="account.groupAccountUser"/>
+
+    <record id="actAccountAnalyticAccountCbLines" model="ir.actions.actwindow">
+        <field name="label">Budget Items</field>
+        <field name="resModel">crossovered.budget.lines</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="context">{'searchDefault_analyticAccountId': [activeId],
+            'default_analyticAccountId': activeId}</field>
+    </record>
+
+</verp>

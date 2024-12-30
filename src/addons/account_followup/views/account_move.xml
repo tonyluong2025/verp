@@ -1,0 +1,83 @@
+<verp>
+    <data>
+
+        <record id="viewMoveLineReconcileTree" model="ir.ui.view">
+            <field name="label">account.move.line.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Journal Items to Reconcile" create="false">
+                    <field name="date"/>
+                    <field name="moveId"/>
+                    <field name="ref"/>
+                    <field name="label"/>
+                    <field name="partnerId"/>
+                    <field name="accountId"/>
+                    <field name="journalId" invisible="1"/>
+                    <field name="fullReconcileId"/>
+                    <field name="debit" sum="Total debit"/>
+                    <field name="credit" sum="Total credit"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountManualReconcileAction" model="ir.actions.actwindow">
+            <field name="context">{'searchDefault_unreconciled': 1,'viewMode':true}</field>
+            <field name="label">Journal Items to Reconcile</field>
+            <field name="resModel">account.move.line</field>
+            <field name="viewId" ref="viewMoveLineReconcileTree"/>
+            <field name="viewMode">tree</field>
+            <field name="help" type="html">
+                <p>No journal items found.</p>
+            </field>
+        </record>
+
+<!--        <menuitem id="menuManualReconcileFollowup"-->
+<!--                  name="Reconcile Invoices &amp; Payments" -->
+<!--                  action="accountManualReconcileAction" -->
+<!--                  parent="menuFinanceFollowup" -->
+<!--                  sequence="100"/>-->
+
+        <menuitem id="accountFollowupMainMenu"
+                  parent="account.menuFinanceConfiguration"
+                  name="Follow-up"/>
+
+        <menuitem id="accountFollowupMenu"
+                  name="Follow-up Levels"
+                  action="actionAccountFollowupDefinitionForm"
+                  parent="accountFollowupMainMenu"/>
+
+        <record id="accountMoveLinePartnerTree" model="ir.ui.view">
+            <field name="label">account.move.line.partner.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="priority" eval="32" />
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Partner entries">
+                    <field name="date"/>
+                    <field name="moveId"/>
+                    <field name="ref"/>
+                    <field name="label"/>
+                    <field name="partnerId"/>
+                    <field name="accountId"/>
+                    <field name="followupLineId"/>
+                    <field name="followupDate"/>
+                    <field name="debit" sum="Total debit"/>
+                    <field name="credit" sum="Total credit"/>
+                    <field name="dateMaturity"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewMoveLineForm" model="ir.ui.view">
+            <field name="label">account.move.line.form.followup</field>
+            <field name="model">account.move.line</field>
+            <field name="inheritId" ref="account.viewMoveLineForm"/>
+            <field name="arch" type="xml">
+                <field name="dateMaturity" position="after">
+                    <field name="followupLineId"/>
+                    <field name="followupDate"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</verp>

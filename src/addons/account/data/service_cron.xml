@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="irCronAutoPostDraftEntry" model="ir.cron">
+        <field name="label">Account; Post draft entries with autoPost set to true up to today</field>
+        <field name="intervalNumber">1</field>
+        <field name="intervalType">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="DateTime.now().set({'hour': 2, minute: 0}).plus({'days': 1}).toFormat('yyyy-MM-dd HH:mm:ss')" />
+        <field name="doall" eval="false"/>
+        <field name="modelId" ref="model_accountMove"/>
+        <field name="code">model._autopostDraftEntries()</field>
+        <field name="state">code</field>
+    </record>
+</verp>

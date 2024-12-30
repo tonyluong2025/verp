@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <record id="partnerDemo" model="res.partner">
+            <field name="label">Marc Demo</field>
+            <field name="companyId" ref="mainCompany"/>
+            <field name="companyName">YourCompany</field>
+            <field name="street">3575  Buena Vista Avenue</field>
+            <field name="city">Eugene</field>
+            <field name="stateId"  model="res.country.state" search="[['code','ilike','OR']]"/>
+            <field name="zip">97401</field>
+            <field name="countryId" ref="us"/>
+            <field name="tz">Europe/Brussels</field>
+            <field name="email">mark.brown23@example.com</field>
+            <field name="phone">(441)-695-2334</field>
+        </record>
+
+        <record id="mainPartner" model="res.partner">
+            <field name="label">YourCompany</field>
+            <field name="companyName">YourCompany</field>
+            <field name="street">250 Executive Park Blvd, Suite 3400</field>
+            <field name="city">San Francisco</field>
+            <field name="zip">94134</field>
+            <field name='countryId' ref='base.us'/>
+            <field name='stateId' ref='state_us_5'/>
+            <field name="phone">+1 (650) 555-0111 </field>
+            <field name="email">info@yourcompany.example.com</field>
+            <field name="website">www.example.com</field>
+        </record>
+
+        <record id="userDemo" model="res.users">
+            <field name="partnerId" ref="base.partnerDemo"/>
+            <field name="login">demo</field>
+            <field name="password">demo</field>
+            <field name="signature" type="xml"><span>- <br/>+Mr Demo</span></field>
+            <field name="companyId" ref="mainCompany"/>
+            <field name="groupsId" eval="[Command.set([refId('base.groupUser'), refId('base.groupPartnerManager'), refId('base.groupAllowExport')])]"/>
+            <field name="image1920" type="base64" file="base/static/img/user_demo_image.jpg"/>
+        </record>
+
+        <record model="res.partner" id="base.partnerRoot">
+            <field name="email">root@yourcompany.example.com</field>
+            <field name="tz">Europe/Brussels</field>
+        </record>
+
+        <record model="res.partner" id="base.partnerAdmin">
+            <field name="label">Mitchell Admin</field>
+            <field name="companyName">YourCompany</field>
+            <field name="street">215 Vine St</field>
+            <field name="city">Scranton</field>
+            <field name="zip">18503</field>
+            <field name='countryId' ref='base.us'/>
+            <field name='stateId' ref='state_us_39'/>
+            <field name="phone">+1 555-555-5555</field>
+            <field name="email">admin@yourcompany.example.com</field>
+            <field name="tz">Europe/Brussels</field>
+            <field name="image1920" type="base64" file="base/static/img/partner_root_image.jpg"/>
+        </record>
+
+        <record id="base.userAdmin" model="res.users">
+            <field name="signature" type="xml"><span>-- <br/>Mitchell Admin</span></field>
+        </record>
+
+        <!-- Portal : partner and user -->
+        <record id="partnerDemoPortal" model="res.partner">
+            <field name="label">Joel Willis</field>
+            <field name="email">joel.willis63@example.com</field>
+            <field name="street">858 Lynn Street</field>
+            <field name="city">Bayonne</field>
+            <field model="res.country.state" name="stateId" search="[['code','ilike','NJ']]"/>
+            <field name="zip">07002</field>
+            <field name="countryId" ref="base.us"/>
+            <field name="companyName">YourCompany</field>
+            <field name="image1920" type="base64" file="base/static/img/partner_demo_portal.jpg"/>
+            <field name="phone">(683)-556-5104</field>
+        </record>
+        <record id="demoUser0" model="res.users" context="{'noResetPassword': true}">
+            <field name="partnerId" ref="partnerDemoPortal"/>
+            <field name="login">portal</field>
+            <field name="password">portal</field>
+            <field name="signature"><![CDATA[<span>-- <br/>Mr Demo Portal</span>]]></field>
+            <field name="groupsId" eval="[Command.clear()]"/><!-- Avoid auto-including this user in any default group -->
+        </record>
+
+        <record id="base.groupPortal" model="res.groups"><!-- Add the demo user to the portal (and therefore to the portal member group) -->
+            <field name="users" eval="[Command.link(refId('demoUser0'))]"/>
+        </record>
+    </data>
+</verp>

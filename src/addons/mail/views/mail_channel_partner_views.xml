@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<verp><data>
+    <!-- mail.channel.partner -->
+    <record id="mailChannelPartnerViewTree" model="ir.ui.view">
+        <field name="label">mail.channel.partner.tree</field>
+        <field name="model">mail.channel.partner</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <tree string="Channels">
+                <field name="displayName"/>
+                <field name="channelId"/>
+                <field name="seenMessageId"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mailChannelPartnerViewForm" model="ir.ui.view">
+        <field name="label">mail.channel.partner.form</field>
+        <field name="model">mail.channel.partner</field>
+        <field name="arch" type="xml">
+            <form string="Channel">
+                <sheet>
+                    <group>
+                        <field name="partnerId"/>
+                        <field name="guestId"/>
+                        <field name="channelId"/>
+                        <field name="seenMessageId"/>
+                        <field name="rtcInvitingSessionId"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mailChannelPartnerAction" model="ir.actions.actwindow">
+        <field name="label">Channels/Partner</field>
+        <field name="resModel">mail.channel.partner</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+</data></verp>

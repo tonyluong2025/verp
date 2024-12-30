@@ -1,0 +1,15 @@
+
+.s-rating[data-vcss="001"] {
+    &.s-rating-inline {
+        display: flex;
+        align-items: center;
+
+        .s-rating-title {
+            margin: 0;
+            margin-right: 0.5em;
+        }
+        .s-rating-icons {
+            margin-left: auto;
+        }
+    }
+}

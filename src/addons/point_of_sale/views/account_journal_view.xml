@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <!-- View Taxes -->
+
+    <menuitem id="menuActionTaxFormOpen"
+         action="account.actionTaxForm"
+         parent="point_of_sale.menuPointConfigProduct"
+         groups="base.groupNoOne"
+         sequence="40"/>
+
+</verp>

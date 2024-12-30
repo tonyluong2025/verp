@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    
+    <record id="assetModifyForm" model="ir.ui.view">
+        <field name="label">wizard.asset.modify.form</field>
+        <field name="model">asset.modify</field>
+        <field name="arch" type="xml">
+            <form string="Modify Asset">
+                <field name="assetMethodTime" invisible="1"/>
+                <group string="Asset Durations to Modify" col="4">
+                    <group colspan="2" col="2">
+                	    <field name="label"/>
+                        <field name="methodNumber" attrs="{'invisible': [['assetMethodTime', '=', 'end']]}"/>
+                    </group>
+                    <group colspan="2" col="2">
+                        <field name="methodEnd" attrs="{'invisible': [['assetMethodTime', '=', 'number']]}"/>
+                        <label for="methodPeriod"/>
+                        <div>
+                            <field name="methodPeriod" class="oe-inline"/> months
+                        </div>	                        
+                    </group>
+                </group>
+                <footer>
+                    <button name="modify" string="Modify" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="actionAssetModify" model="ir.actions.actwindow">
+         <field name="label">Modify Asset</field>
+         <field name="resModel">asset.modify</field>
+         <field name="type">ir.actions.actwindow</field>
+         <field name="viewMode">tree,form</field>
+         <field name="viewId" ref="assetModifyForm"/>
+         <field name="target">new</field>
+   </record>
+    
+</verp>

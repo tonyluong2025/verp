@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="paymentIconCcVisa" model="payment.icon">
+        <field name="sequence">10</field>
+        <field name="label">VISA</field>
+        <field name="image" type="base64" file="payment/static/img/visa.png"/>
+    </record>
+
+    <record id="paymentIconCcMastercard" model="payment.icon">
+        <field name="sequence">20</field>
+        <field name="label">MasterCard</field>
+        <field name="image" type="base64" file="payment/static/img/mastercard.png"/>
+    </record>
+
+    <record id="paymentIconCcAmericanExpress" model="payment.icon">
+        <field name="sequence">30</field>
+        <field name="label">American Express</field>
+        <field name="image" type="base64" file="payment/static/img/american_express.png"/>
+    </record>
+
+    <record id="paymentIconCcDiscover" model="payment.icon">
+        <field name="sequence">40</field>
+        <field name="label">Discover</field>
+        <field name="image" type="base64" file="payment/static/img/discover.png"/>
+    </record>
+
+    <record id="paymentIconCcDinersClubIntl" model="payment.icon">
+        <field name="sequence">50</field>
+        <field name="label">Diners Club International</field>
+        <field name="image" type="base64" file="payment/static/img/diners_club_intl.png"/>
+    </record>
+
+    <record id="paymentIconPaypal" model="payment.icon">
+        <field name="sequence">60</field>
+        <field name="label">Paypal</field>
+        <field name="image" type="base64" file="payment/static/img/paypal.png"/>
+    </record>
+
+    <record id="paymentIconApplePay" model="payment.icon">
+        <field name="sequence">70</field>
+        <field name="label">Apple Pay</field>
+        <field name="image" type="base64" file="payment/static/img/applepay.png"/>
+    </record>
+
+    <record id="paymentIconCcJcb" model="payment.icon">
+        <field name="sequence">80</field>
+        <field name="label">JCB</field>
+        <field name="image" type="base64" file="payment/static/img/jcb.png"/>
+    </record>
+
+    <record id="paymentIconCcMaestro" model="payment.icon">
+        <field name="sequence">90</field>
+        <field name="label">Maestro</field>
+        <field name="image" type="base64" file="payment/static/img/maestro.png"/>
+    </record>
+
+    <record id="paymentIconCcCirrus" model="payment.icon">
+        <field name="sequence">100</field>
+        <field name="label">Cirrus</field>
+        <field name="image" type="base64" file="payment/static/img/cirrus.png"/>
+    </record>
+
+    <record id="paymentIconCcUnionpay" model="payment.icon">
+        <field name="sequence">110</field>
+        <field name="label">UnionPay</field>
+        <field name="image" type="base64" file="payment/static/img/unionpay.png"/>
+    </record>
+
+    <record id="paymentIconCcBancontact" model="payment.icon">
+        <field name="sequence">120</field>
+        <field name="label">Bancontact</field>
+        <field name="image" type="base64" file="payment/static/img/bancontact.png"/>
+    </record>
+
+    <record id="paymentIconCcWesternUnion" model="payment.icon">
+        <field name="sequence">130</field>
+        <field name="label">Western Union</field>
+        <field name="image" type="base64" file="payment/static/img/western_union.png"/>
+    </record>
+
+    <record id="paymentIconSepa" model="payment.icon">
+        <field name="sequence">140</field>
+        <field name="label">SEPA Direct Debit</field>
+        <field name="image" type="base64" file="payment/static/img/sepa.png"/>
+    </record>
+
+    <record id="paymentIconCcIdeal" model="payment.icon">
+        <field name="sequence">150</field>
+        <field name="label">iDEAL</field>
+        <field name="image" type="base64" file="payment/static/img/ideal.png"/>
+    </record>
+
+    <record id="paymentIconCcWebmoney" model="payment.icon">
+        <field name="sequence">160</field>
+        <field name="label">WebMoney</field>
+        <field name="image" type="base64" file="payment/static/img/webmoney.png"/>
+    </record>
+
+    <record id="paymentIconCcGiropay" model="payment.icon">
+        <field name="sequence">170</field>
+        <field name="label">Giropay</field>
+        <field name="image" type="base64" file="payment/static/img/giropay.png"/>
+    </record>
+
+    <record id="paymentIconCcEps" model="payment.icon">
+        <field name="sequence">180</field>
+        <field name="label">EPS</field>
+        <field name="image" type="base64" file="payment/static/img/eps.png"/>
+    </record>
+
+    <record id="paymentIconCcP24" model="payment.icon">
+        <field name="sequence">190</field>
+        <field name="label">P24</field>
+        <field name="image" type="base64" file="payment/static/img/p24.png"/>
+    </record>
+
+    <record id="paymentIconCcCodensaEasyCredit" model="payment.icon">
+        <field name="sequence">200</field>
+        <field name="label">Codensa Easy Credit</field>
+        <field name="image" type="base64" file="payment/static/img/codensa_easy_credit.png"/>
+    </record>
+
+    <record id="paymentIconKbc" model="payment.icon">
+        <field name="sequence">210</field>
+        <field name="label">KBC</field>
+        <field name="image" type="base64" file="payment/static/img/kbc.png"/>
+    </record>
+
+</verp>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="stockStorageCategoryHighSmall" model="stock.storage.category">
+            <field name="label">High frequency - Small</field>
+            <field name="maxWeight">200</field>
+        </record>
+        <record id="stockStorageCategoryHighBig" model="stock.storage.category">
+            <field name="label">High frequency - Big</field>
+            <field name="maxWeight">3000</field>
+        </record>
+        <record id="stockStorageCategoryMediumSmall" model="stock.storage.category">
+            <field name="label">Medium frequency - Small</field>
+            <field name="maxWeight">200</field>
+        </record>
+        <record id="stockStorageCategoryMediumBig" model="stock.storage.category">
+            <field name="label">Medium frequency - Big</field>
+            <field name="maxWeight">3000</field>
+        </record>
+        <record id="stockStorageCategoryLowSmall" model="stock.storage.category">
+            <field name="label">Low frequency - Small</field>
+            <field name="maxWeight">200</field>
+        </record>
+        <record id="stockStorageCategoryLowBig" model="stock.storage.category">
+            <field name="label">Low frequency - Big</field>
+            <field name="maxWeight">3000</field>
+        </record>
+    </data>
+</verp>

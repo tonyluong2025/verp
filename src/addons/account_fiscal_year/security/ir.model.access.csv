@@ -1,0 +1,5 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_account_fiscal_year,access.account.fiscal.year,model_accountFiscalYear,account.groupAccountUser,1,1,0,0
+access_account_fiscal_year_manager,access.account.fiscal.year.manager,model_accountFiscalYear,account.groupAccountManager,1,1,1,1
+access_change_lock_date_manager,access.change.lock.date.manager,model_changeLockDate,account.groupAccountManager,1,1,1,1
+

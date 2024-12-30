@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data noupdate="1">
+    <record model="res.partner.bank" id="bankPartnerDemo">
+        <field name="accNumber">60-16-13 31926819</field>
+        <field name="partnerId" ref="partnerDemo"/>
+    </record>
+</data>
+</verp>

@@ -1,0 +1,18 @@
+<verp>
+    <!-- PAYMENT ACQUIRER -->
+    <template id="websiteSaleOnboardingPaymentAcquirerStep" primary="true"
+              inheritId="payment.onboardingPaymentAcquirerStep">
+        <xpath expr="//t[@t-set='method']" position="replace">
+            <t t-set="method" t-value="'actionOpenWebsiteSaleOnboardingPaymentAcquirer'" />
+        </xpath>
+    </template>
+
+    <record id="actionOpenWebsiteSaleOnboardingPaymentAcquirerWizard" model="ir.actions.actwindow">
+        <field name="label">Choose a payment method</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">website.sale.payment.acquirer.onboarding.wizard</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="payment.paymentAcquirerOnboardingWizardForm" />
+        <field name="target">new</field>
+    </record>
+</verp>

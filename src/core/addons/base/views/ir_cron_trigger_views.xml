@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="irCronTriggerViewForm" model="ir.ui.view">
+        <field name="label">ir.cron.trigger.view.form</field>
+        <field name="model">ir.cron.trigger</field>
+        <field name="arch" type="xml">
+            <form string="Cron Trigger">
+                <sheet>
+                    <group>
+                        <field name="cronId"/>
+                        <field name="callAt"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="irCronTriggerViewTree" model="ir.ui.view">
+        <field name="label">ir.cron.trigger.view.tree</field>
+        <field name="model">ir.cron.trigger</field>
+        <field name="arch" type="xml">
+            <tree string="Cron Triggers">
+                <field name="cronId"/>
+                <field name="callAt"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="irCronTriggerViewSearch" model="ir.ui.view">
+        <field name="label">ir.cron.trigger.view.search</field>
+        <field name="model">ir.cron.trigger</field>
+        <field name="arch" type="xml">
+            <search string="Cron Triggers">
+                <field name="cronId"/>
+                <field name="callAt"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionIrCronTrigger" model="ir.actions.actwindow">
+        <field name="label">Scheduled Actions Triggers</field>
+        <field name="resModel">ir.cron.trigger</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+    <menuitem id="menuIrCronTrigger"
+        action="actionIrCronTrigger"
+        parent="base.menuAutomation"
+        sequence="3"/>
+
+</verp>

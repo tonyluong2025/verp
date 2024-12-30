@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<verp>
+    <record forcecreate="true" id="irCronDigestSchedulerAction" model="ir.cron">
+        <field name="label">Digest Emails</field>
+        <field name="modelId" ref="model_digestDigest"/>
+        <field name="state">code</field>
+        <field name="code">model._cronSendDigestEmail()</field>
+        <field name="userId" ref="base.userRoot"/>
+        <field name="intervalNumber">1</field>
+        <field name="intervalType">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="DateTime.now().plus({hours: 2}).toFormat('yyyy-MM-dd HH:mm:ss')"/>
+    </record>
+</verp>

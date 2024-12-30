@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewTaxTree" model="ir.ui.view">
+            <field name="label">account.tax.tree</field>
+            <field name="model">account.tax</field>
+            <field name="arch" type="xml">
+                <tree string="Account Tax" decoration-muted="!active">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="typeTaxUse"/>
+                    <field name="taxScope"/>
+                    <field name="description"/>
+                    <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                    <field name="countryId" optional="hide"/>
+                    <field name="active" widget="booleanToggle"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="taxRepartitionLineTree" model="ir.ui.view">
+            <field name="label">account.tax.repartition.line.tree</field>
+            <field name="model">account.tax.repartition.line</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" create="1" delete="1">
+                    <field name="sequence" widget="handle"/>
+                    <field name="factorPercent" attrs="{'invisible': [['repartitionType', '=', 'base']]}"/>
+                    <field name="repartitionType"/>
+                    <field name="accountId" attrs="{'invisible': [['repartitionType', '=', 'base']]}" options="{'noCreate': true}"/>
+                    <field name="tagIds" widget="many2manyTags" options="{'noCreate': true}" domain="[['applicability', '=', 'taxes'], '|', ['countryId', '=', parent.countryId], ['countryId', '=', false]]"/>
+                    <field name="useInTaxClosing"
+                           optional="hidden"
+                           attrs="{'invisible': [['repartitionType', '=', 'base']]}"/>
+                    <field name="companyId" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="accountTaxViewTree" model="ir.ui.view">
+            <field name="label">account.invoice.line.tax.search</field>
+            <field name="model">account.tax</field>
+            <field name="arch" type="xml">
+                <tree string="Account Tax">
+                    <field name="displayName" string="label"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewTaxKanban" model="ir.ui.view">
+            <field name="label">account.tax.kanban</field>
+            <field name="model">account.tax</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile">
+                    <field name="label"/>
+                    <field name="typeTaxUse"/>
+                    <field name="taxScope"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-card oe-kanban-global-click">
+                                <div class="row mb4">
+                                    <div class="col-6">
+                                        <strong><span><t t-esc="record.label.value"/></span></strong>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <span class="badge badge-pill"><t t-esc="record.typeTaxUse.value"/></span>
+                                        <span class="badge badge-pill"><t t-esc="record.taxScope.value"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="viewAccountTaxSearch" model="ir.ui.view">
+            <field name="label">account.tax.search</field>
+            <field name="model">account.tax</field>
+            <field name="arch" type="xml">
+                <search string="Search Taxes">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['description','ilike',self]]" string="Tax"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <filter string="Sale" name="sale" domain="[['typeTaxUse','=','sale']]" />
+                    <filter string="Purchase" name="purchase" domain="[['typeTaxUse','=','purchase']]" />
+                    <separator/>
+                    <filter string="Services" name="service" domain="[['taxScope','=','service']]" />
+                    <filter string="Goods" name="goods" domain="[['taxScope','=','consu']]" />
+                    <separator/>
+                    <filter name="active" string="Active" domain="[['active','=',true]]" help="Show active taxes"/>
+                    <filter name="inactive" string="Inactive" domain="[['active','=',false]]" help="Show inactive taxes"/>
+                    <group string="Group By">
+                        <filter string="Company" name="company" domain="[]" context="{'groupby':'companyId'}" groups="base.groupMultiCompany"/>
+                        <filter string="Tax Type" name="taxapp" domain="[]" context="{'groupby':'typeTaxUse'}"/>
+                        <filter string="Tax Scope" name="taxapp" domain="[]" context="{'groupby':'taxScope'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="accountTaxViewSearch" model="ir.ui.view">
+            <field name="label">account.tax.search.filters</field>
+            <field name="model">account.tax</field>
+            <field name="arch" type="xml">
+                <search string="Search Taxes">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['description','ilike',self]]" string="Tax"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_tax_form" model="ir.ui.view">
+            <field name="label">account.tax.form</field>
+            <field name="model">account.tax</field>
+            <field name="arch" type="xml">
+                <form string="Account Tax">
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="label"/>
+                            <field name="amountType"/>
+                            <field name="active" widget="booleanToggle"/>
+                        </group>
+                        <group>
+                            <field name="typeTaxUse"/>
+                            <field name="taxScope"/>
+                            <label for="amount" attrs="{'invisible': [['amountType','not in', ['fixed', 'percent', 'division']]]}"/>
+                            <div attrs="{'invisible':[['amountType', 'not in', ['fixed', 'percent', 'division']]]}">
+                                <field name="amount" class="oe-inline" nolabel="1"/>
+                                <span class="o-form-label oe-inline" attrs="{'invisible': [['amountType','=','fixed']]}">%</span>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Definition" name="definition">
+                            <div attrs="{'invisible': [['amountType', '=', 'group']]}">
+                                <field name="countryCode" invisible="1"/>
+                                <group string="Distribution for Invoices">
+                                    <field name="invoiceRepartitionLineIds" nolabel="1" context="{'default_companyId': companyId}"/>
+                                </group>
+                                <group string="Distribution for Credit Notes">
+                                    <field name="refundRepartitionLineIds" nolabel="1" context="{'default_companyId': companyId}"/>
+                                </group>
+                            </div>
+                            <field name="childrenTaxIds" attrs="{'invisible':['|', ['amountType','!=','group'], ['typeTaxUse','=','none']]}" domain="[['typeTaxUse','in',['none',typeTaxUse]], ['amountType','!=','group']]">
+                                <tree string="Children Taxes">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="label"/>
+                                    <field name="amountType"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Advanced Options" name="advancedOptions">
+                            <group>
+                                <group>
+                                    <field name="description" attrs="{'invisible':[['amountType','=', 'group']]}"/>
+                                    <field name="taxGroupId" attrs="{'invisible': [['amountType', '=', 'group']], 'required': [['amountType', '!=', 'group']]}"/>
+                                    <field name="analytic" attrs="{'invisible':[['amountType','=', 'group']]}" groups="analytic.groupAnalyticAccounting" />
+                                    <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                                    <field name="countryId" required="true"/>
+                                </group>
+                                <group name="advancedBooleans">
+                                    <field name="priceInclude" attrs="{'invisible': [['amountType','=', 'group']]}" />
+                                    <field name="includeBaseAmount" attrs="{'invisible': [['amountType','=', 'group']]}" />
+                                    <field name="isBaseAffected"
+                                           attrs="{'invisible': ['|', ['amountType','=', 'group'], ['priceInclude', '=', true]]}"/>
+                                    <field name="hideTaxExigibility" invisible="1"/>
+                                    <field name="taxExigibility" widget="radio" attrs="{'invisible':['|', ['amountType','=', 'group'], ['hideTaxExigibility', '=', false]]}" groups="account.groupAccountReadonly"/>
+                                    <field name="cashBasisTransitionAccountId" options="{'noCreate': true}" attrs="{'invisible': [['taxExigibility', '=', 'onInvoice']], 'required': [['taxExigibility', '=', 'onPayment']]}" groups="account.groupAccountReadonly"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+              </field>
+        </record>
+
+        <record id="actionTaxForm" model="ir.actions.actwindow">
+            <field name="label">Taxes</field>
+            <field name="resModel">account.tax</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="domain" eval="false"/> <!-- Force empty -->
+            <field name="context">{'searchDefault_sale': true, 'searchDefault_purchase': true, 'activeTest': false}</field>
+            <field name="viewId" ref="viewTaxTree"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new tax
+              </p>
+            </field>
+        </record>
+
+        <record id="accountTaxGroupViewSearch" model="ir.ui.view">
+            <field name="label">account.tax.group.search.filters</field>
+            <field name="model">account.tax.group</field>
+            <field name="arch" type="xml">
+                <search string="Search Group">
+                    <field name="label"/>
+                    <field name="countryId"/>
+                    <group string="Group By">
+                        <filter string="Country" name="groupbyCountry" domain="[]" context="{'groupby': 'countryId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="viewTaxGroupTree" model="ir.ui.view">
+            <field name="label">account.tax.group.tree</field>
+            <field name="model">account.tax.group</field>
+            <field name="arch" type="xml">
+                <tree string="Account Tax Group" editable="bottom" create="false">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="countryId"/>
+
+                    <!--
+                        'force_account_company' context key is used so that the RedirectWarning
+                        potentially raised during tax closing doesn't allow the user choosing
+                        accounts from another company in case the multicompany selector
+                        currently grants access to multiple companies.
+                    -->
+                    <field name="propertyTaxPayableAccountId"
+                        domain="context['forceAccountCompany'] ? [['companyId', '=', context['forceAccountCompany']]] : []"
+                    />
+                    <field name="propertyTaxReceivableAccountId"
+                        domain="context['forceAccountCompany'] ? [['companyId', '=', context['forceAccountCompany']]] : []"
+                    />
+                    <field name="propertyAdvanceTaxPaymentAccountId"
+                        domain="context['forceAccountCompany'] ? [['companyId', '=', context['forceAccountCompany']]] : []"
+                    />
+
+                    <field name="precedingSubtotal" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="actionTaxGroup" model="ir.actions.actwindow">
+            <field name="label">Tax Groups</field>
+            <field name="resModel">account.tax.group</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="viewTaxGroupTree"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new tax group
+              </p>
+            </field>
+        </record>
+
+    </data>
+</verp>

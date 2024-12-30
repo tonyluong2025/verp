@@ -1,0 +1,89 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Server",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceFolder}/src/index",
+        // "-s", // save config.conf
+      ]
+    },
+    {
+      "name": "Start",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceFolder}/src/index",
+        "start",
+        "-r",
+        "--addons-path=./src/core/addons,./src/addons",
+        "-i", "base_setup",
+      ],
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**/*.js",
+        "${workspaceFolder}/**/*.ts",
+        "!**/node_modules/**"
+      ],
+    },
+    {
+      "name": "Deploy",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceFolder}/src/index.ts",
+        "deploy"
+      ]
+    },
+    {
+      "name": "Shell",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceFolder}/src/index.ts",
+        "shell",
+        "--umber-abc=100",
+        "--http-port=8888" 
+      ]
+    },
+    {
+      "name": "Test",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceFolder}/src/test", "event",
+      ]
+    },
+    {
+      "name": "TestJS",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+      ],
+      "args": [
+        "${workspaceFolder}/src/test/test_worker/index.js"
+      ]
+    }
+  ],
+}

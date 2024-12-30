@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="sDynamicSnippetProducts" name="Products">
+        <t t-call="website.sDynamicSnippetTemplate">
+            <t t-set="snippetName" t-value="'sDynamicSnippetProducts'"/>
+        </t>
+    </template>
+    <template id="sDynamicSnippetProductsOptions" inheritId="website.snippetOptions">
+        <xpath expr="." position="inside">
+            <t t-call="website.dynamicSnippetCarouselOptionsTemplate">
+                <t t-set="snippetName" t-value="'dynamicSnippetProducts'"/>
+                <t t-set="snippetSelector" t-value="'.s-dynamic-snippet-products'"/>
+            </t>
+        </xpath>
+    </template>
+    <template id="sDynamicSnippetProductsTemplateOptions" inheritId="website.sDynamicSnippetOptionsTemplate">
+        <xpath expr="//we-select[@data-name='filterOpt']" position="after">
+            <t t-if="snippetName == 'dynamicSnippetProducts'">
+                <we-select string="Category" data-name="productCategoryOpt" data-attribute-name="productCategoryId" data-no-preview="true">
+                    <we-button data-select-data-attribute="all">All Products</we-button>
+                    <we-button data-select-data-attribute="current">Current Category or All</we-button>
+                </we-select>
+                <we-input string="Product names" class="o-we-large" data-name="productNamesOpt"
+                    data-attribute-name="productNames" data-no-preview="true" data-select-data-attribute=""
+                    placeholder="e.g. lamp,bin" title="Comma-separated list of parts of product names"/>
+            </t>
+        </xpath>
+    </template>
+
+    <record id="website_sale.sDynamicSnippetProducts_000_js" model="ir.asset">
+        <field name="label">Dynamic snippet products 000 JS</field>
+        <field name="bundle">web.assetsFrontend</field>
+        <field name="path">website_sale/static/src/snippets/s_dynamic_snippet_products/000.js</field>
+    </record>
+
+</verp>

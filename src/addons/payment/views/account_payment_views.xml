@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<verp>
+
+    <record id="viewAccountPaymentFormInheritPayment" model="ir.ui.view">
+        <field name="label">view.account.payment.form.inherit.payment</field>
+        <field name="model">account.payment</field>
+        <field name="inheritId" ref="account.viewAccountPaymentForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='actionDraft']" position="after">
+                <field name="amountAvailableForRefund" invisible="1"/>
+                <button type="object"
+                    name="actionRefundWizard"
+                    string="Refund"
+                    groups="account.groupAccountInvoice"
+                    attrs="{'invisible': [['amountAvailableForRefund', '&lt;=', 0]]}"
+                    class="btn-secondary"/>
+            </xpath>
+            <xpath expr="//div[@name='buttonBox']" position="inside">
+                <button name="actionViewRefunds"
+                    type="object"
+                    class="oe-stat-button"
+                    icon="fa-money"
+                    attrs="{'invisible': [['refundsCount', '=', 0]]}">
+                    <field name="refundsCount" widget="statinfo" string="Refunds"/>
+                </button>
+            </xpath>
+            <xpath expr='//group[2]' position="inside">
+                <field name="sourcePaymentId" attrs="{'invisible': [['sourcePaymentId', '=', false]]}"/>
+                <field name="paymentTransactionId" groups="base.groupNoOne" attrs="{'invisible': [['useElectronicPaymentMethod', '!=', true]]}"/>
+            </xpath>
+            <field name="paymentMethodLineId" position="after">
+                <field name="paymentMethodCode" invisible="1"/>
+                <field name="suitablePaymentTokenIds" invisible="1"/>
+                <field name="useElectronicPaymentMethod" invisible="1"/>
+                <field name="paymentTokenId" options="{'noCreate': true}"
+                    attrs="{'invisible': [['useElectronicPaymentMethod', '!=', true]], 'readonly': [['state', '!=', 'draft']]}"/>
+            </field>
+        </field>
+    </record>
+
+</verp>

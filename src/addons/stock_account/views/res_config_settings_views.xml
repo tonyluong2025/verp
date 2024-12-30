@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="resConfigSettingsViewForm" model="ir.ui.view">
+            <field name="label">res.config.settings.view.form.inherit.stock.account</field>
+            <field name="model">res.config.settings</field>
+            <field name="inheritId" ref="stock.resConfigSettingsViewForm"/>
+            <field name="arch" type="xml">
+                <div id="productionLotInfo" position="after">
+                    <h2>Valuation</h2>
+                    <div class="row mt16 o-settings-container" name="valuationSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="additionalCostSetting"
+                            title="Affect landed costs on reception operations and split them among products to update their cost price.">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleStockLandedCosts"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleStockLandedCosts" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/inventory_and_mrp/inventory/management/reporting/integrating_landed_costs.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Add additional cost (transport, customs, ...) in the value of the product.
+                                </div>
+                                <div class="content-group">
+                                    <div name="landedCostInfo"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" attrs="{'invisible': [['groupStockProductionLot', '=', false]]}" id="groupLotOnInvoice">
+                            <div class="o-setting-left-pane">
+                                <field name="groupLotOnInvoice"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupLotOnInvoice"/>
+                                <div class="text-muted">
+                                    Lots &amp; Serial numbers will appear on the invoice
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</verp>

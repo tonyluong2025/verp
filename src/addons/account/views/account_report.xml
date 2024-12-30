@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <!-- QWeb Reports -->
+        <record id="accountInvoices" model="ir.actions.report">
+            <field name="label">Invoices</field>
+            <field name="model">account.move</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">account.reportInvoiceWithPayments</field>
+            <field name="reportFile">account.reportInvoiceWithPayments</field>
+            <field name="printReportName">(await object._getReportBaseFilename())</field>
+            <field name="attachment">(await object.state === 'posted') &amp;&amp; ((await object.label || 'INV').replace('/','_')+'.pdf')</field>
+            <field name="bindingModelId" ref="model_accountMove"/>
+            <field name="bindingType">report</field>
+            <field name="groupsId" eval="[[4, refId('account.groupAccountInvoice')],
+ [4, refId('account.groupAccountReadonly')]]"/>
+        </record>
+
+        <record id="actionAccountOriginalVendorBill" model="ir.actions.report">
+            <field name="label">Original Bills</field>
+            <field name="model">account.move</field>
+            <field name="bindingModelId" ref="model_accountMove"/>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">account.reportOriginalVendorBill</field>
+            <field name="reportFile">account.reportOriginalVendorBill</field>
+            <field name="attachment">'original_vendor_bill.pdf'</field>
+            <field name="attachmentUse">true</field>
+            <field name="bindingViewTypes">list</field>
+        </record>
+
+        <record id="accountInvoicesWithoutPayment" model="ir.actions.report">
+            <field name="label">Invoices without Payment</field>
+            <field name="model">account.move</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">account.reportInvoice</field>
+            <field name="reportFile">account.reportInvoice</field>
+            <field name="printReportName">(await object._getReportBaseFilename())</field>
+            <field name="attachment">(await object.state === 'posted') &amp;&amp; ((await object.label || 'INV').replace('/','_')+'.pdf')</field>
+            <field name="bindingModelId" ref="model_accountMove"/>
+            <field name="bindingType">report</field>
+        </record>
+
+        <record id="actionReportJournal" model="ir.actions.report">
+            <field name="label">Journals Audit</field>
+            <field name="model">account.common.journal.report</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">account.reportJournal</field>
+            <field name="reportFile">account.reportJournal</field>
+            <field name="bindingModelId" ref="model_accountCommonJournalReport"/>
+            <field name="bindingType">report</field>
+        </record>
+
+        <record id="actionReportPaymentReceipt" model="ir.actions.report">
+            <field name="label">Payment Receipt</field>
+            <field name="model">account.payment</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">account.reportPaymentReceipt</field>
+            <field name="reportFile">account.reportPaymentReceipt</field>
+            <field name="bindingModelId" ref="model_accountPayment"/>
+            <field name="bindingType">report</field>
+        </record>
+
+        <record id="actionReportAccountStatement" model="ir.actions.report">
+            <field name="label">Statement</field>
+            <field name="model">account.bank.statement</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">account.reportStatement</field>
+            <field name="reportFile">account.reportStatement</field>
+            <field name="bindingModelId" ref="model_accountBankStatement"/>
+            <field name="bindingType">report</field>
+        </record>
+
+        <record id="actionReportAccountHashIntegrity" model="ir.actions.report">
+            <field name="label">Hash integrity result PDF</field>
+            <field name="model">res.company</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">account.reportHashIntegrity</field>
+            <field name="reportFile">account.reportHashIntegrity</field>
+        </record>
+
+    </data>
+</verp>

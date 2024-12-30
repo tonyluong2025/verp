@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<verp>
+        <record id="crmLeadLostViewForm" model="ir.ui.view">
+            <field name="label">crm.lead.lost.form</field>
+            <field name="model">crm.lead.lost</field>
+            <field name="arch" type="xml">
+                <form string="Lost Reason">
+                    <group class="oe-title">
+                        <field name="lostReasonId" options="{'noCreateEdit': true}" />
+                    </group>
+                    <footer>
+                        <button name="actionLostReasonApply" string="Submit" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="crmLeadLostAction" model="ir.actions.actwindow">
+            <field name="label">Lost Reason</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">crm.lead.lost</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="crmLeadLostViewForm"/>
+            <field name="target">new</field>
+        </record>
+</verp>

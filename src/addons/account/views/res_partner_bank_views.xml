@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewCompanyPartnerBankForm" model="ir.ui.view">
+            <field name="label">company.res.partner.bank.form</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inheritId" ref="base.viewPartnerBankForm"/>
+            <field name="mode">primary</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partnerId']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="actionNewBankSetting" model="ir.actions.server">
+            <field name="label">Add a Bank Account</field>
+            <field name="modelId" ref="base.model_resCompany"/>
+            <field name="state">code</field>
+            <field name="code">model.settingInitBankAccountAction()</field>
+        </record>
+
+    </data>
+</verp>

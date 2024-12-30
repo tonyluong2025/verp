@@ -1,0 +1,22 @@
+.o-tax-group-edit {
+    white-space: nowrap;
+}
+
+.o-tax-group-edit:hover {
+    color: #00A09D;
+    cursor: pointer;
+}
+
+.o-tax-group-editable .o-tax-group-amount-value input {
+    width: 65%;
+    float: right;
+    text-align: right;
+}
+
+.o-tax-group-editable .o-tax-group-amount-value::before {
+    content: ' ';
+}
+
+.o-tax-total-label{
+    margin-bottom: 0 !important;
+}

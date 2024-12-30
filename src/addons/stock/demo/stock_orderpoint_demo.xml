@@ -1,0 +1,44 @@
+<verp>
+    <data noupdate="1">
+
+        <!-- Resource: stock.warehouse.orderpoint -->
+
+        <record id="stockWarehouseOrderpoint_1" model="stock.warehouse.orderpoint">
+            <field name="productMaxQty">10.0</field>
+            <field name="productMinQty">5.0</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field model="stock.warehouse" name="warehouseId" search="[]"/>
+            <field name="productId" ref="product.productDelivery02"/>
+            <field name="locationId" model="stock.location"
+                eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockWarehouseOrderpoint_2" model="stock.warehouse.orderpoint">
+            <field name="productMaxQty">12.0</field>
+            <field name="productMinQty">5.0</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field model="stock.warehouse" name="warehouseId" search="[]"/>
+            <field name="productId" ref="product.productProduct20"/>
+            <field name="locationId" model="stock.location"
+                eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockWarehouseOrderpoint_5" model="stock.warehouse.orderpoint">
+            <field name="productMaxQty">5.0</field>
+            <field name="productMinQty">3.0</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field model="stock.warehouse" name="warehouseId" search="[]"/>
+            <field name="productId" ref="product.productDelivery01"/>
+            <field name="locationId" model="stock.location"
+                eval="(await (await obj.env.ref('stock.warehouse0')).lotStockId).id"/>
+        </record>
+        <record id="stockWarehouseOrderpoint_shop1_cpu1" model="stock.warehouse.orderpoint">
+            <field name="productMaxQty">20.0</field>
+            <field name="productMinQty">10.0</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="warehouseId" ref="stock.stockWarehouseShop0"/>
+            <field name="locationId" ref="stock.stockLocationShop0"/>
+            <field name="productId" ref="product.productProduct9"/>
+        </record>
+
+    </data>
+</verp>

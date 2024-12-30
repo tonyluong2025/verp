@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="60" viewBox="0 0 82 60">
+  <defs>
+    <rect id="path_1" width="14" height="2" x="0" y="0"/>
+    <filter id="filter_2" width="107.1%" height="200%" x="-3.6%" y="-25%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+    <path id="path_3" d="M13 12v1H0v-1h13zm-2-3v1H0V9h11zm2-3v1H0V6h13z"/>
+    <filter id="filter_4" width="107.7%" height="128.6%" x="-3.8%" y="-7.1%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.0995137675 0"/>
+    </filter>
+    <rect id="path_5" width="14" height="2" x="20" y="0"/>
+    <filter id="filter_6" width="107.1%" height="200%" x="-3.6%" y="-25%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+    <path id="path_7" d="M33 12v1H20v-1h13zm-2-3v1H20V9h11zm2-3v1H20V6h13z"/>
+    <filter id="filter_8" width="107.7%" height="128.6%" x="-3.8%" y="-7.1%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.0995137675 0"/>
+    </filter>
+    <rect id="path_9" width="14" height="2" x="39" y="0"/>
+    <filter id="filter_10" width="107.1%" height="200%" x="-3.6%" y="-25%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+    <path id="path_11" d="M52 12v1H39v-1h13zm-2-3v1H39V9h11zm2-3v1H39V6h13z"/>
+    <filter id="filter_12" width="107.7%" height="128.6%" x="-3.8%" y="-7.1%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.0995137675 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" class="snippets-thumbs">
+    <g class="s-mega-menu-multi-menus">
+      <rect width="82" height="60" class="bg"/>
+      <g class="group" transform="translate(15 24)">
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_2)" xlink:href="#path_1"/>
+          <use fill="#FFF" fill-opacity=".78" xlink:href="#path_1"/>
+        </g>
+        <g class="combined-shape">
+          <use fill="#000" filter="url(#filter_4)" xlink:href="#path_3"/>
+          <use fill="#FFF" fill-opacity=".348" xlink:href="#path_3"/>
+        </g>
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_6)" xlink:href="#path_5"/>
+          <use fill="#FFF" fill-opacity=".78" xlink:href="#path_5"/>
+        </g>
+        <g class="combined-shape">
+          <use fill="#000" filter="url(#filter_8)" xlink:href="#path_7"/>
+          <use fill="#FFF" fill-opacity=".348" xlink:href="#path_7"/>
+        </g>
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_10)" xlink:href="#path_9"/>
+          <use fill="#FFF" fill-opacity=".78" xlink:href="#path_9"/>
+        </g>
+        <g class="combined-shape">
+          <use fill="#000" filter="url(#filter_12)" xlink:href="#path_11"/>
+          <use fill="#FFF" fill-opacity=".348" xlink:href="#path_11"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

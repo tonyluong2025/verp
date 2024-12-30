@@ -1,0 +1,62 @@
+.o-kanban-view.o-kanban-payment-acquirer {
+    &.o-kanban-ungrouped {
+        .o-kanban-record {
+            width: 500px;
+
+            .o-kanban-image {
+                float: right;
+
+                + div {
+                    padding-left: 0;
+                    padding-right: $o-kanban-image-width + $o-kanban-inside-hgutter;
+                }
+            }
+
+            .o-payment-acquirer-desc {
+                margin-bottom: 28px;
+
+                i.fa {
+                    margin-right: 5px;
+
+                    &.fa-check {
+                        color: green;
+                    }
+                }
+            }
+
+            .o-payment-acquirer-bottom {
+                > button {
+                    position: absolute;
+                    bottom: 8px;
+                    right: 8px;
+                }
+                > .label {
+                    position: absolute;
+                    bottom: 8px;
+                    left: 8px;
+                }
+            }
+        }
+    }
+}
+
+.o-form-view {
+    .o-payment-acquirer-desc {
+        margin-top: 10px;
+        ul {
+            list-style-type: none;
+            padding: 0;
+
+            i.fa {
+                margin-right: 5px;
+
+                &.fa-check {
+                    color: green;
+                }
+            }
+        }
+    }
+    .o-warning-text {
+        color: #f0ad4e;
+    }
+}

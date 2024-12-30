@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewAccountFinancialReportForm" model="ir.ui.view">
+            <field name="label">account.financial.report.form</field>
+            <field name="model">account.financial.report</field>
+            <field name="arch" type="xml">
+                <form string="Account Report">
+                    <sheet>
+                        <group col="4">
+                            <field name="label"/>
+                            <field name="parentId"/>
+                            <field name="sequence"/>
+                            <field name="type"/>
+                            <field name="sign"/>
+                            <field name="styleOverwrite"/>
+                        </group>
+                        <notebook>
+                            <page string="Report" attrs="{'invisible': [['type','not in',['accounts','accountType', 'accountReport']]]}">
+                                <group>
+                                    <field name="displayDetail" attrs="{'invisible': [['type','not in',['accounts','accountType']]]}"/>
+                                    <field name="accountReportId" attrs="{'invisible': [['type', '!=', 'accountReport']]}"/>
+                                </group>
+                                <field name="accountIds" attrs="{'invisible': [['type', '!=', 'accounts']]}"/>
+                                <field name="accountTypeIds" attrs="{'invisible': [['type', '!=', 'accountType']]}"/>
+                            </page>
+                            <page string="Childrens">
+                                <group>
+                                    <field name="childrenIds" nolabel="1">
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountFinancialReportTree" model="ir.ui.view">
+            <field name="label">account.financial.report.tree</field>
+            <field name="model">account.financial.report</field>
+            <field name="arch" type="xml">
+                <tree string="Account Report">
+                    <field name="label"/>
+                    <field name="parentId" invisible="1"/>
+                    <field name="type"/>
+                    <field name="accountReportId"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="viewAccountFinancialReportSearch" model="ir.ui.view">
+            <field name="label">account.financial.report.search</field>
+            <field name="model">account.financial.report</field>
+            <field name="arch" type="xml">
+                <search string="Account Report">
+                    <field name="label" string="Account Report"/>
+                    <field name="type"/>
+                    <field name="accountReportId"/>
+                    <filter string="Reports" name="filterParentId" domain="[['parentId','=', false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="parentReport" string="Parent Report" domain="" context="{'groupby':'parentId'}"/>
+                        <filter name="reportType" string="Report Type" domain="[]" context="{'groupby':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionAccountFinancialReportTree" model="ir.actions.actwindow">
+            <field name="label">Financial Reports</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">account.financial.report</field>
+            <field name="viewMode">tree,form</field>
+            <field name="context">{'searchdefault_filterParentId': true}</field>
+            <field name="searchViewId" ref="viewAccountFinancialReportSearch"/>
+            <field name="viewId" ref="viewAccountFinancialReportTree"/>
+        </record>
+
+        <menuitem id="menuFinanceReportsSettings"
+                  name="Financial Reports"
+                  sequence="9"
+                  groups="account.groupAccountUser,account.groupAccountManager"
+                  parent="account.menuFinanceConfiguration"/>
+
+        <menuitem id="menuAccountReports"
+                  name="Account Reports"
+                  action="actionAccountFinancialReportTree"
+                  groups="account.groupAccountUser,account.groupAccountManager"
+                  parent="menuFinanceReportsSettings"/>
+
+    </data>
+</verp>
+

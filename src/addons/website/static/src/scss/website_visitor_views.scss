@@ -1,0 +1,46 @@
+.o-wvisitor-kanban {
+    &.o-kanban-ungrouped {
+        padding:0px;
+        .o-wvisitor-kanban-card {
+            width: 100%;
+            margin: 0px;
+            border-top: 0px !important;
+            &:first-child {
+                border-bottom: 1px solid #dee2e6 !important;
+            }
+            .o-kanban-detail-ungrouped {
+                .o-wvisitor-kanban-image {
+                    width: 56px;
+                    height: 56px;
+                    top: 0px;
+                    position: absolute;
+                }
+                .o-wvisitor-name {
+                    padding-left: 72px;
+                }
+                .w-visitor-kanban-actions-ungrouped {
+                    button {
+                        float: right;
+                        margin: 4px;
+                    }
+                }
+                .o-country-flag {
+                    margin-right: 8px;
+                }
+            }
+            .oe-kanban-details {
+                display:none !important;
+            }
+        }
+    }
+    &.o-kanban-grouped {
+        .o-kanban-detail-ungrouped {
+            display:none !important;
+        }
+    }
+}
+
+.o-country-flag {
+    width:24px;
+    height: 16px;
+}

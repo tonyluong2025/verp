@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record model="ir.ui.view" id="irLoggingFormView">
+            <field name="model">ir.logging</field>
+            <field name="arch" type="xml">
+                <form string="Log">
+                <sheet>
+                    <group name="creationDetails" string="Creation details">
+                        <field name="createdAt" />
+                        <field name="createdUid" />
+                        <field name="dbName" />
+                    </group>
+                    <group name="logDetails" string="Logging details">
+                        <field name="type" />
+                        <field name="label" />
+                        <field name="level" />
+                        <field name="path" />
+                        <field name="line" />
+                        <field name="func" />
+                        <field name="message" />
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="irLoggingTreeView">
+            <field name="model">ir.logging</field>
+            <field name="arch" type="xml">
+                <tree string="Logs">
+                    <field name="createdAt" />
+                    <field name="createdUid" />
+                    <field name="dbName" />
+                    <field name="type" />
+                    <field name="label" />
+                    <field name="level" />
+                    <field name="path" />
+                    <field name="line" />
+                    <field name="func" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="irLoggingSearchView">
+            <field name="model">ir.logging</field>
+            <field name="arch" type="xml">
+                <search string="Logs">
+                    <field name="dbName" />
+                    <field name="type" />
+                    <field name="label" />
+                    <field name="level" />
+                    <field name="message" />
+                    <group expand="0" string="Group By">
+                        <filter string="Database" name="database" domain="[]" context="{'groupby': 'dbName'}" />
+                        <filter string="Level" name="groupbyLevel" domain="[]" context="{'groupby': 'level'}" />
+                        <filter string="Type" name="groupbyType" domain="[]" context="{'groupby': 'type'}" />
+                        <filter string="Creation Date" name="groupbyMonth" domain="[]" context="{'groupby': 'createdAt'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.actwindow" id="irLoggingAllAct">
+            <field name="label">Logging</field>
+            <field name="resModel">ir.logging</field>
+            <field name="viewMode">tree,form</field>
+            <field name="searchViewId" ref="irLoggingSearchView" />
+        </record>
+        <menuitem parent="base.nextId9" id="irLoggingAllMenu" action="irLoggingAllAct" />
+</verp>

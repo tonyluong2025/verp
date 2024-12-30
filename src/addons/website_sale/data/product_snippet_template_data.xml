@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- Templates for Dynamic Snippet -->
+        <template id="dynamicFilterTemplateProductProductAddToCart" name="Classic Card">
+            <t t-foreach="records" t-as="data">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="o-carousel-product-card card h-100 w-100" t-att-data-add2cart-rerender="data['_add2cartRerender']">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <input type="hidden" name="productId" t-att-data-product-id="record.id"/>
+                    <a class="o-carousel-product-img-link" t-att-href="await record.websiteUrl">
+                        <img class="o-carousel-product-card-img-top card-img-top p-2" loading="lazy" t-att-src="data['image512']"
+                            t-att-alt="await record.displayName"/>
+                    </a>
+                    <i t-if="data['_latestViewed']" class="fa fa-trash o-carousel-product-remove js-remove"></i>
+                    <div class="o-carousel-product-card-body card-body border-top">
+                        <a t-att-href="await record.websiteUrl" class="text-decoration-none">
+                            <div class="h6 card-title mb-0" t-field="record.displayName"/>
+                        </a>
+                        <div class="mt-2">
+                            <t t-if="await isViewActive('website_sale.productComment')" t-call="portal_rating.ratingWidgetStarsStatic">
+                                <t t-set="ratingAvg" t-value="await record.ratingAvg"/>
+                                <t t-set="ratingCount" t-value="await record.ratingCount"/>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="o-carousel-product-card-footer card-footer d-flex align-items-center">
+                        <div>
+                            <t t-call="website_sale.priceDynamicFilterTemplateProductProduct"/>
+                        </div>
+                        <button type="button" role="button" class="btn btn-primary js-add-cart ml-auto" title="Add to Cart">
+                            <i class="fa fa-fw fa-shopping-cart"/>
+                        </button>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductViewDetail" name="Detailed Product">
+            <t t-foreach="records" t-as="data">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="o-carousel-product-card card h-100 w-100" t-att-data-url="await record.websiteUrl" t-att-data-add2cart-rerender="data['_add2cartRerender']">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <a class="o-carousel-product-img-link" t-att-href="await record.websiteUrl">
+                        <img class="card-img-top p-3" loading="lazy" t-att-src="data['image512']" t-att-alt="await record.displayName"/>
+                    </a>
+                    <div class="o-carousel-product-card-body card-body d-flex flex-column justify-content-between">
+                        <div class="card-title h5" t-field="record.displayName"/>
+                        <div class="card-text" t-field="record.description_sale"/>
+                        <div class="mt-2">
+                            <t t-if="await isViewActive('website_sale.productComment')" t-call="portal_rating.ratingWidgetStarsStatic">
+                                <t t-set="ratingAvg" t-value="await ecord.ratingAvg"/>
+                                <t t-set="ratingCount" t-value="await record.ratingCount"/>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="o-carousel-product-card-footer card-footer d-flex align-items-center">
+                        <div>
+                            <t t-call="website_sale.priceDynamicFilterTemplateProductProduct"/>
+                        </div>
+                        <a class="btn btn-primary ml-auto" t-att-href="await record.websiteUrl">
+                            <i class="fa fa-fw fa-search"/>
+                        </a>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductMiniImage" name="Image only">
+            <t t-foreach="records" t-as="data" data-number-of-elements="4" data-number-of-elements-sm="1" data-number-of-elements-fetch="8">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="card h-100" t-att-data-url="await record.websiteUrl">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <a class="o-carousel-product-img-link" t-att-href="await record.websiteUrl">
+                        <img class="card-img-top p-3" loading="lazy" t-att-src="data['image512']" t-att-alt="await record.displayName"/>
+                    </a>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductMiniPrice" name="Image with price">
+            <t t-foreach="records" t-as="data">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="card w-100 text-center o-dynamic-product-hovered p-3 border-0" t-att-data-url="await record.websiteUrl">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <a class="o-carousel-product-img-link stretched-link" t-att-href="record.websiteUrl">
+                        <img class="card-img-top" loading="lazy" t-att-src="data['image512']" t-att-alt="await record.displayName"/>
+                    </a>
+                    <div class="o-carousel-product-card-body mt-2">
+                        <div class="h6">
+                            <t t-if="await isViewActive('website_sale.productComment')" t-call="portal_rating.ratingWidgetStarsStatic">
+                                <t t-set="ratingAvg" t-value="await record.ratingAvg"/>
+                                <t t-set="ratingCount" t-value="await record.ratingCount"/>
+                            </t>
+                        </div>
+                        <div class="d-inline-block rounded-pill bg-primary px-3 py-2 mt-2 text-center h6">
+                            <t t-call="website_sale.priceDynamicFilterTemplateProductProduct"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductMiniName" name="Image with name">
+            <t t-foreach="records" t-as="data">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="card w-100 border-0 o-dynamic-product-hovered" t-att-data-url="record.websiteUrl">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <a class="o-carousel-product-img-link stretched-link" t-att-href="record.websiteUrl">
+                        <img class="card-img-top p-3" loading="lazy" t-att-src="data['image512']" t-att-alt="record.displayName"/>
+                    </a>
+                    <div class="h6 text-center mt-2 p-2" t-field="record.displayName"/>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductCentered" name="Centered Product">
+            <t t-foreach="records" t-as="data">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="o-carousel-product-card card w-100" t-att-data-add2cart-rerender="data['_add2cartRerender']">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <input type="hidden" name="productId" t-att-data-product-id="record.id"/>
+                    <a class="o-carousel-product-img-link position-absolute mx-auto" t-att-href="record.websiteUrl">
+                        <img class="card-img-top" loading="lazy" t-att-src="data['image512']" t-att-alt="record.displayName"/>
+                    </a>
+                    <div class="o-carousel-product-card-body card-body d-flex flex-column justify-content-between">
+                        <div class="card-title h5 text-center" t-field="record.displayName"/>
+                        <div class="text-center">
+                            <div class="h5">
+                                <t t-call="website_sale.priceDynamicFilterTemplateProductProduct"/>
+                            </div>
+                            <div class="h6 mb-0">
+                                <t t-if="await isViewActive('website_sale.productComment')">
+                                    <t t-call="portal_rating.ratingWidgetStarsStatic">
+                                        <t t-set="ratingAvg" t-value="await record.ratingAvg"/>
+                                        <t t-set="ratingCount" t-value="await record.ratingCount"/>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="o-carousel-product-card-footer d-flex align-items-center justify-content-center pb-4">
+                        <a class="btn btn-primary d-block" t-att-href="record.websiteUrl">
+                            View Product
+                        </a>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductBorderless1" name="Borderless Product n°1">
+            <t t-foreach="records" t-as="data">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="o-carousel-product-card w-100 card border-0 p-3">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <input type="hidden" name="productId" t-att-data-product-id="record.id"/>
+                    <a class="o-carousel-product-img-link o-dynamic-product-hovered" t-att-href="await record.websiteUrl">
+                        <img class="o-carousel-product-card-img-top card-img-top" loading="lazy" t-att-src="data['image512']"
+                            t-att-alt="await record.displayName"/>
+                    </a>
+                    <div class="o-carousel-product-card-body d-flex flex-wrap flex-column justify-content-between h-100">
+                        <a t-att-href="await record.websiteUrl" class="o-carousel-product-img-link text-decoration-none">
+                            <div class="h6 card-title mt-4" t-field="record.displayName"/>
+                        </a>
+                        <div>
+                            <t t-if="await isViewActive('website_sale.productComment')" t-call="portal_rating.ratingWidgetStarsStatic">
+                                <t t-set="ratingAvg" t-value="await record.ratingAvg"/>
+                                <t t-set="ratingCount" t-value="await record.ratingCount"/>
+                            </t>
+                            <div class="mt-2">
+                                <t t-call="website_sale.priceDynamicFilterTemplateProductProduct"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductBorderless2" name="Borderless Product n°2">
+            <t t-foreach="records" t-as="data">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="o-carousel-product-card card w-100 border-0" t-att-data-add2cart-rerender="data['_add2cartRerender']">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <input type="hidden" name="productId" t-att-data-product-id="record.id"/>
+                    <a class="o-carousel-product-img-link o-dynamic-product-hovered" t-att-href="await record.websiteUrl">
+                        <img class="card-img-top p-3" loading="lazy" t-att-src="data['image512']" t-att-alt="await record.displayName"/>
+                    </a>
+                    <div class="o-carousel-product-card-body px-3 mt-2 h-100 d-flex flex-column justify-content-between">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                            <div class="h5 mb-0 mr-4">
+                                <t t-call="website_sale.priceDynamicFilterTemplateProductProduct"/>
+                            </div>
+                            <t t-if="await isViewActive('website_sale.productComment')">
+                                <t t-call="portal_rating.ratingWidgetStarsStatic">
+                                    <t t-set="ratingAvg" t-value="await record.ratingAvg"/>
+                                    <t t-set="ratingCount" t-value="await record.ratingCount"/>
+                                </t>
+                            </t>
+                            <div class="card-title h6 w-100 mt-2" t-field="record.displayName"/>
+                        </div>
+                        <div class="text-right o-dynamic-snippet-btn-wrapper">
+                            <button type="button" role="button" class="btn btn-primary js-add-cart" title="Add to Cart">
+                                Add to Cart <i class="fa fa-fw fa-shopping-cart"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductBanner" name="Large Banner">
+            <t t-foreach="records" t-as="data" data-number-of-elements="1" data-number-of-elements-sm="1">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="o-carousel-product-card card w-100 p-3" t-att-data-add2cart-rerender="data['_add2cartRerender']">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <input type="hidden" name="productId" t-att-data-product-id="record.id"/>
+                    <div class="row flex-row-reverse">
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <img class="img img-fluid mx-auto rounded" loading="lazy" t-att-src="data['image512']" t-att-alt="await record.displayName"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="o-carousel-product-card-body p-5">
+                                <div class="card-title h1" t-field="record.displayName"/>
+                                <div class="d-flex align-items-center my-4">
+                                    <div class="text-primary h4 mb-0 mr-3">
+                                        <t t-call="website_sale.priceDynamicFilterTemplateProductProduct"/>
+                                    </div>
+                                    <t t-if="await isViewActive('website_sale.productComment')" t-call="portal_rating.ratingWidgetStarsStatic">
+                                        <t t-set="ratingAvg" t-value="await record.ratingAvg"/>
+                                        <t t-set="ratingCount" t-value="await record.ratingCount"/>
+                                    </t>
+                                </div>
+                                <div class="card-text text-muted" t-field="record.descriptionSale"/>
+                                <div class="mt-4">
+                                    <a class="btn btn-outline-secondary mr-1 mt-1" t-att-href="await record.websiteUrl">
+                                        View Product
+                                    </a>
+                                    <button type="button" role="button" class="btn btn-primary js-add-cart mt-1" title="Add to Cart">
+                                        Add to Cart <i class="fa fa-fw fa-shopping-cart"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="dynamicFilterTemplateProductProductHorizontalCard" name="Horizontal Card">
+            <t t-foreach="records" t-as="data" data-number-of-elements="3" data-number-of-elements-sm="1">
+                <t t-set="record" t-value="data['_record']"/>
+                <div class="o-carousel-product-card card w-100 border-0 bg-light p-3" t-att-data-add2cart-rerender="data['_add2cartRerender']">
+                    <div t-if="isSample" class="h5 o-ribbon-right bg-primary text-uppercase">Sample</div>
+                    <input type="hidden" name="productId" t-att-data-product-id="record.id"/>
+                    <div class="row h-100">
+                        <div class="col-lg-4 position-static">
+                            <a class="stretched-link" t-att-href="await record.websiteUrl">
+                                <img class="img img-fluid mx-auto" loading="lazy" t-att-src="data['image512']" t-att-alt="await record.displayName"/>
+                            </a>
+                        </div>
+                        <div class="o-carousel-product-card-body col-lg-8 pl-3 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="card-title h6" t-field="record.displayName"/>
+                                <div class="mb-2">
+                                    <t t-if="await isViewActive('website_sale.productComment')" t-call="portal_rating.ratingWidgetStarsStatic">
+                                        <t t-set="ratingAvg" t-value="await record.ratingAvg"/>
+                                        <t t-set="ratingCount" t-value="await record.ratingCount"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                <t t-call="website_sale.priceDynamicFilterTemplateProductProduct"/>
+                                <div class="o-dynamic-snippet-btn-wrapper">
+                                    <button type="button" role="button" class="btn btn-primary js-add-cart" title="Add to Cart">
+                                        <i class="fa fa-fw fa-shopping-cart"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="priceDynamicFilterTemplateProductProduct" name="Dynamic Product Filter Price">
+            <span t-esc="data['price']" class="font-weight-bold"
+                  t-options="{'widget': 'monetary', 'displayCurrency': await website.currencyId}"/>
+            <del t-if="data['hasDiscountedPrice']" class="text-danger ml-1 h6" style="white-space: nowrap;"
+                 t-esc="data['listPrice']" t-options="{'widget': 'monetary', 'displayCurrency': await website.currencyId}"/>
+        </template>
+
+        <!-- Assets -->
+        <record id="website_sale.sDynamicSnippetProducts_000_scss" model="ir.asset">
+            <field name="label">Dynamic snippet products 000 SCSS</field>
+            <field name="bundle">web.assetsFrontend</field>
+            <field name="path">website_sale/static/src/snippets/s_dynamic_snippet_products/000.scss</field>
+        </record>
+    </data>
+</verp>

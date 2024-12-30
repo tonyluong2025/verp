@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<verp><data noupdate="1">
+
+    <record id="crmRecurringPlanMonthly" model="crm.recurring.plan">
+        <field name="label">Monthly</field>
+        <field name="numberOfMonths">1</field>
+    </record>
+
+    <record id="crmRecurringPlanYearly" model="crm.recurring.plan">
+        <field name="label">Yearly</field>
+        <field name="numberOfMonths">12</field>
+    </record>
+
+    <record id="crmRecurringPlanOver3Years" model="crm.recurring.plan">
+        <field name="label">Over 3 years</field>
+        <field name="numberOfMonths">36</field>
+    </record>
+
+    <record id="crmRecurringPlanOver5Years" model="crm.recurring.plan">
+        <field name="label">Over 5 years </field>
+        <field name="numberOfMonths">60</field>
+    </record>
+
+</data></verp>

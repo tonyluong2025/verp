@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- wizard action on res.partner -->
+        <record id="partnerWizardActionCreateAndOpen" model="ir.actions.server">
+            <field name="label">Grant portal access</field>
+            <field name="modelId" ref="portal.model_portalWizard"/>
+            <field name="bindingModelId" ref="base.model_resPartner"/>
+            <field name="state">code</field>
+            <field name="code">model.actionOpenWizard()</field>
+        </record>
+
+        <record id="partnerWizardAction" model="ir.actions.actwindow">
+            <field name="label">Grant portal access</field>
+            <field name="resModel">portal.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="bindingModelId" eval="false"/>
+        </record>
+
+        <!-- wizard view -->
+        <record id="wizardView" model="ir.ui.view">
+            <field name="label">Grant portal access</field>
+            <field name="model">portal.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Portal Access Management">
+                    <div class="mb-3">
+                        Select which contacts should belong to the portal in the list below.
+                        The email address of each selected contact must be valid and unique.
+                        If necessary, you can fix any contact's email address directly in the list.
+                    </div>
+                    <field name="welcomeMessage"
+                        placeholder="This text is included at the end of the email sent to new portal users."
+                        class="mb-3"/>
+                    <field name="userIds">
+                        <tree string="Contacts" editable="bottom" create="false" delete="false">
+                            <field name="partnerId" forceSave="1"/>
+                            <field name="email" attrs="{'readonly': [['isInternal', '=', true]]}"/>
+                            <field name="loginDate"/>
+                            <field name="isPortal" invisible="1"/>
+                            <field name="isInternal" invisible="1"/>
+                            <button string="Grant Access" name="actionGrantAccess" type="object" class="btn-secondary"
+                                attrs="{'invisible': ['|', ['isPortal', '=', true], ['isInternal', '=', true]]}"/>
+                            <button string="Revoke Access" name="actionRevokeAccess" type="object" class="btn-secondary"
+                                attrs="{'invisible': ['|', ['isPortal', '=', false], ['isInternal', '=', true]]}"/>
+                            <button string="Re-Invite" name="actionInviteAgain" type="object" class="btn-secondary"
+                                attrs="{'invisible': ['|', ['isPortal', '=', false], ['isInternal', '=', true]]}"/>
+                            <button string="Internal User" attrs="{'invisible': [['isInternal', '=', false]]}"
+                                disabled="true" title="This partner is linked to an internal User and already has access to the Portal."/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Close" class="btn-primary" special="save" data-hotkey="v" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+</verp>

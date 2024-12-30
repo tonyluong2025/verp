@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- View -->
+        <record id="viewViewForm" model="ir.ui.view">
+            <field name="model">ir.ui.view</field>
+            <field name="arch" type="xml">
+                <form string="Views">
+                  <sheet>
+                    <group>
+                        <group>
+                            <field name="label"/>
+                            <field name="type"/>
+                            <field name="model"/>
+                            <field name="priority"/>
+                            <field name="active" widget="booleanToggle"/>
+                        </group>
+                        <group groups="base.groupNoOne">
+                            <field name="fieldParent"/>
+                            <field name="inheritId"/>
+                            <field name="mode"/>
+                            <field name="modelDataId"/>
+                            <field name="xmlid"/>
+                        </group>
+                    </group>
+                    <div class="oe-edit-only alert alert-info" role="alert">
+                        Be aware that editing the architecture of a standard view is not advised, since the changes will be overwritten during future module updates.<br/>
+                        We recommend applying modifications to standard views through inherited views or customization with Verp Studio.
+                    </div>
+                    <notebook>
+                        <page string="Architecture" name="architecture">
+                            <button type="object" name="openTranslations"
+                                string="Edit Translations" class="oe-link oe-right"/>
+                            <field name="archBase" string="View Architecture" widget="ace" options="{'mode': 'xml'}" required="1"/>
+                        </page>
+                        <page string="Access Rights" name="accessRights">
+                            <field name="groupsId"/>
+                        </page>
+                        <page name="inheritChildren" string="Inherited Views">
+                            <field name="inheritChildrenIds" context="{'default_model':model,'default_type':type,'default_inheritId':activeId,'default_mode':'extension', 'activeTest': false}">
+                                <tree defaultOrder="priority,id" decoration-muted="! active">
+                                    <field name="active" invisible="1"/>
+                                    <field name="id"/>
+                                    <field name="priority"/>
+                                    <field name="label"/>
+                                    <field name="xmlid"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewViewTree" model="ir.ui.view">
+            <field name="model">ir.ui.view</field>
+            <field name="arch" type="xml">
+                <tree string="Views">
+                    <field name="priority" string="Sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="type"/>
+                    <field name="model"/>
+                    <field name="xmlid" groups="base.groupNoOne"/>
+                    <field name="inheritId"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewViewSearch" model="ir.ui.view">
+            <field name="model">ir.ui.view</field>
+            <field name="arch" type="xml">
+                <search string="Views">
+                    <field name="label" filterDomain="['|', '|', ['label','ilike',self], ['model','ilike',self], ['modelDataId','ilike',self]]" string="View"/>
+                    <field name="key"/>
+                    <field name="model"/>
+                    <field name="inheritId"/>
+                    <field name="type"/>
+                    <field name="archDb" string="View Architecture"/>
+                    <filter string="Form" name="form" domain="[['type', '=','form']]"/>
+                    <filter string="Tree" name="tree" domain="[['type', '=', 'tree']]"/>
+                    <filter string="Kanban" name="kanban" domain="[['type', '=', 'kanban']]"/>
+                    <filter string="Search" name="search" domain="[['type', '=', 'search']]"/>
+                    <filter string="QWeb" name="qweb" domain="[['type', '=', 'qweb']]"/>
+                    <separator/>
+                    <filter string="Modified Architecture" name="archUpdated" domain="[['archUpdated', '=',true]]"/>
+                    <separator/>
+                    <filter string="Active" name="active" domain="[['active', '=',true]]"/>
+                    <filter string="Inactive" name="inactive" domain="[['active', '=',false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Model" name="object" domain="[]" context="{'groupby':'model'}"/>
+                        <filter string="Type" name="type" domain="[]" context="{'groupby':'type'}"/>
+                        <filter string="Inherit" name="inherit" domain="[]" context="{'groupby':'inheritId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionUiView" model="ir.actions.actwindow">
+            <field name="label">Views</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.ui.view</field>
+            <field name="viewId" ref="viewViewTree"/>
+            <field name="context">{'searchDefault_active': 1}</field>
+            <field name="help">Views allows you to personalize each view of Verp. You can add new fields, move fields, rename them or delete the ones that you do not need.</field>
+        </record>
+
+        <menuitem action="actionUiView" id="menuActionUiView" parent="base.nextId2" sequence="2"/>
+
+        <!-- Reset view wizard -->
+        <record id="resetViewArchWizardView" model="ir.ui.view">
+            <field name="label">Reset View Architecture</field>
+            <field name="model">reset.view.arch.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reset View Architecture">
+                    <group>
+                        <group>
+                            <field name="hasDiff" invisible="1"/>
+                            <field name="viewId" invisible="1"/>
+                            <field name="viewName"/>
+                            <field name="compareViewId" attrs="{'invisible': [['resetMode', '!=', 'otherView']]}" options="{'noCreate': true, 'noOpen': true}"/>
+                        </group>
+                        <group>
+                            <field name="resetMode" widget="radio"/>
+                        </group>
+                    </group>
+                    <field name="archDiff" attrs="{'invisible': [['archDiff', '=', false]]}"/>
+                    <div class="alert alert-warning my-2" role="alert" attrs="{'invisible': [['archDiff', '!=', false]]}">
+                        <span attrs="{'invisible': [['resetMode', '!=', 'soft']]}">This view has no previous version.</span>
+                        <span attrs="{'invisible': [['resetMode', '!=', 'hard']]}">This view is not coming from a file.</span>
+                        <span attrs="{'invisible': [['resetMode', '!=', 'otherView']]}">You need two views to compare.</span>
+                    </div>
+                    <footer>
+                        <button string="Reset View" name="resetViewButton" type="object" class="btn-primary" attrs="{'invisible': [['hasDiff', '=', false]]}" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="resetViewArchWizardAction" model="ir.actions.actwindow">
+            <field name="label">Compare/Reset</field>
+            <field name="resModel">reset.view.arch.wizard</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="bindingModelId" ref="model_irUiView"/>
+            <field name="bindingViewTypes">form,list</field>
+        </record>
+
+        <!-- View customizations -->
+        <record id="viewViewCustomForm" model="ir.ui.view">
+            <field name="model">ir.ui.view.custom</field>
+            <field name="arch" type="xml">
+                <form string="Customized Views">
+                  <sheet>
+                    <group col="4">
+                        <field name="userId"/>
+                        <field name="refId"/>
+                        <separator string="View Architecture" colspan="4" />
+                        <field name="arch" colspan="4" nolabel="1"/>
+                    </group>
+                   </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewViewCustomTree" model="ir.ui.view">
+            <field name="model">ir.ui.view.custom</field>
+            <field name="arch" type="xml">
+                <tree string="Customized Views">
+                    <field name="userId"/>
+                    <field name="refId"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewViewCustomSearch" model="ir.ui.view">
+            <field name="model">ir.ui.view.custom</field>
+            <field name="arch" type="xml">
+                <search string="Customized Views">
+                    <field name="userId"/>
+                    <field name="refId"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionUiViewCustom" model="ir.actions.actwindow">
+            <field name="label">Customized Views</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.ui.view.custom</field>
+            <field name="help" type="html"><p class="o-view-nocontent-smiling-face">Create a customized view</p><p>Customized views are used when users reorganize the content of their dashboard views (via web client)</p></field>
+        </record>
+
+        <menuitem id="menuActionUiViewCustom" action="actionUiViewCustom" parent="base.nextId2" sequence="3"/>
+
+</verp>

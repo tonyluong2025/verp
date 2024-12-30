@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="messageHead">
+        <t t-if="await move.state !== 'done'">
+            <strong>The initial demand has been updated.</strong>
+        </t>
+        <t t-if="await move.state === 'done'">
+            <strong>
+                The done move line has been corrected.
+            </strong>
+        </t>
+    </template>
+
+    <template id="messageBody">
+        <ul>
+            <li>
+                <t t-esc="await (await move.productId).displayName"/>:
+            </li>
+            <t t-if="await move.state !== 'done'">
+                <t t-if="'productUomQty' in vals">
+                    <li>
+                        Quantity : <t t-esc="await move.productUomQty"/> -&gt; <t t-esc="parseFloat(vals['productUomQty'])"/>
+                    </li>
+                </t>
+            </t>
+            <t t-if="'qtyDone' in vals">
+                <li>
+                    Quantity : <t t-esc="await move.qtyDone"/> -&gt; <t t-esc="parseFloat(vals['qtyDone'])"/>
+                </li>
+            </t>
+            <t t-if="'locationId' in vals">
+                <li>
+                    Source Location:
+                    <t t-if="bool(await move.locationId)">
+                        <t t-esc="await (await move.locationId).label"/> -&gt;
+                    </t>
+                    <t t-esc="vals['locationName']"/>
+                </li>
+            </t>
+            <t t-if="'locationDestId' in vals">
+                <li>
+                    Destination Location:
+                    <t t-if="bool(await move.locationDestId)">
+                        <t t-esc="await (await move.locationDestId).label"/> -&gt;
+                    </t>
+                    <t t-esc="vals['locationDestName']"/>
+                </li>
+            </t>
+            <t t-if="'lotName' in vals">
+                <li>
+                    Lot/Serial :
+                    <t t-if="bool(await move.lotId)">
+                        <t t-esc="await (await move.lotId).label"/> -&gt;
+                    </t>
+                    <t t-esc="vals['lotName']"/>
+                </li>
+            </t>
+            <t t-if="'packageName' in vals">
+                <li>
+                    Source Package :
+                    <t t-if="bool(await move.packageId)">
+                        <t t-esc="await (await move.packageId).label"/> -&gt;
+                    </t>
+                    <t t-esc="vals['packageName']"/>
+                </li>
+            </t>
+            <t t-if="'resultPackageName' in vals">
+                <li>
+                    Destination Package :
+                    <t t-if="bool(await move.resultPackageId)">
+                        <t t-esc="await (await move.resultPackageId).label"/> -&gt;
+                    </t>
+                    <t t-esc="vals['resultPackageName']"/>
+                </li>
+            </t>
+            <t t-if="'ownerName' in vals">
+                <li>
+                    Owner :
+                    <t t-if="bool(await move.ownerId)">
+                        <t t-esc="await (await move.ownerId).label"/> -&gt;
+                    </t>
+                    <t t-esc="vals['ownerName']"/>
+                </li>
+            </t>
+        </ul>
+    </template>
+</verp>

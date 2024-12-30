@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewAccountJournalTree" model="ir.ui.view">
+            <field name="label">account.journal.tree</field>
+            <field name="model">account.journal</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Account Journal">
+                    <field name='sequence' widget='handle'/>
+                    <field name="label"/>
+                    <field name="type"/>
+                    <field name="journalGroupIds" widget="many2manyTags" readonly="1" optional="show"/>
+                    <field name="currencyId" groups="base.groupMultiCurrency" optional="hide"/>
+                    <field name="code" optional="show"/>
+                    <field name="defaultAccountId" optional="show"/>
+                    <field name="active" optional="hide"/>
+                    <field name="companyId" groups="base.groupMultiCompany" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountJournalForm" model="ir.ui.view">
+            <field name="label">account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Account Journal">
+                    <sheet>
+                        <div name="buttonBox" class="oe-button-box">
+                            <button class="oe-stat-button" type="action"
+                                    name="%(actionAccountMovesAllA)d" icon="fa-book" string="Journal Entries"
+                                    context="{'searchDefault_journalId': activeId}"/>
+                        </div>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <div class="oe-title">
+                            <label for="label"/>
+                            <h1><field name="label" placeholder="e.g. Customer Invoices"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="type"/>
+                            </group>
+                            <group>
+                                <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                                <field name="countryCode" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="bankAccount" string="Journal Entries">
+                                <group>
+                                    <group string="Accounting Information">
+                                        <field name="defaultAccountType" invisible="1"/>
+                                        <!-- Bank -->
+                                        <field name="defaultAccountId" string="Bank Account"
+                                               attrs="{'required': [['id', '!=', false], ['type', '=', 'bank']], 'invisible': [['type', '!=', 'bank']]}"
+                                               groups="account.groupAccountReadonly"/>
+                                        <!-- Cash -->
+                                        <field name="defaultAccountId" string="Cash Account"
+                                               attrs="{'required': [['id', '!=', false], ['type', '=', 'cash']], 'invisible': [['type', '!=', 'cash']]}"
+                                               groups="account.groupAccountReadonly"/>
+
+                                        <field name="suspenseAccountId"
+                                               attrs="{'required': [['type', 'in', ['bank', 'cash']]], 'invisible': [['type', 'not in', ['bank', 'cash']]]}"
+                                               groups="account.groupAccountReadonly"/>
+                                        <field name="profitAccountId" attrs="{'invisible': ['!', ['type', 'in', ['cash', 'bank']]]}"/>
+                                        <field name="lossAccountId" attrs="{'invisible': ['!', ['type', 'in', ['cash', 'bank']]]}"/>
+                                        <!-- Sales -->
+                                        <field name="defaultAccountId" string="Default Income Account"
+                                               attrs="{'required': [['type', '=', 'sale']], 'invisible': [['type', '!=', 'sale']]}"
+                                               groups="account.groupAccountReadonly"/>
+                                        <!-- Purchase -->
+                                        <field name="defaultAccountId" string="Default Expense Account"
+                                               attrs="{'required': [['type', '=', 'purchase']], 'invisible': [['type', '!=', 'purchase']]}"
+                                               groups="account.groupAccountReadonly"/>
+                                        <field name="refundSequence" attrs="{'invisible': [['type', 'not in', ['sale', 'purchase']]]}"/>
+                                        <field name="code" placeholder="e.g. INV"/>
+                                        <field name="currencyId" options="{'noCreate': true}" groups="base.groupMultiCurrency"/>
+                                    </group>
+                                    <group string="Bank Account Number" attrs="{'invisible': [['type', '!=', 'bank']]}">
+                                        <field name="companyPartnerId" invisible="1"/>
+                                        <field name="bankAccountId" string="Account Number" context="{'default_partnerId': companyPartnerId, 'formViewRef': 'account.viewCompanyPartnerBankForm'}"/>
+                                        <field name="bankId" attrs="{'invisible': [['bankAccountId', '=', false]]}"/>
+                                        <field name="bankStatementsSource" widget="radio" attrs="{'required': [['type', '=', 'bank']]}"  groups="account.groupAccountReadonly"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page id="inboundPaymentSettings" string="Incoming Payments" attrs="{'invisible': [['type', 'not in', ['cash', 'bank']]]}">
+                                <field name="availablePaymentMethodIds" invisible="1"/>
+                                <field name="inboundPaymentMethodLineIds" nolabel="1" context="{'default_paymentType': 'inbound'}">
+                                    <tree string="Payment Methods" editable="bottom">
+                                        <field name="availablePaymentMethodIds" invisible="1"/>
+                                        <field name="paymentType" invisible="1"/>
+                                        <field name="companyId" invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="paymentMethodId" options="{'noCreate': true, 'noOpen': true}"/>
+                                        <field name="label"/>
+                                        <field name="paymentAccountId"
+                                               placeholder="Let empty to use the default outstanding account"
+                                               string="Outstanding Receipts accounts"
+                                               optional="hide"
+                                               groups="account.groupAccountReadonly"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page id="outboundPaymentSettings" string="Outgoing Payments" attrs="{'invisible': [['type', 'not in', ['cash', 'bank']]]}">
+                                    <field name="outboundPaymentMethodLineIds" nolabel="1" context="{'default_paymentType': 'outbound'}">
+                                        <tree string="Payment Methods" editable="bottom" nolabel="1">
+                                            <field name="availablePaymentMethodIds" invisible="1"/>
+                                            <field name="paymentType" invisible="1"/>
+                                            <field name="companyId" invisible="1"/>
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="paymentMethodId" options="{'noCreate': true, 'noOpen': true}"/>
+                                            <field name="label"/>
+                                            <field name="paymentAccountId"
+                                                   placeholder="Let empty to use the default outstanding account"
+                                                   string="Outstanding Payments accounts"
+                                                   optional="hide"
+                                                   groups="account.groupAccountReadonly"/>
+                                        </tree>
+                                    </field>
+                                    <field name="selectedPaymentMethodCodes" invisible="1"/>
+                                    <group name="outgoingPayment" />
+                            </page>
+                            <page name="advancedSettings" string="Advanced Settings">
+                                <group>
+                                    <group string="Control-Access" groups="account.groupAccountManager">
+                                        <div class="text-muted" colspan="2">Keep empty for no control</div>
+                                        <field name="typeControlIds" widget="many2manyTags"/>
+                                        <field name="accountControlIds" widget="many2manyTags"/>
+                                        <field name="restrictModeHashTable" groups="account.groupAccountReadonly" attrs="{'invisible': [['type', 'in', ['bank', 'cash']]]}"/>
+                                    </group>
+                                    <!-- email alias -->
+                                    <group class="oe-read-only" name="groupAliasRo" string="Create Invoices upon Emails" attrs="{'invisible': ['|', ['type', 'not in', ['sale' ,'purchase']], ['aliasDomain', '=', false]]}">
+                                       <field name="aliasId"/>
+                                    </group>
+                                    <group name="groupAliasNoDomain" string="Create Invoices upon Emails" attrs="{'invisible': ['|', ['type', 'not in', ['sale' ,'purchase']], ['aliasDomain', '!=', false]]}">
+                                        <div class="content-group">
+                                            <a type="action" name="%(actionOpenSettings)d" class="btn btn-link" role="button"><i class="fa fa-fw o-button-icon fa-arrow-right"> Configure Email Servers</i></a>
+                                        </div>
+                                    </group>
+                                    <group class="oe-edit-only" name="groupAliasEdit" string="Create Invoices upon Emails" attrs="{'invisible': ['|', ['type', 'not in',  ['sale' ,'purchase']], ['aliasDomain', '=', false]]}">
+                                        <label string="Email Alias" for="aliasName"/>
+                                        <div class="oe-inline" name="editAlias" style="display: inline;" >
+                                            <field name="aliasName" class="oe-inline"/>@<field name="aliasDomain" class="oe-inline" readonly="1"/>
+                                        </div>
+                                    </group>
+                                    <!-- email alias end -->
+                                    <group string="Payment Communications" attrs="{'invisible': [['type', '!=', 'sale']]}">
+                                        <field name="invoiceReferenceType"/>
+                                        <field name="invoiceReferenceModel" attrs="{'invisible': [['invoiceReferenceType', '=', 'none']]}"/>
+                                    </group>
+                                    <group string="Follow Customer Payments" attrs="{'invisible': [['type', '!=', 'sale']]}">
+                                        <field name="saleActivityTypeId"/>
+                                        <field name="saleActivityUserId" attrs="{'invisible': [['saleActivityTypeId', '=', false]]}"/>
+                                        <field name="saleActivityNote" placeholder="e.g. Give a phone call, check with others , ..."  attrs="{'invisible': [['saleActivityTypeId', '=', false]]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                <div class="oe-chatter">
+                    <field name="messageFollowerIds"/>
+                    <field name="activityIds"/>
+                    <field name="messageIds"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="accountJournalViewKanban" model="ir.ui.view">
+            <field name="label">account.journal.kanban</field>
+            <field name="model">account.journal</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-content oe-kanban-global-click">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><field name="label"/></strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right"><field name="type"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="viewAccountJournalSearch" model="ir.ui.view">
+            <field name="label">account.journal.search</field>
+            <field name="model">account.journal</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Search Account Journal">
+                    <field name="label" string="Journal" filterDomain="['|', ['label', 'ilike', self], ['code', 'ilike', self]]"/>
+                    <filter name="dashboard" string="Favorites" domain="[['showOnDashboard', '=', true]]"/>
+                    <separator/>
+                    <filter name="sales" string="Sales" domain="[['type', '=', 'sale']]"/>
+                    <filter name="purchases" string="Purchases" domain="[['type', '=', 'purchase']]"/>
+                    <filter name="liquidity" string="Liquidity" domain="['|', ['type', '=', 'cash'], ['type', '=', 'bank']]"/>
+                    <filter name="miscellaneous" string="Miscellaneous" domain="[['type', 'not in', ['sale', 'purchase', 'cash', 'bank']]]"/>
+                    <separator/>
+                    <filter name="inactive" string="Archived" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionAccountJournalForm" model="ir.actions.actwindow">
+            <field name="label">Journals</field>
+            <field name="resModel">account.journal</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="viewIds" eval="[[5, 0, 0],
+                [0, 0, {'viewMode': 'tree', 'viewId': refId('viewAccountJournalTree')}],
+                [0, 0, {'viewMode': 'kanban', 'viewId': refId('accountJournalViewKanban')}],
+                [0, 0, {'viewMode': 'form', 'viewId': refId('viewAccountJournalForm')}]]"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Add a journal
+              </p><p>
+                A journal is used to record transactions of all accounting data
+                related to the day-to-day business.
+              </p>
+            </field>
+        </record>
+
+        <record id="viewAccountJournalGroupTree" model="ir.ui.view">
+            <field name="label">account.journal.group.tree</field>
+            <field name="model">account.journal.group</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="sequence"  widget="handle"/>
+                    <field name="label"/>
+                    <field name="excludedJournalIds" widget="many2manyTags" options="{'noCreate': true}"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountJournalGroupForm" model="ir.ui.view">
+            <field name="label">account.journal.group.form</field>
+            <field name="model">account.journal.group</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Journal Groups">
+                    <sheet>
+                        <group>
+                            <field name="label" placeholder="e.g. GAAP, IFRS, ..."/>
+                            <field name="excludedJournalIds" widget="many2manyTags" options="{'noCreate': true}"/>
+                            <field name="sequence" groups="base.groupNoOne"/>
+                            <field name="companyId" groups="base.groupMultiCompany"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionAccountJournalGroupList" model="ir.actions.actwindow">
+            <field name="label">Journal Groups</field>
+            <field name="resModel">account.journal.group</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Add a journal group
+              </p><p>
+                Journal group are used in reporting to display relevant data together.
+              </p>
+            </field>
+        </record>
+
+    </data>
+</verp>

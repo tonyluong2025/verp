@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="posCategoryFurniture" model="pos.category">
+        <field name="label">Office furniture</field>
+    </record>
+
+    <record id="posCategoryMiscellaneous" model="pos.category">
+        <field name="label">Miscellaneous</field>
+    </record>
+
+    <record id="wallShelf" model="product.product">
+        <field name="availableInPos">true</field>
+        <field name="listPrice">1.98</field>
+        <field name="label">Wall Shelf Unit</field>
+        <field name="defaultCode">FURN_0009</field>
+        <field name="type">product</field>
+        <field name="weight">0.01</field>
+        <field name="toWeight">true</field>
+        <field name="barcode">2100002000003</field>
+        <field name="taxesId" eval='[[5,]]'/>
+        <field name="categId" ref="product.productCategory1"/>
+        <field name="posCategId" ref="posCategoryFurniture"/>
+        <field name="uomId" ref="uom.productUomUnit" />
+        <field name="uomPoId" ref="uom.productUomUnit" />
+        <field name="image1920" type="base64" file="point_of_sale/static/img/wall_shelf_unit.png"/>
+    </record>
+
+    <record id="smallShelf" model="product.product">
+        <field name="availableInPos">true</field>
+        <field name="listPrice">2.83</field>
+        <field name="label">Small Shelf</field>
+        <field name="defaultCode">FURN_0008</field>
+        <field name="type">product</field>
+        <field name="weight">0.01</field>
+        <field name="taxesId" eval='[[5,]]'/>
+        <field name="categId" ref="product.productCategory1"/>
+        <field name="posCategId" ref="posCategoryFurniture"/>
+        <field name="toWeight">true</field>
+        <field name="uomId" ref="uom.productUomUnit" />
+        <field name="uomPoId" ref="uom.productUomUnit" />
+        <field name="image1920" type="base64" file="point_of_sale/static/img/small_shelf.png"/>
+    </record>
+
+    <record id="monitorStand" model="product.product">
+        <field name="availableInPos">true</field>
+        <field name="listPrice">3.19</field>
+        <field name="label">Monitor Stand</field>
+        <field name="defaultCode">FURN_0006</field>
+        <field name="type">product</field>
+        <field name="weight">0.01</field>
+        <field name="toWeight">true</field>
+        <field name="categId" ref="product.productCategory1"/>
+        <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        <field name="uomId" ref="uom.productUomUnit" />
+        <field name="uomPoId" ref="uom.productUomUnit" />
+        <field name="image1920" type="base64" file="point_of_sale/static/img/monitor_stand.png"/>
+    </record>
+
+    <record id="deskOrganizer" model="product.product">
+        <field name="availableInPos">true</field>
+        <field name="listPrice">5.10</field>
+        <field name="label">Desk Organizer</field>
+        <field name="defaultCode">FURN_0001</field>
+        <field name="toWeight">true</field>
+        <field name="barcode">2300001000008</field>
+        <field name="type">product</field>
+        <field name="weight">0.01</field>
+        <field name="categId" ref="product.productCategory1"/>
+        <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        <field name="uomId" ref="uom.productUomUnit" />
+        <field name="uomPoId" ref="uom.productUomUnit" />
+        <field name="image1920" type="base64" file="point_of_sale/static/img/desk_organizer.png"/>
+    </record>
+
+    <record id="whiteboardPen" model="product.product">
+        <field name="availableInPos">true</field>
+        <field name="listPrice">1.20</field>
+        <field name="label">Whiteboard Pen</field>
+        <field name="weight">0.01</field>
+        <field name="defaultCode">CONS_0001</field>
+        <field name="toWeight">true</field>
+        <field name="categId" ref="product.productCategory1"/>
+        <field name="posCategId" ref="posCategoryMiscellaneous"/>
+        <field name="uomId" ref="uom.productUomUnit" />
+        <field name="uomPoId" ref="uom.productUomUnit" />
+        <field name="image1920" type="base64" file="point_of_sale/static/img/whiteboard_pen.png"/>
+    </record>
+</verp>

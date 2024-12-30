@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<verp>
+    <data>
+
+        <!-- Update Preferences form !-->
+        <record id="viewUsersFormSimpleModifMail" model="ir.ui.view">
+            <field name="label">res.users.preferences.form.mail</field>
+            <field name="model">res.users</field>
+            <field name="inheritId" ref="base.viewUsersFormSimpleModif"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="email" position="before">
+                        <field name="notificationType" widget="radio" readonly="0"/>
+                    </field>
+                    <xpath expr="//field[@name='image1920']" position="before">
+                        <widget name="notificationAlert"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Update user form !-->
+        <record id="viewUsersFormMail" model="ir.ui.view">
+            <field name="label">res.users.form.mail</field>
+            <field name="model">res.users</field>
+            <field name="inheritId" ref="base.viewUsersForm"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="signature" position="before">
+                        <field name="notificationType" widget="radio"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</verp>

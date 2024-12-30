@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="paperformatLabelSheet" model="report.paperformat">
+            <field name="label">A4 Label Sheet</field>
+            <field name="default" eval="true" />
+            <field name="format">A4</field>
+            <field name="pageHeight">0</field>
+            <field name="pageWidth">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="marginTop">0</field>
+            <field name="marginBottom">0</field>
+            <field name="marginLeft">0</field>
+            <field name="marginRight">0</field>
+            <field name="disableShrinking" eval="true"/>
+            <field name="dpi">96</field>
+        </record>
+        <record id="reportProductTemplateLabel" model="ir.actions.report">
+            <field name="label">Product Label (PDF)</field>
+            <field name="model">product.template</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">product.report.producttemplate.label</field>
+            <field name="reportFile">product.report.producttemplate.label</field>
+            <field name="paperformatId" ref="product.paperformatLabelSheet"/>
+            <field name="printReportName">f('Products Labels - %s', object.label)</field>
+            <field name="bindingModelId" eval="false"/>
+            <field name="bindingType">report</field>
+        </record>
+
+        <record id="reportProductPackaging" model="ir.actions.report">
+            <field name="label">Product Packaging (PDF)</field>
+            <field name="model">product.packaging</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">product.reportPackagingbarcode</field>
+            <field name="reportFile">product.reportPackagingbarcode</field>
+            <field name="printReportName">f('Products Labels - %s', object.label)</field>
+            <field name="bindingModelId" ref="product.model_productPackaging"/>
+            <field name="bindingType">report</field>
+        </record>
+
+        <record id="actionReportPricelist" model="ir.actions.report">
+            <field name="label">Pricelist</field>
+            <field name="model">product.product</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">product.reportPricelist</field>
+            <field name="reportFile">product.reportPricelist</field>
+        </record>
+
+        <record id="paperformatLabelSheetDymo" model="report.paperformat">
+            <field name="label">Dymo Label Sheet</field>
+            <field name="default" eval="true" />
+            <field name="format">custom</field>
+            <field name="pageHeight">57</field>
+            <field name="pageWidth">32</field>
+            <field name="orientation">Landscape</field>
+            <field name="marginTop">0</field>
+            <field name="marginBottom">0</field>
+            <field name="marginLeft">0</field>
+            <field name="marginRight">0</field>
+            <field name="disableShrinking" eval="true"/>
+            <field name="dpi">96</field>
+        </record>
+
+        <record id="reportProductTemplateLabelDymo" model="ir.actions.report">
+            <field name="label">Product Label (PDF)</field>
+            <field name="model">product.template</field>
+            <field name="reportType">qweb-pdf</field>
+            <field name="reportName">product.report.producttemplate.label.dymo</field>
+            <field name="reportFile">product.report.producttemplate.label.dymo</field>
+            <field name="paperformatId" ref="product.paperformatLabelSheetDymo"/>
+            <field name="printReportName">f('Products Labels - %s', object.label)</field>
+            <field name="bindingType">report</field>
+        </record>
+    </data>
+</verp>

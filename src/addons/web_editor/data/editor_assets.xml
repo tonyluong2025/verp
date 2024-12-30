@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="web_editor.colorSystemSupportPrimaryVariablesScss" model="ir.asset">
+            <field name="label">Color system support primary variables SCSS</field>
+            <field name="bundle">web._assetsPprimaryVariables</field>
+            <field name="path">web_editor/static/src/scss/color_system_support_primary_variables.scss</field>
+            <field name="active" eval="false"/>
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,36 @@
+
+.s-title:not([data-vcss]) {
+    .s-title-boxed {
+        > * {
+            display: inline-block;
+            padding: $grid-gutter-width;
+            border: 1px solid;
+        }
+    }
+    .s-title-lines {
+        overflow: hidden;
+        &:before,
+        &:after {
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            width: 100%;
+            border-top: 1px solid;
+            border-top-color: inherit;
+        }
+        &:before { margin: 0 $grid-gutter-width/2 0 -100%; }
+        &:after  { margin: 0 -100% 0 $grid-gutter-width/2; }
+    }
+    .s-title-underlined {
+        @extend %o-page-header;
+    }
+    .s-title-small-caps {
+        font-variant: small-caps;
+    }
+    .s-title-transparent {
+        opacity: .5;
+    }
+    .s-title-thin {
+        font-weight: 300;
+    }
+}

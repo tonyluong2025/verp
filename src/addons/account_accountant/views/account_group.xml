@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<verp>
+
+    <record id="actionAccountGroupAction" model="ir.actions.actwindow">
+        <field name="label">Account Groups</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">account.group</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+    <menuitem id="menuAccountGroup"
+              action="actionAccountGroupAction"
+              sequence="50"
+              parent="account.accountAccountMenu"/>
+
+</verp>

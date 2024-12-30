@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="enrichCompany">
+        <p t-esc="flavorText" />
+        <div class="o-partner-autocomplete-enrich-info bg-white p-3 mt-3 mb-3 mr-5">
+            <div class="row p-0 m-0">
+            <div class="col-sm-10 p-0">
+                <h4>
+                    <span class="mr-3 align-middle" t-esc="label"/>
+                    <a t-if="twitter" class="ml-2" target="_blank" t-attf-href="http://www.twitter.com/{{twitter}}">
+                        <img src="/web_editor/font_to_img/61569/rgb(0,132,180)/22"/>
+                    </a>
+                    <a t-if="facebook" class="ml-2" target="_blank" t-attf-href="http://www.facebook.com/{{facebook}}">
+                        <img src="/web_editor/font_to_img/61570/rgb(59,89,152)/22"/>
+                    </a>
+                    <a t-if="linkedin" class="ml-2" target="_blank" t-attf-href="https://www.linkedin.com/{{linkedin}}">
+                        <img src="/web_editor/font_to_img/61580/rgb(0,119,181)/22"/>
+                    </a>
+                    <a t-if="crunchbase" class="ml-2" target="_blank" t-attf-href="https://www.crunchbase.com/{{crunchbase}}">
+                        <img width="19px" height="19px" src="/partner_autocomplete/static/img/crunchbase.ico"/>
+                    </a>
+                </h4>
+                <p t-esc="description"/>
+            </div>
+            <div class="col-sm-2 p-0 text-center text-md-right order-first order-md-last">
+                <img t-attf-src="{{logo}}" alt="Company Logo" style="max-width: 80px;"/>
+            </div>
+            </div>
+            <hr/>
+
+            <div class="col-sm-12 row m-0 p-0">
+                <div t-if="companyType" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-building text-primary"/>
+                    <b>Company type</b>
+                </div>
+                <div t-if="companyType" class="my-1 col-sm-9" t-esc="companyType" />
+                <div t-if="foundedYear" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-calendar text-primary"/>
+                    <b>Founded</b>
+                </div>
+                <div t-if="foundedYear" class="my-1 col-sm-9" t-esc="foundedYear" />
+                <t t-set="sectors" t-value="[]" />
+                <t t-if="sectorPrimary" t-set="sectors" t-value="sectors.concat([sectorPrimary])" />
+                <t t-if="industry" t-set="sectors" t-value="sectors.concat([industry])" />
+                <t t-if="industryGroup" t-set="sectors" t-value="sectors.concat([industryGroup])" />
+                <t t-if="subIndustry" t-set="sectors" t-value="sectors.concat([subIndustry])" />
+                <div t-if="sectors" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-industry text-primary"/>
+                    <b>Sectors</b>
+                </div>
+                <div t-if="sectors" class="my-1 col-sm-9">
+                    <t t-foreach="sectors" t-as="innerSector">
+                        <label t-esc="innerSector" style="font-weight:normal; padding: 2px 10px; background-color: #eeeeee; margin: 1px 0px; border-radius: 13px; display: inline-block;"/>
+                    </t>
+                </div>
+                <div t-if="employees" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-users text-primary"/>
+                    <b>Employees</b>
+                </div>
+                <div t-if="employees" class="my-1 col-sm-9" t-esc="employees.toFixed(0)" />
+                <div t-if="estimatedAnnualRevenue" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-money text-primary"/>
+                    <b>Estimated revenue</b>
+                </div>
+                <div t-if="estimatedAnnualRevenue" class="my-1 col-sm-9">
+                    <span t-esc="estimatedAnnualRevenue" /><span> per year</span>
+                </div>
+                <div t-if="phoneNumbers" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-phone text-primary"/>
+                    <b>Phone</b>
+                </div>
+                <div t-if="phoneNumbers" class="col-sm-9">
+                    <t t-foreach="phoneNumbers" t-as="phoneNumber">
+                        <a t-attf-href="tel:{{phoneNumber}}" t-esc="phoneNumber" style="font-weight:normal; padding: 2px 10px; background-color: #eeeeee; margin: 1px 0px; border-radius: 13px; display: inline-block;"/>
+                    </t>
+                </div>
+                <div t-if="email" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-envelope text-primary"/>
+                    <b>Email</b>
+                </div>
+                <div t-if="email" class="col-sm-9">
+                    <t t-foreach="email" t-as="emailItem">
+                        <a target="_top" t-attf-href="mailto:{{emailItem}}" t-esc="emailItem" style="font-weight:normal; padding: 2px 10px; background-color: #eeeeee; margin: 1px 0px; border-radius: 13px; display: inline-block;"/>
+                    </t>
+                </div>
+                <div t-if="timezone" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-globe text-primary"/>
+                    <b>Timezone</b>
+                </div>
+                <div t-if="timezone" class="my-1 col-sm-9" t-esc="timezone.replace('_', ' ')" />
+                <div t-if="tech" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-cube text-primary"/>
+                    <b>Technologies Used</b>
+                </div>
+                <div t-if="tech" class="my-1 col-sm-9">
+                    <t t-foreach="tech" t-as="techItem">
+                        <label t-esc="techItem.replace('_', ' ')" style="font-weight:normal; padding: 2px 10px; background-color: #eeeeee; margin: 1px 0px; border-radius: 13px; display: inline-block;"/>
+                    </t>
+                </div>
+                <div t-if="twitterBio" class="my-1 p-0 col-sm-3">
+                    <i class="fa fa-fw mr-2 fa-twitter text-primary"/>
+                    <b>Twitter</b>
+                </div>
+                <div t-if="twitterBio" class="my-1 col-sm-9">
+                    <div t-if="twitterFollowers"><t t-esc="twitterFollowers"/> followers</div>
+                    <div t-esc="twitterBio" />
+                </div>
+            </div>
+        </div>
+    </template>
+</verp>

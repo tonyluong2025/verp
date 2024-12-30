@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<verp><data>
+
+    <record id="crmRecurringPlanViewTree" model="ir.ui.view">
+        <field name="label">crm.recurring.plan.view.tree</field>
+        <field name="model">crm.recurring.plan</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="label"/>
+                <field name="numberOfMonths"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="crmRecurringPlanViewSearch" model="ir.ui.view">
+        <field name="label">crm.recurring.plan.view.search</field>
+        <field name="model">crm.recurring.plan</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="label"/>
+                <filter name="active" string="Archived" domain="[['active', '=', false]]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="crmRecurringPlanAction" model="ir.actions.actwindow">
+        <field name="label">Recurring Plans</field>
+        <field name="resModel">crm.recurring.plan</field>
+        <field name="viewMode">tree</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a Recurring Plan
+            </p>
+            <p>
+                Set Recurring Plans on Opportunities to display the contracts' renewal periodicity<br/>(e.g: Monthly, Yearly).
+            </p>
+        </field>
+    </record>
+
+</data></verp>

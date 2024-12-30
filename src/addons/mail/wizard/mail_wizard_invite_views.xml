@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <!-- wizard view -->
+        <record model="ir.ui.view" id="mailWizardInviteForm">
+            <field name="label">Add Followers</field>
+            <field name="model">mail.wizard.invite</field>
+            <field name="arch" type="xml">
+                <form string="Add Followers">
+                    <group>
+                        <field name="resModel" invisible="1"/>
+                        <field name="resId" invisible="1"/>
+                        <field name="partnerIds" widget="many2manyTagsEmail"
+                                placeholder="Add contacts to notify..."
+                                context="{'forceEmail':true, 'showEmail':true}"/>
+                        <field name="sendMail"/>
+                        <field name="message" attrs="{'invisible': [['sendMail','!=',true]]}" options="{'style-inline': true, 'no-attachment': true}" class="testMessage"/>
+                    </group>
+                    <footer>
+                        <button string="Add Followers"
+                            name="addFollowers" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</verp>

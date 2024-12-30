@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="viewChangeProductQuantity" model="ir.ui.view">
+            <field name="label">Change Product Quantity</field>
+            <field name="model">stock.change.product.qty</field>
+            <field name="arch" type="xml">
+                <form string="Update Product Quantity">
+                    <group>
+                        <field name="productTemplateId" invisible="1"/>
+                        <field name="productVariantCount" invisible="1"/>
+                        <field name="productId" options="{'noOpen': true, 'noCreate': true}"
+                            domain="[['productTemplateId', '=', productTemplateId]]"
+                            attrs="{'invisible': [['productVariantCount', '=', 1]]}"
+                            invisible="context['default_productId'] ?? false"
+                            readonly="context['default_productId'] ?? false"/>
+                        <field name="newQuantity"/>
+                    </group>
+                    <footer>
+                        <button name="changeProductQty" string="Apply" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="actionChangeProductQuantity" model="ir.actions.actwindow">
+            <field name="label">Change Product Quantity</field>
+            <field name="resModel">stock.change.product.qty</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</verp>

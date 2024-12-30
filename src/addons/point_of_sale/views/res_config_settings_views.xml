@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.pointOfSale</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="95"/>
+        <field name="inheritId" ref="base.resConfigSettingsViewForm" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='settings']" position="inside">
+                <div class="app-settings-block" data-string="Point of sale" string="Point of Sale" data-key="point_of_sale" groups="point_of_sale.groupPosManager">
+                    <h2>Accounting</h2>
+                    <div class="row mt16 o-settings-container" name="taxesSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="defaultSalesTaxSetting"
+                            title="This tax is applied to any new product created in the catalog.">
+                            <div class="o-setting-right-pane">
+                                <div>
+                                    <label string="Default Sales Tax" for="saleTaxId"/>
+                                    <div class="text-muted">
+                                        Default sales tax for products
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <field name="saleTaxId" colspan="4" nolabel="1" domain="[['typeTaxUse', 'in', ['sale', 'all']], ['companyId', '=', companyId]]"/>
+                                    </div>
+                                </div>
+                                <div class="mt8">
+                                    <button name="%(account.actionTaxForm)d" icon="fa-arrow-right" type="action" string="Taxes" class="btn-link"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            groups="account.groupAccountReadonly"
+                            title="This account is used as intermediary account when nothing is set in a payment method.">
+                            <div class="o-setting-right-pane">
+                                <div>
+                                    <label string="Default Intermediary Account" for="saleTaxId"/>
+                                    <div class="text-muted">
+                                        This account is used as intermediary account when nothing is set in a payment method.
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <field name="accountDefaultPosReceivableAccountId" colspan="4" nolabel="1" domain="[['reconcile', '=', true], ['userTypeId.type', '=', 'receivable'], ['companyId', '=', companyId]]"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Pricing</h2>
+                    <div class="row mt16 o-settings-container" name="pricingSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="multiplePricesSetting">
+                            <div class="o-setting-left-pane">
+                                <field name="groupProductPricelist"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupProductPricelist"/>
+                                <div class="text-muted">
+                                    Set multiple prices per product, automated discounts, etc.
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['groupProductPricelist' ,'=', false]]}">
+                                    <div class="mt16">
+                                        <field name="groupSalePricelist" invisible="1"/>
+                                        <field name="productPricelistSetting" widget="radio" class="o-light-label"/>
+                                    </div>
+                                    <div class="mt8">
+                                        <button name="%(product.productPricelistAction2)d" icon="fa-arrow-right" type="action" string="Pricelists" groups="product.groupProductPricelist" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" title="Manage promotion and coupon programs.">
+                            <div class="o-setting-left-pane">
+                                <field name="modulePosCoupon"/>
+                            </div>
+                            <div class="o-setting-right-pane" id="pos-coupon">
+                                <label for="modulePosCoupon" string="Coupons &amp; Promotions" class="o-module"/>
+                                <div class="text-muted">
+                                    Manage promotion &amp; coupon programs
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" title="Manage gift card.">
+                            <div class="o-setting-left-pane">
+                                <field name="modulePosGiftCard"/>
+                            </div>
+                            <div class="o-setting-right-pane" id="pos-gift-card">
+                                <label for="modulePosGiftCard" string="Gift card" class="o-module"/>
+                                <div class="text-muted">
+                                    Manage gift card
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Payments</h2>
+                    <div class="row mt16 o-settings-container">
+                        <div class="col-12 col-lg-6 o-setting-box">
+                            <div class="o-setting-left-pane">
+                                <field name="groupCashRounding"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupCashRounding"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/point_of_sale/shop/cash_rounding.html"
+                                    title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Define the smallest coinage of the currency used to pay by cash
+                                </div>
+                                <div class="mt8">
+                                    <button name="%(account.roundingListAction)d" icon="fa-arrow-right"
+                                            type="action" string="Cash Roundings" class="btn-link"
+                                            attrs="{'invisible': [['groupCashRounding', '=', false]]}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Payment Terminals</h2>
+                    <div class="row mt16 o-settings-container" id="o-settings-use-payment-terminals">
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="adyenPaymentTerminalSetting"
+                            title="The transactions are processed by Adyen. Set your Adyen credentials on the related payment method.">
+                            <div class="o-setting-left-pane">
+                                <field name="modulePosAdyen"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="modulePosAdyen" string="Adyen" class="o-module"/>
+                                <div class="text-muted">
+                                    Accept payments with an Adyen payment terminal
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="vantivPaymentTerminalSetting"
+                            title="The transactions are processed by Vantiv. Set your Vantiv credentials on the related payment method.">
+                            <div class="o-setting-left-pane">
+                                <field name="modulePosMercury"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="modulePosMercury" string="Vantiv (US &amp; Canada)" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/point_of_sale/payment/vantiv.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Accept payments with a Vantiv payment terminal
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['modulePosMercury', '=', false]]}">
+                                    <div class="mt16" id="btnUsePosMercury">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" title="The transactions are processed by Six. Set the IP address of the terminal on the related payment method.">
+                            <div class="o-setting-left-pane">
+                                <field name="modulePosSix"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="modulePosSix" string="Six" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/point_of_sale/payment/six.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Accept payments with a Six payment terminal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Inventory</h2>
+                    <div class="row mt16 o-settings-container" name="productSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="updateQuantitiesStockSetting">
+                            <div class="o-setting-right-pane">
+                                <div>
+                                    <label string="Inventory Management" for="updateStockQuantities"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Update quantities in stock
+                                    </div>
+                                    <div class="content-group mt16 o-light-label">
+                                        <field name="updateStockQuantities" colspan="4" nolabel="1" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="actionPosConfiguration" model="ir.actions.actwindow">
+        <field name="label">Settings</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">res.config.settings</field>
+        <field name="viewMode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'point_of_sale', 'binSize': false}</field>
+    </record>
+
+    <menuitem id="menuPosGlobalSettings"
+        name="Settings"
+        parent="menuPointConfigProduct"
+        sequence="0"
+        action="actionPosConfiguration"
+        groups="base.groupSystem"/>
+</verp>

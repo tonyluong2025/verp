@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!-- Tax Definitions -->
+    <!-- for purchase -->
+    <record id="taxPurchaseVat10" model="account.tax.template">
+        <field name="chartTemplateId" ref="vnTemplate"/>
+        <field name="label">Deductible VAT 10%</field>
+        <field name="description">Deductible VAT 10%</field>
+        <field name="amount" eval="10"/>
+        <field name="amountType">percent</field>
+        <field name="typeTaxUse">purchase</field>
+        <field name="taxGroupId" ref="taxGroup10"/>
+        <field name="invoiceRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'plusReportLineIds': [refId('accountTaxReportLine_03_02_01_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                    'accountId': refId('chart1331'),
+                    'plusReportLineIds': [refId('accountTaxReportLine_03_01_01_vn')],
+                }],
+            ]"/>
+        <field name="refundRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'minusReportLineIds': [refId('accountTaxReportLine_03_02_01_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                    'accountId': refId('chart1331'),
+                    'minusReportLineIds': [refId('accountTaxReportLine_03_01_01_vn')],
+                }],
+            ]"/>
+    </record>
+    <record id="taxPurchaseVat5" model="account.tax.template">
+        <field name="chartTemplateId" ref="vnTemplate"/>
+        <field name="label">Deductible VAT 5%</field>
+        <field name="description">Deductible VAT 5%</field>
+        <field name="amount" eval="5"/>
+        <field name="amountType">percent</field>
+        <field name="typeTaxUse">purchase</field>
+        <field name="taxGroupId" ref="taxGroup5"/>
+        <field name="invoiceRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'plusReportLineIds': [refId('accountTaxReportLine_02_02_01_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                    'accountId': refId('chart1331'),
+                    'plusReportLineIds': [refId('accountTaxReportLine_02_01_01_vn')],
+                }],
+            ]"/>
+        <field name="refundRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'minusReportLineIds': [refId('accountTaxReportLine_02_02_01_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                    'accountId': refId('chart1331'),
+                    'minusReportLineIds': [refId('accountTaxReportLine_02_01_01_vn')],
+                }],
+            ]"/>
+    </record>
+    <record id="taxPurchaseVat0" model="account.tax.template">
+        <field name="chartTemplateId" ref="vnTemplate"/>
+        <field name="label">Deductible VAT 0%</field>
+        <field name="description">Deductible VAT 0%</field>
+        <field name="amount" eval="0"/>
+        <field name="amountType">percent</field>
+        <field name="typeTaxUse">purchase</field>
+        <field name="taxGroupId" ref="taxGroup0"/>
+        <field name="invoiceRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'plusReportLineIds': [refId('accountTaxReportLine_01_02_01_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                }],
+            ]"/>
+        <field name="refundRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'minusReportLineIds': [refId('accountTaxReportLine_01_02_01_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                }],
+            ]"/>
+    </record>
+
+    <!-- for sale -->
+    <record id="taxSaleVat10" model="account.tax.template">
+        <field name="chartTemplateId" ref="vnTemplate"/>
+        <field name="label">Value Added Tax (VAT) 10%</field>
+        <field name="description">Value Added Tax (VAT) 10%</field>
+        <field name="amount" eval="10"/>
+        <field name="amountType">percent</field>
+        <field name="typeTaxUse">sale</field>
+        <field name="taxGroupId" ref="taxGroup10"/>
+        <field name="invoiceRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'plusReportLineIds': [refId('accountTaxReportLine_03_02_02_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                    'accountId': refId('chart33311'),
+                    'plusReportLineIds': [refId('accountTaxReportLine_03_01_02_vn')],
+                }],
+            ]"/>
+        <field name="refundRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'minusReportLineIds': [refId('accountTaxReportLine_03_02_02_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                    'accountId': refId('chart33311'),
+                    'minusReportLineIds': [refId('accountTaxReportLine_03_01_02_vn')],
+                }],
+            ]"/>
+    </record>
+    <record id="taxSaleVat5" model="account.tax.template">
+        <field name="chartTemplateId" ref="vnTemplate"/>
+        <field name="label">Value Added Tax (VAT) 5%</field>
+        <field name="description">Value Added Tax (VAT) 5%</field>
+        <field name="amount" eval="5"/>
+        <field name="amountType">percent</field>
+        <field name="typeTaxUse">sale</field>
+        <field name="taxGroupId" ref="taxGroup5"/>
+        <field name="invoiceRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'plusReportLineIds': [refId('accountTaxReportLine_02_02_02_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                    'accountId': refId('chart33311'),
+                    'plusReportLineIds': [refId('accountTaxReportLine_02_01_02_vn')],
+                }],
+            ]"/>
+        <field name="refundRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'minusReportLineIds': [refId('accountTaxReportLine_02_02_02_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                    'accountId': refId('chart33311'),
+                    'minusReportLineIds': [refId('accountTaxReportLine_02_01_02_vn')],
+                }],
+            ]"/>
+    </record>
+    <record id="taxSaleVat0" model="account.tax.template">
+        <field name="chartTemplateId" ref="vnTemplate"/>
+        <field name="label">Value Added Tax (VAT) 0%</field>
+        <field name="description">Value Added Tax (VAT) 0%</field>
+        <field name="amount" eval="0"/>
+        <field name="amountType">percent</field>
+        <field name="typeTaxUse">sale</field>
+        <field name="taxGroupId" ref="taxGroup0"/>
+        <field name="invoiceRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'plusReportLineIds': [refId('accountTaxReportLine_01_02_02_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                }],
+            ]"/>
+        <field name="refundRepartitionLineIds" eval="[[5, 0, 0],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'base',
+                    'minusReportLineIds': [refId('accountTaxReportLine_01_02_02_vn')],
+                }],
+                [0,0, {
+                    'factorPercent': 100,
+                    'repartitionType': 'tax',
+                }],
+            ]"/>
+    </record>
+</verp>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record model="ir.ui.view" id="viewIrConfigSearch">
+            <field name="model">ir.config.parameter</field>
+            <field name="arch" type="xml">
+                <search string="System Properties">
+                    <field name="key" string="Key"/>
+                    <field name="value"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="viewIrConfigList">
+            <field name="model">ir.config.parameter</field>
+            <field name="arch" type="xml">
+                <tree string="System Parameters">
+                    <field name="key"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="viewIrConfigForm">
+            <field name="model">ir.config.parameter</field>
+            <field name="arch" type="xml">
+                <form string="System Parameters">
+                  <sheet>
+                    <group>
+                        <field name="key"/>
+                        <field name="value"/>
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="actionIrConfigList" model="ir.actions.actwindow">
+            <field name="label">System Parameters</field>
+            <field name="resModel">ir.config.parameter</field>
+        </record>
+        <menuitem id="menuIrConfig" name="System Parameters" parent="menuIrProperty" action="actionIrConfigList"/>
+</verp>

@@ -1,0 +1,34 @@
+{
+  "label": "Sales Teams",
+  "version": "1.1",
+  "category": "Sales/Sales",
+  "summary": "Sales Teams",
+  "description": "Using this application you can manage Sales Teams with CRM and/or Sales\n\r=======================================================================",
+  "website": "https://www.theverp.com/app/crm",
+  "depends": [
+    "base",
+    "mail"
+  ],
+  "data": [
+    "security/sales_team_security.xml",
+    "security/ir.model.access.csv",
+    "data/crm_team_data.xml",
+    "views/crm_tag_views.xml",
+    "views/crm_team_views.xml",
+    "views/crm_team_member_views.xml",
+    "views/mail_activity_views.xml",
+    "views/res_partner_views.xml"
+  ],
+  "demo": [
+    "demo/crm_team_demo.xml",
+    "demo/crm_tag_demo.xml"
+  ],
+  "installable": true,
+  "autoInstall": false,
+  "assets": {
+    "web.assetsBackend": [
+      "sales_team/static/**/*"
+    ]
+  },
+  "license": "MIT Expat"
+}

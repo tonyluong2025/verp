@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<verp>
+
+        <!-- Partner kanban view inherit -->
+        <record id="crmLeadPartnerKanbanView" model="ir.ui.view">
+            <field name="label">res.partner.kanban.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.resPartnerKanbanView"/>
+            <field name="priority" eval="10"/>
+            <field name="groupsId" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+            <field name="arch" type="xml">
+                <field name="mobile" position="after">
+                    <field name="opportunityCount"/>
+                </field>
+                <xpath expr="//span[contains(@class,'oe-kanban-partner-links')]" position="inside">
+                    <span class="badge badge-pill" t-if="record.opportunityCount.value>0">
+                        <i class="fa fa-fw fa-star" aria-label="Opportunities" role="img" title="Opportunities"/><t t-esc="record.opportunityCount.value"/>
+                    </span>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Add contextual button on partner form view -->
+        <record id="viewPartnersFormCrm1" model="ir.ui.view">
+            <field name="label">view.res.partner.form.crm.inherited1</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewPartnerForm"/>
+            <field eval="1" name="priority"/>
+            <field name="groupsId" eval="[[4, refId('sales_team.groupSaleSalesman')]]"/>
+            <field name="arch" type="xml">
+                <data>
+                    <div name="buttonBox" position="inside">
+                        <button class="oe-stat-button o-res-partner-tip-opp" type="object"
+                            name="actionViewOpportunity"
+                            icon="fa-star"
+                            groups="sales_team.groupSaleSalesman"
+                            context="{'default_partnerId': activeId, 'default_type':'opportunity'}">
+                            <field string="Opportunities" name="opportunityCount" widget="statinfo"/>
+                        </button>
+                    </div>
+                </data>
+            </field>
+        </record>
+
+</verp>

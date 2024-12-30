@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<!-- Reports -->
+    <record id="stockReplenishmentReportProductProductAction" model="ir.actions.report">
+        <field name="label">Forecasted Report</field>
+        <field name="model">product.product</field>
+        <field name="reportType">qweb-html</field>
+        <field name="reportName">stock.reportProductProductReplenishment</field>
+    </record>
+
+    <record id="stockReplenishmentReportProductTemplateAction" model="ir.actions.report">
+        <field name="label">Forecasted Report</field>
+        <field name="model">product.template</field>
+        <field name="reportType">qweb-html</field>
+        <field name="reportName">stock.reportProductTemplateReplenishment</field>
+    </record>
+
+    <record id="stockReplenishmentProductProductAction" model="ir.actions.client">
+        <field name="label">Forecasted Report</field>
+        <field name="tag">replenishReport</field>
+    </record>
+
+<!-- Templates -->
+    <template id="reportReplenishmentHeader">
+        <div class="d-flex flex-wrap justify-content-between">
+            <div class="o_product_name">
+                <h3>
+                    <t t-if="bool(docs['productTemplates'])">
+                        <t t-foreach="docs['productTemplates']" t-as="productTemplate">
+                            <a href="#" res-model="product.template" view-type="form" t-att-res-id="productTemplate.id">
+                                <t t-esc="await productTemplate.displayName"/>
+                            </a>
+                        </t>
+                    </t>
+                    <t t-elif="bool(docs['productVariants'])">
+                        <t t-foreach="docs['productVariants']" t-as="productVariant">
+                            <a href="#" res-model="product.product" view-type="form" t-att-res-id="productVariant.id">
+                                <t t-esc="await productVariant.displayName"/>
+                            </a>
+                        </t>
+                    </t>
+                </h3>
+                <h6 t-if="bool(docs['productTemplates']) &amp;&amp; bool(docs['productVariants']) &amp;&amp; len(docs['productTemplates']) != len(docs['productVariants'])">
+                    <t t-foreach="docs['productVariants']" t-as="productVariant">
+                        <a href="#" res-model="product.product" view-type="form" t-att-res-id="productVariant.id">
+                            <t t-esc="f('[%s]', await (await productVariant.productTemplateAttributeValueIds)._getCombinationName())"/>
+                        </a>
+                    </t>
+                </h6>
+            </div>
+            <div class="row">
+                <div class="mx-3 text-center">
+                    <div class="h3">
+                        <t t-esc="docs['quantityOnHand']"/>
+                        <t t-esc="docs['uom']" groups="uom.groupUom"/>
+                    </div>
+                    <div>On Hand</div>
+                </div>
+                <div t-attf-class="mx-3 text-center #{docs['virtualAvailable'] &lt; 0 &amp;&amp; 'text-danger'}">
+                    <div class="h3">
+                        <t t-esc="docs['virtualAvailable']"/>
+                        <t t-esc="docs['uom']" groups="uom.groupUom"/>
+                    </div>
+                    <div>Forecasted</div>
+                </div>
+                <div name="pendingForecasted" t-attf-class="mx-3 text-center #{futureVirtualAvailable &lt; 0 &amp;&amp; 'text-danger'}">
+                    <div class="h3">
+                        <t t-esc="futureVirtualAvailable"/>
+                        <t t-esc="docs['uom']" groups="uom.groupUom"/>
+                    </div>
+                    <div>Forecasted<br/>+ Pending</div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="reportProductProductReplenishment">
+        <t t-call="web.htmlContainer">
+            <div class="page pt-3 o-report-replenishment_page">
+                <t t-set="futureVirtualAvailable" t-value="docs['virtualAvailable'] + docs['qty']['in'] - docs['qty']['out']"/>
+                <t t-call="stock.reportReplenishmentHeader"/>
+                <div class="o-report-graph"/>
+                <table class="o-report-replenishment table table-bordered">
+                    <thead>
+                        <tr class="bg-light">
+                            <td>Replenishment</td>
+                            <td>Receipt</td>
+                            <td t-if="docs['multipleProduct']">Product</td>
+                            <td class="text-right"><t t-esc="docs['uom']"/></td>
+                            <td>Used by</td>
+                            <td>Delivery</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-if="docs['lines'] &amp;&amp; !docs['lines'].some((line) => line['documentIn'] || line['replenishmentFilled'])">
+                            <td>Inventory On Hand</td>
+                            <td/>
+                            <td t-if="docs['multipleProduct']"/>
+                            <td class="text-right">0</td>
+                            <td/>
+                            <td/>
+                            <td/>
+                            <td/>
+                        </tr>
+                        <tr t-foreach="docs['lines']" t-as="line" t-attf-class="#{line['isMatched'] &amp;&amp; 'o_grid_match'}">
+                            <td t-attf-class="#{line['isLate'] &amp;&amp; 'o_grid_warning'}">
+                                <a t-if="bool(line['documentIn'])"
+                                    t-attf-href="#" t-esc="await line['documentIn'].label"
+                                    class="font-weight-bold" view-type="form"
+                                    t-att-res-model="line['documentIn']._name"
+                                    t-att-res-id="line['documentIn'].id"/>
+                                <t t-elif="bool(line['reservation'])">
+                                    Reserved from stock
+                                    <button t-if="bool(line['moveOut']) &amp;&amp; bool(await line['moveOut'].pickingId)"
+                                        class="btn btn-sm btn-primary o-report-replenish_unreserve"
+                                        t-attf-model="stock.picking"
+                                        t-att-model-id="(await line['moveOut'].pickingId).id"
+                                        name="unreserveLink">
+                                        Unreserve
+                                    </button>
+                                </t>
+                                <t t-elif="line['replenishmentFilled']">
+                                    <t t-if="bool(line['documentOut'])">Inventory On Hand
+                                        <button t-if="bool(line['moveOut']) &amp;&amp; bool(await line['moveOut'].pickingId)"
+                                            class="btn btn-sm btn-primary o-report-replenish_reserve"
+                                            t-attf-model="stock.picking"
+                                            t-att-model-id="(await line['moveOut'].pickingId).id"
+                                            name="reserveLink">
+                                            Reserve
+                                        </button>
+                                    </t>
+                                    <t t-else="">Free Stock</t>
+                                </t>
+                                <span t-else="" class="text-muted">Not Available</span>
+                            </td>
+                            <td t-esc="bool(line['receiptDate']) || ''"
+                                t-attf-class="#{line['isLate'] &amp;&amp; 'o_grid_warning'}"/>
+                            <td t-if="docs['multipleProduct']" t-esc="line['product']['displayName']"/>
+                            <td class="text-right"><t t-if="! line['replenishmentFilled']">- </t><t t-esc="line['quantity']" t-options="{'widget': 'float', 'precision': precision}"/></td>
+                            <td t-attf-class="#{! line['replenishmentFilled'] &amp;&amp; 'o_grid_warning'}" name="usedbyCell">
+                                <button t-if="bool(line['moveOut']) &amp;&amp; line['moveOut'].pickingId"
+                                    t-attf-class="o-priority o-priority-star o-report-replenish_change_priority fa fa-star#{(await line['moveOut'].pickingId).priority=='1' ? ' one' : '-o zero'}"
+                                    t-attf-model="stock.picking"
+                                    t-att-model-id="(await line['moveOut'].pickingId).id"
+                                    name="changePriorityLink"
+                                />
+                                <a t-if="bool(line['documentOut'])"
+                                    t-attf-href="#" t-esc="await line['documentOut'].label"
+                                    class="font-weight-bold" view-type="form"
+                                    t-att-res-model="line['documentOut']._name"
+                                    t-att-res-id="line['documentOut'].id"/>
+                            </td>
+                            <td t-esc="line['deliveryDate'] || ''"
+                                t-attf-class="#{! line['replenishmentFilled'] &amp;&amp; 'o_grid_warning'}"/>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr class="o_forecasted_row">
+                            <td colspan="2">Forecasted Inventory</td>
+                            <td t-esc="docs['virtualAvailable']" t-options="{'widget': 'float', 'precision': precision}" class="text-right"/>
+                        </tr>
+                    </thead>
+                    <tbody t-if="docs['qty']['in']">
+                        <tr t-if="docs['draftPickingQty']['in']" name="draftPickingIn">
+                            <td colspan="2">Incoming Draft Transfer</td>
+                            <td t-esc="docs['draftPickingQty']['in']" t-options="{'widget': 'float', 'precision': precision}" class="text-right"/>
+                        </tr>
+                        <tr t-if="docs['draftPickingQty']['out']" name="draftPickingOut">
+                            <td colspan="2">Outgoing Draft Transfer</td>
+                            <td t-esc="-docs['draftPickingQty']['out']" t-options="{'widget': 'float', 'precision': precision}" class="text-right"/>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr class="o_forecasted_row">
+                            <td colspan="2">Forecasted with Pending</td>
+                            <td t-esc="futureVirtualAvailable" t-options="{'widget': 'float', 'precision': precision}" class="text-right"/>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="reportProductTemplateReplenishment">
+        <t t-call="stock.reportProductProductReplenishment"/>
+    </template>
+</verp>

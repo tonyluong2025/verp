@@ -1,0 +1,43 @@
+.o-document-layout .o-group {
+    display: flex;
+    .o-document-layout-company {
+        flex: 5;
+        @include media-breakpoint-up(sm, $o-extra-grid-breakpoints) {
+            max-width: 50%;
+        }
+        img {
+            max-height: 100px;
+        }
+        .o-document-layout-colors {
+            margin-bottom: 32px;
+            vertical-align: middle;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .o-field-widget {
+                width: 30px;
+                margin: 0 5px 0 0;
+            }
+            .btn {
+                padding: 0;
+                margin-left: 10px;
+                .o-form-label {
+                    height: 30px;
+                    font-size: 18px;
+                    margin: 0;
+                    cursor: pointer;
+                }
+            }
+        }
+        select.o-input {
+            height: 25px;
+        }
+
+    }
+}
+
+@media (max-width: 620px) {
+    .o-document-layout .o-group {
+        flex-direction: column;
+    }
+}

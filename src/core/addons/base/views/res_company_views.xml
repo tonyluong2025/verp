@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+    <data>
+        <record id="viewCompanyForm" model="ir.ui.view">
+            <field name="label">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <form string="Company">
+                  <sheet>
+                    <field name="logo" widget="image" class="oe-avatar"/>
+                    <div class="oe-title">
+                        <label for="label"/>
+                        <h1>
+                            <field name="label" placeholder="e.g. My Company"/>
+                        </h1>
+                    </div>
+                    <notebook colspan="4">
+                        <page string="General Information" name="generalInfo">
+                            <group>
+                                <group>
+                                    <field name="partnerId" string="Contact" readonly="1" required="0" groups="base.groupNoOne"/>
+                                    <label for="street" string="Address"/>
+                                    <div class="o-address-format">
+                                        <field name="street" placeholder="Street..." class="o-address-street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o-address-street"/>
+                                        <field name="city" placeholder="City" class="o-address-city"/>
+                                        <field name="stateId" class="o-address-state" placeholder="State" options='{"noOpen": true}'/>
+                                        <field name="zip" placeholder="ZIP" class="o-address-zip"/>
+                                        <field name="countryId" placeholder="Country" class="o-address-country" options='{"noOpen": true, "noCreate": true}'/>
+                                    </div>
+                                    <field name="vat"/>
+                                    <field name="companyRegistry"/>
+                                    <field name="currencyId" options="{'noCreate': true, 'noOpen': true}" id="companyCurrency" context="{'activeTest': false}"/>
+                                </group>
+                                <group>
+                                    <field name="phone" class="o-force-ltr"/>
+                                    <field name="mobile" class="o-force-ltr"/>
+                                    <field name="email"/>
+                                    <field name="website" string="Website" widget="url" placeholder="e.g. https://www.theverp.com"/>
+                                    <field name="parentId"  groups="base.groupMultiCompany"/>
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="favicon" widget="image" class="float-left oe-avatar" groups="base.groupNoOne"/>
+                                </group>
+                                <group name="socialMedia"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewCompanyTree" model="ir.ui.view">
+            <field name="label">res.company.tree</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <tree string="Companies">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="partnerId"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewResCompanyKanban" model="ir.ui.view">
+            <field name="label">res.company.kanban</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="label"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-global-click">
+                                <div t-attf-class="#{!selectionMode ? 'text-center' : ''}">
+                                    <i class="fa fa-building" role="img" aria-label="Enterprise" title="Enterprise"></i> <strong><field name="label"/></strong>
+                                </div>
+                                <hr class="mt4 mb4"/>
+                                <div class="row" t-if="!selectionMode">
+                                    <div t-if="record.email.value" class="col-6 text-center">
+                                        <strong>Email:</strong>
+                                    </div>
+                                    <div t-if="record.phone.value" class="col-6 text-center">
+                                        <strong>Phone</strong>
+                                    </div>
+                                    <div t-if="record.email.value" class="col-6 text-center">
+                                        <field name="email"/>
+                                    </div>
+                                    <div t-if="record.phone.value" class="col-6 text-center o-force-ltr">
+                                        <field name="phone"/>
+                                    </div>
+                                </div>
+                                <div t-else="">
+                                    <div t-if="record.email.value">
+                                        <strong>Email:</strong>
+                                        <field name="email"/>
+                                    </div>
+                                    <div t-if="record.phone.value" class="o-force-ltr">
+                                        <strong>Phone:</strong>
+                                        <field name="phone"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="actionResCompanyForm" model="ir.actions.actwindow">
+            <field name="label">Companies</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.company</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new company
+              </p><p>
+                Create and manage the companies that will be managed by Verp from here. Shops or subsidiaries can be created and maintained from here.
+              </p>
+            </field>
+        </record>
+        <menuitem action="actionResCompanyForm" id="menuActionResCompanyForm" parent="base.menuUsers"/>
+    </data>
+</verp>

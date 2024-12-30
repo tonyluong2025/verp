@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="accountingTaxReportView" model="ir.ui.view">
+        <field name="label">Tax Reports</field>
+        <field name="model">account.tax.report.wizard</field>
+        <field name="inheritId" eval="false"/>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group>
+                    <group>
+                        <field name="targetMove" widget="radio"/>
+                        <field name="dateFrom"/>
+                    </group>
+                    <group>
+                        <field name="companyId" invisible="1"/>
+                        <field name="dateTo" />
+                    </group>
+                </group>
+            <footer>
+                <button name="checkReport" string="Print" type="object" defaultFocus="1" class="oe-highlight" data-hotkey="q"/>
+                <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="actionAccountTaxReport" model="ir.actions.actwindow">
+        <field name="label">Tax Reports</field>
+        <field name="resModel">account.tax.report.wizard</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountingTaxReportView"/>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menuAccountReport"
+              name="Tax Report"
+              sequence="30"
+              action="actionAccountTaxReport"
+              parent="menuFinanceAuditReports"
+              groups="account.groupAccountManager,account.groupAccountUser"/>
+
+</verp>

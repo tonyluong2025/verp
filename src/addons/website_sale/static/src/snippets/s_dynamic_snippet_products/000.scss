@@ -1,0 +1,42 @@
+// class name are dynamically added.
+// If you don't find it with a grep, don't consider it as useless without extra check.
+
+.s-product-product-centered {
+    .card {
+        overflow: visible;
+        margin-top: 6rem;
+        padding-top: 6rem;
+    }
+
+    .o-carousel-product-img-link {
+        max-width: 75%;
+        margin-top: -12rem;
+        left: 0;
+        right: 0;
+    }
+}
+
+.s-product-product-banner {
+    img {
+        max-height: 400px;
+    }
+}
+
+.s-product-product-horizontal-card img {
+    img {
+        height: 100%;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .s-product-product-horizontal-card img {
+        height: 12rem;
+    }
+}
+
+.o-dynamic-product-hovered {
+    transition: transform 250ms ease;
+    &:hover {
+        transform: scale(.95);
+    }
+}

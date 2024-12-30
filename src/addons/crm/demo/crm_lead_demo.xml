@@ -1,0 +1,1293 @@
+<?xml version="1.0"?>
+<verp>
+    <data noupdate="1">
+        <!--  Demo Leads -->
+        <record id="crmCase1" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 8})"/>
+            <field name="type">lead</field>
+            <field name="label">Club Office Furnitures</field>
+            <field name="contactName">Jacques Dunagan</field>
+            <field name="partnerName">Le Club SARL</field>
+            <field name="emailFrom">jdunagan@leclub.example.com</field>
+            <field name="position">Training Manager</field>
+            <field name="countryId" ref="base.fr"/>
+            <field name="city">Paris</field>
+            <field name="zip">93190</field>
+            <field name="street">Rue Léon Dierx 73</field>
+            <field name="phone">+33 1 25 54 45 69</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor6')]]]"/>
+            <field name="priority">1</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="dateOpen" eval="date_utils.addDate(now(), {'months': 2})"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignServices"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+        </record>
+        <record id="msgCase1_1" model="mail.message">
+            <field name="subject">Inquiry</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase1"/>
+            <field name="authorId" eval="false"/>
+            <field name="emailFrom">jdunagan@leclub.example.com</field>
+            <field name="body"><![CDATA[<p>Hello,<br />
+            I am Jacques from Le Club SARL. I am interested in attending a training organized by your company.<br />
+            Can you send me the details ?</p>]]></field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+        </record>
+
+        <record id="crmCase2" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 8})"/>
+            <field name="type">lead</field>
+            <field name="label">Design Software</field>
+            <field name="contactName">Marc Dufour</field>
+            <field name="partnerName">The Oil Company</field>
+            <field name="emailFrom">md@oilcompany.fr</field>
+            <field name="position">Purchase Manager</field>
+            <field name="countryId" ref="base.fr"/>
+            <field name="city">Bordeaux</field>
+            <field name="zip">33000</field>
+            <field name="street">Rue Ignasse Blanchoux 214/32</field>
+            <field name="phone">+33 1 25 54 45 69</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor2')]]]"/>
+            <field name="priority">1</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="dateOpen" eval="subDate(now(), {'months': 1})"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignChristmasSpecial"/>
+            <field name="mediumId" ref="utm.utmMediumWebsite"/>
+            <field name="sourceId" ref="utm.utmSourceNewsletter"/>
+        </record>
+        <record id="msgCase2_1" model="mail.message">
+            <field name="subject">Need Details</field>
+            <field name="model">crm.lead</field>
+            <field name="authorId" eval="false"/>
+            <field name="emailFrom">md@oilcompany.fr</field>
+            <field name="resId" ref="crmCase2"/>
+            <field name="body">Want to know features and benefits of using the new software.</field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+        </record>
+
+        <record id="crmCase3" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 2})"/>
+            <field name="type">lead</field>
+            <field name="label">Pricing for 25 desks</field>
+            <field name="contactName">John Miller</field>
+            <field name="partnerName">The Kompany</field>
+            <field name="emailFrom">contact@thekompany.example.com</field>
+            <field name="countryId" ref="base.us"/>
+            <field name="city">New York</field>
+            <field name="zip">10001</field>
+            <field name="street">Lafayette Ave 450/12</field>
+            <field name="phone">+1 555 754 3010</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor4'), refId('sales_team.categOppor5')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="dateOpen" eval="DateTime.now().minus({'months': 1}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumGoogleAdwords"/>
+            <field name="sourceId" ref="utm.utmSourceFacebook"/>
+        </record>
+
+        <record id="crmCase4" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 2})"/>
+            <field name="type">lead</field>
+            <field name="label">Campbell: Chairs</field>
+            <field name="contactName">Henry Campbell</field>
+            <field name="partnerName">Burstein Applebee</field>
+            <field name="emailFrom">hmc@yahoo.example.com</field>
+            <field name="countryId" ref="base.uk"/>
+            <field name="city">Manchester</field>
+            <field name="zip">03101</field>
+            <field name="street">United Street 68</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor5')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="dateOpen" eval="DateTime.now().minus({'months': 1}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumBanner"/>
+            <field name="sourceId" ref="utm.utmSourceNewsletter"/>
+        </record>
+
+        <record id="crmCase5" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 4})"/>
+            <field name="type">lead</field>
+            <field name="label">Quotation for 50 Chairs</field>
+            <field name="contactName">Carrie Helle</field>
+            <field name="partnerName">Stonage IT</field>
+            <field name="emailFrom">helle@stonageit.example.com</field>
+            <field name="position">Purchase Manager</field>
+            <field name="countryId" ref="base.us"/>
+            <field name="city">Philadelphia</field>
+            <field name="zip">1909</field>
+            <field name="street">West Allegheny Ave 800</field>
+            <field name="phone">+1 813 494 5005</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="description"></field>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+        </record>
+        <record id="msgCase5_1" model="mail.message">
+            <field name="subject">Inquiry</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase5"/>
+            <field name="authorId" eval="false"/>
+            <field name="emailFrom">helle@stonageit.example.com</field>
+            <field name="body"><![CDATA[<p>Hi,<br />
+Can you send me a quotation for 20 computers with speakers?<br />
+Regards,<br />
+Carrie Helle,<br />
+Purchase Manager<br />
+Stonage IT,<br />
+Philadelphia<br />
+Contact: +1 813 494 5005</p>]]></field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+        </record>
+
+        <record id="crmCase6" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 5})"/>
+            <field name="type">lead</field>
+            <field name="label">Opensides: Need Info</field>
+            <field name="contactName">Tina Pinero</field>
+            <field name="partnerName">Opensides</field>
+            <field name="emailFrom">tina@opensides.example.com</field>
+            <field name="position">Consultant</field>
+            <field name="countryId" ref="base.it"/>
+            <field name="city">Roma</field>
+            <field name="zip">00118</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor3'), refId('sales_team.categOppor4')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignServices"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+
+        <record id="crmCase7" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 5})"/>
+            <field name="type">lead</field>
+            <field name="label">Gardner: Desks Replacement</field>
+            <field name="contactName">Wendi Baltz</field>
+            <field name="partnerName">Gardner Group</field>
+            <field name="position">Journalist</field>
+            <field name="countryId" ref="base.br"/>
+            <field name="city">Rio de Janeiro</field>
+            <field name="zip">29000</field>
+            <field name="street">R. Sen. Pompeu</field>
+            <field name="phone">+11 55 21 5555 5555</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor4')]]]"/>
+            <field name="priority">0</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+
+        <record id="crmCase8" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 8})"/>
+            <field name="type">lead</field>
+            <field name="label">Product Catalog</field>
+            <field name="contactName">Logan</field>
+            <field name="partnerName">ESM Expert</field>
+            <field name="emailFrom">logan_expert@gmail.example.com</field>
+            <field name="position">Sales</field>
+            <field name="countryId" ref="base.uk"/>
+            <field name="city">London</field>
+            <field name="zip">E1AB</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor4'), refId('sales_team.categOppor8')]]]"/>
+            <field name="priority">1</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+        <record id="msgCase8_1" model="mail.message">
+            <field name="subject">Inquiry</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase8"/>
+            <field name="authorId" eval="false"/>
+            <field name="emailFrom">logan_expert@gmail.example.com</field>
+            <field name="body"><![CDATA[<p>Hi,<br />
+Could you send me your product catalogue please ?<br />
+Regards,<br />
+David Logan<br />
+ESM Expert<br />]]></field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+        </record>
+
+        <record id="crmCase9" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 4})"/>
+            <field name="type">lead</field>
+            <field name="label">Reseller: Office furnitures</field>
+            <field name="contactName">Delisle Albert</field>
+            <field name="partnerName">Marketing Business</field>
+            <field name="emailFrom">d.albert@marketing-business.example.com</field>
+            <field name="position">Sales</field>
+            <field name="countryId" ref="base.uk"/>
+            <field name="city">Oxford</field>
+            <field name="zip">OX1 1RQ</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor4'), refId('sales_team.categOppor7')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+
+        <record id="crmCase10" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 2})"/>
+            <field name="type">lead</field>
+            <field name="label">Design Software Info</field>
+            <field name="contactName">Jose Garcia</field>
+            <field name="partnerName">Solar IT</field>
+            <field name="position">Medical illustrator</field>
+            <field name="emailFrom">jga@solar.example.com</field>
+            <field name="countryId" ref="base.es"/>
+            <field name="city">Madrid</field>
+            <field name="zip">28001</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+        <record id="msgCase10_1" model="mail.message">
+            <field name="subject">Inquiry</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase10"/>
+            <field name="authorId" eval="false"/>
+            <field name="emailFrom">jga@solar.example.com</field>
+            <field name="body"><![CDATA[<p>Hi,<br />
+I would like to know more about specification and cost of laptops of your company.<br />
+Thanks,<br />
+Andrew</p>]]></field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+        </record>
+
+        <record id="crmCase11" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 5})"/>
+            <field name="type">lead</field>
+            <field name="label">Estimation for Office Furnitures</field>
+            <field name="contactName">Thomas Passot</field>
+            <field name="partnerName">Deco Addict</field>
+            <field name="emailFrom">p.thomas@agrolait.com</field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="position">Functional Consultant</field>
+            <field name="countryId" ref="base.be"/>
+            <field name="city">Wavre</field>
+            <field name="zip">1300</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor7')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+
+        <record id="crmCase12" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 8})"/>
+            <field name="type">lead</field>
+            <field name="label">Quotation for 100 Desks</field>
+            <field name="contactName">Bojing Hú</field>
+            <field name="partnerName">Incom Corporation</field>
+            <field name="emailFrom">bhu.a100@ic.example.com</field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="countryId" ref="base.cn"/>
+            <field name="city">Shenzhen</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumWebsite"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <!-- Call Function to Cancel the leads (set as Dead) -->
+        <function model="crm.lead" name="actionSetLost"
+            eval="[[refId('crmCase7'), refId('crmCase9'), refId('crmCase11'), refId('crmCase12')]]"
+            context="{'installMode': true}"/>
+
+        <!-- Demo Opportunities -->
+        <record id="crmCase13" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 1})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Quote for 12 Tables</field>
+            <field name="expectedRevenue">40000</field>
+            <field name="probability">10.0</field>
+            <field name="contactName">Will McEncroe</field>
+            <field name="partnerName">Rediff Mail</field>
+            <field name="emailFrom">willmac@rediffmail.example.com</field>
+            <field name="countryId" ref="base.au"/>
+            <field name="city">Melbourne</field>
+            <field name="street">Kensington Road 189</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 4}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCase14" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 1})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Office Design Project</field>
+            <field name="color">7</field>
+            <field name="expectedRevenue">24000</field>
+            <field name="probability">10.0</field>
+            <field name="partnerName">Deco Addict</field>
+            <field name="emailFrom">info@agrolait.com</field>
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="countryId" ref="base.be"/>
+            <field name="city">Wavre</field>
+            <field name="zip">1300</field>
+            <field name="street">Rue de Namur 69</field>
+            <field name="phone">+32 10 588 558</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor2')]]]"/>
+            <field name="priority">2</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'months': 1}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="crm.stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumWebsite"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCase15" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 1})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Info about services</field>
+            <field name="expectedRevenue">25000</field>
+            <field name="probability">30.0</field>
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="emailFrom">virginie@agrolait.com</field>
+            <field name="countryId" ref="base.be"/>
+            <field name="city">Wavre</field>
+            <field name="street">Rue de Namur 69</field>
+            <field name="phone">+32 10 588 558</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'months': 1}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignServices"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumDirect"/>
+        </record>
+        <record id="msgCase15Attach1" model="ir.attachment">
+            <field name="datas">bWlncmF0aW9uIHRlc3Q=</field>
+            <field name="label">YourCompany2012.doc</field>
+            <field name="resModel">crm.lead</field>
+            <field name="resId" ref="crmCase15"/>
+        </record>
+        <record id="msgCase15_1" model="mail.message">
+            <field name="subject">Plan to buy RedHat servers</field>
+
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase15"/>
+            <field name="authorId" ref="base.resPartner_2"/>
+            <field name="emailFrom">virginie@agrolait.fr</field>
+            <field name="body"><![CDATA[<div>
+            <p>Hello,</p>
+            <p>I am interested in your company's products and I plan to buy a new laptop having latest technologies as well as an affordable price.</p>
+            <p>Could you please send me the product catalog?</p>]]></field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+        </record>
+        <record id="msgCase15_2" model="mail.message">
+            <field name="subject">Re: Plan to buy RedHat servers</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase15"/>
+            <field name="authorId" ref="base.partnerDemo"/>
+            <field name="body"><![CDATA[<p>Dear customer,<br/>
+            Thanks for showing interest in our products! As requested, I send to you our products catalog.<br />
+            To be able to finely tune the solution, we would like to know precise needs. This way we wil be able to help you choosing the right infrastructure according to your requirements.<br/>
+            Best regards,</p>]]></field>
+            <field name="parentId" ref="msgCase15_1"/>
+            <field name="messageType">comment</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+            <field name="attachmentIds" eval="[[6, 0, [refId('msgCase15Attach1')]]]"/>
+        </record>
+        <!--Main attachment is usually registered by messagePost, so here we must set it manually-->
+        <record id="crmCase15" model="crm.lead">
+            <field name="messageMainAttachmentId" ref="msgCase15Attach1"/>
+        </record>
+        <record id="msgCase15_3" model="mail.message">
+            <field name="subject">Re: Plan to buy RedHat servers</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase15"/>
+            <field name="emailFrom">virginie@agrolait.fr</field>
+            <field name="authorId" ref="base.resPartner_2"/>
+            <field name="body"><![CDATA[<p>Thanks for the information!<br />I asked a precise specification to our technical expert. Here is what we precisely need:</p>
+            <ul>
+                <li>weekly backups, every Monday</li>
+                <li>backup time is not a blocking point for us, as we are closed all Monday, leaving time enough to perform the backup</li>
+                <li>reliability is very important; we need redundant servers and rollback capacity</li>
+                <li>a total capacity of about 2 TB</li>
+            </ul>
+            <p>Best regards,</p>]]></field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+            <field name="parentId" ref="msgCase15_1"/>
+        </record>
+        <record id="msgCase15_4" model="mail.message">
+            <field name="subject">Re: Plan to buy RedHat servers</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase15"/>
+            <field name="authorId" ref="base.partnerDemo"/>
+            <field name="body"><![CDATA[<p>Hello</p>
+            <p>After our discussion with our technical experts, here is the offer of YourCompany. We believe it will meet every requirement you had in mind. Please feel free to contact me for any detail or technical detail that is not clear enough for you.</p>
+            <p>Notice that as agreed on phone, we offer you a <b>10% discount on the hardware</b>!</p>
+            <p>Best regards,</p>]]></field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+            <field name="parentId" ref="msgCase15_1"/>
+        </record>
+
+        <record id="crmCase16" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 2})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Global Solutions: Furnitures</field>
+            <field name="expectedRevenue">3800</field>
+            <field name="probability">90.0</field>
+            <field name="contactName">Robin Smith</field>
+            <field name="partnerName">Global Solutions</field>
+            <field name="partnerId" ref="base.resPartner_4"/>
+            <field name="countryId" ref="base.uk"/>
+            <field name="city">Liverpool</field>
+            <field name="zip">L25 4RL</field>
+            <field name="street">Union Road</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor5')]]]"/>
+            <field name="priority">2</field>
+            <field name="dateDeadline" eval="DateTime.now().toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+
+        <record id="crmCase17" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 3})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Balmer Inc: Potential Distributor</field>
+            <field name="expectedRevenue">1000</field>
+            <field name="probability">35.0</field>
+            <field name="partnerName">BalmerInc S.A.</field>
+            <field name="contactName">Oliver Passot</field>
+            <field name="emailFrom">olivier.passo@balmer.inc.sa</field>
+            <field name="phone">+32 469 12 45 78</field>
+            <field name="countryId" ref="base.be"/>
+            <field name="city">Brussels</field>
+            <field name="zip">1100</field>
+            <field name="street">Rue des Palais 51, bte 33</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor3'),refId('sales_team.categOppor4')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'months': 1}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumWebsite"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+        <record id="msgCase17_1" model="mail.message">
+            <field name="subject">Catalog to send</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase17"/>
+            <field name="authorId" ref="base.partnerDemo"/>
+            <field name="body"><![CDATA[<p>They just want pricing information about our services. I think sending our catalog should be sufficient.</p>]]></field>
+            <field name="messageType">comment</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+        </record>
+
+        <record id="crmCase18" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 7})"/>
+            <field name="type">opportunity</field>
+            <field name="label">DeltaPC: 10 Computer Desks</field>
+            <field eval="35000" name="expectedRevenue"/>
+            <field eval="25.0" name="probability"/>
+            <field name="contactName">Leland Martinez</field>
+            <field name="emailFrom">info@deltapc.example.com</field>
+            <field name="partnerName">Delta PC</field>
+            <field name="city">London</field>
+            <field name="street">3661 Station Street</field>
+            <field name="countryId" ref="base.uk"/>
+            <field name="partnerId" ref="base.resPartner_4"/>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor4'),refId('sales_team.categOppor6')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'months': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field eval="1" name="active"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignServices"/>
+            <field name="sourceId" ref="utm.utmSourceNewsletter"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+        <record id="msgCase18_1" model="mail.message">
+            <field name="subject">Inquiry</field>
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase18"/>
+            <field name="authorId" ref="base.resPartner_4"/>
+            <field name="body"><![CDATA[<p>Hello!<br />
+            I am Leland Martinez, from the Delta PC. Maybe you remember, we talked a bit last month at this international conference.<br />
+            We would like to attend a training, but we are not quite sure about what we can ask. Maybe we should meet and talk about that?<br />
+            Best regards,</p>]]></field>
+            <field name="messageType">email</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+        </record>
+        <record id="msgCase18_2" model="mail.message">
+            <field name="model">crm.lead</field>
+            <field name="resId" ref="crmCase18"/>
+            <field name="authorId" ref="base.partnerDemo"/>
+            <field name="body"><![CDATA[<p>It seems very interesting. As you say, first of all we will have to define precisely what the training will be about, and your precise needs.</p>]]></field>
+            <field name="messageType">comment</field>
+            <field name="subtypeId" ref="mail.mtComment"/>
+            <field name="parentId" ref="msgCase18_1"/>
+        </record>
+
+        <record id="crmCase19" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 7})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Customizable Desk</field>
+            <field name="color">3</field>
+            <field name="expectedRevenue">15000</field>
+            <field name="probability">65.5</field>
+            <field name="contactName">Nhomar</field>
+            <field name="partnerName">Vauxoo</field>
+            <field name="emailFrom">vauxoo@yourcompany.example.com</field>
+            <field name="partnerId" ref="base.resPartner_12"/>
+            <field name="countryId" ref="base.ve"/>
+            <field name="city">Caracas</field>
+            <field name="zip">1090</field>
+            <field name="street">3rd Floor, Room 3-C,</field>
+            <field name="street2">Carretera Panamericana, Km 1, Urb. Delgado Chalbaud</field>
+            <field name="phone">+58 212 681 0538</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 1}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+
+        <record id="crmCase20" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 7})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Distributor Contract</field>
+            <field name="expectedRevenue">19800</field>
+            <field name="contactName">John M. Brown</field>
+            <field name="partnerName">Epic Technologies</field>
+            <field name="emailFrom">john.b@tech.info</field>
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="countryId" ref="base.us"/>
+            <field name="zip">60610</field>
+            <field name="city">Chicago</field>
+            <field name="phone">+1 312 349 2324</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor4'),refId('sales_team.categOppor8')]]]"/>
+            <field name="priority">2</field>
+            <field name="dateDeadline" eval="DateTime.now().toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignServices"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+        </record>
+
+        <record id="crmCase21" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 1})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Office Design and Architecture</field>
+            <field name="expectedRevenue">9000</field>
+            <field name="partnerId" ref="base.resPartner_4"/>
+            <field name="countryId" ref="base.uk"/>
+            <field name="city">Birmingham</field>
+            <field name="zip">B46 3AG</field>
+            <field name="street">Cannon Hill Park</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor7')]]]"/>
+            <field name="priority">2</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignServices"/>
+            <field name="mediumId" ref="utm.utmMediumPhone"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCase22" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 8})"/>
+            <field name="type">opportunity</field>
+            <field name="label">5 VP Chairs</field>
+            <field name="expectedRevenue">5600</field>
+            <field name="probability">30.0</field>
+            <field name="contactName">Benjamin Flores</field>
+            <field name="partnerName">Nebula Business</field>
+            <field name="partnerId" ref="base.resPartner_12"/>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor3')]]]"/>
+            <field name="priority">1</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCase23" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 7})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Access to Online Catalog</field>
+            <field name="expectedRevenue">2000</field>
+            <field name="probability">80.0</field>
+            <field name="partnerId" ref="base.resPartner_18"/>
+            <field name="priority">0</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor3')]]]"/>
+            <field name="dateDeadline" eval="DateTime.now().toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignFallDrive"/>
+            <field name="mediumId" ref="utm.utmMediumDirect"/>
+            <field name="sourceId" ref="utm.utmSourceNewsletter"/>
+        </record>
+
+        <record id="crmCase24" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 7})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Need 20 Desks</field>
+            <field name="expectedRevenue">60000</field>
+            <field name="probability">90.0</field>
+            <field name="emailFrom">info@mycompany.net</field>
+            <field name="countryId" ref="base.pe"/>
+            <field name="city">Lima</field>
+            <field name="priority">0</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'months': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor7')]]]"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumWebsite"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCase25" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 1})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Modern Open Space</field>
+            <field name="expectedRevenue">4500</field>
+            <field name="probability">60</field>
+            <field name="contactName">Henry Jordan</field>
+            <field name="partnerName">E-light Industry</field>
+            <field name="emailFrom">henry@elight.com</field>
+            <field name="countryId" ref="base.ar"/>
+            <field name="city">Buenos Aires</field>
+            <field name="zip">B7313</field>
+            <field name="street">Palermo, Capital Federal</field>
+            <field name="street2">C1414CMS Capital Federal</field>
+            <field name="priority">2</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor4')]]]"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignServices"/>
+            <field name="mediumId" ref="utm.utmMediumPhone"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCase26" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 6})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Open Space Design</field>
+            <field name="expectedRevenue">11000</field>
+            <field name="probability">45</field>
+            <field name="partnerName">Deco Addict</field>
+            <field name="emailFrom">info@agrolait.com</field>
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="street">Rue de Namur 69</field>
+            <field name="countryId" ref="base.be"/>
+            <field name="city">Wavre</field>
+            <field name="zip">1300</field>
+            <field name="priority">2</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor2')]]]"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumWebsite"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCase27" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 1})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Interest in your products</field>
+            <field name="expectedRevenue">2000</field>
+            <field name="probability">80</field>
+            <field name="partnerName">Deco Addict</field>
+            <field name="emailFrom">info@agrolait.com</field>
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="countryId" ref="base.be"/>
+            <field name="city">Wavre</field>
+            <field name="zip">1300</field>
+            <field name="street">Rue de Namur 69</field>
+            <field name="priority">2</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor2')]]]"/>
+            <field name="dateDeadline" eval="DateTime.now().toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+        </record>
+
+        <record id="crmCase28" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 1})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Furnish a 60m² office</field>
+            <field name="expectedRevenue">7500</field>
+            <field name="probability">20</field>
+            <field name="partnerName">Deco Addict</field>
+            <field name="emailFrom">info@agrolait.com</field>
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="countryId" ref="base.be"/>
+            <field name="city">Wavre</field>
+            <field name="zip">1300</field>
+            <field name="street">Rue de Namur 69</field>
+            <field name="priority">0</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1'), refId('sales_team.categOppor5')]]]"/>
+            <field name="dateDeadline" eval="addDate(now(), {'days': 12})"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="stageId" ref="crm.stageLead1"/>
+        </record>
+
+        <record id="crmCase29" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'months': 1})"/>
+            <field name="type">lead</field>
+            <field name="label">Club Office More Desks</field>
+            <field name="contactName">Jacques Dunagan</field>
+            <field name="partnerName">Le Club SARL</field>
+            <field name="emailFrom">jdunagan@leclub.example.com</field>
+            <field name="position">Training Manager</field>
+            <field name="countryId" ref="base.fr"/>
+            <field name="city">Paris</field>
+            <field name="zip">93190</field>
+            <field name="street">Rue Léon Dierx 73</field>
+            <field name="phone">+33 1 25 54 45 69</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor6')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateOpen" eval="DateTime.now().minus({'months': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+        </record>
+
+        <record id="crmCase30" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'months': 2})"/>
+            <field name="type">lead</field>
+            <field name="label">Acadia College Furnitures</field>
+            <field name="contactName">Gaston Rochon</field>
+            <field name="partnerName">Acadia College</field>
+            <field name="emailFrom">GastonRochon@example.com</field>
+            <field name="position">Director</field>
+            <field name="countryId" ref="base.fr"/>
+            <field name="city">Brussels</field>
+            <field name="zip">1080</field>
+            <field name="street">Rue du Commerce 93</field>
+            <field name="phone">+32 22 33 54 07</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor6')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateOpen" eval="time().minus({'months': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceMailing"/>
+        </record>
+
+        <record id="crmCase31" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'months': 1})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Quote for 150 carpets</field>
+            <field name="expectedRevenue">40000</field>
+            <field name="probability">10.0</field>
+            <field name="contactName">Erik N. French</field>
+            <field name="emailFrom">ErikNFrench@armyspy.com</field>
+            <field name="countryId" ref="base.au"/>
+            <field name="city">Chevy Chase</field>
+            <field name="street">1920 Del Dew Drive</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'months': 1}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCase32" model="crm.lead">
+            <field name="createdAt" eval="addDate(now(), {'months': 2})"/>
+            <field name="type">opportunity</field>
+            <field name="label">Quote for 600 Chairs</field>
+            <field name="expectedRevenue">22500</field>
+            <field name="probability">20.0</field>
+            <field name="contactName">Erik N. French</field>
+            <field name="emailFrom">ErikNFrench@armyspy.com</field>
+            <field name="countryId" ref="base.au"/>
+            <field name="city">Chevy Chase</field>
+            <field name="street">1920 Del Dew Drive</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'months': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph1" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'months': 1})"/>
+            <field name="type">lead</field>
+            <field name="label">Recurring delivery contract</field>
+            <field name="expectedRevenue">36221</field>
+            <field name="probability">20</field>
+            <field name="contactName">Max Johnson</field>
+            <field name="emailFrom">max123@itconsult.com</field>
+            <field name="countryId" ref="base.it"/>
+            <field name="city">Milan</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph2" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 18})"/>
+            <field name="type">lead</field>
+            <field name="label">Need info about pricing</field>
+            <field name="expectedRevenue">28443</field>
+            <field name="probability">80</field>
+            <field name="contactName">Aloysius Akred</field>
+            <field name="emailFrom">aakreda@theglobeandmail.com</field>
+            <field name="countryId" ref="base.gr"/>
+            <field name="city">London</field>
+            <field name="street">1 Russel square</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph3" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 24})"/>
+            <field name="type">lead</field>
+            <field name="label">Trelian New Offices</field>
+            <field name="expectedRevenue">88715</field>
+            <field name="probability">12</field>
+            <field name="contactName">Rosalynd Oxshott</field>
+            <field name="partnerName">Photobug</field>
+            <field name="emailFrom">roxshott9@trellian.com</field>
+            <field name="countryId" ref="base.br"/>
+            <field name="city">Canguaretama</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks':2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph4" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 40})"/>
+            <field name="type">lead</field>
+            <field name="label">Branded Furniture</field>
+            <field name="expectedRevenue">7784</field>
+            <field name="probability">20</field>
+            <field name="contactName">Myrna Limprecht</field>
+            <field name="emailFrom">mlimprecht8@fastcompany.com</field>
+            <field name="countryId" ref="base.pt"/>
+            <field name="city">Valejas</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph5" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 45})"/>
+            <field name="type">lead</field>
+            <field name="label">Design New Shelves</field>
+            <field name="expectedRevenue">54587</field>
+            <field name="probability">81</field>
+            <field name="contactName">Alys Kalinovich</field>
+            <field name="partnerName">Jaloo</field>
+            <field name="emailFrom">akalinovich7@tinypic.com</field>
+            <field name="countryId" ref="base.id"/>
+            <field name="city">Boafeo</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph6" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 48})"/>
+            <field name="type">lead</field>
+            <field name="label">Office chairs</field>
+            <field name="expectedRevenue">5474</field>
+            <field name="probability">20</field>
+            <field name="contactName">Jennine Jobbins</field>
+            <field name="partnerName">Shufflebeat</field>
+            <field name="emailFrom">jjobbins6@simplemachines.org</field>
+            <field name="countryId" ref="base.ru"/>
+            <field name="city">Gvardeysk</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph7" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 80})"/>
+            <field name="type">lead</field>
+            <field name="label">Cleaning subscription</field>
+            <field name="expectedRevenue">11475</field>
+            <field name="probability">25</field>
+            <field name="contactName">Elmo Espinazo</field>
+            <field name="partnerName">Realblab</field>
+            <field name="emailFrom">eespinazo5@reuters.com</field>
+            <field name="countryId" ref="base.nl"/>
+            <field name="city">Amsterdam</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor3')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignServices"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph8" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 37})"/>
+            <field name="type">lead</field>
+            <field name="label">Custom Desks (100 pieces)</field>
+            <field name="expectedRevenue">9987</field>
+            <field name="probability">20</field>
+            <field name="contactName">Chalmers Redford</field>
+            <field name="partnerName">Muxo</field>
+            <field name="emailFrom">credford4@salon.com</field>
+            <field name="countryId" ref="base.ru"/>
+            <field name="city">Odoyev</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph9" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 32})"/>
+            <field name="type">lead</field>
+            <field name="label">Need a price: urgent</field>
+            <field name="expectedRevenue">4482</field>
+            <field name="probability">90</field>
+            <field name="contactName">Itch Kirvell</field>
+            <field name="partnerName">Skibox</field>
+            <field name="emailFrom">ikirvell3@gnu.org</field>
+            <field name="countryId" ref="base.id"/>
+            <field name="city">Dahu Satu</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph10" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 18})"/>
+            <field name="type">lead</field>
+            <field name="label">Furnitures for new location</field>
+            <field name="expectedRevenue">22500</field>
+            <field name="probability">20</field>
+            <field name="contactName">Napoleon Grabert</field>
+            <field name="partnerName">Twinte</field>
+            <field name="emailFrom">ngrabert2@dailymail.co.uk</field>
+            <field name="countryId" ref="base.jp"/>
+            <field name="city">Tokyo</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead2"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph11" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 52})"/>
+            <field name="type">lead</field>
+            <field name="label">Modernize old offices</field>
+            <field name="expectedRevenue">99755</field>
+            <field name="probability">20</field>
+            <field name="contactName">Franny Seiller</field>
+            <field name="partnerName">Yozio</field>
+            <field name="emailFrom">fseiller1@theglobeandmail.com</field>
+            <field name="countryId" ref="base.id"/>
+            <field name="city">Wurigelebur</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+        <record id="crmCaseGraph12" model="crm.lead">
+            <field name="createdAt" eval="subDate(now(), {'days': 52})"/>
+            <field name="type">lead</field>
+            <field name="label">Quote for 35 windows</field>
+            <field name="expectedRevenue">41421</field>
+            <field name="probability">20</field>
+            <field name="contactName">Tommi Brockhouse</field>
+            <field name="partnerName">Gabcube</field>
+            <field name="emailFrom">tbrockhouse0@google.pl</field>
+            <field name="countryId" ref="base.be"/>
+            <field name="city">Brussels</field>
+            <field name="tagIds" eval="[[6, 0, [refId('sales_team.categOppor1')]]]"/>
+            <field name="priority">1</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'weeks': 2}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="teamId" eval="false"/>
+            <field name="userId" eval="false"/>
+            <field name="stageId" ref="crm.stageLead3"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="utm.utmSourceSearchEngine"/>
+        </record>
+
+
+        <!-- Call Function to set dome opportunities as Lost -->
+        <function model="crm.lead" name="actionSetLost"
+            eval="[[refId('crmCase28')]]"
+            context="{'installMode': true}"/>
+
+        <!-- Call Function to set some opportunities as Won -->
+        <function model="crm.lead" name="actionSetWon"
+            eval="[[refId('crmCase20'), refId('crmCase23'), refId('crmCase27')]]"
+            context="{'installMode': true}"/>
+
+        <!-- Activities -->
+        <record id="activity1" model="mail.activity">
+            <field name="resId" ref="crm.crmCase13" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataCall" />
+            <field name="summary">Meeting to go over pricing information.</field>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 3}).toFormat('yyyy-MM-dd HH:mm')"/>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity2" model="mail.activity">
+            <field name="resId" ref="crm.crmCase14" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 3}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="summary">Send Catalog by Email</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity3" model="mail.activity">
+            <field name="resId" ref="crm.crmCase15" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataCall"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 1}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="summary">Call to get system requirements</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity4" model="mail.activity">
+            <field name="resId" ref="crm.crmCase16" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataCall"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 2}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="summary">Convert to quote</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity5" model="mail.activity">
+            <field name="resId" ref="crm.crmCase17" />
+            <field name="userId" ref="base.userDemo"/>
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="DateTime.now().minus({'days': 1}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="summary">Send our service pricelist</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+        </record>
+        <record id="activity6" model="mail.activity">
+            <field name="resId" ref="crm.crmCase18" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataCall"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 1}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="summary">Call to get training needs</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity7" model="mail.activity">
+            <field name="resId" ref="crm.crmCase19" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataCall"/>
+            <field name="dateDeadline" eval="DateTime.now().minus({'days': 2}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="summary">Followup on the proposal</field>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="createdUid" ref="base.userAdmin"/>
+        </record>
+        <record id="activity8" model="mail.activity">
+            <field name="resId" ref="crm.crmCase20" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataCall"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 1}).toFormat('yyyy-MM-dd HH:mm')" />
+        </record>
+        <record id="activity9" model="mail.activity">
+            <field name="resId" ref="crm.crmCase21" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataCall"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 4}).toFormat('yyyy-MM-dd HH:mm')" />
+        </record>
+        <record id="activity10" model="mail.activity">
+            <field name="resId" ref="crm.crmCase22" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="DateTime.now().minus({'days': 2}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity11" model="mail.activity">
+            <field name="resId" ref="crm.crmCase23" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 1}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity12" model="mail.activity">
+            <field name="resId" ref="crm.crmCase24" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 2}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity13" model="mail.activity">
+            <field name="resId" ref="crm.crmCase25" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataCall"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 0}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="summary">Conf call with technical service</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="activity14" model="mail.activity">
+            <field name="resId" ref="crm.crmCase26" />
+            <field name="resModelId" ref="crm.model_crmLead"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="DateTime.now().plus({'days': 0}).toFormat('yyyy-MM-dd HH:mm')" />
+            <field name="summary">Send Catalog by Email</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+        </record>
+
+    </data>
+</verp>

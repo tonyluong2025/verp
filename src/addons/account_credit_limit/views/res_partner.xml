@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewPartnerPropertyForm" model="ir.ui.view">
+        <field name="label">view.res.partner</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="account.viewPartnerPropertyForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='accountingEntries']" position="after">
+                <group string="Credit Limits"
+                       name="creditLimits"
+                       groups="account.groupAccountInvoice,account.groupAccountReadonly"
+                       attrs="{'invisible': [['showCreditLimit', '=', false]]}">
+                    <field name="showCreditLimit" invisible="1"/>
+                    <field name="amountCreditLimit" invisible="1"/>
+                    <field name="credit"/>
+                    <label for="creditLimitCompute" string="Credit Limit"  attrs="{'invisible': [['amountCreditLimit', '=', -1]]}"/>
+                    <div attrs="{'invisible': [['amountCreditLimit', '=', -1]]}">
+                        <field name="creditLimitCompute"/>
+                    </div>
+                    <label for="creditLimitCompute" string="Credit Limit" attrs="{'invisible': [['amountCreditLimit', '!=', -1]]}"/>
+                    <div style="font-style: italic" attrs="{'invisible': [['amountCreditLimit', '!=', -1]]}">
+                        <field name="creditLimitCompute"/>
+                        &amp;nbsp;<i class="fa fa-info-circle" role="img" title="This is the default (company) credit limit."></i>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <menuitem
+            id="menuHrRoot"
+            name="Employees"
+            groups="groupHrManager,groupHrUser,base.groupUser"
+            webIcon="hr,static/description/icon.png"
+            sequence="185"/>
+
+        <menuitem
+            id="menuHrMain"
+            name="Human Resources"
+            parent="menuHrRoot"
+            sequence="0"/>
+
+        <menuitem
+            id="menuHrEmployeePayroll"
+            name="Employees"
+            parent="menuHrRoot"
+            groups="groupHrUser"
+            sequence="3"/>
+
+            <menuitem
+                id="menuHrEmployeeUser"
+                name="Employees"
+                action="openViewEmployeeListMy"
+                parent="menuHrEmployeePayroll"
+                sequence="1"/>
+
+        <menuitem
+            id="menuHrEmployee"
+            name="Directory"
+            action="hrEmployeePublicAction"
+            parent="menuHrRoot"
+            sequence="4"/>
+
+        <menuitem
+            id="hrMenuHrReports"
+            name="Reporting"
+            parent="menuHrRoot"
+            sequence="95"/>
+
+        <menuitem
+           id="menuHrReportingTimesheet"
+           name="Reporting"
+           parent="menuHrRoot"
+           groups="groupHrManager,groupHrUser"
+           sequence="99"/>
+
+        <menuitem
+            id="menuHumanResourcesConfiguration"
+            name="Configuration"
+            parent="menuHrRoot"
+            groups="hr.groupHrUser"
+            sequence="100"/>
+
+            <menuitem
+                id="menuViewHrJob"
+                action="actionHrJob"
+                parent="menuHumanResourcesConfiguration"
+                sequence="1"/>
+
+            <menuitem
+                id="menuHumanResourcesConfigurationEmployee"
+                name="Employee"
+                parent="menuHumanResourcesConfiguration"
+                groups="base.groupNoOne"
+                sequence="1"/>
+
+                <menuitem
+                    id="menuViewEmployeeCategoryForm"
+                    name="Tags"
+                    action="openViewCategForm"
+                    parent="menuHumanResourcesConfigurationEmployee"
+                    groups="base.groupNoOne"
+                    sequence="1"/>
+
+            <menuitem
+                id="menuHrDepartmentTree"
+                action="hrDepartmentTreeAction"
+                parent="menuHumanResourcesConfiguration"
+                sequence="2"
+                groups="groupHrUser"/>
+
+            <menuitem
+                id="menuHrDepartmentKanban"
+                action="hrDepartmentKanbanAction"
+                parent="menuHrRoot"
+                groups="groupHrUser"/>
+
+            <menuitem
+                id="menuHrWorkLocationTree"
+                action="hrWorkLocationAction"
+                parent="menuHumanResourcesConfiguration"
+                sequence="5"
+                groups="groupHrUser"/>
+
+            <menuitem
+                id="menuHrDepartureReasonTree"
+                action="hrDepartureReasonAction"
+                parent="menuHumanResourcesConfiguration"
+                sequence="5"
+                groups="groupHrUser"/>
+
+            <menuitem
+                id="menuConfigPlan"
+                name="Activity Planning"
+                parent="menuHumanResourcesConfiguration"
+                groups="groupHrManager"
+                sequence="100"/>
+
+                <menuitem
+                    id="menuConfigPlanTypes"
+                    name="Planning Types"
+                    action="hrPlanActivityTypeAction"
+                    parent="menuConfigPlan"
+                    groups="base.groupNoOne"
+                    sequence="99"/>
+
+                <menuitem
+                    id="menuConfigPlanPlan"
+                    name="Plans"
+                    action="hrPlanAction"
+                    parent="menuConfigPlan"
+                    groups="groupHrManager"
+                    sequence="100"/>
+
+    </data>
+</verp>

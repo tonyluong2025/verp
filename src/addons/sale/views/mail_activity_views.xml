@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<verp>
+    <!-- Activity types config -->
+    <record id="mailActivityTypeActionConfigSale" model="ir.actions.actwindow">
+        <field name="label">Activity Types</field>
+        <field name="resModel">mail.activity.type</field>
+        <field name="viewMode">tree,form</field>
+        <field name="domain">['|', ['resModel', '=', false], ['resModel', '=', 'sale.order']]</field>
+        <field name="context">{'default_resModel': 'sale.order'}</field>
+    </record>
+    <menuitem id="saleMenuConfigActivityType"
+        action="mailActivityTypeActionConfigSale"
+        parent="menuSaleConfig"
+        groups="base.groupNoOne"/>
+</verp>

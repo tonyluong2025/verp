@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+<!-- These templates are accessible in backend and frontend -->
+
+<t t-name="Dialog">
+    <div role="dialog"
+        t-attf-class="modal o-legacy-dialog #{ technical ? ' o-technical-modal' : '' } #{ fullscreen ? ' o-modal-full': '' }"
+        tabindex="-1"
+        data-backdrop="static"
+        t-att-id="_.uniqueId('modal_')"
+        aria-hidden="true"
+        >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <header t-if="renderHeader" class="modal-header">
+                    <h4 class="modal-title"><t t-out="title"/><span class="o-subtitle text-muted small" t-out="subtitle"/></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="-1">×</button>
+                </header>
+                <main class="modal-body"/>
+                <footer t-if="renderFooter" class="modal-footer"/>
+            </div>
+        </div>
+    </div>
+</t>
+<div t-name="web.LegacyWarningDialog" class="o-dialog-warning" role="alert">
+    <p t-esc="widget.message" style="white-space: pre-wrap;"/>
+</div>
+
+</templates>

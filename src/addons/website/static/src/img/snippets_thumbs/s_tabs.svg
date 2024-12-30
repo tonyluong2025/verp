@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="60" viewBox="0 0 82 60">
+  <defs>
+    <path id="path_1" d="M39 23v1H20v-1h19zm6-3v1H20v-1h25z"/>
+    <filter id="filter_2" width="104%" height="150%" x="-2%" y="-12.5%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.0995137675 0"/>
+    </filter>
+    <rect id="path_3" width="15" height="2" x="20" y="15"/>
+    <filter id="filter_4" width="106.7%" height="200%" x="-3.3%" y="-25%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+    <rect id="path_5" width="12.5" height="10.488" x="0" y="0"/>
+    <linearGradient id="linearGradient_7" x1="72.875%" x2="40.332%" y1="46.011%" y2="32.006%">
+      <stop offset="0%" stop-color="#008374"/>
+      <stop offset="100%" stop-color="#006A59"/>
+    </linearGradient>
+    <linearGradient id="linearGradient_8" x1="88.517%" x2="50%" y1="37.969%" y2="50%">
+      <stop offset="0%" stop-color="#00AA89"/>
+      <stop offset="100%" stop-color="#009989"/>
+    </linearGradient>
+    <path id="path_9" d="M53 7v26H0V7h53zm-1 1H1v24h51V8z"/>
+    <filter id="filter_10" width="101.9%" height="107.7%" x="-.9%" y="-1.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+    <rect id="path_11" width="10" height="5" x="12" y="0"/>
+    <filter id="filter_12" width="110%" height="140%" x="-5%" y="-10%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.0995137675 0"/>
+    </filter>
+    <rect id="path_13" width="10" height="5" x="0" y="0"/>
+    <filter id="filter_14" width="110%" height="140%" x="-5%" y="-10%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.292012675 0"/>
+    </filter>
+    <rect id="path_15" width="10" height="5" x="24" y="0"/>
+    <filter id="filter_16" width="110%" height="140%" x="-5%" y="-10%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.0995137675 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" class="snippets-thumbs">
+    <g class="s-tabs">
+      <rect width="82" height="60" class="bg"/>
+      <g class="group" transform="translate(15 14)">
+        <g class="combined-shape">
+          <use fill="#000" filter="url(#filter_2)" xlink:href="#path_1"/>
+          <use fill="#FFF" fill-opacity=".348" xlink:href="#path_1"/>
+        </g>
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_4)" xlink:href="#path_3"/>
+          <use fill="#FFF" fill-opacity=".78" xlink:href="#path_3"/>
+        </g>
+        <g class="image-1-border" transform="translate(4 14)">
+          <rect width="13" height="11" fill="#FFF" class="rectangle"/>
+          <g class="oval---oval-mask" transform="translate(.25 .256)">
+            <mask id="mask_6" fill="#fff">
+              <use xlink:href="#path_5"/>
+            </mask>
+            <use fill="#79D1F2" class="mask" xlink:href="#path_5"/>
+            <ellipse cx="9.625" cy="2.686" fill="#F3EC60" class="oval" mask="url(#mask_6)" rx="1.875" ry="1.919"/>
+            <ellipse cx="12.625" cy="11.512" fill="url(#linearGradient_7)" class="oval" mask="url(#mask_6)" rx="5.875" ry="3.837"/>
+            <ellipse cx=".125" cy="11.64" fill="url(#linearGradient_8)" class="oval" mask="url(#mask_6)" rx="9.375" ry="6.012"/>
+          </g>
+          <path fill="#FFF" d="M13 0v11H0V0h13zm-1 1H1v9h11V1z" class="rectangle-2"/>
+        </g>
+        <g class="combined-shape">
+          <use fill="#000" filter="url(#filter_10)" xlink:href="#path_9"/>
+          <use fill="#FFF" fill-opacity=".78" xlink:href="#path_9"/>
+        </g>
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_12)" xlink:href="#path_11"/>
+          <use fill="#FFF" fill-opacity=".348" xlink:href="#path_11"/>
+        </g>
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_14)" xlink:href="#path_13"/>
+          <use fill="#FFF" fill-opacity=".78" xlink:href="#path_13"/>
+        </g>
+        <g class="rectangle">
+          <use fill="#000" filter="url(#filter_16)" xlink:href="#path_15"/>
+          <use fill="#FFF" fill-opacity=".348" xlink:href="#path_15"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

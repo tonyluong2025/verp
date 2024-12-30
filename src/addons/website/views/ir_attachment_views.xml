@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+     <record id="viewAttachmentFormInheritWebsite" model="ir.ui.view">
+        <field name="label">ir.attachment.form.inherit.website</field>
+        <field name="model">ir.attachment</field>
+        <field name="inheritId" ref="base.viewAttachmentForm"/>
+        <field name="arch" type="xml">
+            <field name="mimetype" position="after">
+                <field name="websiteId" options="{'noCreate': true}" groups="website.groupMultiWebsite"/>
+            </field>
+        </field>
+    </record>
+    <record id="viewAttachmentTreeInheritWebsite" model="ir.ui.view">
+       <field name="label">ir.attachment.tree.inherit.website</field>
+       <field name="model">ir.attachment</field>
+       <field name="inheritId" ref="base.viewAttachmentTree"/>
+       <field name="arch" type="xml">
+           <field name="label" position="after">
+               <field name="websiteId" groups="website.groupMultiWebsite"/>
+           </field>
+       </field>
+   </record>
+</verp>

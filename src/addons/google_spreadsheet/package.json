@@ -1,0 +1,27 @@
+{
+    "label": "Google Spreadsheet",
+    "version": "1.0",
+    "category": "Hidden/Tools",
+    "description": "The module adds the possibility to display data from Verp in Google Spreadsheets in real time.\n=================================================================================================",
+    "depends": ["google_drive"],
+    "data": [
+        "data/google_spreadsheet_data.xml",
+        "views/google_spreadsheet_views.xml",
+        "views/res_config_settings_views.xml"
+    ],
+    "demo": [],
+    "installable": true,
+    "autoInstall": false,
+    "assets": {
+        "web.assetsBackend": [
+            "google_spreadsheet/static/src/**/*.js"
+        ],
+        "web.assetsQweb": [
+            "google_spreadsheet/static/src/**/*.xml"
+        ],
+        "web.qunitSuiteTests": [
+            "google_spreadsheet/static/tests/**/*"
+        ]
+    },
+    "license": "MIT Expat"
+}

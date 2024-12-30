@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<verp>
+    <data>
+        <template id="reportHashIntegrity">
+            <t t-call="web.htmlContainer">
+                <t t-foreach="docs" t-as="company">
+                    <t t-call="web.externalLayout">
+                        <div class="page">
+                            <div class="row" id="hashHeader">
+                                <div class="col-12">
+                                    <br/>
+                                    <h2>Hash Integrity Result - <span t-esc="data['printingDate']"/></h2>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" id="hashConfigReview">
+                                    <br/>
+                                    <h3>Configuration review</h3>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-bordered" style="table-layout: fixed" id="hashConfigTable">
+                                        <thead style="display: table-row-group">
+                                            <tr>
+                                                <th class="text-center" style="width: 30%" scope="col">Journal</th>
+                                                <th class="text-center" style="width: 20%" scope="col">Inalterability check</th>
+                                                <th class="text-center" style="width: 50%" scope="col">Coverage</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="data['results']" t-as="result">
+                                                <tr>
+                                                    <td>
+                                                        [<span t-esc="result['journalCode']"/>] <span t-esc="result['journalName']"/>
+                                                    </td>
+                                                    <td class="text-center"><span t-esc="result['restrictedByHashTable']"/></td>
+                                                    <td><span t-esc="result['msgCover']"/></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <t t-if="any(result['firstHash'] != 'None' for result in data['results'])">
+                                <div class="row" style="page-break-before:always;">
+                                    <div class="col-12" id="hashDataConsistency">
+                                        <br/>
+                                        <h3>Data consistency check</h3>
+                                        <br/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12" id="hashDataConsistencyTable">
+                                        <table class="table table-bordered" style="table-layout: fixed">
+                                            <thead style="display: table-row-group">
+                                                <tr>
+                                                    <th class="text-center" style="width: 20%" scope="col">Journal</th>
+                                                    <th class="text-center" style="width: 20%" scope="col">First Hash</th>
+                                                    <th class="text-center" style="width: 20%" scope="col">First Entry</th>
+                                                    <th class="text-center" style="width: 20%" scope="col">Last Hash</th>
+                                                    <th class="text-center" style="width: 20%" scope="col">Last Entry</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="data['results']" t-as="result">
+                                                    <t t-if="result['firstHash'] != 'None'">
+                                                        <tr>
+                                                            <td><span t-esc="result['journalCode']"/></td>
+                                                            <td><span t-esc="result['firstHash']"/></td>
+                                                            <td>
+                                                                <span t-esc="result['firstMoveName']"/> <br/>
+                                                                <span t-esc="result['firstMoveDate']"/>
+                                                            </td>
+                                                            <td><span t-esc="result['lastHash']"/></td>
+                                                            <td>
+                                                                <span t-esc="result['lastMoveName']"/> <br/>
+                                                                <span t-esc="result['lastMoveDate']"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row" id="hashLastDiv">
+                                    <div class="col-12" id="hashChainCompliant">
+                                        <br/>
+                                        <h6>
+                                            The hash chain is compliant: it is not possible to alter the
+                                            data without breaking the hash chain for subsequent parts.
+                                        </h6>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</verp>

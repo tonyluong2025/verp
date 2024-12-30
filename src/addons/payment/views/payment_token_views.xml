@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="paymentTokenForm" model="ir.ui.view">
+        <field name="label">payment.token.form</field>
+        <field name="model">payment.token</field>
+        <field name="arch" type="xml">
+            <form string="Payment Tokens" create="false" editable="bottom">
+                <sheet>
+                    <field name="active" invisible="1"/>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button class="oe-stat-button"
+                                name="%(actionPaymentTransactionLinkedToToken)d"
+                                type="action" icon="fa-money" string="Payments">
+                        </button>
+                    </div>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <group>
+                        <field name="label"/>
+                        <field name="partnerId" />
+                    </group>
+                    <group>
+                        <field name="acquirerId"/>
+                        <field name="acquirerRef"/>
+                        <field name="companyId" groups="base.groupMultiCompany"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="paymentTokenList" model="ir.ui.view">
+        <field name="label">payment.token.list</field>
+        <field name="model">payment.token</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Tokens">
+                <field name="label"/>
+                <field name="partnerId"/>
+                <field name="acquirerId" readonly="1"/>
+                <field name="acquirerRef" readonly="1"/>
+                <field name="companyId" groups="base.groupMultiCompany" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="paymentTokenSearch" model="ir.ui.view">
+        <field name="label">payment.token.search</field>
+        <field name="model">payment.token</field>
+        <field name="arch" type="xml">
+            <search string="Payment Tokens">
+                <field name="partnerId"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Acquirer" name="acquirerId" context="{'groupby': 'acquirerId'}"/>
+                    <filter string="Partner" name="partnerId" context="{'groupby': 'partnerId'}"/>
+                    <filter string="Company" name="company" context="{'groupby': 'companyId'}" groups="base.groupMultiCompany"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="actionPaymentToken" model="ir.actions.actwindow">
+        <field name="label">Payment Tokens</field>
+        <field name="resModel">payment.token</field>
+        <field name="viewMode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new payment token
+            </p>
+        </field>
+    </record>
+
+    <menuitem action="actionPaymentToken"
+              id="paymentTokenMenu"
+              parent="account.rootPaymentMenu"
+              groups="base.groupNoOne"/>
+
+</verp>

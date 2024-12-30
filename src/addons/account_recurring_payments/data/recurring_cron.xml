@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="actionGenerateRecurringPayment" model="ir.cron">
+            <field name="label">Generate Recurring Payments</field>
+            <field name="modelId" ref="model_recurringPayment"/>
+            <field name="state">code</field>
+            <field name="active" eval="true"/>
+            <field name="code">model.actionGeneratePayment()</field>
+            <field name='intervalNumber'>1</field>
+            <field name='intervalType'>days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+    </data>
+</verp>

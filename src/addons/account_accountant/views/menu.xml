@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <menuitem id="account.menuFinance" name="Accounting"/>
+
+    <menuitem id="menuAccountTemplates"
+              sequence="100"
+              name="Templates"
+              parent="account.menuFinanceConfiguration"
+              groups="base.groupNoOne"/>
+
+    <record id="account.menuActionAccountMovesAll" model="ir.ui.menu">
+        <field name="groupsId" eval="[[5,0,0]]" />
+    </record>
+
+</verp>

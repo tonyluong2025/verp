@@ -1,0 +1,28 @@
+{
+  "label": "Barcode",
+  "version": "2.0",
+  "category": "Hidden",
+  "summary": "Scan and Parse Barcodes",
+  "depends": ["web"],
+  "data": [
+    "data/barcodes_data.xml",
+    "views/barcodes_view.xml",
+    "security/ir.model.access.csv"
+  ],
+  "installable": true,
+  "autoInstall": false,
+  "postInitHook": "_assignDefaultNomeclatureId",
+  "assets": {
+      "web.assetsBackend": [
+        "barcodes/static/src/**/*"
+      ],
+      "web.qunitSuiteTests": [
+        "barcodes/static/tests/barcode_tests.js",
+        "barcodes/static/tests/barcode_parser_tests.js"
+      ],
+      "web.qunitMobileSuiteTests": [
+        "barcodes/static/tests/barcode_mobile_tests.js"
+      ]
+  },
+  "license": "MIT Expat"
+}

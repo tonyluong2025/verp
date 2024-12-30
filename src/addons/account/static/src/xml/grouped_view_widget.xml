@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <div t-name="account.GroupedListTemplate" owl="1" class="d-block">
+        <table t-if="data.groupsVals.length" class="table table-sm o-list-table table table-sm table-hover table-striped o-list-table_grouped">
+            <thead><tr>
+                <t t-foreach="data.options.columns" t-as="col">
+                    <th t-esc="col['label']" t-attf-class="{{col['class']}}"/>
+                </t>
+            </tr></thead>
+            <t t-foreach="data.groupsVals" t-as="groupVals">
+                <ListGroup groupVals="groupVals" options="data.options"/>
+            </t>
+        </table>
+        <t t-if="data.options.discardedNumber">
+            <span><t t-esc="data.options.discardedNumber"/> are not shown in the preview</span>
+        </t>
+    </div>
+
+    <tbody t-name="account.GroupedItemsTemplate" owl="1">
+        <tr style="background-color: #dee2e6;">
+            <td t-attf-colspan="{{props.options.columns.length}}">
+                <t t-esc="props.groupVals.groupName"/>
+            </td>
+        </tr>
+        <t t-foreach="props.groupVals.itemsVals" t-as="itemVals">
+            <ListItem itemVals="itemVals[2]" options="props.options"/>
+        </t>
+    </tbody>
+
+    <tr t-name="account.GroupedItemTemplate" owl="1">
+        <t t-foreach="props.options.columns" t-as="col">
+            <td t-esc="props.itemVals[col['field']]" t-attf-class="{{col['class']}}"/>
+        </t>
+    </tr>
+
+</templates>

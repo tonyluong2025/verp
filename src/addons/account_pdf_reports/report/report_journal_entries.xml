@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="reportJournalEntries">
+        <t t-call="web.htmlContainer">
+            <t t-call="web.externalLayout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-size:15px;">
+                        <div>
+                            <h3>
+                                <span t-field="o.label"/>
+                            </h3>
+                        </div>
+                        <br></br>
+                        <div class="row">
+                            <table width="100%" class="table-bordered">
+
+                                <tr>
+                                    <td>Journal:
+                                        <span t-field="o.journalId.label"/>
+                                    </td>
+                                    <td>
+                                        Date:
+                                        <span t-field="o.date" t-options="{'widget': 'date'}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Partner:
+                                        <span t-field="o.partnerId.displayName"/>
+                                    </td>
+                                    <td>
+                                        Reference:
+                                        <span t-field="o.ref"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <br></br>
+                            <table width="100%" class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Account</th>
+                                        <th>Date</th>
+                                        <th>Partner</th>
+                                        <th>Label</th>
+                                        <th>Analytic Account</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="totalCredit" t-value="0"/>
+                                    <t t-set="totalDebit" t-value="0"/>
+                                    <t t-foreach="await o.lineIds" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-field="line.accountId.label"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.date" t-options="{'widget': 'date'}"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.partnerId.displayName"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.label"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.analyticAccountId.displayName"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.debit"
+                                                      t-options="{'widget': 'monetary', 'displayCurrency': await line.currencyId}"/>
+
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.credit"
+                                                      t-options="{'widget': 'monetary', 'displayCurrency': await line.currencyId}"/>
+                                            </td>
+                                            <t t-set="totalCredit" t-value="totalCredit + await line.credit"/>
+                                            <t t-set="totalDebit" t-value="totalDebit + await line.debit"/>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfooter>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                        <td class="text-right">
+                                            <span t-esc="totalDebit"
+                                                  t-options="{'widget': 'monetary', 'displayCurrency': await o.currencyId}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="totalCredit"
+                                                  t-options="{'widget': 'monetary', 'displayCurrency': await o.currencyId}"/>
+                                        </td>
+                                    </tr>
+                                </tfooter>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</verp>

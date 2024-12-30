@@ -1,0 +1,12 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_utm_campaign_user,access_utm_campaign_user,model_utmCampaign,base.groupUser,1,1,1,0
+access_utm_campaign_system,utm.campaign.system,model_utmCampaign,base.groupSystem,1,1,1,1
+access_utm_medium_user,access_utm_medium_user,model_utmMedium,base.groupUser,1,1,1,0
+access_utm_source_user,access_utm_source_user,model_utmSource,base.groupUser,1,1,1,0
+access_utm_stage_user,mail.utm.stage,model_utmStage,base.groupUser,1,0,0,0
+access_utm_stage_system,mail.utm.stage,model_utmStage,base.groupSystem,1,1,1,1
+access_utm_campaign,access_utm_campaign,model_utmCampaign,,1,0,1,0
+access_utm_medium,access_utm_medium,model_utmMedium,,1,0,1,0
+access_utm_source,access_utm_source,model_utmSource,,1,0,1,0
+access_utm_tag_user,utm.tag,model_utmTag,base.groupUser,1,0,0,0
+access_utm_tag_system,utm.tag,model_utmTag,base.groupSystem,1,1,1,1

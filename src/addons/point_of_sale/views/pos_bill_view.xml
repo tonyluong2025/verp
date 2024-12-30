@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewPosBillForm" model="ir.ui.view">
+        <field name="label">pos.bill.form</field>
+        <field name="model">pos.bill</field>
+        <field name="arch" type="xml">
+            <form string="Bills">
+                <sheet>
+                    <group>
+                        <field name="label" />
+                        <field name="value" />
+                        <field name="posConfigIds" widget="many2manyTags" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="viewPosBillTree" model="ir.ui.view">
+        <field name="label">pos.bill.tree</field>
+        <field name="model">pos.bill</field>
+        <field name="arch" type="xml">
+            <tree string="Bills" create="1" delete="1">
+                <field name="label" />
+                <field name="value" />
+                <field name="posConfigIds" widget="many2manyTags" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="actionPosBill" model="ir.actions.actwindow">
+        <field name="label">Coins/Bills</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.bill</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menuPosBill"
+        name="Coins/Bills"
+        parent="menuPointConfigProduct"
+        sequence="4"
+        action="actionPosBill"
+        groups="groupPosManager"/>
+</verp>

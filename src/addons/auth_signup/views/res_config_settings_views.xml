@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <record id="resConfigSettingsViewForm" model="ir.ui.view">
+            <field name="label">res.config.settings.view.form.inherit.auth.signup</field>
+            <field name="model">res.config.settings</field>
+            <field name="inheritId" ref="base_setup.resConfigSettingsViewForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='accessRights']" position="before">
+                    <div class="col-12 col-lg-6 o-setting-box"
+                        id="loginDocuments"
+                        title=" To send invitations in B2B mode, open a contact or select several ones in list view and click on 'Portal Access Management' option in the dropdown menu *Action*.">
+                        <div class="o-setting-left-pane">
+                        </div>
+                        <div class="o-setting-right-pane">
+                            <label for="authSignupUninvited"/>
+                            <div class="text-muted">
+                                Let your customers log in to see their documents
+                            </div>
+                            <div class="mt8">
+                                <field name="authSignupUninvited" class="o-light-label" widget="radio" options="{'horizontal': true}" required="true"/>
+                            </div>
+                            <div class="content-group" attrs="{'invisible': [['authSignupUninvited','=','b2b']]}">
+                                <div class="mt8">
+                                    <button type="object" name="openTemplateUser" string="Default Access Rights" icon="fa-arrow-right" class="btn-link"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o-setting-box" id="enablePasswordReset">
+                        <div class="o-setting-left-pane">
+                            <field name="authSignupResetPassword"/>
+                        </div>
+                        <div class="o-setting-right-pane">
+                            <label string="Password Reset" for="authSignupResetPassword"/>
+                            <div class="text-muted">
+                                Enable password reset from Login page
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+</verp>

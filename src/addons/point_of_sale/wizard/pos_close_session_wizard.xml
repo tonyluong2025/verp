@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewFormPosCloseSessionWizard" model="ir.ui.view">
+        <field name="label">pos.close.session.wizard.form</field>
+        <field name="model">pos.close.session.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Force Close Session">
+                <p><field name="message" readonly="1" /></p>
+                <group>
+                    <field name="accountReadonly" invisible="1" />
+                    <field name="amountToBalance" readonly="1" />
+                    <field name="accountId" attrs="{'readonly': [['accountReadonly', '==', true]]}"/>
+                </group>
+                <footer>
+                    <button name="closeSession" string="Close Session" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button special="cancel" data-hotkey="z" string="Cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

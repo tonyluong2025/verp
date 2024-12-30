@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="openAccountChartsModules" model="ir.actions.actwindow">
+            <field name="label">Chart Templates</field>
+            <field name="resModel">ir.module.module</field>
+            <field name="viewMode">kanban,tree,form</field>
+            <field name="context" eval="{
+                'searchDefault_categoryId': refId('base.category_accountingLocalizationsAccountCharts'),
+                'searchpanelDefault_categoryId': refId('base.category_accountingLocalizationsAccountCharts'),
+            }"/>
+            <field name="searchViewId" ref="viewModuleFilterInheritAccount"/>
+        </record>
+
+        <record id="resConfigSettingsViewForm" model="ir.ui.view">
+            <field name="label">res.config.settings.view.form.inherit.account</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inheritId" ref="base.resConfigSettingsViewForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='settings']" position="inside">
+                    <field name="countryCode" invisible="1"/>
+                    <div class="app-settings-block" data-string="Invoicing" string="Invoicing" data-key="account" groups="account.groupAccountManager">
+                        <field name="hasChartOfAccounts" invisible="1"/>
+                        <field name="hasAccountingEntries" invisible="1"/>
+                        <h2 attrs="{'invisible': [['hasAccountingEntries','!=',false]]}">Fiscal Localization</h2>
+                        <div class="row mt16 o-settings-container" name="fiscalLocalizationSettingContainer">
+                            <div class="col-12 o-setting-box" attrs="{'invisible': [['hasAccountingEntries','!=',false]]}">
+                                <div class="o-setting-left-pane"/>
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Fiscal Localization</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Taxes, fiscal positions, chart of accounts &amp; legal statements for your country
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label for="chartTemplateId" string="Package" class="col-2 o-light-label"/>
+                                            <field name="chartTemplateId" options="{'noOpen': true, 'noCreate': true}"/>
+                                        </div>
+                                        <div class="mt8">
+                                            <button name="%(account.openAccountChartsModules)d" icon="fa-arrow-right" type="action" string="Install More Packages" discard="0" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Taxes</h2>
+                        <div class="row mt16 o-settings-container" name="defaultTaxesSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="defaultTaxes"
+                                title="These taxes are set in any new product created.">
+                                <div class="o-setting-left-pane"/>
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Default Taxes</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Default taxes applied to local transactions
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label string="Sales Tax" for="saleTaxId" class="col-lg-3 o-light-label"/>
+                                            <field name="saleTaxId" domain="[['typeTaxUse', 'in', ['sale', 'all']], ['companyId', '=', companyId]]"/>
+                                        </div>
+                                        <div class="row">
+                                            <label string="Purchase Tax" for="purchaseTaxId" class="col-lg-3 o-light-label"/>
+                                            <field name="purchaseTaxId" domain="[['typeTaxUse', 'in', ['purchase', 'all']], ['companyId', '=', companyId]]"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="roundingMethod" title="A rounding per line is advised if your prices are tax-included. That way, the sum of line subtotals equals the total with taxes.">
+                                <div class="o-setting-left-pane"/>
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Rounding Method</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        How total tax amount is computed in orders and invoices
+                                    </div>
+                                     <div class="content-group">
+                                        <field name="taxCalculationRoundingMethod" class="o-light-label mt16" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="taxcloudSettings">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountTaxcloud" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" name="accountTaxcloudRightPane">
+                                    <label for="moduleAccountTaxcloud" string="TaxCloud" class="o-module"/>
+                                    <div class="text-muted">
+                                        Compute tax rates based on U.S. ZIP codes
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="euService" title="If you sell goods and services to customers in a foreign EU country, you must charge VAT based on the delivery address. This rule applies regardless of where you are located.">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleL10nEuOss"/>
+                                </div>
+                                <div class="o-setting-right-pane" name="l10nEuOssRightPane">
+                                    <label for="moduleL10nEuOss" class="o-module"/>
+                                    <a href="https://www.theverp.com/documentation/14.0/applications/finance/accounting/taxation/taxes/eu_distance_selling.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Apply VAT of the EU country to which goods and services are delivered.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="taxExigibility"
+                                title="Select this if the taxes should use cash basis, which will create an entry for such taxes on a given account during reconciliation."
+                                groups="account.groupAccountUser">
+                                <div class="o-setting-left-pane">
+                                    <field name="taxExigibility"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="taxExigibility"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Allow to configure taxes using cash basis
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['taxExigibility', '=', false]]}">
+                                        <div class="row mt16">
+                                            <label for="taxCashBasisJournalId" class="col-lg-3 o-light-label"/>
+                                            <field name="taxCashBasisJournalId"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label for="accountCashBasisBaseAccountId" class="col-lg-3 o-light-label"/>
+                                            <field name="accountCashBasisBaseAccountId"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Currencies</h2>
+                        <div class="row mt16 o-settings-container" name="mainCurrencySettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box" id="mainCurrency">
+                                <div class="o-setting-left-pane"/>
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Main Currency</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Main currency of your company
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label for="currencyId" class="col-lg-3 o-light-label"/>
+                                            <field name="currencyId" options="{'noCreateEdit': true, 'noOpen': true}" context="{'activeTest': false}"/>
+                                            <field name="groupMultiCurrency" invisible="1"/>
+                                        </div>
+                                        <div class="mt8">
+                                            <button type="action" name="%(base.actionCurrencyForm)d" string="Currencies" class="btn-link" icon="fa-arrow-right"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="updateExchangeRates"
+                                attrs="{'invisible': [['groupMultiCurrency', '=', false]]}">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleCurrencyRateLive" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleCurrencyRateLive" class="o-module"/>
+                                    <div class="text-muted" id="updateCurrencyLive">
+                                        Update exchange rates automatically
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Customer Invoices</h2>
+                        <div class="row mt16 o-settings-container" id="invoicingSettings">
+                            <div class="col-12 col-lg-6 o-setting-box" id="defaultSettingOptions">
+                                <div class="o-setting-left-pane">
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Default Sending Options</span>
+                                    <div class="text-muted">
+                                        Those options will be selected by default when clicking "Send &amp; Print" on invoices
+                                    </div>
+                                    <div class="mt16">
+                                        <div class="content-group" id="sendDefault">
+                                            <div class="row">
+                                                <field name="invoiceIsPrint" class="col-lg-1 ml16"/>
+                                                <label for="invoiceIsPrint"/>
+                                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."/>
+                                            </div>
+                                            <div class="row">
+                                                <field name="invoiceIsEmail" class="col-lg-1 ml16"/>
+                                                <label for="invoiceIsEmail"/>
+                                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="sendInvoicesFollowups">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleSnailmailAccount"/>
+                                </div>
+                                <div class="o-setting-right-pane" id="snailmailSettings">
+                                    <label for="moduleSnailmailAccount" class="o-module"/>
+                                    <div class="text-muted">
+                                        Send invoices and payment follow-ups by post
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="lineSubtotals">
+                                <div class="o-setting-left-pane">
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="showLineSubtotalsTaxSelection"/>
+                                    <div class="text-muted">
+                                        Line subtotals tax display
+                                    </div>
+                                    <div class="mt16">
+                                        <field name="showLineSubtotalsTaxSelection" class="o-light-label" widget="radio"/>
+                                        <field name="groupShowLineSubtotalsTaxExcluded" invisible="1"/>
+                                        <field name="groupShowLineSubtotalsTaxIncluded" invisible="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="getInvoiceWarnings">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupWarningAccount"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupWarningAccount" string="Warnings"/>
+                                    <div class="text-muted">
+                                        Get warnings when invoicing specific customers
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="smallestCoinageCurrency">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupCashRounding"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupCashRounding"/>
+                                    <div class="text-muted">
+                                        Define the smallest coinage of the currency used to pay by cash
+                                    </div>
+                                    <div class="mt8">
+                                        <button name="%(account.roundingListAction)d" icon="fa-arrow-right"
+                                                type="action" string="Cash Roundings" class="btn-link"
+                                                attrs="{'invisible': [['groupCashRounding', '=', false]]}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o-setting-box" id="intrastatStatistics">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountIntrastat" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" name="intrastatRightPane">
+                                    <label for="moduleAccountIntrastat" class="o-module"/>
+                                    <div class="text-muted">
+                                        Collect information and produce statistics on the trade in goods in Europe with intrastat
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="defaultIncoterm">
+                                <div class="o-setting-left-pane"/>
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Default Incoterm</span>
+                                    <div class="text-muted">
+                                        Default Incoterm of your company
+                                    </div>
+                                    <div class="text-muted">
+                                        <field name="incotermId"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o-setting-box" id="showSaleReceipts">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupShowSaleReceipts" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" name="showSaleReceiptsRightPane">
+                                    <label for="groupShowSaleReceipts"/>
+                                    <div class="text-muted">
+                                        Activate to create sale receipt
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="useInvoiceTerms">
+                                <div class="o-setting-left-pane">
+                                    <field name="useInvoiceTerms"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="useInvoiceTerms"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Add your terms &amp; conditions at the bottom of invoices/orders/quotations
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['useInvoiceTerms','=',false]]}">
+                                        <div class="mt16">
+                                            <field name="termsType" class="o-light-label" widget="radio"/>
+                                            <div>
+                                                <field name="invoiceTerms"
+                                                       attrs="{'invisible': [['termsType', '=', 'html']]}"
+                                                       class="oe-account-terms mt-5 w-100"
+                                                       placeholder="Insert your terms &amp; conditions here..."/>
+                                            </div>
+                                            <div class="mt8" attrs="{'invisible': [['termsType', '!=', 'html']]}">
+                                                <button name="actionUpdateTerms" icon="fa-arrow-right" type="object" string="Update Terms" class="btn-link"/>
+                                            </div>
+                                            <field name="previewReady" invisible="1"/>
+                                            <div class="mt4 ml-1" attrs="{'invisible': [['previewReady', '=', false]]}">
+                                                <a class="btn-link" href="/terms" role="button">
+                                                    <i class="fa fa-arrow-right"></i>
+                                                    Preview
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Customer Payments</h2>
+                        <div class="row mt16 o-settings-container" id="payInvoiceOnlineSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountPayment"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleAccountPayment" class="o-module"/>
+                                    <div class="text-muted">
+                                        Let your customers pay their invoices online
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="accountBatchPayment">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountBatchPayment" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleAccountBatchPayment" string="Batch Payments" class="o-module"/>
+                                    <div class="text-muted">
+                                        Group payments into a single batch to ease the reconciliation process
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="collectCustomerPayment"
+                                title="If you check this box, you will be able to collect payments using SEPA Direct Debit mandates.">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountSepaDirectDebit" class="oe-inline" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" name="sepaDirectDebitRightPane">
+                                    <label string="SEPA Direct Debit (SDD)" for="moduleAccountSepaDirectDebit" class="o-module"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Collect customer payments in one-click using Euro SEPA Service
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['moduleAccountSepaDirectDebit', '=', false]]}">
+                                        <div class="text-warning mt16 mb4">
+                                            Save this page and come back here to set up the feature.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o-setting-box"
+                                id="qr_code_invoices"
+                                title="Add a QR-code to your invoices so that your customers can pay instantly with their mobile banking application.">
+                                <div class="o-setting-left-pane">
+                                    <field name="qrCode" class="oe-inline"/>
+                                </div>
+                                <div class="o-setting-right-pane" name="qrCodeRightPane">
+                                    <label string="QR Codes" for="qrCode"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Add a payment QR-code to your invoices
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Vendor Bills</h2>
+                        <div class="row mt16 o-settings-container" id="accountVendorBills">
+                            <div class="col-12 col-lg-6 o-setting-box" id="accountOcrSettings">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountInvoiceExtract" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" id="digitalizeocr">
+                                    <label for="moduleAccountInvoiceExtract" class="o-module"/>
+                                    <div class="text-muted">
+                                        Digitalize your scanned or PDF vendor bills with OCR and Artificial Intelligence
+                                    </div>
+                                    <div id="msgInvoiceExtract" class="content-group" attrs="{'invisible': [['moduleAccountInvoiceExtract', '=', false]]}">
+                                        <div class="text-warning mt16 mb4">
+                                            Save this page and come back here to set up the feature.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o-setting-box" id="showPurchaseReceipts">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupShowPurchaseReceipts" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" name="showPurchaseReceiptsRightPane">
+                                    <label for="groupShowPurchaseReceipts"/>
+                                    <div class="text-muted">
+                                        Activate to create purchase receipt
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Vendor Payments</h2>
+                        <div class="row mt16 o-settings-container" id="printVendorChecksSettingContainer">
+                            <div class="col-12 col-lg-6 o-setting-box" id="printChecks" groups="account.groupAccountUser">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountCheckPrinting"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label string="Checks" for="moduleAccountCheckPrinting" class="o-module"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted" id="printBillsPayment">
+                                        Print checks to pay your vendors
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="sepaPayments"
+                                title="If you check this box, you will be able to register your payment using SEPA.">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountSepa" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" name="sepaRightPane">
+                                    <label for="moduleAccountSepa" class="o-module"/>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                    <div class="text-muted">
+                                        Pay your bills in one-click using Euro SEPA Service
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <t groups="account.groupAccountUser" attrs="{'invisible': [['chartTemplateId','=',false]]}">
+                            <h2>Default Accounts</h2>
+                            <div class="row mt16 o-settings-container" id="defaultAccounts">
+                                <div class="col-12 col-lg-6 o-setting-box"
+                                    attrs="{'invisible': [['groupMultiCurrency', '=', false]]}">
+                                    <div class="o-setting-left-pane"></div>
+                                    <div class="o-setting-right-pane">
+                                        <div class="content-group">
+                                            <div>
+                                                <span class="o-form-label">Post Exchange difference entries in:</span>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="currencyExchangeJournalId" class="col-lg-4 o-light-label" string="Journal" />
+                                                <field name="currencyExchangeJournalId"/>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="incomeCurrencyExchangeAccountId" class="col-lg-4 o-light-label"/>
+                                                <field name="incomeCurrencyExchangeAccountId"/>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="expenseCurrencyExchangeAccountId" class="col-lg-4 o-light-label"/>
+                                                <field name="expenseCurrencyExchangeAccountId"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o-setting-box">
+                                    <div class="o-setting-left-panel"></div>
+                                    <div class="o-setting-right-pane">
+                                        <span class="o-form-label">The following default accounts are used with certain features.</span>
+                                        <div class="content-group">
+                                            <div class="row mt8">
+                                                <label for="accountJournalSuspenseAccountId" class="col-lg-5 o-light-label"/>
+                                                <field name="accountJournalSuspenseAccountId"/>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="accountJournalPaymentDebitAccountId" class="col-lg-5 o-light-label"/>
+                                                <field name="accountJournalPaymentDebitAccountId"/>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="accountJournalPaymentCreditAccountId" class="col-lg-5 o-light-label"/>
+                                                <field name="accountJournalPaymentCreditAccountId"/>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="transferAccountId" class="col-lg-5 o-light-label"/>
+                                                <field name="transferAccountId"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <t groups="account.groupAccountUser">
+                            <h2>Bank &amp; Cash</h2>
+                            <div class="row mt16 o-settings-container" id="bankCash">
+                                <div class="col-12 col-lg-6 o-setting-box"
+                                    id="importBankStatementsCsv"
+                                    title="Once installed, set 'Bank Feeds' to 'File Import' in bank account settings.This adds a button to import from the Accounting dashboard.">
+                                    <div class="o-setting-left-pane">
+                                        <field name="moduleAccountBankStatementImportCsv" widget="upgradeBoolean"/>
+                                    </div>
+                                    <div class="o-setting-right-pane">
+                                        <label for="moduleAccountBankStatementImportCsv" string="CSV Import" class="o-module"/>
+                                        <div class="text-muted">
+                                            Import your bank statements in CSV
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o-setting-box" title="Once installed, set 'Bank Feeds' to 'File Import' in bank account settings.This adds a button to import from the Accounting dashboard.">
+                                    <div class="o-setting-left-pane">
+                                        <field name="moduleAccountBankStatementImportQif" widget="upgradeBoolean"/>
+                                    </div>
+                                    <div class="o-setting-right-pane">
+                                        <label for="moduleAccountBankStatementImportQif" string="QIF Import" class="o-module"/>
+                                        <div class="text-muted">
+                                            Import your bank statements in QIF
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o-setting-box" title="Once installed, set 'Bank Feeds' to 'File Import' in bank account settings.This adds a button to import from the Accounting dashboard.">
+                                    <div class="o-setting-left-pane">
+                                        <field name="moduleAccountBankStatementImportOfx" widget="upgradeBoolean"/>
+                                    </div>
+                                    <div class="o-setting-right-pane">
+                                        <label for="moduleAccountBankStatementImportOfx" string="OFX Import" class="o-module"/>
+                                        <div class="text-muted">
+                                            Import your bank statements in OFX
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o-setting-box"
+                                    id="importBankStatementCamt"
+                                    title="Once installed, set 'Bank Feeds' to 'File Import' in bank account settings.This adds a button to import from the Accounting dashboard.">
+                                    <div class="o-setting-left-pane">
+                                        <field name="moduleAccountBankStatementImportCamt" widget="upgradeBoolean"/>
+                                    </div>
+                                    <div class="o-setting-right-pane">
+                                        <label for="moduleAccountBankStatementImportCamt" string="CAMT Import" class="o-module"/>
+                                        <div class="text-muted">
+                                            Import your bank statements in CAMT.053
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <t groups="account.groupAccountUser">
+                            <h2>Accounting Import</h2>
+                            <div class="row mt16 o-settings-container" id="accountingImport">
+                                <div class="col-12 col-lg-6 o-setting-box"
+                                    id="l10nFrFecImport"
+                                    title="This adds a menu item in the Accounting Configuration menu to import FEC files.">
+                                    <div class="o-setting-left-pane">
+                                        <field name="moduleL10nFrFecImport" widget="upgradeBoolean"/>
+                                    </div>
+                                    <div class="o-setting-right-pane">
+                                        <label for="moduleL10nFrFecImport" string="FEC Import" class="o-module"/>
+                                        <div class="text-muted">
+                                            Import your accounting data from FEC
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <t groups="account.groupAccountUser">
+                            <h2>Fiscal Periods</h2>
+                            <div class="row mt16 o-settings-container" id="accountingReports">
+                                <div class="col-12 col-lg-6 o-setting-box" id="fiscalyear" invisible="1" groups="account.groupAccountUser"/>
+                                <div class="col-12 col-lg-6 o-setting-box" id="dynamic_report" invisible="1" groups="account.groupAccountUser">
+                                    <div class="o-setting-left-pane">
+                                        <field name="moduleAccountReports" widget="upgradeBoolean"/>
+                                    </div>
+                                    <div class="o-setting-right-pane">
+                                        <label for="moduleAccountReports" class="o-module"/>
+                                        <div class="text-muted" id="accountReports">
+                                            Navigate easily through reports and see what is behind the numbers
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <h2>Analytics</h2>
+                        <div class="row mt16 o-settings-container" id="analytic">
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="trackCostsRevenues"
+                                title="Allows you to use the analytic accounting."
+                                groups="account.groupAccountUser">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupAnalyticAccounting"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupAnalyticAccounting"/>
+                                    <div class="text-muted">
+                                        Track costs &amp; revenues by project, department, etc
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box"
+                                id="tagAnalyticEntries"
+                                groups="account.groupAccountUser">
+                                <div class="o-setting-left-pane">
+                                    <field name="groupAnalyticTags"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="groupAnalyticTags"/>
+                                    <div class="text-muted">
+                                        Allows to tag analytic entries and to manage analytic distributions
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="accountBudget" title="This allows accountants to manage analytic and crossovered budgets. Once the master budgets and the budgets are defined, the project managers can set the planned amount on each analytic account." groups="account.groupAccountUser">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleAccountBudget" widget="upgradeBoolean"/>
+                                </div>
+                                <div class="o-setting-right-pane" id="budgetManagement">
+                                    <label for="moduleAccountBudget" class="o-module"/>
+                                    <div class="text-muted">
+                                        Use budgets to compare actual with expected revenues and costs
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="monitorProductMargins">
+                                <div class="o-setting-left-pane">
+                                    <field name="moduleProductMargin"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="moduleProductMargin" string="Margin Analysis" class="o-module"/>
+                                    <div class="text-muted">
+                                        Monitor your product margins from invoices
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="actionAccountConfig" model="ir.actions.actwindow">
+            <field name="label">Settings</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.config.settings</field>
+            <field name="viewMode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'account', 'binSize': false}</field>
+        </record>
+
+    </data>
+</verp>

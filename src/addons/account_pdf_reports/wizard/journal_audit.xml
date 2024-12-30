@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="accountReportPrintJournalView" model="ir.ui.view">
+        <field name="label">Journals Audit</field>
+        <field name="model">account.print.journal</field>
+        <field name="inheritId" ref="account.accountCommonReportView"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='targetMove']" position="after">
+                    <field name="amountCurrency" groups="base.groupMultiCurrency"/>
+                    <field name="sortSelection" widget="radio"/>
+                    <newline/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="actionAccountPrintJournalMenu" model="ir.actions.actwindow">
+        <field name="label">Journals Audit</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">account.print.journal</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="accountReportPrintJournalView"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menuPrintJournal"
+              name="Journals Audit"
+              sequence="40"
+              parent="menuFinanceAuditReports"
+              action="actionAccountPrintJournalMenu"
+              groups="account.groupAccountManager,account.groupAccountUser"/>
+
+</verp>

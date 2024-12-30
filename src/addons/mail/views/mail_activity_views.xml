@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="mailActivityTypeViewForm" model="ir.ui.view">
+        <field name="label">mail.activity.type.view.form</field>
+        <field name="model">mail.activity.type</field>
+        <field name="arch" type="xml">
+            <form string="Activities">
+                <sheet>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <div class="oe-title">
+                        <label for="label" class="oe-edit-only"/>
+                        <h1><field name="label" placeholder="e.g. Schedule a meeting"/></h1>
+                    </div>
+                    <group>
+                        <group name="activityDetails" string="Activity Settings">
+                            <field name="active" invisible="1"/>
+                            <field name="category"/>
+                            <field name="defaultUserId" options="{'noCreate': true, 'noEdit': true}" domain="[['share', '=', false]]"/>
+                            <field name="resModel" groups="base.groupNoOne"/>
+                            <field name="resModelChange" invisible="1"/>
+                            <field name="initialResModel" invisible="1"/>
+                            <field name="summary"/>
+                            <field name="icon" groups="base.groupNoOne"/>
+                            <field name="decorationType" groups="base.groupNoOne"/>
+                        </group>
+                        <group name="activityPlanning" string="Next Activity">
+                            <field name="chainingType" attrs="{'invisible': [['category', '=', 'uploadFile']]}"/>
+                            <field name="triggeredNextTypeId" options="{'noOpen': true}" context="{'default_resModel': resModel}"
+                                attrs="{'required': ['&amp;', ['chainingType', '=', 'trigger'], ['category', '!=', 'uploadFile']],
+                                'invisible': ['&amp;', ['chainingType', '=', 'suggest'], ['category', '!=', 'uploadFile']]}"/>
+                            <field name="suggestedNextTypeIds" widget="many2manyTags" context="{'default_resModel': resModel}"
+                                attrs="{'invisible': ['|', ['chainingType', '=', 'trigger'], ['category', '=', 'uploadFile']]}"/>
+                            <field name="mailTemplateIds" widget="many2manyTags"
+                                domain="[['modelId.model', '=', resModel]]"
+                                attrs="{'invisible': [['resModel', '=', false]]}"
+                                context="{'default_model': resModel}"/>
+                            <label for="delayCount"/>
+                            <div>
+                                <div class="o-row">
+                                    <field class="col-1 pl-0 pr-0" name="delayCount"/>
+                                    <field class="col-3 pl-1 pr-1" name="delayUnit"/>
+                                    <field name="delayFrom"/>
+                                </div>
+                            </div>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="defaultNote"/>
+                    </group>
+                    <p class="alert alert-info" role="alert" attrs="{'invisible': [['resModelChange', '=', false]]}">Modifying the model can have an impact on existing activities using this activity type, be careful.</p>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mailActivityTypeViewSearch" model="ir.ui.view">
+        <field name="label">mail.activity.type.search</field>
+        <field name="model">mail.activity.type</field>
+        <field name="arch" type="xml">
+            <search string="Activities">
+                <field name="label"/>
+                <filter string="Archived" domain="[['active', '=', false]]" name="archived"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="mailActivityTypeViewTree" model="ir.ui.view">
+        <field name="label">mail.activity.type.view.tree</field>
+        <field name="model">mail.activity.type</field>
+        <field name="arch" type="xml">
+            <tree string="Activities" sample="1">
+                <field name="sequence" widget="handle"/>
+                <field name="label"/>
+                <field name="summary"/>
+                <field name="delayLabel" string="Planned in" class="text-right"/>
+                <field name="delayFrom" string="Type"/>
+                <field name="resModel" groups="base.groupNoOne"/>
+                <field name="icon" groups="base.groupNoOne"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mailActivityTypeAction" model="ir.actions.actwindow">
+        <field name="label">Activity Types</field>
+        <field name="resModel">mail.activity.type</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+
+    <record id="mailActivityAction" model="ir.actions.actwindow">
+        <field name="label">Activities</field>
+        <field name="resModel">mail.activity</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+    <record id="mailActivityViewFormPopup" model="ir.ui.view">
+        <field name="label">mail.activity.view.form.popup</field>
+        <field name="model">mail.activity</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form string="Log an Activity" create="false">
+                <sheet string="Activity">
+                    <group invisible="1">
+                        <field name="activityCategory" invisible="1" />
+                        <field name="resModel" invisible="1"/>
+                        <field name="resModelId" invisible="1"/>
+                        <field name="resId" invisible="1" widget="integer"/>
+                        <field name="chainingType" invisible="1"/>
+                        <field name="previousActivityTypeId"/>
+                        <field name="hasRecommendedActivities"/>
+                    </group>
+                    <group attrs="{'invisible': [['hasRecommendedActivities','=',false]]}">
+                        <div class="o-row">
+                            <strong>Recommended Activities</strong>
+                            <field name="recommendedActivityTypeId" widget="selectionBadge"
+                                domain="[['previousTypeIds', '=', previousActivityTypeId]]"
+                                nolabel="1"/>
+                        </div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="activityTypeId" required="1" options="{'noCreate': true, 'noOpen': true}"/>
+                            <field name="summary" placeholder="e.g. Discuss proposal"/>
+                        </group>
+                        <group>
+                            <field name="dateDeadline"/>
+                            <field name="userId"/>
+                        </group>
+                    </group>
+                    <field name="note" class="oe-bordered-editor" placeholder="Log a note..."/>
+                    <footer>
+                        <field name="id" invisible="1"/>
+                        <button id="mailActivitySchedule" string="Schedule" name="actionCloseDialog" type="object" class="btn-primary"
+                            attrs="{'invisible': [['id', '!=', false]]}" data-hotkey="q"/>
+                        <button id="mailActivitySave" string="Save" name="actionCloseDialog" type="object" class="btn-primary"
+                            attrs="{'invisible': [['id', '=', false]]}" data-hotkey="q"/>
+                        <button attrs="{'invisible': [['chainingType', '=', 'trigger']]}" string="Mark as Done" name="actionDone"
+                            type="object" class="btn-secondary" data-hotkey="w"
+                            context="{'mailActivityQuickUpdate': true}"/>
+                        <button attrs="{'invisible': [['chainingType', '=', 'trigger']]}" string="Done &amp; Schedule Next" name="actionDoneScheduleNext"
+                            type="object" class="btn-secondary" data-hotkey="x"
+                            context="{'mailActivityQuickUpdate': true}"/>
+                        <button attrs="{'invisible': [['chainingType', '=', 'suggest']]}" string="Done &amp; Launch Next" name="actionDoneScheduleNext"
+                            type="object" class="btn-secondary" data-hotkey="x"
+                            context="{'mailActivityQuickUpdate': true}"/>
+                        <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mailActivityViewForm" model="ir.ui.view">
+        <field name="label">mail.activity.view.form</field>
+        <field name="model">mail.activity</field>
+        <field name="priority">21</field>
+        <field name="mode">primary</field>
+        <field name="inheritId" ref="mail.mailActivityViewFormPopup"/>
+        <field name="arch" type="xml">
+            <field name="activityTypeId" position="before">
+                <field name="resName" readonly="1" string="Document"/>
+            </field>
+            <footer position="replace"/>
+        </field>
+    </record>
+
+    <record id="mailActivityViewSearch" model="ir.ui.view">
+        <field name="label">mail.activity.view.search</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">
+            <search string="Activity">
+                <field name="resModel"/>
+                <field name="summary"/>
+                <field name="activityTypeId"/>
+                <filter invisible="1" string="Late Activities" name="activitiesOverdue"
+                        domain="[['dateDeadline', '&lt;', contextToday().toFormat('yyyy-MM-dd')]]"
+                        help="Show all records which has next action date is before today"/>
+                <filter invisible="1" string="Today Activities" name="activitiesToday"
+                        domain="[['dateDeadline', '=', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                <filter invisible="1" string="Future Activities" name="activitiesUpcomingAll"
+                        domain="[['dateDeadline', '&gt;', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Deadline" name="dateDeadline" context="{'groupby': 'dateDeadline'}"/>
+                    <filter string="Created By" name="createdby" context="{'groupby': 'createdUid'}"/>
+                    <filter string="Activity Type" name="activittype" context="{'groupby': 'activityTypeId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="mailActivityViewTree" model="ir.ui.view">
+        <field name="label">mail.activity.view.tree</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">
+            <tree string="Next Activities"
+                    decoration-danger="dateDeadline &lt; currentDate"
+                    decoration-success="dateDeadline == currentDate"
+                    defaultOrder="dateDeadline" create="false">
+                <field name="resName"/>
+                <field name="activityTypeId"/>
+                <field name="summary"/>
+                <field name="dateDeadline"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mailActivityActionViewTree" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="1"/>
+        <field name="viewMode">tree</field>
+        <field name="actwindowId" ref="mail.mailActivityAction"/>
+    </record>
+    <record id="mailActivityActionViewForm" model="ir.actions.actwindow.view">
+        <field name="sequence" eval="2"/>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="mail.mailActivityViewForm"/>
+        <field name="actwindowId" ref="mail.mailActivityAction"/>
+    </record>
+
+    <record id="mailActivityViewCalendar" model="ir.ui.view">
+        <field name="label">mail.activity.view.calendar</field>
+        <field name="model">mail.activity</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <calendar string="Activity" dateStart="dateDeadline" color="activityTypeId">
+                <field name="userId" avatarField="avatar128"/>
+                <field name="resName"/>
+                <field name="dateDeadline"/>
+                <field name="summary"/>
+                <field name="activityTypeId" filters="1" invisible="1"/>
+            </calendar>
+        </field>
+    </record>
+
+</verp>

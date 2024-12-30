@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="sales_team.teamSalesDepartment" model="crm.team" forcecreate="false">
+            <field name="assignmentDomain">[['probability', '>=', '20']]</field>
+        </record>
+
+        <record id="sales_team.crmTeam1" model="crm.team">
+            <field name="useLeads">true</field>
+            <field name="assignmentDomain">[['phone', '!=', false]]</field>
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="mailTemplateSaleCartRecovery" model="mail.template">
+            <field name="label">Sales Order: Cart Recovery Email</field>
+            <field name="modelId" ref="sale.model_saleOrder"/>
+            <field name="subject">You left items in your cart!</field>
+            <field name="emailFrom">{{ (await (await object.userId).emailFormatted || await user.emailFormatted || '') }}</field>
+            <field name="partnerTo">{{ (await object.partnerId).id }}</field>
+            <field name="bodyHtml" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <t t-set="company" t-value="async () => {
+                        let company = await object.companyId;
+                        company = bool(company) ? company : await (await object.userId).companyId;
+                        conpany = bool(company) ? company : await user.companyId
+                    }"/>
+                    <span style="font-size: 10px;">Your Cart</span><br/>
+                    <span style="font-size: 20px; font-weight: bold;" t-out="object.name or ''">S00060</span>
+                </td><td valign="middle" align="right">
+                    <img t-attf-src="/logo.png?company={{ company.id }}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" t-att-alt="await company.label"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <h1 style="color:#A9A9A9;">THERE'S SOMETHING IN YOUR CART.</h1>
+                    Would you like to complete your purchase?<br/><br/>
+                    <t t-if="bool(await object.orderLine)">
+                        <t t-foreach="await object.websiteOrderLine" t-as="line">
+                            <hr/>
+                            <table width="100%">
+                                <tr>
+                                    <td style="padding: 10px; width:150px;">
+                                        <img t-attf-src="/web/image/product.product/{{ (await line.productId).id }}/image128" style="width: 100px; height: 100px; object-fit: contain;" alt="Product image"></img>
+                                    </td>
+                                    <td>
+                                        <strong t-out="await (await line.productId).displayName || ''">[FURN_7800] Desk Combination</strong><br/><t t-out="await line.label || ''">[FURN_7800] Desk Combination Desk combination, black-brown: chair + desk + drawer.</t>
+                                    </td>
+                                    <td width="100px" align="right">
+                                        <t t-out="parseInt(await line.productUomQty) or ''">10000</t> <t t-out="await (await line.productUom).label || ''">Units</t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+                        <hr/>
+                    </t>
+                    <div style="text-align: center; padding: 16px 0px 16px 0px; font-size: 14px;">
+                        <a t-attf-href="{{ await object.getBaseUrl() }}/shop/cart?accessToken={{ await object.accessToken }}"
+                            target="_blank"
+                            style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                            Resume order
+                        </a>
+                    </div>
+                    <div style="text-align: center;"><strong>Thank you for shopping with <t t-out="await company.label || ''">My Company (San Francisco)</t>!</strong></div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left" t-out="company.name or ''">My Company (San Francisco)</td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    <t t-out="await company.phone || ''">+1 650-123-4567</t>
+                    <t t-if="await company.email">
+                        | <a t-attf-href="format('mailto:%s', {{ await company.email }})" style="text-decoration:none; color: #454748;" t-out="company.email or ''">info@yourcompany.com</a>
+                    </t>
+                    <t t-if="await company.website">
+                        | <a t-attf-href="format('%s', {{ company.website }})" style="text-decoration:none; color: #454748;" t-out="await company.website || ''">http://www.example.com</a>
+                    </t>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+<!-- POWERED BY -->
+<tr><td align="center" style="min-width: 590px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+      <tr><td style="text-align: center; font-size: 13px;">
+        Powered by <a target="_blank" href="https://www.theverp.com?utmSource=db&amp;utmMedium=website" style="color: #875A7B;">Verp</a>
+      </td></tr>
+    </table>
+</td></tr>
+</table>
+            </field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="autoDelete" eval="false"/>
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,115 @@
+.bw-apps-sidebar-panel {
+    @include bw-disable-scrollbar();
+    overflow-y: auto;	
+		position: fixed; 
+    top: $o-navbar-height;
+    height: calc(100% - #{$o-navbar-height}); 
+    background-color: $bw-appbar-background;
+    .bw-apps-sidebar {
+	    padding: 0;
+	    white-space: nowrap;
+	    .bw-apps-sidebar-menu {
+		    list-style: none;
+		    margin: 0;
+		    padding: 0;
+		    > li {
+		        margin: 0;
+		        padding: 0;
+		        border: 0px;
+		        display: block;
+		        > a {
+		            margin: 0;
+		            border: 0px;
+		            display: block;
+		            cursor: pointer;
+		            font-size: 13px;
+		            font-weight: 300;
+		            overflow: hidden;
+		            padding: 8px 11px;
+		            position: relative;
+		            text-decoration: none;
+		            color: $bw-appbar-color;
+		            text-overflow: ellipsis;
+		            .bw-apps-sidebar-icon {
+					    width: 22px;
+					    height: 22px;
+					    margin-right: 5px;
+					}
+		        }
+		    }
+	        > li:hover > a {
+			    background: $o-brand-primary;
+	        }
+	    }
+	}
+}
+
+.o-fullscreen {
+	.bw-apps-sidebar-panel {
+		display: none;
+	}
+	.o-action-manager {
+		padding-left: 0;
+	}
+}
+
+@include media-breakpoint-up(lg) {
+	.bw-sidebar-type-large {
+		.bw-apps-sidebar-panel {
+			width: $bw-sidebar-large-width;
+		}
+		.o-action-manager {
+			padding-left: $bw-sidebar-large-width;
+		}
+	}
+	.bw-sidebar-type-small {
+		.bw-apps-sidebar-panel {
+			width: $bw-sidebar-small-width;
+			.bw-apps-sidebar-name {
+				display: none;
+			}
+			.bw-apps-sidebar-icon {
+				margin-right: 0 !important;
+			}
+		}
+		.o-action-manager {
+			padding-left: $bw-sidebar-small-width;
+		}
+	}
+	.bw-sidebar-type-invisible {
+		.bw-apps-sidebar-panel {
+			display: none;
+		}
+	}
+}
+
+@include media-breakpoint-only(md) {
+	.bw-sidebar-type-large, .bw-sidebar-type-small {
+		.bw-apps-sidebar-panel {
+			width: $bw-sidebar-small-width;
+			.bw-apps-sidebar-name {
+				display: none;
+			}
+			.bw-apps-sidebar-icon {
+				margin-right: 0 !important;
+			}
+		}
+		.o-action-manager {
+			padding-left: $bw-sidebar-small-width;
+		}
+	}
+	.bw-sidebar-type-invisible {
+		.bw-apps-sidebar-panel {
+			display: none;
+		}
+	}
+}
+
+@include media-breakpoint-down(sm) {
+	.bw-apps-sidebar-panel {
+		display: none;
+	}
+	.o-action-manager {
+		padding-left: 0;
+	}
+}

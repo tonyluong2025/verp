@@ -1,0 +1,457 @@
+<?xml version="1.0"?>
+<verp>
+    <data noupdate="1">
+        <record id="calendarTemplateMeetingInvitation" model="mail.template">
+            <field name="label">Calendar: Meeting Invitation</field>
+            <field name="modelId" ref="calendar.model_calendarAttendee"/>
+            <field name="subject">Invitation to {{ await (await object.eventId).label }}</field>
+            <field name="emailFrom">{{ (await (await (await object.eventId).userId).emailFormatted &amp;&amp; await user.emailFormatted || '') }}</field>
+            <field name="emailTo">{{ (await (await object.partnerId).email &amp;&amp; await (await object.partnerId).email == await object.email ? '' : await object.email) }}</field>
+            <field name="partnerTo">{{ await (await object.partnerId).email &amp;&amp; await (await object.partnerId).email == object.email ? (await object.partnerId).id : false }}</field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="bodyHtml" type="html">
+<div>
+    <t t-set="eventId" t-value="await object.eventId" />
+    <t t-set="partnerId" t-value="await object.partnerId" />
+    <t t-set="accessToken" t-value="await object.accessToken" />
+    <t t-set="colors" t-value="{'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00', 'declined': 'red'}"/>
+    <t t-set="isOnline" t-value="'appointmentTypeId' in eventId._fields &amp;&amp; bool(await eventId.appointmentTypeId)"/>
+    <t t-set="appointmentType" t-value="isOnline &amp;&amp; await eventId.appointmentTypeId" />
+    <t t-set="customer" t-value="await eventId.findPartnerCustomer()"/>
+    <t t-set="targetResponsible" t-value="partnerId.eq(await eventId.partnerId)"/>
+    <t t-set="targetCustomer" t-value="partnerId.eq(customer)"/>
+    <t t-set="recurrent" t-value="bool(await object.recurrenceId) &amp;&amp; !ctx['calendarTemplateIgnoreRecurrence']"/>
+
+    <p>
+        Hello <t t-out="await object.commonName || ''">Wood Corner</t>,<br/><br/>
+        <t t-if="isOnline &amp;&amp; targetCustomer">
+            Your appointment <strong t-out="await appointmentType.label || ''">Schedule a Demo</strong> <t t-if="await appointmentType.category !== 'custom'"> with <t t-out="await (await eventId.userId).label || ''">Ready Mat</t></t> has been booked.
+        </t>
+        <t t-elif="isOnline &amp;&amp; targetResponsible">
+            <t t-if="customer.ok">
+                <t t-out="await customer.label || ''"></t> scheduled the following appointment <strong t-out="await appointmentType.label || ''">Schedule a Demo</strong> with you.
+            </t>
+            <t t-else="">
+                Your appointment <strong t-out="await appointmentType.label || ''">Schedule a Demo</strong> has been booked.
+            </t>
+        </t>
+        <t t-elif="! targetResponsible">
+            <t t-out="await (await (await eventId.userId).partnerId).label || ''">Colleen Diaz</t> invited you for the <strong t-out="await eventId.label || ''">Follow-up for Project proposal</strong> meeting.
+        </t>
+        <t t-else="">
+            Your meeting <strong t-out="await eventId.label || ''">Follow-up for Project proposal</strong> has been booked.
+        </t>
+
+    </p>
+    <div style="text-align: center; padding: 16px 0px 16px 0px;">
+        <t t-if="! isOnline || await object.state !== 'accepted'">
+            <a t-attf-href="/calendar/meeting/accept?token={{await object.accessToken}}&amp;id={{(await object.eventId).id}}"
+                style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                Accept</a>
+            <a t-attf-href="/calendar/meeting/decline?token={{await object.accessToken}}&amp;id={{(await object.eventId).id}}"
+                style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                Decline</a>
+        </t>
+        <a t-attf-href="/calendar/meeting/view?token={{await object.accessToken}}&amp;id={{(await object.eventId).id}}"
+            style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px"
+            ><t t-out="isOnline &amp;&amp; targetCustomer ? 'Reschedule' : 'View'">View</t></a>
+    </div>
+    <table border="0" cellpadding="0" cellspacing="0"><tr>
+        <td width="130px;">
+            <div style="border-top-left-radius: 3px; border-top-right-radius: 3px; font-size: 12px; border-collapse: separate; text-align: center; font-weight: bold; color: #ffffff; min-height: 18px; background-color: #875A7B; border: 1px solid #875A7B;">
+                <t t-out="formatDatetime(await eventId.start, ! await eventId.allday ? await object.mailTz : null, 'EEEE', object.env.lang) || ''">Tuesday</t>
+            </div>
+            <div style="font-size: 48px; min-height: auto; font-weight: bold; text-align: center; color: #5F5F5F; background-color: #F8F8F8; border: 1px solid #875A7B;">
+                <t t-out="formatDatetime(await eventId.start, ! await eventId.allday ? await object.mailTz : null, 'd', object.env.lang) || ''">4</t>
+            </div>
+            <div style='font-size: 12px; text-align: center; font-weight: bold; color: #ffffff; background-color: #875A7B;'>
+                <t t-out="formatDatetime(await eventId.start, ! await eventId.allday ? await object.mailTz : null, 'MMMM y', object.env.lang) || ''">May 2021</t>
+            </div>
+            <div style="border-collapse: separate; color: #5F5F5F; text-align: center; font-size: 12px; border-bottom-right-radius: 3px; font-weight: bold ; border: 1px solid #875A7B; border-bottom-left-radius: 3px;">
+                <t t-if="! eventId.allday">
+                    <div>
+                        <t t-out="formatTime(await eventId.start, await object.mailTz, 'short', object.env.lang) || ''">11:00 AM</t>
+                    </div>
+                    <t t-if="await object.mailTz">
+                        <div style="font-size: 10px; font-weight: normal">
+                            (<t t-out="await object.mailTz || ''">Europe/Brussels</t>)
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </td>
+        <td width="20px;"/>
+        <td style="padding-top: 5px;">
+            <p><strong>Details of the event</strong></p>
+            <ul>
+                <t t-if="isOnline">
+                    <li>Appointment Type: <t t-out="await appointmentType.label || ''">Schedule a Demo</t></li>
+                </t>
+                <t t-if="await eventId.location">
+                    <li>Location: <t t-out="await eventId.location || ''">Bruxelles</t>
+                        (<a target="_blank" t-attf-href="http://maps.google.com/maps?oi=map&amp;q={{await (await object.eventId).location}}">View Map</a>)
+                    </li>
+                </t>
+                <t t-if="recurrent">
+                    <li>When: <t t-out="await (await object.recurrenceId).label || ''">Every 1 Weeks, for 3 events</t></li>
+                </t>
+                <t t-if="! eventId.allday &amp;&amp; await eventId.duration">
+                    <li>Duration: <t t-out="f('%sH%s', await eventId.duration, (round(await eventId.duration * 60) % 60).toString().padStart(2,'0') || '')">0H30</t></li>
+                </t>
+                <li>Attendees
+                <ul>
+                    <li t-foreach="await eventId.attendeeIds" t-as="attendee">
+                        <div t-attf-style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background:{{ colors[await attendee.state] || 'white' }};"> </div>
+                        <t t-if="await attendee.commonName !== await object.commonName">
+                            <span style="margin-left:5px" t-out="await attendee.commonName || ''">Mitchell Admin</span>
+                        </t>
+                        <t t-else="">
+                            <span style="margin-left:5px">You</span>
+                        </t>
+                    </li>
+                </ul></li>
+                <t t-if="await eventId.videocallLocation">
+                    <li>Meeting URL: <a t-att-href="await eventId.videocallLocation" target="_blank" t-out="await eventId.videocallLocation || ''">https://meet.jit.si/verp-xyz</a></li>
+                </t>
+                <t t-if="! isHtmlEmpty(await eventId.description)">
+                    <li>Description of the event:
+                    <t t-out="await eventId.description">Internal meeting for discussion for new pricing for product &amp;&amp; services.</t></li>
+                </t>
+            </ul>
+        </td>
+    </tr></table>
+    <br />
+    Thank you,
+    <t t-set="signature" t-value="await (await eventId.userId).signature" />
+    <t t-if="signature">
+        <br />
+        <t t-out="signature || ''">--<br/>Mitchell Admin</t>
+    </t>
+</div>
+            </field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+        <record id="calendarTemplateMeetingChangedate" model="mail.template">
+            <field name="label">Calendar: Date updated</field>
+            <field name="modelId" ref="calendar.model_calendarAttendee"/>
+            <field name="subject">{{ await (await object.eventId).label }}: Date updated</field>
+            <field name="emailFrom">{{ (await (await (await object.eventId).userId).emailFormatted || await user.emailFormatted || '') }}</field>
+            <field name="emailTo">{{ (await (await object.partnerId).email &amp;&amp; await (await object.partnerId).email === await object.email ? '' : await object.email) }}</field>
+            <field name="partnerTo">{{ await (await object.partnerId).email &amp;&amp; await (await object.partnerId).email == await object.email ? (await object.partnerId).id : false }}</field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="bodyHtml" type="html">
+<div>
+    <t t-set="eventId" t-value="await object.eventId" />
+    <t t-set="partnerId" t-value="await object.partnerId" />
+    <t t-set="accessToken" t-value="await object.accessToken" />
+    <t t-set="colors" t-value="{'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00', 'declined': 'red'}"/>
+    <t t-set="isOnline" t-value="'appointmentTypeId' in eventId._fields &amp;&amp; bool(await eventId.appointmentTypeId)"/>
+    <t t-set="appointmentType" t-value="isOnline &amp;&amp; await eventId.appointmentTypeId" />
+    <t t-set="customer" t-value="await eventId.findPartnerCustomer()"/>
+    <t t-set="targetResponsible" t-value="partnerId.eq(await eventId.partnerId)"/>
+    <t t-set="targetCustomer" t-value="partnerId.eq(customer)"/>
+    <t t-set="recurrent" t-value="bool(await object.recurrenceId) &amp;&amp; !ctx['calendarTemplateIgnoreRecurrence']"/>
+
+    <p>
+        Hello <t t-out="await object.conmonName || ''">Ready Mat</t>,<br/><br/>
+        <t t-if="isOnline &amp;&amp; targetResponsible">
+            <t t-if="customer.ok">
+                The date of your appointment with <t t-out="await customer.label || ''">Jesse Brown</t> has been updated.
+            </t>
+            <t t-else="">
+                Your appointment has been updated.
+            </t>
+            The appointment <strong t-out="await appointmentType.label || ''">Schedule a Demo</strong> is now scheduled for
+            <t t-out="await eventId.getDisplayTimeTz(await partnerId.tz) || ''">05/04/2021 at (11:00:00 To 11:30:00) (Europe/Brussels)</t>
+        </t>
+        <t t-elif="isOnline &amp;&amp; targetCustomer">
+            The date of your appointment with <t t-out="await (await (await eventId.userId).partnerId).label || ''">Colleen Diaz</t> has been updated.
+            The appointment <strong t-out="await appointmentType.label || ''"></strong> is now scheduled for
+            <t t-out="await eventId.getDisplayTimeTz(await partnerId.tz) || ''">05/04/2021 at (11:00:00 To 11:30:00) (Europe/Brussels)</t>.
+        </t>
+        <t t-else="">
+            The date of the meeting has been updated.
+            The meeting <strong t-out="await eventId.label || ''">Follow-up for Project proposal</strong> created by <t t-out="await (await (await eventId.userId).partnerId).label || ''">Colleen Diaz</t> is now scheduled for
+            <t t-out="await eventId.getDisplayTimeTz(await partnerId.tz) || ''">05/04/2021 at (11:00:00 To 11:30:00) (Europe/Brussels)</t>.
+        </t>
+    </p>
+    <div style="text-align: center; padding: 16px 0px 16px 0px;">
+        <a t-attf-href="/calendar/meeting/accept?token={{ await object.accessToken }}&amp;id={{ (await object.eventId).id }}"
+            style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+            Accept</a>
+        <a t-attf-href="/calendar/meeting/decline?token={{ await object.accessToken }}&amp;id={{ (await object.eventId).id }}"
+            style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+            Decline</a>
+        <a t-attf-href="/calendar/meeting/view?token={{ await object.accessToken }}&amp;id={{ (await object.eventId).id }}"
+            style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+            View</a>
+    </div>
+    <table border="0" cellpadding="0" cellspacing="0"><tr>
+        <td width="130px;">
+            <div style="border-top-left-radius: 3px; border-top-right-radius: 3px; font-size: 12px; border-collapse: separate; text-align: center; font-weight: bold; color: #ffffff; min-height: 18px; background-color: #875A7B; border: 1px solid #875A7B;">
+                <t t-out='formatDatetime(await eventId.start, ! await eventId.allday ? await object.mailTz : null, "EEEE", object.env.lang) || ""'>Tuesday</t>
+            </div>
+            <div style="font-size: 48px; min-height: auto; font-weight: bold; text-align: center; color: #5F5F5F; background-color: #F8F8F8; border: 1px solid #875A7B;">
+                <t t-out="formatDatetime(await eventId.start, ! await eventId.allday ? await object.mailTz : null, 'd', object.env.lang) || ''">4</t>
+            </div>
+            <div style='font-size: 12px; text-align: center; font-weight: bold; color: #ffffff; background-color: #875A7B;'>
+                <t t-out='formatDatetime(await eventId.start, ! await eventId.allday ? await object.mailTz : null, "MMMM y", object.env.lang) || ""'>May 2021</t>
+            </div>
+            <div style="border-collapse: separate; color: #5F5F5F; text-align: center; font-size: 12px; border-bottom-right-radius: 3px; font-weight: bold; border: 1px solid #875A7B; border-bottom-left-radius: 3px;">
+                 <t t-if="! eventId.allday">
+                    <div>
+                        <t t-out='formatTime(await eventId.start, await object.mailTz, "short", object.env.lang) || ""'>11:00 AM</t>
+                    </div>
+                    <t t-if="await object.mailTz">
+                        <div style="font-size: 10px; font-weight: normal">
+                            (<t t-out="await object.mailTz || ''">Europe/Brussels</t>)
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </td>
+        <td width="20px;"/>
+        <td style="padding-top: 5px;">
+            <p><strong>Details of the event</strong></p>
+            <ul>
+                <t t-if="await eventId.location">
+                    <li>Location: <t t-out="await eventId.location || ''">Bruxelles</t>
+                        (<a target="_blank" t-attf-href="http://maps.google.com/maps?oi=map&amp;q={{ await (await object.eventId).location }}">View Map</a>)
+                    </li>
+                </t>
+                <t t-if="recurrent">
+                    <li>When: <t t-out="await (await object.recurrenceId).label || ''">Every 1 Weeks, for 3 events</t></li>
+                </t>
+                <t t-if="! eventId.allday &amp;&amp; await eventId.duration">
+                    <li>Duration: <t t-out="f('%sH%s', await eventId.duration, (round(await eventId.duration * 60) %60).toString().padStart(2,'0') || '')">0H30</t></li>
+                </t>
+                <li>Attendees
+                <ul>
+                    <li t-foreach="await eventId.attendeeIds" t-as="attendee">
+                        <div t-attf-style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background: {{ colors[await attendee.state] || 'white' }};"> </div>
+                        <t t-if="await attendee.conmonName != await object.conmonName">
+                            <span style="margin-left:5px" t-out="await attendee.conmonName || ''">Mitchell Admin</span>
+                        </t>
+                        <t t-else="">
+                            <span style="margin-left:5px">You</span>
+                        </t>
+                    </li>
+                </ul></li>
+                <t t-if="await eventId.videocallLocation">
+                    <li>Meeting URL: <a t-att-href="await eventId.videocallLocation" target="_blank" t-out="await eventId.videocallLocation || ''">https://meet.jit.si/verp-xyz</a></li>
+                </t>
+                <t t-if="! isHtmlEmpty(awat eventId.description)">
+                    <li>Description of the event:
+                    <t t-out="await eventId.description">Internal meeting for discussion for new pricing for product &amp;&amp; services.</t></li>
+                </t>
+            </ul>
+        </td>
+    </tr></table>
+    <br/>
+    Thank you,
+    <t t-set="signature" t-value="await (await eventId.userId).signature" />
+    <t t-if="signature">
+        <br />
+        <t t-out="signature || ''">--<br/>Mitchell Admin</t>
+    </t>
+</div>
+            </field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+        <record id="calendarTemplateMeetingReminder" model="mail.template">
+            <field name="label">Calendar: Reminder</field>
+            <field name="modelId" ref="calendar.model_calendarAttendee"/>
+            <field name="subject">{{ await (await object.eventId).label }} - Reminder</field>
+            <field name="emailFrom">{{ (await (await (await object.eventId).userId).emailFormatted || await user.emailFormatted || '') }}</field>
+            <field name="emailTo">{{ (await (await object.partnerId).email &amp;&amp; await (await object.partnerId).email == await object.email ? '' : await object.email) }}</field>
+            <field name="partnerTo">{{ await (await object.partnerId).email &amp;&amp; await (await object.partnerId).email == await object.email ? (await object.partnerId).id : false }}</field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="bodyHtml" type="html">
+<div>
+    <t t-set="eventId" t-value="await object.eventId" />
+    <t t-set="partnerId" t-value="await object.partnerId" />
+    <t t-set="accessToken" t-value="await object.accessToken" />
+    <t t-set="colors" t-value="{'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00', 'declined': 'red'}" />
+    <t t-set="isOnline" t-value="'appointmentTypeId' in eventId._fields &amp;&amp; bool(await eventId.appointmentTypeId)" />
+    <t t-set="recurrent" t-value="bool(await object.recurrenceId) &amp;&amp; !ctx['calendarTemplateIgnoreRecurrence']" />
+    <p>
+        Hello <t t-out="await object.conmonName || ''">Gemini Furniture</t>,<br/><br/>
+        This is a reminder for the below event :
+    </p>
+    <div style="text-align: center; padding: 16px 0px 16px 0px;">
+        <a t-attf-href="/calendar/{{ recurrent ? 'recurrence' : 'meeting' }}/accept?token={{ await object.accessToken }}&amp;id={{ (await object.eventId).id }}"
+            style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+            Accept</a>
+        <a t-attf-href="/calendar/{{ recurrent ? 'recurrence' : 'meeting' }}/decline?token={{ await object.accessToken }}&amp;id={{ (await object.eventId).id }}"
+            style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+            Decline</a>
+        <a t-attf-href="/calendar/meeting/view?token={{ await object.accessToken }}&amp;id={{ (await object.eventId).id }}" 
+            style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+            View</a>
+    </div>
+    <table border="0" cellpadding="0" cellspacing="0"><tr>
+        <td width="130px;">
+            <div style="border-top-left-radius: 3px; border-top-right-radius: 3px; font-size: 12px; border-collapse: separate; text-align: center; font-weight: bold; color: #ffffff; min-height: 18px; background-color: #875A7B; border: 1px solid #875A7B;">
+                <t t-out='formatDatetime(await eventId.start, ! eventId.allday ? await object.mailTz : null, "EEEE", object.env.lang) || ""'>Tuesday</t>
+            </div>
+            <div style="font-size: 48px; min-height: auto; font-weight: bold; text-align: center; color: #5F5F5F; background-color: #F8F8F8; border: 1px solid #875A7B;">
+                <t t-out="formatDatetime(await eventId.start, ! eventId.allday ? await object.mailTz : null, 'd', object.env.lang) || ''">4</t>
+            </div>
+            <div style='font-size: 12px; text-align: center; font-weight: bold; color: #ffffff; background-color: #875A7B;'>
+                <t t-out='formatDatetime(await eventId.start, ! eventId.allday ? await object.mailTz : null, "MMMM y", object.env.lang) || ""'>May 2021</t>
+            </div>
+            <div style="border-collapse: separate; color: #5F5F5F; text-align: center; font-size: 12px; border-bottom-right-radius: 3px; font-weight: bold; border: 1px solid #875A7B; border-bottom-left-radius: 3px;">
+                <t t-if="! eventId.allday">
+                    <div>
+                        <t t-out='formatTime(await eventId.start, await object.mailTz, "short", object.env.lang) || ""'>11:00 AM</t>
+                    </div>
+                    <t t-if="await object.mailTz">
+                        <div style="font-size: 10px; font-weight: normal">
+                            (<t t-out="await object.mailTz || ''">Europe/Brussels</t>)
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </td>
+        <td width="20px;"/>
+        <td style="padding-top: 5px;">
+            <p><strong>Details of the event</strong></p>
+            <ul>
+                <t t-if="await eventId.location">
+                    <li>Location: <t t-out="await eventId.location || ''">Bruxelles</t>
+                        (<a target="_blank" t-attf-href="http://maps.google.com/maps?oi=map&amp;q={{ await (await object.eventId).location }}">View Map</a>)
+                    </li>
+                </t>
+                <t t-if="recurrent">
+                    <li>When: <t t-out="await (await object.recurrenceId).label || ''">Every 1 Weeks, for 3 events</t></li>
+                </t>
+                <t t-if="! await eventId.allday &amp;&amp; await eventId.duration">
+                    <li>Duration: <t t-out="f('%sH%s', await eventId.duration, (round(await eventId.duration * 60) %60).toString().padStart(2,'0') || '')">0H30</t></li>
+                </t>
+                <li>Attendees
+                <ul>
+                    <li t-foreach="await eventId.attendeeIds" t-as="attendee">
+                        <div t-attf-style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background:{{ colors[await attendee.state] || 'white' }};"> </div>
+                        <t t-if="await attendee.conmonName != await object.conmonName">
+                            <span style="margin-left:5px" t-out="await attendee.conmonName || ''">Mitchell Admin</span>
+                        </t>
+                        <t t-else="">
+                            <span style="margin-left:5px">You</span>
+                        </t>
+                    </li>
+                </ul></li>
+                <t t-if="await eventId.videocallLocation">
+                    <li>Meeting URL: <a t-attf-href="{{ await (await object.eventId).videocallLocation }}" target="_blank" t-out="await eventId.videocallLocation || ''">https://meet.jit.si/verp-xyz</a></li>
+                </t>
+                <t t-if="! isHtmlEmpty(await eventId.description)">
+                    <li>Description of the event:
+                    <t t-out="await eventId.description">Internal meeting for discussion for new pricing for product &amp;&amp; services.</t></li>
+                </t>
+            </ul>
+        </td>
+    </tr></table>
+    <br/>
+    Thank you,
+    <t t-set="signature" t-value="await (await eventId.userId).signature" />
+    <t t-if="signature">
+        <br />
+        <t t-out="signature || ''">--<br/>Mitchell Admin</t>
+    </t>
+</div>
+            </field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+        <record id="calendarTemplateMeetingUpdate" model="mail.template">
+            <field name="label">Calendar: Event Update</field>
+            <field name="modelId" ref="calendar.model_calendarEvent"/>
+            <field name="subject">{{await object.label}}: Event update</field>
+            <field name="emailFrom">{{ (await (await object.userId).emailFormatted || await user.emailFormatted || '') }}</field>
+            <field name="emailTo">{{ await object._getAttendeeEmails() }}</field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="bodyHtml" type="html">
+<div>
+    <t t-set="eventId" t-value="await object.eventId" />
+    <t t-set="partnerId" t-value="await object.partnerId" />
+    <t t-set="colors" t-value="{'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00', 'declined': 'red'}" />
+    <t t-set="isOnline = 'appointmentTypeId' in object._fields &amp;&amp; bool(await object.appointmentTypeId)" />
+    <t t-set="targetResponsible = partnerId.eq(partner)" />
+    <t t-set="targetCustomer = partnerId.eq(customer)" />
+    <t t-set="recurrent = bool(await object.recurrenceId) &amp;&amp; !ctx['calendarTemplateIgnoreRecurrence']" />
+    <t t-set="mailTz" t-value="await object._getMailTz() || ctx['mailTz']" />
+    <div>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="130px;">
+                    <div style="border-top-left-radius: 3px; border-top-right-radius: 3px; font-size: 12px; border-collapse: separate; text-align: center; font-weight: bold; color: #ffffff; min-height: 18px; background-color: #875A7B; border: 1px solid #875A7B;">
+                        <t t-out="formatDatetime(await object.start, ! await object.allday ? mailTz : null, 'EEEE', object.env.lang) "></t>
+                    </div>
+                    <div style="font-size: 48px; min-height: auto; font-weight: bold; text-align: center; color: #5F5F5F; background-color: #F8F8F8; border: 1px solid #875A7B;">
+                        <t t-out="formatDatetime(await object.start, ! await object.allday ? mailTz : null, 'd', object.env.lang)"></t>
+                    </div>
+                    <div style='font-size: 12px; text-align: center; font-weight: bold; color: #ffffff; background-color: #875A7B;'>
+                        <t t-out="formatDatetime(await object.start, ! await object.allday ? mailTz : null, 'MMMM y', object.env.lang)"></t>
+                    </div>
+                    <div style="border-collapse: separate; color: #5F5F5F; text-align: center; font-size: 12px; border-bottom-right-radius: 3px; font-weight: bold; border: 1px solid #875A7B; border-bottom-left-radius: 3px;">
+                        <t t-if="! await object.allday">
+                            <div>
+                                <t t-out="formatTime(await object.start, mailTz, 'short', object.env.lang)"></t>
+                            </div>
+                            <t t-if="mailTz">
+                                <div style="font-size: 10px; font-weight: normal">
+                                    (<t t-out="mailTz"></t>)
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </td>
+                <td width="20px;"/>
+                <td style="padding-top: 5px;">
+                    <p>
+                        <strong>Details of the event</strong>
+                    </p>
+                    <ul>
+                        <t t-if="! isHtmlEmpty(await object.description)">
+                            <li>Description:
+                            <t t-out="await object.description">Internal meeting for discussion for new pricing for product &amp;&amp; services.</t></li>
+                        </t>
+                        <t t-if="await object.videocallLocation">
+                            <li>Meeting URL:
+                                <a t-att-href="await object.videocallLocation" target="_blank">
+                                    <t t-out="await object.videocallLocation || ''"></t>
+                                </a>
+                            </li>
+                        </t>
+                        <t t-if="await object.location">
+                            <li>Location: <t t-out="await object.location || ''"></t>
+                                (<a target="_blank"
+                                    t-attf-href="http://maps.google.com/maps?oi=map&amp;q={{await object.location}}">View Map</a>)
+                            </li>
+                        </t>
+                        <t t-if="recurrent">
+                            <li>When: <t t-out="await (await object.recurrenceId).label || ''"></t></li>
+                        </t>
+                        <t t-if="! await object.allday &amp;&amp; await object.duration">
+                            <li>Duration:
+                                <t t-out="f('%sH%s', await object.duration, round(await object.duration*60)%60)).toString().padStart(2,'0')"></t>
+                            </li>
+                        </t>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="user-input">
+        <hr/>
+        <p placeholder="Enter your message here"><br/>Tony must fix</p>
+    </div>
+</div>
+            </field>
+        </record>
+    </data>
+</verp>

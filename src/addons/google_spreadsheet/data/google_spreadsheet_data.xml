@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="googleSpreadsheetTemplate" model="google.drive.config">
+            <field name="label">Base Spreadsheet Template</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="googleDriveTemplateUrl">https://docs.google.com/spreadsheet/ccc?key=1KUlSSzZMzkEEzyroyZ2NerRt1RVCspkG9VQIh2V6dnM</field>
+            <field name="nameTemplate">Reporting %(name)s</field>
+            <field name="active" eval="0" />
+        </record>
+
+    </data>
+</verp>

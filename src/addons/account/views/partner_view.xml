@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="viewAccountPositionForm" model="ir.ui.view">
+            <field name="label">account.fiscal.position.form</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="arch" type="xml">
+                <form string="Fiscal Position">
+                    <div groups="account.groupAccountManager"
+                         class="alert alert-info mb-0"
+                         role="alert"
+                         attrs="{'invisible': [['foreignVatHeaderMode', '=', false]]}">
+
+                        <div attrs="{'invisible': [['foreignVatHeaderMode', '!=', 'templatesFound']]}">
+                            Click
+                            <button
+                                string="here"
+                                type="object"
+                                name="actionCreateForeignTaxes"
+                                class="oe-link"
+                                style="padding: 0; vertical-align: baseline;"/>
+                            to create the taxes for this country.
+                        </div>
+
+                        <span attrs="{'invisible': [['foreignVatHeaderMode', '!=', 'noTemplate']]}">
+                            No tax template found for this country. Please install the corresponding localization module.
+                            <button
+                                string="Install new module"
+                                type="action"
+                                name="account.openAccountChartsModules"
+                                class="oe-link"
+                                groups="base.groupSystem"
+                                style="padding: 0; vertical-align: baseline;"/>
+                        </span>
+                    </div>
+
+                    <sheet>
+                    <div class="oe-button-box" name="buttonBox"/>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="statesCount" invisible="1"/>
+                            <field name="companyCountryId" invisible="1"/>
+                            <field name="foreignVatHeaderMode" invisible="1"/>
+                            <field name="label"/>
+                            <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                        </group>
+                        <group>
+                            <field name="autoApply"/>
+                            <field name="vatRequired" attrs="{'invisible': [['autoApply', '!=', true]]}"/>
+                            <field name="foreignVat"/>
+                            <field name="countryGroupId" attrs="{'invisible': [['autoApply', '!=', true]]}"/>
+                            <field name="countryId"
+                                attrs="{'required': [['foreignVat', '!=', false]]}"
+                                options="{'noOpen': true, 'noCreate': true}"/>
+                            <field name="stateIds" widget="many2manyTags" domain="[['countryId', '=', countryId]]"
+                                attrs="{'invisible': ['|', '|', '&amp;', ['autoApply', '!=', true], ['foreignVat', '=', false], ['countryId', '=', false], ['statesCount', '=', 0]]}"/>
+                            <label for="zipFrom" string="Zip Range"
+                                attrs="{'invisible': ['|', ['autoApply', '!=', true], ['countryId', '=', false]]}"/>
+                            <div attrs="{'invisible': ['|', ['autoApply', '!=', true], ['countryId', '=', false]]}">
+                                <span> From </span>
+                                <field name="zipFrom" class="oe-inline"/>
+                                <div class="oe-edit-only"/>
+                                <span> To </span>
+                                <field name="zipTo" class="oe-inline"/>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="taxMapping" string="Tax Mapping">
+                        <group>
+                            <field name="taxIds" widget="one2many" nolabel="1" context="{'appendTypeToTaxName': true}">
+                                <tree name="taxMapTree" string="Tax Mapping" editable="bottom">
+                                    <field name="taxSrcId"
+                                        domain="[
+                                            ['typeTaxUse', '!=', 'null'],
+                                            ['countryId', '=', parent.companyCountryId],
+                                            '|', ['companyId', '=', false], ['companyId', '=', parent.companyId]
+                                        ]"
+                                        context="{'appendTypeToTaxName': true}"
+                                    />
+
+                                    <field name="taxDestId"
+                                        domain="[
+                                            ['typeTaxUse', '!=', 'null'],
+                                            ['countryId', '=', parent.foreignVat ? parent.countryId : parent.companyCountryId],
+                                            '|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"
+                                        context="{'appendTypeToTaxName': true}"
+                                    />
+                                </tree>
+                                <form name="taxMapForm" string="Tax Mapping">
+                                    <group>
+                                        <field name="taxSrcId" domain="[['typeTaxUse', '!=', 'null']]" context="{'appendTypeToTaxName': true}"/>
+                                        <field name="taxDestId" domain="[['typeTaxUse', '!=', 'null']]" context="{'appendTypeToTaxName': true}"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                        </page>
+                        <page name="accountMapping" string="Account Mapping" groups="account.groupAccountReadonly">
+                        <group>
+                            <field name="accountIds" widget="one2many" nolabel="1">
+                                <tree string="Account Mapping" editable="bottom">
+                                    <field name="accountSrcId" domain="['|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"/>
+                                    <field name="accountDestId" domain="['|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"/>
+                                </tree>
+                                <form string="Account Mapping">
+                                    <field name="accountSrcId" domain="['|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"/>
+                                    <field name="accountDestId" domain="['|', ['companyId', '=', false], ['companyId', '=', parent.companyId]]"/>
+                                </form>
+                            </field>
+                        </group>
+                        </page>
+                    </notebook>
+                    <field name="note" placeholder="Legal Notes..."/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewAccountPositionFilter" model="ir.ui.view">
+            <field name="label">account.fiscal.position.filter</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="arch" type="xml">
+                <search string="Search Fiscal Positions">
+                    <field name="label" string="Fiscal Position"/>
+                    <filter name="active" string="Archived" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+        <record id="viewAccountPositionTree" model="ir.ui.view">
+            <field name="label">account.fiscal.position.tree</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="arch" type="xml">
+                <tree string="Fiscal Position">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="partnerViewButtons">
+            <field name="label">partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewPartnerForm" />
+            <field name="priority" eval="11"/>
+            <field name="groupsId" eval="[[4, refId('account.groupAccountInvoice')], [4, refId('account.groupAccountReadonly')]]"/>
+            <field name="arch" type="xml">
+                <div name="buttonBox" position="inside">
+                    <button type="object" class="oe-stat-button" icon="fa-pencil-square-o" name="actionViewPartnerInvoices"
+                        context="{'default_partnerId': activeId}">
+                        <div class="o-form-field o-stat-info">
+                            <span class="o-stat-value">
+                                <field name="currencyId" invisible="1"/>
+                                <field name="totalInvoiced" widget='monetary' options="{'currencyField': 'currencyId'}"/>
+                            </span>
+                            <span class="o-stat-text">Invoiced</span>
+                        </div>
+                    </button>
+                </div>
+
+                <page name="internalNotes" position="inside">
+                    <group colspan="2" col="2" groups="account.groupWarningAccount">
+                        <separator string="Warning on the Invoice" colspan="4"/>
+                        <field name="invoiceWarn" nolabel="1" />
+                        <field name="invoiceWarnMsg" colspan="3" nolabel="1"
+                            attrs="{'required':[['invoiceWarn','!=', false], ['invoiceWarn','!=','no-message']], 'invisible':[['invoiceWarn','in',[false,'no-message']]]}"/>
+                    </group>
+                </page>
+            </field>
+        </record>
+
+        <record id="actionAccountFiscalPositionForm" model="ir.actions.actwindow">
+            <field name="label">Fiscal Positions</field>
+            <field name="resModel">account.fiscal.position</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="searchViewId" ref="viewAccountPositionFilter"/>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new fiscal position
+              </p>
+            </field>
+        </record>
+
+        <!--
+        Partners Extension
+        -->
+
+        <record id="viewPartnerPropertyForm" model="ir.ui.view">
+            <field name="label">res.partner.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="priority">2</field>
+            <field name="inheritId" ref="base.viewPartnerForm"/>
+            <field name="groupsId" eval="[[5,]]"/>
+            <field name="arch" type="xml">
+                <page name="salesPurchases" position="after">
+                    <page string="Invoicing" name="accounting" attrs="{'invisible': [['isCompany','=',false],['parentId','!=',false]]}" groups="account.groupAccountInvoice,account.groupAccountReadonly">
+                        <group>
+                            <group string="Bank Accounts" name="banks" groups="account.groupAccountInvoice,account.groupAccountReadonly">
+                                <field name="bankIds" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="bankId"/>
+                                        <field name="accNumber"/>
+                                        <field name="accHolderName" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <button type="action" class="btn-link"
+                                    name="%(base.actionResPartnerBankAccountForm)d"
+                                    context="{'searchDefault_partnerId': activeId, 'default_partnerId': activeId, 'formViewRef': 'account.viewCompanyPartnerBankForm'}"
+                                    string="View accounts detail"
+                                    colspan="2"
+                                />
+                            </group>
+                            <group string="Accounting Entries" name="accountingEntries" groups="account.groupAccountReadonly">
+                                <field name="currencyId" invisible="1"/>
+                                <field name="propertyAccountReceivableId"/>
+                                <field name="propertyAccountPayableId"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Invoicing" name="accountingDisabled" attrs="{'invisible': ['|',['isCompany','=',true],['parentId','=',false]]}" groups="account.groupAccountInvoice,account.groupAccountReadonly">
+                        <div>
+                            <p>Accounting-related settings are managed on <button name="openCommercialEntity" type="object" string="the parent company" class="oe-link"/></p>
+                        </div>
+                    </page>
+                </page>
+                <xpath expr="//group[@name='misc']" position="before">
+                    <group string="Fiscal Information" name="fiscalInformation" priority="5" groups="account.groupAccountInvoice,account.groupAccountReadonly">
+                        <field name="propertyAccountPositionId" options="{'noCreate': true, 'noOpen': true}"/>
+                    </group>
+                </xpath>
+                <group name="sale" position="inside">
+                    <field string="Payment Terms" name="propertyPaymentTermId" options="{'noOpen': true, 'noCreate': true}" groups="account.groupAccountInvoice,account.groupAccountReadonly"/>
+                </group>
+                <group name="purchase" position="inside">
+                    <field string="Payment Terms" name="propertySupplierPaymentTermId" options="{'noOpen': true, 'noCreate': true}" groups="account.groupAccountInvoice,account.groupAccountReadonly"/>
+                </group>
+            </field>
+        </record>
+
+        <record id="resPartnerViewSearch" model="ir.ui.view">
+            <field name="label">res.partner.search.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.viewResPartnerFilter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='inactive']" position="before">
+                   <filter string="Customer Invoices" name="customer" domain="[['customerRank','>', 0]]"/>
+                   <filter string="Vendor Bills" name="supplier" domain="[['supplierRank','>', 0]]"/>
+                   <separator/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="resPartnerActionCustomer" model="ir.actions.actwindow">
+            <field name="label">Customers</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.partner</field>
+            <field name="viewMode">kanban,tree,form</field>
+            <field name="context">{'searchDefault_customer': 1,'resPartnerSearchMode': 'customer', 'default_isCompany': true, 'default_customerRank': 1}</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new customer in your address book
+              </p><p>
+                Verp helps you easily track all activities related to a customer.
+              </p>
+            </field>
+        </record>
+
+        <record id="resPartnerActionSupplier" model="ir.actions.actwindow">
+            <field name="label">Vendors</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.partner</field>
+            <field name="viewMode">kanban,tree,form</field>
+            <field name="context">{'searchDefault_supplier': 1,'resPartnerSearchMode': 'supplier', 'default_isCompany': true, 'default_supplierRank': 1}</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new supplier in your address book
+              </p><p>
+                Verp helps you easily track all activities related to a supplier.
+              </p>
+            </field>
+        </record>
+    </data>
+</verp>

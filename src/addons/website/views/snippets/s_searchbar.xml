@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="sSearchbarInput" name="Search">
+    <t t-call="website.websiteSearchBoxInput">
+        <t t-set="searchType" t-valuef="all"/>
+        <t t-set="action" t-valuef="/website/search"/>
+        <t t-set="limit" t-valuef="5"/>
+        <t t-set="displayImage" t-valuef="true"/>
+        <t t-set="displayDescription" t-valuef="true"/>
+        <t t-set="displayExtraLink" t-valuef="true"/>
+        <t t-set="displayDetail" t-valuef="true"/>
+    </t>
+</template>
+<template id="sSearchbar" name="Search">
+    <section class="s-searchbar bg-200 pt48 pb48">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h2>Search on our website</h2>
+                    <p>You will get results from blog posts, products, etc</p>
+                    <t t-snippet-call="website.sSearchbarInput"/>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="searchbarInputSnippetOptions" inheritId="website.snippetOptions" name="search bar snippet options">
+    <xpath expr="." position="inside">
+        <div data-js="SearchBar" data-selector=".s-searchbar-input">
+            <we-select string="Search within" data-name="scopeOpt"
+                    data-attribute-name="searchType" data-apply-to=".search-query">
+                <we-button data-set-search-type="all" data-select-data-attribute="all" data-name="searchAllOpt" data-form-action="/website/search">Everything</we-button>
+                <we-button data-set-search-type="pages" data-select-data-attribute="pages" data-name="searchPagesOpt" data-form-action="/pages">Pages</we-button>
+            </we-select>
+            <we-select string="Order by" data-name="orderOpt" data-attribute-name="orderby" data-apply-to=".search-query">
+                <we-button data-set-order-by="name asc" data-select-data-attribute="name asc" data-name="orderNameAscOpt">Name (A-Z)</we-button>
+                <we-button data-set-order-by="name desc" data-select-data-attribute="name desc" data-name="orderNameDescOpt">Name (Z-A)</we-button>
+            </we-select>
+            <t t-set="unit">results</t>
+            <we-input string="Suggestions" data-name="limitOpt" data-attribute-name="limit"
+                data-apply-to=".search-query" data-select-data-attribute="" t-att-data-unit="unit"/>
+            <div data-dependencies="limitOpt">
+                <we-checkbox string="Description" data-dependencies="searchAllOpt" data-select-data-attribute="true" data-attribute-name="displayDescription"
+                    data-apply-to=".search-query"/>
+                <we-checkbox string="Extra link" data-dependencies="searchAllOpt" data-select-data-attribute="true" data-attribute-name="displayExtraLink"
+                    data-apply-to=".search-query"/>
+                <we-checkbox string="Detail" data-dependencies="searchAllOpt" data-select-data-attribute="true" data-attribute-name="displayDetail"
+                    data-apply-to=".search-query"/>
+                <we-checkbox string="Image" data-dependencies="searchAllOpt" data-select-data-attribute="true" data-attribute-name="displayImage"
+                    data-apply-to=".search-query"/>
+
+                <we-checkbox string="Content" data-dependencies="searchPagesOpt" data-select-data-attribute="true" data-attribute-name="displayDescription"
+                    data-apply-to=".search-query"/>
+            </div>
+        </div>
+    </xpath>
+    <xpath expr="//*[@t-set='soContentAdditionSelector']" position="inside">, .s-searchbar-input</xpath>
+</template>
+
+<record id="website.sSearchbar.000.js" model="ir.asset">
+    <field name="label">Searchbar 000 JS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_searchbar/000.js</field>
+</record>
+
+</verp>

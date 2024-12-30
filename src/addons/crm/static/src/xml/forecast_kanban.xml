@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+
+<t t-name="KanbanView.ForecastColumnQuickCreate">
+    <div class="o-column-quick-reate">
+        <div class="o-quick-create-folded">
+            <span class="o-kanban-add-column"><i class="fa fa-plus" role="img" t-att-aria-label="widget.addColumnLabel" t-att-title="widget.addColumnLabel"/></span>
+            <span class="o-kanban-title"><t t-esc="widget.addColumnLabel"/></span>
+        </div>
+    </div>
+</t>
+</template>

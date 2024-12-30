@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="viewMoveFormInherit" model="ir.ui.view">
+            <field name="label">stock.move.form.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inheritId" ref="stock.viewMoveForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttonBox']" position="inside" >
+                    <button name="actionGetAccountMoves" icon="fa-usd" class="oe-stat-button" string="Accounting Entries" type="object" groups="account.groupAccountReadonly"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="viewStockQuantTreeInventoryEditableInheritStockAccount" model="ir.ui.view">
+            <field name="label">stock.quant.inventory.tree.editable.inherit.stock.account</field>
+            <field name="model">stock.quant</field>
+            <field name="inheritId" ref="stock.viewStockQuantTreeInventoryEditable"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='productUomId']" position="after">
+                    <field name="accountingDate" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="viewLocationFormInherit" model="ir.ui.view">
+            <field name="label">stock.location.form.inherit</field>
+            <field name="model">stock.location</field>
+            <field name="inheritId" ref="stock.viewLocationForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='additionalInfo']" position="after">
+                    <group string="Accounting Information" attrs="{'invisible':[['usage','not in',['inventory','production']]]}">
+                        <field name="valuationInAccountId" options="{'noCreate': true}"/>
+                        <field name="valuationOutAccountId" options="{'noCreate': true}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="viewStockReturnPickingFormInheritStockAccount" model="ir.ui.view">
+            <field name="label">stock.return.picking.stock.account.form</field>
+            <field name="inheritId" ref="stock.viewStockReturnPickingForm"/>
+            <field name="model">stock.return.picking</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='productReturnMoves']/tree" position="inside">
+                    <field name="toRefund" groups="base.groupNoOne"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</verp>

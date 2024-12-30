@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="reportTax">
+        <t t-call="web.htmlContainer">
+            <t t-set="currencyId" t-value="await resCompany.currencyId"/>
+            <t t-set="dataReportMarginTop" t-value="12"/>
+            <t t-set="dataReportHeaderSpacing" t-value="9"/>
+            <t t-set="dataReportDpi" t-value="110"/>
+            <t t-call="web.internalLayout">
+                <div class="page">
+                    <h3>Tax Report</h3>
+                    <div class="row">
+                        <div class="col-4">
+                            <strong>Company:</strong>
+                            <p t-esc="await resCompany.label"/>
+                        </div>
+                        <div class="col-4">
+                            <t>
+                                <strong>Date from :</strong>
+                                <span t-esc="data['dateFrom']"/>
+                            </t>
+                            <br/>
+                            <t>
+                                <strong>Date to :</strong>
+                                <span t-esc="data['dateTo']"/>
+                            </t>
+                        </div>
+                        <div class="col-4">
+                            <strong>Target Moves:</strong>
+                            <p>
+                                <span t-if="data['targetMove'] == 'all'">All Entries</span>
+                                <span t-if="data['targetMove'] == 'posted'">All Posted Entries</span>
+                            </p>
+                        </div>
+
+                    </div>
+                    <table class="table table-sm table-reports">
+                        <thead>
+                            <tr align="left">
+                                <th>Sale</th>
+                                <th>Net</th>
+                                <th>Tax</th>
+                            </tr>
+                        </thead>
+                        <tr align="left" t-foreach="lines['sale']" t-as="line">
+                            <td>
+                                <span t-esc="line['label']"/>
+                            </td>
+                            <td>
+                                <span t-att-style="style" t-esc="line['net']"
+                                      t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                            </td>
+                            <td>
+                                <span t-att-style="style" t-esc="line['tax']"
+                                      t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                            </td>
+                        </tr>
+                        <br/>
+                        <tr align="left">
+                            <td>
+                                <strong>Purchase</strong>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="left" t-foreach="lines['purchase']" t-as="line">
+                            <td>
+                                <span t-esc="line['label']"/>
+                            </td>
+                            <td>
+                                <span t-att-style="style" t-esc="line['net']"
+                                      t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                            </td>
+                            <td>
+                                <span t-att-style="style" t-esc="line['tax']"
+                                      t-options="{'widget': 'monetary', 'displayCurrency': currencyId}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</verp>

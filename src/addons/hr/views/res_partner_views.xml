@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="resPartnerViewForm" model="ir.ui.view">
+        <field name="label">res.partner.view.form.inherit.hr</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="base.viewPartnerForm"/>
+        <field name="arch" type="xml">
+            <div name="buttonBox" position="inside">
+                <button name="actionOpenEmployees" type="object" class="oe-stat-button" icon="fa-id-card-o" groups="hr.groupHrUser" attrs="{'invisible': [['employeesCount', '=', 0]]}">
+                    <div class="o-field-widget o-stat-info">
+                        <span class="o-stat-value"><field name="employeesCount"/></span>
+                        <span class="o-stat-text">Employee(s)</span>
+                    </div>
+                </button>
+            </div>
+        </field>
+    </record>
+</verp>

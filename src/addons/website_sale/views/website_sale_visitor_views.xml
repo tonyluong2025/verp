@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!--product history-->
+    <record id="websiteSaleVisitorPageViewTree" model="ir.ui.view">
+        <field name="label">website.track.view.tree</field>
+        <field name="model">website.track</field>
+        <field name="arch" type="xml">
+            <tree string="Visitor Product Views History" create="0">
+                <field name="visitorId"/>
+                <field name="productId"/>
+                <field name="visitDatetime"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="websiteSaleVisitorPageViewGraph" model="ir.ui.view">
+        <field name="label">website.track.view.graph</field>
+        <field name="model">website.track</field>
+        <field name="arch" type="xml">
+            <graph string="Visitor Product Views" sample="1">
+                <field name="productId"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="websiteSaleVisitorProductAction" model="ir.actions.actwindow">
+        <field name="label">Product Views History</field>
+        <field name="resModel">website.track</field>
+        <field name="viewMode">tree</field>
+        <field name="viewIds" eval="[[5, 0, 0],
+            [0, 0, {'viewMode': 'tree', 'viewId': refId('websiteSaleVisitorPageViewTree')}],
+            [0, 0, {'viewMode': 'graph', 'viewId': refId('websiteSaleVisitorPageViewGraph')}],
+        ]"/>
+        <field name="domain">[['visitorId', '=', activeId], ['productId', '!=', false]]</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-empty-folder">
+              No product views yet for this visitor
+            </p>
+        </field>
+    </record>
+
+    <record id="websiteSaleVisitorPageViewSearch" model="ir.ui.view">
+        <field name="label">website.track.view.search</field>
+        <field name="model">website.track</field>
+        <field name="inheritId" ref="website.websiteVisitorPageViewSearch"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='url']" position="after">
+                <field name="productId"/>
+            </xpath>
+            <xpath expr="//filter[@name='typeUrl']" position="after">
+                <filter string="Products" name="typeProduct" domain="[['productId', '!=', false]]"/>
+            </xpath>
+            <xpath expr="//filter[@name='groupbyUrl']" position="after">
+                <filter string="Product" name="groupbyProduct" domain="[]" context="{'groupby': 'productId'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- website visitor views -->
+    <record id="websiteSaleVisitorViewForm" model="ir.ui.view">
+        <field name="label">website.visitor.view.form</field>
+        <field name="model">website.visitor</field>
+        <field name="inheritId" ref="website.websiteVisitorViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(website.websiteVisitorPageAction)d']" position="after">
+                <button name="%(website_sale.websiteSaleVisitorProductAction)d" type="action"
+                    class="oe-stat-button"
+                    icon="fa-tags">
+                    <field name="visitorProductCount" widget="statinfo" string="Product Views"/>
+                </button>
+            </xpath>
+            <xpath expr="//group[@id='visits']/field[@name='pageIds']" position="after">
+                <field name="productIds" string="Products" widget="many2manyTags"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="websiteSaleVisitorViewTree" model="ir.ui.view">
+        <field name="label">website.visitor.view.tree</field>
+        <field name="model">website.visitor</field>
+        <field name="inheritId" ref="website.websiteVisitorViewTree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pageIds']" position="after">
+                <field name="productIds" widget="many2manyTags" string="Products"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="websiteSaleVisitorViewKanban" model="ir.ui.view">
+        <field name="label">website.visitor.view.kanban</field>
+        <field name="model">website.visitor</field>
+        <field name="inheritId" ref="website.websiteVisitorViewKanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pageIds']" position="after">
+                <field name="productIds"/>
+            </xpath>
+            <xpath expr="//div[@id='oPageCount']" position="after">
+                 <div id="oProductCount">Visited Products<span class="float-right font-weight-bold"><field name="productCount"/></span></div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- website track views -->
+    <record id="websiteSaleVisitorTrackViewTree" model="ir.ui.view">
+        <field name="label">website.track.view.tree</field>
+        <field name="model">website.track</field>
+        <field name="inheritId" ref="website.websiteVisitorTrackViewTree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='url']" position="after">
+                <field name="productId"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="websiteSaleVisitorTrackViewGraph" model="ir.ui.view">
+        <field name="label">website.track.view.graph</field>
+        <field name="model">website.track</field>
+        <field name="inheritId" ref="website.websiteVisitorTrackViewGraph"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='url']" position="after">
+                <field name="productId"/>
+            </xpath>
+        </field>
+    </record>
+</verp>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="vnTemplate" model="account.chart.template">
+        <field name="propertyAccountReceivableId" ref="chart131"/>
+        <field name="propertyAccountPayableId" ref="chart331"/>
+        <field name="propertyAccountExpenseCategId" ref="chart1561"/>
+        <field name="propertyAccountIncomeCategId" ref="chart5111"/>
+        <field name="incomeCurrencyExchangeAccountId" ref="chart515"/>
+        <field name="expenseCurrencyExchangeAccountId" ref="chart635"/>
+        <field name="defaultPosReceivableAccountId" ref="chart132" />
+    </record>
+</verp>

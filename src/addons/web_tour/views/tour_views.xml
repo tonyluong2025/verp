@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="editTourList" model="ir.ui.view">
+            <field name="model">web.tour.tour</field>
+            <field name="arch" type="xml">
+                <tree string="Menu" editable="bottom">
+                    <field name="label"/>
+                    <field name="userId"/>
+                </tree>
+            </field>
+        </record>
+        <record id="editTourSearch" model="ir.ui.view">
+            <field name="label">tour.search</field>
+            <field name="model">web.tour.tour</field>
+            <field name="arch" type="xml">
+                <search string="Tip">
+                    <field name="label"/>
+                </search>
+            </field>
+        </record>
+        <record id="editTourAction" model="ir.actions.actwindow">
+            <field name="label">Tours</field>
+            <field name="resModel">web.tour.tour</field>
+            <field name="viewId" ref="editTourList"/>
+            <field name="searchViewId" ref="editTourSearch"/>
+        </record>
+        <menuitem action="editTourAction" id="menuTourAction" parent="base.nextId2" sequence="5"/>
+</verp>

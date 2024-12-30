@@ -1,0 +1,48 @@
+//------------------------------------------------------------------------------
+// Inputs and selects (note: put the o-input class to have the style)
+//------------------------------------------------------------------------------
+[type="text"],
+[type="password"],
+[type="number"],
+textarea,
+select {
+  width: 100%;
+  display: block;
+  outline: none;
+}
+.o-input {
+  border-radius: $border-radius;
+  color: #1f1f1f;
+}
+select {
+  background: white;
+}
+
+//------------------------------------------------------------------------------
+// Loading
+//------------------------------------------------------------------------------
+
+.o-loading > span {
+  background-color: $o-brand-verp;
+  color: white;
+  padding: 4px;
+}
+
+//------------------------------------------------------------------------------
+// User menu in navbar
+//------------------------------------------------------------------------------
+#oeMainMenuNavbar .oe-user-menu-placeholder .o-user-menu .oe-topbar-name {
+  @include o-text-overflow;
+  max-width: 150px;
+}
+
+.o-rtl {
+  .navbar-right {
+    padding: 0; // fix for user agent stylesheet -webkit-padding-start: 40px in rtl language
+  }
+}
+
+.btn-secondary {
+  // Bootstrap variables do not control the color for btn-secondary border
+  border-color: $border-color;
+}

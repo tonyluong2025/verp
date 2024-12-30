@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <menuitem name="Inventory" id="menuStockRoot" sequence="140"
+        groups="groupStockManager,groupStockUser"
+        webIcon="stock,static/description/icon.png"/>
+
+    <menuitem id="menuStockWarehouseMgmt" name="Operations" parent="menuStockRoot" sequence="2"/>
+
+    <menuitem id="menuStockConfigSettings" name="Configuration" parent="menuStockRoot"
+        sequence="100" groups="groupStockManager"/>
+    <menuitem id="menuWarehouseConfig" name="Warehouse Management" parent="menuStockConfigSettings" groups="stock.groupStockManager" sequence="1"/>
+
+
+    <menuitem id="menuProductInConfigStock" name="Products" parent="stock.menuStockConfigSettings" sequence="4"/>
+
+    <menuitem id="menuWmsBarcodeNomenclatureAll" parent="menuProductInConfigStock" action="barcodes.actionBarcodeNomenclatureForm"
+        sequence="50" groups="base.groupNoOne"/>
+
+    <menuitem id="productUomMenu" name="Units of Measures" parent="menuStockConfigSettings"
+        sequence="5" groups="uom.groupUom"/>
+
+    <menuitem
+        action="product.productCategoryActionForm" id="menuProductCategoryConfigStock"
+        parent="stock.menuProductInConfigStock" sequence="2"/>
+    <menuitem
+        action="product.attributeAction" id="menuAttributeAction"
+        parent="stock.menuProductInConfigStock" sequence="4" groups="product.groupProductVariant"/>
+
+    <menuitem
+        action="uom.productUomCategFormAction" id="menuStockUomCategFormAction"
+        name="UoM Categories"
+        parent="productUomMenu" sequence="5"/>
+    <menuitem
+        id="menuStockUnitMeasureStock" name="Units of Measure"
+        parent="stock.menuProductInConfigStock"  sequence="35" groups="uom.groupUom"/>
+
+    <menuitem id="menuStockUomFormAction" action="uom.productUomFormAction"
+        name="UoM"
+        parent="productUomMenu" sequence="35" groups="base.groupNoOne"/>
+
+    <menuitem id="menuStockInventoryControl" name="Products" parent="menuStockRoot" sequence="4"/>
+
+    <menuitem id="stock.menuWarehouseReport" name="Reporting" sequence="99" parent="stock.menuStockRoot" groups="groupStockManager"/>
+</verp>

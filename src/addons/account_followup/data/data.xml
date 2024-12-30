@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+<verp>
+
+    <data noupdate="1">
+
+        <record id="emailTemplateAccountFollowupLevel0" model="mail.template">
+            <field name="label">First polite payment follow-up reminder email</field>
+            <field name="emailFrom">${(await user.email || '')|safe}</field>
+            <field name="subject">${await (await user.companyId).label} Payment Reminder</field>
+            <field name="emailTo">${await object.email|safe}</field>
+            <field name="lang">${await object.lang}</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="autoDelete" eval="true"/>
+            <field name="bodyHtml"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+
+    <p>Dear ${await object.label},</p>
+    <p>
+    Exception made if there was a mistake of ours, it seems that the following amount stays unpaid. Please, take
+appropriate measures in order to carry out this payment in the next 8 days.
+
+Would your payment have been carried out after this mail was sent, please ignore this message. Do not hesitate to
+contact our accounting department.  
+
+    </p>
+<br/>
+Best Regards,
+<br/>
+   <br/>
+${await user.label}
+
+<br/>
+<br/>
+
+
+${await object.getFollowupTableHtml() | safe}
+
+    <br/>
+
+</div>
+            ]]></field>
+        </record>
+
+        <!--Mail template level 1 -->
+        <record id="emailTemplateAccountFollowupLevel1" model="mail.template">
+            <field name="label">A bit urging second payment follow-up reminder email</field>
+            <field name="emailFrom">${(await user.email || '')|safe}</field>
+            <field name="subject">${await (await user.companyId).label} Payment Reminder</field>
+            <field name="emailTo">${await object.email|safe}</field>
+            <field name="lang">${await object.lang}</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="autoDelete" eval="true"/>
+            <field name="bodyHtml"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+    
+    <p>Dear ${await object.label},</p>
+   <p>
+    We are disappointed to see that despite sending a reminder, that your account is now seriously overdue.
+It is essential that immediate payment is made, otherwise we will have to consider placing a stop on your account
+which means that we will no longer be able to supply your company with (goods/services).
+Please, take appropriate measures in order to carry out this payment in the next 8 days.
+If there is a problem with paying invoice that we are not aware of, do not hesitate to contact our accounting
+department. so that we can resolve the matter quickly.
+Details of due payments is printed below.
+ </p>
+<br/>
+Best Regards,
+    
+<br/>
+<br/>
+${await user.label}
+    
+<br/>
+<br/>
+
+${await object.getFollowupTableHtml() | safe}
+
+    <br/>
+
+</div>
+            ]]></field>
+        </record>
+
+        <!--Mail template level 2 -->
+        <record id="emailTemplateAccountFollowupLevel2" model="mail.template">
+            <field name="label">Urging payment follow-up reminder email</field>
+            <field name="emailFrom">${(await user.email || '')|safe}</field>
+            <field name="subject">${await (await user.companyId).label} Payment Reminder</field>
+            <field name="emailTo">${await object.email|safe}</field>
+            <field name="lang">${await object.lang}</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="autoDelete" eval="true"/>
+            <field name="bodyHtml"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+    
+    <p>Dear ${await object.label},</p>
+    <p>
+    Despite several reminders, your account is still not settled.
+Unless full payment is made in next 8 days, legal action for the recovery of the debt will be taken without
+further notice.
+I trust that this action will prove unnecessary and details of due payments is printed below.
+In case of any queries concerning this matter, do not hesitate to contact our accounting department.
+</p>
+<br/>
+Best Regards,
+<br/>
+<br/>
+${await user.label}
+<br/>
+<br/>
+
+
+${await object.getFollowupTableHtml() | safe}
+
+    <br/>
+
+</div>
+            ]]></field>
+        </record>
+
+        <!-- Default follow up message -->
+        <record id="emailTemplateAccountFollowupDefault" model="mail.template">
+            <field name="label">Default payment follow-up reminder e-mail</field>
+            <field name="emailFrom">${(await user.email || '')|safe}</field>
+            <field name="subject">${await (await user.companyId).label} Payment Reminder</field>
+            <field name="emailTo">${await object.email|safe}</field>
+            <field name="lang">${await object.lang}</field>
+            <field name="modelId" ref="base.model_resPartner"/>
+            <field name="autoDelete" eval="true"/>
+            <field name="bodyHtml"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+    
+    <p>Dear ${await object.label},</p>
+    <p>
+    Exception made if there was a mistake of ours, it seems that the following amount stays unpaid. Please, take
+appropriate measures in order to carry out this payment in the next 8 days.
+Would your payment have been carried out after this mail was sent, please ignore this message. Do not hesitate to
+contact our accounting department.
+    </p>
+<br/>
+Best Regards,
+<br/>
+<br/>
+${user.name}
+<br/>
+<br/>
+
+${await object.getFollowupTableHtml() | safe}
+
+<br/>
+</div>
+            ]]></field>
+        </record>
+
+        <record id="demoFollowup1" model="followup.followup" forcecreate="false">
+            <field name="companyId" ref="base.mainCompany"/>
+        </record>
+
+        <record id="demoFollowupLine1" model="followup.line" forcecreate="false">
+            <field name="label">Send first reminder email</field>
+            <field name="sequence">0</field>
+            <field name="delay">15</field>
+            <field name="followupId" ref="demoFollowup1"/>
+            <field name="sendEmail">true</field>
+            <field name="description">
+                Dear %%(partnerName)s,
+
+                Exception made if there was a mistake of ours, it seems that
+                the following amount stays unpaid. Please, take appropriate
+                measures in order to carry out this payment in the next 8 days.
+
+                Would your payment have been carried out after this mail was
+                sent, please ignore this message. Do not hesitate to contact
+                our accounting department.
+
+                Best Regards,
+            </field>
+            <field name="emailTemplateId" ref="emailTemplateAccountFollowupLevel0"/>
+        </record>
+
+        <record id="demoFollowupLine2" model="followup.line" forcecreate="false">
+            <field name="label">Send reminder letter and email</field>
+            <field name="sequence">1</field>
+            <field name="delay">30</field>
+            <field name="followupId" ref="demoFollowup1"/>
+            <field name="emailTemplateId"
+                   ref="emailTemplateAccountFollowupLevel1"/>
+            <field name="sendEmail">true</field>
+            <field name="sendLetter">true</field>
+            <field name="description">
+                Dear %%(partnerName)s,
+
+                We are disappointed to see that despite sending a reminder,
+                that your account is now seriously overdue.
+
+                It is essential that immediate payment is made, otherwise we
+                will have to consider placing a stop on your account which
+                means that we will no longer be able to supply your company
+                with (goods/services).
+                Please, take appropriate measures in order to carry out this
+                payment in the next 8 days.
+
+                If there is a problem with paying invoice that we are not aware
+                of, do not hesitate to contact our accounting department, so
+                that we can resolve the matter quickly.
+
+                Details of due payments is printed below.
+
+                Best Regards,
+            </field>
+        </record>
+
+        <record id="demoFollowupLine3" model="followup.line" forcecreate="false">
+            <field name="label">Call the customer on the phone</field>
+            <field name="sequence">3</field>
+            <field name="delay">40</field>
+            <field name="followupId" ref="demoFollowup1"/>
+            <field name="emailTemplateId"
+                   ref="emailTemplateAccountFollowupLevel2"/>
+            <field eval="false" name="sendEmail"/>
+            <field name="manualAction">true</field>
+            <field name="manualActionNote">Call the customer on the phone!</field>
+            <field name="description">
+                Dear %%(partnerName)s,
+
+                Despite several reminders, your account is still not settled.
+
+                Unless full payment is made in next 8 days, then legal action
+                for the recovery of the debt will be taken without further
+                notice.
+
+                I trust that this action will prove unnecessary and details of
+                due payments is printed below.
+
+                In case of any queries concerning this matter, do not hesitate
+                to contact our accounting department.
+
+                Best Regards,
+            </field>
+        </record>
+
+    </data>
+</verp>

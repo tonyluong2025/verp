@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="teamSalesDepartment" model="crm.team">
+            <field name="label">Sales</field>
+            <field name="sequence">0</field>
+            <field name="companyId" eval="false"/>
+        </record>
+        <record id="crmTeamMemberAdminSales" model="crm.team.member">
+            <field name="crmTeamId" ref="teamSalesDepartment"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+
+        <record id="salesteamWebsiteSales" model="crm.team">
+            <field name="label">Website</field>
+            <field name="companyId" eval="false"/>
+            <field name="active" eval="false"/>
+        </record>
+
+        <record id="posSalesTeam" model="crm.team">
+            <field name="label">Point of Sale</field>
+            <field name="companyId" eval="false"/>
+            <field name="active" eval="false"/>
+        </record>
+
+        <record id="ebaySalesTeam" model="crm.team">
+            <field name="label">eBay</field>
+            <field name="active" eval="false"/>
+        </record>
+
+        <function model="crm.team" name="messageUnsubscribe"
+            eval="[
+            refId('sales_team.teamSalesDepartment'),
+            refId('sales_team.salesteamWebsiteSales'),
+            refId('sales_team.ebaySalesTeam'),
+            refId('sales_team.posSalesTeam')],
+            [refId('base.partnerRoot')]"/>
+    </data>
+</verp>

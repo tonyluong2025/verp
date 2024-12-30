@@ -1,0 +1,52 @@
+<verp>
+    <record model="ir.actions.server" id="demoFailureAction">
+        <field name="label">Failed to install demo data for some modules, demo disabled</field>
+        <field name="modelId" ref="base.model_irDemoFailureWizard"/>
+        <field name="state">code</field>
+        <field name="code">async () => {
+const failures = await env.item('ir.demoFailure').search([
+    ['wizardId', '=', false],
+])
+const record = await model.create({
+    'failureIds': [Command.SET(failures.ids)],
+})
+return {
+    'type': 'ir.actions.actwindow',
+    'resId': record.id,
+    'resModel': 'ir.demoFailure.wizard',
+    'target': 'new',
+    'views': [[(await env.ref('base.demoFailuresDialog')).id, 'form']],
+}
+        }
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="demoFailuresDialog">
+        <field name="label">Demo Failure Dialog</field>
+        <field name="model">ir.demo.failure.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <h3>
+                    The demonstration data of <field name="failuresCount"/>
+                    module(s) failed to install and were disabled
+                </h3>
+                <field name="failureIds">
+                    <tree>
+                        <field name="moduleId"/>
+                        <field name="error"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button string="Ok" class="oe-highlight" type="object" name="done" data-hotkey="q"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.todo" id="demoFailureTodo">
+        <field name="label">Demo Failure Notification</field>
+        <field name="sequence">1</field>
+        <field name="state">done</field>
+        <field name="actionId" ref="base.demoFailureAction"/>
+    </record>
+</verp>

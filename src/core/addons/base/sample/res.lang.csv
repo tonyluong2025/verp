@@ -1,0 +1,4 @@
+"id","label","code","isoCode","direction","grouping","decimalPoint","thousandsSep","dateFormat","timeFormat","weekStart"
+"base.lang_en","English (US)","en_US","en","Left-to-Right","[3,0]",".",",","%m/%d/%Y","%H:%M:%S","7"
+"base.lang_ar","Arabic / الْعَرَبيّة","ar_001","ar","Right-to-Left","[3,0]",".",",","%d %b, %Y","%I:%M:%S","6"
+"base.lang_my","Burmese / ဗမာစာ",my_MM,my,"Left-to-Right","[3,3]",".",",","%Y %b %d %A","%I:%M:%S %p","7"

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<verp>
+    <record id="actionIceServers" model="ir.actions.actwindow">
+         <field name="label">ICE servers</field>
+         <field name="type">ir.actions.actwindow</field>
+         <field name="resModel">mail.ice.server</field>
+         <field name="viewMode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="viewIceServerTree">
+        <field name="label">mail.ice.server.tree</field>
+        <field name="model">mail.ice.server</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field colspan="1" name="serverType"/>
+                <field name="uri"/>
+                <field name="username"/>
+                <field name="credential"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="viewIceServerForm">
+        <field name="label">mail.ice.server.form</field>
+        <field name="model">mail.ice.server</field>
+        <field name="arch" type="xml">
+            <form string="ICE server">
+                <sheet>
+                    <group>
+                        <label for="uri"/>
+                        <div class="oe-inline" name="URI" style="display: inline;">
+                            <field name="serverType" class="oe-inline"/><field name="uri" class="oe-inline"/>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="username"/>
+                        <field name="credential"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</verp>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data noupdate="0">
+
+    <record id="base.category_inventoryInventory" model="ir.module.category">
+        <field name="description">Helps you manage your inventory and main stock operations: delivery orders, receptions, etc.</field>
+        <field name="sequence">4</field>
+    </record>
+
+    <record id="groupStockMultiLocations" model="res.groups">
+        <field name="label">Manage Multiple Stock Locations</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupStockMultiWarehouses" model="res.groups">
+        <field name="label">Manage Multiple Warehouses</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupStockUser" model="res.groups">
+        <field name="label">User</field>
+        <field name="categoryId" ref="base.category_inventoryInventory"/>
+        <field name="impliedIds" eval="[[4, refId('base.groupUser')]]"/>
+    </record>
+    <record id="groupStockManager" model="res.groups">
+        <field name="label">Administrator</field>
+        <field name="categoryId" ref="base.category_inventoryInventory"/>
+        <field name="impliedIds" eval="[[4, refId('groupStockUser')]]"/>
+        <field name="users" eval="[[4, refId('base.userRoot')], [4, refId('base.userAdmin')]]"/>
+    </record>
+
+    <record id="groupProductionLot" model="res.groups">
+        <field name="label">Manage Lots / Serial Numbers</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupLotOnDeliverySlip" model="res.groups">
+        <field name="label">Display Serial &amp; Lot Number in Delivery Slips</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupTrackingLot" model="res.groups">
+        <field name="label">Manage Packages</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupAdvLocation" model="res.groups">
+        <field name="label">Manage Push and Pull inventory flows</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupTrackingOwner" model="res.groups">
+        <field name="label">Manage Different Stock Owners</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupWarningStock" model="res.groups">
+        <field name="label">A warning can be set on a partner (Stock)</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupStockSignDelivery" model="res.groups">
+        <field name="label">Require a signature on your delivery orders</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupStockStorageCategories" model="res.groups">
+        <field name="label">Manage Storage Categories</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupReceptionReport" model="res.groups">
+        <field name="label">Use Reception Report</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <record id="groupAutoReceptionReport" model="res.groups">
+        <field name="label">Display Reception Report at Validation</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+    <record id="groupStockPickingWave" model="res.groups">
+        <field name="label">Use wave pickings</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+</data>
+<data noupdate="1">
+    <record id="base.defaultUser" model="res.users">
+        <field name="groupsId" eval="[[4,refId('stock.groupStockManager')]]"/>
+        <!-- <field name="groupsId" eval="[Command.link(refId('stock.groupStockManager'))]"/> -->
+    </record>
+
+<!-- multi -->
+    <record model="ir.rule" id="stockPickingRule">
+        <field name="label">stock_picking multi-company</field>
+        <field name="modelId" search="[['model','=','stock.picking']]" model="ir.model"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockPickingTypeRule">
+        <field name="label">Stock Operation Type multi-company</field>
+        <field name="modelId" search="[['model','=','stock.picking.type']]" model="ir.model"/>
+        <field name="domainForce">[['companyId','in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockPutawayRuleRule">
+        <field name="label">Stock Operation Type multi-company</field>
+        <field name="modelId" search="[['model','=','stock.putaway.rule']]" model="ir.model"/>
+        <field name="domainForce">[['companyId','in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockProductionLotRule">
+        <field name="label">Stock Production Lot multi-company</field>
+        <field name="modelId" search="[['model','=','stock.production.lot']]" model="ir.model"/>
+        <field name="domainForce">[['companyId','in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockWarehouseCompRule">
+        <field name="label">Warehouse multi-company</field>
+        <field name="modelId" ref="model_stockWarehouse"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockLocationCompRule">
+        <field name="label">Location multi-company</field>
+        <field name="modelId" ref="model_stockLocation"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+     <record model="ir.rule" id="stockMoveRule">
+        <field name="label">stock_move multi-company</field>
+        <field name="modelId" search="[['model','=','stock.move']]" model="ir.model"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+     </record>
+
+     <record model="ir.rule" id="stockMoveLineRule">
+        <field name="label">stock_move_line multi-company</field>
+        <field name="modelId" search="[['model','=','stock.move.line']]" model="ir.model"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+     </record>
+
+    <record model="ir.rule" id="stockQuantRule">
+        <field name="label">stock_quant multi-company</field>
+        <field name="modelId" ref="model_stockQuant"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockWarehouseOrderpointRule">
+        <field name="label">stock_warehouse.orderpoint multi-company</field>
+        <field name="modelId" search="[['model','=','stock.warehouse.orderpoint']]" model="ir.model"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+     <record model="ir.rule" id="productPulledFlowCompRule">
+        <field name="label">product_pulled_flow multi-company</field>
+        <field name="modelId" ref="model_stockRule"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockLocationRouteCompRule">
+        <field name="label">stock_location_route multi-company</field>
+        <field name="modelId" ref="model_stockLocationRoute"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockQuantPackageCompRule">
+        <field name="label">stock_quant_package multi-company</field>
+        <field name="modelId" ref="model_stockQuantPackage"/>
+        <field name="domainForce">['|', ['companyId', '=', false], ['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="stockScrapCompanyRule">
+        <field name="label">stock_scrap_company multi-company</field>
+        <field name="modelId" ref="model_stockScrap"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <record model="ir.rule" id="reportStockQuantityFlowCompRule">
+        <field name="label">report_stock_quantity_flow multi-company</field>
+        <field name="modelId" ref="model_reportStockQuantity"/>
+        <field name="domainForce">['|',['companyId','=',false],['companyId', 'in', companyIds]]</field>
+    </record>
+
+</data>
+</verp>

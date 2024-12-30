@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="stockInventoryRequestCountFormView" model="ir.ui.view">
+        <field name="label">stock.request.count.form.view</field>
+        <field name="model">stock.request.count</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="quantIds" invisible="1"/>
+                    <field name="inventoryDate"/>
+                    <field name="userId"/>
+                    <field name="setCount" widget='radio'/>
+                </group>
+                <footer>
+                    <button name="actionRequestCount" string="Confirm" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionStockRequestCount" model="ir.actions.actwindow">
+        <field name="label">Request a Count</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">stock.request.count</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="stockInventoryRequestCountFormView"/>
+        <field name="context">{
+            'default_quantIds': activeIds
+        }</field>
+        <field name="target">new</field>
+    </record>
+</verp>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.account.budget</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="account.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='accountBudget']" position="replace"/>
+        </field>
+    </record>
+
+</verp>

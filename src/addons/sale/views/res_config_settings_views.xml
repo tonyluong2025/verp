@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.sale</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="10"/>
+        <field name="inheritId" ref="base.resConfigSettingsViewForm" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='settings']" position="inside">
+                <div class="app-settings-block o-not-app" data-string="Sales" string="Sales" data-key="sale_management" groups="sales_team.groupSaleManager">
+                    <h2>Product Catalog</h2>
+                    <div class="row mt16 o-settings-container" name="catalogSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="variantOptions">
+                            <div class="o-setting-left-pane">
+                                <field name="groupProductVariant"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupProductVariant"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/products_prices/products/variants.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Sell variants of a product using attributes (size, color, etc.)
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['groupProductVariant','=',false]]}">
+                                    <div class="mt8">
+                                        <button name="%(product.attributeAction)d" icon="fa-arrow-right" type="action" string="Attributes" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="productConfigurator">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleSaleProductConfigurator"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleSaleProductConfigurator" class="o-module"/>
+                                <div class="text-muted">
+                                    Select product attributes and optional products from the sales order
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="productMatrix">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleSaleProductMatrix"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleSaleProductMatrix" string="Variant Grid Entry" class="o-module"/>
+                                <div class="text-muted">
+                                    Add several variants to an order from a grid
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="uomSettings">
+                            <div class="o-setting-left-pane">
+                                <field name="groupUom"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupUom"/>
+                                <div class="text-muted">
+                                    Sell and purchase products in different units of measure
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['groupUom','=',false]]}">
+                                    <div class="mt8">
+                                        <button name="%(uom.productUomCategFormAction)d" icon="fa-arrow-right" type="action" string="Units of Measure" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="emailTemplate"
+                            title="Sending an email is useful if you need to share specific information or content about a product (instructions, rules, links, media, etc.). Create and set the email template from the product detail form (in Sales tab).">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleProductEmailTemplate"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleProductEmailTemplate" string="Deliver Content by Email" class="o-module"/>
+                                <div class="text-muted">
+                                    Send a product-specific email once the invoice is validated
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="stockPackaging"
+                            title="Ability to select a package type in sales orders and to force a quantity that is a multiple of the number of units per package.">
+                            <div class="o-setting-left-pane">
+                                <field name="groupStockPackaging"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupStockPackaging"/>
+                                <div class="text-muted">
+                                    Sell products by multiple of unit # per package
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Pricing</h2>
+                    <div class="row mt16 o-settings-container" id="pricingSettingContainer">
+                      <div class="col-12 col-lg-6 o-setting-box"
+                           id="discountSaleOrderLines"
+                           title="Apply manual discounts on sales order lines or display discounts computed from pricelists (option to activate in the pricelist configuration).">
+                           <div class="o-setting-left-pane">
+                               <field name="groupDiscountPerSoLine"/>
+                           </div>
+                           <div class="o-setting-right-pane">
+                               <label for="groupDiscountPerSoLine"/>
+                               <div class="text-muted">
+                                   Grant discounts on sales order lines
+                               </div>
+                           </div>
+                       </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="couponSettings"
+                            title="Boost your sales with two kinds of discount programs: promotions and coupon codes. Specific conditions can be set (products, customers, minimum purchase amount, period). Rewards can be discounts (% or amount) or free products.">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleSaleCoupon"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleSaleCoupon" class="o-module"/>
+                                <div class="text-muted" id="saleCoupon">
+                                    Manage promotion &amp; coupon programs
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="pricelistConfiguration">
+                            <div class="o-setting-left-pane">
+                                <field name="groupProductPricelist"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupProductPricelist"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/products_prices/prices/pricing.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Set multiple prices per product, automated discounts, etc.
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [['groupProductPricelist' ,'=', false]]}">
+                                    <div class="mt16">
+                                        <field name="groupSalePricelist" invisible="1"/>
+                                        <field name="productPricelistSetting" widget="radio" class="o-light-label"/>
+                                    </div>
+                                    <div class="mt8">
+                                        <button name="%(product.productPricelistAction2)d" icon="fa-arrow-right" type="action" string="Pricelists" groups="product.groupProductPricelist" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="authSignupDocuments"
+                            title=" To send invitations in B2B mode, open a contact or select several ones in list view and click on 'Portal Access Management' option in the dropdown menu *Action*.">
+                            <div class="o-setting-left-pane">
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="authSignupUninvited"/>
+                                <div class="text-muted">
+                                    Let your customers log in to see their documents
+                                </div>
+                                <div class="mt8">
+                                    <field name="authSignupUninvited" class="o-light-label" widget="radio" options="{'horizontal': true}" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box"
+                            id="showMargins"
+                            title="The margin is computed as the sum of product sales prices minus the cost set in their detail form.">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleSaleMargin"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleSaleMargin" class="o-module"/>
+                                <div class="text-muted">
+                                    Show margins on orders
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Quotations &amp; Orders</h2>
+                    <div class="row mt16 o-settings-container" name="quotationOrderSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="saleConfigOnlineConfirmationSign">
+                            <div class="o-setting-left-pane">
+                                <field name="portalConfirmationSign"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="portalConfirmationSign"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/send_quotations/get_signature_to_validate.html" title="Documentation" class="mr-2 o-doc-link" target="_blank"></a>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.groupMultiCompany"/>
+                                <div class="text-muted">
+                                    Request an online signature to confirm orders
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="saleConfigOnlineConfirmationPay">
+                            <div class="o-setting-left-pane">
+                                <field name="portalConfirmationPay"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="portalConfirmationPay"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/send_quotations/get_paid_to_validate.html" title="Documentation" class="mr-2 o-doc-link" target="_blank"></a>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.groupMultiCompany"/>
+                                <div class="text-muted">
+                                    Request an online payment to confirm orders
+                                </div>
+                                <div class="mt8" attrs="{'invisible': [['portalConfirmationPay', '=', false]]}">
+                                    <button name='%(payment.actionPaymentAcquirer)d' icon="fa-arrow-right" type="action" string="Payment Acquirers" class="btn-link"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="confirmationEmailSetting" attrs="{'invisible': [['portalConfirmationPay', '=', false], ['portalConfirmationSign', '=', false]]}" groups="base.groupNoOne">
+                            <div class="o-setting-right-pane">
+                                <span class="o-form-label">Confirmation Email</span>
+                                <div class="text-muted">
+                                    Automatic email sent after the customer has signed or paid online
+                                </div>
+                                <div class="row mt16">
+                                    <label for="confirmationMailTemplateId" class="col-lg-4 o-light-label"/>
+                                    <field name="confirmationMailTemplateId" class="oe-inline"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="invoiceDeliveryAddresses">
+                            <div class="o-setting-left-pane">
+                                <field name="groupSaleDeliveryAddress"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupSaleDeliveryAddress"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/send_quotations/different_addresses.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Select specific invoice and delivery addresses
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="quotationValidityDays">
+                            <div class="o-setting-left-pane">
+                                <field name="useQuotationValidityDays"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="useQuotationValidityDays"/>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.groupMultiCompany" role="img"/>
+                                <div class="text-muted">
+                                    Set a default validity on your quotations
+                                </div>
+                                <div class="content-group"  attrs="{'invisible': [['useQuotationValidityDays','=',false]]}">
+                                    <div class="mt16">
+                                        <span class="col-lg-3">Default Limit: <field name="quotationValidityDays" attrs="{'required': [['useQuotationValidityDays', '=', true]]}"/> days</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="orderWarnings">
+                            <div class="o-setting-left-pane">
+                                <field name="groupWarningSale"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupWarningSale" string="Sale Warnings"/>
+                                <div class="text-muted">
+                                    Get warnings in orders for products or customers
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="noEditOrder">
+                            <div class="o-setting-left-pane">
+                                <field name="groupAutoDoneSetting"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupAutoDoneSetting"/>
+                                <div class="text-muted">
+                                    No longer edit orders once confirmed
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="proformaConfiguration">
+                            <div class="o-setting-left-pane">
+                                <field name="groupProformaSales"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="groupProformaSales"/>
+                                <div class="text-muted">
+                                    Allows you to send Pro-Forma Invoice to your customers
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="mt32">Shipping</h2>
+                    <div class="row mt16 o-settings-container" name="shippingSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="delivery">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleDelivery"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleDelivery" class="o-module"/>
+                                <div class="text-muted" id="deliveryCarrier">
+                                    Compute shipping costs on orders
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="ups">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleDeliveryUps" widget="upgradeBoolean"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleDeliveryUps" class="o-module"/>
+                                <div class="text-muted">
+                                    Compute shipping costs and ship with UPS
+                                </div>
+                                <div class="content-group">
+                                    <div id="saleDeliveryUps"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="shippingCostsDhl">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleDeliveryDhl" widget="upgradeBoolean"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleDeliveryDhl" class="o-module"/>
+                                <div class="text-muted">
+                                    Compute shipping costs and ship with DHL
+                                </div>
+                                <div class="content-group">
+                                    <div id="saleDeliveryDhl"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="shippingCostsFedex">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleDeliveryFedex" widget="upgradeBoolean"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleDeliveryFedex" class="o-module"/>
+                                <div class="text-muted">
+                                    Compute shipping costs and ship with FedEx
+                                </div>
+                                <div class="content-group">
+                                    <div id="saleDeliveryFedex"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="shippingCostsUsps">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleDeliveryUsps" widget="upgradeBoolean"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleDeliveryUsps" class="o-module"/>
+                                <div class="text-muted">
+                                    Compute shipping costs and ship with USPS
+                                </div>
+                                <div class="content-group">
+                                    <div id="saleDeliveryUsps"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="shippingCostsEms">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleDeliveryEms" widget="upgradeBoolean"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleDeliveryEms" class="o-module"/>
+                                <div class="text-muted">
+                                    Compute shipping costs and ship with Ems
+                                </div>
+                                <div class="content-group">
+                                    <div id="saleDeliveryEms"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="shippingCostsEasypost">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleDeliveryEasypost" widget="upgradeBoolean"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleDeliveryEasypost" class="o-module"/>
+                                <div class="text-muted">
+                                    Compute shipping costs and ship with Easypost
+                                </div>
+                                <div class="content-group">
+                                    <div id="saleDeliveryEasypost"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Invoicing</h2>
+                    <div class="row mt16 o-settings-container" name="invoicingSettingContainer">
+                        <div id="salesSettingsInvoicingPolicy"
+                             class="col-12 col-lg-6 o-setting-box"
+                             title="This default value is applied to any new product created. This can be changed in the product detail form.">
+                            <div class="o-setting-right-pane">
+                                <label for="defaultInvoicePolicy"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/invoicing/invoicing_policy.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Quantities to invoice from sales orders
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="defaultInvoicePolicy" class="o-light-label" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o-setting-box"
+                             id="automaticInvoicing"
+                             attrs="{'invisible': ['|', ['defaultInvoicePolicy', '!=', 'order'], ['portalConfirmationPay', '=', false]]}">
+                            <div class="o-setting-left-pane">
+                                <field name="automaticInvoice"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="automaticInvoice"/>
+                                <div class="text-muted">
+                                    Generate the invoice automatically when the online payment is confirmed
+                                </div>
+                                <div  attrs="{'invisible': [['automaticInvoice','=',false]]}" groups="base.groupNoOne">
+                                    <label for="invoiceMailTemplateId" class="o-light-label"/>
+                                    <field name="invoiceMailTemplateId" class="oe-inline" options="{'noCreate': true}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o-setting-box" id="downPayments">
+                            <div class="o-setting-left-pane"/>
+                            <div class="o-setting-right-pane">
+                                <span class="o-form-label">Down Payments</span>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/invoicing/down_payment.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Product used for down payments
+                                </div>
+                                <div class="text-muted">
+                                    <field name="depositDefaultProductId" context="{'default_detailedType': 'service'}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="mt32">Connectors</h2>
+                    <div class="row mt16 o-settings-container" id="connectorsSettingContainer">
+                        <div class="col-12 col-lg-6 o-setting-box" id="amazonConnector">
+                            <div class="o-setting-left-pane">
+                                <field name="moduleSaleAmazon" widget="upgradeBoolean"/>
+                            </div>
+                            <div class="o-setting-right-pane">
+                                <label for="moduleSaleAmazon" class="o-module"/>
+                                <a href="https://www.theverp.com/documentation/1.0/applications/sales/sales/amazon_connector/setup.html" title="Documentation" class="o-doc-link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Import Amazon orders and sync deliveries
+                                </div>
+                                <div class="content-group"
+                                     name="amazonConnector"
+                                     attrs="{'invisible': [['moduleSaleAmazon', '=', false]]}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="saleEbay"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="actionSaleConfigSettings" model="ir.actions.actwindow">
+        <field name="label">Settings</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">res.config.settings</field>
+        <field name="viewId" ref="resConfigSettingsViewForm"/>
+        <field name="viewMode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'sale_management', 'binSize': false}</field>
+    </record>
+
+    <menuitem id="menuSaleGeneralSettings"
+        name="Settings"
+        parent="menuSaleConfig"
+        sequence="0"
+        action="actionSaleConfigSettings"
+        groups="base.groupSystem"/>
+
+</verp>

@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="resConfigSettingsViewForm" model="ir.ui.view">
+            <field name="label">res.config.settings.view.form.inherit.website</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inheritId" ref="base.resConfigSettingsViewForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='settings']"  position="inside">
+                    <div class="app-settings-block" data-string="Website" string="Website" data-key="website" groups="website.groupWebsiteDesigner">
+                        <h2 groups="website.groupMultiWebsite">Select the Website to Configure</h2>
+                        <div class="row mt16 o-settings-container" id="websiteSelectionSettings" groups="website.groupMultiWebsite">
+                            <div class="col-xs-12 col-md-6 o-setting-box" id="website">
+                                <div class="o-setting-right-pane">
+                                    <label string="Website" for="websiteId"/>
+                                    <div class="text-muted">
+                                        Settings on this page will apply to this website
+                                    </div>
+                                    <div class="mt16">
+                                        <field name="websiteId" options="{'noOpen': true, 'noCreate': true}"/>
+                                    </div>
+                                    <div>
+                                        <button name="actionWebsiteCreateNew" type="object" string="Create a New Website" class="btn-secondary" icon="fa-arrow-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Website <button name="actionWebsiteCreateNew" type="object" string="New" class="ml-2 btn btn-link" icon="fa-plus" groups="!website.groupMultiWebsite"/></h2>
+                        <div class="row mt16 o-settings-container" id="websiteSettingsPlaceholder" attrs="{'invisible': [['websiteId', '!=', false]]}">
+                            <div class="col-12 o-setting-box">
+                                <div class="text-muted" groups="website.groupMultiWebsite">
+                                    Select a website to load its settings.
+                                </div>
+                                <div class="text-muted" groups="!website.groupMultiWebsite">
+                                    There is no website available for this company. You could create a new one.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- !! Every fields inside this container should be website specific (related to website record) !! -->
+                        <div class="row mt16 o-settings-container" id="websiteSettings" attrs="{'invisible': [['websiteId', '=', false]]}">
+                            <div class="col-12 o-setting-box" id="websiteActionSetting" style="margin-left: 30px; margin-bottom: 16px;">
+                                <button name="websiteGoTo" type="object" string="Go to Website" class="btn btn-primary" icon="fa-globe"/>
+                                <button name="installThemeOnCurrentWebsite" type="object" string="Pick a Theme" class="ml-2 btn btn-secondary" icon="fa-paint-brush"/>
+                                <button name="%(website.actionWebsiteAddFeatures)d" type="action" string="Add features" class="ml-2 btn btn-secondary" icon="fa-plus"/>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="domainSetting">
+                                <div class="o-setting-right-pane">
+                                    <label for="websiteName" string="Website Title"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Name and favicon of your website
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o-light-label" string="Name" for="websiteName"/>
+                                            <field name="websiteName" attrs="{'required': [['websiteId', '!=', false]]}"/>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-3 o-light-label" for="favicon" />
+                                            <field name="favicon" widget="image" class="float-left oe-avatar"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="companySettings" groups="base.groupMultiCompany">
+                                <div class="o-setting-right-pane">
+                                    <label string="Company" for="websiteCompanyId"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        The company this website belongs to
+                                    </div>
+                                    <field name="websiteCompanyId" attrs="{'required': [['websiteId', '!=', false]]}" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="languagesSetting">
+                                <div class="o-setting-right-pane">
+                                    <label for="languageIds"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Languages available on your website
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="languageIds" widget="many2manyTags" options="{'noCreate': true, 'noOpen': true}"
+                                                attrs="{'required': [['websiteId', '!=', false]]}"/>
+                                        </div>
+                                        <field name="websiteLanguageCount" invisible="1"/>
+                                        <div class="mt8" attrs="{'invisible':[['websiteLanguageCount', '&lt;', 2]]}">
+                                            <label class="o-light-label mr8" string="Default" for="websiteDefaultLangId"/>
+                                            <field name="websiteDefaultLangId" options="{'noOpen': true, 'noCreate': true}" attrs="{'required': [['websiteId', '!=', false]]}"/>
+                                        </div>
+                                    </div>
+                                    <div class="mt8">
+                                        <button type="action" name="%(base.actionViewBaseLanguageInstall)d" string="Install new language" class="btn-link" icon="fa-arrow-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="domainSettings">
+                                <div class="o-setting-right-pane">
+                                    <label string="Domain" for="websiteDomain"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Display this website when users visit this domain
+                                    </div>
+                                    <div class="mt8">
+                                        <field name="websiteDomain" placeholder="https://www.theverp.com"/>
+                                    </div>
+                                    <div groups="base.groupNoOne">
+                                        <div class="mt8 text-muted" title="You can have 2 websites with same domain AND a condition on country group to select wich website use.">
+                                            Once the selection of available websites by domain is done, you can filter by country group.
+                                        </div>
+                                        <div class="mt8">
+                                            <field name="websiteCountryGroupIds" widget="many2manyTags"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="specificUserAccountSetting" groups="website.groupMultiWebsite">
+                                <div class="o-setting-left-pane">
+                                    <field name="specificUserAccount"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="specificUserAccount"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Force your user to create an account per website
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="websiteCookiesBarSetting">
+                                <div class="o-setting-left-pane">
+                                    <field name="websiteCookiesBar" widget="websiteCookiesbarField"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="websiteCookiesBar"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Display a customizable cookies bar on your website.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="cdnSetting" title="A CDN helps you serve your website’s content with high availability and high performance to any visitor wherever they are located." groups="base.groupNoOne">
+                                <div class="o-setting-left-pane">
+                                    <field name="cdnActivated"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="cdnActivated"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Use a CDN to optimize the availability of your website's content
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['cdnActivated', '=', false]]}">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o-light-label" for="cdnUrl"/>
+                                            <field name="cdnUrl"
+                                                   attrs="{'required': [['cdnActivated', '=', true]]}"
+                                                   placeholder="//mycompany.mycdn.com/"
+                                                   t-translation="off"/>
+                                        </div>
+                                        <div class="row" >
+                                            <label class="col-lg-3 o-light-label" for="cdnFilters"/>
+                                            <field name="cdnFilters" class="oe-inline"
+                                                   attrs="{'required': [['cdnActivated', '=', true]]}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="socialMediaSettings">
+                                <div class="o-setting-left-pane">
+                                    <field name="hasSocialNetwork"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label string="Social Media" for="hasSocialNetwork"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Add links to social media on your website
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['hasSocialNetwork', '=', false]]}">
+                                        <div class="row">
+                                            <label for="socialTwitter" string="Twitter" class="col-md-3 o-light-label"/>
+                                            <field name="socialTwitter"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="socialFacebook" string="Facebook" class="col-md-3 o-light-label"/>
+                                            <field name="socialFacebook"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="socialGithub" string="GitHub" class="col-md-3 o-light-label"/>
+                                            <field name="socialGithub"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="socialLinkedin" string="LinkedIn" class="col-md-3 o-light-label"/>
+                                            <field name="socialLinkedin"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="socialYoutube" string="YouTube" class="col-md-3 o-light-label"/>
+                                            <field name="socialYoutube"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="socialInstagram" string="Instagram" class="col-md-3 o-light-label"/>
+                                            <field name="socialInstagram"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="socialDefaultImageSetting">
+                                <div class="o-setting-left-pane">
+                                    <field name="hasDefaultShareImage"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label string="Default Social Share Image" for="hasDefaultShareImage"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted" attrs="{'invisible': [['hasDefaultShareImage', '=', false]]}">
+                                        If set, replaces the website logo as the default social share image.
+                                    </div>
+                                    <field name="socialDefaultImage" widget="image" class="w-25 mt-2" attrs="{'invisible': [['hasDefaultShareImage', '=', false]]}"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <h2>Features</h2>
+                        <div class="row mt16 o-settings-container" id="webmasterSettings">
+                            <div class="col-12 col-lg-6 o-setting-box" id="googleMapsSetting">
+                                <div class="o-setting-left-pane">
+                                    <field name="hasGoogleMaps"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="hasGoogleMaps"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Use Google Map on your website (<a href="/contactus">Contact Us</a> page, snippets, ...)
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['hasGoogleMaps', '=', false]]}">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o-light-label" string="API Key" for="googleMapsApiKey"/>
+                                            <field name="googleMapsApiKey" attrs="{'required': [['hasGoogleMaps', '=', true]]}" />
+                                        </div>
+                                    </div>
+                                    <div class="mt8" attrs="{'invisible': [['hasGoogleMaps', '=', false]]}">
+                                        <a role="button" class="btn-link" target="_blank"
+                                           href="https://console.developers.google.com/flows/enableapi?apiid=maps_backend,static_maps_backend&amp;keyType=CLIENT_SIDE&amp;reusekey=true">
+                                            <i class="fa fa-arrow-right">
+                                            Create a Google Project and Get a Key</i>
+                                        </a>
+                                        <a role="button" class="btn-link" target="_blank"
+                                           href="https://cloud.google.com/maps-platform/pricing">
+                                            <i class="fa fa-arrow-right">
+                                            Enable billing on your Google Project</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="authSignupUninvitedSetting"
+                            title=" To send invitations in B2B mode, open a contact or select several ones in list view and click on 'Portal Access Management' option in the dropdown menu *Action*.">
+                                <div class="o-setting-left-pane">
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="authSignupUninvited"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Let your customers log in to see their documents
+                                    </div>
+                                    <div class="mt8">
+                                        <field name="authSignupUninvited" class="o-light-label" widget="radio" options="{'horizontal': true}" required="true"/>
+                                    </div>
+                                    <div class="mt8 content-group">
+                                        <button type="object" name="openTemplateUser" string="Default Access Rights" icon="fa-arrow-right" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2>SEO</h2>
+                        <div class="row mt16 o-settings-container" id="seoSettings">
+                            <div class="col-12 col-lg-offset-6 col-lg-6 o-setting-box" id="googleAnalyticsSetting">
+                                <div class="o-setting-left-pane">
+                                    <field name="hasGoogleAnalytics"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="hasGoogleAnalytics"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Track visits in Google Analytics
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['hasGoogleAnalytics', '=', false]]}">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o-light-label" string="Measurement ID" for="googleAnalyticsKey"/>
+                                            <field name="googleAnalyticsKey" placeholder="G-XXXXXXXXXX"
+                                                attrs="{'required': [['hasGoogleAnalytics', '=', true]]}"/>
+                                        </div>
+                                    </div>
+                                    <div attrs="{'invisible': [['hasGoogleAnalytics', '=', false]]}">
+                                        <a href="https://www.theverp.com/documentation/1.0/applications/websites/website/optimize/google_analytics.html"
+                                                class="oe-link" target="_blank">
+                                            <i class="fa fa-arrow-right"/>
+                                            How to get my Measurement ID
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-offset-6 col-lg-6 o-setting-box" id="googleConsoleSetting">
+                                <div class="o-setting-left-pane">
+                                    <field name="hasGoogleSearchConsole"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="hasGoogleSearchConsole"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Monitor Google Search results data
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['hasGoogleSearchConsole', '=', false]]}">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o-light-label" string="Code" for="googleSearchConsole"/>
+                                            <field name="googleSearchConsole" placeholder="google1234567890123456.html"
+                                                attrs="{'required': [['hasGoogleSearchConsole', '=', true]]}"/>
+                                        </div>
+                                    </div>
+                                    <div attrs="{'invisible': [['hasGoogleSearchConsole', '=', false]]}">
+                                        <small class='text-muted'>
+                                            <i class="fa fa-info"/>: type some of the first chars after 'google' is enough, we'll guess the rest.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="googleAnalyticsDashboardSetting" attrs="{'invisible': [['hasGoogleAnalytics', '=', false]]}">
+                                <div class="o-setting-left-pane">
+                                    <field name="hasGoogleAnalyticsDashboard"/>
+                                </div>
+                                <div class="o-setting-right-pane">
+                                    <label for="hasGoogleAnalyticsDashboard"/>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Follow your website traffic in Verp.
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [['hasGoogleAnalyticsDashboard', '=', false]]}">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o-light-label" string="Client ID" for="googleManagementClientId"/>
+                                            <field name="googleManagementClientId" attrs="{'required': [['hasGoogleAnalyticsDashboard', '=', true]]}"/>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-3 o-light-label" string="Client Secret" for="googleManagementClientSecret"/>
+                                            <field name="googleManagementClientSecret" attrs="{'required': [['hasGoogleAnalyticsDashboard', '=', true]]}"/>
+                                        </div>
+                                    </div>
+                                    <div attrs="{'invisible': [['hasGoogleAnalyticsDashboard', '=', false]]}">
+                                        <a href="https://www.theverp.com/documentation/1.0/applications/websites/website/optimize/google_analytics_dashboard.html"
+                                            class="oe-link" target="_blank">
+                                            <i class="fa fa-arrow-right"/>
+                                            How to get my Client ID
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="robotsSetting">
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Robots.txt</span>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted">
+                                        Robots.txt: This file tells to search engine crawlers which pages or files they can or can't request from your site.<br/>
+                                    </div>
+                                    <div class="mt4">
+                                        <button type="object" name="actionOpenRobots" string="Edit robots.txt" class="btn-link" icon="fa-android"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o-setting-box" id="robotsSetting">
+                                <div class="o-setting-right-pane">
+                                    <span class="o-form-label">Sitemap</span>
+                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific." groups="website.groupMultiWebsite"/>
+                                    <div class="text-muted mt8">
+                                        Sitemap.xml: Help search engine crawlers to find out what pages are present and which have recently changed, and to crawl your site accordingly. This file is automatically generated by Verp.
+                                    </div>
+                                    <div class="mt4">
+                                        <button type="object" name="actionPingSitemap" string="Submit sitemap to Google" class='btn-link' icon="fa-google"/>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="actionWebsiteConfiguration" model="ir.actions.actwindow">
+            <field name="label">Settings</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">res.config.settings</field>
+            <field name="viewMode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'website', 'binSize': false}</field>
+        </record>
+
+        <menuitem id="menuWebsiteGlobalConfiguration" parent="menuWebsiteConfiguration"
+            sequence="100" name="Configuration" groups="base.groupSystem"/>
+
+        <menuitem name="Settings"
+            id="menuWebsiteWebsiteSettings"
+            action="actionWebsiteConfiguration"
+            parent="menuWebsiteGlobalConfiguration"
+            groups="base.groupSystem"
+            sequence="10"/>
+
+        <menuitem id="menuWebsiteAddFeatures" parent="website.menuWebsiteGlobalConfiguration"
+            sequence="20" groups="base.groupSystem" action="actionWebsiteAddFeatures"/>
+
+        <menuitem name="Websites"
+            id="menuWebsiteWebsitesList"
+            action="actionWebsiteList"
+            parent="menuWebsiteGlobalConfiguration"
+            groups="base.groupNoOne"
+            sequence="10"
+            />
+
+        <menuitem name="Pages"
+            id="menuWebsitePagesList"
+            action="actionWebsitePagesList"
+            parent="menuWebsiteGlobalConfiguration"
+            sequence="30"
+            />
+
+        <menuitem name="Menus"
+            id="menuWebsiteMenuList"
+            action="actionWebsiteMenu"
+            parent="menuWebsiteGlobalConfiguration"
+            sequence="45"
+            groups="base.groupNoOne"/>
+
+</verp>

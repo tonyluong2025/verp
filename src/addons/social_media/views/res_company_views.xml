@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewCompanyFormInheritSocialMedia" model="ir.ui.view">
+        <field name="label">res.company.form.inherit.social.media</field>
+        <field name="model">res.company</field>
+        <field name="inheritId" ref="base.viewCompanyForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='socialMedia']" position="replace">
+                <group string="Social Media" name="socialMedia" groups="base.groupNoOne">
+                    <field name="socialTwitter"/>
+                    <field name="socialFacebook"/>
+                    <field name="socialGithub"/>
+                    <field name="socialLinkedin"/>
+                    <field name="socialYoutube"/>
+                    <field name="socialInstagram"/>
+                    <field name="socialZalo"/>
+                    <field name="socialTiktok"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

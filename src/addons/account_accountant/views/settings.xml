@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="resConfigSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.accountant</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="account.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='account']" position="attributes">
+                <attribute name="data-string">Accounting</attribute>
+                <attribute name="string">Accounting</attribute>
+            </xpath>
+            <xpath expr="//field[@name='groupShowSaleReceipts']" position="attributes">
+                <attribute name="widget"></attribute>
+            </xpath>
+            <xpath expr="//field[@name='groupShowPurchaseReceipts']" position="attributes">
+                <attribute name="widget"></attribute>
+            </xpath>
+            <div data-key="account" position="inside">
+                <h2>Anglo-Saxon Accounting</h2>
+                <div class="row mt16 o-settings-container"
+                    name="angloSaxonSettingContainer">
+                    <div class="col-12 col-lg-6 o-setting-box" id="angloSaxon">
+                        <div class="o-setting-left-pane">
+                            <field name="angloSaxonAccounting" />
+                        </div>
+                        <div class="o-setting-right-pane">
+                            <label string="Anglo-Saxon Accounting"
+                                for="angloSaxonAccounting"/>
+                            <div class="text-muted">
+                                Record the cost of a good as an expense when this good is
+                                invoiced to a final customer (instead of recording the cost as soon
+                                as the product is received in stock).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+
+</verp>

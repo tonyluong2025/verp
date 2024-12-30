@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<verp>
+    <data>
+
+        <record id="omAccountBankStatementImportJournalCreationView" model="ir.ui.view">
+            <field name="label">Journal Creation</field>
+            <field name="model">account.bank.statement.import.journal.creation</field>
+            <field name="arch" type="xml">
+                <form string="Journal Creation">
+                    <p>The account of the statement you are uploading is not yet recorded in Verp. In order to proceed with the upload, you need to create a bank journal for this account.</p>
+                    <p>Just click OK to create the account/journal and finish the upload. If this was a mistake, hit cancel to abort the upload.</p>
+                    <group>
+                        <group>
+                            <field name="label" string="Bank Journal Name"/>
+                            <field name="bankAccNumber" readonly="1"/>
+                            <field name="bankId"/>
+                        </group>
+                        <group>
+                            <field name="currencyId" readonly="1" groups="base.groupMultiCurrency"/>
+                            <field name="companyId" groups="base.groupMultiCompany"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="createJournal" string="OK" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</verp>

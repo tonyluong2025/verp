@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="groupSaleOrderTemplate" model="res.groups">
+        <field name="label">Quotation Templates</field>
+        <field name="categoryId" ref="base.category_hidden"/>
+    </record>
+
+    <data noupdate="1">
+        <record id="saleOrderTemplateRuleCompany" model="ir.rule">
+            <field name="label">Quotation Template multi-company</field>
+            <field name="modelId" ref="model_saleOrderTemplate"/>
+            <field name="domainForce">['|', ['companyId', '=', false], ['companyId', 'in', companyIds]]</field>
+        </record>
+    </data>
+</verp>

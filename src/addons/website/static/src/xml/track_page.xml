@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="website.trackPage">
+        <div role="separator" class="dropdown-divider"/>
+        <label class="o-switch dropdown-item m-0" for="switchTrackPage">
+            <input id="switchTrackPage" type="checkbox"/>
+            <span/>
+            Track Visitor
+        </label>
+    </t>
+
+</templates>
+
+

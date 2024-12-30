@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <!--
+        Procurement
+        -->
+
+        <record id="procurementGroupFormView" model="ir.ui.view">
+            <field name="label">procurement.group.form</field>
+            <field name="model">procurement.group</field>
+            <field name="arch" type="xml">
+                <form string="Procurement group">
+                    <sheet>
+                        <div class="oe-button-box" name="buttonBox">
+                            <button name="%(doViewPickings)d" string="Transfers" type="action" class="oe-stat-button" icon="fa-truck"/>
+                        </div>
+                        <group>
+                            <field name="label"/>
+                            <field name="moveType"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Stock Rules -->
+
+        <record id="viewStockRuleFilter" model="ir.ui.view">
+            <field name="label">stock.rule.select</field>
+            <field name="model">stock.rule</field>
+            <field name="arch" type="xml">
+                <search string="Search Procurement">
+                    <field name="label"/>
+                    <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+                    <group expand='0' string='Group by...'>
+                        <filter string='Route' name="groupbyRoute" context="{'groupby': 'routeId'}"/>
+                        <filter string='Warehouse' name="groupbyWarehouse" context="{'groupby': 'warehouseId'}" groups="stock.groupStockMultiWarehouses"/>
+                   </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- <Rules> -->
+        <record id="viewStockRuleTree" model="ir.ui.view">
+            <field name="label">stock.rule.tree</field>
+            <field name="model">stock.rule</field>
+            <field name="arch" type="xml">
+                <tree string="Rules">
+                    <field name="action"/>
+                    <field name="locationSrcId" options="{'noCreate': true}"/>
+                    <field name="locationId" options="{'noCreate': true}"/>
+                    <field name="routeId"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewStockRuleForm" model="ir.ui.view">
+            <field name="label">stock.rule.form</field>
+            <field name="model">stock.rule</field>
+            <field name="arch" type="xml">
+                <form string="Rules">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <div class="oe-title">
+                            <label for="label"/>
+                            <h1><field name="label"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="pickingTypeCodeDomain" invisible="1"/>
+                                <field name="action"/>
+                                <field name="pickingTypeId"/>
+                                <field name="locationSrcId" options="{'noCreate': true}" attrs="{'required': [['action', 'in', ['pull', 'push', 'pullPush']]]}"/>
+                                <field name="locationId" options="{'noCreate': true}"/>
+                                <field name="auto" attrs="{'invisible': [['action', 'not in', ['push', 'pullPush']]]}"/>
+                                <field name="procureMethod" attrs="{'invisible': [['action', 'not in', ['pull', 'pullPush']]]}"/>
+                            </group>
+                            <group>
+                                <div colspan="2">
+                                    <label for="ruleMessage" invisible="1"/>
+                                    <div>
+                                        <field name="ruleMessage" readonly="1"/>
+                                    </div>
+                                </div>
+                            </group>
+                        </group>
+                        <group>
+                            <group name="applyOn" string="Applicability">
+                                <field name="routeId"/>
+                                <field name="warehouseId" attrs="{'invisible': [['action', '=', 'push']]}" groups="base.groupNoOne"/>
+                                <field name="routeCompanyId" invisible="1"/>
+                                <field name="companyId" options="{'noCreate': true}" attrs="{'required': [['action', '=', 'push']]}" groups="base.groupMultiCompany"/>
+                                <field name="sequence" string="Sequence" groups="base.groupNoOne"/>
+                            </group>
+                            <group name="propagationGroup" string="Propagation" attrs="{'invisible': [['action', '=', 'push']]}" groups="base.groupNoOne">
+                                <field name="groupPropagationOption"/>
+                                <field name="groupId" attrs="{'invisible': [['groupPropagationOption', '!=', 'fixed']], 'required': [['groupPropagationOption', '=', 'fixed']]}"/>
+                                <field name="propagateCancel"/>
+                                <field name="propagateCarrier" groups="base.groupNoOne"/>
+                                <field name="propagateWarehouseId"/>
+                            </group>
+                            <group string="Options" attrs="{'invisible': [['action', 'not in', ['pull', 'push', 'pullPush']]]}">
+                                <field name="partnerAddressId" attrs="{'invisible': [['action', '=', 'push']]}"/>
+                                <label for="delay"/>
+                                <div><field name="delay" class="oe-inline"/> days</div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Form view for route -->
+
+        <record id="viewRouteRuleForm" model="ir.ui.view">
+            <field name="label">stock.rule.form</field>
+            <field name="model">stock.rule</field>
+            <field name="mode">primary</field>
+            <field name="inheritId" ref="stock.viewStockRuleForm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='routeId']" position="replace"></xpath>
+                <xpath expr="//group[@name='applyOn']" position="attributes">
+                    <attribute name="groups">base.groupMultiCompany,base.groupNoOne</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="actionRulesForm" model="ir.actions.actwindow">
+            <field name="label">Rules</field>
+            <field name="resModel">stock.rule</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+
+        <menuitem action="actionRulesForm" id="menuActionRulesForm"
+        parent="menuWarehouseConfig" sequence="4" groups="stock.groupAdvLocation"/>
+
+    </data>
+</verp>

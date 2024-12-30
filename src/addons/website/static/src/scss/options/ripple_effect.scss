@@ -1,0 +1,28 @@
+@keyframes o-btn-ripple {
+    100% {
+        opacity: 0;
+        transform: scale(2.5);
+    }
+}
+
+.o-ripple-item {
+    display: none;
+    position: absolute;
+    z-index: -1;
+    border-radius: 100%;
+    opacity: .3;
+    background: currentColor;
+    pointer-events: none;
+    transform: scale(0);
+}
+
+.o-js-ripple-effect {
+    transform-style: preserve-3d;
+    position: relative !important;
+    overflow: hidden !important;
+
+    .o-ripple-item {
+        display: block;
+        animation: o-btn-ripple ease-in;
+    }
+}

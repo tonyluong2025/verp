@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record  id="emailMessageTreeView" model="ir.ui.view">
+        <field name="label">mail.mail.form.fetchmail</field>
+        <field name="model">mail.mail</field>
+        <field name="inheritId" ref="mail.viewMailForm"/>
+        <field name="arch" type="xml">
+            <field name="references" position="after">
+                <field name="fetchmailServerId"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="actServerHistory" model="ir.actions.actwindow">
+        <field name="label">Messages</field>
+        <field name="resModel">mail.mail</field>
+        <field name="domain">[['emailFrom', '!=', false], ['fetchmailServerId', '=', activeId]]</field>
+        <field name="context">{'searchDefault_serverId': activeId, 'default_fetchmailServerId': activeId}</field>
+        <field name="bindingModelId" ref="model_fetchmailServer"/>
+        <field name="bindingViewTypes">form</field>
+    </record>
+
+</verp>

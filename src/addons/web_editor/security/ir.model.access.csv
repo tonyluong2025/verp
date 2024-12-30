@@ -1,0 +1,3 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_web_editor_converter_test,access_web_editor_converter_test,model_webEditorConverterTest,,1,1,1,1
+access_web_editor_converter_test_sub,access_web_editor_converter_test_sub,model_webEditorConverterTestSub,,1,1,1,1

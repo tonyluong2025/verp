@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<verp>
+
+    <record id="mailMessageReactionViewTree" model="ir.ui.view">
+        <field name="label">mail.message.reaction.tree</field>
+        <field name="model">mail.message.reaction</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <tree string="Reaction">
+                <field name="id"/>
+                <field name="messageId"/>
+                <field name="content"/>
+                <field name="partnerId"/>
+                <field name="guestId"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mailMessageReactionAction" model="ir.actions.actwindow">
+        <field name="label">Message Reactions</field>
+        <field name="resModel">mail.message.reaction</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+</verp>

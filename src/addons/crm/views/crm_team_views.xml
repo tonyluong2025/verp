@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <!-- CRM lead search by Salesteams -->
+        <record id="crmCaseFormViewSalesteamsLead" model="ir.actions.actwindow">
+            <field name="label">Leads</field>
+            <field name="resModel">crm.lead</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="domain">['|', ['type','=','lead'], ['type','=',false]]</field>
+            <field name="viewIds"
+                   eval="[[5, 0, 0],
+                          [0, 0, {'viewMode': 'tree', 'viewId': refId('crmCaseTreeViewLeads')}],
+                          [0, 0, {'viewMode': 'kanban', 'viewId': refId('viewCrmLeadKanban')}]]"/>
+            <field name="searchViewId" ref="crm.viewCrmCaseLeadsFilter"/>
+            <field name="context">{
+                    'searchDefault_teamId': [activeId],
+                    'default_teamId': activeId,
+                    'default_type': 'lead',
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a new lead
+                </p><p>
+                    Use leads if you need a qualification step before creating an
+                    opportunity or a customer. It can be a business card you received,
+                    a contact form filled in your website, or a file of unqualified
+                    prospects you import, etc.
+                </p>
+            </field>
+        </record>
+
+        <!-- CRM opportunity search by Salesteams -->
+        <record id="crmCaseFormViewSalesteamsOpportunity" model="ir.actions.actwindow">
+            <field name="label">Opportunities</field>
+            <field name="resModel">crm.lead</field>
+            <field name="viewMode">kanban,tree,graph,form,calendar,pivot</field>
+            <field name="domain">[['type','=','opportunity']]</field>
+            <field name="viewId" ref="crm.crmCaseKanbanViewLeads"/>
+            <field name="searchViewId" ref="crm.viewCrmCaseOpportunitiesFilter"/>
+            <field name="context">{
+                    'searchDefault_teamId': [activeId],
+                    'default_teamId': activeId,
+                    'default_type': 'opportunity',
+                    'default_userId': uid,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a new lead
+                </p><p>
+                    Verp helps you keep track of your sales pipeline to follow
+                    up potential sales and better forecast your future revenues.
+                </p><p>
+                    You will be able to plan meetings and phone calls from
+                    opportunities, convert them into quotations, attach related
+                    documents, track all discussions, and much more.
+                </p>
+            </field>
+        </record>
+
+         <record id="crmLeadActionTeamOverdueOpportunity" model="ir.actions.actwindow">
+            <field name="label">Overdue Opportunities</field>
+            <field name="resModel">crm.lead</field>
+            <field name="viewMode">kanban,tree,graph,form,calendar,pivot</field>
+            <field name="domain">[['type','=','opportunity']]</field>
+            <field name="viewId" ref="crm.crmCaseKanbanViewLeads"/>
+            <field name="searchViewId" ref="crm.viewCrmCaseOpportunitiesFilter"/>
+            <field name="context">{
+                    'searchDefault_teamId': [activeId],
+                    'searchDefault_overdueOpp': 1,
+                    'default_teamId': activeId,
+                    'default_type': 'opportunity',
+                    'default_userId': uid,
+                }
+            </field>
+        </record>
+
+       <record id="actionReportCrmLeadSalesteam" model="ir.actions.actwindow">
+           <field name="label">Leads Analysis</field>
+           <field name="resModel">crm.lead</field>
+           <field name="context">{'searchDefault_teamId': [activeId], 'searchDefault_filterCreatedAt': 1}}</field>
+           <field name="domain">[]</field>
+           <field name="viewMode">graph,pivot,tree,form</field>
+           <field name="viewId" ref="crmLeadViewGraph"/>
+           <field name="searchViewId" ref="crm.viewCrmCaseLeadsFilter"/>
+           <field name="help">Leads Analysis allows you to check different CRM related information like the treatment delays or number of leads per state. You can sort out your leads analysis by different groups to get accurate grained analysis.</field>
+       </record>
+        <record id="actionReportCrmLeadSalesteamViewGraph" model="ir.actions.actwindow.view">
+            <field name="sequence">2</field>
+            <field name="viewMode">graph</field>
+            <field name="viewId" ref="crmLeadViewGraph"/>
+            <field name="actwindowId" ref="actionReportCrmLeadSalesteam"/>
+        </record>
+        <record id="actionReportCrmLeadSalesteamViewPivot" model="ir.actions.actwindow.view">
+            <field name="sequence">3</field>
+            <field name="viewMode">pivot</field>
+            <field name="viewId" ref="crmLeadViewPivot"/>
+            <field name="actwindowId" ref="actionReportCrmLeadSalesteam"/>
+        </record>
+        <record id="actionReportCrmLeadSalesteamViewTree" model="ir.actions.actwindow.view">
+            <field name="sequence">4</field>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="crmCaseTreeViewLeads"/>
+            <field name="actwindowId" ref="actionReportCrmLeadSalesteam"/>
+        </record>
+
+       <record id="actionReportCrmOpportunitySalesteam" model="ir.actions.actwindow">
+            <field name="label">Pipeline Analysis</field>
+            <field name="resModel">crm.lead</field>
+            <field name="viewMode">graph,pivot,tree,form</field>
+            <field name="searchViewId" ref="crm.crmOpportunityReportViewSearch"/>
+            <field name="context">{
+                'searchDefault_teamId': [activeId],
+                'treeViewRef': 'crm.crmCaseTreeViewOppor',
+                'searchDefault_opportunity': true,
+                'searchDefault_filterCreatedAt': 1}</field>
+            <field name="domain">[]</field>
+            <field name="help">Opportunities Analysis gives you an instant access to your opportunities with information such as the expected revenue, planned cost, missed deadlines or the number of interactions per opportunity. This report is mainly used by the sales manager in order to do the periodic review with the channels of the sales pipeline.</field>
+        </record>
+
+        <record id="crmTeamViewTree" model="ir.ui.view">
+            <field name="label">crm.team.tree.inherit.crm</field>
+            <field name="model">crm.team</field>
+            <field name="inheritId" ref="sales_team.crmTeamViewTree"/>
+            <field name="arch" type="xml">
+                <field name="label" position="after">
+                    <field string="Alias" name="aliasId"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="salesTeamFormViewInCrm" model="ir.ui.view">
+            <field name="label">crm.team.form.inherit</field>
+            <field name="model">crm.team</field>
+            <field name="inheritId" ref="sales_team.crmTeamViewForm"/>
+            <field name="priority">12</field>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="actionAssignLeads" type="object"
+                            string="Assign Leads"
+                            class="oe-highlight"
+                            confirm="This will assign leads to all members. Do you want to proceed?"
+                            attrs="{'invisible': ['|', '&amp;', ['useLeads', '=', false], ['useOpportunities', '=', false], ['assignmentEnabled', '=', false]]}"/>
+                    </header>
+                </xpath>
+                <xpath expr="//div[@name='optionsActive']" position="inside">
+                    <div class="o-row">
+                        <span name="opportunities">
+                            <field name="useOpportunities"/>
+                            <label for="useOpportunities"/>
+                        </span>
+                        <span class="o-row" groups="crm.groupUseLead">
+                            <field name="useLeads"/>
+                            <label for="useLeads" string="Leads"/>
+                        </span>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='userId']" position="after">
+                    <label for="aliasName" string="Email Alias"
+                        attrs="{'invisible': [['useLeads', '=', false],['useOpportunities', '=', false]]}"/>
+                    <div class="oe-inline" name="aliasDef"
+                        attrs="{'invisible': [['useLeads', '=', false],['useOpportunities', '=', false]]}">
+                        <field name="aliasId" class="oe-read-only oe-inline"
+                            string="Email Alias" required="0"
+                            attrs="{'invisible': [['aliasDomain', '=', false]]}"/>
+                        <div class="oe-inline" name="editAlias" style="display: inline;" >
+                            <div class="oe-edit-only" attrs="{'invisible': [['aliasDomain', '=', false]]}">
+                                <field name="aliasName" class="oe-inline"/>@<field name="aliasDomain" class="oe-inline" readonly="1"/>
+                            </div>
+                            <button icon="fa-arrow-right" type="action" name="%(base_setup.actionGeneralConfiguration)d" string="Configure a custom domain" class="p-0 btn-link" attrs="{'invisible': [['aliasDomain', '!=', false]]}"/>
+                        </div>
+                    </div>
+                    <field name="aliasContact"
+                        string="Accept Emails From"
+                        attrs="{'invisible': [['useLeads', '=', false], ['useOpportunities', '=', false]]}"/>
+                </xpath>
+                <xpath expr="//group[@name='right']" position="attributes">
+                    <attribute name="string">Assignment Rules</attribute>
+                    <attribute name="attrs">{'invisible': [['assignmentEnabled', '=', false]]}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='right']" position="inside">
+                    <field name="assignmentEnabled" invisible="1"/>
+                    <field name="assignmentAutoEnabled" invisible="1"/>
+                    <field name="assignmentDomain" widget="domain" string="Domain"
+                        options="{'model': 'crm.lead', 'inDialog': true}"
+                        attrs="{'invisible': [['assignmentEnabled', '=', false]]}"/>
+                    <label for="leadAllAssignedMonthCount" string="Assigned Leads Count"
+                        attrs="{'invisible': [['assignmentEnabled', '=', false]]}"/>
+                    <div attrs="{'invisible': [['assignmentEnabled', '=', false]]}">
+                        <field name="leadAllAssignedMonthCount" class="oe-inline"/> /
+                        <field name="assignmentMax" class="oe-inline"/>
+                    </div>
+                    <field name="assignmentOptout" attrs="{'invisible': [['assignmentAutoEnabled', '=', false]]}"/>
+                </xpath>
+                <xpath expr="//field[@name='memberIds']" position="attributes">
+                    <attribute name="attrs">{'invisible': [['assignmentEnabled', '=', true]]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='crmTeamMemberIds']" position="attributes">
+                    <attribute name="attrs">{'invisible': [['assignmentEnabled', '=', false]]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Case Teams Action -->
+        <record id="actionCrmTagKanbanViewSalesteamsOppor11" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="0"/>
+            <field name="viewMode">kanban</field>
+            <field name="viewId" ref="crmCaseKanbanViewLeads"/>
+            <field name="actwindowId" ref="crmCaseFormViewSalesteamsOpportunity"/>
+        </record>
+
+        <record id="actionCrmTagTreeViewSalesteamsOppor11" model="ir.actions.actwindow.view">
+            <field name="sequence" eval="1"/>
+            <field name="viewMode">tree</field>
+            <field name="viewId" ref="crmCaseTreeViewOppor"/>
+            <field name="actwindowId" ref="crmCaseFormViewSalesteamsOpportunity"/>
+        </record>
+
+        <record id="actionOpportunityForm" model="ir.actions.actwindow">
+            <field name="label">New Opportunity</field>
+            <field name="resModel">crm.lead</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="crmLeadViewForm"/>
+            <field name="domain">[['type','=','opportunity']]</field>
+            <field name="context">{
+                    'searchDefault_teamId': [activeId],
+                    'default_teamId': activeId,
+                    'default_type': 'opportunity',
+                    'default_userId': uid,
+            }
+            </field>
+            <field name="searchViewId" ref="crm.viewCrmCaseOpportunitiesFilter"/>
+        </record>
+
+        <record id="sales_team.crmTeamActionPipeline" model="ir.actions.actwindow">
+            <field name="domain">[['useOpportunities', '=', true]]</field>
+        </record>
+
+        <record id="crmTeamViewKanbanDashboard" model="ir.ui.view">
+            <field name="label">crm.team.view.kanban.dashboard.inherit.crm</field>
+            <field name="model">crm.team</field>
+            <field name="inheritId" ref="sales_team.crmTeamViewKanbanDashboard"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//templates" position="before">
+                        <field name="aliasId"/>
+                        <field name="aliasName"/>
+                        <field name="aliasDomain"/>
+                        <field name="useOpportunities"/>
+                        <field name="useLeads"/>
+                    </xpath>
+
+                    <xpath expr="//div[contains(@class,'o-primary')]" position="after">
+                        <div t-if="record.aliasName.value and record.aliasDomain.value">
+                            <span t-translation="off"><i class="fa fa-envelope-o" aria-label="Leads" title="Leads" role="img"></i>&amp;nbsp; <field name="aliasId"/></span>
+                        </div>
+                    </xpath>
+
+                    <xpath expr="//t[@name='firstOptions']" position="after">
+                        <div class="row" t-if="record.leadUnassignedCount.rawValue">
+                            <div class="col-8">
+                                <a name="%(crmCaseFormViewSalesteamsLead)d" type="action" context="{'searchDefault_unassignedLeads': 1}">
+                                    <field name="leadUnassignedCount"/>
+                                    <t t-if="record.leadUnassignedCount.rawValue == 1">Unassigned Lead</t>
+                                    <t t-else="">Unassigned Leads</t>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row" t-if="record.opportunitiesCount.rawValue">
+                            <div class="col-8">
+                                <a name="%(crmCaseFormViewSalesteamsOpportunity)d" type="action" context="{'searchDefault_openOpportunities': true}"> <!-- context="{'searchDefault_probability': NOT or < 100}" -->
+                                    <field name="opportunitiesCount"/>
+                                    <t t-if="record.opportunitiesCount.rawValue == 1">Open Opportunity</t>
+                                    <t t-else="">Open Opportunities</t>
+                                </a>
+                            </div>
+                            <div class="col-4 text-right text-truncate">
+                                <field name="opportunitiesAmount" widget="monetary" options="{'currencyField': 'currencyId'}"/>
+                            </div>
+                        </div>
+                        <div class="row" t-if="record.opportunitiesOverdueCount.rawValue">
+                            <div class="col-8">
+                                <a name="%(crmLeadActionTeamOverdueOpportunity)d" type="action">
+                                    <field name="opportunitiesOverdueCount"/>
+                                    <t t-if="record.opportunitiesOverdueCount.rawValue == 1">Overdue Opportunity</t>
+                                    <t t-else="">Overdue Opportunities</t>
+                                </a>
+                            </div>
+                             <div class="col-4 text-right text-truncate">
+                                <field name="opportunitiesOverdueAmount" widget="monetary" options="{'currencyField': 'currencyId'}"/>
+                            </div>
+                        </div>
+                    </xpath>
+
+                    <xpath expr="//div[contains(@class,'o-kanban-manage-view')]/div[contains(@class,'o-kanban-card-manage-title')]" position="after">
+                        <div t-if="record.useLeads.rawValue" groups="crm.groupUseLead">
+                            <a name="%(crmCaseFormViewSalesteamsLead)d" type="action">
+                                Leads
+                            </a>
+                        </div>
+                        <div t-if="record.useOpportunities.rawValue">
+                            <a name="%(crmCaseFormViewSalesteamsOpportunity)d" type="action">
+                                Opportunities
+                            </a>
+                        </div>
+                    </xpath>
+
+                    <xpath expr="//div[contains(@class,'o-kanban-manage-new')]/div[contains(@class,'o-kanban-card-manage-title')]" position="after">
+                        <div t-if="record.useLeads.rawValue" groups="crm.groupUseLead">
+                            <a name="%(crmLeadActionOpenLeadForm)d" type="action">
+                                Leads
+                            </a>
+                        </div>
+                        <div t-if="record.useOpportunities.rawValue">
+                            <a  name="%(actionOpportunityForm)d" type="action">
+                                Opportunity
+                            </a>
+                        </div>
+                    </xpath>
+
+                    <xpath expr="//div[contains(@class,'o-kanban-manage-reports')]/div[contains(@class,'o-kanban-card-manage-title')]" position="after">
+                        <div t-if="record.useLeads.rawValue" groups="crm.groupUseLead">
+                            <a name="%(actionReportCrmLeadSalesteam)d" type="action">
+                                Leads
+                            </a>
+                        </div>
+                        <div t-if="record.useOpportunities.rawValue">
+                            <a name="%(actionReportCrmOpportunitySalesteam)d" type="action">
+                                Opportunities
+                            </a>
+                        </div>
+                    </xpath>
+
+                    <xpath expr="//div[contains(@class,'o-kanban-manage-reports')]/div[@name='oTeamKanbanReportSeparator']" position="after">
+                        <div name="activityReport">
+                            <div t-if="record.useOpportunities.rawValue">
+                                <a name="%(crm.crmActivityReportActionTeam)d" type="action" style="color: #444B5A;">
+                                    Activities
+                                </a>
+                            </div>
+                        </div>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+</verp>

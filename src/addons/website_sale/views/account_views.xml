@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="actionInvoicesEcommerce" model="ir.actions.actwindow">
+        <field name="label">Invoices</field>
+        <field name="resModel">account.move</field>
+        <field name="viewMode">tree,form</field>
+        <field name="domain">[['teamId.websiteIds', '!=', false]]</field>
+        <field name="viewId" ref="account.viewInvoiceTree"/>
+        <field name="context">{'moveType':'outInvoice'}</field>
+        <field name="searchViewId" ref="account.viewAccountInvoiceFilter"/>
+    </record>
+
+    <record id="websiteProductPricelist3" model="ir.actions.actwindow">
+        <field name="label">Pricelists</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.pricelist</field>
+        <field name="viewMode">tree,form</field>
+        <field name="domain">[['websiteId', '!=', false]]</field>
+        <field name="searchViewId" ref="product.productPricelistViewSearch" />
+        <field name="context">{"default_base":'listPrice'}</field>
+    </record>
+
+    <record id="accountMoveViewForm" model="ir.ui.view">
+        <field name="label">account.move.form.inherit.website_sale</field>
+        <field name="model">account.move</field>
+        <field name="inheritId" ref="account.viewMoveForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='saleInfoGroup']" position="inside">
+                <field name="websiteId" groups="website.groupMultiWebsite" attrs="{'invisible': [['websiteId', '=', false]]}"/>
+            </xpath>
+        </field>
+    </record>
+</verp>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-extend="website.dashboardHeader">
+        <t t-jquery="div.o-dashboard-common" t-operation="append">
+            <div class="col-12 o-box" t-if="widget.dashboardsData.sales.summary.orderUnpaidCount || widget.dashboardsData.sales.summary.orderToInvoiceCount || widget.dashboardsData.sales.summary.paymentToCaptureCount || widget.dashboardsData.sales.summary.orderCartsAbandonedCount">
+                <div t-if="widget.dashboardsData.sales.summary.orderUnpaidCount" class="o-inner-box o-dashboard-action" title="Confirm orders when you get paid." name="website_sale.actionUnpaidOrdersEcommerce">
+                    <div class="o-highlight"><t t-esc="widget.dashboardsData.sales.summary.orderUnpaidCount"/></div>
+                    Unpaid Orders
+                </div>
+                <div t-if="widget.dashboardsData.sales.summary.orderToInvoiceCount" class="o-inner-box o-dashboard-action" title="Generate an invoice from orders ready for invoicing." name="website_sale.saleOrderActionToInvoice">
+                    <div class="o-highlight"><t t-esc="widget.dashboardsData.sales.summary.orderToInvoiceCount"/></div>
+                    Orders to Invoice
+                </div>
+                <div t-if="widget.dashboardsData.sales.summary.paymentToCaptureCount" class="o-inner-box o-dashboard-action" title="Capture order payments when the delivery is completed." name="website_sale.paymentTransactionActionPaymentsToCapture">
+                    <div class="o-highlight"><t t-esc="widget.dashboardsData.sales.summary.paymentToCaptureCount"/></div>
+                    Payments to Capture
+                </div>
+                <div t-if="widget.dashboardsData.sales.summary.orderCartsAbandonedCount" class="o-inner-box o-dashboard-action" title="Send a recovery email to visitors who haven't completed their order." name="website_sale.actionViewAbandonedTree">
+                    <div class="o-highlight"><t t-esc="widget.dashboardsData.sales.summary.orderCartsAbandonedCount"/></div>
+                    Abandoned Carts
+                </div>
+            </div>
+        </t>
+    </t>
+
+    <t t-extend="website.dashboardContent">
+        <t t-jquery="div.o-website-dashboard-content" t-operation="prepend">
+            <div t-if="widget.groups.saleSalesman" class="row o-dashboard-sales">
+                <div class="col-12 row o-box">
+                    <t t-if="widget.dashboardsData.sales.summary.orderCount">
+                        <h2 class="col-lg-7 col-12">
+                            <t t-if="widget.dateRange=='week'">
+                                Sales Since Last Week
+                            </t>
+                            <t t-elif="widget.dateRange=='month'">
+                                Sales Since Last Month
+                            </t>
+                            <t t-elif="widget.dateRange=='year'">
+                                Sales Since Last Year
+                            </t>
+                            <t t-else="">Sales</t>
+                        </h2>
+                        <h4 class='col-lg-5 col-12'>AT A GLANCE</h4>
+                        <div class="col-lg-7 col-12">
+                            <div class="o-graph-sales" data-type="sales"/>
+                        </div>
+                        <div class="col-lg-5 col-12">
+                            <t t-call="website_sale.productsTable"/>
+                        </div>
+                    </t>
+                    <t t-if="! widget.dashboardsData.sales.summary.orderCount">
+                        <t t-if="widget.dateRange=='week'">
+                            <h2>Sales Since Last Week</h2>
+                        </t>
+                        <t t-elif="widget.dateRange=='month'">
+                            <h2>Sales Since Last Month</h2>
+                        </t>
+                        <t t-elif="widget.dateRange=='year'">
+                            <h2>Sales Since Last Year</h2>
+                        </t>
+                        <t t-else=""><h2>Sales</h2></t>
+                        <div class="col-lg-12 col-12">
+                            <div class="o-demo-background">
+                            </div>
+                            <div class="o-demo-message">
+                                <h3>There is no recent confirmed order.</h3>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="website_sale.productsTable">
+        <div class="row">
+            <a href="#" class="col-md-4 o-dashboard-action" name="website_sale.saleReportActionDashboard">
+                <div class="o-link-enable" title="Orders">
+                    <div class="o-highlight">
+                        <t t-esc="widget.dashboardsData.sales.summary.orderCount"/>
+                    </div>
+                    Orders
+                </div>
+            </a>
+            <a href="#" class="col-md-4 o-dashboard-action" name="website_sale.saleReportActionDashboard">
+                <div class="o-link-enable" title="Untaxed Total Sold">
+                    <div class="o-highlight">
+                        <t t-esc="widget.renderMonetaryField(widget.dashboardsData.sales.summary.totalSold, widget.data.currency)"/>
+                    </div>
+                    Sold
+                </div>
+            </a>
+            <a href="#" class="col-md-4 o-dashboard-action" name="website_sale.saleReportActionCarts">
+                <div class="o-link-enable o-invisible-border" title="Carts">
+                    <div class="o-highlight"><t t-esc="widget.dashboardsData.sales.summary.orderCartsCount"/></div>
+                    Carts
+                </div>
+            </a>
+            <div class="col-md-4 o-link-disable" title="Orders/Day">
+                <div class="o-highlight"><t t-esc="widget.dashboardsData.sales.summary.orderPerDayRatio"/></div>
+                Orders/Day
+            </div>
+            <div class="col-md-4 o-link-disable" title="Average Order">
+                <div class="o-highlight"><t t-esc="widget.renderMonetaryField(widget.dashboardsData.sales.summary.orderSoldRatio, widget.data.currency)"/></div>
+                Average Order
+            </div>
+            <div class="col-md-4 o-link-disable o-invisible-border" title="Conversion">
+                <div class="o-highlight"><t t-esc="widget.formatNumber(widget.dashboardsData.sales.summary.orderConvertionPctg, 'float', [3, 2], '%')"/></div>
+                Conversion
+            </div>
+        </div>
+        <div class="col-lg-12 col-12 o-top-margin">
+            <div class="row">
+                <div class="col-lg-12 col-12">
+                    <h4>Best Sellers</h4>
+                    <table class="table table-responsive table-hover">
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Sold</th>
+                        </tr>
+                        <tr class="o-product-template" t-foreach="widget.dashboardsData.sales.bestSellers" t-as="product" t-att-data-product-id="product.id">
+                            <td><t t-esc="product.label"/></td>
+                            <td><t t-esc="product.qty"/></td>
+                            <td><t t-esc="widget.renderMonetaryField(product.sales, widget.data.currency)"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-extend="website_sale.productsTable">
+        <t t-jquery=".o-top-margin .row .col-12" t-operation="attributes">
+            <attribute name="class" value="col-lg-6 col-12" />
+        </t>
+        <t t-jquery=".o-top-margin .row" t-operation="append">
+            <div class="col-lg-6 col-12 o-dashboard-utms">
+                <div>
+                    <h4 class="float-left">REVENUE BY</h4>
+                    <t t-call="website_sale.LinkTrackersDropDown"/>
+                </div>
+                <div class="o-utm-no-data-img">
+                    <img src="website_sale/static/src/img/website_sale_chart_demo.png" alt="There isn't any UTM tag detected in orders" class="utm-chart-image image-responsive mt8"/>
+                </div>
+                <div class="o-utm-data-graph"/>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="website_sale.LinkTrackersDropDown">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle utm-dropdown ml4" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="utm-button-name">Campaigns</span>
+            </button>
+            <div class="dropdown-menu" role="menu" aria-labelledby="utm-dropdown">
+                <a name="campaignId" class="dropdown-item js-utm-selector" role="menuitem">Campaigns</a>
+                <a name="mediumId" class="dropdown-item js-utm-selector" role="menuitem">Medium</a>
+                <a name="sourceId" class="dropdown-item js-utm-selector" role="menuitem">Sources</a>
+            </div>
+        </div>
+    </t>
+</templates>

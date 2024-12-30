@@ -1,0 +1,33 @@
+.o-report-replenishment-page {
+    .o-report-replenishment {
+        .o-grid-warning {
+            background-color: #f4cccc;
+        }
+        .o-grid-match {
+            background-color: #f0f0f0;
+        }
+    }
+
+    .o-forecasted-row {
+        background-color: #dee2e6;
+    }
+
+    .o-priority {
+        display: inline-block;
+        padding: 0;
+        border: 0;
+        &.o-priority-star {
+            background-color: transparent;
+            font-size: 1.35em;
+            &.fa-star-o {
+                color: #a8a8a8;
+            }
+            &.fa-star {
+                color: gold;
+            }
+        }
+    }
+    .table td {
+        vertical-align: middle;
+    } 
+}

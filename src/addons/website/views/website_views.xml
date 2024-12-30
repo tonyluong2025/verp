@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <!-- ====== Actions ====================================================
+        ==================================================================== -->
+        <record id="actionWebsiteAddFeatures" model="ir.actions.actwindow">
+            <field name="label">Apps</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.module.module</field>
+            <field name="viewMode">kanban,tree,form</field>
+            <field name="domain">['!', ['label', '=like', 'theme_%']]</field>
+            <field name="context" eval="{'searchDefault_categoryId': refId('base.category_websiteWebsite'), 'searchpanelDefault_categoryId': refId('base.category_website')}"/>
+        </record>
+
+        <record id="actionShowViewhierarchy" model="ir.actions.actwindow">
+            <field name="label">Show View Hierarchy</field>
+            <field name="resModel">ir.ui.view</field>
+            <field name="viewMode">qweb</field>
+        </record>
+
+        <!-- ====== website views ==============================================
+        ==================================================================== -->
+        <record id="viewWebsiteForm" model="ir.ui.view">
+            <field name="label">website.form</field>
+            <field name="model">website</field>
+            <field name="arch" type="xml">
+                <form string="Website Settings">
+                    <sheet>
+                        <div name="domain">
+                            <group name="domain">
+                                <field name="label"/>
+                                <field name="domain"/>
+                            </group>
+                        </div>
+                        <div name="logo">
+                            <group name="logo">
+                                <field name="logo" widget="image" class="oe-avatar float-left"/>
+                            </group>
+                        </div>
+                        <div name="other">
+                            <group name="other">
+                                <field name="companyId" options="{'noOpen': true, 'noCreate': true}" groups="base.groupMultiCompany"/>
+                                <field name="defaultLangId" options="{'noOpen': true, 'noCreate': true}" groups="base.groupNoOne"/>
+                            </group>
+                        </div>
+                        <notebook>
+                            <page string="Custom Code" groups="base.groupNoOne">
+                                <label for="customCodeHead"/>
+                                <field name="customCodeHead" widget="ace" options="{'mode': 'xml'}"/>
+
+                                <label for="customCodeFooter"/>
+                                <field name="customCodeFooter" widget="ace" options="{'mode': 'xml'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewWebsiteFormViewThemesModal" model="ir.ui.view">
+            <field name="label">website.modal.form</field>
+            <field name="model">website</field>
+            <field name="inheritId" ref="website.viewWebsiteForm"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <footer>
+                        <button name="createAndRedirectConfigurator" type="object" string="Create" class="btn btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </xpath>
+                <xpath expr="//notebook" position="replace"/>
+                <xpath expr="//div[@name='logo']" position="replace"/>
+            </field>
+        </record>
+
+        <record id="viewWebsiteTree" model="ir.ui.view">
+            <field name="label">website.tree</field>
+            <field name="model">website</field>
+            <field name="arch" type="xml">
+                <tree string="Websites">
+                    <field name="sequence" widget="handle"/>
+                    <field name="label"/>
+                    <field name="domain"/>
+                    <field name="countryGroupIds" widget="many2manyTags"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <field name="defaultLangId"/>
+                    <field name="themeId" groups="base.groupNoOne"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="actionWebsiteList" model="ir.actions.actwindow">
+            <field name="label">Websites</field>
+            <field name="resModel">website</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="viewWebsiteTree"/>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- ====== website.page views =========================================
+        ==================================================================== -->
+        <record id="websitePagesFormView" model="ir.ui.view">
+            <field name="label">website.page.form</field>
+            <field name="model">website.page</field>
+            <field name="arch" type="xml">
+                <form string="Website Page Settings">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="label"/>
+                                <field name="url"/>
+                                <field name="viewId" context="{'displayWebsite': true}" options="{'alwaysReload': true}"/>
+                                <field name="websiteId" options="{'noCreate': true}" groups="website.groupMultiWebsite"/>
+                                <field name="track"/>
+                            </group>
+                            <group>
+                                <field name="websiteIndexed"/>
+                                <field name="isPublished"/>
+                                <field name="datePublish"/>
+                                <field name="cacheTime" groups="base.groupNoOne"/>
+                                <field name="cacheKeyExpr" groups="base.groupNoOne"/>
+                            </group>
+                        </group>
+                        <label for="menuIds" string="Related Menu Items"/>
+                        <field name="menuIds"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="websitePagesTreeView" model="ir.ui.view">
+            <field name="label">website.page.list</field>
+            <field name="model">website.page</field>
+            <field name="arch" type="xml">
+                <tree string="Website Pages" defaultOrder="label" multiEdit="1">
+                    <field name="label"/>
+                    <field name="url"/>
+                    <field name="websiteId" groups="website.groupMultiWebsite"/>
+                    <field name="websiteIndexed"/>
+                    <field name="isPublished" string="Is Published"/>
+                    <field name="createdUid" invisible="1"/>
+                    <field name="updatedUid"/>
+                    <field name="updatedAt"/>
+                    <field name="track"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="websitePagesViewSearch" model="ir.ui.view">
+            <field name="label">website.page.view.search</field>
+            <field name="model">website.page</field>
+            <field name="arch" type="xml">
+                <search string="Website Pages" >
+                    <field name="url"/>
+                    <filter string="Published" name="published" domain="[['websitePublished', '=', true]]"/>
+                    <filter string="Not published" name="notPublished" domain="[['websitePublished', '=', false]]"/>
+                    <separator/>
+                    <filter string="Tracked" name="tracked" domain="[['track', '=', true]]"/>
+                    <filter string="Not tracked" name="notTracked" domain="[['track', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionWebsitePagesList" model="ir.actions.actwindow">
+            <field name="label">Website Pages</field>
+            <field name="resModel">website.page</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="websitePagesTreeView"/>
+            <field name="target">current</field>
+        </record>
+
+        <!-- ====== website.menu views =========================================
+        ==================================================================== -->
+        <record id="websiteMenusFormView" model="ir.ui.view">
+            <field name="label">website.menu.form</field>
+            <field name="model">website.menu</field>
+            <field name="arch" type="xml">
+                <form string="Website Menus Settings">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="label"/>
+                                <field name="url"/>
+                                <field name="pageId"/>
+                                <field name="isMegaMenu"/>
+                            </group>
+                            <group>
+                                <field name="newWindow"/>
+                                <field name="sequence"/>
+                                <field name="websiteId" options="{'noCreate': true}" groups="website.groupMultiWebsite"/>
+                            </group>
+                            <group>
+                                <field name="parentId" context="{'displayWebsite': true}"/>
+                                <field name="groupIds"/>
+                            </group>
+                        </group>
+                        <label for="childId" string="Child Menus"/>
+                        <field name="childId">
+                            <tree>
+                                <field name="sequence" widget="handle"/>
+                                <field name="label"/>
+                                <field name="url"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="menuTree" model="ir.ui.view">
+            <field name="label">website.menu.tree</field>
+            <field name="model">website.menu</field>
+            <field name="fieldParent">childId</field>
+            <field name="arch" type="xml">
+                <tree string="Website menu">
+                    <field name="sequence" widget="handle"/>
+                    <field name="websiteId" options="{'noCreate': true}" groups="website.groupMultiWebsite"/>
+                    <field name="label"/>
+                    <field name="url"/>
+                    <field name="isMegaMenu"/>
+                    <field name="newWindow"/>
+                    <field name="parentId" context="{'displayWebsite': true}"/>
+                    <field name="groupIds" widget="many2manyTags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="menuSearch" model="ir.ui.view">
+            <field name="label">website.menu.search</field>
+            <field name="model">website.menu</field>
+            <field name="arch" type="xml">
+                <search string="Search Menus">
+                    <field name="label"/>
+                    <field name="url"/>
+                    <field name="websiteId" groups="website.groupMultiWebsite"/>
+                    <group string="Group By">
+                        <filter string="Name" name="groupbyName" domain="[]" context="{'groupby':'label'}"/>
+                        <filter string="Url" name="groupbyUrl" domain="[]" context="{'groupby':'url'}"/>
+                        <filter string="Website"  name="groupbyWebsiteId" domain="[]" context="{'groupby':'websiteId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionWebsiteMenu" model="ir.actions.actwindow">
+            <field name="label">Website Menu</field>
+            <field name="resModel">website.menu</field>
+            <field name="viewMode">tree,form</field>
+            <field name="context">{'searchDefault_groupbyWebsiteId':1}</field>
+            <field name="viewId" ref="menuTree"/>
+            <field name="target">current</field>
+        </record>
+
+        <!-- ====== ir.ui.view views ============================================
+        ==================================================================== -->
+        <record model="ir.ui.view" id="viewViewFormExtend">
+            <field name="model">ir.ui.view</field>
+            <field name="inheritId" ref="base.viewViewForm"/>
+            <field name="arch" type="xml">
+                <field name="inheritId" position="attributes">
+                    <attribute name="context">{'displayWebsite': true}</attribute>
+                    <attribute name="options">{'alwaysReload': true}</attribute>
+                </field>
+                <field name="model" position="before">
+                    <field name="websiteId" options="{'noCreate': true}" groups="website.groupMultiWebsite"/>
+                    <label for="key"/>
+                    <div class='o-row'>
+                        <field name="key"/>
+                        <button string="" attrs="{'invisible': [['type', '!=', 'qweb']]}" name="website.actionShowViewhierarchy" icon="fa-sitemap" type="action" class="btn btn-link"/>
+                    </div>
+                    <field name="pageIds" invisible="1" />
+                    <field name="firstPageId" attrs="{'invisible': [['pageIds', '=', []]]}" />
+                    <field name="visibility" attrs="{'invisible': [['type', '!=', 'qweb']]}" />
+                    <field name="visibilityPasswordDisplay" attrs="{'invisible': [['visibility', '!=', 'password']]}" password="true" string="Visibility Password" />
+                </field>
+                <sheet position="before">
+                    <header>
+                        <button name="redirectToPageManager" string="Go to Page Manager"
+                            type="object" attrs="{'invisible': [['pageIds', '=', []]]}"/>
+                    </header>
+                </sheet>
+            </field>
+        </record>
+
+        <record id="viewViewTreeInheritWebsite" model="ir.ui.view">
+            <field name="model">ir.ui.view</field>
+            <field name="inheritId" ref="base.viewViewTree"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="decoration-muted">!active</attribute>
+                </tree>
+                <field name="label" position="after">
+                    <field name="active" invisible="1"/>
+                    <field name="websiteId" groups="website.groupMultiWebsite"/>
+                </field>
+                <field name="xmlid" position="before">
+                    <field name="key" groups="website.groupMultiWebsite"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="viewViewQweb" model="ir.ui.view">
+            <field name="label">View Hierarchy</field>
+            <field name="type">qweb</field>
+            <field name="model">ir.ui.view</field>
+            <field name="arch" type="xml">
+                <qweb jsClass="viewHierarchy">
+                    <nav class="o-tree-nav navbar justify-content-start w-100 fixed-top bg-white shadow">
+                        <div class="dropdown ml-2 border border-info rounded">
+                            <a href="#" role="button" class="btn dropdown-toggle text-info" data-toggle="dropdown">
+                                All Websites
+                            </a>
+                            <div class="dropdown-menu o-website-filter">
+                                <a href="#" class="dropdown-item active" data-websiteName="*">All Websites</a>
+                            </div>
+                        </div>
+                        <div class="ml-2 custom-control custom-switch">
+                            <input id="oshowInactive" class="custom-control-input" type="checkbox"/>
+                            <label class="custom-control-label" for="oShowInactive">Show inactive views</label>
+                        </div>
+                        <div class="o-search input-group ml-auto col-8 col-sm-6 col-md-4 col-xl-3" role="search">
+                            <input type="search" name="search" class="form-control border-info" placeholder="Name, id or key"/>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-info" aria-label="Search" title="Search">
+                                    <i class="fa fa-search"/>
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <t t-set="view" t-value="await env.items('ir.ui.view').browse(context['activeId']).withContext({activeTest: false})"/>
+                    <t t-set="requestedView" t-value="view"/>
+                    <t t-set="view" t-value="await view._getTopLevelView()"/>
+                    <div class="o-tree-container ml-2" t-att-data-requested-view-id="requestedView.id">
+                        <t t-set="siblingViews" t-value="(await view.search([['key', '=', view.key]])).sub(view)"/>
+                        <div t-if="siblingViews" class="alert alert-info m-1 p-1">
+                            Multiple tree exists for this view
+                            <a t-foreach="siblingViews" t-as="siblingView" href="#" class="o-load-hierarchy" t-att-data-viewId="siblingView.id">
+                                <i class="fa fa-arrow-right mr-1"/>
+                                <t t-esc="await (await siblingView.withContext({displayWebsite: true, displayKey: true})).displayName"/>
+                            </a>
+                        </div>
+                        <t t-call="website.reportViewhierarchyChildren"/>
+                    </div>
+                </qweb>
+            </field>
+        </record>
+        <template id="reportViewhierarchyChildren">
+            <t t-set="classesForSearch" t-value="'d-flex align-items-center'"/>
+            <t t-set="inheritChildrenIds" t-value="await view.inheritChildrenIds"/>
+            <p t-attf-class="o-tree-entry mb-0 #{! await view.active ? 'text-muted font-weight-normal' : ''} #{bool(inheritChildrenIds) &amp;&amp; 'o-has-child' || ''} #{classesForSearch}">
+                <i t-if="bool(inheritChildrenIds)" class="js-fold o-fold-icon fa fa-minus-square-o mr-1"/>
+                <i t-if="await view.archUpdated" class="fa fa-pencil-square mr-1 o-text-pink" title="This view arch has been modified"/>
+                <span class="js-fold">
+                    <t t-esc="await view.label"/> (<span class="font-weight-bold" t-esc="await view.key"/>)
+                    <span class="o-text-orange" t-if="bool(await view.websiteId)" t-esc="f(' [%s]', await (await view.websiteId).label)"/>
+                 </span>
+                <a type="action" data-model="ir.ui.view" t-att-data-res-id="view.id">
+                    <i class="fa fa-eye ml-2 text-muted" title="Go to View"/>
+                </a>
+                <a href="#" class="o-show-diff" t-att-data-viewId="view.id">
+                    <i class="fa fa-files-o ml-2 text-muted" title="Show Arch Diff"/>
+                </a>
+            </p>
+            <ul t-if="bool(inheritChildrenIds)">
+                <t t-foreach="inheritChildrenIds" t-as="child">
+                    <li t-att-class="! await child.active &amp;&amp; 'o-is-inactive d-none'"
+                        t-att-data-websiteName="await (await child.websiteId).label" t-att-data-key="await child.key"
+                        t-att-data-id="child.id" t-att-data-name="await child.label">
+                        <t t-call="website.reportViewhierarchyChildren">
+                            <t t-set="view" t-value="child"/>
+                        </t>
+                    </li>
+                </t>
+            </ul>
+        </template>
+
+        <record id="resetViewArchWizardView" model="ir.ui.view">
+            <field name="model">reset.view.arch.wizard</field>
+            <field name="inheritId" ref="base.resetViewArchWizardView"/>
+            <field name="arch" type="xml">
+                <field name="compareViewId" position="attributes">
+                    <attribute name="context">{'displayWebsite': true}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="viewArchOnly" model="ir.ui.view">
+            <field name="label">website.irUiView.archOnly</field>
+            <field name="model">ir.ui.view</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="arch"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ====== Dashboard ==================================================
+        ==================================================================== -->
+        <record id="backendDashboard" model="ir.actions.client">
+            <field name="label">Analytics</field>
+            <field name="tag">backendDashboard</field>
+        </record>
+
+        <record id="irActionsServerWebsiteDashboard" model="ir.actions.server">
+            <field name="label">Website: Dashboard</field>
+            <field name="modelId" ref="website.model_website"/>
+            <field name="state">code</field>
+            <field name="code">model.actionDashboardRedirect()</field>
+            <field name="groupsId" eval="[[4, refId('base.groupUser')]]"/>
+        </record>
+
+        <record id="irActionsServerWebsiteGoogleAnalytics" model="ir.actions.server">
+            <field name="label">Website: Analytics</field>
+            <field name="modelId" ref="website.model_website"/>
+            <field name="state">code</field>
+            <field name="code">(await (await model.env.ref('website.backendDashboard')).sudo()).readOne()</field>
+            <field name="groupsId" eval="[[4, refId('base.groupUser')]]"/>
+        </record>
+
+        <!-- ====== Themes =====================================================
+        ==================================================================== -->
+        <!-- Custom module kanban : install button (even if already installed) which -->
+        <!-- redirects to website after (fake or not) installation + live preview button -->
+        <record model="ir.ui.view" id="themeViewKanban">
+            <field name="label">Themes Kanban</field>
+            <field name="model">ir.module.module</field>
+            <field name="arch" type="xml">
+                <kanban create="false" class="o-theme-kanban" defaultOrder="state,sequence,label" jsClass="themePreviewKanban">
+                    <field name="icon"/>
+                    <field name="summary"/>
+                    <field name="label"/>
+                    <field name="state"/>
+                    <field name="url"/>
+                    <field name="imageIds"/>
+                    <field name="categoryId"/>
+                    <field name="displayName"/>
+                    <field name="isInstalledOnCurrentWebsite"/>
+                    <templates>
+                        <div t-name="kanban-box" t-attf-class="o-theme-preview mb16 mt16 #{record.isInstalledOnCurrentWebsite.rawValue? 'o-theme-installed' : ''}">
+                            <t t-set="hasImage" t-value="record.imageIds.rawValue.length > 0"/>
+                            <t t-set="hasScreenshot" t-value="record.imageIds.rawValue.length > 1"/>
+                            <t t-set="imageUrl" t-value="hasImage ? '/web/image/' + record.imageIds.rawValue[0] : record.icon.value"/>
+
+                            <div class="o-theme-preview-top bg-white mb4">
+                                <div t-attf-class="bg-gray-lighter #{hasScreenshot? 'o-theme-screenshot' : (hasImage ? 'o-theme-cover' : 'o-theme-logo')}" t-attf-style="background-image: url(#{imageUrl});"/>
+                                <div t-if="record.isInstalledOnCurrentWebsite.rawValue" class="o-button-area">
+                                    <button type="object" name="buttonRefreshTheme" class="btn btn-primary">Update theme</button>
+                                    <hr />
+                                    <button type="object" name="buttonRemoveTheme" class="btn btn-secondary">Remove theme</button>
+                                </div>
+                                <div t-else="" class="o-button-area">
+                                    <button type="object" name="buttonChooseTheme" class="btn btn-primary">Use this theme</button>
+                                    <hr t-if="record.url.value"/>
+                                    <button role="button" type="edit" t-if="record.url.value" class="btn btn-secondary">Live Preview</button>
+                                </div>
+                            </div>
+                            <div class="o-theme-preview-bottom clearfix">
+                                <h5 t-if="record.summary.value" class="text-uppercase float-left">
+                                    <b><t t-esc="record.summary.value.split(',')[0]"/></b>
+                                </h5>
+                                <h6 t-if="record.displayName.value" class="text-muted float-right">
+                                    <b><t t-esc="record.displayName.value.replace('Theme', '').replace('theme', '')"/></b>
+                                </h6>
+                            </div>
+                        </div>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="themeViewSearch">
+            <field name="label">Themes Search</field>
+            <field name="model">ir.module.module</field>
+            <field name="priority">50</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="label" filterDomain="['|', '|', ['summary', 'ilike', self], ['shortdesc', 'ilike', self], ['label', 'ilike', self]]" string="Theme"/>
+                    <field name="categoryId" filterDomain="['|', '|', ['summary', 'ilike', self], ['shortdesc', 'ilike', self], ['categoryId', 'ilike', self]]" string="Category"/>
+                    <group>
+                        <filter string="Author" name="author" domain="[]" context="{'groupby':'author'}"/>
+                        <filter string="Category" name="category" domain="[]" context="{'groupby':'categoryId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- themes should be installed through website settings -->
+        <record id="base.openModuleTree" model="ir.actions.actwindow">
+            <field name="domain">['!', ['label', '=like', 'theme_%']]</field>
+        </record>
+
+        <!-- Actions to list themes with custom kanban (launched on module installation) -->
+        <record id="themeViewFormPreview" model="ir.ui.view">
+            <field name="label">website.form</field>
+            <field name="model">ir.module.module</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false" delete="0" jsClass="themePreviewForm">
+                  <div class="o-preview-frame h-100">
+                        <field name='url' widget='iframe'/>
+                        <img alt='phone' class='img-mobile' style='display:none' src="/website/static/src/img/phone.png"/>
+                  </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="themeInstallKanbanAction" model="ir.actions.actwindow">
+            <field name="label">Pick a Theme</field>
+            <field name="resModel">ir.module.module</field>
+            <field name="viewMode">kanban,form</field>
+            <field name="viewId" ref="website.themeViewKanban" />
+            <field name="target">fullscreen</field>
+            <field name="viewIds"
+                   eval="[[5, 0, 0],
+                          [0, 0, {'viewMode': 'kanban', 'viewId': refId('website.themeViewKanban')}],
+                          [0, 0, {'viewMode': 'form', 'viewId': refId('website.themeViewFormPreview')}]]"/>
+            <field name="searchViewId" ref="themeViewSearch"/>
+            <field name="domain" model="ir.module.module" eval="await obj.getThemesDomain()"/>
+        </record>
+
+        <!-- ====== Menu Items =================================================
+        ==================================================================== -->
+        <menuitem name="Website"
+            id="menuWebsiteConfiguration"
+            sequence="95"
+            groups="base.groupUser"
+            webIcon="website,static/description/icon.png"/>
+
+        <menuitem id="menuDashboard"
+            name="Dashboard"
+            sequence="1"
+            parent="website.menuWebsiteConfiguration"/>
+
+        <!-- Force empty action, to ease upgrade -->
+        <record id="menuDashboard" model="ir.ui.menu">
+            <field name="action" eval="false"/>
+        </record>
+
+        <menuitem id="menuWebsiteDashboard" parent="menuDashboard"
+            sequence="10" name="eCommerce Dashboard"
+            action="website.irActionsServerWebsiteDashboard" active="0"/>
+
+        <menuitem id="menuWebsiteGoogleAnalytics" parent="menuDashboard"
+            sequence="20" name="Analytics"
+            action="website.irActionsServerWebsiteGoogleAnalytics"/>
+
+        <!-- Configurator actions -->
+        <record id="startConfiguratorActUrl" model="ir.actions.acturl">
+            <field name="label">Website Configurator</field>
+            <field name="url">/website/configurator</field>
+            <field name="target">self</field>
+        </record>
+
+        <record id="websiteConfiguratorTodo" model="ir.actions.todo">
+            <field name="label">Start Website Configurator</field>
+            <field name="actionId" ref="startConfiguratorActUrl"/>
+            <field name="sequence">0</field>
+        </record>
+    </data>
+</verp>

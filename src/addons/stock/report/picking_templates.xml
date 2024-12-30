@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+    <data>
+        <template id="labelTransferTemplateViewZpl">
+            <t t-set="uomCategUnit" t-value="await env.ref('uom.productUomCategUnit')"/>
+            <t t-foreach="docs" t-as="picking">
+
+                <t t-foreach="await picking.moveLines" t-as="move">
+                    <t t-foreach="await move.moveLineIds" t-as="moveLine">
+                        <t t-set="productId" t-value="await moveLine.productId"/>
+                        <t t-set="lotId" t-value="await moveLine.lotId"/>
+                        <t t-if="(await (await moveLine.productUomId).categoryId).eq(uomCategUnit)">
+                            <t t-set="qty" t-value="parseInt(await moveLine.qtyDone)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-set="qty" t-value="1"/>
+                        </t>
+                        <t t-foreach="range(qty)" t-as="item">
+                            <t t-translation="off">
+^XA
+^FO100,50
+^A0N,44,33^FD<t t-esc="await productId.displayName"/>^FS
+^FO100,100
+<t t-if="await productId.tracking !== 'none' &amp;&amp; (lotId.ok || await moveLine.lotName)">
+^A0N,44,33^FDLN/SN: <t t-esc="await lotId.label || await moveLine.lotName"/>^FS
+^FO100,150^BY3
+^BCN,100,Y,N,N
+^FD<t t-esc="await lotId.label || await moveLine.lotName"/>^FS
+</t>
+<t t-if="await productId.tracking === 'none' &amp;&amp; await productId.barcode">
+^BCN,100,Y,N,N
+^FD<t t-esc="await productId.barcode"/>^FS
+</t>
+^XZ
+                            </t>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="labelTransferTemplateViewPdf">
+            <t t-call="web.basicLayout">
+                <div class="page">
+                    <t t-set="uomCategUnit" t-value="await env.ref('uom.productUomCategUnit')"/>
+                    <t t-foreach="docs" t-as="picking">
+                        <t t-foreach="await picking.moveLines" t-as="move">
+                            <t t-foreach="await move.moveLineIds" t-as="moveLine">
+                                <t t-set="productId" t-value="await moveLine.productId"/>
+                                <t t-set="lotId" t-value="await moveLine.lotId"/>
+                                <t t-set="lotName" t-value="await moveLine.lotName"/>
+                                <t t-if="(await (await moveLine.productUomId).categoryId).eq(uomCategUnit)">
+                                    <t t-set="qty" t-value="parseInt(moveLine.qtyDone)"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="qty" t-value="1"/>
+                                </t>
+                                <t t-foreach="range(qty)" t-as="item">
+                                    <t t-translation="off">
+                                        <div style="display: inline-table; height: 10rem; width: 32%;">
+                                            <table class="table table-bordered" style="border: 2px solid black;" t-if="bool(await picking.moveLines)">
+                                                <tr>
+                                                    <th class="table-active text-left" style="height:4rem;">
+                                                        <span t-esc="await (await move.productId).displayName"/>
+                                                    </th>
+                                                </tr>
+                                                <t t-if="await productId.tracking !== 'none'">
+                                                    <tr>
+                                                        <td class="text-center align-middle">
+                                                            <t t-if="lotName || lotId.ok">
+                                                                <div t-field="moveLine.lotName" t-options="{'widget': 'barcode', 'width': 600, 'height': 150, 'imgStyle': 'width:100%;height:4rem'}"/>
+                                                                <span t-esc="lotName || await lotId.label"/>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <span class="text-muted">No barcode available</span>
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="await productId.tracking === 'none'">
+                                                    <tr>
+                                                        <td class="text-center align-middle" style="height: 6rem;">
+                                                            <t t-if="await productId.barcode">
+                                                                <div t-field="productId.barcode" t-options="{'widget': 'barcode', 'width': 600, 'height': 150, 'imgStyle': 'width:100%;height:4rem'}"/>
+                                                                <span t-esc="await productId.barcode"/>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <span class="text-muted">No barcode available</span>
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                        </div>
+                                    </t>
+                                </t>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <template id="labelPickingTypeView">
+            <t t-foreach="docs" t-as="operation">
+                <t t-translation="off">
+^XA
+^FO100,50
+^A0N,44,33^FD<t t-esc="await operation.label"/>^FS
+<t t-if="await operation.barcode">
+^FO100,100
+^BCN,100,Y,N,N
+^FD<t t-esc="await operation.barcode"/>^FS
+</t>
+^XZ
+                </t>
+            </t>
+        </template>
+    </data>
+</verp>

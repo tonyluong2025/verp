@@ -1,0 +1,8 @@
+
+// Disable buttons and links marked with the o-wait-lazy-js class or in a
+// section which is marked with the o-wait-lazy-js class.
+a[href], button, input[type="submit"], input[type="button"], .btn {
+    &.o-wait-lazy-js, .o-wait-lazy-js & {
+        pointer-events: none;
+    }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="reportAllChannelsSalesAction" model="ir.actions.actwindow">
+        <field name="label">Sales Analysis</field>
+        <field name="resModel">sale.report</field>
+        <field name="viewMode">pivot</field>
+    </record>
+</verp>

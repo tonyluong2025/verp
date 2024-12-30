@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- ir.mail.server -->
+        <record model="ir.ui.view" id="irMailServerForm">
+            <field name="model">ir.mail.server</field>
+            <field name="arch" type="xml">
+                <form string="Outgoing Mail Servers">
+                  <sheet>
+                    <group col="4">
+                        <field name="label"/>
+                        <field name="fromFilter"/>
+                        <field name="sequence"/>
+                        <field name="active" widget="booleanToggle"/>
+                    </group>
+                    <group col="4" string="Connection Information">
+                        <field name="smtpHost"/>
+                        <field name="smtpPort" options="{'format': false}"/>
+                        <field name="smtpDebug" groups="base.groupNoOne"/>
+                     </group>
+                     <group>
+                        <group string="Security and Authentication">
+                            <field name="smtpAuthentication"/>
+                            <field name="smtpEncryption"/>
+                            <field name="smtpUser" attrs="{'invisible': [['smtpAuthentication', '!=', 'login']]}" forceSave="1"/>
+                            <field name="smtpPass" attrs="{'invisible': [['smtpAuthentication', '!=', 'login']]}" password="true" forceSave="1"/>
+                            <field name="smtpSslCertificate" attrs="{'invisible': [['smtpAuthentication', '!=', 'certificate']]}" forceSave="1"/>
+                            <field name="smtpSslPrivateKey" attrs="{'invisible': [['smtpAuthentication', '!=', 'certificate']]}" forceSave="1"/>
+                            <button name="testSmtpConnection" type="object" string="Test Connection" icon="fa-television"/>
+                        </group>
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="irMailServerList">
+            <field name="model">ir.mail.server</field>
+            <field name="arch" type="xml">
+                <tree string="Outgoing Mail Servers">
+                    <field name="sequence"/>
+                    <field name="label"/>
+                    <field name="smtpHost"/>
+                    <field name="smtpUser"/>
+                    <field name="smtpEncryption"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewIrMailServerSearch" model="ir.ui.view">
+            <field name="model">ir.mail.server</field>
+            <field name="arch" type="xml">
+                <search string="Outgoing Mail Servers">
+                    <field name="label"
+                        filterDomain="['|', '|', ['label','ilike',self], ['smtpHost','ilike',self], ['smtpUser','ilike',self]]"
+                        string="Outgoing Mail Server"/>
+                    <field name="smtpEncryption"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.actwindow" id="actionIrMailServerList">
+            <field name="label">Outgoing Mail Servers</field>
+            <field name="resModel">ir.mail.server</field>
+            <field name="viewMode">tree,form</field>
+            <field name="viewId" ref="irMailServerList" />
+            <field name="searchViewId" ref="viewIrMailServerSearch"/>
+        </record>
+
+        <menuitem id="menuMailServers" parent="menuEmail" action="actionIrMailServerList" sequence="5" groups="base.groupNoOne"/>
+</verp>

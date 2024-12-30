@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- Add partner categories in partner kanban view -->
+        <record id="resPartnerKanbanView" model="ir.ui.view">
+            <field name="label">res.partner.kanban.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inheritId" ref="base.resPartnerKanbanView"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[contains(@class,'oe-kanban-partner-categories')]" position="inside">
+                    <span class="oe-kanban-list-many2many">
+                        <field name="categoryId" widget="many2manyTags" options="{'colorField': 'color'}"/>
+                    </span>
+                </xpath>
+            </field>
+        </record>
+</verp>

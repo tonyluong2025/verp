@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record model="ir.ui.view" id="productPricelistItemViewSearch">
+            <field name="label">product.pricelist.item.search</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="arch" type="xml">
+                <search string="Products Price Rules Search">
+                    <filter name="Product Rule" domain="[['appliedOn', '=', '1_product']]"/>
+                    <filter name="Variant Rule" domain="[['appliedOn', '=', '0_productVariant']]" groups="product.groupProductVariant"/>
+                    <separator/>
+                    <field name="pricelistId"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <field name="currencyId" groups="base.groupMultiCurrency"/>
+                    <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="groupbyProduct" domain="[]" context="{'groupby': 'productTemplateId'}"/>
+                        <filter string="Variant"
+                          name="groupbyProductVariant"
+                          domain="[['appliedOn', '=', '0_productVariant']]"
+                          context="{'groupby': 'productTemplateId'}"
+                          groups="product.groupProductVariant"/>
+                        <filter string="Pricelist"
+                          name="groupbyVendor"
+                          domain="[]"
+                          context="{'groupby': 'pricelistId'}"
+                          groups="product.groupProductPricelist"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="productPricelistItemTreeView" model="ir.ui.view">
+          <field name="label">product.pricelist.item.tree</field>
+          <field name="model">product.pricelist.item</field>
+          <field name="priority">10</field>
+          <field name="arch" type="xml">
+            <tree string="Price Rules">
+              <field name="pricelistId"/>
+              <field name="label" string="Applied On"/>
+              <field name="price"/>
+              <field name="minQuantity" colspan="4"/>
+              <field name="dateStart" optional="hide"/>
+              <field name="dateEnd" optional="hide"/>
+              <field name="companyId" groups="base.groupMultiCompany" optional="show"/>
+            </tree>
+          </field>
+        </record>
+
+        <record id="productPricelistItemTreeViewFromProduct" model="ir.ui.view">
+            <!-- Access and edit price rules from a given product/product variant -->
+            <field name="label">product.pricelist.item.tree</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="Pricelist Rules" editable="bottom">
+                    <!-- Scope = coming from a product/product template -->
+                    <field name="pricelistId" string="Pricelist" options="{'noCreateEdit':1, 'noOpen': 1}"/>
+                    <field name="label" string="Applied On"/>
+                    <field name="categId" invisible="1"/>
+                    <field name="productTemplateId"
+                      invisible="context['activeModel']!=='product.category'"
+                      attrs="{'required': [['appliedOn', '=', '1_product']]}"
+                      domain="[['categId', '=', context['default_categId'] ?? true], '|', ['companyId', '=', companyId], ['companyId', '=', false]]"
+                      options="{'noCreateEdit':1, 'noOpen': 1}"/>
+                    <field name="productId"
+                      groups="product.groupProductVariant"
+                      invisible="context['productWithoutVariants'] ?? false"
+                      readonly="context['activeModel']==='product.product'"
+                      attrs="{'required': [['appliedOn', '=', '0_productVariant']]}"
+                      domain="['|', '|',
+                        ['id', '=', context['default_productId'] || 0],
+                        ['productTemplateId', '=', context['default_productTemplateId'] || 0],
+                        ['categId', '=', context['default_categId'] || 0], '|', ['companyId', '=', companyId], ['companyId', '=', false]
+                      ]"
+                      options="{'noCreateEdit':1, 'noOpen': 1}"
+                      />
+                    <field name="minQuantity" colspan="4"/>
+                    <field name="currencyId" invisible="1"/>
+                    <field name="fixedPrice" string="Price" required='1'/>
+                    <field name="dateStart" optional="show"/>
+                    <field name="dateEnd" optional="show"/>
+                    <field name="appliedOn" invisible="1"/>
+                    <field name="companyId" groups="base.groupMultiCompany" optional="show" options="{'noCreate':1, 'noOpen': 1}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="productPricelistItemFormView" model="ir.ui.view">
+            <field name="label">product.pricelist.item.form</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="arch" type="xml">
+                <form string="Pricelist Rule">
+                    <sheet>
+                        <field name="label" invisible="1"/>
+                        <group name="pricelistRuleComputation" groups="product.groupSalePricelist" string="Price Computation">
+                            <group name="pricelistRuleMethod">
+                                <field name="computePrice" string="Computation" widget="radio"/>
+                            </group>
+                            <div>
+                                <div class="alert alert-info" role="alert" groups="uom.groupUom">
+                                    The computed price is expressed in the default Unit of Measure of the product.
+                                </div>
+                            </div>
+                        </group>
+                        <group name="pricelistRuleBase" groups="product.groupSalePricelist">
+                            <group>
+                                <field name="price" invisible="1"/>
+                                <field name="fixedPrice" widget="monetary" attrs="{'invisible':[['computePrice', '!=', 'fixed']]}"/>
+                                <label for="percentPrice" string="Discount" attrs="{'invisible':[['computePrice', '!=', 'percentage']]}"/>
+                                <div class="o-row" attrs="{'invisible':[['computePrice', '!=', 'percentage']]}">
+                                    <field name="percentPrice" class="oe-inline" attrs="{'invisible':[['computePrice', '!=', 'percentage']]}"/>%%
+                                </div>
+                                <field name="base" attrs="{'invisible':[['computePrice', '!=', 'formula']]}"/>
+                                <field name="basePricelistId" attrs="{
+                                    'invisible': ['|', ['computePrice', '!=', 'formula'], ['base', '!=', 'pricelist']],
+                                    'required': [['computePrice', '=', 'formula'], ['base', '=', 'pricelist']],
+                                    'readonly': [['base', '!=', 'pricelist']]}"/>
+                                <label for="priceDiscount" string="Discount" attrs="{'invisible':[['computePrice', '!=', 'formula']]}"/>
+                                <div class="o-row" attrs="{'invisible':[['computePrice', '!=', 'formula']]}">
+                                    <field name="priceDiscount"/>
+                                    <span>%%</span>
+                                </div>
+                                <field name="priceSurcharge" widget="monetary" string="Extra Fee" attrs="{'invisible':[['computePrice', '!=', 'formula']]}"/>
+                                <field name="priceRound" string="Rounding Method" attrs="{'invisible':[['computePrice', '!=', 'formula']]}"/>
+                                <label string="Margins" for="priceMinMargin" attrs="{'invisible':[['computePrice', '!=', 'formula']]}"/>
+                                <div class="o-row" attrs="{'invisible':[['computePrice', '!=', 'formula']]}">
+                                    <field name="priceMinMargin" string="Min. Margin" class="oe-inline" widget="monetary" nolabel="1"/>
+                                    <i class="fa fa-long-arrow-right mx-2 oe-edit-only" aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="priceMaxMargin" string="Max. Margin" class="oe-inline" widget="monetary" nolabel="1"/>
+                                </div>
+                            </group>
+                            <group>
+                                <div class="alert alert-info" role="alert" style="white-space: pre;" attrs="{'invisible':[['computePrice', '!=', 'formula']]}">
+                                    <field name="ruleTip"/>
+                                </div>
+                            </group>
+                        </group>
+
+                        <group string="Conditions">
+                            <group name="pricelistRuleTarget">
+                                <field name="appliedOn" widget="radio"/>
+                                <field name="categId" options="{'noCreate':1}" attrs="{
+                                    'invisible':[['appliedOn', '!=', '2_productCategory']],
+                                    'required':[['appliedOn', '=', '2_productCategory']]}"/>
+                                <field name="productTemplateId" options="{'noCreate':1}" attrs="{
+                                    'invisible':[['appliedOn', '!=', '1_product']],
+                                    'required':[['appliedOn', '=', '1_product']]}"/>
+                                <field name="productId" options="{'noCreate':1}" attrs="{
+                                    'invisible':[['appliedOn', '!=', '0_productVariant']],
+                                    'required':[['appliedOn', '=', '0_productVariant']]}"/>
+                            </group>
+                            <group name="pricelistRuleLimits">
+                                <field name="minQuantity"/>
+                                <label for="dateStart" string="Validity"/>
+                                <div class="o-row">
+                                    <field name="dateStart" widget="daterange" options='{"relatedEndDate": "dateEnd"}'/>
+                                    <i class="fa fa-long-arrow-right mx-2 oe-edit-only" aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="dateEnd" widget="daterange" options='{"relatedStartDate": "dateStart"}'/>
+                                </div>
+                            </group>
+                            <group name="pricelistRuleRelated" groups="base.groupNoOne">
+                                <field name="pricelistId" invisible="1"/>
+                                <field name="currencyId" groups="base.groupMultiCurrency"/>
+                                <field name="companyId" groups="base.groupMultiCompany"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="productPricelistViewSearch">
+            <field name="label">product.pricelist.search</field>
+            <field name="model">product.pricelist</field>
+            <field name="arch" type="xml">
+                <search string="Products Price Search">
+                    <field name="label" string="Products Price"/>
+                    <field name="currencyId" groups="base.groupMultiCurrency"/>
+                    <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="productPricelistViewTree" model="ir.ui.view">
+            <field name="label">product.pricelist.tree</field>
+            <field name="model">product.pricelist</field>
+            <field name="arch" type="xml">
+                <tree string="Products Price List" sample="1">
+                    <field name="sequence" widget="handle" />
+                    <field name="label"/>
+                    <field name="discountPolicy" groups="product.groupDiscountPerSoLine"/>
+                    <field name="currencyId" groups="base.groupMultiCurrency"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="productPricelistViewKanban" model="ir.ui.view">
+            <field name="label">product.pricelist.kanban</field>
+            <field name="model">product.pricelist</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile" sample="1">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-global-click">
+                                <div id="productPricelist" class="o-kanban-record-top mb0">
+                                    <div class="o-kanban-record-headings">
+                                        <strong class="o-kanban-record-title"><span><field name="label"/></span></strong>
+                                    </div>
+                                    <strong><i class="fa fa-money" role="img" aria-label="Currency" title="Currency"></i> <field name="currencyId"/></strong>
+                                </div>
+                                <field name="discountPolicy" groups="product.groupDiscountPerSoLine"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="productPricelistView" model="ir.ui.view">
+            <field name="label">product.pricelist.form</field>
+            <field name="model">product.pricelist</field>
+            <field name="arch" type="xml">
+                <form string="Products Price List">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <div class="oe-title">
+                            <h1><field name="label" placeholder="e.g. USD Retailers"/></h1>
+                        </div>
+                        <group>
+                          <group name="pricelistSettings">
+                              <field name="currencyId" groups="base.groupMultiCurrency"/>
+                              <field name="active" invisible="1"/>
+                              <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                          </group>
+                        </group>
+                        <notebook>
+                            <page name="pricelistRules" string="Price Rules">
+                              <field name="itemIds" nolabel="1" context="{'default_base':'listPrice'}">
+                                  <tree string="Pricelist Rules" editable="bottom">
+                                      <field name="productTemplateId" string="Products" required="1"/>
+                                      <field name="productId" string="Variants"
+                                        groups="product.groupProductVariant"
+                                        domain="[['productTemplateId', '=', productTemplateId]]"
+                                        options="{'noCreate':1}"/>
+                                      <field name="minQuantity"/>
+                                      <field name="fixedPrice" string="Price"/>
+                                      <field name="currencyId" invisible="1"/>
+                                      <field name="pricelistId" invisible="1"/>
+                                      <!-- Pricelist ID is here only for related fields to be correctly computed -->
+                                      <field name="dateStart"/>
+                                      <field name="dateEnd"/>
+                                      <field name="base" invisible="1"/>
+                                      <field name="appliedOn" invisible="1"/>
+                                      <field name="companyId" invisible="1"/>
+                                  </tree>
+                              </field>
+                            </page>
+                            <page name="pricelistConfig" string="Configuration">
+                                <group>
+                                    <group name="pricelistAvailability" string="Availability">
+                                        <field name="countryGroupIds" widget="many2manyTags"/>
+                                    </group>
+                                    <group name="pricelistDiscounts" groups="product.groupDiscountPerSoLine" string="Discounts">
+                                        <field name="discountPolicy" widget="radio"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="productPricelistViewInherit" model="ir.ui.view">
+            <field name="label">product.pricelist.form.inherit</field>
+            <field name="model">product.pricelist</field>
+            <field name="inheritId" ref="product.productPricelistView"/>
+            <field name="groupsId" eval="[[4, refId('product.groupSalePricelist')]]"/>
+            <field name="arch" type="xml">
+                <!-- When in advanced pricelist mode : pricelist rules
+                  Should open in a form view and not be editable inline anymore.
+                -->
+                <field name="itemIds" position="replace">
+                  <field name="itemIds" nolabel="1" context="{'default_base':'listPrice'}" groups="product.groupProductPricelist">
+                      <tree string="Pricelist Rules">
+                          <field name="label" string="Applicable On"/>
+                          <field name="minQuantity"/>
+                          <field name="price" string="Price"/>
+                          <field name="dateStart"/>
+                          <field name="dateEnd"/>
+                          <field name="base" invisible="1"/>
+                          <field name="priceDiscount" invisible="1"/>
+                          <field name="appliedOn" invisible="1"/>
+                          <field name="computePrice" invisible="1"/>
+                      </tree>
+                  </field>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="inheritsWebsiteSaleCountryGroupForm">
+            <field name="label">website_sale.countryGroup.form</field>
+            <field name="model">res.country.group</field>
+            <field name="inheritId" ref="base.viewCountryGroupForm"/>
+            <field name="arch" type="xml">
+                <group name="countryGroup" position="after">
+                    <field name="pricelistIds"/>
+                </group>
+            </field>
+        </record>
+        <record id="productPricelistAction2" model="ir.actions.actwindow">
+            <field name="label">Pricelists</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">product.pricelist</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="searchViewId" ref="productPricelistViewSearch" />
+            <field name="context">{"default_base":'listPrice'}</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Create a new pricelist
+              </p><p>
+                A price is a set of sales prices or rules to compute the price of sales order lines based on products, product categories, dates and ordered quantities.
+                This is the perfect tool to handle several pricings, seasonal discounts, etc.
+              </p><p>
+                You can assign pricelists to your customers or select one when creating a new sales quotation.
+              </p>
+            </field>
+        </record>
+
+        <record id="productPricelistItemAction" model="ir.actions.actwindow">
+            <field name="label">Price Rules</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">product.pricelist.item</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+    </data>
+</verp>

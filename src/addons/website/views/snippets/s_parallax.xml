@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="sParallax" name="Parallax">
+    <section class="s-parallax parallax s-parallax-is-fixed bg-black-50 o-half-screen-height" data-scroll-background-ratio="1">
+        <span class="s-parallax-bg oe-img-bg" style="background-image: url('/web/image/website.sParallaxDefaultImage'); background-position: 50% 75%;"/>
+        <div class="o-we-bg-filter bg-black-50"/>
+        <div class="oe-structure oe-empty"/>
+    </section>
+</template>
+
+</verp>

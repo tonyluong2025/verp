@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="stockInventoryConflictFormView" model="ir.ui.view">
+        <field name="label">stock.inventory.conflict.form.view</field>
+        <field name="model">stock.inventory.conflict</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form>
+                <div>
+                    <strong>Due to some stock moves done between your initial update of the quantity and now, the difference of quantity is not consistent anymore.</strong>
+                </div>
+                <div>
+                    You can either :
+                    <ul>
+                        <li>Keep the <strong>Counted Quantity</strong> (the Difference will be updated)</li>
+                        <li>Keep the <strong>Difference</strong> (the Counted Quantity will be updated to reflect the same difference as when you counted)</li>
+                        <li>Discard and manually resolve the conflict</li>
+                    </ul>
+                </div>
+                <div>
+                    <br/>
+                    <field name="quantIds" invisible="1"/>
+                    <field name="quantToFixIds" readonly="1" style="margin-top:10px;">
+                        <tree editable="bottom" create="0" delete="0">
+                            <field name="id" invisible="1"/>
+                            <field name="tracking" invisible="1"/>
+                            <field name="productId" attrs="{'readonly': [['id', '!=', false]]}" invisible="context['singleProduct'] ?? false" readonly="context['singleProduct'] ?? false" forceSave="1" options="{'noCreate': true}"/>
+                            <field name="locationId" attrs="{'readonly': [['id', '!=', false]]}" invisible="context['hideLocation'] ?? false" options="{'noCreate': true}"/>
+                            <field name="lotId" groups="stock.groupProductionLot" attrs="{
+                                'readonly': ['|', ['id', '!=', false], ['tracking', 'not in', ['serial', 'lot']]],
+                                'required': [['tracking', '!=', 'none']]
+                            }" invisible="context['hideLot'] ?? false" context="{'default_productId': productId, 'default_companyId': companyId}"/>
+                            <field name="packageId" groups="stock.groupTrackingLot" attrs="{'readonly': [['id', '!=', false]]}"/>
+                            <field name="ownerId" groups="stock.groupTrackingOwner" attrs="{'readonly': [['id', '!=', false]]}" options="{'noCreate': true}"/>
+                            <field name="quantity" string="Quantity"/>
+                            <field name="inventoryQuantity" string="Counted Quantity" decoration-muted="inventoryQuantity == 0" readonly="0"/>
+                            <field name="inventoryDiffQuantity" string="Difference" decoration-muted="inventoryQuantity == 0" decoration-danger="inventoryDiffQuantity &lt; 0" decoration-success="inventoryDiffQuantity &gt; 0" decoration-bf="inventoryDiffQuantity != 0"/>
+                            <field name="productUomId" groups="uom.groupUom"/>
+                            <field name='companyId' groups="base.groupMultiCompany" optional="show"/>
+                        </tree>
+                    </field>
+                </div>
+                <footer>
+                    <button name="actionKeepCountedQuantity" string="Keep Counted Quantity" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button name="actionKeepDifference" string="Keep Difference" type="object" class="btn-primary" data-hotkey="w"/>
+                    <button name="cancelButton" string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

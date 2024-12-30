@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="snailmailLetterFormatError" model="ir.ui.view">
+        <field name="label">snailmail.letter.format.error.form</field>
+        <field name="model">snailmail.letter.format.error</field>
+        <field name="groupsId" eval="[[4, refId('base.groupUser')]]"/>
+        <field name="arch" type="xml">
+            <form string="Cancel notification in failure">
+                <p>Our service cannot read your letter due to its format.<br/>
+                Please modify the format of the template or update your settings
+                to automatically add a blank cover page to all letters.</p>
+                <field name="snailmailCover"/>
+                <label string="Add a Cover Page" class="o-light-label" for="snailmailCover"/>
+                <footer>  
+                    <button string="Update Config and Re-send" name="updateResendAction" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel Letter" name="cancelLetterAction" type="object" class="btn-primary" data-hotkey="w"/>
+                    <button string="Close" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="snailmailLetterFormatErrorAction" model="ir.actions.actwindow">
+        <field name="label">Format Error</field>
+        <field name="resModel">snailmail.letter.format.error</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="viewMode">form</field>
+        <field name="target">new</field>
+    </record>
+</verp>

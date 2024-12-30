@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="viewAccountAnalyticAccountFormInheritBudget" model="ir.ui.view">
+        <field name="label">account.analytic.account.form.inherit.budget</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inheritId" ref="analytic.viewAccountAnalyticAccountForm"/>
+        <field name="priority" eval="50"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='main']" position='after'>
+                <notebook groups="account.groupAccountUser">
+                    <page string="Budget Items">
+                        <field name="crossoveredBudgetLine" widget="one2manyList" colspan="4" nolabel="1"
+                               mode="tree">
+                            <tree string="Budget Items" editable="top">
+                                <field name="crossoveredBudgetId"/>
+                                <field name="generalBudgetId"/>
+                                <field name="dateFrom"/>
+                                <field name="dateTo"/>
+                                <field name="paidDate"/>
+                                <field name="plannedAmount" widget="monetary"/>
+                                <field name="practicalAmount" sum="Practical Amount" widget="monetary"/>
+                                <field name="theoriticalAmount" sum="Theoritical Amount" widget="monetary"/>
+                                <field name="percentage"/>
+                            </tree>
+                            <form string="Budget Items">
+                                <field name="crossoveredBudgetId"/>
+                                <field name="generalBudgetId"/>
+                                <field name="dateFrom"/>
+                                <field name="dateTo"/>
+                                <field name="paidDate"/>
+                                <field name="plannedAmount" widget="monetary"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

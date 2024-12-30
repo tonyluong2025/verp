@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verp>
+    <record id="phoneBlacklistViewTree" model="ir.ui.view">
+        <field name="label">phone.blacklist.view.tree</field>
+        <field name="model">phone.blacklist</field>
+        <field name="arch" type="xml">
+            <tree string="Phone Blacklist">
+                <field name="createdAt" string="Blacklist Date"/>
+                <field name="number"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="phoneBlacklistViewForm" model="ir.ui.view">
+        <field name="label">phone.blacklist.view.form</field>
+        <field name="model">phone.blacklist</field>
+        <field name="arch" type="xml">
+            <form string="Phone Blacklist" duplicate="false" edit="false">
+                <header>
+                    <button name="phoneActionBlacklistRemove" string="Unblacklist"
+                        type="object" class="oe-highlight" context="{'default_phone': number}"
+                        attrs="{'invisible': ['|', ['active', '=', false], ['number', '=', false]]}"/>
+                    <button name="actionAdd" string="Blacklist"
+                        type="object" class="oe-highlight"
+                        attrs="{'invisible': ['|', ['active', '=', true], ['number', '=', false]]}"/>
+                </header>
+                <sheet>
+                <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <group>
+                        <group>
+                            <field name="number"/>
+                            <field name="active" readonly="1"/>
+                            <br/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe-chatter">
+                    <field name="messageFollowerIds"/>
+                    <field name="messageIds"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="phoneBlacklistViewSearch" model="ir.ui.view">
+        <field name="label">phone.blacklist.view.search</field>
+        <field name="model">phone.blacklist</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="number"/>
+                <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="phoneBlacklistAction" model="ir.actions.actwindow">
+        <field name="label">Blacklisted Phone Numbers</field>
+        <field name="resModel">phone.blacklist</field>
+        <field name="viewId" ref="phoneBlacklistViewTree"/>
+        <field name="searchViewId" ref="phoneBlacklistViewSearch"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Add a phone number in the blacklist
+            </p><p>
+                Blacklisted phone numbers won't receive SMS Mailings anymore.
+            </p>
+        </field>
+    </record>
+
+    <!-- Technical Menu -->
+    <menuitem id="phoneMenuMain"
+        name="Phone / SMS"
+        parent="base.menuCustom"
+        sequence="3"/>
+
+    <menuitem id="phoneBlacklistMenu"
+        name="Phone Blacklist"
+        parent="phone_validation.phoneMenuMain"
+        sequence="3"
+        action="phoneBlacklistAction"/>
+
+</verp>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record forcecreate="true" id="irCronMailSchedulerAction" model="ir.cron">
+            <field name="label">Mail: Email Queue Manager</field>
+            <field name="modelId" ref="model_mailMail"/>
+            <field name="state">code</field>
+            <field name="code">model.processEmailQueue()</field>
+            <field name="userId" ref="base.userRoot"/>
+            <field name="intervalNumber">1</field>
+            <field name="intervalType">hours</field>
+            <field name="numbercall">-1</field>
+            <field eval="false" name="doall"/>
+        </record>
+
+        <record id="irCronModuleUpdateNotification" model="ir.cron">
+            <field name="label">Publisher: Update Notification</field>
+            <field name="modelId" ref="model_publisherWarrantyContract"/>
+            <field name="state">code</field>
+            <field name="code">model.updateNotification(null)</field>
+            <field name="userId" ref="base.userRoot" />
+            <field name="intervalNumber">1</field>
+            <field name="intervalType">weeks</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="DateTime.now().plus({days: 7}).toFormat('yyyy-MM-dd HH:mm:ss')" />
+            <field eval="false" name="doall" />
+            <field name="priority">1000</field>
+        </record>
+
+        <record id="base.irCronAct" model="ir.actions.actwindow">
+            <field name="domain" eval="[['id','!=', refId('mail.irCronModuleUpdateNotification')]]"/>
+        </record>
+
+        <record id="irCronDeleteNotification" model="ir.cron">
+            <field name="label">Notification: Delete Notifications older than 6 Month</field>
+            <field name="intervalNumber">1</field>
+            <field name="intervalType">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="false"/>
+            <field name="modelId" ref="model_mailNotification"/>
+            <field name="code">model._gcNotifications(180)</field>
+            <field name="state">code</field>
+        </record>
+
+    </data>
+</verp>

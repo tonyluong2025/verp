@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="mail.discussPublicLayout">&lt;!DOCTYPE html&gt;
+        <html class="h-100">
+            <head>
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+                <title t-esc="title || 'Verp'"/>
+                <link type="image/x-icon" rel="shortcut icon" t-att-href="xIcon ?? '/web/static/img/favicon.ico'"/>
+
+                <script>
+                    window.verp = {
+                        __session_info__: <t t-out="JSON.stringify(sessionInfo)"/>,
+                        csrfToken: "<t t-out="await request.csrfToken(null)"/>",
+                        debug: "<t t-out="debug"/>",
+                    };
+                    verp.loadTemplatesPromise = fetch(\`/web/webclient/qweb/\x24{verp.__session_info__.cacheHashes.assetsDiscussPublic}?bundle=mail.assetsDiscussPublic\`).then(doc => doc.text());
+                    {
+                        const { userContext,  cacheHashes } = verp.__session_info__;
+                        fetch(\`/web/webclient/translations/${cacheHashes.translations}?lang=\x24{userContext.lang}\`);
+                    }
+                </script>
+
+                <t t-call-assets="mail.assetsCommonDiscussPublic"/>
+                <t t-call-assets="mail.assetsDiscussPublic"/>
+                <t t-call-assets="mail.assetsDiscussPublicTestTours" t-if="(debug || '').includes('tests') || testModeEnabled"/>
+
+                <t t-out="head || ''"/>
+            </head>
+            <body class="d-flex flex-column h-100">
+                <t t-out="body || ''"/>
+            </body>
+        </html>
+    </template>
+
+    <template id="mail.discussPublicChannelTemplate" name="Discuss Public Channel Template">
+        <t t-call="mail.discussPublicLayout">
+            <t t-set="head">
+                <script>
+                    verp.define('mail.discussPublicChannelTemplate', function() {
+                        return {
+                            data: <t t-out="JSON.stringify(data)"/>,
+                        };
+                    });
+                </script>
+            </t>
+        </t>
+    </template>
+</verp>

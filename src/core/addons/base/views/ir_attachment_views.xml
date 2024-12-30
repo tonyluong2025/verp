@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- Attachment -->
+        <record id="viewAttachmentForm" model="ir.ui.view">
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <form string="Attachments">
+                   <sheet>
+                    <label for="label"/>
+                    <h1>
+                        <field name="label"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                            <field name="datas" filename="label" attrs="{'invisible':[['type','=','url']]}"/>
+                            <field name="url" widget="url" attrs="{'invisible':[['type','=','binary']]}"/>
+                            <field name="mimetype" groups="base.groupNoOne"/>
+                        </group>
+                        <group string="Attached To" groups="base.groupNoOne">
+                            <field name="resModel"/>
+                            <field name="resField"/>
+                            <field name="resId"/>
+                            <field name="resName"/>
+                            <field name="companyId" groups="base.groupMultiCompany" options="{'noCreate': true}"/>
+                            <field name="isPublic"/>
+                        </group>
+                        <group string="History" groups="base.groupNoOne" attrs="{'invisible':[['createdAt','=',false]]}">
+                            <label for="createdUid" string="Creation"/>
+                            <div name="creationDiv">
+                                <field name="createdUid" readonly="1" class="oe-inline"/> on
+                                <field name="createdAt" readonly="1" class="oe-inline"/>
+                            </div>
+                        </group>
+                        <group name="descriptionGroup" string="Description" groups="base.groupNoOne"  colspan="4">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        <group groups="base.groupNoOne" string="Indexed Content" colspan="4">
+                            <field name="indexContent" nolabel="1"/>
+                        </group>
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewAttachmentTree" model="ir.ui.view">
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <tree string="Attachments">
+                    <field name="label"/>
+                    <field name="resModel"/>
+                    <field name="resField"/>
+                    <field name="resId"/>
+                    <field name="type"/>
+                    <field name="filesize"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <field name="createdUid"/>
+                    <field name="createdAt"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewAttachmentSearch" model="ir.ui.view">
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <search string="Attachments">
+                    <field name="label" filterDomain="[['label','ilike',self]]" string="Attachment"/>
+                    <field name="createdAt"/>
+                    <filter name="myDocumentsFilter"
+                        string="My Document(s)"
+                        domain="[['createdUid','=',uid]]"
+                        help="Filter on my documents"/>
+                    <filter name="urlFilter" string="URL" domain="[['type', '=', 'url']]"/>
+                    <filter name="binaryFilter" string="Stored" domain="[['type', '=', 'binary']]"/>
+                    <separator/>
+                    <field name="createdUid" string="Created by"/>
+                    <field name="type"/>
+                    <group expand="0" string="Group By">
+                        <filter name="owner" string="Owner" domain="[]" context="{'groupby':'createdUid'}"/>
+                        <filter string="Type" name="type" domain="[]" context="{'groupby':'type'}" groups="base.groupNoOne"/>
+                        <filter string="Company" name="company" domain="[]" context="{'groupby':'companyId'}" groups="base.groupMultiCompany"/>
+                        <filter string="Creation Date" name="creationMonth" domain="[]" context="{'groupby':'createdAt'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="actionAttachment" model="ir.actions.actwindow">
+            <field name="label">Attachments</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.attachment</field>
+            <field name="viewId" eval="false"/>
+            <field name="searchViewId" ref="viewAttachmentSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Create a new document
+                </p>
+                <p>
+                    Also you will find here all the related documents and download it by clicking on any individual document.
+                </p>
+            </field>
+        </record>
+        <menuitem action="actionAttachment" id="menuActionAttachment" parent="base.nextId9"/>
+
+</verp>

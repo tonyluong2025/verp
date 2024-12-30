@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <!-- ir.actions -->
+
+        <record id="actionView" model="ir.ui.view">
+            <field name="label">ir.actions.actions</field>
+            <field name="model">ir.actions.actions</field>
+            <field name="arch" type="xml">
+                <form string="Action">
+                <sheet>
+                    <group>
+                        <field name="label"/>
+                        <field name="type"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="actionViewTree" model="ir.ui.view">
+            <field name="label">ir.actions.actions.tree</field>
+            <field name="model">ir.actions.actions</field>
+            <field name="arch" type="xml">
+                <tree string="Action">
+                    <field name="label"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+        <record id="actionViewSearch" model="ir.ui.view">
+            <field name="label">ir.actions.actions.search</field>
+            <field name="model">ir.actions.actions</field>
+            <field name="arch" type="xml">
+                <search string="Action">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['type','ilike',self]]" string="Action"/>
+                </search>
+            </field>
+        </record>
+        <record id="irSequenceActions" model="ir.actions.actwindow">
+            <field name="label">Actions</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.actions.actions</field>
+            <field name="viewId" ref="actionViewTree"/>
+            <field name="searchViewId" ref="actionViewSearch"/>
+        </record>
+        <menuitem id="nextId6" name="Actions" parent="base.menuCustom" sequence="5"/>
+        <menuitem action="irSequenceActions" id="menuIrSequenceActions" parent="nextId6"/>
+
+        <!-- ir.actions.report -->
+
+        <record id="actReportXmlView" model="ir.ui.view">
+            <field name="label">ir.actions.report</field>
+            <field name="model">ir.actions.report</field>
+            <field name="arch" type="xml">
+                <form string="Report">
+                    <field name="bindingModelId" invisible="1"/>
+                    <sheet>
+                        <div class="oe-button-box" name="buttonBox">
+                            <button name="createAction" string="Add in the 'Print' menu" type="object"
+                                    attrs="{'invisible':[['bindingModelId','!=',false]]}" icon="fa-plus-square"
+                                    help="Display an option on related documents to print this report" class="oe-stat-button"/>
+                            <button name="unlinkAction" string="Remove from the 'Print' menu" type="object"
+                                    attrs="{'invisible':[['bindingModelId','=',false]]}" icon="fa-minus-square"
+                                    help="Remove the contextual action related to this report" class="oe-stat-button"/>
+                            <button name="associatedView" string="QWeb views" type="object"
+                                    attrs="{'invisible':[['reportType', 'not in', ['qweb-pdf', 'qweb-html', 'qweb-text']]]}" icon='fa-code'
+                                    class="oe-stat-button"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="label"/>
+                                <field name="reportType"/>
+                                <field name="paperformatId"
+                                       attrs="{'invisible':[['reportType','not in',['qweb-pdf']]]}"/>
+                            </group>
+                            <group>
+                                <field name="model"/>
+                                <field name="reportName"/>
+                                <field name="printReportName" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="security" string="Security">
+                                <field name="groupsId"/>
+                            </page>
+                            <page name='advanced' string="Advanced Properties">
+                                <group>
+                                    <field name="attachmentUse"/>
+                                    <field name="attachment"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="actReportXmlViewTree" model="ir.ui.view">
+            <field name="label">ir.actions.report.tree</field>
+            <field name="model">ir.actions.report</field>
+            <field name="arch" type="xml">
+                <tree string="Report xml">
+                    <field name="label"/>
+                    <field name="model"/>
+                    <field name="type"/>
+                    <field name="reportName"/>
+                    <field name="reportType"/>
+                    <field name="attachment"/>
+                </tree>
+            </field>
+        </record>
+        <record id="actReportXmlSearchView" model="ir.ui.view">
+            <field name="label">ir.actions.report.search</field>
+            <field name="model">ir.actions.report</field>
+            <field name="arch" type="xml">
+                <search string="Report Xml">
+                    <field name="label"
+                        filterDomain="['|', '|', '|', '|', ['label','ilike',self], ['model','ilike',self], ['type','ilike',self], ['reportName','ilike',self], ['reportType','ilike',self]]"
+                        string="Report"/>
+                    <field name="model" filterDomain="[['model','=', self]]" string="Model"/>
+                    <group expand="0" string="Group By" colspan="4">
+                        <filter string="Report Type" name="reportType" domain="[]" context="{'groupby':'reportType'}"/>
+                        <filter string="Report Model" name="reportModel" domain="[]" context="{'groupby':'model'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="irActionReport" model="ir.actions.actwindow">
+            <field name="label">Reports</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">ir.actions.report</field>
+            <field name="viewId" ref="actReportXmlViewTree"/>
+            <field name="searchViewId" ref="actReportXmlSearchView"/>
+        </record>
+        <menuitem action="irActionReport" id="menuIrActionReport" parent="base.nextId6"/>
+
+        <!-- ir.actions.actwindow -->
+
+</verp>

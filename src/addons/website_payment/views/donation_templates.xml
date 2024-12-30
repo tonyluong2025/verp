@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <template id="paymentCheckout" inheritId="payment.checkout">
+        <!-- Make available anchor to inject donation form content -->
+        <xpath expr="//form/t[@t-set='acquirerCount']" position="before">
+            <t t-if="isDonation">
+                <t t-set="donationConfirmButtonIconClass" t-valuef="fa-gift"/>
+                <t t-set="donationConfirmButtonLabel">Donate Now</t>
+                <h3 class="o-page-header mt16 mb4">Donation</h3>
+                <div class="form-row">
+                    <div t-attf-class="form-group #{error['label'] &amp;&amp; 'o-has-error' || ''} col-lg-12 div-name">
+                        <label class="col-form-label font-weight-bold" for="label">Name
+                            <span class="s-website-form-mark"> *</span>
+                        </label>
+                        <input t-att-readonly="'label' in partnerDetails &amp;&amp; partnerId ? '1' : null" type="text" name="label" t-attf-class="form-control #{error['label'] &amp;&amp; 'is-invalid' || ''}" t-att-value="partnerDetails['label']" />
+                    </div>
+                    <div class="w-100"/>
+                    <div t-attf-class="form-group #{error['email'] &amp;&amp; 'o-has-error' || ''} col-lg-6" id="divEmail">
+                        <label class="col-form-label font-weight-bold" for="email">Email
+                            <span class="s-website-form-mark"> *</span>
+                        </label>
+                        <input t-att-readonly="'email' in partnerDetails &amp;&amp; partnerId ? '1' : null" type="email" name="email" t-attf-class="form-control #{error['email'] &amp;&amp; 'is-invalid' || ''}" t-att-value="partnerDetails['email']" />
+                    </div>
+                    <t t-set="countryId" t-value="partnerDetails['countryId']"/>
+                    <div t-attf-class="form-group #{error['countryId'] &amp;&amp; 'o-has-error' || ''} col-lg-6 div-country">
+                        <label class="col-form-label font-weight-bold" for="countryId">Country
+                            <span class="s-website-form-mark"> *</span>
+                        </label>
+                        <select t-att-disabled="countryId &amp;&amp; partnerId ? '1' : null" id="countryId" name="countryId" t-attf-class="o-wpayment-fee-impact form-control #{error['countryId'] &amp;&amp; 'is-invalid' || ''}">
+                            <option value="">Country...</option>
+                            <t t-foreach="countries" t-as="c">
+                                <option t-att-value="c.id" t-att-selected="c.id == (countryId || -1)">
+                                    <t t-out="c.label" />
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="w-100"/>
+                    <div class="form-group col-lg-12 o-donation-payment-form">
+                        <div class="col-lg-6 px-0">
+                            <label class="col-form-label font-weight-bold">Amount (<t t-out="currency.symbol"/>)</label>
+                            <t t-set="donationLayout" t-value="donationOptions['customAmount']"/>
+                            <t t-set="prefilledOptions" t-value="donationOptions['prefilledOptions']"/>
+                            <t t-if="prefilledOptions">
+                                <t t-foreach="donationAmounts" t-as="donationAmount">
+                                    <div class="custom-control custom-radio my-2">
+                                        <t t-set="isChecked" t-value="parseFloat(amount) == parseFloat(donationAmount)"/>
+                                        <t t-set="hasChecked" t-value="hasChecked || isChecked"/>
+                                        <input class="o-wpayment-fee-impact custom-control-input" type="radio" name="amount"
+                                            t-attf-id="amount_#{donationAmount_index}" t-att-value="donationAmount"
+                                            t-att-checked="isChecked || null"/>
+                                        <label class="custom-control-label mt-0" t-attf-for="amount_#{donationAmount_index}">
+                                            <t t-out="donationAmount"/>
+                                            <span t-if="donationOptions['descriptions']" class="text-muted font-italic ml-1">
+                                                - <t t-out="donationDescriptions[donationAmount_index]"/>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </t>
+                                <div t-attf-class="custom-control custom-radio my-2 #{! donationLayout &amp;&amp; 'd-none' || ''}">
+                                    <input class="o-wpayment-fee-impact custom-control-input" type="radio" id="otherAmount" name="amount"
+                                        t-att-value="amount" t-att-checked="! hasChecked || null"/>
+                                    <label class="custom-control-label mt-0 d-block" for="otherAmount">
+                                        <t t-call="website_payment.donationInput">
+                                            <t t-set="amount" t-value="! hasChecked &amp;&amp; amount || ''"/>
+                                        </t>
+                                    </label>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <t t-call="website_payment.donationInput"/>
+                            </t>
+                        </div>
+                        <div class="col-lg-12 px-0">
+                            <div class="custom-control custom-checkbox mt-3">
+                                <input class="custom-control-input" type="checkbox" value="" id="donationCommentCheckbox"/>
+                                <label class="custom-control-label" for="donationCommentCheckbox">Write us a comment</label>
+                            </div>
+                            <textarea class="form-control d-none mt-2" id="donationComment" placeholder="Your comment"/>
+                        </div>
+                    </div>
+                    <input type="hidden" name="donationRecipientEmail" t-att-value="donationOptions['donationEmail']"/>
+                    <div class="w-100"/>
+                </div>
+                <h3 class="o-page-header mt16 mb4">Payment Details</h3>
+            </t>
+        </xpath>
+        <!-- Make fee badges recognizable so that they can be updated upon amount changes -->
+        <xpath expr="//t[@t-if='feesByAcquirer.has(acquirer)']/span" position="attributes">
+            <attribute name="class" add="o-payment-fee" separator=" "/>
+        </xpath>
+        <!-- Adapt Pay confirm button -->
+        <xpath expr="//t[@t-set='label']" position="after">
+            <t t-set="label" t-value="donationConfirmButtonLabel || label"/>
+        </xpath>
+        <xpath expr="//t[@t-set='iconClass']" position="after">
+            <t t-set="iconClass" t-value="donationConfirmButtonIconClass || iconClass"/>
+        </xpath>
+    </template>
+
+    <!-- Display of /donation/pay -->
+    <template id="website_payment.donationPay" name="Donation payment">
+        <t t-call="portal.frontendLayout">
+            <t t-set="pageTitle" t-value="'Donation'"/>
+            <t t-set="additionalTitle"><t t-out="pageTitle"/></t>
+            <div class="wrap">
+                <div class="oe-structure" id="oeStructureWebsitePaymentDonation1"/>
+                <div class="container mb-3">
+                    <!-- Portal breadcrumb -->
+                    <t t-call="payment.portalBreadcrumb"/>
+                    <!-- Payment page -->
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div t-if="!amount" class="alert alert-info">
+                                There is nothing to pay.
+                            </div>
+                            <div t-elif="!bool(currency)" class="alert alert-warning">
+                                <strong>Warning</strong> The currency is missing or incorrect.
+                            </div>
+                            <div t-elif="!bool(acquirers) &amp;&amp; !bool(tokens)" class="alert alert-warning">
+                                <strong>No suitable payment option could be found.</strong><br/>
+                                If you believe that it is an error, please contact the website administrator.
+                            </div>
+                            <t t-else="" t-call="payment.checkout"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe-structure" id="oeStructureWebsitePaymentDonation2"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="website_payment.donationInput" name="Donation input">
+        <input type="number" class="o-wpayment-fee-impact form-control o-amount-input" t-att-min="donationOptions['minimumAmount']"
+            t-att-max="donationOptions['maximumAmount']" t-att-value="amount" placeholder="Custom Amount" id="otherAmountValue"/>
+    </template>
+</verp>

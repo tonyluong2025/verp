@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+    <!-- base structure of product.template, common with product.product -->
+    <record id="productTemplateFormView" model="ir.ui.view">
+        <field name="label">product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Product">
+                <header>
+                    <button string="Print Labels" type="object" name="actionOpenLabelLayout"/>
+                </header>
+                <sheet name="productForm">
+                    <field name='productVariantCount' invisible='1'/>
+                    <field name='isProductVariant' invisible='1'/>
+                    <field name='attributeLineIds' invisible='1'/>
+                    <field name="type" invisible="1"/>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button class="oe-stat-button"
+                               name="openPricelistRules"
+                               icon="fa-list-ul"
+                               groups="product.groupProductPricelist"
+                               type="object">
+                               <div class="o-field-widget o-stat-info">
+                                    <span class="o-stat-value">
+                                        <field name="pricelistItemCount"/>
+                                    </span>
+                                    <span attrs="{'invisible': [['pricelistItemCount', '=', 1]]}">
+                                        Extra Prices
+                                    </span>
+                                    <span attrs="{'invisible': [['pricelistItemCount', '!=', 1]]}">
+                                        Extra Price
+                                    </span>
+                               </div>
+                        </button>
+                    </div>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <field name="id" invisible="true"/>
+                    <field name="image1920" widget="image" class="oe-avatar" options="{'previewImage': 'image128'}"/>
+                    <div class="oe-title">
+                        <label for="label" string="Product Name"/>
+                        <h1>
+                            <div class="d-flex">
+                                <field name="priority" widget="priority" class="mr-3"/>
+                                <field class="text-break" name="label" placeholder="e.g. Cheese Burger"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <style>
+                        div[name="options"] .o-field-boolean {
+                            margin-left: 10px;
+                            margin-right: 0px;
+                        }
+                    </style>
+                    <div name="options" groups="base.groupUser">
+                        <span class="d-inline-block">
+                            <field name="saleOk"/>
+                            <label for="saleOk"/>
+                        </span>
+                        <span class="d-inline-block">
+                            <field name="purchaseOk"/>
+                            <label for="purchaseOk"/>
+                        </span>
+                    </div>
+                    <notebook>
+                        <page string="General Information" name="generalInformation">
+                            <group>
+                                <group name="groupGeneral">
+                                    <field name="active" invisible="1"/>
+                                    <field name="detailedType"/>
+                                    <field name="productTooltip" string="" class="font-italic text-muted"/>
+                                    <field name="uomId" groups="uom.groupUom" options="{'noCreate': true}"/>
+                                    <field name="uomPoId" groups="uom.groupUom" options="{'noCreate': true}"/>
+                                </group>
+                                <group name="groupStandardPrice">
+                                    <label for="listPrice" class="mt-1"/>
+                                    <div name="pricing">
+                                      <field name="listPrice" class="oe-inline" widget='monetary'
+                                        options="{'currencyField': 'currencyId', 'fieldDigits': true}"/>
+                                    </div>
+                                    <label for="standardPrice" groups="base.groupUser" attrs="{'invisible': [['productVariantCount', '&gt;', 1], ['isProductVariant', '=', false]]}"/>
+                                    <div name="standardPriceUom" groups="base.groupUser" attrs="{'invisible': [['productVariantCount', '&gt;', 1], ['isProductVariant', '=', false]]}" class="o-row">
+                                        <field name="standardPrice" widget='monetary' options="{'currencyField': 'costCurrencyId', 'fieldDigits': true}"/>
+                                        <span groups="uom.groupUom" class="oe-read-only">per
+                                            <field name="uomName"/>
+                                        </span>
+                                    </div>
+                                    <field name="categId" string="Product Category"/>
+                                    <field name="companyId" groups="base.groupMultiCompany"
+                                        options="{'noCreate': true}"/>
+                                    <field name="currencyId" invisible="1"/>
+                                    <field name="costCurrencyId" invisible="1"/>
+                                    <field name="productVariantId" invisible="1"/>
+                                </group>
+                            </group>
+                            <group string="Internal Notes">
+                                <field name="description" nolabel="1" placeholder="This note is only for internal purposes."/>
+                            </group>
+                        </page>
+                        <page string="Sales" attrs="{'invisible':[['saleOk','=',false]]}" name="sales" invisible="1">
+                            <group name="sale">
+                                <group string="Upsell &amp; Cross-Sell" name="upsell" invisible="1"/>
+                            </group>
+                            <group>
+                                <group string="Sales Description" name="description">
+                                    <field name="descriptionSale" nolabel="1" placeholder="This note is added to sales orders and invoices."/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Purchase" name="purchase" attrs="{'invisible': [['purchaseOk','=',false]]}" invisible="1">
+                            <group name="purchase">
+                                <group string="Vendor Bills" name="bill"/>
+                            </group>
+                        </page>
+                        <page string="Inventory" name="inventory" groups="product.groupStockPackaging" attrs="{'invisible':[['type', '=', 'service']]}">
+                            <group name="inventory">
+                                <group name="groupLotsAndWeight" string="Logistics" attrs="{'invisible': [['type', 'not in', ['product', 'consu']]]}">
+                                    <label for="weight" attrs="{'invisible':[['productVariantCount', '>', 1], ['isProductVariant', '=', false]]}"/>
+                                    <div class="o-row" name="weight" attrs="{'invisible':[['productVariantCount', '>', 1], ['isProductVariant', '=', false]]}">
+                                        <field name="weight"/>
+                                        <span><field name="weightUomName"/></span>
+                                    </div>
+                                    <label for="volume" attrs="{'invisible':[['productVariantCount', '>', 1], ['isProductVariant', '=', false]]}"/>
+                                    <div class="o-row" name="volume" attrs="{'invisible':[['productVariantCount', '>', 1], ['isProductVariant', '=', false]]}">
+                                        <field name="volume" string="Volume"/>
+                                        <span><field name="volumeUomName"/></span>
+                                    </div>
+                                </group>
+                            </group>
+                            <group name="packaging" string="Packaging"
+                                colspan="4"
+                                attrs="{'invisible':['|', ['type', 'not in', ['product', 'consu']], ['productVariantCount', '>', 1], ['isProductVariant', '=', false]]}"
+                                groups="product.groupStockPackaging">
+                                <field name="packagingIds" nolabel="1" context="{'treeViewRef':'product.productPackagingTreeView2', 'default_companyId': companyId}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe-chatter">
+                    <field name="messageFollowerIds"/>
+                    <field name="activityIds"/>
+                    <field name="messageIds"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="productTemplateSearchView" model="ir.ui.view">
+        <field name="label">product.template.search</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <search string="Product">
+                <field name="label" string="Product" filterDomain="['|', '|', '|', ['defaultCode', 'ilike', self], ['productVariantIds.defaultCode', 'ilike', self],['label', 'ilike', self], ['barcode', 'ilike', self]]"/>
+                <field name="categId" filterDomain="[['categId', 'childOf', rawValue]]"/>
+                <separator/>
+                <filter string="Services" name="services" domain="[['type','=','service']]"/>
+                <filter string="Products" name="consumable" domain="[['type', 'in', ['consu', 'product']]]"/>
+                <separator/>
+                <filter string="Can be Sold" name="filterToSell" domain="[['saleOk','=',true]]"/>
+                <filter string="Can be Purchased" name="filterToPurchase" domain="[['purchaseOk', '=', true]]"/>
+                <separator/>
+                <field string="Attributes" name="attributeLineIds" groups="product.groupProductVariant"/>
+                <field name="pricelistId" context="{'pricelist': self}" filterDomain="[]" groups="product.groupProductPricelist"/>
+                <filter invisible="1" string="Late Activities" name="activitiesOverdue"
+                    domain="[['myActivityDateDeadline', '&lt;', contextToday().toFormat('yyyy-MM-dd')]]"
+                    help="Show all records which has next action date is before today"/>
+                <filter invisible="1" string="Today Activities" name="activitiesToday"
+                    domain="[['myActivityDateDeadline', '=', contextToday().toFormat('yyyy-MM-dd')]]"/>
+                <filter invisible="1" string="Future Activities" name="activitiesUpcomingAll"
+                    domain="[['myActivityDateDeadline', '&gt;', contextToday().toFormat('yyyy-MM-dd')]
+                    ]"/>
+                <separator/>
+                <filter string="Favorites" name="favorites" domain="[['priority','=','1']]"/>
+                <separator/>
+                <filter string="Warnings" name="activities_exception"
+                        domain="[['activityExceptionDecoration', '!=', false]]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[['active','=',false]]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Product Type" name="type" context="{'groupby':'type'}"/>
+                    <filter string="Product Category" name="categId" context="{'groupby':'categId'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="productTemplateActionAll" model="ir.actions.actwindow">
+        <field name="label">Products</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.template</field>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a new product
+            </p>
+        </field>
+    </record>
+
+    <record id="productSearchFormView" model="ir.ui.view">
+        <field name="label">product.product.search</field>
+        <field name="model">product.product</field>
+        <field name="mode">primary</field>
+        <field name="inheritId" ref="product.productTemplateSearchView"/>
+        <field name="arch" type="xml">
+            <field name="label" position="replace">
+                <field name="label" string="Product" filterDomain="['|', '|', ['defaultCode', 'ilike', self], ['label', 'ilike', self], ['barcode', 'ilike', self]]"/>
+            </field>
+            <field name="attributeLineIds" position="replace">
+                <field name="productTemplateAttributeValueIds" groups="product.groupProductVariant"/>
+                <field name="productTemplateId" string="Product Template"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="productNormalAction" model="ir.actions.actwindow">
+        <field name="label">Product Variants</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.product</field>
+        <field name="viewMode">tree,form,kanban,activity</field>
+        <field name="searchViewId" ref="productSearchFormView"/>
+        <field name="viewId" eval="false"/> <!-- Force empty -->
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+            Create a new product variant
+            </p><p>
+            You must define a product for everything you sell or purchase,
+            whether it's a storable product, a consumable or a service.
+            </p>
+        </field>
+    </record>
+
+    <record id="productVariantEasyEditView" model="ir.ui.view">
+        <field name="label">product.product.view.form.easy</field>
+        <field name="model">product.product</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Variant Information" duplicate="false">
+                <header>
+                    <button string="Print Labels" type="object" name="actionOpenLabelLayout"/>
+                </header>
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox"/>
+                    <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                    <field name="active" invisible="1"/>
+                    <field name="id" invisible="1"/>
+                    <field name="companyId" invisible="1"/>
+                    <field name="image1920" widget="image" class="oe-avatar" options="{'previewImage': 'image128'}"/>
+                    <div class="oe-title">
+                        <label for="label" string="Product Name"/>
+                        <h1><field name="label" readonly="1" placeholder="e.g. Verp Enterprise Subscription"/></h1>
+                        <field name="productTemplateAttributeValueIds" widget="many2manyTags" readonly="1"/>
+                        <p>
+                            <span>All general settings about this product are managed on</span>
+                            <button name="openProductTemplate" type="object" string="the product template." class="oe-link oe_link_product pl-0 ml-1 mb-1"/>
+                        </p>
+                    </div>
+                    <group>
+                        <group name="codes" string="Codes">
+                            <field name="defaultCode"/>
+                            <field name="barcode"/>
+                            <field name="type" invisible="1"/>
+                        </group>
+                        <group name="pricing" string="Pricing">
+                            <field name="productVariantCount" invisible="1"/>
+                            <label for="lstPrice" string="Sales Price"/>
+                            <div class="o-row col-5 pl-0">
+                                <field name="lstPrice" widget='monetary' options="{'currencyField': 'currencyId', 'fieldDigits': true}" attrs="{'readonly': [['productVariantCount', '&gt;', 1]]}"/>
+                            </div>
+                            <field name="standardPrice" widget='monetary' options="{'currencyField': 'costCurrencyId'}"/>
+                            <field name="currencyId" invisible='1'/>
+                            <field name="costCurrencyId" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group name="weight" string="Logistics" attrs="{'invisible':[['type', 'not in', ['product', 'consu']]]}">
+                            <label for="volume"/>
+                            <div class="o-row">
+                                <field name="volume"/>
+                                <span><field name="volumeUomName"/></span>
+                            </div>
+                            <label for="weight"/>
+                            <div class="o-row">
+                                <field name="weight"/>
+                                <span><field name="weightUomName"/></span>
+                            </div>
+                        </group>
+                        <group name="packaging" string="Packaging" groups="product.groupStockPackaging">
+                            <field name="packagingIds" nolabel="1"
+                                context="{'treeViewRef':'product.productPackagingTreeView2', 'default_companyId': companyId}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="productVariantAction" model="ir.actions.actwindow">
+        <field name="label">Product Variants</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.product</field>
+        <field name="context">{'searchDefault_productTemplateId': [activeId], 'default_productTemplateId': activeId, 'create': false}</field>
+        <field name="searchViewId" ref="productSearchFormView"/>
+        <field name="viewIds"
+                eval="[[5, 0, 0],
+                        [0, 0, {'viewMode': 'tree'}],
+                        [0, 0, {'viewMode': 'form', 'viewId': refId('productVariantEasyEditView')}],
+                        [0, 0, {'viewMode': 'kanban'}]]"/>
+            <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+            Create a new product variant
+            </p><p>
+            You must define a product for everything you sell or purchase,
+            whether it's a storable product, a consumable or a service.
+            The product form contains information to simplify the sale process:
+            price, notes in the quotation, accounting data, procurement methods, etc.
+            </p>
+        </field>
+    </record>
+
+    <record id="productProductTreeView" model="ir.ui.view">
+        <field name="label">product.product.tree</field>
+        <field name="model">product.product</field>
+        <field eval="7" name="priority"/>
+        <field name="arch" type="xml">
+            <tree string="Product Variants" multiEdit="1" duplicate="false" sample="1">
+            <header>
+                <button string="Print Labels" type="object" name="actionOpenLabelLayout"/>
+            </header>
+                <field name="priority" widget="priority" nolabel="1" readonly="1"/>
+                <field name="defaultCode" optional="show" readonly="1"/>
+                <field name="barcode" optional="hide" readonly="1"/>
+                <field name="label" readonly="1"/>
+                <field name="productTemplateVariantValueIds" widget="many2manyTags" groups="product.groupProductVariant" readonly="1"/>
+                <field name="companyId" groups="base.groupMultiCompany" optional="hide" readonly="1"/>
+                <field name="lstPrice" optional="show" string="Sales Price"/>
+                <field name="standardPrice" optional="show"/>
+                <field name="categId" optional="hide"/>
+                <field name="type" optional="hide" readonly="1"/>
+                <field name="price" invisible="! (context['pricelist'] ?? false)"/>
+                <field name="uomId" options="{'noOpen': true, 'noCreate': true}" groups="uom.groupUom" optional="show" readonly="1"/>
+                <field name="productTemplateId" invisible="1" readonly="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="productNormalFormView" model="ir.ui.view">
+        <field name="label">product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="mode">primary</field>
+        <field eval="7" name="priority"/>
+        <field name="inheritId" ref="product.productTemplateFormView"/>
+        <field name="arch" type="xml">
+            <form position="attributes">
+                <attribute name="string">Product Variant</attribute>
+                <attribute name="duplicate">false</attribute>
+            </form>
+            <xpath expr="//div[@name='standardPriceUom']" position="after">
+                <field name="defaultCode"/>
+                <field name="barcode"/>
+            </xpath>
+            <xpath expr="//field[@name='priority']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <field name="listPrice" position="attributes">
+                <attribute name="attrs">{'readonly': [['productVariantCount', '&gt;', 1]]}</attribute>
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="listPrice" position="after">
+                <field name="lstPrice" class="oe-inline" widget='monetary' options="{'currencyField': 'currencyId', 'fieldDigits': true}"/>
+            </field>
+            <group name="packaging" position="attributes">
+                <attribute name="attrs">{'invisible': 0}</attribute>
+            </group>
+            <field name="label" position="after">
+                <field name="productTemplateId" class="oe-inline" readonly="1" invisible="1" attrs="{'required': [['id', '!=', false]]}"/>
+            </field>
+            <xpath expr="//div[contains(@class,'oe-title')]" position="inside">
+                <field name="productTemplateVariantValueIds" widget="many2manyTags" readonly="1" groups="product.groupProductVariant"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="productKanbanView" model="ir.ui.view">
+        <field name="label">Product Kanban</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <kanban sample="1">
+                <field name="id"/>
+                <field name="lstPrice"/>
+                <field name="activityState"/>
+                <field name="color"/>
+                <progressbar field="activityState" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe-kanban-global-click">
+                            <div class="o-kanban-image">
+                                <img t-att-src="kanbanImage('product.product', 'image128', record.id.rawValue)" alt="Product" class="o-image-64-contain"/>
+                            </div>
+                            <div class="oe-kanban-details">
+                                <field name="priority" widget="priority" readonly="1"/>
+                                <strong class="o-kanban-record-title">
+                                    <field name="label"/>
+                                    <small t-if="record.defaultCode.value">[<field name="defaultCode"/>]</small>
+                                </strong>
+                                <div class="o-kanban-tags-section">
+                                    <field name="productTemplateVariantValueIds" groups="product.groupProductVariant" widget="many2manyTags" options="{'colorField': 'color'}"/>
+                                </div>
+                                <ul>
+                                    <li><strong>Price: <field name="lstPrice"></field></strong></li>
+                                </ul>
+                                <div name="tags"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="productProductViewActivity" model="ir.ui.view">
+        <field name="label">product.product.activity</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <activity string="Product Variants">
+                <field name="id"/>
+                <field name="defaultCode"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activityImage('product.product', 'image128', record.id.rawValue)" role="img" t-att-title="record.id.value" t-att-alt="record.id.value"/>
+                        <div>
+                            <field name="label" display="full"/>
+                            <div t-if="record.defaultCode.value" class="text-muted">
+                                [<field name="defaultCode"/>]
+                            </div>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <record id="productNormalActionSell" model="ir.actions.actwindow">
+        <field name="label">Product Variants</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.product</field>
+        <field name="viewMode">kanban,tree,form,activity</field>
+        <field name="context">{"searchDefault_filterToSell":1}</field>
+        <field name="viewId" ref="productProductTreeView"/>
+        <field name="searchViewId" ref="productSearchFormView"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+            Create a new product variant
+            </p><p>
+            You must define a product for everything you sell, whether it's a physical product,
+            a consumable or a service you offer to customers.
+            The product form contains information to simplify the sale process:
+            price, notes in the quotation, accounting data, procurement methods, etc.
+            </p>
+        </field>
+    </record>
+
+    <record id="productCategorySearchView" model="ir.ui.view">
+        <field name="label">product.category.search</field>
+        <field name="model">product.category</field>
+        <field name="arch" type="xml">
+            <search string="Product Categories">
+                <field name="label" string="Product Categories"/>
+                <field name="parentId"/>
+            </search>
+        </field>
+    </record>
+    <record id="productCategoryFormView" model="ir.ui.view">
+        <field name="label">product.category.form</field>
+        <field name="model">product.category</field>
+        <field name="arch" type="xml">
+            <form class="oe-form-configuration">
+                <sheet>
+                    <div class="oe-button-box" name="buttonBox">
+                        <button class="oe-stat-button"
+                            name="%(productTemplateActionAll)d"
+                            icon="fa-th-list"
+                            type="action"
+                            context="{'searchDefault_categId': activeId, 'default_categId': activeId, 'groupExpand': true}">
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value"><field name="productCount"/></span>
+                                <span class="o-stat-text"> Products</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe-title">
+                        <label for="label" string="Category"/>
+                        <h1><field name="label" placeholder="e.g. Lamps"/></h1>
+                    </div>
+                    <group name="first" col="2">
+                        <field name="parentId" class="oe-inline"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="productCategoryListView" model="ir.ui.view">
+        <field name="label">product.category.list</field>
+        <field name="model">product.category</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Product Categories">
+                <field name="displayName" string="Product Category"/>
+            </tree>
+        </field>
+    </record>
+    <record id="productCategoryActionForm" model="ir.actions.actwindow">
+        <field name="label">Product Categories</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.category</field>
+        <field name="searchViewId" ref="productCategorySearchView"/>
+        <field name="viewId" ref="productCategoryListView"/>
+    </record>
+
+
+    <record id="productPackagingTreeView" model="ir.ui.view">
+        <field name="label">product.packaging.tree.view</field>
+        <field name="model">product.packaging</field>
+        <field name="arch" type="xml">
+            <tree string="Product Packagings" name="packaging">
+                <field name="sequence" widget="handle"/>
+                <field name="productId"/>
+                <field name="label" string="Packaging"/>
+                <field name="qty"/>
+                <field name="productUomId" options="{'noOpen': true, 'noCreate': true}" groups="uom.groupUom"/>
+                <field name="barcode" optional="hide"/>
+                <field name="companyId" groups="base.groupMultiCompany" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="productPackagingTreeView2" model="ir.ui.view">
+        <field name="label">product.packaging.tree.view2</field>
+        <field name="model">product.packaging</field>
+        <field name="mode">primary</field>
+        <field name="inheritId" ref="product.productPackagingTreeView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='productId']" position="replace"/>
+            <xpath expr="//tree[@name='packaging']" position="attributes">
+                <attribute name="editable">bottom</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="productPackagingFormView" model="ir.ui.view">
+        <field name="label">product.packaging.form.view</field>
+        <field name="model">product.packaging</field>
+        <field name="arch" type="xml">
+            <form string="Product Packaging">
+                <sheet>
+                    <label for="label" string="Packaging"/>
+                    <h1>
+                        <field name="label"/>
+                    </h1>
+                    <group>
+                        <field name="id" invisible='1'/>
+                        <group name="groupProduct">
+                            <field name="productId"  required='true' attrs="{'readonly': [['id', '!=', false]]}"/>
+                        </group>
+                        <group name="qty">
+                            <label for="qty" string="Contained quantity"/>
+                            <div class="o-row">
+                                <field name="qty"/>
+                                <field name="productUomId" options="{'noOpen': true, 'noCreate': true}" groups="uom.groupUom"/>
+                            </div>
+                            <field name="barcode"/>
+                            <field name="companyId" groups="base.groupMultiCompany"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="productPackagingFormView2" model="ir.ui.view">
+        <field name="label">product.packaging.form.view2</field>
+        <field name="model">product.packaging</field>
+        <field name="mode">primary</field>
+        <field name="inheritId" ref="product.productPackagingFormView"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='groupProduct']" position="replace"/>
+            <xpath expr="//field[@name='id']" position="replace"/>
+        </field>
+    </record>
+
+    <record model="ir.actions.actwindow" id="actionPackagingView">
+        <field name="label">Product Packagings</field>
+        <field name="resModel">product.packaging</field>
+        <field name="domain">[['productId', '!=', false]]</field>
+        <field name="viewIds" eval="[[5, 0, 0],
+            [0, 0, {'viewMode': 'tree', 'viewId': refId('productPackagingTreeView')}],
+            [0, 0, {'viewMode': 'form', 'viewId': refId('productPackagingFormView')}]]"/>
+    </record>
+
+    <record id="productSupplierinfoFormView" model="ir.ui.view">
+        <field name="label">product.supplierinfo.form.view</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Information">
+                <sheet>
+                    <group>
+                        <group name="vendor" string="Vendor">
+                            <field name="productVariantCount" invisible="1"/>
+                            <field name="label" context="{'resPartnerSearchMode': 'supplier'}"/>
+                            <field name="productName"/>
+                            <field name="productCode"/>
+                            <label for="delay"/>
+                            <div>
+                                <field name="delay" class="oe-inline"/> days
+                            </div>
+                        </group>
+                        <group string="Pricelist">
+                            <field name="productTemplateId" string="Product" invisible="context['visibleProductTemplateId'] ?? true"/>
+                            <field name="productId" groups="product.groupProductVariant" domain="[['productTemplateId', '=', productTemplateId]]" options="{'noCreateEdit': true}"/>
+                            <label for="minQty"/>
+                            <div class="o-row">
+                                <field name="minQty"/>
+                                <field name="productUom" groups="uom.groupUom"/>
+                            </div>
+                            <label for="price" string="Unit Price"/>
+                            <div class="o-row">
+                                <field name="price"/><field name="currencyId" groups="base.groupMultiCurrency"/>
+                            </div>
+                            <label for="dateStart" string="Validity"/>
+                            <div class="o-row"><field name="dateStart"/> to <field name="dateEnd"/></div>
+                            <field name="companyId" options="{'noCreate': true}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="productSupplierinfoSearchView" model="ir.ui.view">
+        <field name="label">product.supplierinfo.search.view</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="arch" type="xml">
+            <search string="Vendor">
+                <field name="label"/>
+                <field name="productTemplateId"/>
+                <filter string="Active" name="active" domain="['|', ['dateEnd', '=', false], ['dateEnd', '&gt;=', toFormat(subDate(contextToday(), {days: 1}), 'yyyy-MM-dd')]]"/>
+                <filter string="Archived" name="archived" domain="[['dateEnd', '&lt;', toFormat(subDate(contextToday(), {days: 1}), 'yyyy-MM-dd')]]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Product" name="groupbyProduct" domain="[]" context="{'groupby': 'productTemplateId'}"/>
+                    <filter string="Vendor" name="groupbyVendor" domain="[]" context="{'groupby': 'label'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="productSupplierinfoViewKanban" model="ir.ui.view">
+        <field name="label">product.supplierinfo.kanban</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="arch" type="xml">
+            <kanban class="o-kanban-mobile">
+                <field name="minQty"/>
+                <field name="delay"/>
+                <field name="price"/>
+                <field name="label"/>
+                <field name="currencyId"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe-kanban-global-click">
+                            <div class="row mb4">
+                                <strong class="col-6">
+                                    <span t-esc="record.label.value"/>
+                                </strong>
+                                <strong class="col-6 text-right">
+                                    <strong><field name="price" widget="monetary"/></strong>
+                                </strong>
+                                <div class="col-6">
+                                    <span t-esc="record.minQty.value"/>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <span t-esc="record.delay.value"/> days
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="productSupplierinfoTreeView" model="ir.ui.view">
+        <field name="label">product.supplierinfo.tree.view</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="arch" type="xml">
+            <tree string="Vendor Information" multiEdit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="label" readonly="1"/>
+                <field name="productId" readonly="1" optional="hide"
+                    invisible="context['productTemplateInvisibleVariant'] ?? false"
+                    groups="product.groupProductVariant"
+                    domain="[['productTemplateId', '=?', context['default_productTemplateId'] ?? false]]"
+                    options="{'noQuickCreate': true, 'noCreateEdit' : true}"/>
+                <field name="productTemplateId" string="Product" readonly="1"
+                    invisible="context['visibleProductTemplateId'] ?? true"/>
+                <field name="productName" optional="hide"/>
+                <field name="productCode" optional="hide"/>
+                <field name="currencyId" groups="base.groupMultiCurrency"/>
+                <field name="dateStart" optional="hide"/>
+                <field name="dateEnd" optional="hide"/>
+                <field name="companyId" readonly="1" groups="base.groupMultiCompany"/>
+                <field name="minQty"/>
+                <field name="productUom" groups="uom.groupUom"/>
+                <field name="price" string="Price"/>
+                <field name="delay" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="productSupplierinfoTypeAction" model="ir.actions.actwindow">
+        <field name="label">Vendor Pricelists</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.supplierinfo</field>
+        <field name="viewMode">tree,form,kanban</field>
+        <field name="context">{'visibleProductTemplateId':false}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                No vendor pricelist found
+            </p><p>
+                Register the prices requested by your vendors for each product, based on the quantity and the period.
+            </p>
+        </field>
+    </record>
+
+    <record id="actionProductPriceListReport" model="ir.actions.server">
+        <field name="label">Generate Pricelist</field>
+        <field name="groupsId" eval="[[4, refId('groupProductPricelist')]]"/>
+        <field name="modelId" ref="product.model_productProduct"/>
+        <field name="bindingModelId" ref="product.model_productProduct"/>
+        <field name="state">code</field>
+        <field name="code">async () => {
+const ctx = env.context;
+Object.assign(ctx, {'default_pricelist': (await env.items('product.pricelist').search([], {limit: 1})).id});
+return {
+    'label': 'Pricelist Report',
+    'type': 'ir.actions.client',
+    'tag': 'generatePricelist',
+    'context': ctx,
+}
+        }
+        </field>
+    </record>
+
+    <record id="actionOpenLabelLayout" model="ir.actions.actwindow">
+        <field name="label">Choose Labels Layout</field>
+        <field name="resModel">product.label.layout</field>
+        <field name="viewIds"
+                eval="[[5, 0, 0],
+                [0, 0, {'viewMode': 'form', 'viewId': refId('productLabelLayoutForm')}]]" />
+        <field name="target">new</field>
+    </record>
+    </data>
+</verp>

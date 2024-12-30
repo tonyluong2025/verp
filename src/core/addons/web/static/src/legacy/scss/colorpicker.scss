@@ -1,0 +1,46 @@
+// COLOR PICKER
+.o-colorpicker-widget {
+    .o-color-pick-area {
+        height: 125px;
+        background-image: linear-gradient(to bottom, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%),
+                          linear-gradient(to right, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+        cursor: crosshair;
+    }
+    .o-color-slider {
+        background: linear-gradient(#F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+    }
+    .o-opacity-slider, .o-color-preview {
+        @extend %o-preview-alpha-background;
+    }
+    .o-color-slider, .o-opacity-slider {
+        width: 4%;
+        margin-right: 2%;
+        cursor: pointer;
+    }
+    .o-slider-pointer, .o-opacity-pointer {
+        @include o-position-absolute($left: -50%);
+        width: 200%;
+        height: 8px;
+        margin-top: -2px;
+    }
+    .o-slider-pointer, .o-opacity-pointer, .o-picker-pointer, .o-color-preview {
+        box-shadow: inset 0 0 0 1px rgba(white, 0.9);
+        border: 1px solid black;
+    }
+    .o-color-picker-inputs {
+        font-size: 10px;
+
+        input {
+            font-family: monospace !important; // FIXME: the monospace font used in the editor has not consistent ch units on Firefox
+            height: 18px;
+            font-size: 11px;
+        }
+        .o-hex-div input {
+            width: 7ch;
+        }
+        .o-rgba-div input {
+            margin-right: 3px;
+            width: 3ch;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<verp noupdate="1">
+    <record id="defaultEmailsDigest" model="ir.config.parameter" forcecreate="0">
+        <field name="key">digest.defaultDigestEmails</field>
+        <field name="value">true</field>
+    </record>
+    <record id="defaultDigest" model="ir.config.parameter" forcecreate="0">
+        <field name="key">digest.defaultDigestId</field>
+        <field name="value" ref="digest.digestDigestDefault"/>
+    </record>
+</verp>

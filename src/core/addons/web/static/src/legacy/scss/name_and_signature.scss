@@ -1,0 +1,60 @@
+.o-web-sign-name-and-signature {
+    // for the absolute of the font selection to work
+    position: relative;
+}
+
+/* Signature Dialog */
+// The .card selector is important to make sure the position absolute will take
+// priority over the position relative of the card.
+.card.o-web-sign-auto-font-selection {
+    @include o-position-absolute(0, 0);
+
+    .o-web-sign-auto-font-list {
+        overflow: auto;
+
+        > a {
+            height: 100px;
+
+            > img {
+                height: 100%;
+            }
+        }
+    }
+}
+
+.o-field-widget {
+    .o-signature {
+        outline: 1px solid rgba(theme-color('secondary'), 0.3);
+        position: relative;
+        &.o-signature-empty {
+            display: flex;
+        }
+        > p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+.o-field-invalid {
+    .o-signature {
+        outline: 3px solid theme-color('danger');
+        cursor: pointer;
+    }
+}
+.o-form-editable {
+    .o-signature:hover {
+        outline: 3px solid $o-enterprise-primary-color;
+        cursor: pointer;
+    }
+}
+
+.o-signature-stroke {
+    position: absolute;
+    border-top: #D1D0CE solid 2px;
+    bottom: 16%;
+    width: 72%;
+    left: 14%;
+}

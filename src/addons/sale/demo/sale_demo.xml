@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+
+        <!-- Enable EUR currency since it's the currency on the company, pricelist and Sale Orders
+
+            If the currency is not enabled, you cannot pay the demo SO's with a payment link bc the currency
+            is disabled.
+        -->
+        <function model="res.currency" name="actionUnarchive">
+            <value model="res.currency" search="[['id', '=', (await (await obj.env.ref('product.list0')).currencyId).id], ['active', '=', false]]"/>
+        </function>
+
+        <!-- We want to activate pay and sign by default for easier demoing. -->
+        <record id="base.mainCompany" model="res.company">
+            <field name="portalConfirmationPay" eval="true"/>
+        </record>
+
+        <record id="base.userDemo" model="res.users">
+            <field eval="[[4, refId('sales_team.groupSaleSalesman')]]" name="groupsId"/>
+        </record>
+
+        <record model="crm.team" id="sales_team.teamSalesDepartment">
+            <field name="useQuotations" eval="true"/>
+            <field name="invoicedTarget">250000</field>
+        </record>
+
+        <record model="crm.team" id="sales_team.crmTeam1">
+            <field name="useQuotations" eval="true"/>
+            <field name="invoicedTarget">40000</field>
+        </record>
+
+        <record id="utmSourceSaleOrder0" model="utm.source">
+            <field name="label">Sale Promotion 1</field>
+        </record>
+
+        <record id="saleOrder1" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="partnerInvoiceId" ref="base.resPartner_2"/>
+            <field name="partnerShippingId" ref="base.resPartner_2"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(today(), {months: 1}), 'yyyy-MM-dd HH:mm')"/>
+        </record>
+
+        <record id="saleOrderLine1" model="sale.order.line">
+            <field name="orderId" ref="saleOrder1"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">295.00</field>
+        </record>
+
+        <record id="saleOrderLine2" model="sale.order.line">
+            <field name="orderId" ref="saleOrder1"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery02')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery02"/>
+            <field name="productUomQty">5</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">145.00</field>
+        </record>
+
+        <record id="saleOrderLine3" model="sale.order.line">
+            <field name="orderId" ref="saleOrder1"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery01')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery01"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">65.00</field>
+        </record>
+
+        <record id="saleOrder2" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_4"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_13"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_13"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(today(), {months: 1}), 'yyyy-MM-dd HH:mm')"/>
+            <field name="tagIds" eval="[(4, refId('sales_team.categOppor7'))]"/>
+        </record>
+
+        <record id="saleOrderLine4" model="sale.order.line">
+            <field name="orderId" ref="saleOrder2"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct1')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct1"/>
+            <field name="productUomQty">24</field>
+            <field name="productUom" ref="uom.productUomHour"/>
+            <field name="priceUnit">75.00</field>
+        </record>
+
+        <record id="saleOrderLine5" model="sale.order.line">
+            <field name="orderId" ref="saleOrder2"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct2')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct2"/>
+            <field name="productUomQty">30</field>
+            <field name="productUom" ref="uom.productUomHour"/>
+            <field name="priceUnit">38.25</field>
+        </record>
+
+        <record id="saleOrder3" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_4"/>
+            <field name="partnerInvoiceId" ref="base.resPartner_4"/>
+            <field name="partnerShippingId" ref="base.resPartner_4"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="tagIds" eval="[[4, refId('sales_team.categOppor1')], [4, refId('sales_team.categOppor2')]]"/>
+        </record>
+
+        <record id="saleOrderLine6" model="sale.order.line">
+            <field name="orderId" ref="saleOrder3"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct1')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct1"/>
+            <field name="productUomQty">10</field>
+            <field name="productUom" ref="uom.productUomHour"/>
+            <field name="priceUnit">30.75</field>
+        </record>
+
+        <record id="saleOrderLine7" model="sale.order.line">
+            <field name="orderId" ref="saleOrder3"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery01')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery01"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">70.00</field>
+        </record>
+
+        <record id="saleOrder4" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+        </record>
+
+        <record id="saleOrderLine8" model="sale.order.line">
+            <field name="orderId" ref="saleOrder4"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct1')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct1"/>
+            <field name="productUomQty">16</field>
+            <field name="productUom" ref="uom.productUomHour"/>
+            <field name="priceUnit">75.00</field>
+        </record>
+
+        <record id="saleOrderLine9" model="sale.order.line">
+            <field name="orderId" ref="saleOrder4"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery02')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery02"/>
+            <field name="productUomQty">10</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">45.00</field>
+        </record>
+
+        <record id="saleOrderLine10" model="sale.order.line">
+            <field name="orderId" ref="saleOrder4"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.consuDelivery02')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.consuDelivery02"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">150.00</field>
+        </record>
+
+        <record id="saleOrderLine11" model="sale.order.line">
+            <field name="orderId" ref="saleOrder4"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery01')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery01"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">70.00</field>
+        </record>
+
+        <record id="saleOrder5" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_2"/>
+            <field name="partnerInvoiceId" ref="base.resPartner_2"/>
+            <field name="partnerShippingId" ref="base.resPartner_2"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(today(), {months: 1}), 'yyyy-MM-dd HH:mm')"/>
+        </record>
+
+        <record id="saleOrderLine12" model="sale.order.line">
+            <field name="orderId" ref="saleOrder5"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery02')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery02"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">405.00</field>
+        </record>
+
+        <record id="saleOrder6" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_18"/>
+            <field name="partnerInvoiceId" ref="base.resPartner_18"/>
+            <field name="partnerShippingId" ref="base.resPartner_18"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="tagIds" eval="[[4, refId('sales_team.categOppor6')]]"/>
+        </record>
+
+        <record id="saleOrderLine15" model="sale.order.line">
+            <field name="orderId" ref="saleOrder6"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct4')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct4"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">750.00</field>
+        </record>
+
+        <record id="saleOrder7" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_11"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_11"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="tagIds" eval="[[4, refId('sales_team.categOppor4')]]"/>
+        </record>
+
+        <record id="saleOrderLine16" model="sale.order.line">
+            <field name="orderId" ref="saleOrder7"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">5</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">295.00</field>
+        </record>
+
+        <record id="saleOrderLine17" model="sale.order.line">
+            <field name="orderId" ref="saleOrder7"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.consuDelivery01')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.consuDelivery01"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">173.00</field>
+        </record>
+
+        <record id="saleOrderLine18" model="sale.order.line">
+            <field name="orderId" ref="saleOrder7"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery02')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery02"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">40.00</field>
+        </record>
+
+        <record id="saleOrderLine19" model="sale.order.line">
+            <field name="orderId" ref="saleOrder7"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery01')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery01"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">18.00</field>
+        </record>
+
+        <record id="saleOrder8" model="sale.order">
+            <field name="label">Test/001</field>
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+        </record>
+
+        <record id="saleOrderLine20" model="sale.order.line">
+            <field name="orderId" ref="saleOrder8"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct27')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct27"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">110.50</field>
+        </record>
+
+        <record id="saleOrderLine21" model="sale.order.line">
+            <field name="orderId" ref="saleOrder8"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <!-- additional demo data for pretty graphs in sales dashboard -->
+
+        <record id="saleOrder9" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 7}), 'yyyy-MM-dd HH:mm:ss')"/>
+        </record>
+
+        <record id="saleOrderLine22" model="sale.order.line">
+            <field name="orderId" ref="saleOrder9"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct27')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct27"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">97.50</field>
+        </record>
+
+        <record id="saleOrderLine23" model="sale.order.line">
+            <field name="orderId" ref="saleOrder9"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <record id="saleOrder10" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 14}), 'yyyy-MM-dd HH:mm:ss')"/>
+            <field name="tagIds" eval="[[4, refId('sales_team.categOppor3')]]"/>
+        </record>
+
+        <record id="saleOrderLine24" model="sale.order.line">
+            <field name="orderId" ref="saleOrder10"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">255.00</field>
+        </record>
+
+        <record id="saleOrderLine25" model="sale.order.line">
+            <field name="orderId" ref="saleOrder10"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+
+        <record id="saleOrder11" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 21}), 'yyyy-MM-dd HH:mm:ss')"/>
+        </record>
+
+        <record id="saleOrderLine26" model="sale.order.line">
+            <field name="orderId" ref="saleOrder11"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">245.00</field>
+        </record>
+
+        <record id="saleOrderLine27" model="sale.order.line">
+            <field name="orderId" ref="saleOrder11"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <record id="saleOrder12" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 28}), 'yyyy-MM-dd HH:mm:ss')"/>
+            <field name="tagIds" eval="[[4, refId('sales_team.categOppor1')]]"/>
+        </record>
+
+        <record id="saleOrderLine28" model="sale.order.line">
+            <field name="orderId" ref="saleOrder12"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">315.00</field>
+        </record>
+
+        <record id="saleOrderLine29" model="sale.order.line">
+            <field name="orderId" ref="saleOrder12"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <record id="saleOrder13" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.crmTeam1"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 35}), 'yyyy-MM-dd HH:mm:ss')"/>
+        </record>
+
+        <record id="saleOrderLine30" model="sale.order.line">
+            <field name="orderId" ref="saleOrder13"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">295.00</field>
+        </record>
+
+        <record id="saleOrderLine31" model="sale.order.line">
+            <field name="orderId" ref="saleOrder13"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">1</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <record id="saleOrder14" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 7}), 'yyyy-MM-dd HH:mm:ss')"/>
+        </record>
+
+        <record id="saleOrderLine32" model="sale.order.line">
+            <field name="orderId" ref="saleOrder14"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">4</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">275.00</field>
+        </record>
+
+        <record id="saleOrderLine33" model="sale.order.line">
+            <field name="orderId" ref="saleOrder14"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">4</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <record id="saleOrder15" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 14}), 'yyyy-MM-dd HH:mm:ss')"/>
+        </record>
+
+        <record id="saleOrderLine34" model="sale.order.line">
+            <field name="orderId" ref="saleOrder15"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">4</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">295.00</field>
+        </record>
+
+        <record id="saleOrderLine35" model="sale.order.line">
+            <field name="orderId" ref="saleOrder15"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <record id="saleOrder16" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 21}), 'yyyy-MM-dd HH:mm:ss')"/>
+        </record>
+
+        <record id="saleOrderLine36" model="sale.order.line">
+            <field name="orderId" ref="saleOrder16"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">275.00</field>
+        </record>
+
+        <record id="saleOrderLine37" model="sale.order.line">
+            <field name="orderId" ref="saleOrder16"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <record id="saleOrder17" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 28}), 'yyyy-MM-dd HH:mm:ss')"/>
+        </record>
+
+        <record id="saleOrderLine38" model="sale.order.line">
+            <field name="orderId" ref="saleOrder17"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">355.00</field>
+        </record>
+
+        <record id="saleOrderLine39" model="sale.order.line">
+            <field name="orderId" ref="saleOrder17"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <record id="saleOrder18" model="sale.order">
+            <field name="partnerId" ref="base.resPartner_3"/>
+            <field name="partnerInvoiceId" ref="base.resPartnerAddress_25"/>
+            <field name="partnerShippingId" ref="base.resPartnerAddress_25"/>
+            <field name="userId" ref="base.userDemo"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="campaignId" ref="utm.utmCampaignEmailCampaignProducts"/>
+            <field name="mediumId" ref="utm.utmMediumEmail"/>
+            <field name="sourceId" ref="sale.utmSourceSaleOrder0"/>
+            <field name="dateOrder" eval="toFormat(subDate(now(), {days: 35}), 'yyyy-MM-dd HH:mm:ss')"/>
+        </record>
+
+        <record id="saleOrderLine40" model="sale.order.line">
+            <field name="orderId" ref="saleOrder18"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">295.00</field>
+        </record>
+
+        <record id="saleOrderLine41" model="sale.order.line">
+            <field name="orderId" ref="saleOrder18"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct12')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct12"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">120.50</field>
+        </record>
+
+        <!-- Confirm some Sales Orders-->
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder4')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder6')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder7')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder8')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder9')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder10')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder11')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder12')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder13')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder14')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder15')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder16')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder17')]]"/>
+        <function model="sale.order" name="actionConfirm" eval="[[refId('saleOrder18')]]"/>
+
+        <!-- Setting dateOrder in the past for beautiful spread -->
+        <record id="saleOrder9" model="sale.order">
+            <field name="dateOrder" eval="subDate(now(), {days: 7})"/>
+        </record>
+
+        <record id="saleOrder11" model="sale.order">
+            <field name="dateOrder" eval="subDate(now(), {days: 21})"/>
+        </record>
+
+        <record id="saleOrder15" model="sale.order">
+            <field name="dateOrder" eval="subDate(now(), {days: 14})"/>
+        </record>
+
+        <record id="saleOrder17" model="sale.order">
+            <field name="dateOrder" eval="subDate(now(), {days: 28})"/>
+        </record>
+
+        <record id="saleOrder18" model="sale.order">
+            <field name="dateOrder" eval="subDate(now(), {days: 35})"/>
+        </record>
+
+        <record id="messageSale1" model="mail.message">
+            <field name="model">sale.order</field>
+            <field name="resId" ref="saleOrder2"/>
+            <field name="body">Hi,
+I have a question regarding services pricing: I heard of a possible discount for quantities exceeding 25 hours.
+Could you confirm, please?</field>
+            <field name="messageType">comment</field>
+            <field name="authorId" ref="base.partnerDemo"/>
+        </record>
+
+        <record id="messageSale2" model="mail.message">
+            <field name="model">sale.order</field>
+            <field name="resId" ref="saleOrder2"/>
+            <field name="parentId" ref="messageSale1"/>
+            <field name="body">Hello,
+Unfortunately that was a temporary discount that is not available anymore.
+Do you still plan to confirm the order based on the quoted prices?
+Thanks!</field>
+            <field name="messageType">comment</field>
+            <field name="authorId" ref="base.partnerRoot"/>
+        </record>
+
+        <record id="messageSale3" model="mail.message">
+            <field name="model">sale.order</field>
+            <field name="resId" ref="saleOrder2"/>
+            <field name="parentId" ref="messageSale2"/>
+            <field name="body">Alright, thanks for the clarification. I will confirm the order as soon as I get my manager's approval.</field>
+            <field name="messageType">comment</field>
+            <field name="authorId" ref="base.partnerDemo"/>
+        </record>
+        <!-- sale advance demo.. -->
+        <!-- Demo Data for Product -->
+
+        <record id="advanceProduct0" model="product.product">
+            <field name="label">Deposit</field>
+            <field name="categId" ref="product.productCategory3"/>
+            <field name="type">service</field>
+            <field name="listPrice">150.0</field>
+            <field name="invoicePolicy">order</field>
+            <field name="standardPrice">100.0</field>
+            <field name="uomId" ref="uom.productUomUnit"/>
+            <field name="uomPoId" ref="uom.productUomUnit"/>
+            <field name="companyId" eval="[]"/>
+            <field name="image1920" type="base64" file="sale/static/img/advance_product_0_image.jpg"/>
+            <field name="taxesId" eval="[]"/>
+            <field name="supplierTaxesId" eval="[]"/>
+        </record>
+
+        <record id="base.userDemo" model="res.users">
+            <field eval="[[4, refId('sales_team.groupSaleSalesman')]]" name="groupsId"/>
+        </record>
+
+        <!-- records coming from website_portal_sale, now dead module -->
+        <record id="portalSaleOrder1" model="sale.order">
+            <field name="partnerId" ref="base.partnerDemoPortal"/>
+            <field name="partnerInvoiceId" ref="base.partnerDemoPortal"/>
+            <field name="partnerShippingId" ref="base.partnerDemoPortal"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="state">sent</field>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="dateOrder" eval="toFormat(subDate(today(), {months: 1}), 'yyyy-MM-dd HH:mm')"/>
+            <field name="messagePartnerIds" eval="[[4, refId('base.partnerDemoPortal')]]"/>
+            <field name="tagIds" eval="[[4, refId('sales_team.categOppor4')]]"/>
+        </record>
+
+        <record id="portalSaleOrderLine1" model="sale.order.line">
+            <field name="orderId" ref="portalSaleOrder1"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct25')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct25"/>
+            <field name="productUomQty">3</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">295.00</field>
+        </record>
+
+        <record id="portalSaleOrderLine2" model="sale.order.line">
+            <field name="orderId" ref="portalSaleOrder1"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery02')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery02"/>
+            <field name="productUomQty">5</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">145.00</field>
+        </record>
+
+        <record id="portalSaleOrderLine3" model="sale.order.line">
+            <field name="orderId" ref="portalSaleOrder1"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productDelivery01')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productDelivery01"/>
+            <field name="productUomQty">2</field>
+            <field name="productUom" ref="uom.productUomUnit"/>
+            <field name="priceUnit">65.00</field>
+        </record>
+
+        <record id="portalSaleOrder2" model="sale.order">
+            <field name="partnerId" ref="base.partnerDemoPortal"/>
+            <field name="partnerInvoiceId" ref="base.partnerDemoPortal"/>
+            <field name="partnerShippingId" ref="base.partnerDemoPortal"/>
+            <field name="userId" ref="base.userAdmin"/>
+            <field name="pricelistId" ref="product.list0"/>
+            <field name="teamId" ref="sales_team.teamSalesDepartment"/>
+            <field name="dateOrder" eval="toFormat(subDate(today(), {months: 1}), 'yyyy-MM-dd HH:mm')"/>
+            <field name="messagePartnerIds" eval="[[4, refId('base.partnerDemoPortal')]]"/>
+        </record>
+
+        <record id="portalSaleOrderLine4" model="sale.order.line">
+            <field name="orderId" ref="portalSaleOrder2"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct1')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct1"/>
+            <field name="productUomQty">24</field>
+            <field name="productUom" ref="uom.productUomHour"/>
+            <field name="priceUnit">75.00</field>
+        </record>
+
+        <record id="portalSaleOrderLine5" model="sale.order.line">
+            <field name="orderId" ref="portalSaleOrder2"/>
+            <field name="label" model="sale.order.line" eval="await (await obj.env.ref('product.productProduct2')).getProductMultilineDescriptionSale()"/>
+            <field name="productId" ref="product.productProduct2"/>
+            <field name="productUomQty">30</field>
+            <field name="productUom" ref="uom.productUomHour"/>
+            <field name="priceUnit">38.25</field>
+        </record>
+
+        <record id="product.productAttribute2" model="product.attribute">
+            <field name="displayType">color</field>
+        </record>
+        <record id="product.productAttribute3" model="product.attribute">
+            <field name="displayType">select</field>
+        </record>
+
+        <record id="product.productAttributeValue3" model="product.attribute.value">
+            <field name="htmlColor">#FFFFFF</field>
+        </record>
+        <record id="product.productAttributeValue4" model="product.attribute.value">
+            <field name="htmlColor">#000000</field>
+        </record>
+
+        <!-- Confirm some Sales Orders-->
+        <function model="sale.order" name="actionConfirm" eval="[[refId('portalSaleOrder2')]]"/>
+
+        <record id="portalSaleOrder2" model="sale.order">
+            <field name="dateOrder" eval="subDate(now(), {months: 1})"/>
+        </record>
+
+        <record id="productAttributeValue7" model="product.attribute.value">
+            <field name="label">Custom</field>
+            <field name="attributeId" ref="product.productAttribute1"/>
+            <field name="isCustom">true</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="product.product4Attribute1ProductTemplateAttributeLine" model="product.template.attribute.line">
+            <field name="valueIds" eval="[[4,refId('productAttributeValue7')]]"/>
+        </record>
+
+        <!--
+        Handle automatically created product.template.attribute.value.
+        Check "product.product4Attribute1Value2" for more information about this
+        -->
+        <function model="ir.model.data" name="_updateXmlids">
+            <value model="base" eval="[{
+                'xmlid': 'sale.product4Attribute1Value3',
+                'record': (await (await obj.env.ref('product.product4Attribute1ProductTemplateAttributeLine')).productTemplateValueIds)[2],
+                'noupdate': true,
+            }]"/>
+        </function>
+
+        <function model="ir.model.data" name="_updateXmlids">
+            <value model="base" eval="[{
+                'xmlid': 'sale.productProduct4e',
+                'record': await (await obj.env.ref('product.productProduct4_productTemplate'))._getVariantForCombination((await obj.env.ref('sale.product4Attribute1Value3')).add(await obj.env.ref('product.product4Attribute2Value1'))),
+                'noupdate': true,
+            }, {
+                'xmlid': 'sale.productProduct4f',
+                'record': await (await obj.env.ref('product.productProduct4_productTemplate'))._getVariantForCombination((await obj.env.ref('sale.product4Attribute1Value3')).add(await obj.env.ref('product.product4Attribute2Value2'))),
+                'noupdate': true,
+            },]"/>
+        </function>
+
+        <record id="productProduct4e" model="product.product">
+            <field name="defaultCode">DESK0005</field>
+            <field name="weight">0.01</field>
+        </record>
+
+        <record id="productProduct4f" model="product.product">
+            <field name="defaultCode">DESK0006</field>
+            <field name="weight">0.01</field>
+        </record>
+
+        <record id="productTemplateAttributeExclusion1" model="product.template.attribute.exclusion">
+            <field name="productTemplateId" ref="product.productProduct4_productTemplate" />
+            <field name="valueIds" eval="[[6,0,[refId('product.product4Attribute2Value2')]]]"/>
+        </record>
+
+        <record id="productTemplateAttributeExclusion2" model="product.template.attribute.exclusion">
+            <field name="productTemplateId" ref="product.productProduct11_productTemplate" />
+            <field name="valueIds" eval="[[6,0,[refId('product.product11Attribute1Value1')]]]"/>
+        </record>
+
+        <!--
+        The "Customizable Desk's Aluminium" attribute value will excude:
+        - The "Customizable Desk's Black" attribute
+        - The "Office Chair's Steel" attribute
+         -->
+        <record id="product.product4Attribute1Value2" model="product.template.attribute.value">
+            <field name="excludeFor" eval="[[6,0,[refId('sale.productTemplateAttributeExclusion1'),refId('sale.productTemplateAttributeExclusion2')]]]" />
+        </record>
+
+        <record id="productTemplateAttributeExclusion3" model="product.template.attribute.exclusion">
+            <field name="productTemplateId" ref="product.productProduct11_productTemplate" />
+            <field name="valueIds" eval="[[6,0,[refId('product.product11Attribute1Value2')]]]"/>
+        </record>
+
+        <!--
+        The "Customizable Desk's Steel" attribute value will excude:
+        - The "Office Chair's Aluminium" attribute
+         -->
+        <record id="product.product4Attribute1Value1" model="product.template.attribute.value">
+            <field name="excludeFor" eval="[[6,0,[refId('sale.productTemplateAttributeExclusion3')]]]" />
+        </record>
+
+        <!-- Activities of sales order -->
+        <record id="saleActivity2" model="mail.activity">
+            <field name="resId" ref="sale.saleOrder3"/>
+            <field name="resModelId" ref="sale.model_saleOrder"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="toFormat(today(), 'yyyy-MM-dd HH:mm')"/>
+            <field name="summary">Answer questions</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="saleActivity3" model="mail.activity">
+            <field name="resId" ref="sale.saleOrder4"/>
+            <field name="resModelId" ref="sale.model_saleOrder"/>
+            <field name="activityTypeId" ref="sale.mailActSaleUpsell"/>
+            <field name="dateDeadline" eval="toFormat(addDate(today(), {days: 5}),'yyyy-MM-dd HH:mm')"/>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="saleActivity4" model="mail.activity">
+            <field name="resId" ref="sale.saleOrder5"/>
+            <field name="resModelId" ref="sale.model_saleOrder"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="toFormat(today(), 'yyyy-MM-dd HH:mm')"/>
+            <field name="createdUid" ref="base.userDemo"/>
+            <field name="userId" ref="base.userDemo"/>
+        </record>
+        <record id="saleActivity6" model="mail.activity">
+            <field name="resId" ref="sale.saleOrder7"/>
+            <field name="resModelId" ref="sale.model_saleOrder"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataTodo"/>
+            <field name="dateDeadline" eval="toFormat(addDate(today(), {days:5}), 'yyyy-MM-dd HH:mm')"/>
+            <field name="summary">Check delivery requirements</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+        <record id="saleActivity7" model="mail.activity">
+            <field name="resId" ref="sale.saleOrder10"/>
+            <field name="resModelId" ref="sale.model_saleOrder"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataTodo"/>
+            <field name="dateDeadline" eval="toFormat(addDate(today(),{days:5}),'yyyy-MM-dd HH:mm')"/>
+            <field name="summary">Confirm Delivery</field>
+            <field name="createdUid" ref="base.userDemo"/>
+            <field name="userId" ref="base.userDemo"/>
+        </record>
+        <record id="saleActivity8" model="mail.activity">
+            <field name="resId" ref="sale.saleOrder12"/>
+            <field name="resModelId" ref="sale.model_saleOrder"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataEmail"/>
+            <field name="dateDeadline" eval="toFormat(addDate(today(),{days:5}),'yyyy-MM-dd HH:mm')"/>
+            <field name="createdUid" ref="base.userDemo"/>
+            <field name="userId" ref="base.userDemo"/>
+        </record>
+        <record id="saleActivity9" model="mail.activity">
+            <field name="resId" ref="sale.saleOrder16"/>
+            <field name="resModelId" ref="sale.model_saleOrder"/>
+            <field name="activityTypeId" ref="sale.mailActSaleUpsell"/>
+            <field name="dateDeadline" eval="toFormat(today(),'yyyy-MM-dd HH:mm')"/>
+            <field name="createdUid" ref="base.userDemo"/>
+            <field name="userId" ref="base.userDemo"/>
+        </record>
+        <record id="saleActivity10" model="mail.activity">
+            <field name="resId" ref="sale.portalSaleOrder1"/>
+            <field name="resModelId" ref="sale.model_saleOrder"/>
+            <field name="activityTypeId" ref="mail.mailActivityDataTodo"/>
+            <field name="dateDeadline" eval="toFormat(addDate(today(), {days:5}), 'yyyy-MM-dd HH:mm')"/>
+            <field name="summary">Get quote confirmation</field>
+            <field name="createdUid" ref="base.userAdmin"/>
+            <field name="userId" ref="base.userAdmin"/>
+        </record>
+
+    </data>
+</verp>

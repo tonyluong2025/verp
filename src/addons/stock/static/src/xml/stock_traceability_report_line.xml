@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+    <t t-name="foldable">
+        <span t-att-class="'o-stock-reports-foldable ' + lineId + ' o-stock-reports-caret-icon'"><i class="fa fa-fw fa-caret-down" role="img" aria-label="Fold" title="Fold"></i></span>
+    </t>
+
+    <t t-name="unfoldable">
+        <span t-att-class="'o-stock-reports-unfoldable ' + lineId + ' o-stock-reports-caret-icon'"><i class="fa fa-fw fa-caret-right" role="img" aria-label="Unfold" title="Unfold"></i></span>
+    </t>
+
+    <t t-name="reportMrpLine">
+        <t t-set="trclass" t-value="'o-stock-reports-default-style'"/>
+        <t t-if="l.model == 'stock.move.line'"><t t-set="trclass" t-value="'o-stock-reports-level0'"/></t>
+        <t t-set="spaceTd" t-value="'margin-left: '+ l.level + 'px;'"/>
+        <t t-set="domainClass" t-value="'o-stock-reports-domain-line-0'"/>
+        <t t-if="l.unfoldable == false">
+            <t t-set="spanclass" t-value="'o-stock-reports-nofoldable'" />
+            <t t-set="domainClass" t-value="'o-stock-reports-domain-line-1'"/>
+        </t>
+
+        <tr t-att-data-unfold="l.unfoldable" t-att-data-parentId="l.parentId" t-att-data-id="l.id"  t-att-data-modelId="l.modelId" t-att-data-model="l.model" t-att-class="trclass" t-att-data-lotName="l.lotName" t-att-data-lotId="l.lotId">
+            <t t-if="l.unfoldable == true"><t t-set="tdclass" t-value="'o-stock-reports-unfoldable'" /></t>
+            <t t-set="column" t-value="0" />
+            <t t-foreach="l.columns" t-as="c">
+                <t t-set="column" t-value="column + 1" />
+                <td style="white-space: nowrap;" t-att-data-id="l.id" t-att-data-model="l.model" t-att-data-modelId="l.modelId" t-att-class="tdclass" t-att-data-level="l.level" t-att-data-lotName="l.lotName">
+                    <t t-if="column == 1">
+                        <span t-att-style="spaceTd" t-att-class="domainClass"></span>
+                        <t t-if="l.unfoldable">
+                            <span class="o-stock-reports-unfoldable o-stock-reports-caret-icon"><i class="fa fa-fw fa-caret-right" role="img" aria-label="Unfold" title="Unfold"></i></span>
+                        </t>
+                    </t>
+                    <t t-if="l.reference == c">
+                        <span t-if="c" t-att-class="spanclass">
+                            <a t-att-data-active-id="l.resId" t-att-data-res-model="l.resModel" class="o-stock-reports-web-action" href="#"><t t-esc="c"/></a>
+                        </span>
+                    </t><t t-elif="l.lotName == c and l.lotName != false">
+                        <span>
+                            <a class="o-stock-report-lot-action" href="#"><t t-esc="c"/></a>
+                        </span>
+                    </t>
+                    <t t-if="l.reference != c and l.lotName != c">
+                        <t t-if="typeof c == 'string' || typeof c == 'number'">
+                            <t t-esc="c"/>
+                        </t>
+                        <t t-if="typeof c != 'string' &amp; typeof c != 'number'"><span t-att-style="c[1]">
+                            <t t-esc="c[0]"/>
+                        </span></t>
+                    </t>
+                </td>
+            </t>
+        </tr>
+    </t>
+
+</templates>

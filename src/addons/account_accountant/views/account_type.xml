@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<verp>
+
+    <menuitem id="accountTypeMenu"
+              action="account.actionAccountTypeForm"
+              sequence="60"
+              parent="account.accountAccountMenu"/>
+
+</verp>

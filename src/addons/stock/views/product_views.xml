@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="productCategoryFormViewInherit" model="ir.ui.view">
+            <field name="label">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="inheritId" ref="product.productCategoryFormView" />
+            <field name="arch" type="xml">
+                <div name="buttonBox" position="inside">
+                    <button string="Putaway Rules"
+                        class="oe-stat-button"
+                        icon="fa-random" name="%(categoryOpenPutaway)d" type="action"
+                        groups="stock.groupStockMultiLocations"/>
+                </div>
+                <group name="first" position="after">
+                    <group>
+                        <group name="logistics" string="Logistics">
+                            <field name="routeIds" widget="many2manyTags" groups="stock.groupAdvLocation"/>
+                            <field name="totalRouteIds" widget="many2manyTags" groups="stock.groupAdvLocation" attrs="{'invisible': [['parentId', '=', false]]}"/>
+                            <field name="removalStrategyId" options="{'noCreate': true}"/>
+                            <field name="packagingReserveMethod" widget="radio" groups="product.groupStockPackaging"/>
+                        </group>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+        <record model="ir.actions.server" id="actionOpenRoutes">
+            <field name="label">Routes</field>
+            <field name="modelId" ref="product.model_productTemplate"/>
+            <field name="groupsId" eval="[[4,refId('stock.groupStockUser')]]"/>
+            <field name="state">code</field>
+            <field name="code">model.actionOpenRoutesDiagram()</field>
+        </record>
+
+        <record id="viewStockProductTree" model="ir.ui.view">
+            <field name="label">product.stock.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inheritId" ref="product.productProductTreeView"/>
+            <field name="arch" type="xml">
+                <field name="price" position="after">
+                    <field name="qtyAvailable" attrs="{'invisible':[['type', '!=', 'product']]}" optional="show" decoration-danger="virtualAvailable &lt; 0" decoration-warning="virtualAvailable == 0" decoration-bf="1"/>
+                    <field name="virtualAvailable" attrs="{'invisible':[['type', '!=', 'product']]}" string="Forecasted Quantity" optional="show" decoration-danger="virtualAvailable &lt; 0" decoration-warning="virtualAvailable == 0"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="viewStockProductTemplateTree" model="ir.ui.view">
+            <field name="label">product.template.stock.tree.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inheritId" ref="product.productTemplateTreeView"/>
+            <field name="arch" type="xml">
+                <field name="uomId" position="before">
+                    <field name="qtyAvailable" attrs="{'invisible':[['type', '!=', 'product']]}" optional="show" decoration-danger="qtyAvailable &lt; 0"/>
+                    <field name="virtualAvailable" attrs="{'invisible':[['type', '!=', 'product']]}" optional="show" decoration-danger="virtualAvailable &lt; 0" decoration-bf="1"/>
+                </field>
+                <field name="defaultCode" position="after">
+                    <field name="responsibleId" widget="many2oneAvatarUser"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Product Template -->
+
+        <record id="productTemplateSearchFormViewStock" model="ir.ui.view">
+            <field name="label">product.template.search.stock.form</field>
+            <field name="model">product.template</field>
+            <field name="mode">primary</field>
+            <field name="inheritId" ref="product.productTemplateSearchView"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='pricelistId']" position="after">
+                    <separator/>
+                    <field name="locationId" context="{'location': self}" filterDomain="[]"/>
+                    <field name="warehouseId" context="{'warehouse': self}" filterDomain="[]"/>
+                    <separator/>
+                    <filter name="realStockAvailable" string="Available Products" domain="[['qtyAvailable','&gt;',0]]"/>
+                    <filter name="realStockNegative" string="Negative Forecasted Quantity" domain="[['virtualAvailable','&lt;',0]]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stockProductSearchFormView" model="ir.ui.view">
+            <field name="label">product.product.search.stock.form</field>
+            <field name="model">product.product</field>
+            <field name="mode">primary</field>
+            <field name="inheritId" ref="product.productSearchFormView"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='inactive']" position="after">
+                    <separator/>
+                    <filter name="realStockAvailable" string="Available Products" domain="[['qtyAvailable','&gt;',0]]"/>
+                    <filter name="realStockNegative" string="Negative Forecasted Quantity" domain="[['virtualAvailable','&lt;',0]]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- view common to both template and product -->
+        <record id="viewTemplatePropertyForm" model="ir.ui.view">
+            <field name="label">product.template.stock.property.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inheritId" ref="product.productTemplateFormView"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='groupLotsAndWeight']" position="inside">
+                    <label for="saleDelay" attrs="{'invisible': [['saleOk', '=', false]]}"/>
+                    <div attrs="{'invisible': [['saleOk', '=', false]]}">
+                        <field name="saleDelay" class="oe-inline" style="vertical-align:baseline"/> days
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='groupLotsAndWeight']" position="before">
+                    <field name="hasAvailableRouteIds" invisible="1"/>
+                    <group string="Operations" name="operations">
+                        <label for="routeIds" attrs="{'invisible': [['type', '=', 'service']]}"/>
+                        <div>
+                            <field name="routeIds" class="mb-0" widget="many2manyCheckboxes" attrs="{'invisible': ['|', ['hasAvailableRouteIds', '=', false], ['type', '=', 'service']]}"/>
+                            <button id="stock.viewDiagramButton" string="View Diagram" type="action" name="%(actionOpenRoutes)d" icon="fa-arrow-right"
+                                 attrs="{'invisible':[['type', 'not in', ['product', 'consu']]]}"
+                                 class="btn btn-link pt-0" context="{'default_productTemplateId': id}"/>
+                        </div>
+                        <field name="routeFromCategIds" widget="many2manyTags" attrs="{'invisible': [['routeFromCategIds', '=', []]]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//group[@name='groupLotsAndWeight']" position="after">
+                    <group string="Traceability" name="traceability" groups="stock.groupProductionLot"
+                           attrs="{'invisible': [['type', '=', 'consu']]}">
+                        <field name="tracking" widget="radio" attrs="{'invisible': [['type', '=', 'service']]}"/>
+                    </group>
+                     <group string="Counterpart Locations" name="stockProperty" groups="base.groupNoOne">
+                        <field name="propertyStockProduction"/>
+                        <field name="propertyStockInventory"/>
+                    </group>
+                </xpath>
+                <page name="inventory" position="inside">
+                    <group>
+                        <group string="Description for Receipts">
+                            <field name="descriptionPickingin" nolabel="1" placeholder="This note is added to receipt orders (e.g. where to store the product in the warehouse)."/>
+                        </group>
+                        <group string="Description for Delivery Orders">
+                            <field name="descriptionPickingout" nolabel="1" placeholder="This note is added to delivery orders."/>
+                        </group>
+                        <group string="Description for Internal Transfers" groups="stock.groupStockMultiLocations">
+                            <field name="descriptionPicking" placeholder="This note is added to internal transfer orders (e.g. where to pick the product in the warehouse)." nolabel="1"/>
+                        </group>
+                    </group>
+                </page>
+                <page name="inventory" position="attributes">
+                    <attribute name="groups">stock.groupStockUser,product.groupStockPackaging</attribute>
+                </page>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="productTemplateKanbanStockView">
+            <field name="label">Product Template Kanban Stock</field>
+            <field name="model">product.template</field>
+            <field name="inheritId" ref="product.productTemplateKanbanView"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="inside">
+                    <field name="type"/>
+                </xpath>
+                <xpath expr="//div[@name='productLstPrice']" position="after">
+                    <div t-if="record.type.rawValue == 'product'">On hand: <field name="qtyAvailable"/> <field name="uomId"/></div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="productPackagingTreeView" model="ir.ui.view">
+            <field name="label">product.packaging.tree.view.stock</field>
+            <field name="model">product.packaging</field>
+            <field name="inheritId" ref="product.productPackagingTreeView"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='label']" position="after">
+                    <field name="packageTypeId" groups="stock.groupTrackingLot"/>
+                    <field name="routeIds" groups="stock.groupAdvLocation" optional="hide" widget="many2manyTags"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="productPackagingFormView" model="ir.ui.view">
+            <field name="label">product.packaging.form.view.stock</field>
+            <field name="model">product.packaging</field>
+            <field name="inheritId" ref="product.productPackagingFormView"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='qty']" position="before">
+                    <field name="packageTypeId" groups="stock.groupTrackingLot"/>
+                </xpath>
+                <xpath expr="//group[@name='qty']" position="after">
+                    <group name="logistic">
+                        <field name="routeIds" groups="stock.groupAdvLocation" widget="many2manyTags"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Product Variant -->
+
+        <record id="productSearchFormViewStock" model="ir.ui.view">
+            <field name="label">product.search.stock.form</field>
+            <field name="model">product.product</field>
+            <field name="inheritId" ref="product.productSearchFormView"/>
+            <field name="arch" type="xml">
+                <field name="pricelistId" position="before">
+                    <field name="locationId" options="{'noCreate': true}" context="{'location': self}"/>
+                    <field name="warehouseId" context="{'warehouse': self}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="productProductViewFormEasyInheritStock" model="ir.ui.view">
+            <field name="label">product.product.view.form.easy.inherit.stock</field>
+            <field name="model">product.product</field>
+            <field name="inheritId" ref="product.productVariantEasyEditView"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button string="Update Quantity" type="object"
+                        groups="stock.groupStockManager"
+                        name="actionUpdateQuantityOnHand"
+                        attrs="{'invisible': [['type', '!=', 'product']]}"/>
+                    <button string="Replenish" type="action"
+                        name="%(actionProductReplenish)d"
+                        context="{'default_productId': id}"
+                        groups="stock.groupStockUser"
+                        attrs="{'invisible': [['type', '!=', 'product']]}"/>
+                </header>
+                <div name="buttonBox" position="inside">
+                    <button string="Putaway Rules" type="object"
+                        name="actionViewRelatedPutawayRules"
+                        class="oe-stat-button" icon="fa-random" groups="stock.groupStockMultiLocations"
+                        attrs="{'invisible': [['type', '=', 'service']]}"
+                        context="{'invisibleHandle': true, 'singleProduct': true}"/>
+                </div>
+            </field>
+        </record>
+
+        <!-- view used for product.product only -->
+        <record model="ir.ui.view" id="productFormViewProcurementButton">
+            <field name="label">product.product.procurement</field>
+            <field name="model">product.product</field>
+            <field name="groupsId" eval="[[4, refId('stock.groupStockUser')]]"/>
+            <field name="inheritId" ref="product.productNormalFormView"/>
+            <field name="arch" type="xml">
+                <data>
+                    <header position="inside">
+                        <button string="Update Quantity" type="object"
+                            groups="stock.groupStockManager"
+                            name="actionUpdateQuantityOnHand"
+                            attrs="{'invisible': [['type', '!=', 'product']]}"/>
+                        <button string="Replenish" type="action"
+                            name="%(actionProductReplenish)d"
+                            context="{'default_productId': id}"
+                            groups="stock.groupStockUser"
+                            attrs="{'invisible': [['type', '!=', 'product']]}"/>
+                    </header>
+                    <div name="buttonBox" position="inside">
+                        <field name="showOnHandQtyStatusButton" invisible="1"/>
+                        <field name="showForecastedQtyStatusButton" invisible="1"/>
+                        <button class="oe-stat-button"
+                               name="actionOpenQuants"
+                               icon="fa-cubes"
+                               type="object"
+                               attrs="{'invisible':[['showOnHandQtyStatusButton', '=', false]]}">
+                               <div class="o-field-widget o-stat-info">
+                                    <span class="o-stat-value">
+                                        <field name="qtyAvailable" widget="statinfo" nolabel="1" class="mr4"/>
+                                        <field name="uomName"/>
+                                    </span>
+                                    <span class="o-stat-text">On Hand</span>
+                               </div>
+                        </button>
+                        <button type="object"
+                            name="actionProductForecastReport"
+                            attrs="{'invisible':[['showForecastedQtyStatusButton', '=', false]]}"
+                            context="{'default_productId': id}"
+                            class="oe-stat-button" icon="fa-cubes">
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value">
+                                    <field name="virtualAvailable" widget="statinfo" nolabel="1" class="mr4"/>
+                                    <field name="uomName"/>
+                                </span>
+                                <span class="o-stat-text">Forecasted</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name= "actionViewStockMoveLines"
+                            attrs="{'invisible':[['type', 'not in', ['product', 'consu']]]}"
+                            class="oe-stat-button" icon="fa-exchange"
+                            groups="stock.groupStockUser">
+                            <div class="o-field-widget o-stat-info mr4">
+                                <span class="o-stat-text">In:</span>
+                                <span class="o-stat-text">Out:</span>
+                            </div>
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value"><field name="nbrMovesIn"/></span>
+                                <span class="o-stat-value"><field name="nbrMovesOut"/></span>
+                            </div>
+                        </button>
+                        <button name="actionViewOrderpoints" type="object"
+                            attrs="{'invisible':['|',['type', 'not in', ['product', 'consu']],['nbrReorderingRules', '!=', 1]]}"
+                            class="oe-stat-button" icon="fa-refresh">
+                            <div class="o-field-widget o-stat-info mr4">
+                                <span class="o-stat-text">Min:</span>
+                                <span class="o-stat-text">Max:</span>
+                            </div>
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value"><field name="reorderingMinQty"/></span>
+                                <span class="o-stat-value"><field name="reorderingMaxQty"/></span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="actionViewOrderpoints"
+                            attrs="{'invisible':['|',['type', '!=', 'product'],['nbrReorderingRules', '==', 1]]}"
+                            class="oe-stat-button" icon="fa-refresh">
+                            <field name="nbrReorderingRules" widget="statinfo"/>
+                        </button>
+                        <button string="Lot/Serial Numbers" type="object"
+                            name="actionOpenProductLot"
+                            attrs="{'invisible': [['tracking', '=', 'none']]}"
+                            class="oe-stat-button" icon="fa-bars" groups="stock.groupProductionLot"/>
+                        <button string="Putaway Rules" type="object"
+                            name="actionViewRelatedPutawayRules"
+                            class="oe-stat-button" icon="fa-random" groups="stock.groupStockMultiLocations"
+                            attrs="{'invisible': [['type', '=', 'service']]}"
+                            context="{'invisibleHandle': true, 'singleProduct': true}"/>
+                        <button type="object" string="Storage Capacities"
+                            name="actionViewStorageCategoryCapacity"
+                            groups="stock.groupStockStorageCategories"
+                            attrs="{'invisible':[['type', '=', 'service']]}"
+                            class="oe-stat-button"
+                            icon="fa-cubes"/>
+                    </div>
+                    <xpath expr='//button[@name="%(actionOpenRoutes)d"]' position="attributes">
+                        <attribute name="context">
+                            {'default_productId': id}
+                        </attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- view used for product.template only -->
+        <record model="ir.ui.view" id="productTemplateFormViewProcurementButton">
+            <field name="label">product.template_procurement</field>
+            <field name="model">product.template</field>
+            <field name="groupsId" eval="[[4, refId('stock.groupStockUser')]]"/>
+            <field name="inheritId" ref="product.productTemplateOnlyFormView"/>
+            <field name="arch" type="xml">
+                <data>
+                    <header position="inside" >
+                        <button string="Update Quantity" type="object"
+                            groups="stock.groupStockManager"
+                            name="actionUpdateQuantityOnHand"
+                            attrs="{'invisible': [['type', '!=', 'product']]}"/>
+                        <button string="Replenish" type="action"
+                            name="%(actionProductReplenish)d"
+                            context="{'default_productTemplateId': id}"
+                            groups="stock.groupStockUser"
+                            attrs="{'invisible': [['type', '!=', 'product']]}"/>
+                    </header>
+                    <div name="buttonBox" position="inside">
+                        <field name="showOnHandQtyStatusButton" invisible="1"/>
+                        <field name="showForecastedQtyStatusButton" invisible="1"/>
+                        <button type="object"
+                            name="actionOpenQuants"
+                            attrs="{'invisible':[['showOnHandQtyStatusButton', '=', false]]}"
+                            class="oe-stat-button" icon="fa-cubes">
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value" widget="statinfo">
+                                    <field name="qtyAvailable" widget="statinfo" nolabel="1" class="mr4"/>
+                                    <field name="uomName"/>
+                                </span>
+                                <span class="o-stat-text">On Hand</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="actionProductTemplateForecastReport"
+                            attrs="{'invisible':[['showForecastedQtyStatusButton', '=', false]]}"
+                            context="{'default_productTemplateId': id}"
+                            class="oe-stat-button" icon="fa-cubes">
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value">
+                                    <field name="virtualAvailable" widget="statinfo" nolabel="1" class="mr4"/>
+                                    <field name="uomName"/>
+                                </span>
+                                <span class="o-stat-text">Forecasted</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name= "actionViewStockMoveLines"
+                            attrs="{'invisible':[['type', 'not in', ['product', 'consu']]]}"
+                            class="oe-stat-button" icon="fa-exchange"
+                            groups="stock.groupStockUser">
+                            <div class="o-field-widget o-stat-info mr4">
+                                <span class="o-stat-text">In:</span>
+                                <span class="o-stat-text">Out:</span>
+                            </div>
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value"><field name="nbrMovesIn"/></span>
+                                <span class="o-stat-value"><field name="nbrMovesOut"/></span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="actionViewOrderpoints"
+                            attrs="{'invisible':['|',['type', '!=', 'product'],['nbrReorderingRules', '!=', 1]]}"
+                            class="oe-stat-button" icon="fa-refresh">
+                            <div class="o-field-widget o-stat-info mr4">
+                                <span class="o-stat-text">Min:</span>
+                                <span class="o-stat-text">Max:</span>
+                            </div>
+                            <div class="o-field-widget o-stat-info">
+                                <span class="o-stat-value"><field name="reorderingMinQty"/></span>
+                                <span class="o-stat-value"><field name="reorderingMaxQty"/></span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="actionViewOrderpoints"
+                            attrs="{'invisible':['|',['type', '!=', 'product'],['nbrReorderingRules', '==', 1]]}"
+                            class="oe-stat-button"
+                            icon="fa-refresh">
+                            <field name="nbrReorderingRules" widget="statinfo"/>
+                         </button>
+                        <button string="Lot/Serial Numbers" type="object"
+                            name="actionOpenProductLot"
+                            attrs="{'invisible': [['tracking', '=', 'none']]}"
+                            class="oe-stat-button" icon="fa-bars" groups="stock.groupProductionLot"/>
+                        <button string="Putaway Rules" type="object"
+                            name="actionViewRelatedPutawayRules"
+                            class="oe-stat-button" icon="fa-random" groups="stock.groupStockMultiLocations"
+                            attrs="{'invisible': [['type', '=', 'service']]}"
+                            context="{
+                                'invisibleHandle': true,
+                                'singleProduct': productVariantCount == 1,
+                            }"/>
+                        <button type="object" string="Storage Capacities"
+                            name="actionViewStorageCategoryCapacity"
+                            groups="stock.groupStockStorageCategories"
+                            attrs="{'invisible':[['type', '=', 'service']]}"
+                            class="oe-stat-button"
+                            icon="fa-cubes"/>
+                    </div>
+
+                    <!-- change attrs of fields added in view_template_property_form
+                    to restrict the display for templates -->
+                    <xpath expr="//group[@name='groupLotsAndWeight']" position="attributes">
+                        <attribute name="attrs">{'invisible': [['type', 'not in', ['product', 'consu']]]}</attribute>
+                    </xpath>
+
+                    <xpath expr="//label[@for='weight']" position="before">
+                        <field name="responsibleId" domain="[['share', '=', false]]" widget="many2oneAvatarUser"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    <record id="productTemplateActionProduct" model="ir.actions.actwindow">
+        <field name="label">Products</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.template</field>
+        <field name="viewMode">kanban,tree,form</field>
+        <field name="searchViewId" ref="productTemplateSearchFormViewStock"/>
+        <field name="context">{"searchDefault_consumable": 1, 'default_type': 'product'}</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                No product found. Let's create one!
+            </p><p>
+                Track your stock quantities by creating storable products.
+            </p>
+        </field>
+    </record>
+
+    <record id="stockProductNormalAction" model="ir.actions.actwindow">
+        <field name="label">Product Variants</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">product.product</field>
+        <field name="viewMode">tree,form,kanban</field>
+        <field name="searchViewId" ref="stockProductSearchFormView"/>
+    </record>
+
+    <menuitem id="menuProductVariantConfigStock" name="Products" action="productTemplateActionProduct"
+        parent="stock.menuStockInventoryControl" sequence="1"/>
+    <menuitem id="productProductMenu" name="Product Variants" action="stockProductNormalAction"
+        parent="menuStockInventoryControl" sequence="2" groups="product.groupProductVariant"/>
+    <menuitem id="menuProductPackagings" name="Product Packagings" parent="stock.menuProductInConfigStock" action="product.actionPackagingView" groups="product.groupStockPackaging"/>
+    <menuitem id="menuForecastInventory" name="Forecasted Inventory" parent="stock.menuWarehouseReport" sequence="101" action="stock.reportStockQuantityAction"/>
+
+    </data>
+</verp>

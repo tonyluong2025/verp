@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record model="ir.ui.view" id="viewServerActionFormWebsite">
+            <field name="label">ir.actions.server.form.website</field>
+            <field name="model">ir.actions.server</field>
+            <field name="inheritId" ref="base.viewServerActionForm"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='state']" position="after">
+                        <field name="websitePublished"
+                            attrs="{'invisible': [['state', '!=', 'code']]}"/>
+                        <field name="xmlid" invisible="1"/>
+                        <field name="websitePath"
+                            attrs="{'invisible': ['|', ['websitePublished', '!=', true], ['state', '!=', 'code']]}"/>
+                        <field name="websiteUrl" readonly="1" widget="url"
+                            attrs="{'invisible': ['|', ['websitePublished', '!=', true], ['state', '!=', 'code']]}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="viewServerActionTreeWebsite">
+            <field name="label">ir.actions.server.tree.website</field>
+            <field name="model">ir.actions.server</field>
+            <field name="inheritId" ref="base.viewServerActionTree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='modelId']" position="after">
+                    <field name="websiteUrl"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="viewServerActionSearchWebsite">
+            <field name="label">ir.actions.server.search.website</field>
+            <field name="model">ir.actions.server</field>
+            <field name="inheritId" ref="base.viewServerActionSearch"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <filter string="Website" name="website"
+                        domain="[['websitePublished', '=', true], ['state', '=', 'code']]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</verp>

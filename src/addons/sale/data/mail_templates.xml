@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data noupdate="1">
+    <template id="mailNotificationPaynowOnline" inheritId="mail.mailNotificationPaynow" name="Quotation: Sign and Pay mail notification template">
+        <xpath expr="//t[@t-set='accessName']" position="after">
+            <t t-if="record._name == 'sale.order'">
+                <t t-set="isTransactionPending" t-value="await (await record.getPortalLastTransaction()).state == 'pending'"/>
+                <t t-if="await record.hasToBeSigned(true)">
+                    <t t-if="await record.hasToBePaid()" t-set="accessName">
+                        <t t-if="isTransactionPending">View Quotation</t>
+                        <t t-else="">Review, Sign &amp; Pay Quotation</t>
+                    </t>
+                    <t t-else="" t-set="accessName">Review, Accept &amp; Sign Quotation</t>
+                </t>
+                <t t-elif="await record.hasToBePaid(true) &amp;&amp; ! isTransactionPending">
+                    <t t-set="accessName">Review, Accept &amp; Pay Quotation</t>
+                </t>
+                <t t-elif="['draft', 'sent'].includes(await record.state)">
+                    <t t-set="accessName">View Quotation</t>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</data></verp>

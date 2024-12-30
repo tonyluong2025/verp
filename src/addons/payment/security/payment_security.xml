@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp noupdate="1">
+
+    <!-- Acquirers -->
+
+    <record id="paymentAcquirerCompanyRule" model="ir.rule">
+        <field name="label">Access acquirers in own companies only</field>
+        <field name="modelId" ref="payment.model_paymentAcquirer"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <!-- Transactions -->
+
+    <record id="paymentTransactionUserRule" model="ir.rule">
+        <field name="label">Access own transactions only</field>
+        <field name="modelId" ref="payment.model_paymentTransaction"/>
+        <field name="domainForce">['|', ['partnerId', '=', false], ['partnerId', '=', (await user.partnerId).id]]</field>
+        <field name="groups" eval="[[4, refId('base.groupUser')], [4, refId('base.groupPortal')], [4, refId('base.groupPublic')]]"/>
+    </record>
+
+    <record id="paymentTransactionBillingRule" model="ir.rule">
+        <field name="label">Access every transaction</field>
+        <field name="modelId" ref="payment.model_paymentTransaction"/>
+        <!-- Reset the domain defined by payment.transaction_user_rule -->
+        <field name="domainForce">[[1, '=', 1]]</field>
+        <field name="groups" eval="[[4, refId('account.groupAccountInvoice')]]"/>
+    </record>
+
+    <record id="transactionCompanyRule" model="ir.rule">
+        <field name="label">Access transactions in own companies only</field>
+        <field name="modelId" ref="payment.model_paymentTransaction"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+    <!-- Tokens -->
+
+    <record id="paymentTokenUserRule" model="ir.rule">
+        <field name="label">Access only tokens belonging to commercial partner</field>
+        <field name="modelId" ref="payment.model_paymentToken"/>
+        <field name="domainForce">[['partnerId', 'childOf', (await (await user.partnerId).commercialPartnerId).id]]</field>
+        <field name="groups" eval="[[4, refId('base.groupUser')], [4, refId('base.groupPortal')], [4, refId('base.groupPublic')]]"/>
+    </record>
+
+    <record id="paymentTokenBillingRule" model="ir.rule">
+        <field name="label">Access every token</field>
+        <field name="modelId" ref="payment.model_paymentToken"/>
+        <!-- Reset the domain defined by payment.token_user_rule -->
+        <field name="domainForce">[[1, '=', 1]]</field>
+        <field name="groups" eval="[[4, refId('account.groupAccountInvoice')]]"/>
+    </record>
+
+    <record id="paymentTokenCompanyRule" model="ir.rule">
+        <field name="label">Access tokens in own companies only</field>
+        <field name="modelId" ref="payment.model_paymentToken"/>
+        <field name="domainForce">[['companyId', 'in', companyIds]]</field>
+    </record>
+
+</verp>

@@ -1,0 +1,8 @@
+{
+    "label": "Multi Language Chart of Accounts",
+    "version": "1.1",
+    "category": "Accounting/Localizations",
+    "description": "* Multi language support for Chart of Accounts, Taxes, Tax Codes, Journals, Accounting Templates, Analytic Chart of Accounts and Analytic Journals.\n* Setup wizard changes\n\t- Copy translations for COA, Tax, Tax Code and Fiscal Position fromtemplates to target objects.",
+    "depends": ["account"],
+    "license": "MIT Expat"
+}

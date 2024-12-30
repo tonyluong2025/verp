@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="sImageGallery" name="Image Gallery">
+    <section class="s-image-gallery o-slideshow s-image-gallery-show-indicators s-image-gallery-indicators-rounded pt24" data-vcss="001" data-columns="3" style="height: 500px; overflow: hidden;">
+        <div class="container">
+            <div id="slideshowSample" class="carousel slide" data-ride="carousel" data-interval="0" style="margin: 0 12px;">
+                <div class="carousel-inner" style="padding: 0;">
+                    <div class="carousel-item active">
+                        <img class="img img-fluid d-block" src="/web/image/website.libraryImage_08" data-name="Image" data-index="0"/>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img img-fluid d-block" src="/web/image/website.libraryImage_03" data-name="Image" data-index="1"/>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img img-fluid d-block" src="/web/image/website.libraryImage_02" data-name="Image" data-index="2"/>
+                    </div>
+                </div>
+                <ul class="carousel-indicators">
+                    <li class="o-indicators-left text-center d-none" aria-label="Previous" title="Previous">
+                        <i class="fa fa-chevron-left"/>
+                    </li>
+                    <li data-target="#slideshowSample" data-slide-to="0" style="background-image: url(/web/image/website.libraryImage_08)" class="active"/>
+                    <li data-target="#slideshowSample" data-slide-to="1" style="background-image: url(/web/image/website.libraryImage_03)"/>
+                    <li data-target="#slideshowSample" data-slide-to="2" style="background-image: url(/web/image/website.libraryImage_02)"/>
+                    <li class="o-indicators-right text-center d-none" aria-label="Next" title="Next">
+                        <i class="fa fa-chevron-right"/>
+                    </li>
+                </ul>
+                <a class="carousel-control-prev o-we-no-overlay o-not-editable" href="#slideshowSample" data-slide="prev" aria-label="Previous" title="Previous">
+                    <span class="fa fa-chevron-left fa-2x text-white"/>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next o-we-no-overlay o-not-editable" href="#slideshowSample" data-slide="next" aria-label="Next" title="Next">
+                    <span class="fa fa-chevron-right fa-2x text-white"/>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="sImagesWall" name="Images Wall">
+    <section class="s-image-gallery o-spc-small o-masonry pt24 pb24" data-vcss="001" data-columns="3" style="overflow: hidden;">
+        <div class="container">
+            <div class="row s-nb-column-fixed">
+                <div class="o-masonry-col o-snippet-not-selectable col-lg-4">
+                    <img class="img img-fluid d-block" src="/web/image/website.libraryImage_03" data-index="0" data-name="Image"/>
+                    <img class="img img-fluid d-block" src="/web/image/website.libraryImage_10" data-index="3" data-name="Image"/>
+                </div>
+                <div class="o-masonry-col o-snippet-not-selectable col-lg-4">
+                    <img class="img img-fluid d-block" src="/web/image/website.libraryImage_13" data-index="1" data-name="Image"/>
+                    <img class="img img-fluid d-block" src="/web/image/website.libraryImage_05" data-index="4" data-name="Image"/>
+                </div>
+                <div class="o-masonry-col o-snippet-not-selectable col-lg-4">
+                    <img class="img img-fluid d-block" src="/web/image/website.libraryImage_14" data-index="2" data-name="Image"/>
+                    <img class="img img-fluid d-block" src="/web/image/website.libraryImage_16" data-index="5" data-name="Image"/>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="sImageGalleryOptions" inheritId="website.snippetOptions">
+    <xpath expr="//t[@t-call='web_editor.snippetOptionsBackgroundOptions']" position="before">
+        <div data-js="gallery" data-selector=".s-image-gallery">
+            <we-row string="Images">
+                <we-button class="o-we-bg-success" data-add-images="true" data-no-preview="true">Add</we-button>
+                <we-button class="o-we-bg-danger" data-remove-all-images="true" data-no-preview="true">Remove all</we-button>
+            </we-row>
+        </div>
+    </xpath>
+    <xpath expr="." position="inside">
+        <div data-js="gallery" data-selector=".s-image-gallery">
+            <we-select string="Mode" data-dependencies="!slideshowModeOpt">
+                <we-button data-mode="grid" data-name="gridModeOpt">Grid</we-button>
+                <we-button data-mode="masonry" data-name="masonryModeOpt">Masonry</we-button>
+                <we-button data-mode="nomode">Float</we-button>
+
+                <!-- Hidden option -->
+                <we-button data-mode="slideshow" data-name="slideshowModeOpt">Slideshow</we-button>
+            </we-select>
+            <we-input string="Speed"
+                data-dependencies="slideshowModeOpt"
+                data-apply-to=".carousel:first"
+                data-select-data-attribute="0s" data-attribute-name="interval"
+                data-unit="s" data-save-unit="ms" data-step="0.1"/>
+            <we-select string="Columns" data-dependencies="masonryModeOpt, gridModeOpt">
+                <we-button data-columns="1">1</we-button>
+                <we-button data-columns="2">2</we-button>
+                <we-button data-columns="3">3</we-button>
+                <we-button data-columns="4">4</we-button>
+                <we-button data-columns="6">6</we-button>
+                <we-button data-columns="12">12</we-button>
+            </we-select>
+            <we-range string="Images Spacing"
+                data-dependencies="!slideshowModeOpt"
+                data-select-class="o-spc-none|o-spc-small|o-spc-medium|o-spc-big"/>
+            <we-select string="Styling" data-apply-to="img">
+                <we-button data-select-class="">Standard</we-button>
+                <we-button data-select-class="img-thumbnail">Thumbnails</we-button>
+                <we-button data-select-class="rounded-pill">Circle</we-button>
+                <we-button data-select-class="shadow">Shadows</we-button>
+            </we-select>
+            <we-select string="Arrows" data-dependencies="slideshowModeOpt">
+                <we-button data-select-class="">Standard</we-button>
+                <we-button data-select-class="s-image-gallery-indicators-arrows-boxed">Boxed</we-button>
+                <we-button data-select-class="s-image-gallery-indicators-arrows-rounded">Rounded</we-button>
+            </we-select>
+            <we-checkbox string="Image Cover" data-select-class="s-image-gallery-cover" data-dependencies="slideshowModeOpt"/>
+            <we-select string="Indicators" data-dependencies="slideshowModeOpt">
+                <we-button data-select-class="">None</we-button>
+                <we-button data-select-class="s-image-gallery-show-indicators s-image-gallery-indicators-dots">Dots</we-button>
+                <we-button data-select-class="s-image-gallery-show-indicators">Squared Miniatures</we-button>
+                <we-button data-select-class="s-image-gallery-show-indicators s-image-gallery-indicators-rounded">Rounded Miniatures</we-button>
+            </we-select>
+            <t t-call="website.snippetOptionsBorderWidgets">
+                <t t-set="applyTo" t-valuef="img"/>
+                <t t-set="soRoundedNoDependencies" t-value="true"/>
+            </t>
+        </div>
+        <div data-js="galleryImg" data-selector=".s-image-gallery img">
+            <we-row string="Re-order" data-no-preview="true">
+                <we-button class="fa fa-fw fa-angle-double-left" title="Move to first" data-position="first"/>
+                <we-button class="fa fa-fw fa-angle-left" title="Move to previous" data-position="prev"/>
+                <we-button class="fa fa-fw fa-angle-right" title="Move to next" data-position="next"/>
+                <we-button class="fa fa-fw fa-angle-double-right" title="Move to last" data-position="last"/>
+            </we-row>
+        </div>
+    </xpath>
+</template>
+
+<record id="website.sImageGallery.000.js" model="ir.asset">
+    <field name="label">Image gallery 000 JS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_image_gallery/000.js</field>
+</record>
+
+<record id="website.sImageGallery.000.scss" model="ir.asset">
+    <field name="label">Image gallery 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_image_gallery/000.scss</field>
+    <field name="active" eval="false"/>
+</record>
+
+<record id="website.sImageGallery.001.scss" model="ir.asset">
+    <field name="label">Image gallery 001 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_image_gallery/001.scss</field>
+</record>
+
+</verp>

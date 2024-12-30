@@ -1,0 +1,57 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_sale_order,sale.order,model_saleOrder,sales_team.groupSaleSalesman,1,1,1,0
+access_sale_order_line,sale.order.line,model_saleOrderLine,sales_team.groupSaleSalesman,1,1,1,1
+access_sale_order_line_readonly,sale.order.line accountant,model_saleOrderLine,account.groupAccountReadonly,1,0,0,0
+access_sale_order_line_accountant,sale.order.line accountant,model_saleOrderLine,account.groupAccountUser,1,1,0,0
+access_sale_order_portal,sale.order.portal,sale.model_saleOrder,base.groupPortal,1,0,0,0
+access_sale_order_line_portal,sale.order.line.portal,sale.model_saleOrderLine,base.groupPortal,1,0,0,0
+access_account_move_manager,account_move manager,account.model_accountMove,sales_team.groupSaleManager,1,0,0,0
+access_account_move_salesman,account_move salesman,account.model_accountMove,sales_team.groupSaleSalesman,1,0,0,0
+access_account_move_line_salesman,account_move_line salesman,account.model_accountMoveLine,sales_team.groupSaleSalesman,1,0,0,0
+access_account_partial_reconcile_salesman,account_partial_reconcile salesman,account.model_accountPartialReconcile,sales_team.groupSaleSalesman,1,0,0,0
+access_account_payment_term_salesman,account_payment_term salesman,account.model_accountPaymentTerm,sales_team.groupSaleSalesman,1,0,0,0
+access_account_account_tag_sale_salesman,account.account.tag.sale.salesman,account.model_accountAccountTag,sales_team.groupSaleSalesman,1,0,0,0
+access_account_account_type_sale_salesman,account.account.type.sale.salesman,account.model_accountAccountType,sales_team.groupSaleSalesman,1,0,0,0
+access_account_analytic_tag_sale_salesman,account.analytic.tag.sale.salesman,analytic.model_accountAnalyticTag,sales_team.groupSaleSalesman,1,0,0,0
+access_account_analytic_account_salesman,account_analytic_account salesman,analytic.model_accountAnalyticAccount,sales_team.groupSaleSalesman,1,1,1,0
+access_account_invoice_send_salesman,access.account.invoice.send.salesman,account.model_accountInvoiceSend,sales_team.groupSaleSalesman,1,1,1,0
+access_sale_order_manager,sale.order.manager,model_saleOrder,sales_team.groupSaleManager,1,1,1,1
+access_sale_order_readonly,sale.order.accountant,model_saleOrder,account.groupAccountReadonly,1,0,0,0
+access_sale_order_accountant,sale.order.accountant,model_saleOrder,account.groupAccountUser,1,1,0,0
+access_sale_report_salesman,sale.report,model_saleReport,sales_team.groupSaleSalesman,1,1,1,0
+access_sale_report_manager,sale.report,model_saleReport,sales_team.groupSaleManager,1,1,1,1
+access_sale_account_journal,account.journal sale order.user,account.model_accountJournal,sales_team.groupSaleSalesman,1,0,0,0
+access_res_partner_sale_user,res.partner.sale.user,base.model_resPartner,sales_team.groupSaleSalesman,1,0,0,0
+access_res_partner_sale_manager,res.partner.sale.manager,base.model_resPartner,sales_team.groupSaleManager,1,1,1,0
+access_product_template_sale_user,product.template sale use,product.model_productTemplate,sales_team.groupSaleSalesman,1,0,0,0
+access_product_product_sale_user,product.product sale use,product.model_productProduct,sales_team.groupSaleSalesman,1,0,0,0
+access_account_tax_user,account.tax.user,account.model_accountTax,sales_team.groupSaleSalesman,1,0,0,0
+access_uom_uom_user,uom.uom.user,uom.model_uomUom,sales_team.groupSaleSalesman,1,0,0,0
+access_product_pricelist_sale_user,product.pricelist.sale.user,product.model_productPricelist,sales_team.groupSaleSalesman,1,0,0,0
+access_account_account_salesman,account_account salesman,account.model_accountAccount,sales_team.groupSaleSalesman,1,0,0,0
+access_uom_category_sale_manager,uom.category salemanager,uom.model_uomCategory,sales_team.groupSaleManager,1,1,1,1
+access_uom_uom_sale_manager,uom.uom salemanager,uom.model_uomUom,sales_team.groupSaleManager,1,1,1,1
+access_product_category_sale_manager,product.category salemanager,product.model_productCategory,sales_team.groupSaleManager,1,1,1,1
+access_product_supplierinfo_user,product.supplierinfo.user,product.model_productSupplierinfo,sales_team.groupSaleSalesman,1,0,0,0
+access_product_supplierinfo_sale_manager,product.supplierinfo salemanager,product.model_productSupplierinfo,sales_team.groupSaleManager,1,1,1,1
+access_product_pricelist_sale_manager,product.pricelist salemanager,product.model_productPricelist,sales_team.groupSaleManager,1,1,1,1
+access_sale_order_invoicing_payments,sale.order,model_saleOrder,account.groupAccountInvoice,1,1,0,0
+access_sale_order_line_invoicing_payments,sale.order.line,model_saleOrderLine,account.groupAccountInvoice,1,1,0,0
+access_product_pricelist_item_sale_manager,product.pricelist.item salemanager,product.model_productPricelistItem,sales_team.groupSaleManager,1,1,1,1
+access_product_template_sale_manager,product.template salemanager,model_productTemplate,sales_team.groupSaleManager,1,1,1,1
+access_product_product_sale_manager,product.product salemanager,model_productProduct,sales_team.groupSaleManager,1,1,1,1
+access_product_attribute_sale_manager,product.attribute manager,product.model_productAttribute,sales_team.groupSaleManager,1,1,1,1
+access_product_attribute_value_sale_manager,product.attribute manager value,product.model_productAttributeValue,sales_team.groupSaleManager,1,1,1,1
+access_product_product_attribute_sale_manager,product.template.attribute manager value,product.model_productTemplateAttributeValue,sales_team.groupSaleManager,1,1,1,1
+access_product_product_attribute_custom_value_sale_manager,product.attribute.custom value manager,product.model_productAttributeCustomValue,sales_team.groupSaleSalesman,1,1,1,1
+access_product_template_attribute_exclusion_sale_manager,product.attribute manager filter line,product.model_productTemplateAttributeExclusion,sales_team.groupSaleManager,1,1,1,1
+access_product_template_attribute_line_sale_manager,product.attribute manager line,product.model_productTemplateAttributeLine,sales_team.groupSaleManager,1,1,1,1
+access_account_tax_sale_manager,account.tax sale manager,account.model_accountTax,sales_team.groupSaleSalesman,1,0,0,0
+access_account_tax_group_sale_manager,account.tax.group sale manager,account.model_accountTaxGroup,sales_team.groupSaleSalesman,1,0,0,0
+access_account_account_sale_manager,account.account sale manager,account.model_accountAccount,sales_team.groupSaleManager,1,0,0,0
+access_mail_activity_type_sale_manager,mail.activity.type.sale.manager,mail.model_mailActivityType,sales_team.groupSaleManager,1,1,1,1
+access_report_all_channels_sales,access_report_all_channels_sales,model_reportAllChannelsSales,sales_team.groupSaleManager,1,0,0,0
+access_sale_payment_acquirer_onboarding_wizard,access.sale.payment.acquirer.onboarding.wizard,model_salePaymentAcquirerOnboardingWizard,base.groupSystem,1,1,1,0
+access_sale_advance_payment_inv,access.sale.advance.payment.inv,model_saleAdvancePaymentInv,sales_team.groupSaleSalesman,1,1,1,0
+access_sale_order_cancel,access.sale.order.cancel,model_saleOrderCancel,sales_team.groupSaleSalesman,1,1,1,0
+access_payment_link_wizard_sale,access.payment.link.wizard.sale,model_paymentLinkWizard,sales_team.groupSaleSalesman,1,1,1,0

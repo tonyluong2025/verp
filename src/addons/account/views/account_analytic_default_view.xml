@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <record id="viewAccountAnalyticDefaultTree" model="ir.ui.view">
+            <field name="label">account.analytic.default.tree</field>
+            <field name="model">account.analytic.default</field>
+            <field name="arch" type="xml">
+                <tree string="Analytic Defaults">
+                    <field name="sequence" widget="handle"/>
+                    <field name="analyticId" required="0" groups="analytic.groupAnalyticAccounting"/>
+                    <field name="analyticTagIds" widget="many2manyTags" groups="analytic.groupAnalyticTags"/>
+                    <field name="productId"/>
+                    <field name="partnerId"/>
+                    <field name="userId"/>
+                    <field name="accountId"/>
+                    <field name="dateStart"/>
+                    <field name="dateStop"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticDefaultForm" model="ir.ui.view">
+            <field name="label">account.analytic.default.form</field>
+            <field name="model">account.analytic.default</field>
+            <field name="arch" type="xml">
+                <form string="Analytic Defaults">
+                <sheet>
+                    <group col="4">
+                        <separator string="Analytic Default Rule" colspan="4"/>
+                        <field name="analyticId" groups="analytic.groupAnalyticAccounting" string="Account"/>
+                        <field name="analyticTagIds" widget="many2manyTags" groups="analytic.groupAnalyticTags" string="Tags"/>
+                        <separator string="Conditions" colspan="4"/>
+                        <field name="productId"/>
+                        <field name="partnerId"/>
+                        <field name="userId"/>
+                        <field name="accountId"/>
+                        <field name="dateStart"/>
+                        <field name="dateStop"/>
+                        <field name="companyId" options="{'noCreate': true}" groups="base.groupMultiCompany"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticDefaultKanban" model="ir.ui.view">
+            <field name="label">account.analytic.default.kanban</field>
+            <field name="model">account.analytic.default</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile">
+                    <field name="analyticId"/>
+                    <field name="dateStart"/>
+                    <field name="dateStop"/>
+                    <field name="productId"/>
+                    <field name="partnerId"/>
+                    <field name="userId"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-card oe-kanban-global-click">
+                                <div>
+                                    <strong><span><field name="analyticId"/></span></strong>
+                                </div>
+                                <div t-if="record.dateStart.value"><i class="fa fa-calendar"> Form </i><field name="dateStart"/> <t t-if="record.dateStop.value">to <field name="dateStop"/></t></div>
+                                <div t-if="record.productId.value"><strong>Product</strong> <field name="productId"/> </div>
+                                <div t-if="record.partnerId.value"><strong>Customer</strong> <field name="partnerId"/> </div>
+                                <div class="float-right">
+                                    <field name="userId" widget="many2oneAvatarUser"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="viewAccountAnalyticDefaultFormSearch" model="ir.ui.view">
+            <field name="label">account.analytic.default.search</field>
+            <field name="model">account.analytic.default</field>
+            <field name="arch" type="xml">
+                <search string="Accounts">
+                    <field name="dateStop"/>
+                    <field name="analyticId" groups="analytic.groupAnalyticAccounting"/>
+                    <field name="productId"/>
+                    <field name="partnerId"/>
+                    <field name="userId"/>
+                    <field name="companyId" groups="base.groupMultiCompany"/>
+                    <group expand="0" string="Group By">
+                        <filter string="User" name="user" context="{'groupby':'userId'}" help="User"/>
+                        <filter string="Partner" name="partner" context="{'groupby':'partnerId'}" help="Partner"/>
+                        <filter string="Product" name="product" context="{'groupby':'productId'}" help="Product" />
+                        <filter string="Analytic Account" name="analyticacc" context="{'groupby':'analyticId'}" help="Analytic Account" groups="analytic.groupAnalyticAccounting"/>
+                        <filter string="Company" name="company" context="{'groupby':'companyId'}" groups="base.groupMultiCompany" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionAnalyticDefaultList" model="ir.actions.actwindow">
+            <field name="label">Analytic Defaults Rules</field>
+            <field name="resModel">account.analytic.default</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name="searchViewId" ref="viewAccountAnalyticDefaultFormSearch"/>
+            <field name="context">{"searchDefault_current":1}</field>
+        </record>
+
+
+        <menuitem id="menuAnalyticDefaultList"
+            action="actionAnalyticDefaultList"
+            parent="account.menuAnalyticAccounting"/>
+
+        <record id="analyticRuleActionUser" model="ir.actions.actwindow">
+            <field name="label">Analytic Rules</field>
+            <field name="resModel">account.analytic.default</field>
+            <field name="context">{'searchDefault_userId': [activeId], 'default_userId': activeId}</field>
+            <field name="bindingModelId" ref="base.model_resUsers"/>
+            <field name="bindingViewTypes">form</field>
+            <field name="groupsId" eval="[[4,refId('analytic.groupAnalyticAccounting')]]"/>
+        </record>
+</verp>

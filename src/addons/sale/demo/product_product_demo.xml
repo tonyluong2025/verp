@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record id="product.consuDelivery01" model="product.product">
+            <field name="invoicePolicy">order</field>
+        </record>
+
+        <record id="product.consuDelivery02" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.consuDelivery03" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productDelivery01" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productDelivery02" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productOrder01" model="product.product">
+            <field name="invoicePolicy">order</field>
+        </record>
+
+        <record id="product.productDelivery02" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productDelivery01" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productDelivery02" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct27" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct25" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct24" model="product.product">
+            <field name="invoicePolicy">order</field>
+        </record>
+
+        <record id="product.productProduct22" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct20" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct16" model="product.product">
+            <field name="invoicePolicy">order</field>
+        </record>
+
+        <record id="product.productProduct13" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct12" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct11b" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct11" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct10" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct9" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct8" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct7" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct6" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct5" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct4c" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct4b" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct4" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct3" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+            <field name="expensePolicy">cost</field>
+        </record>
+
+        <record id="product.productProduct2" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <record id="product.productProduct1" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+        </record>
+
+        <!-- Expensable products -->
+        <record id="product.expenseProduct" model="product.product">
+            <field name="invoicePolicy">order</field>
+            <field name="expensePolicy">salesPrice</field>
+        </record>
+
+        <record id="product.expenseHotel" model="product.product">
+            <field name="invoicePolicy">delivery</field>
+            <field name="expensePolicy">cost</field>
+        </record>
+
+    </data>
+</verp>

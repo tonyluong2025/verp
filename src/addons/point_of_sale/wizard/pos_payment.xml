@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewPosPayment" model="ir.ui.view">
+        <field name="label">pos.make.payment.form</field>
+        <field name="model">pos.make.payment</field>
+        <field name="arch" type="xml">
+        <form string="Pay Order">
+            <group>
+                <field name="configId" invisible="1" />
+                <field name="paymentMethodId" domain="[['configIds', 'in', configId]]"/>
+                <field name="amount" />
+                <field name="paymentName"/>
+            </group>
+            <footer>
+                <button name="check" string="Make Payment" type="object" class="btn-primary" data-hotkey="q"/>
+                <button special="cancel" data-hotkey="z" string="Cancel" class="btn-secondary"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+    <record id="actionPosPayment" model="ir.actions.actwindow">
+        <field name="label">Payment</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.make.payment</field>
+        <field name="viewMode">form</field>
+        <field name="target">new</field>
+    </record>
+</verp>

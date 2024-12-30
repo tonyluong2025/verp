@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.SearchBar.Facets" owl="1">
+        <t t-foreach="env.searchModel.facets" t-as="facet" t-key="facet-index">
+            <div class="o-searchview-facet"
+                role="img"
+                aria-label="search"
+                tabindex="0"
+                t-on-keydown="onFacetKeydown(facet, facet-index)"
+                >
+                <t t-if="facet.icon">
+                    <span t-attf-class="o-searchview-facet-label {{ facet.icon }}"/>
+                </t>
+                <t t-else="">
+                    <span class="o-searchview-facet-label" t-esc="facet.title"/>
+                </t>
+                <div class="o-facet-values">
+                    <t t-foreach="facet.values" t-as="facetValue" t-key="facetValue_index">
+                        <t t-if="!facetValue_first">
+                            <span class="o-facet-values-sep" t-esc="facet.separator"/>
+                        </t>
+                        <span class="o-facet-value" t-esc="facetValue"/>
+                    </t>
+                </div>
+                <i class="fa fa-sm fa-remove o-facet-remove"
+                    role="img"
+                    aria-label="Remove"
+                    title="Remove"
+                    t-on-click="onFacetRemove(facet)"
+                />
+            </div>
+        </t>
+    </t>
+
+    <t t-name="web.SearchBar.Input" owl="1">
+        <input type="text"
+            class="o-searchview-input"
+            autofocus=""
+            accesskey="Q"
+            placeholder="Search..."
+            role="searchbox"
+            t-ref="search-input"
+            t-on-keydown="onSearchKeydown"
+            t-on-input="onSearchInput"
+        />
+    </t>
+
+    <t t-name="web.SearchBar.Items" owl="1">
+        <ul class="dropdown-menu o-searchview-autocomplete dropdown-menu show" role="menu">
+            <t t-foreach="items" t-as="item" t-key="item.id">
+                <li class="o-menu-item"
+                    t-att-class="{ 'o-indent': item.isChild, 'o-selection-focus': item-index === state.focusedIndex}"
+                    t-att-id="item.id"
+                    t-on-click="selectItem(item)"
+                    t-on-mousemove="onItemMousemove(item-index)"
+                    >
+                    <t t-if="item.isParent">
+                        <a class="o-expand"
+                            href="#"
+                            t-on-click.stop.prevent="toggleItem(item, !item.isExpanded)"
+                            >
+                            <i t-attf-class="fa fa-caret-{{ item.isExpanded ? 'down' : 'right' }}"/>
+                        </a>
+                    </t>
+                    <a href="#" t-on-click.prevent="">
+                        <t t-if="item.isChild">
+                            <t t-esc="item.label"/>
+                        </t>
+                        <t t-else="">
+                            Search <em t-esc="item.searchItemDescription"/> <t t-esc="item.preposition"/>: <strong t-esc="item.label"/>
+                        </t>
+                    </a>
+                </li>
+            </t>
+        </ul>
+    </t>
+
+    <t t-name="web.SearchBar" owl="1">
+        <div class="o-cp-searchview" role="search">
+            <div class="o-searchview pb-1 align-self-center" role="search" aria-autocomplete="list">
+                <i class="o-searchview-icon fa fa-search"
+                    role="img"
+                    aria-label="Search..."
+                    title="Search..."
+                />
+                <div class="o-searchview-input-container">
+                    <t t-call="web.SearchBar.Facets"/>
+                    <t t-call="web.SearchBar.Input"/>
+                    <t t-if="items.length">
+                        <t t-call="web.SearchBar.Items"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

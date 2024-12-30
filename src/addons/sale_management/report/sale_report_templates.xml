@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<template id="reportSaleorderDocumentInheritSaleManagement" inheritId="sale.reportSaleorderDocument">
+    <xpath expr="//div[@name='signature']" position="after">
+        <div t-if="(await doc.saleOrderOptionIds).ok &amp;&amp; ['draft', 'sent'].includes(await doc.state)">
+            <t t-set="hasOptionDiscount" t-value="await (await doc.saleOrderOptionIds).some(async (opt) => await opt.discount != 0.0))" />
+            <h4 name="hOptionalProducts">
+                <span>Options</span>
+            </h4>
+            <table name="tableOptionalProducts" class="table table-sm">
+                <thead>
+                    <tr>
+                        <th name="thOptionName" class="text-left">Description</th>
+                        <th t-if="hasOptionDiscount" name="thOptionDiscount" groups="product.groupDiscountPerSoLine" class="text-left">Disc.%</th>
+                        <th name="thOptionPriceUnit" class="text-right">Unit Price</th>
+                    </tr>
+                </thead>
+                <tbody class="sale-tbody">
+                    <tr t-foreach="await doc.saleOrderOptionIds" t-as="option">
+                        <td name="tdOptionName">
+                            <span t-field="option.label"/>
+                        </td>
+                        <td t-if="hasOptionDiscount" name="tdOptionDiscount" groups="product.groupDiscountPerSoLine">
+                            <strong t-if="await option.discount != 0.0" class="text-info">
+                                <t t-esc="f('%s', await option.discount)"/>%
+                            </strong>
+                        </td>
+                        <td name="tdOptionPriceUnit">
+                            <strong class="text-right">
+                                <div t-field="option.priceUnit"
+                                    t-options='{"widget": "monetary", "displayCurrency": await (await doc.pricelistId).currencyId}'
+                                    t-att-style="await option.discount &amp;&amp; 'text-decoration: line-through' || null"
+                                    t-att-class="await option.discount &amp;&amp; 'text-danger' || null"/>
+                                <div t-if="await option.discount">
+                                    <t t-esc="f('%s', ((1 - await option.discount / 100.0) * await option.priceUnit).toFixed(2))"/>
+                                </div>
+                            </strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </xpath>
+</template>
+</verp>

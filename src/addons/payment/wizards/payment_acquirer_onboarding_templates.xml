@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <!-- onboarding step -->
+    <template id="onboardingPaymentAcquirerStep">
+        <t t-call="base.onboardingStep">
+            <t t-set="title">Online Payments</t>
+            <t t-set="description">Enable credit &amp; debit card payments supported by Stripe</t>
+            <t t-set="btnText">Activate Stripe</t>
+            <t t-set="doneText">Online payments enabled</t>
+            <t t-set="method" t-value="'actionOpenPaymentOnboardingPaymentAcquirer'" />
+            <t t-set="model" t-value="'res.company'" />
+            <t t-set="state" t-value="await state['paymentAcquirerOnboardingState']" />
+        </t>
+    </template>
+
+    <record model="ir.ui.view" id="paymentAcquirerOnboardingWizardForm">
+        <field name="label">payment.acquirer.onboarding.wizard.form</field>
+        <field name="model">payment.acquirer.onboarding.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Choose a payment method" class="o-onboarding-payment-acquirer-wizard">
+                <div class="container">
+                    <div class="row align-items-start">
+                        <div class="col col-4" name="leftColumn">
+                            <group>
+                                <field name="paymentMethod" widget="radio" nolabel="1"/>
+                            </group>
+                        </div>
+                        <div class="col" name="right-column">
+                            <div attrs="{'invisible': [['paymentMethod', '!=', 'paypal']]}">
+                                <group>
+                                    <field name="paypalEmailAccount" attrs="{'required': [['paymentMethod', '=', 'paypal']]}" string="Email"/>
+                                    <field name="paypalPdtToken" password="true" attrs="{'required': [['paymentMethod', '=', 'paypal']]}" />
+                                </group>
+                                <p>
+                                    <a href="https://www.theverp.com/documentation/1.0/applications/general/payment_acquirers/paypal.html" target="_blank">
+                                        <span><i class="fa fa-arrow-right"/> How to configure your PayPal account</span>
+                                    </a>
+                                </p>
+                            </div>
+                            <div invisible="1">
+                                <group>
+                                    <field name="stripeSecretKey" password="true"/>
+                                    <field name="stripePublishableKey" password="true"/>
+                                </group>
+                                <p>
+                                    <a href="https://dashboard.stripe.com/account/apikeys" target="_blank">
+                                        <span><i class="fa fa-arrow-right"/> Get my Stripe keys</span>
+                                    </a>
+                                </p>
+                            </div>
+
+                            <div attrs="{'invisible': [['paymentMethod', '!=', 'other']]}">
+                                <button type="object" name="actionOnboardingOtherPaymentAcquirer">
+                                    Check here
+                                </button>
+                                to choose another payment method.
+                            </div>
+                            <div attrs="{'invisible': [['paymentMethod', '!=', 'manual']]}">
+                                <group>
+                                    <field name="manualName" attrs="{'required': [['paymentMethod', '=', 'manual']]}"/>
+                                    <field name="journalName" attrs="{'required': [['paymentMethod', '=', 'manual']]}"/>
+                                    <field name="accNumber" attrs="{'required': [['paymentMethod', '=', 'manual']]}"/>
+                                    <field name="manualPostMsg" attrs="{'required': [['paymentMethod', '=', 'manual']]}"/>
+                                </group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <button name="addPaymentMethods" string="Apply" class="oe-highlight"
+                            type="object" data-hotkey="q" />
+                    <button special="cancel" data-hotkey="z" string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="actionOpenPaymentOnboardingPaymentAcquirerWizard" model="ir.actions.actwindow">
+        <field name="label">Choose a payment method</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">payment.acquirer.onboarding.wizard</field>
+        <field name="viewMode">form</field>
+        <field name="viewId" ref="payment.paymentAcquirerOnboardingWizardForm" />
+        <field name="target">new</field>
+    </record>
+</verp>

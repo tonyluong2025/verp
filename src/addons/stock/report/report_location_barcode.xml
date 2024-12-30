@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+<data>
+
+<template id="reportGenericBarcode">
+    <t t-call="web.htmlContainer">
+        <t t-set='nRows' t-value='8'/>
+        <t t-set='nCols' t-value='3'/>
+        <div t-foreach="Array.from(range(0, len(docs), nRows * nCols)).map(x => docs.slice(x, x + nRows * nCols))" t-as="pageDocs" class="page article">
+        <t t-if="title">
+          <h2 style="text-align: center; font-size: 3em"><t t-esc="title"/></h2>
+        </t>
+        <table>
+            <t t-foreach="range(nRows)" t-as="row">
+                <tr>
+                    <t t-foreach="range(nCols)" t-as="col">
+                        <t t-set="barcodeIndex" t-value="(row * nCols + col)"/>
+                        <t t-if="barcodeIndex &lt; len(pageDocs)">
+                            <t t-set="o" t-value="pageDocs[barcodeIndex]"/>
+                        </t>
+                        <t t-else="">
+                            <t t-set="o" t-value="pageDocs[0]"/>
+                        </t>
+                        <td t-att-style="barcodeIndex &gt;= len(pageDocs) &amp;&amp; 'visibility:hidden'">
+                            <div style="text-align: center; font-size: 2em"><span t-esc="await o.label"/></div>
+                            <div t-if="await o.barcode" t-field="o.barcode" t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 400, 'height': 100}"/>
+                        </td>
+                    </t>
+                </tr>
+            </t>
+        </table>
+      </div>
+    </t>
+</template>
+
+<template id="reportLocationBarcode">
+    <t t-set="title">Locations</t>
+    <t t-call="stock.reportGenericBarcode"/>
+</template>
+</data>
+</verp>

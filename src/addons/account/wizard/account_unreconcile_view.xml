@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="accountUnreconcileView" model="ir.ui.view">
+            <field name="label">Unreconcile Entries</field>
+            <field name="model">account.unreconcile</field>
+            <field name="arch" type="xml">
+            <form string="Unreconcile">
+                <separator string="Unreconcile Transactions"/>
+                <form class="o-form-label">If you unreconcile transactions, you must also verify all the actions that are linked to those transactions because they will not be disabled</form>
+                <footer>
+                    <button string="Unreconcile" name="transUnrec" type="object" defaultFocus="1" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="actionAccountUnreconcile" model="ir.actions.actwindow">
+            <field name="label">Unreconcile</field>
+            <field name="groupsId" eval="[[4, refId('account.groupAccountUser')]]"/>
+            <field name="resModel">account.unreconcile</field>
+            <field name="viewMode">form</field>
+            <field name="viewId" ref="accountUnreconcileView"/>
+            <field name="target">new</field>
+            <field name="bindingModelId" ref="account.model_accountMoveLine" />
+            <field name="bindingViewTypes">list</field>
+        </record>
+
+    </data>
+</verp>

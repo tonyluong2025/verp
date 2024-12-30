@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="paymentRefundWizardViewForm" model="ir.ui.view">
+        <field name="label">payment.refund.wizard.form</field>
+        <field name="model">payment.refund.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Refund">
+                <field name="hasPendingRefund" invisible="1"/>
+                <div class="alert alert-warning"
+                     id="alertDraftRefundTx"
+                     role="alert"
+                     attrs="{'invisible': [['hasPendingRefund', '=', false]]}">
+                    <p>
+                        <strong>Warning!</strong> There is a refund pending for this payment.
+                        Wait a moment for it to be processed. If the refund is still pending in a
+                        few minutes, please check your payment acquirer configuration.
+                    </p>
+                </div>
+                <group>
+                    <group>
+                        <field name="paymentId" invisible="1"/>
+                        <field name="transactionId" invisible="1"/>
+                        <field name="currencyId" invisible="1"/>
+                        <field name="supportRefund" invisible="1"/>
+                        <field name="paymentAmount"/>
+                        <field name="refundedAmount"
+                               attrs="{'invisible': [['refundedAmount', '&lt;=', 0]]}"/>
+                        <field name="amountAvailableForRefund"/>
+                        <field name="amountToRefund"
+                               attrs="{'readonly': [['supportRefund', '=', 'fullOnly']]}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Refund" type="object" name="actionRefund" class="btn-primary"/>
+                    <button string="Close" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</verp>

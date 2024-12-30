@@ -1,0 +1,2015 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="headerCartLink" name="Header Cart Link">
+        <t t-set="websiteSaleOrder" t-value="await website.saleGetOrder()" />
+        <t t-set="showCart" t-value="true"/>
+        <li t-attf-class="#{_itemClass} divider d-none"/> <!-- Make sure the cart &amp;&amp; related menus are not folded (see autohideMenu) -->
+        <li t-attf-class="o-wsale-my-cart align-self-md-start #{! showCart &amp;&amp; 'd-none'} #{_itemClass}">
+            <a href="/shop/cart" t-attf-class="#{_linkClass}">
+                <i t-if="_icon" class="fa fa-shopping-cart"/>
+                <span t-if="_text">My Cart</span>
+                <sup class="my-cart-quantity badge badge-primary" t-esc="bool(websiteSaleOrder) &amp;&amp; await websiteSaleOrder.cartQuantity || '0'" t-att-data-order-id="bool(websiteSaleOrder) &amp;&amp; websiteSaleOrder.id || ''"/>
+            </a>
+        </li>
+    </template>
+
+    <template id="headerHideEmptyCartLink" inheritId="website_sale.headerCartLink" name="Header Hide Empty Cart link" active="false">
+        <xpath expr="//t[@t-set='showCart']" position="after">
+            <t t-set="showCart" t-value="bool(showCart) &amp;&amp; bool(websiteSaleOrder) &amp;&amp; await websiteSaleOrder.cartQuantity" />
+        </xpath>
+    </template>
+
+    <template id="templateHeaderDefault" inheritId="website.templateHeaderDefault">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_icon" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item mx-lg-3'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderHamburger" inheritId="website.templateHeaderHamburger">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_text" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderVertical" inheritId="website.templateHeaderVertical">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_icon" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item ml-lg-3'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderSidebar" inheritId="website.templateHeaderSidebar">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_icon" t-value="true"/>
+                <t t-set="_text" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderSlogan" inheritId="website.templateHeaderSlogan">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_icon" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderContact" inheritId="website.templateHeaderContact">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_text" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item ml-lg-3'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderBoxed" inheritId="website.templateHeaderBoxed">
+        <xpath expr="//t[@t-call='portal.placeholderUserSignIn']" position="before">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_text" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderCenteredLogo" inheritId="website.templateHeaderCenteredLogo">
+        <xpath expr="//t[@t-call='portal.placeholderUserSignIn']" position="before">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_icon" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderImage" inheritId="website.templateHeaderImage">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_icon" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item ml-lg-3'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderHamburgerFull" inheritId="website.templateHeaderHamburgerFull">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_icon" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item ml-lg-3'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="templateHeaderMagazine" inheritId="website.templateHeaderMagazine">
+        <xpath expr="//t[@t-foreach='website.menuId.childId']" position="after">
+            <t t-call="website_sale.headerCartLink">
+                <t t-set="_text" t-value="true"/>
+                <t t-set="_itemClass" t-value="'nav-item ml-md-auto'"/>
+                <t t-set="_linkClass" t-value="'nav-link'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Search Bar input-group template -->
+    <template id="search" name="Search Box">
+        <t t-call="website.websiteSearchBoxInput">
+            <t t-set="_formClasses" t-valuef="o-wsale-products-searchbar-form w-100 w-md-auto mr-auto mb-2"/>
+            <t t-set="_classes" t-valuef=" "/>
+            <t t-set="searchType" t-valuef="products"/>
+            <t t-set="action" t-value="await keep('/shop'+ bool(category) ? ('/category/'+slug([category.id, await category.seoName || await category.displayName])) : null, {'search': 0}) || '/shop'"/>
+            <t t-set="displayImage" t-valuef="true"/>
+            <t t-set="displayDescription" t-valuef="true"/>
+            <t t-set="displayExtraLink" t-valuef="true"/>
+            <t t-set="displayDetail" t-valuef="true"/>
+            <t t-if="attribValues">
+                <t t-foreach="attribValues" t-as="a">
+                    <input type="hidden" name="attrib" t-att-value="format('%s-%s', a[0], a[1])" />
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="searchCountBox" inheritId="website.websiteSearchBox" active="false" customizeShow="true" name="Show # found">
+        <xpath expr="//button[contains(@t-att-class, 'oe-search-button')]" position="inside">
+            <span t-if='search' class='oe-search-found'> <small>(<t t-esc="searchCount || 0"/> found)</small></span>
+        </xpath>
+    </template>
+
+    <template id="productsItem" name="Products item">
+        <t t-set="productHref" t-value="await keep(await product.websiteUrl, {'page': pager['page']['num']&gt;1 ? pager['page']['num'] : null})" />
+
+        <t t-set="combinationInfo" t-value="await product._getCombinationInfo({'onlyTemplate': true, 'addQty': addQty || 1, 'pricelist': pricelist})"/>
+
+        <form action="/shop/cart/update" method="post" class="card oe-product-cart"
+            t-att-data-publish="await product.websitePublished &amp;&amp; 'on' || 'off'"
+            itemscope="itemscope" itemtype="http://schema.org/Product">
+            <a class="o-product-link css-editable-mode-hidden" t-att-href="productHref"/>
+            <div class="card-body p-1 oe-product-image">
+                <input type="hidden" name="csrfToken" t-att-value="await request.csrfToken()" />
+                <a t-att-href="productHref" class="d-block h-100" itemprop="url">
+                    <t t-set="imageHolder" t-value="await product._getImageHolder()"/>
+                    <span t-field="imageHolder.image1920"
+                        t-options="{'widget': 'image', 'previewImage': productImageBig ? 'image1024' : 'image256', 'itemprop': 'image'}"
+                        class="d-flex h-100 justify-content-center align-items-center"/>
+                </a>
+            </div>
+            <div class="card-body p-0 o-wsale-product-information">
+                <div class="p-2 o-wsale-product-information-text">
+                    <h6 class="o-wsale-products-item-title mb-1">
+                        <a class="text-primary text-decoration-none" itemprop="label" t-att-href="productHref" t-att-content="await product.label" t-field="product.label" />
+                        <a role="button" t-if="!await product.websitePublished" t-att-href="productHref" class="btn btn-sm btn-danger" title="This product is unpublished.">Unpublished</a>
+                    </h6>
+                    <div class="product-price mb-1" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+                        <span class="h5" t-if="combinationInfo['price']" t-esc="combinationInfo['price']" t-options="{'widget': 'monetary', 'displayCurrency': await website.currencyId}"/>
+                        <del t-attf-class="text-danger ml-1 h6 {{combinationInfo['hasDiscountedPrice'] ? '' : 'd-none'}}" style="white-space: nowrap;" t-esc="combinationInfo['listPrice']" t-options="{'widget': 'monetary', 'displayCurrency': await website.currencyId}" />
+                        <span itemprop="price" style="display:none;" t-esc="combinationInfo['price']" />
+                        <span itemprop="priceCurrency" style="display:none;" t-esc="await (await website.currencyId).label" />
+                    </div>
+                </div>
+                <div class="o-wsale-product-btn pl-2"/>
+            </div>
+            <t t-set="bgcolor" t-value="await tdProduct['ribbon']['bgcolor'] || ''"/>
+            <t t-set="textColor" t-value="await tdProduct['ribbon']['textColor']"/>
+            <t t-set="bgclass" t-value="await tdProduct['ribbon']['htmlClass']"/>
+            <span t-attf-class="o-ribbon #{bgclass}" t-attf-style="#{textColor &amp;&amp; format('color: %s; ', textColor)}#{bgcolor &amp;&amp; 'background-color:' + bgcolor}" t-out="await tdProduct['ribbon']['html'] || ''"/>
+        </form>
+    </template>
+
+    <template id="productsDescription" inheritId="website_sale.productsItem" active="false" customizeShow="true" name="Product Description">
+        <xpath expr="//*[contains(@class,'product-price')]" position="after">
+            <div class="oe-subdescription" contenteditable="false">
+                <div itemprop="description" t-field="product.descriptionSale"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="productsAddToCart" inheritId="website_sale.productsItem" active="false" customizeShow="true" name="Add to Cart">
+        <xpath expr="//div[contains(@class,'o-wsale-product-btn')]" position="inside">
+            <t t-set="productVariantId" t-value="await product._getFirstPossibleVariantId()"/>
+            <input name="productId" t-att-value="productVariantId" type="hidden"/>
+            <t t-if="productVariantId">
+                <a href="#" role="button" class="btn btn-primary a-submit" aria-label="Shopping cart" title="Shopping cart">
+                    <span class="fa fa-shopping-cart"/>
+                </a>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="pricelistList" name="Pricelists Dropdown">
+        <t t-set="websiteSalePricelists" t-value="await website.getPricelistAvailable(request, true)" />
+        <div t-attf-class="o-pricelist-dropdown dropdown#{websiteSalePricelists &amp;&amp; len(websiteSalePricelists)&gt;1 ? '' : ' d-none'} #{_classes}">
+            <t t-set="currPl" t-value="await website.getCurrentPricelist()" />
+            <a role="button" href="#" class="dropdown-toggle btn btn-light border-0 px-0 text-muted align-baseline" data-toggle="dropdown">
+                <t t-esc="bool(currPl) &amp;&amp; await currPl.label || ' - '" />
+            </a>
+            <div class="dropdown-menu" role="menu">
+                <t t-foreach="websiteSalePricelists" t-as="pl">
+                    <a role="menuitem" t-att-href="format('/shop/changePricelist/%s', pl.id)" class="dropdown-item">
+                        <span class="switcher-pricelist" t-att-data-pl_id="pl.id" t-esc="await pl.label" />
+                    </a>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="productsBreadcrumb" name="Products Breadcrumb">
+        <ol t-if="category" t-attf-class="breadcrumb #{_classes}">
+            <li class="breadcrumb-item">
+                <a href="/shop">Products</a>
+            </li>
+            <t t-foreach="category.parentsAndSelf" t-as="cat">
+                <li t-if="cat == category" class="breadcrumb-item">
+                    <span class="d-inline-block" t-field="await cat.label"/>
+                </li>
+                <li t-else="" class="breadcrumb-item">
+                    <a t-att-href="await keep(format('/shop/category/%s', slug([cat.id, await cat.seoName || await cat.displayName]), {'category': 0})" t-field="cat.label"/>
+                </li>
+            </t>
+        </ol>
+    </template>
+
+    <!-- /shop product listing -->
+    <template id="products" name="Products">
+        <t t-call="website.layout">
+            <t t-set="additionalTitle">Shop</t>
+            <div id="wrap" class="js-sale">
+                <div class="oe-structure oe-empty oe-structure-not-nearest" id="oeStructureWebsiteSaleProducts1"/>
+                <div class="container oe-website-sale pt-2">
+                    <div class="row o-wsale-products-main-row">
+                        <div t-if="enableLeftColumn" id="productsGridBefore" class="col-lg-3 pb-2">
+                            <div class="products-categories"/>
+                            <div class="products-attributes-filters"/>
+                        </div>
+                        <div id="productsGrid" t-attf-class="col #{layoutMode == 'list' ? 'o-wsale-layout-list' : ''}">
+                            <t t-call="website_sale.productsBreadcrumb">
+                                <t t-set="_classes" t-valuef="w-100"/>
+                            </t>
+                            <div class="products-header form-inline flex-md-nowrap justify-content-end mb-4">
+                                <t t-call="website_sale.search">
+                                    <t t-set="_classes" t-valuef="w-100 w-md-auto mr-auto mb-2"/>
+                                    <t t-set="search" t-value="originalSearch || search"/>
+                                </t>
+                                <t t-call="website_sale.pricelistList">
+                                    <t t-set="_classes" t-valuef="ml-3 mb-2"/>
+                                </t>
+                            </div>
+                            <div t-if="originalSearch &amp;&amp; bins" class="alert alert-warning mt8">
+                                No results found for '<span t-esc="originalSearch"/>'. Showing results for '<span t-esc="search"/>'.
+                            </div>
+                            <t t-if="category">
+                                <t t-set='editorMsg'>Drag building blocks here to customize the header for "<t t-esc='await category.label'/>" category.</t>
+                                <div class="mb16" id="categoryHeader" t-att-data-editor-message="editorMsg" t-field="category.websiteDescription"/>
+                            </t>
+                            <div t-if="bins" class="o-wsale-products-grid-table-wrapper">
+                                <table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr">
+                                    <colgroup t-ignore="true">
+                                        <!-- Force the number of columns (useful when only one row of (x < ppr) products) -->
+                                        <col t-foreach="ppr" t-as="p"/>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr t-foreach="bins" t-as="trProduct">
+                                            <t t-foreach="trProduct" t-as="tdProduct">
+                                                <t t-if="tdProduct">
+                                                    <t t-set="product" t-value="tdProduct['product']" />
+                                                    <!-- We use t-attf-class here to allow easier customization -->
+                                                    <td t-att-colspan="tdProduct['x'] != 1 &amp;&amp; tdProduct['x']"
+                                                        t-att-rowspan="tdProduct['y'] != 1 &amp;&amp; tdProduct['y']"
+                                                        t-attf-class="oe-product"
+                                                        t-att-data-ribbon-id="tdProduct['ribbon'].id">
+                                                        <div t-attf-class="o-wsale-product-grid-wrapper o-wsale-product-grid-wrapper-#{tdProduct['x']}-#{tdProduct['y']}">
+                                                            <t t-call="website_sale.productsItem">
+                                                                <t t-set="productImageBig" t-value="tdProduct['x'] + tdProduct['y'] &gt; 2"/>
+                                                            </t>
+                                                        </div>
+                                                    </td>
+                                                </t>
+                                                <td t-else=""/>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <t t-else="">
+                                <div class="text-center text-muted mt128 mb256">
+                                    <t t-if="! bool(search)">
+                                        <h3 class="mt8">No product defined</h3>
+                                        <p t-if="category">No product defined in category "<strong t-esc="await category.displayName"/>".</p>
+                                    </t>
+                                    <t t-else="">
+                                        <h3 class="mt8">No results</h3>
+                                        <p>No results for "<strong t-esc='search'/>"<t t-if="category"> in category "<strong t-esc="await category.displayName"/>"</t>.</p>
+                                    </t>
+                                    <p t-ignore="true" groups="sales_team.groupSaleManager">Click <i>'New'</i> in the top-right corner to create your first product.</p>
+                                </div>
+                            </t>
+                            <div class="products-pager form-inline justify-content-center py-3">
+                                <t t-call="website.pager"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe-structure oe-empty oe-structure-not-nearest" id="oeStructureWebsiteSaleProducts2"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- (Option) Products: Enable image full for all products : Images Full -->
+    <template id="productsImagesFull" name="Images Full" inheritId="website_sale.products" active="false" customizeShow="true">
+        <xpath expr="//t[@t-foreach='trProduct']//td" position="attributes">
+            <attribute name="t-attf-class" add="oe-image-full" separator=" "/>
+        </xpath>
+    </template>
+
+    <template id="sort" inheritId="website_sale.products" customizeShow="true" name="Show Sort by">
+        <xpath expr="//div[contains(@class,'products-header')]/t[@t-call='website_sale.pricelistList']" position="after">
+            <t t-set="listPriceAscLabel">Price - Low to High</t>
+            <t t-set="listPriceDescLabel">Price - High to Low</t>
+            <t t-set="newestArrivalsDescLabel">Newest arrivals</t>
+            <t t-set="nameAscLabel">Name</t>
+            <t t-set="websiteSaleSortable" t-value="[
+                [listPriceAscLabel, 'listPrice asc'],
+                [listPriceDescLabel, 'listPrice desc'],
+                [newestArrivalsDescLabel, 'createdAt desc'],
+                [nameAscLabel, 'label asc']
+            ]"/>
+            <t t-set="websiteSaleSortableCurrent" t-value="websiteSaleSortable.filter(sort => sort[1]==(request.params['order'] ?? ''))"/>
+            <div class="o-sortby-dropdown dropdown dropdown-sorty-by ml-3 pb-2">
+                <span class="d-none d-lg-inline font-weight-bold text-muted">Sort By:</span>
+                <a role="button" href="#" class="dropdown-toggle btn btn-light border-0 px-0 text-muted align-baseline" data-toggle="dropdown">
+                    <span class="d-none d-lg-inline">
+                        <t t-if='websiteSaleSortableCurrent.length'>
+                            <t t-esc="websiteSaleSortableCurrent[0][0]"/>
+                        </t>
+                        <t t-else='1'>
+                            Featured
+                        </t>
+                    </span>
+                    <i class="fa fa-sort-amount-asc d-lg-none"/>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                    <t t-foreach="websiteSaleSortable" t-as="sortby">
+                        <a role="menuitem" rel="noindex,nofollow" t-att-href="await keep('/shop', {'order': sortby[1]})" class="dropdown-item">
+                            <span t-out="sortby[0]"/>
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="addGridOrListOption" inheritId="website_sale.products" active="true" customizeShow="true" name="Grid or List button">
+        <xpath expr="//div[contains(@class,'products-header')]" position="inside">
+            <div class="btn-group btn-group-toggle ml-3 mb-2 d-none d-sm-inline-flex o-wsale-apply-layout" data-toggle="buttons">
+                <label t-attf-class="btn btn-light border-0 #{layoutMode != 'list' ? 'active' : null} fa fa-th-large o-wsale-apply-grid" title="Grid">
+                    <input type="radio" name="wsaleProductsLayout" t-att-checked="layoutMode != 'list' ? 'checked' : null"/>
+                </label>
+                <label t-attf-class="btn btn-light border-0 #{layoutMode == 'list' ? 'active' : null} fa fa-th-list o-wsale-apply-list" title="List">
+                    <input type="radio" name="wsaleProductsLayout" t-att-checked="layoutMode == 'list' ? 'checked' : null"/>
+                </label>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Add to cart button-->
+    <template id="categoriesRecursive" name="Category list">
+        <li class="nav-item">
+            <t t-call="website_sale.categorieLink"/>
+            <ul t-if="bool(await c.childId)" class="nav flex-column nav-hierarchy">
+                <t t-foreach="await c.childId" t-as="c">
+                    <t t-if="! bool(search) || searchCategoriesIds.includes(c.id)">
+                        <t t-call="website_sale.categoriesRecursive" />
+                    </t>
+                </t>
+            </ul>
+        </li>
+    </template>
+
+    <template id="categorieLink" name="Category Link">
+        <div t-att-data-link-href="await keep('/shop/category/' + slug([c.id, await c.seoName || await c.displayName]), {'category': 0})" class="custom-control custom-radio mb-1 d-inline-block">
+            <input type="radio" style="pointer-events:none;" class="custom-control-input" t-att-id="c.id" t-att-value="c.id" t-att-checked="c.id == category.id ? 'true' : null"/>
+            <label class="custom-control-label font-weight-normal" t-att-for="c.id" t-field="c.label"/>
+        </div>
+    </template>
+
+    <template id="productsCategories" inheritId="website_sale.products" active="false" customizeShow="true" name="eCommerce Categories">
+        <xpath expr="//div[@id='productsGridBefore']" position="before">
+            <t t-set="enableLeftColumn" t-value="true"/>
+        </xpath>
+        <xpath expr="//div[contains(@class,'products-categories')]" position="attributes">
+            <attribute name="class" add="mb-lg-3" separator=" "/>
+        </xpath>
+        <xpath expr="//div[contains(@class,'products-categories')]" position="inside">
+            <button type="button" class="btn btn-light d-lg-none mb-2 w-100 p-0"
+                data-target="#wsaleProductsCategoriesCollapse" data-toggle="collapse">
+                Show categories
+            </button>
+            <div class="collapse d-lg-block" id="wsaleProductsCategoriesCollapse">
+                <strong class="o-categories-collapse-title text-uppercase">Categories</strong>
+                <ul class="nav flex-column my-2">
+                    <form>
+                        <li class="nav-item">
+                            <div t-att-data-link-href="await keep('/shop', {'category':0})" class="custom-control custom-radio mb-1 d-inline-block">
+                                <input type="radio" style="pointer-events:none;" class="custom-control-input o-not-editable" t-att-id="allProducts" t-att-value="allProducts" t-att-checked="!bool(category) ? 'true' : null"/>
+                                <label class="custom-control-label font-weight-normal" t-att-for="allProducts">All Products</label>
+                            </div>
+                        </li>
+                        <t t-foreach="categories" t-as="c">
+                            <t t-call="website_sale.categoriesRecursive" />
+                        </t>
+                    </form>
+                </ul>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="optionCollapseCategoriesRecursive" name="Collapse Category Recursive">
+        <li class="nav-item">
+            <t t-set="children" t-value="! bool(search) &amp;&amp; await c.childId || await (await c.childId).filtered(c => searchCategoriesIds.includes(c.id))"/>
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <t t-call="website_sale.categorieLink"/>
+                <t t-set="_checkedId" t-value="(await category.parentsAndSelf).ids.includes(c.id)"/>
+                <i t-if="children" t-attf-class="fa #{_checkedId ? 'fa-chevron-down' : 'fa-chevron-right'}"
+                    t-attf-title="#{_checkedId ? 'Unfold' : 'Fold'}"
+                    t-attf-aria-label="#{_checkedId ? 'Unfold' : 'Fold'}" role="img"/>
+                <ul t-if="children" class="nav flex-column w-100 nav-hierarchy" t-att-style="_checkedId ? 'display:block;' : 'display:none;'">
+                    <t t-foreach="children" t-as="c">
+                        <t t-call="website_sale.optionCollapseCategoriesRecursive"/>
+                    </t>
+                </ul>
+            </div>
+        </li>
+    </template>
+
+    <template id="optionCollapseProductsCategories" name="Collapsible Category List" inheritId="website_sale.productsCategories" active="false" customizeShow="true">
+        <xpath expr="//div[@id='wsaleProductsCategoriesCollapse']/ul" position="attributes">
+            <attribute name="id">oShopCollapseCategory</attribute>
+        </xpath>
+        <xpath expr="//t[@t-call='website_sale.categoriesRecursive']" position="attributes">
+            <attribute name="t-call">website_sale.optionCollapseCategoriesRecursive</attribute>
+        </xpath>
+    </template>
+
+    <template id="productsAttributes" inheritId="website_sale.products" active="false" customizeShow="true" name="Attributes &amp; Variants filters">
+        <xpath expr="//div[@id='productsGridBefore']" position="before">
+            <t t-set="enableLeftColumn" t-value="true"/>
+        </xpath>
+        <xpath expr="//div[contains(@class,'productsAttributesFilters')]" position="inside">
+            <button type="button" class="btn btn-light d-lg-none mb-2 w-100 p-0"
+                data-target="#wsaleProductsAttributesCollapse" data-toggle="collapse">
+                Show options
+            </button>
+            <div class="collapse d-lg-block" id="wsaleProductsAttributesCollapse">
+                <form class="js-attributes mb-2" method="get">
+                    <input t-if="category" type="hidden" name="category" t-att-value="category.id" />
+                    <input type="hidden" name="search" t-att-value="search" />
+                    <input type="hidden" name="order" t-att-value="order"/>
+                    <a t-if="attribValues" t-att-href="await keep('/shop'+ bool(category) ? ('/category/'+slug([category.id, await category.seoName || await category.displayName])) : null, {'attrib':0})" class="btn btn-link p-0">
+                        <i class="fa fa-eraser mr-1"/><u>Clear filters</u>
+                    </a>
+                    <ul class="nav flex-column">
+                        <t t-foreach="attributes" t-as="a">
+                            <li t-if="bool(await a.valueIds) &amp;&amp; len(await a.valueIds) &gt; 1" class="nav-item mb-2">
+                                <div>
+                                    <strong t-field="a.label" class="o-products-attributes-title text-uppercase d-block my-2"/>
+                                </div>
+                                <t t-if="await a.displayType == 'select'">
+                                    <select class="custom-select css-attribute-select" name="attrib">
+                                        <option value="" />
+                                        <t t-foreach="await a.valueIds" t-as="v">
+                                            <option t-att-value="format('%s-%s', a.id, v.id)" t-esc="await v.label" t-att-selected="attribSet.includes(v.id)" />
+                                        </t>
+                                    </select>
+                                </t>
+                                <t t-if="await a.displayType == 'radio' || await a.displayType == 'pills'">
+                                    <div class="flex-column">
+                                        <t t-foreach="await a.valueIds" t-as="v">
+                                            <div class="custom-control custom-checkbox mb-1">
+                                                <input type="checkbox" name="attrib" class="custom-control-input" t-att-id="format('%s-%s', a.id,v.id)" t-att-value="format('%s-%s', a.id,v.id)" t-att-checked="attribSet.includes(v.id) ? 'checked' : null"/>
+                                                <label class="custom-control-label font-weight-normal" t-att-for="format('%s-%s', a.id,v.id)" t-field="v.label"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+                                <t t-if="await a.displayType == 'color'">
+                                    <t t-foreach="await a.valueIds" t-as="v">
+                                        <label t-attf-style="background-color:#{await v.htmlColor || await v.label}" t-attf-class="css-attribute-color #{attribSet.includes(v.id) ? 'active' : ''}">
+                                            <input type="checkbox" name="attrib" t-att-value="format('%s-%s', a.id,v.id)" t-att-checked="attribSet.includes(v.id) ? 'checked' : null" t-att-title="await v.label" />
+                                        </label>
+                                    </t>
+                                </t>
+                            </li>
+                        </t>
+                    </ul>
+                </form>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="filterProductsPrice" inheritId="website_sale.products" active="false" customizeShow="true" name="Filter by Prices">
+        <xpath expr="//div[@id='productsGridBefore']" position="before">
+            <t t-set="enableLeftColumn" t-value="true"/>
+        </xpath>
+        <xpath expr="//div[@id='productsGridBefore']" position="inside">
+            <t t-set="plCurrency" t-value="await pricelist.currencyId"/>
+            <div t-if="availableMinPrice != availableMaxPrice" id="oWsalePriceRangeOption">
+                <label>Price</label>
+                <input type="range" multiple="multiple" class="custom-range range-with-input"
+                       t-att-data-currency="await plCurrency.symbol"
+                       t-att-data-currency-position="await plCurrency.position"
+                       t-att-step="await plCurrency.rounding" t-att-min="format('%f', availableMinPrice)"
+                       t-att-max="format('%f', availableMaxPrice)" t-att-value="format('%f,%f', minPrice, maxPrice)"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="productsListView" inheritId="website_sale.products" active="false" customizeShow="true" name="List View (by default)">
+        <xpath expr="//div[@id='productsGrid']" position="after">
+            <!-- Nothing to do, this view is only meant to allow the server -->
+            <!-- to know if the list view layout should be used -->
+        </xpath>
+    </template>
+
+    <!-- /shop/product page -->
+    <template id="productEditOptions" inheritId="website.userNavbar" name="Edit Product Options">
+        <xpath expr="//div[@id='editPageMenu']" position="after">
+            <t t-if="mainObject._name == 'product.template'" t-set="action" t-value="'website_sale.productTemplateActionWebsite'" />
+        </xpath>
+    </template>
+
+    <template id="baseUnitPrice" name="Product Bas eunit price">
+        (<span class="o-base-unit-price" t-esc="combinationInfo['baseUnitPrice']" t-options="{'widget': 'monetary', 'displayCurrency': await website.currencyId}"/>
+         / <span class="oe-custom-base-unit" t-field="product.baseUnitName"/>)
+    </template>
+
+    <template id="product" name="Product" track="1">
+
+        <t t-set="combination" t-value="await product._getFirstPossibleCombination()"/>
+        <t t-set="combinationInfo" t-value="await product._getCombinationInfo({'combination': combination, 'addQty': addQty || 1, 'pricelist': pricelist})"/>
+        <t t-set="productVariant" t-value="product.env.items('product.product').browse(combinationInfo['productId'])"/>
+
+        <t t-call="website.layout">
+            <t t-set="additionalTitle" t-value="await product.label" />
+            <div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js-sale">
+                <div class="oe-structure oe-empty oe-structure-not-nearest" id="oeStructureWebsiteSaleProduct1" data-editor-message="DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL PRODUCTS"/>
+                <section t-attf-class="container py-4 oe-website-sale #{combinationInfo['hasDiscountedPrice'] ? 'discount' : ''}" id="productDetail"
+                    t-att-data-view-track="viewTrack &amp;&amp; '1' || '0'"
+                    t-att-data-product-tracking-info="escape(JSON.stringify(await env.items('product.template').getGoogleAnalyticsData(combinationInfo)))">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ol class="breadcrumb mb-2">
+                                <li class="breadcrumb-item o-not-editable">
+                                    <a t-att-href="await keep('', {'category':0})">All Products</a>
+                                </li>
+                                <li t-if="category" class="breadcrumb-item">
+                                    <a t-att-href="await keep(format('/shop/category/%s', slug([category.id, await category.seoName || await category.displayName]), {'category':0})" t-field="category.label" />
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    <span t-field="product.label" />
+                                </li>
+                            </ol>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-sm-flex justify-content-between mb-2">
+                                <t t-call="website_sale.search">
+                                    <t t-set="search" t-value="false"/>
+                                    <t t-set="_classes" t-value="'mb-2 mr-sm-2'"/>
+                                </t>
+                                <t t-call="website_sale.pricelistList">
+                                    <t t-set="_classes" t-valuef="ml-1 mb-2 float-right"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mt-md-4">
+                            <t t-call="website_sale.shopProductCarousel"/>
+                        </div>
+                        <div class="col-md-6 mt-md-4" id="productDetails">
+                            <t t-set="baseUrl" t-value="await product.getBaseUrl()"/>
+                            <h1 itemprop="label" t-field="product.label">Product Name</h1>
+                            <span itemprop="url" style="display:none;" t-esc="baseUrl + await product.websiteUrl"/>
+                            <span itemprop="image" style="display:none;" t-esc="baseUrl + await website.imageUrl(product, 'image1920')" />
+                            <t t-if="await isViewActive('website_sale.productComment')">
+                                <a href="#oProductPageReviews" class="o-product-page-reviews-link text-decoration-none">
+                                    <t t-call="portal_rating.ratingWidgetStarsStatic">
+                                        <t t-set="ratingAvg" t-value="product.ratingAvg"/>
+                                        <t t-set="transTextPlural">%s reviews</t>
+                                        <t t-set="transTextSingular">%s review</t>
+                                        <t t-set="ratingCount" t-value="(await product.ratingCount > 1 ? transTextPlural : transTextSingular) % await product.ratingCount"/>
+                                    </t>
+                                </a>
+                            </t>
+                            <p t-field="product.descriptionSale" class="text-muted my-2" placeholder="A short description that will also appear on documents." />
+                            <form t-if="await product._isAddToCartPossible()" action="/shop/cart/update" method="POST">
+                                <input type="hidden" name="csrfToken" t-att-value="await request.csrfToken()" />
+                                <div class="js-product js-main-product mb-3">
+                                    <div>
+                                        <t t-call="website_sale.productPrice" />
+                                        <small class="ml-1 text-muted o-base-unit-price-wrapper d-none" groups="website_sale.groupShowUomPrice">
+                                            <t t-call='website_sale.baseUnitPrice'/>
+                                        </small>
+                                    </div>
+                                    <t t-placeholder="select">
+                                        <input type="hidden" class="productId" name="productId" t-att-value="productVariant.id" />
+                                        <input type="hidden" class="productTemplateId" name="productTemplateId" t-att-value="product.id" />
+                                        <input t-if="bool((await product.publicCategIds).ids)" type="hidden" class="product-category-id" name="productCategoryId" t-att-value="(await product.publicCategIds).ids[0]" />
+                                        <t t-if="combination" t-call="sale.variants">
+                                            <t t-set="ulClass" t-valuef="flex-column" />
+                                            <t t-set="parentCombination" t-value="null" />
+                                        </t>
+                                        <t t-else="">
+                                            <ul class="d-none js-add-cart-variants" t-att-data-attribute-exclusions="{'exclusions': []}"/>
+                                        </t>
+                                    </t>
+                                    <p t-if="true" class="css-not-available-msg alert alert-warning">This combination does not exist.</p>
+                                    <div id="addToCartWrap" class="d-inline">
+                                        <a data-animation-selector=".o-wsale-product-images" role="button" id="addToCart" class="btn btn-primary btn-lg js-check-product a-submit my-1 mr-1 px-5 font-weight-bold flex-grow-1" href="#"><i class="fa fa-shopping-cart mr-2"/>ADD TO CART</a>
+                                        <div id="productOptionBlock" class="d-inline-block align-middle"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <p t-elif="! await product.active" class="alert alert-warning">This product is no longer available.</p>
+                            <p t-else="" class="alert alert-warning">This product has no valid combination.</p>
+                            <div id="productAttributesSimple">
+                                <t t-set="singleValueAttributes" t-value="await (await product.validProductTemplateAttributeLineIds)._prepareSingleValueForDisplay()"/>
+                                <table t-attf-class="table table-sm text-muted {{bool(singleValueAttributes) ? '' : 'd-none'}}">
+                                    <t t-foreach="singleValueAttributes" t-as="attribute">
+                                        <tr>
+                                            <td>
+                                                <span t-field="attribute.label"/>:
+                                                <t t-foreach="singleValueAttributes.get(attribute)" t-as="ptal">
+                                                    <span t-field="ptal.productTemplateValueIds._onlyActive().label"/><t t-if="!bool(ptal_last)">, </t>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                            <div id="oProductTermsAndShare">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div itemprop="description" t-field="product.websiteDescription" class="oe-structure oe-empty mt16" id="productFullDescription"/>
+                <div class="oe-structure oe-empty oe-structure-not-nearest mt16" id="oeStructureWebsiteSaleProduct2" data-editor-message="DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL PRODUCTS"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="productCustomText" inheritId="website_sale.product" active="true" customizeShow="true" name="Terms &amp;&amp; Conditions" priority="21">
+        <xpath expr="//div[@id='oProductTermsAndShare']" position="inside">
+            <p class="text-muted h6 mt-3">
+                <a href="/terms" class="text-muted">Terms &amp;&amp; Conditions</a><br/>
+                30-day money-back guarantee<br/>
+                Shipping: 2-3 Business Days
+            </p>
+        </xpath>
+    </template>
+
+    <template id="productShareButtons" inheritId="website_sale.product" active="true" customizeShow="true" name="Share Buttons" priority="22">
+        <xpath expr="//div[@id='oProductTermsAndShare']" position="inside">
+            <div class="h4 mt-3 d-flex justify-content-end" contenteditable="false">
+                <t t-snippet-call="website.sShare">
+                    <t t-set="_excludeShareLinks" t-value="['whatsapp', 'linkedin']"/>
+                    <t t-set="_noTitle" t-value="true"/>
+                    <t t-set="_classes" t-valuef="text-lg-right"/>
+                    <t t-set="_linkClasses" t-valuef="mx-1 my-0"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template inheritId='website_sale.product' id="productPictureMagnify" customizeShow="true" name="Image Zoom">
+        <xpath expr='//div[contains(@class,"js-sale")]' position='attributes'>
+            <attribute name="class" separator=" " add="ecom-zoomable zoomverp-next" />
+        </xpath>
+    </template>
+
+    <template inheritId='website_sale.product' id="productPictureMagnifyAuto" active="false" customizeShow="true" name="Automatic Image Zoom">
+        <xpath expr='//div[contains(@class,"js-sale")]' position='attributes'>
+            <attribute name="data-ecom-zoom-auto">1</attribute>
+            <attribute name="class" separator=" " add="ecom-zoomable zoomverp-next" />
+
+        </xpath>
+    </template>
+
+    <template id="recommendedProducts" inheritId="website_sale.product" customizeShow="true" name="Alternative Products">
+        <xpath expr="//div[@id='productFullDescription']" position="after">
+            <t t-set="alternativeProducts" t-value="await product._getWebsiteAlternativeProduct()"/>
+            <div class="container mt32" t-if="alternativeProducts">
+                <h3>Alternative Products:</h3>
+                <div class="row mt16" style="">
+                    <t t-foreach="alternativeProducts" t-as="altProduct">
+                        <div class="col-lg-2" t-att-data-publish="bool(await altProduct.websitePublished) &amp;&amp; 'on' || 'off'" style="width: 170px; height:130px; float:left; display:inline; margin-right: 10px; overflow:hidden;">
+                            <div class="mt16 text-center" style="height: 100%;">
+                                <t t-set="combinationInfo" t-value="await altProduct._getCombinationInfo()"/>
+                                <t t-set="productVariant" t-value="altProduct.env.items('product.product').browse(combinationInfo['productId'])"/>
+                                <div t-if="productVariant" t-field="productVariant.image128" t-options="{'widget': 'image', 'qwebImgResponsive': false, 'class': 'rounded shadow o-alternative-product o-image-64-max' }" />
+                                <div t-else="" t-field="altProduct.image128" t-options="{'widget': 'image', 'qwebImgResponsive': false, 'class': 'rounded shadow o-alternative-product o-image-64-max' }" />
+                                <h6>
+                                    <a t-att-href="await altProduct.websiteUrl" style="display: block">
+                                        <span t-att-title="await altProduct.label" t-field="altProduct.label" class="o-text-overflow" style="display: block;" />
+                                    </a>
+                                </h6>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Product options: OpenChatter -->
+    <template id="productComment" inheritId="website_sale.product" active="false" customizeShow="true" name="Discussion &amp;&amp; Rating" priority="15">
+        <xpath expr="//div[@t-field='product.websiteDescription']" position="after">
+            <div class="o-shop-discussion-rating" data-anchor='true'>
+                <section id="oProductPageReviews" class="container pt32 pb32" data-anchor='true'>
+                    <a class="o-product-page-reviews-title d-flex justify-content-between text-decoration-none collapsed" type="button" data-toggle="collapse" data-target="#oProductPageReviewsContent" aria-expanded="false" aria-controls="oProductPageReviewsContent">
+                        <h3 class="mb32">Customer Reviews</h3>
+                        <i class="fa align-self-start"/>
+                    </a>
+                    <div id="oProductPageReviewsContent" class="collapse">
+                        <t t-call="portal.messageThread">
+                            <t t-set="object" t-value="product"/>
+                            <t t-set="displayRating" t-value="true"/>
+                            <t t-set="messagePerPage" t-value="5"/>
+                            <t t-set="twoColumns" t-value="true"/>
+                        </t>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="productQuantity" inheritId="website_sale.product" customizeShow="true" name="Select Quantity">
+      <xpath expr="//div[@id='addToCartWrap']" position="before">
+        <div class="css-quantity input-group d-inline-flex mr-2 my-1 align-middle" contenteditable="false">
+            <div class="input-group-prepend">
+                <a t-attf-href="#" class="btn btn-primary js-add-cart-json" aria-label="Remove one" title="Remove one">
+                    <i class="fa fa-minus"></i>
+                </a>
+            </div>
+            <input type="text" class="form-control quantity" data-min="1" name="addQty" t-att-value="addQty || 1"/>
+            <div class="input-group-append">
+                <a t-attf-href="#" class="btn btn-primary float-left js-add-cart-json" aria-label="Add one" title="Add one">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+      </xpath>
+    </template>
+
+    <template id="productBuyNow" inheritId="website_sale.product" active="false" customizeShow="true" name="Buy Now Button">
+        <xpath expr="//a[@id='addToCart']" position="after">
+            <a role="button" class="btn btn-outline-primary btn-lg px-5 font-weight-bold o-we-buy-now" href="#"><i class="fa fa-bolt mr-2"/>BUY NOW</a>
+        </xpath>
+    </template>
+
+    <template id="productPrice">
+      <div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product-price d-inline-block mt-2 mb-3">
+        <t t-set="webCurrency" t-value="await website.currencyId"/>
+          <h3 class="css-editable-mode-hidden">
+              <span class="oe-price" style="white-space: nowrap;" t-esc="combinationInfo['price']" t-options="{'widget': 'monetary', 'displayCurrency': webCurrency}"/>
+              <span itemprop="price" style="display:none;" t-esc="combinationInfo['price']"/>
+              <span itemprop="priceCurrency" style="display:none;" t-esc="await webCurrency.label"/>
+              <span t-attf-class="text-danger oe-default-price ml-1 h5 {{combinationInfo['hasDiscountedPrice'] ? '' : 'd-none'}}" style="text-decoration: line-through; white-space: nowrap;"
+                  t-esc="combinationInfo['listPrice']" t-options="{'widget': 'monetary', 'displayCurrency': webCurrency}"
+              />
+          </h3>
+          <h3 class="css-non-editable-mode-hidden decimal-precision" t-att-data-precision="String(await webCurrency.decimalPlaces)">
+            <span t-field="product.listPrice"
+                t-options='{
+                   "widget": "monetary",
+                   "displayCurrency": await product.currencyId,
+               }'/>
+          </h3>
+      </div>
+    </template>
+
+    <template id="productVariants" inheritId="website_sale.product" active="false" customizeShow="true" name="List View of Variants">
+        <xpath expr="//t[@t-placeholder='select']" position="replace">
+            <!--
+                Using this setting with dynamic variants is not supported.
+                Indeed the variants that have yet to exist will not show on the
+                list &amp;&amp; will never be selectable to be created...
+
+                We also don't use the feature with noVariant because these
+                attributes have to be selected manually.
+
+                Finally we don't use the feature with isCustom values because
+                they need to be set by the user.
+            -->
+            <t t-if="! await product.hasDynamicAttributes() &amp;&amp; ! await product._hasNoVariantAttributes() &amp;&amp; ! await product._hasIsCustomValues()">
+                <t t-set="attributeExclusions" t-value="await product._getAttributeExclusions()"/>
+                <t t-set="filteredSortedVariants" t-value="await product._getPossibleVariantsSorted()"/>
+                <ul class="d-none js-add-cart-variants" t-att-data-attribute-exclusions="escape(JSON.stringify(attributeExclusions))"/>
+                <input type="hidden" class="productTemplateId" t-att-value="product.id"/>
+                <input type="hidden" t-if="len(filteredSortedVariants) == 1" class="productId" name="productId" t-att-value="filteredSortedVariants[0].id"/>
+                <t t-if="len(filteredSortedVariants) &gt; 1">
+                    <div class="mb-4">
+                        <div t-foreach="filteredSortedVariants" t-as="variantId" class="custom-control custom-radio mb-1">
+                            <t t-set="templateCombinationInfo" t-value="await product._getCombinationInfo({'onlyTemplate': true, 'addQty': addQty, 'pricelist': pricelist})"/>
+                            <t t-set="combinationInfo" t-value="await variantId._getCombinationInfoVariant({'addQty': addQty, 'pricelist': pricelist})"/>
+                            <input type="radio" name="productId" class="custom-control-input product-id js-product-change" t-att-checked="variantId_index == 0 ? 'checked' : null" t-attf-id="radioVariant_#{variantId.id}" t-att-value="variantId.id" t-att-data-price="combinationInfo['price']" t-att-data-combination="(await variantId.productTemplateAttributeValueIds).ids"/>
+                            <label t-attf-for="radioVariant_#{variantId.id}" label-default="label-default" class="custom-control-label font-weight-normal">
+                                <span t-esc="combinationInfo['displayName']"/>
+                                <t t-set="diffPrice" t-value="await (await website.currencyId).compareAmounts(combinationInfo['price'], templateCombinationInfo['price'])"/>
+                                <span class="badge badge-pill badge-light border" t-if="diffPrice != 0">
+                                    <span class="sign-badge-price-extra" t-esc="diffPrice > 0 &amp;&amp; '+' || '-'"/>
+                                    <span t-esc="Math.abs(combinationInfo['price'] - templateCombinationInfo['price'])" t-options="{'widget': 'monetary', 'displayCurrency': await website.currencyId}" class="text-muted font-italic" />
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </t>
+            </t>
+            <t t-else="">$0</t>
+        </xpath>
+    </template>
+
+    <template id="wizardCheckout" name="Wizard Checkout">
+        <t t-set="websiteSaleOrder" t-value="await website.saleGetOrder()"/>
+
+        <div class="row">
+            <div class="col-xl">
+                <div class="wizard">
+                    <div class="progress-wizard">
+                        <a class="no-decoration" t-att-href="step&gt;=10 &amp;&amp; '/shop/cart' || '#'">
+                          <div id="wizard-step10" t-att-class="format('progress-wizard-step %s', step == 10 &amp;&amp; 'active' || step&gt;10 &amp;&amp; 'complete' || 'disabled')">
+                            <div class="progress-wizard-bar d-none d-md-block"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                            <div class="text-center progress-wizard-steplabel">Review Order</div>
+                          </div>
+                        </a>
+                        <a class="no-decoration" t-att-href="step&gt;=20 &amp;&amp; '/shop/checkout' || '#'">
+                          <div id="wizardStep20" t-att-class="format('progress-wizard-step %s', step == 20 &amp;&amp; 'active' || step&gt;20 &amp;&amp; 'complete' || 'disabled')">
+                            <div class="progress-wizard-bar d-none d-md-block"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                            <div class="text-center progress-wizard-steplabel">Address</div>
+                          </div>
+                        </a>
+                        <a class="no-decoration" t-att-href="step&gt;=40 &amp;&amp; '/shop/payment' || '#'">
+                          <div id="wizard-step40" t-att-class="format('progress-wizard-step %s', step == 40 &amp;&amp; 'active' || step&gt;40 &amp;&amp; 'complete' || 'disabled')">
+                            <div class="progress-wizard-bar d-none d-md-block"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                            <div class="text-center progress-wizard-steplabel">Confirm Order</div>
+                          </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="extraInfo" name="Checkout Extra Info">
+        <t t-call="website.layout">
+            <t t-set="noFooter" t-value="1"/>
+            <div id="wrap">
+                <div class="container oe-website-sale py-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <t t-call="website_sale.wizardCheckout">
+                                <t t-set="step" t-value="30"/>
+                            </t>
+                        </div>
+                        <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                            <t t-call="website_sale.cartSummary">
+                                <t t-set="redirect" t-valuef="/shop/extraInfo"/>
+                            </t>
+                        </div>
+                        <div class="col-12 col-xl order-xl-1 oe-cart">
+                            <section class="s-website-form" data-vcss="001" data-snippet="sWebsiteForm">
+                                <div class="container">
+                                    <form action="/website/form/" method="post" enctype="multipart/form-data" class="o-mark-required s-website-form-no-recaptcha" data-mark="*" data-force-action="shop.sale.order" data-model-name="sale.order" data-success-mode="redirect" data-success-page="/shop/payment" hide-change-model="true">
+                                        <div class="s-website-form-rows row s-col-no-bgcolor">
+                                            <div class="form-group col-12 s-website-form-field" data-type="char" data-name="Field">
+                                                <div class="row s-col-no-resize s-col-no-bgcolor">
+                                                    <label class="col-form-label col-sm-auto s-website-form-label" style="width: 200px" for="sale1">
+                                                        <span class="s-website-form-label-content">Your Reference</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <input id="sale1" type="text" class="form-control s-website-form-input" name="clientOrderRef"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-12 s-website-form-field s-website-form-custom" data-type="text" data-name="Field">
+                                                <div class="row s-col-no-resize s-col-no-bgcolor">
+                                                    <label class="col-form-label col-sm-auto s-website-form-label" style="width: 200px" for="sale2">
+                                                        <span class="s-website-form-label-content">Give us your feedback</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <textarea id="sale2" class="form-control s-website-form-input" name="Give us your feedback" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-12 s-website-form-field s-website-form-custom" data-type="binary" data-name="Field">
+                                                <div class="row s-col-no-resize s-col-no-bgcolor">
+                                                    <label class="col-form-label col-sm-auto s-website-form-label" style="width: 200px" for="sale3">
+                                                        <span class="s-website-form-label-content">Upload a document</span>
+                                                    </label>
+                                                    <div class="col-sm">
+                                                        <input id="sale3" type="file" class="form-control-file s-website-form-input" name="aDocument" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-12 s-website-form-submit s-website-form-no-submit-options">
+                                                <div style="width: 200px;" class="s-website-form-label"/>
+                                                <a role="button" href="/shop/checkout" class="btn btn-secondary float-left"><span class="fa fa-chevron-left"/> Previous</a>
+                                                <a role="button" class="btn btn-primary float-right s-website-form-send" href="/shop/confirmOrder">Next <span class="fa fa-chevron-right" /></a>
+                                                <span id="sWebsiteFormResult"></span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="oe-structure" id="oeStructureWebsiteSaleExtraInfo1"/>
+        </t>
+    </template>
+
+    <template id="extraInfoOption" name="Extra Step Option" inheritId="wizardCheckout" active="false" customizeShow="true">
+        <!-- Add a "flag element" to trigger style variation -->
+        <xpath expr="//div[contains(@class,'wizard')]/div" position="before">
+            <span class="o-wizard-has-extra-step d-none"/>
+        </xpath>
+        <xpath expr="//div[@id='wizardStep20']" position="after">
+            <a class="no-decoration" t-att-href="step&gt;=30 &amp;&amp; '/shop/extraInfo' || '#'">
+                <div id="wizard-step30" t-att-class="format('progress-wizard-step %s', step == 30 &amp;&amp; 'active' || step&gt;30 &amp;&amp; 'complete' || 'disabled')">
+                    <div class="progress-wizard-bar d-none d-md-block"/>
+                    <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                    <div class="text-center progress-wizard-steplabel">Extra Info</div>
+                </div>
+            </a>
+        </xpath>
+    </template>
+
+    <!-- We use this template where we want to give the user a link to the product of a sale order line. -->
+    <template id="cartLineProductLink" name="Shopping Cart Line Product Link">
+        <a t-att-href="await (await line.productId).websiteUrl">
+            <t t-out="0"/>
+        </a>
+    </template>
+
+    <!-- This template displays all the lines following the first one on the description of the sale order line, with a muted style. For typical products this content will be the product descriptionSale. -->
+    <template id="cartLineDescriptionFollowingLines" name="Shopping Cart Line Description Following Lines">
+        <div t-if="bool(await line.getDescriptionFollowingLines())" t-attf-class="text-muted {{divClass}} small">
+            <t t-foreach="await line.getDescriptionFollowingLines()" t-as="nameLine">
+                <span><t t-esc="nameLine"/></span>
+                <br t-if="!bool(nameLine_last)" />
+            </t>
+        </div>
+    </template>
+
+    <!-- This template is the one at the "Review order" step (the first one) on the checkout workflow. -->
+    <template id="cartLines" name="Shopping Cart Lines">
+        <div t-if="! bool(websiteSaleOrder) || !bool(await websiteSaleOrder.websiteOrderLine)" class="js-cart-lines alert alert-info">
+          Your cart is empty!
+        </div>
+        <table class="mb16 table table-striped table-sm js-cart-lines" id="cartProducts" t-if="bool(websiteSaleOrder) &amp;&amp; bool(await websiteSaleOrder.websiteOrderLine)">
+            <thead>
+                <tr>
+                    <th class="td-img">Product</th>
+                    <th></th>
+                    <th class="text-center td-qty">
+                        <t t-set="showQty" t-value="await isViewActive('website_sale.productQuantity')"/>
+                        <t t-if="showQty">
+                            Quantity
+                        </t>
+                    </th>
+                    <th class="text-center td-price">Price</th>
+                    <th class="text-center td-action"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="await websiteSaleOrder.websiteOrderLine" t-as="line">
+                    <tr t-att-class="bool(await line.linkedLineId) ? 'optional-product info' : null">
+                        <td colspan="2" t-if="! bool(await (await line.productId).productTemplateId)" class='td-img'></td>
+                        <td align="center" t-if="bool(await (await line.productId).productTemplateId)" class='td-img'>
+                            <span t-if="await line._isNotSellableLine() &amp;&amp; await (await line.productId).image128">
+                                <img t-att-src="await imageDataUri(await (await line.productId).image128)" class="img o-image-64-max rounded" t-att-alt="await line.nameShort"/>
+                            </span>
+                            <span t-else=""
+                                t-field="line.productId.image128"
+                                t-options="{'widget': 'image', 'qwebImgResponsive': false, 'class': 'rounded o-image-64-max'}"
+                            />
+                        </td>
+                        <td t-if="bool(await (await line.productId).productTemplateId)" class='td-product-name'>
+                            <div>
+                                <t t-call="website_sale.cartLineProductLink">
+                                    <strong t-field="line.nameShort" />
+                                </t>
+                            </div>
+                            <t t-call="website_sale.cartLineDescriptionFollowingLines">
+                                <t t-set="divClass" t-value="'d-none d-md-block'"/>
+                            </t>
+                        </td>
+                        <td class="text-center td-qty">
+                            <div class="css-quantity input-group mx-auto justify-content-center">
+                                <t t-if="! await line._isNotSellableLine()">
+                                    <t t-if="showQty">
+                                        <div class="input-group-prepend">
+                                            <a t-attf-href="#" class="btn btn-link js-add-cart-json d-none d-md-inline-block" aria-label="Remove one" title="Remove one">
+                                                <i class="fa fa-minus"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" class="js-quantity form-control quantity" t-att-data-line-id="line.id" t-att-data-product-id="(await line.productId).id" t-att-value="parseInt(await line.productUomQty) == await line.productUomQty &amp;&amp; parseInt(await line.productUomQty) || await line.productUomQty" />
+                                        <div class="input-group-append">
+                                            <a t-attf-href="#" class="btn btn-link float-left js-add-cart-json d-none d-md-inline-block" aria-label="Add one" title="Add one">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <input type="hidden" class="js-quantity form-control quantity" t-att-data-line-id="line.id" t-att-data-product-id="(await line.productId).id" t-att-value="parseInt(await line.productUomQty) == await line.productUomQty &amp;&amp; parseInt(await line.productUomQty) || await line.productUomQty" />
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-muted w-100" t-esc="parseInt(await line.productUomQty)"/>
+                                    <input type="hidden" class="js-quantity form-control quantity" t-att-data-line-id="line.id" t-att-data-product-id="(await line.productId).id" t-att-value="await line.productUomQty" />
+                                </t>
+                            </div>
+                        </td>
+                        <td class="text-center td-price" name="price">
+                            <t t-set="combination" t-value="(await (await line.productId).productTemplateAttributeValueIds).add(await line.productNoVariantAttributeValueIds)"/>
+                            <t t-set="combinationInfo" t-value="await (await (await line.productId).productTemplateId)._getCombinationInfo({'combination': combination, 'pricelist': await websiteSaleOrder.pricelistId, 'addQty': await line.productUomQty})"/>
+                            
+                            <t t-set="wsoCurrency" t-value="await websiteSaleOrder.currencyId"/>
+                            <t t-set="listPriceConverted" t-value="await (await website.currencyId)._convert(combinationInfo['listPrice'], wsoCurrency, await websiteSaleOrder.companyId, date)"/>
+                            <t groups="account.groupShowLineSubtotalsTaxExcluded" t-if="(await (await websiteSaleOrder.pricelistId).discountPolicy == 'withoutDiscount' &amp;&amp; await wsoCurrency.compareAmounts(listPriceConverted, await line.priceReduceTaxexcl) == 1) || await wsoCurrency.compareAmounts(await line.priceUnit, await line.priceReduce) == 1" name="orderLineDiscount">
+                                <del t-attf-class="#{'text-danger mr8'}" style="white-space: nowrap;" t-esc="listPriceConverted" t-options="{'widget': 'monetary', 'displayCurrency': wsoCurrency}" />
+                            </t>
+                            <span t-field="line.priceReduceTaxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'displayCurrency': wsoCurrency}" groups="account.groupShowLineSubtotalsTaxExcluded" />
+                            <t groups="account.groupShowLineSubtotalsTaxIncluded" t-if="(await (await websiteSaleOrder.pricelistId).discountPolicy == 'withoutDiscount' &amp;&amp; await wsoCurrency.compareAmounts(listPriceConverted, await line.priceReduceTaxinc) == 1) || await wsoCurrency.compareAmounts(await line.priceUnit, await line.priceReduce) == 1" name="orderLineDiscount">
+                                <del t-attf-class="#{'text-danger mr8'}" style="white-space: nowrap;" t-esc="listPriceConverted" t-options="{'widget': 'monetary', 'displayCurrency': wsoCurrency}" />
+                            </t>
+                            <span t-field="line.priceReduceTaxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'displayCurrency': wsoCurrency}" groups="account.groupShowLineSubtotalsTaxIncluded" />
+                            <small t-if="! await line._isNotSellableLine() &amp;&amp; await (await line.productId).baseUnitPrice" class="cart-product-base-unit-price d-block text-muted" groups="website_sale.groupShowUomPrice">
+                                <t t-call='website_sale.baseUnitPrice'><t t-set='product' t-value='await line.productId' /></t>
+                            </small>
+                        </td>
+                        <td class="td-action">
+                            <a href='#' aria-label="Remove from cart" title="Remove from cart" class='js-delete-product no-decoration'> <small><i class='fa fa-trash-o'></i></small></a>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+
+    </template>
+
+    <template id="cart" name="Shopping Cart">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe-website-sale py-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <t t-call="website_sale.wizardCheckout">
+                                <t t-set="step" t-value="10" />
+                            </t>
+                        </div>
+                        <div class="col-12 col-xl-8 oe-cart">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div t-if="abandonedProceed || accessToken" class="mt8 mb8 alert alert-info" role="alert"> <!-- abandoned cart choices -->
+                                        <t t-if="abandonedProceed">
+                                            <p>Your previous cart has already been completed.</p>
+                                            <p t-if="bool(websiteSaleOrder)">Please proceed your current cart.</p>
+                                        </t>
+                                        <t t-if="accessToken">
+                                            <p>This is your current cart.</p>
+                                            <p>
+                                                <strong><a t-attf-href="/shop/cart/?accessToken=#{accessToken}&amp;revive=squash">Click here</a></strong> if you want to restore your previous cart. Your current cart will be replaced with your previous cart.</p>
+                                            <p>
+                                                <strong><a t-attf-href="/shop/cart/?accessToken=#{accessToken}&amp;revive=merge">Click here</a></strong> if you want to merge your previous cart into current cart.
+                                            </p>
+                                        </t>
+                                    </div>
+                                    <t t-call="website_sale.cartLines" />
+                                    <div class="clearfix" />
+                                    <a role="button" href="/shop" class="btn btn-secondary mb32 d-none d-xl-inline-block">
+                                        <span class="fa fa-chevron-left" />
+                                        <span class="">Continue Shopping</span>
+                                    </a>
+                                    <a role="button" t-if="bool(websiteSaleOrder) &amp;&amp; bool(await websiteSaleOrder.websiteOrderLine)" class="btn btn-primary float-right d-none d-xl-inline-block" href="/shop/checkout?express=1">
+                                        <span class="">Process Checkout</span>
+                                        <span class="fa fa-chevron-right" />
+                                    </a>
+                                    <div class="oe-structure" id="oeStructureWebsiteSaleCart1"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-4" id="oCartSummary">
+                            <t t-call="website_sale.shortCartSummary"/>
+                            <div class="d-xl-none mt8">
+                                <a role="button" href="/shop" class="btn btn-secondary mb32">
+                                    <span class="fa fa-chevron-left" />
+                                    Continue<span class="d-none d-md-inline"> Shopping</span>
+                                </a>
+                                <a role="button" t-if="bool(websiteSaleOrder) &amp;&amp; bool(await websiteSaleOrder.websiteOrderLine)" class="btn btn-primary float-right" href="/shop/checkout?express=1">
+                                    <span class="">Process Checkout</span>
+                                    <span class="fa fa-chevron-right" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe-structure" id="oeStructureWebsiteSaleCart2"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- this template is the one when we mouse over "My Cart" on the top right -->
+    <template id="cartPopover" name="Cart Popover">
+        <div t-if="! bool(websiteSaleOrder) || ! bool(await websiteSaleOrder.websiteOrderLine)" class="alert alert-info">
+          Your cart is empty!
+        </div>
+        <t t-if="bool(websiteSaleOrder) &amp;&amp; bool(await websiteSaleOrder.websiteOrderLine)">
+            <t t-foreach="await websiteSaleOrder.websiteOrderLine" t-as="line">
+                <div class="form-row mb8 cart-line">
+                    <div class="col-3 text-center">
+                        <span t-if="await line._isNotSellableLine() &amp;&amp; await (await line.productId).image128">
+                            <img t-att-src="await imageDataUri(await (await line.productId).image128)" class="img o-image-64-max rounded mb-2 img-fluid" t-att-alt="await line.nameShort"/>
+                        </span>
+                        <span t-else=""
+                            t-field="line.productId.image128"
+                            t-options="{'widget': 'image', 'qwebImgResponsive': true, 'class': 'rounded o-image-64-max mb-2'}"
+                        />
+                    </div>
+                    <div class="col-9">
+                        <div>
+                            <t t-call="website_sale.cartLineProductLink">
+                                <span class="h6" t-esc="await line.nameShort" />
+                            </t>
+                        </div>
+                        Qty: <t t-esc="parseInt(await line.productUomQty) == await line.productUomQty &amp;&amp; parseInt(await line.productUomQty) || await line.productUomQty" />
+                    </div>
+                </div>
+            </t>
+            <div class="text-center">
+                <span class="h6">
+                    <t t-call="website_sale.total">
+                        <t t-set="hidePromotions" t-value="true"/>
+                    </t>
+                </span>
+                <a role="button" class="btn btn-primary" href="/shop/cart">
+                       View Cart (<t t-esc="await websiteSaleOrder.cartQuantity" /> item(s))
+                     </a>
+            </div>
+        </t>
+    </template>
+
+    <template id="suggestedProductsList" inheritId="website_sale.cartLines" customizeShow="true" name="Accessory Products in my cart">
+        <xpath expr="//table[@id='cartProducts']" position="after">
+            <h5 class='text-muted js-cart-lines' t-if="bool(suggestedProducts)">Suggested Accessories:</h5>
+            <table t-if="bool(suggestedProducts)" id="suggestedProducts" class="js-cart-lines table table-striped table-sm">
+                <tbody>
+                    <tr t-foreach="suggestedProducts" t-as="product" t-att-data-publish="bool(await product.websitePublished) &amp;&amp; 'on' || 'off'">
+                        <t t-set="combinationInfo" t-value="await product._getCombinationInfoVariant(1, await websiteSaleOrder.pricelistId)"/>
+                        <td class='td-img text-center'>
+                            <a t-att-href="await product.websiteUrl">
+                                <span t-field="product.image128" t-options="{'widget': 'image', 'qwebImgResponsive': false, 'class': 'rounded o-image-64-max'}" />
+                            </a>
+                        </td>
+                        <td class='td-product-name'>
+                            <div>
+                                <a t-att-href="await product.websiteUrl">
+                                    <strong t-esc="combinationInfo['displayName']" />
+                                </a>
+                            </div>
+                            <div class="text-muted d-none d-md-block" t-field="product.descriptionSale" />
+                        </td>
+                        <td class='td-price'>
+                            <del t-attf-class="text-danger mr8 {{combinationInfo['hasDiscountedPrice'] ? '' : 'd-none'}}" style="white-space: nowrap;" t-esc="combinationInfo['listPrice']" t-options="{'widget': 'monetary', 'displayCurrency': await website.currencyId}"/>
+                            <span t-esc="combinationInfo['price']" style="white-space: nowrap;" t-options="{'widget': 'monetary','displayCurrency': await website.currencyId}"/>
+                        </td>
+                        <td class="w-25 text-center">
+                            <input class="js-quantity" name="productId" t-att-data-product-id="product.id" type="hidden" />
+                            <a role="button" class="btn btn-link js-add-suggested-products">
+                                <strong>Add to Cart</strong>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+
+    <template id='couponForm' name='Coupon form'>
+        <form t-att-action="format('/shop/pricelist%s', redirect &amp;&amp; '?r=' + redirect || '')"
+            method="post" name="couponCode">
+            <input type="hidden" name="csrfToken" t-att-value="await request.csrfToken()" />
+            <div class="input-group w-100">
+                <input name="promo" class="form-control" type="text" placeholder="code..." t-att-value="await (await websiteSaleOrder.pricelistId).code || null"/>
+                <div class="input-group-append">
+                    <a href="#" role="button" class="btn btn-secondary a-submit">Apply</a>
+                </div>
+            </div>
+        </form>
+        <t t-if="request.params['codeNotAvailable']" name="codeNotAvailable">
+            <div class="alert alert-danger text-left" role="alert">This promo code is not available.</div>
+        </t>
+    </template>
+
+    <template id="checkout">
+        <t t-call="website.layout">
+            <t t-set="additionalTitle">Shop - Checkout</t>
+            <t t-set="noFooter" t-value="1"/>
+            <div id="wrap">
+                <div class="container oe-website-sale py-2">
+                    <t t-set="sameShipping" t-value="bool((await order.partnerShippingId).eq(await order.partnerId) || onlyServices)" />
+                    <div class="row">
+                        <div class="col-12">
+                            <t t-call="website_sale.wizardCheckout">
+                                <t t-set="step" t-value="20" />
+                            </t>
+                        </div>
+                        <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                            <t t-call="website_sale.cartSummary">
+                                <t t-set="redirect" t-valuef="/shop/checkout"/>
+                            </t>
+                        </div>
+                        <div class="col-12 col-xl order-xl-1 oe-cart">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h3 class="o-page-header mt8">Billing Address</h3>
+                                </div>
+                                <div class="col-lg-6 one-kanban">
+                                    <t t-call="website_sale.addressKanban">
+                                        <t t-set='contact' t-value="await order.partnerId"/>
+                                        <t t-set='selected' t-value="1"/>
+                                        <t t-set='readonly' t-value="1"/>
+                                        <t t-set='allowEdit' t-value="1"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <t t-if="! onlyServices" groups="sale.groupDeliveryInvoiceAddress">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h3 class="o-page-header mt16 mb4">Shipping Address</h3>
+                                    </div>
+                                </div>
+                                <div class="row all-shipping">
+                                    <div class="col-lg-12">
+                                        <div class="row mt8">
+                                            <div class="col-md-12 col-lg-12 one-kanban">
+                                                <form action="/shop/address" method="post" class=''>
+                                                    <input type="hidden" name="csrfToken" t-att-value="await request.csrfToken()" />
+                                                    <a role="button" href="#" class='a-submit btn btn-secondary mb-2 btn-block'>
+                                                        <i class="fa fa-plus-square"/>
+                                                        <span>Add an address</span>
+                                                    </a>
+                                                </form>
+                                            </div>
+                                            <t t-foreach="shippings" t-as="ship">
+                                                <div class="col-md-12 col-lg-6 one-kanban mb-2">
+                                                    <t t-call="website_sale.addressKanban">
+                                                        <t t-set='contact' t-value="ship"/>
+                                                        <t t-set='selected' t-value="(await order.partnerShippingId).eq(ship)"/>
+                                                        <t t-set='readonly' t-value="bool(len(shippings)==1)"/>
+                                                        <t t-set='editBilling' t-value="bool(ship.eq(await order.partnerId))"/>
+                                                        <t t-set="allowEdit" t-value="!bool(await order.partnerId) || (await (await order.partnerId).childIds).ids.includes(ship.id)" />
+                                                    </t>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                            <div class="d-flex justify-content-between mt-3">
+                                <a role="button" href="/shop/cart" class="btn btn-secondary mb32">
+                                    <i class="fa fa-chevron-left"/>
+                                    <span>Return to Cart</span>
+                                </a>
+                                <a role="button" href="/shop/confirmOrder" class="btn btn-primary mb32">
+                                    <span>Confirm</span>
+                                    <i class="fa fa-chevron-right"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="addressKanban" name="Kanban address">
+            <form action="/shop/checkout" method="POST" class="d-none">
+                <input type="hidden" name="csrfToken" t-att-value="await request.csrfToken()" />
+                <input type="hidden" name="partnerId" t-att-value="contact.id" />
+                <t t-if='editBilling'>
+                    <input type="hidden" name="callback" value="/shop/checkout?useBilling" />
+                </t>
+                <input type='submit'/>
+            </form>
+            <div t-attf-class="card #{selected &amp;&amp; 'border border-primary' || 'js-change-shipping'}">
+                <div class='card-body' style='min-height: 130px;'>
+                    <a t-if="allowEdit" href="#" class="btn btn-link float-right p-0 js-edit-address no-decoration" role="button" title="Edit this address" aria-label="Edit this address"><i class='fa fa-edit'/></a>
+                    <t t-esc="contact" t-options="{'widget': 'contact', 'fields': ['label', 'address'], 'noMarker': true}"/>
+                </div>
+                <div class='card-footer' t-if='! readonly'>
+                    <span class='btn-ship' t-att-style="selected ? '' : 'display:none;'">
+                        <a role="button" href='#' class="btn btn-block btn-primary">
+                            <i class='fa fa-check'></i> Ship to this address
+                        </a>
+                    </span>
+                    <span class='btn-ship' t-att-style="!selected ? '' : 'display:none;'">
+                        <a role="button" href='#' class="btn btn-block btn-secondary">
+                            Select this address
+                        </a>
+                    </span>
+                </div>
+            </div>
+    </template>
+
+    <template id="address" name="Address Management">
+        <t t-set="noFooter" t-value="1"/>
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe-website-sale py-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <t t-call="website_sale.wizardCheckout">
+                                <t t-set="step" t-value="20" />
+                            </t>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                            <t t-call="website_sale.cartSummary">
+                                <t t-set="hidePromotions">true</t>
+                                <t t-set="redirect" t-valuef="/shop/address"/>
+                            </t>
+                        </div>
+                        <div class="col-12 col-xl order-xl-1 oe-cart">
+                            <div>
+                                <t t-if="equal(mode, ['new', 'billing'])">
+                                    <h2 class="o-page-header mt8">Your Address
+                                        <small> or </small>
+                                        <a role="button" href='/web/login?redirect=/shop/checkout' class='btn btn-primary' style="margin-top: -11px">Log In</a>
+                                    </h2>
+                                </t>
+                                <t t-if="equal(mode, ['edit', 'billing'])">
+                                    <h2 class="o-page-header mt8">Your Address</h2>
+                                </t>
+                                <t t-if="mode[1] == 'shipping'">
+                                    <h2 class="o-page-header mt8">Shipping Address </h2>
+                                </t>
+                                <t t-if="partnerId == (await websiteSaleOrder.partnerShippingId).id &amp;&amp; partnerId == (await websiteSaleOrder.partnerInvoiceId).id">
+                                    <div class="alert alert-warning" role="alert" t-if="! onlyServices">
+                                        <h4 class="alert-heading">Be aware!</h4>
+                                        <p  groups="sale.groupDeliveryInvoiceAddress">
+                                            You are editing your <b>billing &amp;&amp; shipping</b> addresses at the same time!<br/>
+                                            If you want to modify your shipping address, create a <a href='/shop/address'>new address</a>.
+                                        </p>
+                                    </div>
+                                </t>
+                                <t t-if="error" t-foreach="error['errorMessage'] ?? []" t-as="err">
+                                    <h5 class="text-danger" t-esc="err" />
+                                </t>
+                                <form action="/shop/address" method="post" class="checkout-autoformat">
+                                    <div class="form-row">
+                                        <div t-attf-class="form-group #{error['label'] &amp;&amp; 'o-has-error' || ''} col-lg-12 div-name">
+                                            <label class="col-form-label" for="label">Name</label>
+                                            <input type="text" name="label" t-attf-class="form-control #{error['label'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'label' in checkout &amp;&amp; checkout['label']" />
+                                        </div>
+                                        <div class="w-100"/>
+                                        <div t-attf-class="form-group #{error['email'] &amp;&amp; 'o-has-error' || ''} col-lg-6" id="divEmail">
+                                            <label t-attf-class="col-form-label #{mode[1] == 'shipping' &amp;&amp; 'label-optional' || ''}" for="email">Email</label>
+                                            <input type="email" name="email" t-attf-class="form-control #{error['email'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'email' in checkout &amp;&amp; checkout['email']" />
+                                        </div>
+                                        <div t-attf-class="form-group #{error['phone'] &amp;&amp; 'o-has-error' || ''} col-lg-6" id="divPhone">
+                                            <label class="col-form-label" for="phone">Phone</label>
+                                            <input type="tel" name="phone" t-attf-class="form-control #{error['phone'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'phone' in checkout &amp;&amp; checkout['phone']" />
+                                        </div>
+                                        <div class="w-100"/>
+                                        <div t-attf-class="form-group #{error['street'] &amp;&amp; 'o-has-error' || ''} col-lg-12 div-street">
+                                            <label class="col-form-label" for="street">Street <span class="d-none d-md-inline"> &amp;&amp; Number</span></label>
+                                            <input type="text" name="street" t-attf-class="form-control #{error['street'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'street' in checkout &amp;&amp; checkout['street']" />
+                                        </div>
+                                        <div t-attf-class="form-group #{error['street2'] &amp;&amp; 'o-has-error' || ''} col-lg-12 div-street2">
+                                            <label class="col-form-label label-optional" for="street2">Street 2</label>
+                                            <input type="text" name="street2" t-attf-class="form-control #{error['street2'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'street2' in checkout &amp;&amp; checkout['street2']" />
+                                        </div>
+                                        <div class="w-100"/>
+                                        <t t-set="addressFields" t-value="bool(country) &amp;&amp; (await country.getAddressFields()).filter(x => ['zip', 'city'].includes(x))" />
+                                        <t t-set="zipCity" t-value="bool(addressFields) ? addressFields : ['city', 'zip']"/>
+                                        <t t-if="zipCity.includes('zip') &amp;&amp; zipCity.indexOf('zip') &lt; zipCity.indexOf('city')">
+                                            <div t-attf-class="form-group #{error['zip'] &amp;&amp; 'o-has-error' || ''} col-md-4 div-zip">
+                                                <label class="col-form-label label-optional" for="zip">Zip Code</label>
+                                                <input type="text" name="zip" t-attf-class="form-control #{error['zip'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'zip' in checkout &amp;&amp; checkout['zip']" />
+                                            </div>
+                                        </t>
+                                        <div t-attf-class="form-group #{error['city'] &amp;&amp; 'o-has-error' || ''} col-md-8 div-city">
+                                            <label class="col-form-label" for="city">City</label>
+                                            <input type="text" name="city" t-attf-class="form-control #{error['city'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'city' in checkout &amp;&amp; checkout['city']" />
+                                        </div>
+                                        <t t-if="zipCity.includes('zip') &amp;&amp; zipCity.indexOf('zip') &gt; zipCity.indexOf('city')">
+                                            <div t-attf-class="form-group #{error['zip'] &amp;&amp; 'o-has-error' || ''} col-md-4 div-zip">
+                                                <label class="col-form-label label-optional" for="zip">Zip Code</label>
+                                                <input type="text" name="zip" t-attf-class="form-control #{error['zip'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'zip' in checkout &amp;&amp; checkout['zip']" />
+                                            </div>
+                                        </t>
+                                        <div class="w-100"/>
+                                        <div t-attf-class="form-group #{error['countryId'] &amp;&amp; 'o-has-error' || ''} col-lg-6 div-country">
+                                            <label class="col-form-label" for="countryId">Country</label>
+                                            <select id="countryId" name="countryId" t-attf-class="form-control #{error['countryId'] &amp;&amp; 'is-invalid' || ''}" t-att-mode="mode[1]">
+                                                <option value="">Country...</option>
+                                                <t t-foreach="countries" t-as="c">
+                                                    <option t-att-value="c.id" t-att-selected="c.id == (bool(country) &amp;&amp; country.id || -1)">
+                                                        <t t-esc="await c.label" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div t-attf-class="form-group #{error['stateId'] &amp;&amp; 'o-has-error' || ''} col-lg-6 div-state" t-att-style="(!bool(country) || !bool(await country.stateIds)) &amp;&amp; 'display: none'">
+                                            <label class="col-form-label" for="stateId">State / Province</label>
+                                            <select name="stateId" t-attf-class="form-control #{error['stateId'] &amp;&amp; 'is-invalid' || ''}" data-init="1">
+                                                <option value="">State / Province...</option>
+                                                <t t-foreach="countryStates" t-as="s">
+                                                    <option t-att-value="s.id" t-att-selected="s.id == ('stateId' in checkout &amp;&amp; bool(country) &amp;&amp; checkout['stateId'] != '' &amp;&amp; parseInt(checkout['stateId']))">
+                                                        <t t-esc="await s.label" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="w-100"/>
+                                        <t t-if="equal(mode, ['new', 'billing']) &amp;&amp; !onlyServices">
+                                            <div class="col-lg-12">
+                                                <div class="checkbox">
+                                                  <label>
+                                                    <input type="checkbox" id='shippingUseSame' class="mr8" name='useSame' value="1" checked='checked'/>Ship to the same address
+                                                    <span class='ship-to-other text-muted' style="display: none">&amp;nbsp;(<i>Your shipping address will be requested later) </i></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+
+                                    <input type="hidden" name="csrfToken" t-att-value="await request.csrfToken()" />
+                                    <input type="hidden" name="submitted" value="1" />
+                                    <input type="hidden" name="partnerId" t-att-value="partnerId || '0'" />
+                                    <input type="hidden" name="callback" t-att-value="callback" />
+                                    <!-- Example -->
+                                    <input type="hidden" name="fieldRequired" t-att-value="'phone,label'" />
+
+                                    <div class="d-flex justify-content-between">
+                                        <a role="button" t-att-href="equal(mode, ['new', 'billing']) &amp;&amp; '/shop/cart' || '/shop/checkout'" class="btn btn-secondary mb32">
+                                            <i class="fa fa-chevron-left"/>
+                                            <span>Back</span>
+                                        </a>
+                                        <a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">
+                                            <span>Next</span>
+                                            <i class="fa fa-chevron-right"/>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="addressB2b" inheritId="address" name="Show b2b fields" customizeShow="true">
+        <xpath expr="//div[@id='divPhone']" position="after">
+            <div class="w-100"/>
+            <t t-set='vatWarning' t-value="'vat' in checkout &amp;&amp; checkout['vat'] &amp;&amp; !canEditVat" />
+            <t t-if="equal(mode, ['new', 'billing']) || (equal(mode, ['edit', 'billing']) &amp;&amp; (canEditVat || 'vat' in checkout &amp;&amp; checkout['vat']))">
+                <div t-attf-class="form-group #{error['companyName'] &amp;&amp; 'o-has-error' || ''} col-lg-6 mb-0">
+                    <label class="col-form-label font-weight-normal label-optional" for="companyName">Company Name</label>
+                    <input type="text" name="companyName" t-attf-class="form-control #{error['companyName'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'commercialCompanyName' in checkout &amp;&amp; checkout['commercialCompanyName'] || 'companyName' in checkout &amp;&amp; checkout['companyName']" t-att-readonly="vatWarning ? '1' : null" />
+                    <small t-if="vatWarning" class="form-text text-muted d-block d-lg-none">Changing company name is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
+                </div>
+                <div t-attf-class="form-group #{error['vat'] &amp;&amp; 'o-has-error' || ''} col-lg-6 div-vat mb-0">
+                    <label class="col-form-label font-weight-normal label-optional" for="vat">VAT </label>
+                    <input type="text" name="vat" t-attf-class="form-control #{error['vat'] &amp;&amp; 'is-invalid' || ''}" t-att-value="'vat' in checkout &amp;&amp; checkout['vat']" t-att-readonly="vatWarning ? '1' : null"/>
+                    <small t-if="vatWarning" class="form-text text-muted d-block d-lg-none">Changing VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
+                </div>
+                <div t-if="vatWarning" class="col-12 d-none d-lg-block mb-1">
+                    <small class="form-text text-muted">Changing company name or VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="addressOnPayment" name="Address on payment">
+        <div class="card">
+            <div class="card-body" id="shippingAndBilling">
+                <a class="float-right no-decoration" href="/shop/checkout"><i class="fa fa-edit"/> Edit</a>
+                <t t-set="sameShipping" t-value="bool((await order.partnerShippingId).eq(await order.partnerId) || onlyServices)" />
+                <div>
+                    <b>Billing<t t-if="sameShipping &amp;&amp; !onlyServices"> &amp; Shipping</t>: </b>
+                    <span t-esc="await order.partnerId" t-options="{'widget': 'contact', 'fields': ['address'], 'noMarker': true, 'separator': ', '}" class="address-inline"/>
+                </div>
+                <div t-if="!sameShipping &amp;&amp; !onlyServices" groups="sale.groupDeliveryInvoiceAddress">
+                    <b>Shipping: </b>
+                    <span t-esc="await order.partnerShippingId" t-options="{'widget': 'contact', 'fields': ['address'], 'noMarker': true, 'separator': ', '}" class="address-inline"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="payment" name="Payment">
+        <t t-call="website.layout">
+            <t t-set="additionalTitle">Shop - Select Payment Acquirer</t>
+            <t t-set="noFooter" t-value="1"/>
+
+            <div id="wrap">
+                <div class="container oe-website-sale py-2">
+                    <div class="row">
+                        <div class='col-12'>
+                            <t t-call="website_sale.wizardCheckout">
+                                <t t-set="step" t-value="40" />
+                            </t>
+                        </div>
+                        <div class="col-12" t-if="errors">
+                            <t t-foreach="errors" t-as="error">
+                                <div class="alert alert-danger" t-if="error" role="alert">
+                                    <h4>
+                                        <t t-esc="error[0]" />
+                                    </h4>
+                                    <t t-esc="error[1]" />
+                                </div>
+                            </t>
+                        </div>
+                        <div class="col-12 col-xl-auto order-xl-2">
+                            <t t-call="website_sale.cartSummary"/>
+                        </div>
+                        <div class="col-12 col-xl order-xl-1 oe-cart">
+                            <div id='addressOnPayment'>
+                                <t t-call="website_sale.addressOnPayment"/>
+                            </div>
+
+                            <div class="oe-structure clearfix mt-3" id="oeStructureWebsiteSalePayment1"/>
+
+                            <t t-if="websiteSaleOrder.amountTotal">
+                                <div t-if="bool(acquirers) || bool(tokens)" id="paymentMethod" class="mt-3">
+                                    <h3 class="mb24">Pay with </h3>
+                                    <t t-call="payment.checkout">
+                                        <t t-set="footerTemplateId" t-value="'website_sale.paymentFooter'"/>
+                                        <t t-set="submitButtonLabel">Pay Now</t>
+                                    </t>
+                                </div>
+                                <div t-else="" class="alert alert-warning">
+                                    <strong>No suitable payment option could be found.</strong><br/>
+                                    If you believe that it is an error, please contact the website administrator.
+                                </div>
+                            </t>
+
+                            <div t-if="! bool(acquirers)" class="mt-2">
+                                <a role="button" class="btn-link"
+                                    groups="base.groupSystem"
+                                    t-attf-href="/web#action=#{paymentActionId}">
+                                        <i class="fa fa-arrow-right"></i> Add payment acquirers
+                                </a>
+                            </div>
+                            <div class="js-payment mt-3" t-if="! await websiteSaleOrder.amountTotal" id="paymentMethod" name="oWebsiteSaleFreeCart">
+                                <form target="_self" action="/shop/payment/validate" method="post">
+                                    <input type="hidden" name="csrfToken" t-att-value="await request.csrfToken()" />
+                                    <t t-call="website_sale.paymentFooter">
+                                        <t t-set="submitButtonLabel">Confirm Order</t>
+                                    </t>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe-structure" id="oeStructureWebsiteSalePayment2"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="paymentFooter" name="Payment">
+        <div name="oCheckboxContainer"
+             class="custom-control custom-checkbox mt-2 o-accept-tc-button"/>
+        <div class="float-left mt-2">
+            <a role="button" href="/shop/cart" class="btn btn-secondary">
+                <i class="fa fa-chevron-left"/> Return to Cart
+            </a>
+        </div>
+        <div class="float-right mt-2">
+            <button name="oPaymentSubmitButton"
+                    type="submit"
+                    class="btn btn-primary"
+                    disabled="true"
+                    data-icon-class="fa-chevron-right">
+                <t t-esc="submitButtonLabel"/> <i class="fa fa-chevron-right"/>
+            </button>
+        </div>
+    </template>
+
+    <template id="paymentSaleNote" inheritId="paymentFooter" name="Accept Terms &amp; Conditions" customizeShow="true" active="false">
+        <xpath expr="//div[@name='oCheckboxContainer']" position="inside">
+            <input type="checkbox" id="checkboxTc" class="custom-control-input"/>
+            <label for="checkboxTc" class="custom-control-label">
+                I agree to the <a target="_BLANK" href="/terms">terms &amp; conditions</a>
+            </label>
+        </xpath>
+    </template>
+
+    <template id="shortCartSummary" name="Short Cart right column">
+        <div class="card js-cart-summary" t-if="bool(websiteSaleOrder) &amp;&amp; bool(await websiteSaleOrder.websiteOrderLine)" >
+            <div class="card-body">
+                <h4 class="d-none d-xl-block">Order Total</h4>
+                <hr class="d-none d-xl-block"/>
+                <div>
+                    <t t-call="website_sale.total">
+                        <t t-set="noRowspan" t-value="1"/>
+                    </t>
+                    <a role="button" t-if="bool(websiteSaleOrder) &amp;&amp; bool(await websiteSaleOrder.websiteOrderLine)" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/shop/checkout?express=1">
+                        <span>Process Checkout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- This template is the one present on the right during the payment process.
+        Here it is important to not show too much information to the user, because we want him to pay!
+        We shouldn't display link to products or long descriptions.
+    -->
+    <template id="cartSummary" name="Cart right column">
+        <div class="card">
+            <div class="card-body p-xl-0">
+                <div class="toggle-summary d-xl-none">
+                    <b>Your order: </b> <span id="amountTotalSummary" class="monetary-field" t-field="websiteSaleOrder.amountTotal" t-options='{"widget": "monetary", "displayCurrency": await (await websiteSaleOrder.pricelistId).currencyId}'/>
+                    <span class='fa fa-chevron-down fa-border float-right' role="img" aria-label="Details" title="Details"></span>
+                </div>
+                <div t-if="!bool(websiteSaleOrder) || !bool(await websiteSaleOrder.websiteOrderLine)" class="alert alert-info">
+                    Your cart is empty!
+                </div>
+                <div class="toggle-summary-div d-none d-xl-block">
+                    <table class="table table-striped table-sm" id="cartProducts" t-if="bool(websiteSaleOrder) &amp;&amp; bool(await websiteSaleOrder.websiteOrderLine)">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0 td-img">Product</th>
+                                <th class="border-top-0"></th>
+                                <th class="border-top-0 td-qty">Quantity</th>
+                                <th class="border-top-0 text-center td-price">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="websiteSaleOrder.websiteOrderLine" t-as="line">
+                                <td colspan="2" t-if="! bool(await (await line.productId).productTemplateId)"></td>
+                                <td class='td-img text-center' t-if="bool(await (await line.productId).productTemplateId)">
+                                    <span t-if="await line._isNotSellableLine() &amp;&amp; await (await line.productId).image128">
+                                        <img t-att-src="await imageDataUri(await (await line.productId).image128)" class="img o-image-64-max rounded" t-att-alt="await line.nameShort"/>
+                                    </span>
+                                    <span t-else=""
+                                        t-field="line.productId.image128"
+                                        t-options="{'widget': 'image', 'qwebImgResponsive': false, 'class': 'rounded o-image-64-max'}"
+                                    />
+                                </td>
+                                <td class='td-product-name' t-if="bool(await (await line.productId).productTemplateId)">
+                                    <div>
+                                        <strong t-field="line.nameShort" />
+                                    </div>
+                                </td>
+                                <td class='td-qty'>
+                                    <div t-esc="await line.productUomQty" />
+                                </td>
+                                <td class="text-center td-price">
+                                    <span t-field="line.priceReduceTaxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'displayCurrency': await websiteSaleOrder.currencyId}" groups="account.groupShowLineSubtotalsTaxExcluded" />
+                                    <span t-field="line.priceReduceTaxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'displayCurrency': await websiteSaleOrder.currencyId}" groups="account.groupShowLineSubtotalsTaxIncluded" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <t t-call="website_sale.total">
+                        <t t-set='redirect' t-value="redirect || '/shop/payment'"></t>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="confirmation">
+        <t t-call="website.layout">
+            <t t-set="additionalTitle">Shop - Confirmed</t>
+            <div id="wrap">
+                <div class="container oe-website-sale py-2">
+                    <h1><span>Order</span> <em t-field="order.label" /> <t t-if="await order.state == 'sale'"><span>Confirmed</span></t></h1>
+
+                    <div class="row">
+                        <div class="col-12 col-xl">
+                            <div class="oe-cart">
+                                <t t-set="paymentTxId" t-value="await order.getPortalLastTransaction()"/>
+                                <t t-if="await paymentTxId.state == 'done'">
+                                    <div class="thanks-msg">
+                                        <h2>Thank you for your order.
+                                            <a role="button" class="btn btn-primary d-none d-md-inline-block" href="/shop/print" target="_blank" aria-label="Print" title="Print"><i class="fa fa-print"></i> Print</a>
+                                        </h2>
+                                    </div>
+                                </t>
+                                <t t-if="await env.items('res.users')._getSignupInvitationScope() == 'b2c' &amp;&amp; await request.website.isPublicUser()">
+                                    <p class="alert alert-info mt-3" role="status">
+                                        <a role="button" t-att-href='await (await order.partnerId).signupPrepare() &amp;&amp; await (await (await order.partnerId).withContext({relativeUrl:true})).signupUrl' class='btn btn-primary'>Sign Up</a>
+                                         to follow your order.
+                                    </p>
+                                </t>
+                                <div class="oe-structure clearfix mt-3" id="oeStructureWebsiteSaleConfirmation1"/>
+                                <h3 class="text-left mt-3">
+                                    <strong>Payment Information:</strong>
+                                </h3>
+                                <t t-set="paymentTxId" t-value="await order.getPortalLastTransaction()"/>
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <t t-esc="await (await paymentTxId.acquirerId).displayAs || await (await paymentTxId.acquirerId).label" />
+                                            </td>
+                                            <td class="text-right" width="100">
+                                                <strong>Total:</strong>
+                                            </td>
+                                            <td class="text-right" width="100">
+                                                <strong t-field="paymentTxId.amount" t-options="{'widget': 'monetary', 'displayCurrency': await (await order.pricelistId).currencyId}" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <t t-call="website_sale.paymentConfirmationStatus"/>
+                                <div class="card mt-3">
+                                  <div class="card-body">
+                                    <t t-set="sameShipping" t-value="bool((await order.partnerShippingId).eq(await order.partnerId) || onlyServices)" />
+                                    <div><b>Billing <t t-if="sameShipping &amp;&amp; !onlyServices"> &amp; Shipping</t>: </b><span t-esc='await order.partnerId' t-options="{'widget': 'contact', 'fields': ['address'], 'noMarker': true, 'separator': ', '}" class="address-inline"/></div>
+                                    <div t-if="!sameShipping &amp;&amp; !onlyServices" groups="sale.groupDeliveryInvoiceAddress"><b>Shipping: </b><span t-esc='await order.partnerShippingId' t-options="{'widget': 'contact', 'fields': ['address'], 'noMarker': true, 'separator': ', '}"  class="address-inline"/></div>
+                                  </div>
+                                </div>
+                                <div class="oe-structure mt-3" id="oeStructureWebsiteSaleConfirmation2"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-auto">
+                            <t t-set="websiteSaleOrder" t-value="order"/>
+                            <t t-call="website_sale.cartSummary">
+                                <t t-set="hidePromotions" t-value="1"/>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe-structure" id="oeStructureWebsiteSaleConfirmation3"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="total">
+        <div id="cartTotal" t-att-class="extraClass || ''" t-if="bool(websiteSaleOrder) &amp;&amp; bool(await websiteSaleOrder.websiteOrderLine)">
+            <table class="table">
+                  <tr id="empty">
+                      <t t-if='!noRowspan'><td rowspan="10" class="border-0"/></t>
+                      <td class="col-md-2 col-3 border-0"></td>
+                      <td class="col-md-2 col-3 border-0" ></td>
+                  </tr>
+                  <tr id="orderTotalUntaxed">
+                      <td class="text-right border-0">Subtotal:</td>
+                      <td class="text-xl-right border-0" >
+                          <span t-field="websiteSaleOrder.amountUntaxed" class="monetary-field" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'displayCurrency': await websiteSaleOrder.currencyId}"/>
+                      </td>
+                  </tr>
+                  <tr id="orderTotalTaxes">
+                      <td class="text-right border-0">Taxes:</td>
+                      <td class="text-xl-right border-0">
+                           <span t-field="websiteSaleOrder.amountTax" class="monetary-field" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'displayCurrency': await websiteSaleOrder.currencyId}" />
+                      </td>
+                  </tr>
+                  <tr id="orderTotal">
+                      <td class="text-right"><strong>Total:</strong></td>
+                      <td class="text-xl-right">
+                          <strong t-field="websiteSaleOrder.amountTotal" class="monetary-field"
+                              t-options='{"widget": "monetary", "displayCurrency": await (await websiteSaleOrder.pricelistId).currencyId}'/>
+                      </td>
+                  </tr>
+            </table>
+        </div>
+    </template>
+
+    <template id="reductionCode" inheritId="website_sale.total" customizeShow="true" name="Promo Code">
+        <xpath expr="//div[@id='cartTotal']//table/tr[last()]" position="after">
+            <tr t-if="!hidePromotions">
+                <td colspan="3" class="text-center text-xl-right border-0">
+                <span class=''>
+                    <t t-set='forceCoupon' t-value="await (await websiteSaleOrder.pricelistId).code || request.params['codeNotAvailable']"/>
+                    <t t-if="!forceCoupon">
+                        <a href="#" class="show-coupon">I have a promo code</a>
+                    </t>
+                    <div t-attf-class="coupon-form #{!forceCoupon &amp;&amp; 'd-none'}">
+                        <t t-call="website_sale.couponForm"/>
+                    </div>
+                </span>
+                </td>
+            </tr>
+        </xpath>
+    </template>
+
+    <template id="paymentConfirmationStatus">
+        <div class="oe-website-sale-tx-status mt-3" t-att-data-order-id="order.id" t-att-data-order-tracking-info="escape(JSON.stringify(orderTrackingInfo))">
+            <t t-set="paymentTxId" t-value="await order.getPortalLastTransaction()"/>
+            <t t-set="state" t-value="await paymentTxId.state"/>
+            <t t-set="acquirer" t-value="await paymentTxId.acquirerId"/>
+            <t t-set="acquirerSudo" t-value="await acquirer.sudo()"/>
+            <div t-attf-class="card #{
+                (state == 'pending' &amp;&amp; 'bg-info') ||
+                (state == 'done' &amp;&amp; await order.amountTotal == await paymentTxId.amount &amp;&amp; 'alert-success') ||
+                (state == 'done' &amp;&amp; await order.amountTotal != await paymentTxId.amount &amp;&amp; 'bg-warning') ||
+                (state == 'authorized' &amp;&amp; 'alert-success') ||
+                'bg-danger'}">
+                <div class="card-header">
+                    <a role="button" groups="base.groupSystem" class="btn btn-sm btn-link text-white float-right" target="_blank" aria-label="Edit" title="Edit"
+                            t-att-href="format('/web#model=%s&amp;id=%s&amp;action=%s&amp;viewType=form', 'payment.acquirer', acquirer.id, 'payment.actionPaymentAcquirer')">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    <t t-if="state == 'pending'">
+                        <t t-out="await acquirerSudo.pendingMsg"/>
+                    </t>
+                    <t t-if="state == 'done'">
+                        <span t-if='await acquirerSudo.doneMsg' t-out="await acquirerSudo.doneMsg"/>
+                    </t>
+                    <t t-if="state == 'done' &amp;&amp; await order.amountTotal != await paymentTxId.amount">
+                        <span>Unfortunately your order can not be confirmed as the amount of your payment does not match the amount of your cart.
+                        Please contact the responsible of the shop for more information.</span>
+                    </t>
+                    <t t-if="state == 'cancel'">
+                        <t t-out="await acquirerSudo.cancelMsg"/>
+                    </t>
+                    <t t-if="state == 'authorized'">
+                        <t t-if="await acquirerSudo.authMsg" t-out="await acquirerSudo.authMsg"/>
+                        <span t-else="">Your payment has been authorized.</span>
+                    </t>
+                    <t t-if="state == 'error'">
+                        <span t-esc="await paymentTxId.stateMessage"/>
+                    </t>
+                </div>
+                <t t-if="await paymentTxId.provider == 'transfer'">
+                    <div t-if="await order.reference" class="card-body">
+                        <b>Communication: </b><span t-esc='await order.reference'/>
+                    </div>
+                    <div t-if="await acquirerSudo.qrCode">
+                        <t t-set="qrCode" t-value="await (await (await (await paymentTxId.companyId).partnerId).bankIds).slice(0,1).buildQrCodeBase64(await order.amountTotal, await paymentTxId.reference, null, await paymentTxId.currencyId, await paymentTxId.partnerId)"/>
+                        <div class="card-body" t-if="qrCode">
+                            <h3>Or scan me with your banking app.</h3>
+                            <img class="border border-dark rounded" t-att-src="qrCode"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="website_sale.brandPromotion" inheritId="website.brandPromotion">
+        <xpath expr="//t[@t-call='web.brandPromotionMessage']" position="replace">
+            <t t-call="web.brandPromotionMessage">
+                <t t-set="_message">
+                    The #1 <a target="_blank" href="http://www.theverp.com/app/ecommerce?utmSource=db&amp;utmMedium=website">Open Source eCommerce</a>
+                </t>
+                <t t-set="_utmMedium" t-valuef="website"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- User Navbar -->
+    <template id="userNavbarInheritWebsiteSale" inheritId="website.userNavbar">
+        <xpath expr="//div[@id='oNewContentMenuChoices']//div[@name='moduleWebsiteSale']" position="attributes">
+            <attribute name="label"/>
+            <attribute name="t-att-data-module-id"/>
+            <attribute name="t-att-data-module-shortdesc"/>
+            <attribute name="t-if">await (await env.user()).hasGroup('sales_team.groupSaleManager')</attribute>
+        </xpath>
+    </template>
+
+    <template id="saleOrderPortalContentInheritWebsiteSale" name="Orders Followup Products Links" inheritId="sale.saleOrderPortalContent">
+        <xpath expr="//section[@id='details']//td[@id='productName']/*" position="replace">
+            <a t-if="bool(await (await line.productId).websitePublished)" t-att-href="await (await line.productId).websiteUrl">
+                <span t-field="line.label" />
+            </a>
+            <t t-if="!await (await line.productId).websitePublished">
+                <span t-field="line.label" />
+            </t>
+        </xpath>
+    </template>
+
+    <template id="website_sale.shopProductCarousel" name="Shop Product Carousel">
+        <t t-set="productImages" t-value="bool(productVariant) ? await productVariant._getImages() : await product._getImages()"/>
+        <div id="oCarouselProduct" class="carousel slide position-sticky mb-3 overflow-hidden" data-ride="carousel" data-interval="0">
+            <div class="o-carousel-product-outer carousel-outer position-relative flex-grow-1">
+                <div class="carousel-inner h-100">
+                    <t t-foreach="productImages" t-as="productImage">
+                        <div t-attf-class="carousel-item h-100#{productImage_first ? ' active' : ''}">
+                            <div t-if="productImage._name == 'product.image' &amp;&amp; await productImage.embedCode" class="d-flex align-items-center justify-content-center h-100 embed-responsive embed-responsive-16by9">
+                                <t t-out="await productImage.embedCode"/>
+                            </div>
+                            <div  t-else="" t-field="productImage.image1920" class="d-flex align-items-center justify-content-center h-100" t-options='{"widget": "image", "previewImage": "image1024", "class": "product-detail-img mh-100", "alt-field": "label", "zoom": await productImage.canImage1024BeZoomed &amp;&amp; "image1920"}'/>
+                        </div>
+                    </t>
+                </div>
+                <t t-if="len(productImages) > 1">
+                    <a class="carousel-control-prev" href="#oCarouselProduct" role="button" data-slide="prev">
+                        <span class="fa fa-chevron-left fa-2x" role="img" aria-label="Previous" title="Previous"/>
+                    </a>
+                    <a class="carousel-control-next" href="#oCarouselProduct" role="button" data-slide="next">
+                        <span class="fa fa-chevron-right fa-2x" role="img" aria-label="Next" title="Next"/>
+                    </a>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="carouselProductIndicatorsBottom" inheritId="website_sale.shopProductCarousel" name="Carousel Product Indicators Bottom">
+        <xpath expr="//div[contains(@class,'o-carousel-product-outer')]" position="after">
+            <t t-call="website_sale.carouselProductIndicators">
+                <t t-set="indicatorsDivClass" t-value="'pr-1 overflow-hidden'"/>
+                <t t-set="indicatorsListClass" t-value="'p-1'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="carouselProductIndicatorsLeft" inheritId="website_sale.shopProductCarousel" name="Carousel Product Indicators Left" active="false">
+        <xpath expr="//div[contains(@class,'o-carousel-product-outer')]" position="before">
+            <t t-call="website_sale.carouselProductIndicators">
+                <t t-set="indicatorsListClass" t-value="'d-flex d-lg-block pr-2'"/>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='oCarouselProduct']" position="attributes">
+            <attribute name="class" add="o-carousel-product-left-indicators d-flex pb-1" separator=" "/>
+        </xpath>
+    </template>
+
+    <template id="carouselProductIndicators" name="Carousel Product">
+        <div t-ignore="true" t-attf-class="o-carousel-product-indicators {{indicatorsDivClass}}">
+            <ol t-if="len(productImages) > 1" t-attf-class="carousel-indicators {{indicatorsListClass}} position-static mx-auto my-0 text-left">
+                <t t-foreach="productImages" t-as="productImage"><li t-attf-class="m-1 mb-2 align-top {{productImage_first ? 'active' : ''}}" data-target="#oCarouselProduct" t-att-data-slide-to="String(productImage_index)">
+                    <div t-field="productImage.image128" t-options='{"widget": "image", "qwebImgResponsive": false, "class": "o-image-64-contain", "alt-field": "label"}'/>
+                    <i t-if="productImage._name == 'product.image' &amp;&amp; await productImage.embedCode" class="fa fa-2x fa-play-circle o-product-video-thumb"/>
+                </li></t>
+            </ol>
+        </div>
+    </template>
+
+    <record id="viewWebsiteSaleWebsiteForm" model="ir.ui.view">
+        <field name="label">website_sale.website.form</field>
+        <field name="model">website</field>
+        <field name="inheritId" ref="website.viewWebsiteForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Product Page Extra Fields" groups="base.groupNoOne">
+                    <field name="shopExtraFieldIds" context="{'default_websiteId': activeId}">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="fieldId" required="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <template id="ecomShowExtraFields" inheritId="website_sale.product" active="true" name="Show Extra Fields">
+        <xpath expr="//div[@id='productDetails']" position="inside">
+            <t t-if="await (await website.shopExtraFieldIds).some(async (field) => product[await field.label])">
+                <hr/>
+                <p class="text-muted">
+                    <t t-foreach='await website.shopExtraFieldIds' t-as='field' t-if='bool(await product[await field.label])'>
+                        <b><t t-esc='await field.description'/>: </b>
+                        <t t-if='await (await field.fieldId).ttype != "binary"'>
+                            <span t-esc='await product[await field.label]' t-options="{'widget': await (await field.fieldId).ttype}"/>
+                        </t>
+                        <t t-else=''>
+                            <a target='_blank' t-attf-href='/web/content/product.template/#{product.id}/#{await field.label}?download=1'>
+                                <i class='fa fa-file'></i>
+                            </a>
+                        </t>
+                        <br/>
+                    </t>
+                </p>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="addToCartRedirect" inheritId="website.layout" name="Cart Redirection" priority="1">
+        <xpath expr="//html" position="before">
+            <t t-set="htmlData" t-value="{...htmlData, 'data-add2cart-redirect': await website.cartAddOnPage &amp;&amp; '1' || '0'}"/>
+        </xpath>
+    </template>
+</verp>

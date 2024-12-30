@@ -1,0 +1,8 @@
+
+.s-company-team {
+    @include media-breakpoint-down(md) {
+        img {
+            max-width: 50%;
+        }
+    }
+}

@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <function model="ir.model.data" name="_updateXmlids">
+            <value model="base" eval="[{
+                'xmlid': 'stock.chiPickingTypeIn',
+                'record': await (await obj.env.ref('stock.stockWarehouseShop0')).inTypeId,
+                'noupdate': true,
+            }, {
+                'xmlid': 'stock.chiPickingTypeOut',
+                'record': await (await obj.env.ref('stock.stockWarehouseShop0')).outTypeId,
+                'noupdate': true,
+            }, {
+                'xmlid': 'stock.stockLocationShop0',
+                'record': await (await obj.env.ref('stock.stockWarehouseShop0')).lotStockId,
+                'noupdate': true,
+            }]"/>
+        </function>
+
+        <record id="locationRefrigeratorSmall" model="stock.location">
+            <field name="label">Small Refrigerator</field>
+            <field name="usage">internal</field>
+            <field name="locationId" ref="stock.stockLocation_14"/>
+            <field name="barcode">WH-SHELF-REF</field>
+        </record>
+
+        <record id="productCableManagementBox" model="product.product">
+            <field name="defaultCode">FURN_5555</field>
+            <field name="label">Cable Management Box</field>
+            <field name="detailedType">product</field>
+            <field name="weight">0.01</field>
+            <field name="categId" ref="product.productCategory5"/>
+            <field name="lstPrice">100.0</field>
+            <field name="standardPrice">70.0</field>
+            <field name="weight">1.0</field>
+            <field name="tracking">lot</field>
+            <field name="uomId" ref="uom.productUomUnit"/>
+            <field name="uomPoId" ref="uom.productUomUnit"/>
+            <field name="image1920" type="base64" file="stock/static/img/cable_management.png"/>
+        </record>
+
+        <record id="lotProductCableManagement" model="stock.production.lot">
+            <field name="label">LOT-000001</field>
+            <field name="productId" ref="stock.productCableManagementBox"/>
+            <field name="companyId" ref="base.mainCompany"/>
+        </record>
+
+        <record id="lotProductProductCableManagementBox_0" model="stock.production.lot">
+            <field name="label">CM-BOX-00001</field>
+            <field name="productId" ref="stock.productCableManagementBox"/>
+            <field name="companyId" ref="base.mainCompany"/>
+        </record>
+
+        <record id="lotProductProductCableManagementBox_1" model="stock.production.lot">
+            <field name="label">CM-BOX-00002</field>
+            <field name="productId" ref="stock.productCableManagementBox"/>
+            <field name="companyId" ref="base.mainCompany"/>
+        </record>
+
+        <record id="stockInventoryIcecreamLot_0" model="stock.quant">
+            <field name="productId" ref="stock.productCableManagementBox"/>
+            <field name="inventoryQuantity">50.0</field>
+            <field name="locationId" ref="stock.stockLocation_14"/>
+            <field name="lotId" ref="lotProductProductCableManagementBox_0"/>
+        </record>
+
+        <record id="stockInventoryIcecreamLot_1" model="stock.quant">
+            <field name="productId" ref="stock.productCableManagementBox"/>
+            <field name="inventoryQuantity">40.0</field>
+            <field name="locationId" ref="stock.stockLocation_14"/>
+            <field name="lotId" ref="lotProductProductCableManagementBox_1"/>
+        </record>
+
+        <function model="stock.quant" name="actionApplyInventory">
+            <function eval="[[['id', 'in', [refId('stockInventoryIcecreamLot_0'),
+                                            refId('stockInventoryIcecreamLot_1')
+                                            ]]]]" model="stock.quant" name="search"/>
+        </function>
+
+        <!-- Create STOCK_MOVE for OUT -->
+        <record id="outgoingShipmentMainWarehouse" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.pickingTypeOut"/>
+            <field name="origin">outgoing shipment</field>
+            <field name="userId"></field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="scheduledDate" eval="today()"/>
+            <field name="locationId" ref="stock.stockLocationStock"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct27')).label,
+                'productId': refId('product.productProduct27'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 15.0,
+                'pickingTypeId': refId('stock.pickingTypeOut'),
+                'locationId': refId('stock.stockLocationStock'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingShipmentMainWarehouse1" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.pickingTypeOut"/>
+            <field name="origin">outgoing shipment</field>
+            <field name="userId"></field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="scheduledDate" eval="subDate(today(), {days: 15})"/>
+            <field name="locationId" ref="stock.stockLocationStock"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct6')).label,
+                'productId': refId('product.productProduct6'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 180.0,
+                'pickingTypeId': refId('stock.pickingTypeOut'),
+                'locationId': refId('stock.stockLocationStock'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingShipmentMainWarehouse2" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.pickingTypeOut"/>
+            <field name="origin">outgoing shipment</field>
+            <field name="userId"></field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="scheduledDate" eval="subDate(today(), {days: 15})"/>
+            <field name="locationId" ref="stock.stockLocationStock"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productDelivery02')).label,
+                'productId': refId('product.productDelivery02'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 45.0,
+                'pickingTypeId': refId('stock.pickingTypeOut'),
+                'locationId': refId('stock.stockLocationStock'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingShipmentMainWarehouse3" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.pickingTypeOut"/>
+            <field name="userId"></field>
+            <field name="origin">your company warehouse</field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="scheduledDate" eval="today()"/>
+            <field name="locationId" ref="stock.stockLocationStock"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct5')).label,
+                'productId': refId('product.productProduct5'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 75.0,
+                'pickingTypeId': refId('stock.pickingTypeOut'),
+                'locationId': refId('stock.stockLocationStock'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingShipmentMainWarehouse4" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.pickingTypeOut"/>
+            <field name="origin">outgoing shipment</field>
+            <field name="userId"></field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="scheduledDate" eval="subDate(today(), {days: 7})"/>
+            <field name="locationId" ref="stock.stockLocationStock"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct3')).label,
+                'productId': refId('product.productProduct3'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 16.0,
+                'pickingTypeId': refId('stock.pickingTypeOut'),
+                'locationId': refId('stock.stockLocationStock'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingShipmentMainWarehouse5" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.pickingTypeOut"/>
+            <field name="origin">outgoing shipment</field>
+            <field name="userId"></field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="scheduledDate" eval="subDate(today(), {days: 12})"/>
+            <field name="locationId" ref="stock.stockLocationStock"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct3')).label,
+                'productId': refId('product.productProduct3'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 40.0,
+                'pickingTypeId': refId('stock.pickingTypeOut'),
+                'locationId': refId('stock.stockLocationStock'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingShipmentMainWarehouse6" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.pickingTypeOut"/>
+            <field name="origin">outgoing shipment</field>
+            <field name="userId"></field>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="scheduledDate" eval="subDate(today(), {days: 20})"/>
+            <field name="locationId" ref="stock.stockLocationStock"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct6')).label,
+                'productId': refId('product.productProduct6'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 50.0,
+                'pickingTypeId': refId('stock.pickingTypeOut'),
+                'locationId': refId('stock.stockLocationStock'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+            }]]"/>
+        </record>
+
+        <!-- Create STOCK_PICKING for IN -->
+        <record id="incommingShipment" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.pickingTypeIn"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationStock"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('stock.productCableManagementBox')).label,
+                'productId': refId('stock.productCableManagementBox'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 50.0,
+                'pickingTypeId': refId('stock.pickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationStock'),
+            }]]"/>
+        </record>
+
+        <record id="incommingShipment1" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.pickingTypeIn"/>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="scheduledDate" eval="subDate(today(), {days: 5})"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationStock"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productDelivery01')).label,
+                'productId': refId('product.productDelivery01'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 35.0,
+                'pickingTypeId': refId('stock.pickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationStock'),
+            }]]"/>
+        </record>
+
+        <record id="incommingShipment2" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.pickingTypeIn"/>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationStock"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct22')).label,
+                'productId': refId('product.productProduct22'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 125.0,
+                'pickingTypeId': refId('stock.pickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationStock'),
+            }]]"/>
+        </record>
+
+        <record id="incommingShipment3" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.pickingTypeIn"/>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationStock"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct10')).label,
+                'productId': refId('product.productProduct10'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 120.0,
+                'pickingTypeId': refId('stock.pickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationStock'),
+            }]]"/>
+        </record>
+
+        <record id="incommingShipment4" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.pickingTypeIn"/>
+            <field name="partnerId" ref="base.resPartner_1"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationStock"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productDelivery02')).label,
+                'productId': refId('product.productDelivery02'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 50.0,
+                'pickingTypeId': refId('stock.pickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationStock'),
+            }]]"/>
+        </record>
+
+        <!-- Create STOCK_PICKING_IN for Chicago Warehouse-->
+        <record id="incommingChicagoWarehouse" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.chiPickingTypeIn"/>
+            <field name="origin">incomingChicagoWarehouse</field>
+            <field name="userId"></field>
+            <field name="scheduledDate" eval="today()"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationShop0"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct9')).label,
+                'productId': refId('product.productProduct9'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 25.0,
+                'pickingTypeId': refId('stock.chiPickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationShop0'),
+                'companyId': refId('stock.resCompany_1'),
+            }]]"/>
+        </record>
+
+        <record id="incommingChicagoWarehouse1" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.chiPickingTypeIn"/>
+            <field name="scheduledDate" eval="subDate(today(), {days: 5})"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationShop0"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productDelivery01')).label,
+                'productId': refId('product.productDelivery01'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 180.0,
+                'pickingTypeId': refId('stock.chiPickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationShop0'),
+                'companyId': refId('stock.resCompany_1'),
+            }]]"/>
+        </record>
+
+        <record id="incommingChicagoWarehouse2" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.chiPickingTypeIn"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationShop0"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productDelivery01')).label,
+                'productId': refId('product.productDelivery01'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 45.0,
+                'pickingTypeId': refId('stock.chiPickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationShop0'),
+                'companyId': refId('stock.resCompany_1'),
+            }]]"/>
+        </record>
+
+        <record id="incommingChicagoWarehouse3" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.chiPickingTypeIn"/>
+            <field name="origin">chicagoWarehouse</field>
+            <field name="scheduledDate" eval="subDate(today(), {days: 2})"/>
+            <field name="locationId" ref="stock.stockLocationSuppliers"/>
+            <field name="locationDestId" ref="stock.stockLocationShop0"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct22')).label,
+                'productId': refId('product.productProduct22'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 75.0,
+                'pickingTypeId': refId('stock.chiPickingTypeIn'),
+                'locationId': refId('stock.stockLocationSuppliers'),
+                'locationDestId': refId('stock.stockLocationShop0'),
+                'companyId': refId('stock.resCompany_1'),
+            }]]"/>
+        </record>
+
+        <!-- Create STOCK_PICKING_OUT for Chicago Warehouse -->
+        <record id="outgoingChicagoWarehouse" model="stock.picking">
+            <field name="pickingTypeId" ref="stock.chiPickingTypeOut"/>
+            <field name="userId"></field>
+            <field name="origin">outgoingChicagoWarehouse</field>
+            <field name="scheduledDate" eval="today()"/>
+            <field name="locationId" ref="stock.stockLocationShop0"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct27')).label,
+                'productId': refId('product.productProduct27'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 15.0,
+                'pickingTypeId': refId('stock.chiPickingTypeOut'),
+                'locationId': refId('stock.stockLocationShop0'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+                'companyId': refId('stock.resCompany_1'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingChicagoWarehouse1" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.chiPickingTypeOut"/>
+            <field name="origin">outgoingShipmentChicagoWarehouse</field>
+            <field name="scheduledDate" eval="subDate(today(), {days: 10})"/>
+            <field name="locationId" ref="stock.stockLocationShop0"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct6')).label,
+                'productId': refId('product.productProduct6'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 180.0,
+                'pickingTypeId': refId('stock.chiPickingTypeOut'),
+                'locationId': refId('stock.stockLocationShop0'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+                'companyId': refId('stock.resCompany_1'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingChicagoWarehouse2" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.chiPickingTypeOut"/>
+            <field name="origin">chicagoWarehouse</field>
+            <field name="scheduledDate" eval="today()"/>
+            <field name="locationId" ref="stock.stockLocationShop0"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productDelivery02')).label,
+                'productId': refId('product.productDelivery02'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 45.0,
+                'pickingTypeId': refId('stock.chiPickingTypeOut'),
+                'locationId': refId('stock.stockLocationShop0'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+                'companyId': refId('stock.resCompany_1'),
+            }]]"/>
+        </record>
+
+        <record id="outgoingChicagoWarehouse3" model="stock.picking">
+            <field name="userId"></field>
+            <field name="pickingTypeId" ref="stock.chiPickingTypeOut"/>
+            <field name="origin">outgoing chicago warehouse</field>
+            <field name="scheduledDate" eval="now()"/>
+            <field name="locationId" ref="stock.stockLocationShop0"/>
+            <field name="locationDestId" ref="stock.stockLocationCustomers"/>
+            <field name="companyId" ref="stock.resCompany_1"/>
+            <field name="moveLines" model="stock.move" eval="[[0, 0, {
+                'label': await (await obj.env.ref('product.productProduct5')).label,
+                'productId': refId('product.productProduct5'),
+                'productUom': refId('uom.productUomUnit'),
+                'productUomQty': 75.0,
+                'pickingTypeId': refId('stock.chiPickingTypeOut'),
+                'locationId': refId('stock.stockLocationShop0'),
+                'locationDestId': refId('stock.stockLocationCustomers'),
+                'companyId': refId('stock.resCompany_1'),
+            }]]"/>
+        </record>
+
+        <function model="stock.picking" name="actionConfirm">
+            <value model="stock.picking" eval="[
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse1')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse4')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse5')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse6')).id,
+                (await obj.env.ref('stock.incommingShipment1')).id,
+                (await obj.env.ref('stock.incommingShipment2')).id,
+                (await obj.env.ref('stock.incommingShipment3')).id,
+                (await obj.env.ref('stock.outgoingChicagoWarehouse1')).id,
+                (await obj.env.ref('stock.outgoingChicagoWarehouse2')).id,
+                (await obj.env.ref('stock.outgoingChicagoWarehouse3')).id,
+                (await obj.env.ref('stock.incommingChicagoWarehouse1')).id,
+                (await obj.env.ref('stock.incommingChicagoWarehouse2')).id,
+                (await obj.env.ref('stock.incommingChicagoWarehouse3')).id]"/>
+        </function>
+
+        <function model="stock.picking" name="actionAssign">
+            <value model="stock.picking" eval="[
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse1')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse4')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse5')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse6')).id,
+                (await obj.env.ref('stock.outgoingChicagoWarehouse1')).id,
+            ]"/>
+        </function>
+
+        <!-- Adds move lines qty. done -->
+        <function model="stock.move.line" name="write">
+            <value model="stock.move.line" search="[['pickingId', '=', refId('stock.outgoingShipmentMainWarehouse1')]]"/>
+            <value eval="{'qtyDone': 100}"/>
+        </function>
+        <function model="stock.move.line" name="write">
+            <value model="stock.move.line" search="[['pickingId', '=', refId('stock.outgoingShipmentMainWarehouse4')]]"/>
+            <value eval="{'qtyDone': 16}"/>
+        </function>
+        <function model="stock.move.line" name="write">
+            <value model="stock.move.line" search="[['pickingId', '=', refId('stock.outgoingShipmentMainWarehouse5')]]"/>
+            <value eval="{'qtyDone': 32}"/>
+        </function>
+        <function model="stock.move.line" name="write">
+            <value model="stock.move.line" search="[['pickingId', '=', refId('stock.outgoingShipmentMainWarehouse6')]]"/>
+            <value eval="{'qtyDone': 50}"/>
+        </function>
+        <function model="stock.move.line" name="write">
+            <value model="stock.move.line" search="[['pickingId', '=', refId('stock.incommingChicagoWarehouse1')]]"/>
+            <value eval="{'qtyDone': 100}"/>
+        </function>
+        <function model="stock.move.line" name="write">
+            <value model="stock.move.line" search="[['pickingId', '=', refId('stock.outgoingChicagoWarehouse1')]]"/>
+            <value eval="{'qtyDone': 100}"/>
+        </function>
+
+        <function model="stock.picking" name="_actionDone">
+            <value model="stock.picking" eval="[
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse1')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse5')).id,
+                (await obj.env.ref('stock.outgoingShipmentMainWarehouse6')).id,
+                (await obj.env.ref('stock.incommingChicagoWarehouse1')).id,
+                (await obj.env.ref('stock.outgoingChicagoWarehouse1')).id,
+                (await obj.env.ref('stock.outgoingChicagoWarehouse2')).id]"/>
+        </function>
+
+        <record id="stock.outgoingChicagoWarehouse1" model="stock.picking">
+            <field name="dateDone" eval="subDate(today(), {days: 5})"/>
+        </record>
+
+        <record id="stock.outgoingShipmentMainWarehouse5" model="stock.picking">
+            <field name="dateDone" eval="subDate(today(), {days: 17})"/>
+        </record>
+
+        <record id="stock.outgoingShipmentMainWarehouse6" model="stock.picking">
+            <field name="dateDone" eval="subDate(today(), {days: 7})"/>
+        </record>
+
+        <function model="stock.move" name="write">
+            <value model="stock.move" search="[['pickingId', '=', refId('stock.outgoingShipmentMainWarehouse4')]]"/>
+            <value eval="{'date': addDate(today(), {days: 3})}"/>
+        </function>
+
+        <function model="stock.move" name="write">
+            <value model="stock.move" search="[['pickingId', '=', refId('stock.outgoingShipmentMainWarehouse5')]]"/>
+            <value eval="{'date': subDate(today(), {days: 18})}"/>
+        </function>
+
+        <function model="stock.move" name="write">
+            <value model="stock.move" search="[['pickingId', '=', refId('stock.outgoingShipmentMainWarehouse6')]]"/>
+            <value eval="{'date': subDate(today(), {days: 7})}"/>
+        </function>
+
+    </data>
+</verp>

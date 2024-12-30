@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="sale.saleMenuRoot" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuReportProductAll" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuSalesConfig" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.productMenuCatalog" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuProduct" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuProductTemplateAction" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.prodConfigMain" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuProducts" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.nextId16" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuProductUomCategFormAction" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuProductPricelistMain" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuSaleOrder" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuSaleInvoicing" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuSaleOrderInvoice" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuSaleOrderUpselling" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+    <record id="sale.menuSaleQuotations" model="ir.ui.menu">
+        <field name="active" eval="true"/>
+    </record>
+
+    <record id="resConfigSettingsViewFormInheritSaleManagement" model="ir.ui.view">
+        <field name="label">res.config.settings.view.form.inherit.sale.management</field>
+        <field name="model">res.config.settings</field>
+        <field name="inheritId" ref="sale.resConfigSettingsViewForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='sale_management']" position="attributes">
+                <attribute name="class">app-settings-block</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

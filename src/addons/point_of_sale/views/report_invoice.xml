@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <template id="point_of_sale.reportInvoiceDocument" inheritId="account.reportInvoiceDocument">
+        <xpath expr="//i[contains(@class,'oe-payment-label')]" position="inside">
+            <t t-if="paymentVals['posPaymentName']">
+                using <t t-esc="paymentVals['posPaymentName']" />
+            </t>
+        </xpath>
+    </template>
+</verp>

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<verp>
+    <data noupdate="1">
+        <!-- CRM-related subtypes for messaging / Chatter -->
+        <record id="mtLeadCreate" model="mail.message.subtype">
+            <field name="label">Opportunity Created</field>
+            <field name="hidden" eval="true"/>
+            <field name="resModel">crm.lead</field>
+            <field name="default" eval="false"/>
+            <field name="description">Lead/Opportunity created</field>
+        </record>
+        <record id="mtLeadStage" model="mail.message.subtype">
+            <field name="label">Stage Changed</field>
+            <field name="resModel">crm.lead</field>
+            <field name="default" eval="false"/>
+            <field name="description">Stage changed</field>
+        </record>
+        <record id="mtLeadWon" model="mail.message.subtype">
+            <field name="label">Opportunity Won</field>
+            <field name="resModel">crm.lead</field>
+            <field name="default" eval="false"/>
+            <field name="description">Opportunity won</field>
+        </record>
+        <record id="mtLeadLost" model="mail.message.subtype">
+            <field name="label">Opportunity Lost</field>
+            <field name="resModel">crm.lead</field>
+            <field name="default" eval="false"/>
+            <field name="description">Opportunity lost</field>
+        </record>
+        <record id="mtLeadRestored" model="mail.message.subtype">
+            <field name="label">Opportunity Restored</field>
+            <field name="resModel">crm.lead</field>
+            <field name="default" eval="false"/>
+            <field name="description">Opportunity restored</field>
+        </record>
+        <!-- Salesteam-related subtypes for messaging / Chatter -->
+        <record id="mtSalesteamLead" model="mail.message.subtype">
+            <field name="label">Opportunity Created</field>
+            <field name="sequence">10</field>
+            <field name="resModel">crm.team</field>
+            <field name="default" eval="true"/>
+            <field name="parentId" ref="mtLeadCreate"/>
+            <field name="relationField">teamId</field>
+        </record>
+        <record id="mtSalesteamLeadStage" model="mail.message.subtype">
+            <field name="label">Opportunity Stage Changed</field>
+            <field name="sequence">11</field>
+            <field name="resModel">crm.team</field>
+            <field name="parentId" ref="mtLeadStage"/>
+            <field name="relationField">teamId</field>
+        </record>
+        <record id="mtSalesteamLeadWon" model="mail.message.subtype">
+            <field name="label">Opportunity Won</field>
+            <field name="sequence">12</field>
+            <field name="resModel">crm.team</field>
+            <field name="parentId" ref="mtLeadWon"/>
+            <field name="relationField">teamId</field>
+        </record>
+        <record id="mtSalesteamLeadLost" model="mail.message.subtype">
+            <field name="label">Opportunity Lost</field>
+            <field name="sequence">13</field>
+            <field name="resModel">crm.team</field>
+            <field name="default" eval="false"/>
+            <field name="parentId" ref="mtLeadLost"/>
+            <field name="relationField">teamId</field>
+        </record>
+        <record id="mtSalesteamLeadRestored" model="mail.message.subtype">
+            <field name="label">Opportunity Restored</field>
+            <field name="sequence">14</field>
+            <field name="resModel">crm.team</field>
+            <field name="default" eval="false"/>
+            <field name="parentId" ref="mtLeadRestored"/>
+            <field name="relationField">teamId</field>
+        </record>
+    </data>
+</verp>

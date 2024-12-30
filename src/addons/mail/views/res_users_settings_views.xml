@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<verp>
+
+    <record id="resUsersSettingsViewTree" model="ir.ui.view">
+        <field name="label">res.users.settings.tree</field>
+        <field name="model">res.users.settings</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <tree string="User Settings">
+                <field name="id"/>
+                <field name="userId"/>
+                <field name="usePushToTalk"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="resUsersSettingsViewForm" model="ir.ui.view">
+        <field name="label">res.users.settings.form</field>
+        <field name="model">res.users.settings</field>
+        <field name="arch" type="xml">
+            <form string="User Settings">
+                <sheet>
+                    <div class="oe-title">
+                        <h1><field name="userId"/></h1>
+                    </div>
+                    <group>
+                        <group string="Discuss sidebar">
+                            <field name="isDiscussSidebarCategoryChannelOpen"/>
+                            <field name="isDiscussSidebarCategoryChatOpen"/>
+                        </group>
+                        <group string="Voice">
+                            <field name="usePushToTalk"/>
+                            <field name="pushToTalkKey" placeholder="e.g. true.true..f" attrs="{'invisible': [['usePushToTalk', '=', false]]}"/>
+                            <field name="voiceActiveDuration" attrs="{'invisible': [['usePushToTalk', '=', true]]}"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Volume per partner">
+                            <field name="volumeSettingsIds">
+                                <tree editable="bottom">
+                                    <field name="partnerId"/>
+                                    <field name="volume"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="resUsersSettingsAction" model="ir.actions.actwindow">
+        <field name="label">User Settings</field>
+        <field name="resModel">res.users.settings</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+</verp>

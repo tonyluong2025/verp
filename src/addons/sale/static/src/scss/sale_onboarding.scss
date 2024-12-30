@@ -1,0 +1,11 @@
+.o-onboarding-order-confirmation {
+  & span.o-onboarding-order-confirmation-help img {
+    display: none;
+    position: absolute;
+    bottom:0;
+  }
+  & span.o-onboarding-order-confirmation-help:hover img {
+    display: block
+  }
+
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <div t-name='resConfigEdition'>
+        <div class="col-12 o-setting-box" id="edition">
+            <div class="o-setting-right-pane">
+                <div class="user-heading">
+                    <h3>
+                        Verp <t t-esc="widget.serverVersion"/>
+                        (Community Edition)
+                    </h3>
+                </div>
+                <div>
+                    <div class="tab-content">
+                        <div role="tabpanel" id="settings" class="tab-pane active text-muted o-web-settings-compact-subtitle">
+                            <small>Copyright © 2025 <a target="_blank" href="https://www.theverp.com" style="text-decoration: underline;">Verp Solutions Co.</a> <a id="license" target="_blank" href="https://spdx.org/licenses/MIT.html" style="text-decoration: underline;">MIT Licensed</a></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

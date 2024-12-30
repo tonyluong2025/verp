@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<!-- TODO adapt in master: this is patched in JS to remove the min-height -->
+<!-- class and use padding classes -->
+<template name="Embed Code" id="sEmbedCode">
+    <section class="s-embed-code o-half-screen-height text-center">
+        <div class="s-embed-code-embedded container o-not-editable">
+            <div class="text-monospace pt8 bg-light">&#10;    Replace this with your own HTML code&#10;</div>
+        </div>
+    </section>
+</template>
+
+<!-- Snippet's Options -->
+<template id="sEmbedCodeOptions" inheritId="website.snippetOptions">
+    <xpath expr="//div[@data-js='Box']" position="before">
+        <div data-js="EmbedCode" data-selector=".s-embed-code">
+            <we-row string="Code">
+                <we-button data-edit-code="" data-no-preview="true"
+                        class="o-we-edit-code o-we-no-toggle o-we-bg-success active"
+                        title="Edit embedded code">Edit</we-button>
+            </we-row>
+            <we-button-group string="Alignment">
+                <we-button class="fa fa-fw fa-align-left" title="Left" data-select-class="text-left"/>
+                <we-button class="fa fa-fw fa-align-center" title="Center" data-select-class="text-center"/>
+                <we-button class="fa fa-fw fa-align-right" title="Right" data-select-class="text-right"/>
+            </we-button-group>
+        </div>
+    </xpath>
+</template>
+
+<record id="website.sEmbedCode.000.scss" model="ir.asset">
+    <field name="label">Embed Code 000 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_embed_code/000.scss</field>
+</record>
+
+</verp>

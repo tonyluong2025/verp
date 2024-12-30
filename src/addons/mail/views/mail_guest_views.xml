@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<verp>
+
+    <record id="mailGuestViewTree" model="ir.ui.view">
+        <field name="label">mail.guest.tree</field>
+        <field name="model">mail.guest</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <tree string="Guest">
+                <field name="id"/>
+                <field name="label"/>
+                <field name="countryId"/>
+                <field name="lang"/>
+                <field name="timezone"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mailGuestAction" model="ir.actions.actwindow">
+        <field name="label">User Settings</field>
+        <field name="resModel">mail.guest</field>
+        <field name="viewMode">tree,form</field>
+    </record>
+
+</verp>

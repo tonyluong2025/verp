@@ -1,0 +1,2 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+"access_base_documentLayout","access.base.document.layout","model_baseDocumentLayout","base.groupSystem",1,1,1,0

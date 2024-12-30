@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp><data noupdate="1">
+
+    <!-- Discussion subtype for messaging / Chatter -->
+    <record id="mtComment" model="mail.message.subtype">
+        <field name="label">Discussions</field>
+        <field name="sequence" eval="0"/>
+    </record>
+    <record id="mtNote" model="mail.message.subtype">
+        <field name="label">Note</field>
+        <field name="default" eval="false"/>
+        <field name="internal" eval="true"/>
+        <field name="sequence" eval="100"/>
+    </record>
+    <record id="mtActivities" model="mail.message.subtype">
+        <field name="label">Activities</field>
+        <field name="default" eval="false"/>
+        <field name="internal" eval="true"/>
+        <field name="sequence" eval="90"/>
+    </record>
+
+</data></verp>

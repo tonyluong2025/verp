@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="paymentAcquirerForm" model="ir.ui.view">
+        <field name="label">Adyen Acquirer Form</field>
+        <field name="model">payment.acquirer</field>
+        <field name="inheritId" ref="payment.paymentAcquirerForm"/>
+        <field name="arch" type="xml">
+            <xpath expr='//group[@name="acquirer"]' position='inside'>
+                <group attrs="{'invisible': [['provider', '!=', 'adyen']]}">
+                    <field name="adyenMerchantAccount" attrs="{'required':[['provider', '=', 'adyen'], ['state', '!=', 'disabled']]}"/>
+                    <field name="adyenApiKey" attrs="{'required':[['provider', '=', 'adyen'], ['state', '!=', 'disabled']]}"/>
+                    <field name="adyenClientKey" attrs="{'required':[['provider', '=', 'adyen'], ['state', '!=', 'disabled']]}"/>
+                    <field name="adyenHmacKey" attrs="{'required':[['provider', '=', 'adyen'], ['state', '!=', 'disabled']]}"/>
+                    <field name="adyenCheckoutApiUrl" attrs="{'required':[['provider', '=', 'adyen'], ['state', '!=', 'disabled']]}"/>
+                    <field name="adyenRecurringApiUrl" attrs="{'required':[['provider', '=', 'adyen'], ['state', '!=', 'disabled']]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</verp>

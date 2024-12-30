@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="viewCompanyForm" model="ir.ui.view">
+        <field name="label">res.company.form.inherit.account</field>
+        <field name="model">res.company</field>
+        <field name="inheritId" ref="base.viewCompanyForm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='countryId']" position="after">
+                <field name="countryCode" invisible="1"/>
+                <field name="accountEnabledTaxCountryIds" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="resCompanyViewFormTerms" model="ir.ui.view">
+        <field name="label">res.company.view.form.terms</field>
+        <field name="model">res.company</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="invoiceTermsHtml" class="oe-account-terms" nolabel="1"/>
+                </group>
+                <footer>
+                    <button string="Save" special="save" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</verp>

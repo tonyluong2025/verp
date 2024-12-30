@@ -1,0 +1,27 @@
+.o-setting-container {
+    .o-web-settings-user {
+        font-size: 95%;
+        font-weight: 500;
+    }
+}
+
+.o-doc-link {
+    text-decoration: none;
+    font-weight: normal;
+
+    &::after{
+        content: "\f059"; //fa-question-circle
+        font-family: 'FontAwesome';
+        font-size: 1.2rem;
+    }
+}
+
+.o-module {
+    &::after{
+        margin-left: 4px;
+        content: "\f1cb"; //fa-codepen
+        color: #66598f;
+        font-weight: normal;
+        font-family: 'FontAwesome';
+    }
+}

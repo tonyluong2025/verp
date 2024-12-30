@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<verp>
+
+	<record id="base.category_accountingAccounting" model="ir.module.category">	
+		<field name="label">Accounting</field>
+	</record>			
+
+	<record id="account.groupAccountUser" model="res.groups">
+		<field name="label">Accountant</field>
+		<field name="categoryId" ref="base.category_accountingAccounting" />
+		<field name="impliedIds" eval="[[4,refId('account.groupAccountInvoice')]]" />
+		<field name="users" eval="[[4,refId('base.userAdmin')], [4,refId('base.userRoot')]]" />
+	</record>
+
+	<record id="account.groupAccountManager" model="res.groups">	
+		<field name="impliedIds" eval="[[4,refId('account.groupAccountUser')], [3,refId('account.groupAccountInvoice')]]" />
+		<field name="label">Advisor</field>
+	</record>			
+	
+	<record id="account.groupAccountReadonly" model="res.groups">	
+		<field name="label">Auditor</field>
+		<field name="categoryId" ref="base.category_accountingAccounting" />
+	</record>			
+
+</verp>

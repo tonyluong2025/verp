@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="snailmailConfirmView" model="ir.ui.view">
+        <field name="label">snailmail.confirm.view</field>
+        <field name="model">snailmail.confirm</field>
+        <field name="arch" type="xml">
+            <form string="Snailmail Confirmation">
+                <p>You are about to send this <field name="modelName" readonly="1" class="oe-inline" /> by post. Are you sure you want to continue?</p>
+                <footer>  
+                    <button string="Confirm" name="actionConfirm" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" name="actionCancel" type="object" class="btn-secondary" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</verp>

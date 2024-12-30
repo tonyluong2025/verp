@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<verp>
+    <data>
+        <record id="setupFinancialYearOpeningForm" model="ir.ui.view">
+            <field name="label">account.financial.year.op.setup.wizard.form</field>
+            <field name="model">account.financial.year.op</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="Fiscal Years">
+                                <field name="openingMovePosted" invisible="1"/>
+                                <field name="openingDate" attrs="{'readonly': [['openingMovePosted', '=', true]]}"/>
+
+                                <label for="fiscalyearLastMonth" string="Fiscal Year End"/>
+                                <div>
+                                    <field name="fiscalyearLastDay" class="oe-inline text-center" style="width: 20% !important;"/>
+                                    <span style="width: 5%; display: inline-block"/>
+                                    <field name="fiscalyearLastMonth" class="oe-inline" style="width: 75% !important;"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="actionSaveOnboardingFiscalYear" string="Apply"
+                               class="oe-highlight" type="object" data-hotkey="q" />
+                        <button special="cancel" data-hotkey="z" string="Cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="setupBankAccountWizard" model="ir.ui.view">
+            <field name="label">account.online.sync.res.partner.bank.setup.form</field>
+            <field name="model">account.setup.bank.manual.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="numJournalsWithoutAccount" invisible="1"/>
+                    <field name="journalId" invisible="1"/>
+                    <field name="companyId" invisible="1"/>
+                    <field name="linkedJournalId" invisible="1"/>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="accNumber" placeholder="e.g BE15001559627230"/>
+                                <field name="bankId" placeholder="e.g Bank of America"/>
+                                <field name="bankBic" placeholder="e.g GEBABEBB" string="Bank Identifier Code"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible': [['numJournalsWithoutAccount', '=', 0]]}">
+                           <group>
+                            <field name="linkedJournalId" options="{'noCreate': true}"/>
+                          </group>
+                          <group>
+                               <span class="text-muted">Leave empty to create a new journal for this bank account, or select a journal to link it with the bank account.</span>
+                           </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Create" class="oe-highlight" type="object" name="validate" data-hotkey="q"/>
+                        <button string="Cancel" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="initAccountsTree" model="ir.ui.view">
+            <field name="label">account.setup.opening.move.line.tree</field>
+            <field name="model">account.account</field>
+            <field name="arch" type="xml">
+                <tree editable="top" create="1" delete="1" decoration-muted="openingDebit == 0 &amp;&amp; openingCredit == 0">
+                    <field name="code"/>
+                    <field name="label"/>
+                    <field name="companyId" invisible="1"/>
+                    <field name="userTypeId" widget="accountHierarchySelection"/>
+                    <field name="reconcile" widget="booleanToggle"/>
+                    <field name="openingDebit"/>
+                    <field name="openingCredit"/>
+                    <field name="openingBalance" optional="hide"/>
+                    <field name="taxIds" optional="hide" widget="many2manyTags"/>
+                    <field name="tagIds" optional="hide" widget="many2manyTags"/>
+                    <field name="allowedJournalIds" optional="hide" widget="many2manyTags"/>
+                    <button name="actionReadAccount" type="object" string="Setup" class="float-right btn-secondary"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</verp>

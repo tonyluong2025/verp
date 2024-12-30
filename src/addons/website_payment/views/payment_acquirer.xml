@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="acquirerFormWebsite" model="ir.ui.view">
+            <field name="label">acquirer.form.inherit.website</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inheritId" ref="payment.paymentAcquirerForm"/>
+            <field name="arch" type="xml">
+                <field name='companyId' position='after'>
+                    <field name="websiteId" options="{'noOpen': true, 'noCreateEdit': true}" groups="website.groupMultiWebsite"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</verp>

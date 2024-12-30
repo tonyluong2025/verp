@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <!-- add google drive config field in user form -->
+        <record id="viewGoogleDriveConfigTree" model="ir.ui.view">
+            <field name="label">google_drive.config.tree</field>
+            <field name="model">google.drive.config</field>
+            <field name="arch" type="xml">
+                <tree string="Google Drive Configuration">
+                    <field name="label" />
+                    <field name="modelId" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewGoogleDriveConfigForm" model="ir.ui.view">
+            <field name="label">google_drive.config.form</field>
+            <field name="model">google.drive.config</field>
+            <field name="arch" type="xml">
+                <form string="Google Drive Configuration">
+                    <field name="model" invisible="1" />
+                    <group>
+                        <field name="label" />
+                        <field name="active" widget="booleanToggle"/>
+                        <field name="modelId"/>
+                        <label for='filterId' />
+                        <div>
+                            <field name='filterId' />
+                            <p class="oe-grey">
+                                <b>To create a new filter:</b><br/>
+                                - Go to the Verp document you want to filter. For instance, go to Opportunities and search on Sales Department.<br/>
+                                - In this "Search" view, select the option "Save Current Filter", enter the name (Ex: Sales Department)<br/>
+                                - If you select "Share with all users", link of google document in "More" options will appear for all users in opportunities of Sales Department.<br/>
+                                - If you don't select "Share with all users", link of google document in "More" options will not appear for other users in opportunities of Sales Department.<br/>
+                                - If filter is not specified, link of google document will appear in "More" option for all users for all opportunities.
+                            </p>
+                        </div>
+                        <field name='googleDriveTemplateUrl' placeholder="https://docs.google.com/document/d/1vOtpJK9scIQz6taD9tJRIETWbEw3fSiaQHArsJYcua4/edit" required="1" />
+                        <field name='googleDriveResourceId' invisible="1" />
+                        <label for='nameTemplate' />
+                        <div>
+                            <field name='nameTemplate' />
+                            <p class="oe-grey">
+                                The name of the attached document can use fixed or variable data. To distinguish between documents in
+                                Google Drive, use fixed words and fields. For instance, in the example above, if you wrote Deco_Addict_%%(name)s_Sales
+                                in the Google Drive name field, the document in your Google Drive and in Verp attachment will be named
+                                'Deco_Addict_SO0001_Sales'.
+                            </p>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewGoogleDriveConfigKanban" model="ir.ui.view">
+            <field name="label">google.drive.config.kanban</field>
+            <field name="model">google.drive.config</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="label"/>
+                    <field name="active"/>
+                    <field name="modelId"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe-kanban-global-click">
+                                <div class="row o-kanban-record-title">
+                                    <div class="col-4 text-center"><strong>Template</strong></div>
+                                    <div class="col-4 text-center"><strong>Model</strong></div>
+                                    <div class="col-4 text-center"><strong>Active</strong></div>
+                                </div>
+                                <hr class="mb4 mt4"/>
+                                <div class="row o-kanban-record-subtitle">
+                                    <div class="col-4 text-center"><field name="label"/></div>
+                                    <div class="col-4 text-center"><field name="modelId"/></div>
+                                    <div class="col-4 text-center">
+                                        <field name="active" widget="boolean"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="googleDriveConfigViewSearch" model="ir.ui.view">
+            <field name="label">google.drive.config.view.search</field>
+            <field name="model">google.drive.config</field>
+            <field name="arch" type="xml">
+                <search string="Search Google Drive Config">
+                    <field name="label"/>
+                    <separator/>
+                    <filter name="archived" string="Archived" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id='actionGoogleDriveUsersConfig' model='ir.actions.actwindow'>
+            <field name='label'>Templates</field>
+            <field name='resModel'>google.drive.config</field>
+            <field name='type'>ir.actions.actwindow</field>
+            <field name="viewMode">tree,kanban,form</field>
+            <field name='viewId' ref='viewGoogleDriveConfigTree'/>
+            <field name="searchViewId" ref="googleDriveConfigViewSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Add a new template
+                </p>
+                <p>
+                    Link your own google drive templates to any record of Verp. If you have really specific documents you want your collaborator fill in, e.g. Use a spreadsheet to control the quality of your product or review the delivery checklist for each order in a foreign country, ... Its very easy to manage them, link them to Verp and use them to collaborate with your employees.
+                </p>
+            </field>
+        </record>
+
+</verp>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+     <t t-name="accountJournalDashboardActivity">
+        <t t-foreach="activities" t-as="activity">
+            <div class="row">
+                <div class="col-8 o_mail_activity">
+                    <a href="#" t-att-class="(activity.status == 'late' ? 'o-activity-color-overdue ' : ' ') + (activity.activityCategory == 'taxReport' ? 'o-open-vat-report' : 'seeActivity')" t-att-data-res-id="activity.resId" t-att-data-id="activity.id" t-att-data-model="activity.resModel">
+                        <t t-esc="activity.label"/>
+                    </a>
+                </div>
+                <div class="col-4 text-right">
+                    <span><t t-esc="activity.date"/></span>
+                </div>
+            </div>
+        </t>
+        <a t-if="moreActivities" class="pull-right see-all-activities" href="#">See all activities</a>
+    </t>
+
+</templates>

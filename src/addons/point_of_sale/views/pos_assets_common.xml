@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="point_of_sale.assetsCommon" name="POS Assets Common">
+    <t t-call-assets="point_of_sale.posAssetsBackendStyle" t-js="false"/>
+    <t t-call-assets="point_of_sale.assets" t-js="false" />
+    <t t-call-assets="web.assetsCommon" t-css="false" />
+    <t t-call-assets="point_of_sale.posAssetsBackend" t-css="false" />
+    <t t-call-assets="point_of_sale.assets" t-css="false" />
+</template>
+
+</verp>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="sTabs" name="Tabs">
+    <section class="s-tabs pt48 pb48" data-vcss="001">
+        <div class="container">
+            <div class="s-tabs-main">
+                <div class="s-tabs-nav mb-3">
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="navTabsLink1" data-toggle="tab" href="#navTabsContent1" role="tab" aria-controls="navTabsContent1" aria-selected="true">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="navTabsLink2" data-toggle="tab" href="#navTabsContent2" role="tab" aria-controls="navTabsContent2" aria-selected="false">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="navTabsLink3" data-toggle="tab" href="#navTabsContent3" role="tab" aria-controls="navTabsContent3" aria-selected="false">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="s-tabs-content tab-content">
+                    <div class="tab-pane fade show active" id="navTabsContent1" role="tabpanel" aria-labelledby="navTabsLink1">
+                        <div class="oe-structure oe-empty">
+                            <section class="s-text-block">
+                                <div class="container s-allow-columns">
+                                    <p>Write one or two paragraphs describing your product or services.</p>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navTabsContent2" role="tabpanel" aria-labelledby="navTabsLink2">
+                        <div class="oe-structure oe-empty">
+                            <section class="s-text-block">
+                                <div class="container s-allow-columns">
+                                    <p>To be successful your content needs to be useful to your readers.</p>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navTabsContent3" role="tabpanel" aria-labelledby="navTabsLink3">
+                        <div class="oe-structure oe-empty">
+                            <section class="s-text-block">
+                                <div class="container s-allow-columns">
+                                    <p>Start with the customer – find out what they want and give it to them.</p>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="sTabsOptions" inheritId="website.snippetOptions">
+    <xpath expr="." position="inside">
+        <div data-js="NavTabs" data-selector="section.s-tabs">
+            <we-button data-add-item="" data-item=".tab-pane.active" data-no-preview="true" class="o-we-text-success ml-0" title="Add Tab" aria-label="Add Tab">
+                <i class="fa fa-fw fa-plus"/>
+            </we-button>
+            <we-button data-remove-item="" data-item=".tab-pane.active" data-name="removeTabOpt" data-no-preview="true" class="o-we-text-danger mr-3" title="Remove Tab" aria-label="Remove Tab">
+                <i class="fa fa-fw fa-minus"/>
+            </we-button>
+        </div>
+        <div data-js="NavTabsStyle" data-selector="section" data-target=".s-tabs-main">
+            <we-select string="Style">
+                <we-button data-set-style="tabs" data-name="tabsOpt" data-trigger="horizontalOpt">Tabs</we-button>
+                <we-button data-set-style="pills" data-name="pillsOpt" data-trigger="tabsColorOpt" data-trigger-value="">Buttons</we-button>
+            </we-select>
+            <we-colorpicker string="Tabs color" data-dependencies="tabsOpt" data-name="tabsColorOpt" data-select-style="true" data-css-property="background-color" data-color-prefix="bg-"/>
+            <we-select string="Direction" data-dependencies="pillsOpt">
+                <we-button data-set-direction="horizontal" data-name="horizontalOpt">Horizontal</we-button>
+                <we-button data-set-direction="vertical" data-trigger="leftAlignmentOpt">Vertical</we-button>
+            </we-select>
+            <we-select string="Alignment" data-apply-to=".s-tabs-nav:first .nav" data-dependencies="horizontalOpt">
+                <we-button data-select-class="" data-name="leftAlignmentOpt">Left</we-button>
+                <we-button data-select-class="justify-content-center">Center</we-button>
+                <we-button data-select-class="justify-content-end">Right</we-button>
+            </we-select>
+            <we-select string="Fill and justify" data-apply-to=".s-tabs-nav:first .nav" data-dependencies="horizontalOpt">
+                <we-button data-select-class="">Regular</we-button>
+                <we-button data-select-class="nav-fill">Full Width</we-button>
+                <we-button data-select-class="nav-justified">Equal Widths</we-button>
+            </we-select>
+            <we-divider/>
+            <we-button-group string="Slide" data-apply-to=".s-tabs-content:first">
+                <we-button class="fa fa-fw fa-long-arrow-left" title="Slide Left" data-select-class="s-tabs-slide-left"/>
+                <we-button class="fa fa-fw fa-long-arrow-up" title="Slide Up" data-select-class="s-tabs-slide-up"/>
+                <we-button class="fa fa-fw fa-long-arrow-down" title="Slide Down" data-select-class="s-tabs-slide-down"/>
+                <we-button class="fa fa-fw fa-long-arrow-right" title="Slide Right" data-select-class="s-tabs-slide-right"/>
+                <we-button class="fa fa-fw fa-ban" title="No Slide Effect" data-select-class=""/>
+            </we-button-group>
+        </div>
+    </xpath>
+</template>
+
+<record id="website.sTabs.001.scss" model="ir.asset">
+    <field name="label">Tabs 001 SCSS</field>
+    <field name="bundle">web.assetsFrontend</field>
+    <field name="path">website/static/src/snippets/s_tabs/001.scss</field>
+</record>
+
+</verp>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record model="ir.cron" id="cronPostProcessPaymentTx">
+        <field name="label">payment: post-process transactions</field>
+        <field name="modelId" ref="payment.model_paymentTransaction" />
+        <field name="state">code</field>
+        <field name="code">model._cronFinalizePostProcessing()</field>
+        <field name="userId" ref="base.userRoot" />
+        <field name="intervalNumber">10</field>
+        <field name="intervalType">minutes</field>
+        <field name="numbercall">-1</field>
+    </record>
+
+</verp>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <!-- Chart of Accounts Templates -->
+
+        <record id="viewAccountChartTemplateForm" model="ir.ui.view">
+            <field name="label">account.chart.template.form</field>
+            <field name="model">account.chart.template</field>
+            <field name="arch" type="xml">
+                <form string="Chart of Accounts Template">
+                    <group col="4">
+                        <field name="label"/>
+                        <field name="parentId" />
+                        <field name="bankAccountCodePrefix"/>
+                        <field name="cashAccountCodePrefix"/>
+                        <field name="transferAccountCodePrefix"/>
+                        <field name="codeDigits" />
+                        <field name="visible" />
+                        <field name="completeTaxSet" />
+                    </group>
+                    <separator string="Default Taxes" colspan="4"/>
+                    <field name="taxTemplateIds" colspan="4"  nolabel="1"/>
+                    <separator string="Properties" colspan="4"/>
+                    <group col="4">
+                        <field name="propertyAccountReceivableId"/>
+                        <field name="propertyAccountPayableId"/>
+                        <field name="propertyAccountExpenseCategId"/>
+                        <field name="propertyAccountIncomeCategId"/>
+                        <field name="propertyAccountExpenseId"/>
+                        <field name="propertyAccountIncomeId"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountChartTemplateSeacrh" model="ir.ui.view">
+            <field name="label">account.chart.template.search</field>
+            <field name="model">account.chart.template</field>
+            <field name="arch" type="xml">
+                <search string="Search Chart of Account Templates">
+                    <field name="label" string="Account Template"/>
+                    <field name="bankAccountCodePrefix"/>
+                    <field name="cashAccountCodePrefix"/>
+                    <field name="transferAccountCodePrefix"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Receivable Account" name="receivalbeacc" domain="[]" context="{'groupby':'propertyAccountReceivableId'}"/>
+                        <filter string="Payable Account" name="payableacc" domain="[]" context="{'groupby':'propertyAccountPayableId'}"/>
+                        <filter string="Income Account" name="incomeacc" domain="[]" context="{'groupby':'propertyAccountIncomeCategId'}"/>
+                        <filter string="Expense Account" name="expenseacc" domain="[]" context="{'groupby':'propertyAccountExpenseCategId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="viewAccountChartTemplateTree" model="ir.ui.view">
+            <field name="label">account.chart.template.tree</field>
+            <field name="model">account.chart.template</field>
+            <field name="arch" type="xml">
+                <tree string="Chart of Accounts Template">
+                    <field name="label"/>
+                    <field name="propertyAccountReceivableId" invisible="1"/>
+                    <field name="propertyAccountPayableId" invisible="1"/>
+                    <field name="propertyAccountExpenseCategId" invisible="1"/>
+                    <field name="propertyAccountIncomeCategId" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="actionAccountChartTemplateForm" model="ir.actions.actwindow">
+            <field name="label">Chart of Accounts Templates</field>
+            <field name="resModel">account.chart.template</field>
+            <field name="viewMode">tree,form</field>
+        </record>
+
+
+        <!-- Account Templates -->
+
+        <record id="viewAccountTemplateForm" model="ir.ui.view">
+            <field name="label">account.account.template.form</field>
+            <field name="model">account.account.template</field>
+            <field name="arch" type="xml">
+                <form string="Account Template">
+                    <group col="4">
+                        <field name="label"/>
+                        <field name="code"/>
+                        <newline/>
+                        <field name="userTypeId" widget="accountHierarchySelection"/>
+                        <field name="currencyId" options="{'noCreate': true}" groups="base.groupMultiCurrency"/>
+                        <field name="tagIds" domain="[['applicability', '=', 'accounts']]" widget="many2manyTags" context="{'default_applicability': 'accounts'}"/>
+                        <field name="reconcile"/>
+                        <field name="chartTemplateId"/>
+                    </group>
+                    <separator string="Default Taxes"/>
+                    <field name="taxIds"/>
+                    <separator string="Notes"/>
+                    <field name="note" placeholder="Internal notes..."/>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountTemplateTree" model="ir.ui.view">
+            <field name="label">account.account.template.tree</field>
+            <field name="model">account.account.template</field>
+            <field name="arch" type="xml">
+                <tree string="Account Template">
+                    <field name="code"/>
+                    <field name="label"/>
+                    <field name="userTypeId" widget="accountHierarchySelection" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountTemplateSearch" model="ir.ui.view">
+            <field name="label">account.account.template.search</field>
+            <field name="model">account.account.template</field>
+            <field name="arch" type="xml">
+                <search string="Search Account Templates">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['code','ilike',self]]" string="Account Template"/>
+                    <field name="userTypeId"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Account Type" name="accounttype" domain="[]" context="{'groupby':'userTypeId'}"/>
+                   </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Account Tax Templates -->
+
+        <record id="viewAccountTaxTemplateForm" model="ir.ui.view">
+            <field name="label">account.tax.template.form</field>
+            <field name="model">account.tax.template</field>
+            <field name="arch" type="xml">
+                <form string="Account Tax Template">
+                    <sheet>
+                        <group name="mainGroup">
+                            <group>
+                                <field name="label"/>
+                            </group>
+                            <group>
+                                <field name="typeTaxUse"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="definition" string="Definition">
+                                <group name="taxDefinitions">
+                                    <group>
+                                        <field name="amountType" />
+                                        <label for="amount" attrs="{'invisible':[['amountType','=', 'group']]}"/>
+                                        <div attrs="{'invisible':[['amountType','=', 'group']]}">
+                                            <field name="amount" class="oe-inline" />
+                                            <span class="o-form-label oe-inline" attrs="{'invisible':[['amountType','=','fixed']]}">%</span>
+                                        </div>
+                                    </group>
+                                </group>
+                                <field name="childrenTaxIds"
+                                    attrs="{'invisible':['|', ['amountType','!=','group'], ['typeTaxUse','=','none']]}"
+                                    domain="[['typeTaxUse','in',['none',typeTaxUse]], ['amountType','!=','group']]">
+                                    <tree string="Children Taxes">
+                                        <field name="sequence" widget="handle" />
+                                        <field name="label"/>
+                                        <field name="amountType" />
+                                        <field name="amount" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="advancedOptions" string="Advanced Options">
+                                <group name="advancedDefinitions">
+                                    <group>
+                                        <field name="description" attrs="{'invisible':[['amountType','=', 'group']]}"/>
+                                        <field name="analytic" attrs="{'invisible':[['amountType','=', 'group']]}" groups="analytic.groupAnalyticAccounting" />
+                                    </group>
+                                    <group name="priceDefinitions">
+                                        <field name="priceInclude" attrs="{'invisible':[['amountType','=', 'group']]}" />
+                                        <field name="includeBaseAmount" attrs="{'invisible':[['amountType','=', 'group']]}" />
+                                        <field name="isBaseAffected"
+                                               attrs="{'invisible': ['|', ['amountType','=', 'group'], ['priceInclude', '=', true]]}"/>
+                                    </group>
+                                    <group name="taxConfiguration">
+                                        <field name="active" groups="base.groupNoOne"/>
+                                        <field name="taxExigibility" widget="radio" attrs="{'invisible':[['amountType','=', 'group']]}"/>
+                                        <field name="cashBasisTransitionAccountId" attrs="{'invisible': [['taxExigibility', '=', 'onInvoice']], 'required': [['taxExigibility', '=', 'onPayment']]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountTaxTemplateTree" model="ir.ui.view">
+            <field name="label">account.tax.template.tree</field>
+            <field name="model">account.tax.template</field>
+            <field name="arch" type="xml">
+                <tree string="Account Tax Template">
+                    <field name="label"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewAccountTaxTemplateSearch" model="ir.ui.view">
+            <field name="label">account.tax.template.search</field>
+            <field name="model">account.tax.template</field>
+            <field name="arch" type="xml">
+                <search string="Search Tax Templates">
+                    <field name="label" filterDomain="['|', ['label', 'ilike', self], ['description', 'ilike', self]]" string="Tax Template"/>
+                    <field name="chartTemplateId"/>
+                    <filter string="Sale" name="sale" domain="[['typeTaxUse', '=', 'sale']]" help="Taxes used in Sales"/>
+                    <filter string="Purchase" name="purchase" domain="[['typeTaxUse', '=', 'purchase']]" help="Taxes used in Purchases"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionAccountTaxTemplateForm" model="ir.actions.actwindow">
+            <field name="label">Tax Templates</field>
+            <field name="resModel">account.tax.template</field>
+            <field name="viewMode">tree,form</field>
+            <field name="searchViewId" ref="viewAccountTaxTemplateSearch"/>
+        </record>
+
+         <!-- Fiscal Position Templates -->
+
+        <record id="viewAccountPositionTemplateSearch" model="ir.ui.view">
+            <field name="label">account.fiscal.position.template.search</field>
+            <field name="model">account.fiscal.position.template</field>
+            <field name="arch" type="xml">
+                <search string="Fiscal Position">
+                    <field name="label" string="Fiscal Position Template"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="viewAccountPositionTemplateForm" model="ir.ui.view">
+            <field name="label">account.fiscal.position.template.form</field>
+            <field name="model">account.fiscal.position.template</field>
+            <field name="arch" type="xml">
+                <form string="Fiscal Position Template">
+                    <group col="4">
+                        <field name="label"/>
+                        <field name="chartTemplateId"/>
+                    </group>
+                    <field name="taxIds">
+                        <tree string="Taxes Mapping" editable="bottom">
+                            <field name="taxSrcId" domain="[['typeTaxUse', '!=', null]]"/>
+                            <field name="taxDestId" domain="[['typeTaxUse', '!=', null]]"/>
+                        </tree>
+                        <form string="Taxes Mapping">
+                            <field name="taxSrcId" domain="[['typeTaxUse', '!=', null]]"/>
+                            <field name="taxDestId" domain="[['typeTaxUse', '!=', null]]"/>
+                        </form>
+                    </field>
+                    <field name="accountIds">
+                        <tree string="Accounts Mapping" editable="bottom">
+                            <field name="accountSrcId"/>
+                            <field name="accountDestId"/>
+                        </tree>
+                        <form string="Accounts Mapping">
+                            <field name="accountSrcId"/>
+                            <field name="accountDestId"/>
+                        </form>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+        <record id="viewAccountPositionTemplateTree" model="ir.ui.view">
+            <field name="label">account.fiscal.position.template.tree</field>
+            <field name="model">account.fiscal.position.template</field>
+            <field name="arch" type="xml">
+                <tree string="Fiscal Position">
+                    <field name="label"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</verp>

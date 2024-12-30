@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <!-- Action -->
+        <record id="roundingListAction" model="ir.actions.actwindow">
+            <field name="label">Cash Roundings</field>
+            <field name="resModel">account.cash.rounding</field>
+            <field name="viewMode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">Create the first cash rounding</p>
+            </field>
+        </record>
+
+        <!-- Views -->
+        <record id="roundingFormView" model="ir.ui.view">
+            <field name="label">account.cash.rounding.form</field>
+            <field name="model">account.cash.rounding</field>
+            <field name="arch" type="xml">
+                <form string="Rounding Form">
+                    <sheet>
+                        <div class="oe-title">
+                            <label for="label"/>
+                            <h1><field name="label" class="oe-inline"/></h1>
+                        </div>
+                        <group>
+                            <field name="rounding"/>
+                            <field name="strategy"/>
+                            <field name="profitAccountId" options="{'noCreate': true}" attrs="{'invisible': [['strategy', '!=', 'addInvoiceLine']], 'required': [['strategy', '=', 'addInvoiceLine']]}"
+                                groups="account.groupAccountInvoice,account.groupAccountReadonly" domain="[['userTypeId.type', 'not in', ['receivable', 'payable']]]"/>
+                            <field name="lossAccountId" options="{'noCreate': true}" attrs="{'invisible': [['strategy', '!=', 'addInvoiceLine']], 'required': [['strategy', '=', 'addInvoiceLine']]}"
+                                groups="account.groupAccountInvoice,account.groupAccountReadonly" domain="[['userTypeId.type', 'not in', ['receivable', 'payable']]]"/>
+                            <field name="roundingMethod"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="roundingSearchView" model="ir.ui.view">
+            <field name="label">account.cash.rounding.search</field>
+            <field name="model">account.cash.rounding</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="label"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="roundingTreeView" model="ir.ui.view">
+            <field name="label">account.cash.rounding.tree</field>
+            <field name="model">account.cash.rounding</field>
+            <field name="arch" type="xml">
+                <tree string="Rounding Tree">
+                    <field name="label"/>
+                    <field name="rounding"/>
+                    <field name="roundingMethod"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</verp>

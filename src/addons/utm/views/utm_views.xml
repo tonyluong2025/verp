@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <menuitem id="menuLinkTrackerRoot"
+        name="Link Tracker"
+        sequence="270"
+        web_icon="utm,static/description/icon.png"
+        groups="base.groupNoOne"/>
+
+    <menuitem id="marketingUtm"
+        name="UTMs"
+        parent="menuLinkTrackerRoot"
+        sequence="99"
+        groups="base.groupNoOne"/>
+
+    <record id="utmCampaignAction" model="ir.actions.actwindow">
+        <field name="label">Campaigns</field>
+        <field name="resModel">utm.campaign</field>
+        <field name="viewMode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a campaign
+            </p>
+            <p>
+                Campaigns are used to centralize your marketing efforts and track their results.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menuUtmCampaignAct"
+        action="utmCampaignAction"
+        parent="marketingUtm"
+        sequence="1"
+        groups="base.groupNoOne"/>
+
+	<!-- utm.medium -->
+    <record id="utmMediumViewTree" model="ir.ui.view">
+        <field name="label">utm.medium.view.tree</field>
+        <field name="model">utm.medium</field>
+        <field name="arch" type="xml">
+            <tree string="Mediums" editable="bottom" sample="1">
+                <field name="label"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="utmMediumViewForm" model="ir.ui.view">
+        <field name="label">utm.medium.view.form</field>
+        <field name="model">utm.medium</field>
+        <field name="arch" type="xml">
+            <form string="Medium">
+                <sheet>
+                    <group>
+                        <field name="label"/>
+                        <field name="active" widget="booleanToggle"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="utmMediumViewSearch" model="ir.ui.view">
+        <field name="label">utm.medium.view.search</field>
+        <field name="model">utm.medium</field>
+        <field name="arch" type="xml">
+            <search string="Search UTM Medium">
+                <field name="label"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+            </search>
+        </field>
+    </record>
+    
+    <record id="utmMediumAction" model="ir.actions.actwindow">
+        <field name="label">Mediums</field>
+        <field name="resModel">utm.medium</field>
+        <field name="viewMode">tree,form</field>
+        <field name="searchViewId" ref="utmMediumViewSearch"/>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                Create a Medium
+            </p><p>
+                UTM Mediums track the mean that was used to attract traffic (e.g. "Website", "Twitter", ...).
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_utm_medium"
+        action="utmMediumAction"
+        parent="marketingUtm"
+        sequence="5"
+        groups="base.groupNoOne"/>
+
+    <!-- utm.source -->
+    <record id="utmSourceViewTree" model="ir.ui.view">
+        <field name="label">utm.source.view.tree</field>
+        <field name="model">utm.source</field>
+        <field name="arch" type="xml">
+            <tree string="Source" editable="bottom" sample="1">
+                <field name="label"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="utmSourceViewForm" model="ir.ui.view">
+        <field name="label">utm.source.view.form</field>
+        <field name="model">utm.source</field>
+        <field name="arch" type="xml">
+            <form string="Source">
+                <sheet>
+                    <group>
+                        <field name="label"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="utmSourceAction" model="ir.actions.actwindow">
+        <field name="label">Sources</field>
+        <field name="resModel">utm.source</field>
+        <field name="viewMode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                No Sources yet!
+            </p><p>
+                UTM Sources track where traffic comes from  (e.g. "May Newsletter", "", ...).
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menuUtmSource"
+        action="utmSourceAction"
+        parent="marketingUtm"
+        sequence="10"
+        groups="base.groupNoOne"/>
+
+</verp>

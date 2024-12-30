@@ -1,0 +1,12 @@
+
+.s-mega-menu-little-icons:not([data-vcss]) {
+    .nav-link {
+        @include hover-focus {
+            background: rgba(0, 0, 0, .05);
+        }
+    }
+
+    .s-mega-menu-gray-area:last-child {
+        @extend %s-mega-menu-gray-area;
+    }
+}

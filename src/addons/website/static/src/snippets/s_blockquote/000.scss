@@ -1,0 +1,73 @@
+.s-blockquote {
+    // Reset
+    border: 0;
+    padding: 0;
+    .s-blockquote-icon {
+        font-size: $font-size-base;
+    }
+    .s-blockquote-author {
+        opacity: .75;
+    }
+    // Classic
+    &.s-blockquote-classic {
+        .s-blockquote-icon {
+            float: left;
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            &.float-right {
+                border-top-left-radius: 0 !important;
+                border-bottom-left-radius: 0 !important;
+            }
+        }
+        .s-blockquote-content {
+            overflow: hidden;
+            padding: $spacer * 1.5;
+            .blockquote-footer {
+                &::before {
+                    content: '';
+                }
+                .s-blockquote-avatar {
+                    max-height: $spacer * 2.5;
+                }
+            }
+        }
+    }
+    // Cover
+    &.s-blockquote-cover {
+        text-align: center;
+        .s-blockquote-icon {
+            position: relative;
+            z-index: 1;
+            float: none;
+            margin-bottom: -$spacer * 1.5;
+        }
+        p:last-of-type {
+            margin-bottom: $spacer * .5;
+        }
+        .s-blockquote-content, .s-blockquote-filter { // s-blockquote-filter is there for compatibility
+            padding: $spacer * 3 $spacer * 2 $spacer * 2;
+        }
+        // Compatibility
+        .s-blockquote-filter {
+            margin: $spacer * -3 $spacer * -2 $spacer * -2;
+        }
+        .quote-char {
+            margin: $spacer * 2 0 $spacer 0;
+            & ~ .blockquote-footer {
+                padding-bottom: $spacer * 2;
+            }
+        }
+    }
+    // Minimalist
+    &.s-blockquote-minimalist {
+        border-left: 5px solid;
+        border-color: o-color('secondary');
+        .s-blockquote-content {
+            padding: $spacer;
+            @include border-right-radius($border-radius);
+            p:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

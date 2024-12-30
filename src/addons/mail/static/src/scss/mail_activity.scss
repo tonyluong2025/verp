@@ -1,0 +1,242 @@
+/* Common */
+.o-mail-activity {
+    &.o-field-widget {
+        display: block;
+    }
+
+    .o-thread-date-separator.o-border-dashed {
+        border-bottom-style: dashed;
+
+        &[data-toggle="collapse"] {
+            cursor: pointer;
+
+            .o-chatter-planned-activities-summary {
+                display: none;
+            }
+
+            &.collapsed {
+                margin-bottom: 0;
+                transition: margin 0.8s ease 0s;
+
+                .o-chatter-planned-activities-summary {
+                    display: inline-block;
+
+                    span {
+                        padding: 0 5px;
+                        border-radius: 100%;
+                        font-size: 11px;
+                    }
+                }
+
+                i.fa-caret-down:before {
+                    content: '\f0da';
+                }
+            }
+        }
+    }
+
+    #o-chatter-planned-activities {
+        .o-thread-message {
+            .o-thread-message-sidebar {
+                .o-avatar-stack {
+                    position: relative;
+                    text-align: left;
+                    margin-bottom: 8px;
+
+                    img {
+                        width: 31px;
+                        height: 31px;
+                        object-fit: cover;
+                    }
+
+                    .o-avatar-icon {
+                        @include o-position-absolute($right: -5px, $bottom: -5px);
+                        width: 25px;
+                        height: 25px;
+                        object-fit: cover;
+                        padding: 6px 5px;
+                        text-align: center;
+                        line-height: 1.2;
+                        color: white;
+                        border-radius: 100%;
+                        border: 2px solid white;
+                    }
+                }
+            }
+
+            .o-mail-info {
+                .o-activity-summary {
+                    @include o-text-overflow;
+                    max-width: 290px;
+                    vertical-align: middle;
+                }
+                .o-activity-info {
+                    vertical-align: baseline;
+                    padding: 4px 6px;
+                    background: theme-color('light');
+                    border-radius: 2px 2px 0 0;
+                    @include o-hover-opacity(1, 1);
+
+                    &.collapsed {
+                        @include o-hover-opacity(0.5, 1);
+                        background: transparent;
+                    }
+                }
+            }
+
+            .o-thread-message-collapse .dl-horizontal.card {
+                display: inline-block;
+                margin-bottom: 0;
+
+                dt {
+                    max-width: 80px;
+                }
+                dd {
+                    margin-left: 95px;
+                }
+            }
+
+            .o-thread-message-note {
+                margin: 2px 0 5px;
+                padding: 0px;
+            }
+            .o-thread-message-warning {
+                margin: 2px 0 5px;
+            }
+
+            .o-activity-template-preview,.o-activity-template-send {
+                font-weight: bold;
+                color: $o-brand-primary;
+                cursor: pointer;
+                &:hover:not(.active) {
+                    color: darken($o-brand-primary, 15%);
+                    border-color: darken($o-brand-primary, 15%);
+                }
+            }
+
+            .o-thread-message-tools {
+                .o-activity-link {
+                    padding: 0 $input-btn-padding-x;
+                }
+                .o-activity-done {
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+
+    .o-activity-color-default {
+        color: #dddddd;
+    }
+
+    .o-activity-color-planned {
+        @extend .text-success;
+    }
+    .o-activity-color-overdue {
+        @extend .text-danger;
+    }
+    .o-activity-color-today {
+        @extend .text-warning;
+    }
+}
+
+/* Feedback popover (form view) */
+.o-mail-activity-feedback {
+    max-width: 410px;
+    outline: none;
+
+    textarea {
+        min-width: 250px;
+    }
+}
+
+/* listActivity widget */
+.o-list-view {
+    .o-list-table tbody > tr {
+        > td.o-data-cell.o-list-activity-cell {
+            overflow: visible !important; // allow the activity dropdown to overflow
+            .o-mail-activity {
+                display: flex;
+                max-width: 275px;
+                .o-activity-btn {
+                    margin-right: 3px;
+                }
+                .o-activity-summary {
+                    @include o-text-overflow;
+                }
+            }
+        }
+    }
+}
+
+/* Kanban View */
+.o-kanban-record{
+    .o-kanban-inline-block {
+        display: inline-block;
+    }
+}
+
+.o-kanban-record, .o-view-controller{
+    .o-mail-activity {
+        .o-activity-btn {
+            span.fa {
+                overflow: visible;
+                line-height: 1;
+                vertical-align: middle;
+            }
+        }
+
+        div.o-activity {
+            min-width: 290px;
+            padding: 0px 0px;
+
+            .o-activity-log-container {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            ul.o-activity-log {
+                color: $body-color;
+
+                li {
+                    .o-activity-title-entry {
+                        display: flex;
+                        align-items: baseline;
+                        max-width: 275px;
+                        .o-activity-summary {
+                            @include o-text-overflow;
+                        }
+                    }
+
+                    .o-edit-button {
+                        opacity: 0.5;
+                    }
+
+                    &:hover .o-edit-button{
+                        opacity: 1;
+                    }
+
+                    .o-activity-link-kanban {
+                        font-size: 1.5em;
+                        @include o-hover-text-color($text-muted, theme-color('success'));
+                        @include o-hover-opacity(0.5, 1);
+                    }
+
+                    &.o-activity-selected {
+                        border-bottom: 0;
+                    }
+
+                    &.o-activity-form > div {
+                        padding-top: 0.5em;
+                        padding-bottom: 0.7em;
+                    }
+                }
+            }
+
+            .o-no-activity {
+                padding: 10px;
+                cursor: initial;
+            }
+        }
+    }
+}

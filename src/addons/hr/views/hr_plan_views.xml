@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+
+        <record id="hrPlanViewSearch" model="ir.ui.view">
+            <field name="label">hr.plan.view.search</field>
+            <field name="model">hr.plan</field>
+            <field name="arch" type="xml">
+                <search string="Plan">
+                    <field name="label"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="hrPlanViewTree" model="ir.ui.view">
+            <field name="label">hr.plan.view.tree</field>
+            <field name="model">hr.plan</field>
+            <field name="arch" type="xml">
+                <tree string="Planning">
+                    <field name="label"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hrPlanViewForm" model="ir.ui.view">
+            <field name="label">hr.plan.view.form</field>
+            <field name="model">hr.plan</field>
+            <field name="arch" type="xml">
+                <form string="Planning">
+                    <sheet>
+                        <widget name="webRibbon" title="Archived" bgcolor="bg-danger" attrs="{'invisible': [['active', '=', true]]}"/>
+                        <div class="oe-title">
+                            <label for="label" string="Plan Name"/>
+                            <h1>
+                                <field name="label" placeholder="e.g. Onboarding"/>
+                            </h1>
+                        </div>
+                        <group string="Activities">
+                            <field name="active" invisible="1"/>
+                            <field name="planActivityTypeIds" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="activityTypeId"/>
+                                    <field name="summary"/>
+                                    <field name="responsible"/>
+                                    <field name="responsibleId" attrs="{'readonly': [['responsible', '!=', 'other']]}"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hrPlanActivityTypeViewTree" model="ir.ui.view">
+            <field name="label">hr.plan.activity.type.view.tree</field>
+            <field name="model">hr.plan.activity.type</field>
+            <field name="arch" type="xml">
+                <tree string="Activities">
+                    <field name="activityTypeId"/>
+                    <field name="summary"/>
+                    <field name="responsible"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hrPlanActivityTypeViewForm" model="ir.ui.view">
+            <field name="label">hr.plan.activity.type.view.form</field>
+            <field name="model">hr.plan.activity.type</field>
+            <field name="arch" type="xml">
+                <form string="Activity">
+                    <sheet>
+                        <group>
+                            <field name="activityTypeId"/>
+                            <field name="summary"/>
+                            <field name="responsible"/>
+                            <field name="responsibleId" attrs="{'invisible': [['responsible', '!=', 'other']]}"/>
+                            <field name="note"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hrPlanAction" model="ir.actions.actwindow">
+            <field name="label">Planning</field>
+            <field name="resModel">hr.plan</field>
+            <field name="viewMode">tree,form</field>
+            <field name="searchViewId" ref="hrPlanViewSearch"/>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Add a new plan
+                </p>
+            </field>
+        </record>
+
+        <record id="hrPlanActivityTypeAction" model="ir.actions.actwindow">
+            <field name="label">Planning Types</field>
+            <field name="resModel">hr.plan.activity.type</field>
+            <field name="viewMode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o-view-nocontent-smiling-face">
+                    Add a new planning activity
+                </p>
+            </field>
+        </record>
+
+    </data>
+</verp>

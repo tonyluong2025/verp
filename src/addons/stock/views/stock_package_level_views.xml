@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <record id="packageLevelFormView" model="ir.ui.view">
+        <field name="label">Package Level</field>
+        <field name="model">stock.package.level</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <header>
+                    <field name="state" widget="statusbar" statusbarVisible="draft,confirmed,assigned,done" />
+                </header>
+                <group>
+                    <field name="pickingId" invisible="1"/>
+                    <field name="showLotsM2o" invisible="1"/>
+                    <field name="showLotsText" invisible="1"/>
+                    <field name="pickingTypeCode" invisible="1"/>
+                    <group>
+                        <field name="packageId"/>
+                        <field name="locationId" options="{'noCreate': true}" attrs="{'invisible': [['pickingTypeCode', '=', 'incoming']]}" groups="stock.groupStockMultiLocations"/>
+                        <field name="locationDestId" options="{'noCreate': true}" attrs="{'invisible': [['pickingTypeCode', '=', 'outgoing']]}" groups="stock.groupStockMultiLocations"/>
+                        <field name="isDone"/>
+                        <field name="companyId" groups="base.mainCompany"/>
+                    </group>
+                    <field name="moveIds" attrs="{'invisible': [['state', 'in', ['new', 'draft', 'assigned', 'done']]]}">
+                        <tree>
+                            <field name="productId"/>
+                            <field name="productUomQty"/>
+                            <field name="quantityDone"/>
+                            <field name="productUom" groups="uom.groupUom"/>
+                            <field name="state" invisible="1"/>
+                        </tree>
+                    </field>
+                    <field name="moveLineIds" attrs="{'invisible': [['state', 'in', ['confirmed', 'cancel']]]}">
+                        <tree>
+                            <field name="productId"/>
+                            <field name="lotId" attrs="{'columnInvisible': [['parent.showLotsM2o', '=', false]]}" groups="stock.groupProductionLot"/>
+                            <field name="lotName" attrs="{'columnInvisible': [['parent.showLotsText', '=', false]]}" groups="stock.groupProductionLot"/>
+                            <field name="ownerId" groups="stock.groupTrackingOwner"/>
+                            <field name="productUomQty"/>
+                            <field name="qtyDone"/>
+                            <field name="productUomId" options="{'noOpen': true, 'noCreate': true}" attrs="{'readonly': [['productUomQty', '!=', 0.0]]}" string="Unit of Measure" groups="uom.groupUom"/>
+                            <field name="state" invisible="1"/>
+                        </tree>
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="packageLevelFormEditView" model="ir.ui.view">
+        <field name="label">Package Level</field>
+        <field name="model">stock.package.level</field>
+        <field name="inheritId" ref="stock.packageLevelFormView"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr='//form' position='inside'>
+                <footer class="oe-edit-only">
+                    <button string="Confirm" special="save" data-hotkey="v" class="oe-highlight"/>
+                    <button string="Discard" special="cancel" data-hotkey="z"/>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="packageLevelTreeViewPicking" model="ir.ui.view">
+        <field name="label">Package Level Tree Picking</field>
+        <field name="model">stock.package.level</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" decoration-muted="state === 'done'">
+                <field name="isFreshPackage" invisible="1"/>
+                <field name="companyId" invisible="1"/>
+                <field name="packageId" attrs="{'readonly': [['state', 'in', ['confirmed', 'assigned', 'done', 'cancel']]]}" options="{'noCreate': true}"/>
+                <field name="locationId" options="{'noCreate': true}" attrs="{'columnInvisible': [['parent.pickingTypeCode', '=', 'incoming']]}" groups="stock.groupStockMultiLocations"/>
+                <field name="locationDestId" options="{'noCreate': true}" attrs="{'columnInvisible': [['parent.pickingTypeCode', '=', 'outgoing']]}" groups="stock.groupStockMultiLocations"/>
+                <field name="state"/>
+                <field name="isDone" attrs="{'readonly': ['|', ['parent.state', 'in', ['draft', 'new', 'done']], ['isFreshPackage', '=', true]]}"/>
+                <button name="actionShowPackageDetails" title="Display package content" type="object" icon="fa-list" />
+            </tree>
+        </field>
+    </record>
+</verp>

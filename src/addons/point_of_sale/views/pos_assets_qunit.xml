@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+<template id="point_of_sale.qunitSuiteAssets">
+    <t t-call-assets="point_of_sale.posAssetsBackend" t-js="false"/>
+    <t t-call-assets="point_of_sale.testsAssets" t-js="false"/>
+    <t t-call-assets="point_of_sale.testsAssets" t-css="false"/>
+    <style>
+        body {
+            position: relative;
+        }
+        body:not(.debug) .modal-backdrop, body:not(.debug) .modal, body:not(.debug) .ui-autocomplete {
+            opacity: 0 !important;
+        }
+        #qunit-testrunner-toolbar label {
+            font-weight: inherit;
+            margin-bottom: inherit;
+        }
+        #qunit-testrunner-toolbar input[type=text] {
+            width: inherit;
+            display: inherit;
+        }
+    </style>
+</template>
+
+<template id="point_of_sale.qunitSuite">
+    <t t-call="web.layout">
+        <t t-set="htmlData" t-value="{'style': 'height: 100%;'}"/>
+        <t t-set="title">Point of Sale Tests</t>
+        <t t-set="head">
+            <!-- we need sessionInfo in order to properly instantiate PosModel -->
+            <script type="text/javascript">
+                var verp = <t t-out="JSON.stringify({
+                    'csrfToken': await request.csrfToken(null),
+                    '__session_info__': sessionInfo,
+                    'debug': debug,
+                })"/>;
+            </script>
+
+            <t t-call="point_of_sale.assetsCommon" />
+            <t t-call="point_of_sale.qunitSuiteAssets" />
+            <t t-call-assets="point_of_sale.qunitSuiteTests" />
+        </t>
+
+        <div id="qunit"/>
+        <div id="qunit-fixture"/>
+    </t>
+</template>
+
+</verp>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+        <!-- Translations -->
+        <record id="viewTranslationSearch" model="ir.ui.view">
+            <field name="model">ir.translation</field>
+            <field name="arch" type="xml">
+                <search string="Translations">
+                    <filter string="Untranslated" name="untranslated"
+                        domain="['|','|',['state','=','toTranslate'],['value', '=', false],['value','=','']]"/>
+                    <filter name="verp-web"
+                        string="Web-only translations"
+                        domain="[['comments', 'like', 'verp-web']]"/>
+                    <field name="lang"/>
+                    <field name="src"/>
+                    <field name="value"/>
+                    <field name="label" filterDomain="['|', ['label', '=', self], ['label', 'ilike', self + ',']]" string="Model"/>
+                    <field name="resId" filterDomain="['&amp;', ['label', '=', 'ir.ui.view,archDb'], ['resId', '=', self]]" string="View ID"/>
+                    <field name="module"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="viewTranslationForm" model="ir.ui.view">
+            <field name="model">ir.translation</field>
+            <field name="arch" type="xml">
+                <form string="Translations">
+                   <header>
+                        <field name="state" widget="statusbar" nolabel="1"/>
+                   </header>
+                   <sheet>
+                    <group>
+                        <group>
+                            <field name="label"/>
+                            <field name="lang"/>
+                        </group>
+                        <group>
+                            <field name="module"/>
+                            <field name="type"/>
+                            <field name="resId"/>
+                        </group>
+                        <group string="Source Term">
+                           <field name="src" nolabel="1" height="400"/>
+                        </group>
+                        <group string="Translation">
+                           <field name="value" nolabel="1" height="400"/>
+                        </group>
+                        <group string="Comments">
+                           <field name="comments" nolabel="1" height="100"/>
+                        </group>
+                    </group>
+                   </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewTranslationTree" model="ir.ui.view">
+            <field name="model">ir.translation</field>
+            <field name="arch" type="xml">
+                <tree string="Translations" editable="top">
+                    <field name="src"/>
+                    <field name="value"/>
+                    <field name="label"/>
+                    <field name="lang"/>
+                    <field name="module"/>
+                    <field name="type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewTranslationDialogTree" model="ir.ui.view">
+            <field name="model">ir.translation</field>
+            <field name="arch" type="xml">
+                <tree string="Translations" editable="top" create="false">
+                    <field name="lang" readonly="1"/>
+                    <field name="label" readonly="1"/>
+                    <field name="src"/>
+                    <field name="value"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewTranslationLangValueTree" model="ir.ui.view">
+            <field name="model">ir.translation</field>
+            <field name="arch" type="xml">
+                <tree string="Translations" editable="top" create="false">
+                    <field name="lang" readonly="1"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewTranslationLangSrcValueTree" model="ir.ui.view">
+            <field name="model">ir.translation</field>
+            <field name="arch" type="xml">
+                <tree string="Translations" editable="top" create="false">
+                    <field name="lang" readonly="1"/>
+                    <field name="src" readonly="1"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="actionTranslation" model="ir.actions.actwindow">
+            <field name="label">Translated Terms</field>
+            <field name="resModel">ir.translation</field>
+            <field name="viewId" ref="viewTranslationTree"/>
+        </record>
+
+        <menuitem action="actionTranslation" id="menuActionTranslation" parent="base.menuTranslationApp" />
+
+</verp>

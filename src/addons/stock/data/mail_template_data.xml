@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<verp><data noupdate="1">
+    <record id="mailTemplateDataDeliveryConfirmation" model="mail.template">
+        <field name="label">Delivery: Send by Email</field>
+        <field name="modelId" ref="model_stockPicking"/>
+        <field name="subject">{{ await (await object.companyId).label }} Delivery Order (Ref {{ await object.label || "n/a" }})</field>
+        <field name="partnerTo">{{ await (await object.partnerId).email &amp;&amp; bool((await object.partnerId).id) &amp;&amp; (await object.partnerId).id || (await (await object.partnerId).parentId).id }}</field>
+        <field name="bodyHtml" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <t t-set="partnerId" t-value="await object.partnerId"/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Hello <t t-out="await partnerId.label || ''">Brandon Freeman</t>,<br/><br/>
+        We are glad to inform you that your order has been shipped.
+        <t t-if="object['carrierTrackingRef'] &amp;&amp; await object.carrierTrackingRef">
+            Your tracking reference is
+            <strong>
+            <t t-if="await object.carrierTrackingUrl">
+                <t t-set="multipleCarrierTracking" t-value="await object.getMultipleCarrierTracking()"/>
+                <t t-if="multipleCarrierTracking">
+                    <t t-foreach="multipleCarrierTracking" t-as="line">
+                        <br/><a t-att-href="line[1]" target="_blank" t-out="line[0] || ''"></a>
+                    </t>
+                </t>
+                <t t-else="">
+                    <a t-attf-href="{{ await object.carrierTrackingUrl }}" target="_blank" t-out="object.carrierTrackingRef || ''"></a>.
+                </t>
+            </t>
+            <t t-else="">
+                <t t-out="await object.carrierTrackingRef || ''"></t>.
+            </t>
+            </strong>
+        </t>
+        <br/><br/>
+        Please find your delivery order attached for more details.<br/><br/>
+        Thank you,
+        <t t-set="signature" t-value="await user.signature"/>
+        <t t-if="signature">
+            <br />
+            <t t-out="signature || ''">--<br/>Mitchell Admin</t>
+        </t>
+    </p>
+</div>
+        </field>
+        <field name="reportTemplate" ref="stock.actionReportDelivery"/>
+        <field name="reportName">{{ (await object.label || '').replace('/','_') }}</field>
+        <field name="lang">{{ await partnerId.lang }}</field>
+        <field name="autoDelete" eval="true"/>
+    </record>
+</data>
+</verp>

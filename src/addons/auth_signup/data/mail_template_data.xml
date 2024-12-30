@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <!-- Email template for reset password -->
+        <record id="resetPasswordEmail" model="mail.template">
+            <field name="label">Auth Signup: Reset Password</field>
+            <field name="modelId" ref="base.model_resUsers"/>
+            <field name="subject">Password reset</field>
+            <field name="emailFrom">"{{ await (await object.companyId).label }}" &lt;{{ (await (await object.companyId).email || await user.email) }}&gt;</field>
+            <field name="emailTo">{{ await object.emailFormatted }}</field>
+            <field name="bodyHtml" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    <!-- HEADER -->
+    <t t-set="companyId" t-value="await object.companyId"/>
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <span style="font-size: 10px;">Your Account</span><br/>
+                    <span style="font-size: 20px; font-weight: bold;">
+                        <t t-out="await object.label || ''">Marc Demo</t>
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img t-attf-src="/logo.png?company={{ (await object.companyId).id }}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" t-att-alt="await (await object.companyId).label"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        Dear <t t-out="await object.label || ''">Marc Demo</t>,<br/><br/>
+                        A password reset was requested for the Verp account linked to this email.
+                        You may change your password by following this link which will remain valid during 24 hours:<br/>
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a t-att-href="object.signup_url"
+                                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                Change password
+                            </a>
+                        </div>
+                        If you do not expect this, you can safely ignore this email.<br/><br/>
+                        Thanks,
+                        <t t-if="user.signature">
+                            <br/>
+                            <t t-out="await user.signature || ''">--<br/>Mitchell Admin</t>
+                        </t>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    <t t-out="await companyId.label || ''">YourCompany</t>
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    <t t-out="await companyId.phone || ''">+1 650-123-4567</t>
+
+                    <t t-if="await companyId.email">
+                        | <a t-att-href="format('mailto:%s', await companyId.email)" style="text-decoration:none; color: #454748;" t-out="await companyId.email || ''">info@yourcompany.com</a>
+                    </t>
+                    <t t-if="await companyId.website">
+                        | <a t-att-href="format('%s', await companyId.website)" style="text-decoration:none; color: #454748;" t-out="await companyId.website || ''">http://www.example.com</a>
+                    </t>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+<!-- POWERED BY -->
+<tr><td align="center" style="min-width: 590px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+      <tr><td style="text-align: center; font-size: 13px;">
+        Powered by <a target="_blank" href="https://www.theverp.com?utmSource=db&amp;utmMedium=auth" style="color: #875A7B;">Verp</a>
+      </td></tr>
+    </table>
+</td></tr>
+</table>
+            </field>
+            <field name="lang">{{ object.lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+        <!-- Email template for new users -->
+        <record id="setPasswordEmail" model="mail.template">
+            <field name="label">Auth Signup: Verp Connection</field>
+            <field name="modelId" ref="base.model_resUsers"/>
+            <field name="subject">{{ await (await object.createdUid).label }} from {{ await (await object.companyId).label }} invites you to connect to Verp</field>
+            <field name="emailFrom">"{{ await (await object.companyId).label }}" &lt;{{ (await (await object.companyId).email || await user.email) }}&gt;</field>
+            <field name="emailTo">{{ await object.emailFormatted }}</field>
+            <field name="bodyHtml" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    <!-- HEADER -->
+    <t t-set="companyId" t-value="await object.companyId" />
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <span style="font-size: 10px;">Welcome to Verp</span><br/>
+                    <span style="font-size: 20px; font-weight: bold;">
+                        <t t-out="await object.label || ''">Marc Demo</t>
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img t-attf-src="/logo.png?company={{ (await object.companyId).id }}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" t-att-alt="await companyId.label"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        Dear <t t-out="await object.label || ''">Marc Demo</t>,<br /><br />
+                        You have been invited by <t t-out="await (await object.createdUid).label || ''">VerpBot</t> of <t t-out="await companyId.label || ''">YourCompany</t> to connect on Verp.
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a t-att-href="await object.signupUrl"
+                                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                Accept invitation
+                            </a>
+                        </div>
+                        <t t-set="websiteUrl" t-value="await object.getBaseUrl()"></t>
+                        Your Verp domain is: <b><a t-att-href='websiteUrl' t-out="websiteUrl || ''">http://yourcompany.theverp.com</a></b><br />
+                        Your sign in email is: <b><a t-attf-href="/web/login?login={{ await object.email }}" target="_blank" t-out="await object.email || ''">mark.brown23@example.com</a></b><br /><br />
+                        Never heard of Verp? It’s an all-in-one business software loved by 7+ million users. It will considerably improve your experience at work and increase your productivity.
+                        <br /><br />
+                        Have a look at the <a href="https://www.theverp.com/page/tour?utmSource=db&amp;utmMedium=auth" style="color: #875A7B;">Verp Tour</a> to discover the tool.
+                        <br /><br />
+                        Enjoy Verp!<br />
+                        --<br/>The <t t-out="await companyId.label || ''">YourCompany</t> Team
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    <t t-out="await companyId.label || ''">YourCompany</t>
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    <t t-out="await companyId.phone || ''">+1 650-123-4567</t>
+                    <t t-if="await companyId.email">
+                        | <a t-att-href="format('mailto:%s', await companyId.email)" style="text-decoration:none; color: #454748;" t-out="await companyId.email || ''">info@yourcompany.com</a>
+                    </t>
+                    <t t-if="await companyId.website">
+                        | <a t-att-href="format('%s', await companyId.website)" style="text-decoration:none; color: #454748;" t-out="await companyId.website || ''">http://www.example.com</a>
+                    </t>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+<!-- POWERED BY -->
+<tr><td align="center" style="min-width: 590px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+      <tr><td style="text-align: center; font-size: 13px;">
+        Powered by <a target="_blank" href="https://www.theverp.com?utmSource=db&amp;utmMedium=auth" style="color: #875A7B;">Verp</a>
+      </td></tr>
+    </table>
+</td></tr>
+</table></field>
+            <field name="lang">{{ await object.lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+        <!-- Email template for reminder of unregistered users -->
+        <record id="mailTemplateDataUnregisteredUsers" model="mail.template">
+            <field name="label">Auth Signup: Unregistered Users</field>
+            <field name="modelId" ref="base.model_resUsers"/>
+            <field name="subject">Reminder for unregistered users</field>
+            <field name="emailFrom">{{ await (await (await object.companyId).partnerId).emailFormatted }}</field>
+            <field name="emailTo">{{ await object.emailFormatted }}</field>
+            <field name="bodyHtml" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <t t-set="invitedUsers" t-value="ctx['invitedUsers'] ?? []" />
+                <td style="text-align : left">
+                    <span style="font-size: 20px; font-weight: bold;">
+                        Pending Invitations
+                    </span><br/><br/>
+                </td>
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        Dear <t t-out="await object.label || ''">Mitchell Admin</t>,<br/> <br/>
+                        You added the following user(s) to your database but they haven't registered yet:
+                        <ul>
+                            <t t-foreach="invitedUsers" t-as="invitedUser">
+                                <li t-out="invitedUser || ''">demo@example.com</li>
+                            </t>
+                        </ul>
+                        Follow up with them so they can access your database and start working with you.
+                        <br /><br/>
+                        Have a nice day!<br />
+                        --<br/>The <t t-out="await companyId.label || ''">YourCompany</t> Team
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="lang">{{ await (await object.partnerId).lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+        <!-- Email template for new users that used a signup token -->
+        <record id="mailTemplateUserSignupAccountCreated" model="mail.template">
+            <field name="label">Auth Signup: Verp Account Created</field>
+            <field name="modelId" ref="base.model_resUsers"/>
+            <field name="subject">Welcome to {{ await (await object.companyId).label }}!</field>
+            <field name="emailFrom">"{{ await (await object.companyId).label }}" &lt;{{ (await (await object.companyId).email || awat user.email) }}&gt;</field>
+            <field name="emailTo">{{ await object.emailFormatted }}</field>
+            <field name="bodyHtml" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    <!-- HEADER -->
+    <t t-set="companyId" t-value="await object.companyId" />
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <span style="font-size: 10px;">Your Account</span><br/>
+                    <span style="font-size: 20px; font-weight: bold;">
+                        <t t-out="await object.label || ''">Marc Demo</t>
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img t-attf-src="/logo.png?company={{ (await object.companyId).id }}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" t-att-alt="await companyId.label"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        Dear <t t-out="await object.label || ''">Marc Demo</t>,<br/><br/>
+                        Your account has been successfully created!<br/>
+                        Your login is <strong><t t-out="await object.email || ''">mark.brown23@example.com</t></strong><br/>
+                        To gain access to your account, you can use the following link:
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a t-attf-href="/web/login?authLogin={{await object.email}}"
+                                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                Go to My Account
+                            </a>
+                        </div>
+                        Thanks,<br/>
+                        <t t-if="await user.signature">
+                            <br/>
+                            <t t-out="await user.signature || ''">--<br/>Mitchell Admin</t>
+                        </t>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    <t t-out="await companyId.label || ''">YourCompany</t>
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    <t t-out="await companyId.phone || ''">+1 650-123-4567</t>
+                    <t t-if="await companyId.email">
+                        | <a t-attf-href="format('mailto:%s', {{ await (await object.companyId).email }})" style="text-decoration:none; color: #454748;"><t t-out="await companyId.email || ''">info@yourcompany.com</t></a>
+                    </t>
+                    <t t-if="await companyId.website">
+                        | <a t-attf-href="format('%s', {{ await (await object.companyId).website }})" style="text-decoration:none; color: #454748;">
+                            <t t-out="await companyId.website || ''">http://www.example.com</t>
+                        </a>
+                    </t>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+<!-- POWERED BY -->
+<tr><td align="center" style="min-width: 590px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+      <tr><td style="text-align: center; font-size: 13px;">
+        Powered by <a target="_blank" href="https://www.theverp.com?utmSource=db&amp;utmMedium=auth" style="color: #875A7B;">Verp</a>
+      </td></tr>
+    </table>
+</td></tr>
+</table></field>
+            <field name="lang">{{ await object.lang }}</field>
+            <field name="autoDelete" eval="true"/>
+        </record>
+
+    </data>
+</verp>

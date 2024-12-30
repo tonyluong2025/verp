@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <record id="viewModuleFilterInheritAccount" model="ir.ui.view">
+            <field name="label">ir.module.module.list.inherit.account</field>
+            <field name="model">ir.module.module</field>
+            <field name="inheritId" ref="base.viewModuleFilter"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//searchpanel" position="replace">
+                    <!-- Hide the search panel -->
+                </xpath>
+            </field>
+        </record>
+    </data>
+</verp>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <record id="stockScrapSearchView" model="ir.ui.view">
+            <field name="label">stock.scrap.search</field>
+            <field name="model">stock.scrap</field>
+            <field name="arch" type="xml">
+                <search string="Search Scrap">
+                    <field name="label" string="Reference"/>
+                    <field name="productId"/>
+                    <field name="locationId"/>
+                    <field name="scrapLocationId"/>
+                    <field name="createdAt"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="product" domain="[]" context="{'groupby':'productId'}"/>
+                        <filter string="Location" name="location" domain="[]" context="{'groupby':'locationId'}"/>
+                        <filter string="Scrap Location" name="scrap_location" domain="[]" context="{'groupby':'scrapLocationId'}"/>
+                        <filter string="Transfer" name="transfer" domain="[]" context="{'groupby':'pickingId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="stockScrapFormView" model="ir.ui.view">
+            <field name="label">stock.scrap.form</field>
+            <field name="model">stock.scrap</field>
+            <field name="arch" type="xml">
+                <form string="Scrap">
+                    <header>
+                        <button name="actionValidate" states="draft" string="Validate" type="object" class="oe-highlight" context="{'notUnlinkOnDiscard': true}" data-hotkey="v"/>
+                        <field name="state" widget="statusbar" statusbarVisible="draft,done" />
+                    </header>
+                    <sheet>
+                        <div class="oe-button-box" name="buttonBox">
+                            <button class="oe-stat-button" name="actionGetStockPicking"
+                                    string="Stock Operation" type="object"
+                                    attrs="{'invisible':[['pickingId','=',false]]}" icon="fa-cogs"/>
+                            <field name="pickingId" invisible="1"/>
+                            <button class="oe-stat-button" name="actionGetStockMoveLines"
+                                    string="Product Moves" type="object"
+                                    attrs="{'invisible':[['moveId','=',false]]}" icon="fa-exchange"/>
+                            <field name="moveId" invisible="1"/>
+                        </div>
+                        <div class="oe-title">
+                            <h1><field name="label" nolabel="1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="productId" context="{'default_type': 'product'}"/>
+                                <label for="scrapQty"/>
+                                <div class="o-row">
+                                    <field name="scrapQty"/>
+                                    <field name="productUomCategoryId" invisible="1"/>
+                                    <field name="productUomId" groups="uom.groupUom" forceSave="1"/>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="lotId" context="{'default_productId': productId, 'default_companyId': companyId }" attrs="{'invisible': ['|',['productId', '=', false],['tracking', '=', 'none']], 'required': [['tracking', '!=', 'none']]}" groups="stock.groupProductionLot"/>
+                                <field name="tracking" invisible="1"/>
+                                <field name="packageId" groups="stock.groupTrackingLot"/>
+                                <field name="ownerId" groups="stock.groupTrackingOwner"/>
+                                <field name="locationId" options="{'noCreate': true, 'noOpen': true}" groups="stock.groupStockMultiLocations" forceSave="1"/>
+                                <field name="scrapLocationId" options="{'noCreate': true, 'noOpen': true}" groups="stock.groupStockMultiLocations" forceSave="1"/>
+                                <field name="origin"/>
+                                <field name="dateDone" attrs="{'invisible': [['state', '=', 'draft']]}"/>
+                                <field name="pickingId" attrs="{'invisible': [['pickingId', '=', false]]}"/>
+                                <field name="companyId" groups="base.groupMultiCompany"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe-chatter">
+                        <field name="messageFollowerIds"/>
+                        <field name="messageIds"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="stockScrapViewKanban" model="ir.ui.view">
+            <field name="label">stock.scrap.kanban</field>
+            <field name="model">stock.scrap</field>
+            <field name="arch" type="xml">
+                <kanban class="o-kanban-mobile" sample="1">
+                    <field name="label"/>
+                    <field name="productId"/>
+                    <field name="dateDone"/>
+                    <field name="scrapQty"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe-kanban-global-click">
+                                <div class="row mb4">
+                                    <strong class="col-6">
+                                        <span t-esc="record.name.value"/>
+                                    </strong>
+                                    <strong t-if="record.dateDone.value" class="col-6 text-right">
+                                        <i class="fa fa-clock-o" role="img" aria-label="Date" title="Date"/><span t-esc="record.dateDone.value"/>
+                                    </strong>
+                                    <div class="col-12">
+                                        <span t-esc="record.productId.value"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="record.scrapQty.value"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right badge badge-secondary">
+                                            <field name="state"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="stockScrapTreeView" model="ir.ui.view">
+            <field name="label">stock.scrap.tree</field>
+            <field name="model">stock.scrap</field>
+            <field name="arch" type="xml">
+                <tree multiEdit="1" sample="1" decoration-info="state == 'draft'">
+                    <field name="label" decoration-bf="1"/>
+                    <field name="dateDone"/>
+                    <field name="productId" readonly="1"/>
+                    <field name="scrapQty"/>
+                    <field name="productUomId" groups="uom.groupUom"/>
+                    <field name="locationId" options="{'noCreate': true}" groups="stock.groupStockMultiLocations"/>
+                    <field name="scrapLocationId" options="{'noCreate': true}" groups="stock.groupStockMultiLocations"/>
+                    <field name="companyId" readonly="1" groups="base.groupMultiCompany"/>
+                    <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'draft'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.actwindow" id="actionStockScrap">
+            <field name="label">Scrap Orders</field>
+            <field name="type">ir.actions.actwindow</field>
+            <field name="resModel">stock.scrap</field>
+            <field name="viewMode">tree,form,kanban,pivot,graph</field>
+            <field name="help" type="html">
+              <p class="o-view-nocontent-smiling-face">
+                Scrap products
+              </p><p>
+                Scrapping a product will remove it from your stock. The product will
+                end up in a scrap location that can be used for reporting purpose.
+              </p>
+            </field>
+        </record>
+
+        <record id="stockScrapFormView2" model="ir.ui.view">
+            <field name="label">stock.scrap.form2</field>
+            <field name="model">stock.scrap</field>
+            <field name="arch" type="xml">
+                <form string="Scrap">
+                    <group>
+                        <group>
+                            <field name="state" invisible="1"/>
+                            <field name="productId" options="{'noCreate': true}" domain="[['id', 'in', context['productIds'] ?? []]]"/>
+                            <label for="scrapQty"/>
+                            <div class="o-row">
+                                <field name="scrapQty"
+                                    attrs="{'readonly': [['tracking', '=', 'serial']]}"/>
+                                <field name="productUomCategoryId" invisible="1"/>
+                                <field name="productUomId" groups="uom.groupUom"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="pickingId" invisible="1"/>
+                            <field name="tracking" invisible="1"/>
+                            <field name="lotId" groups="stock.groupProductionLot"
+                                context="{'default_companyId': companyId, 'default_productId': productId}"
+                                attrs="{'invisible': ['|',['productId', '=', false],['tracking', '=', 'none']], 'required': [['tracking', '!=', 'none']]}"/>
+                            <field name="packageId" groups="stock.groupTrackingLot"/>
+                            <field name="ownerId" groups="stock.groupTrackingOwner"/>
+                            <field name="companyId" invisible="1"/>
+                            <field name="locationId" groups="stock.groupStockMultiLocations" options="{'noOpen': true, 'noCreate': true}"/>
+                            <field name="scrapLocationId" groups="stock.groupStockMultiLocations" options="{'noOpen': true, 'noCreate': true}" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="actionValidate" string="Done" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    <menuitem
+        id="menuStockScrap"
+        name="Scrap"
+        parent="menuStockWarehouseMgmt"
+        action="actionStockScrap"
+        sequence="99"/>
+
+</verp>

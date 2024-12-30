@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <div t-name="Tip" t-attf-class="o-tooltip #{widget.info.position} #{widget.isAnchorFixedPosition ? 'o-tooltip-fixed' : ''}">
+        <div class="o-tooltip-overlay"/>
+        <div class="o-tooltip-content">
+            <t t-out="widget.info.content"/>
+        </div>
+    </div>
+</templates>

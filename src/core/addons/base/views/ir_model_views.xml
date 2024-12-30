@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+        <!-- menuCreate from model form -->
+        <record id="viewModelMenuCreate" model="ir.ui.view">
+            <field name="label">Create Menu</field>
+            <field name="model">wizard.ir.model.menu.create</field>
+            <field name="arch" type="xml">
+                <form string="Create Menu">
+                    <group>
+                        <field name="label"/>
+                        <field name="menuId"/>
+                    </group>
+                    <footer>
+                        <button name="menuCreate" string="Create _Menu" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="actMenuCreate" model="ir.actions.actwindow">
+            <field name="label">Create Menu</field>
+            <field name="resModel">wizard.ir.model.menu.create</field>
+            <field name="viewMode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'modelId': activeId}</field>
+        </record>
+
+        <!-- model -->
+        <record id="viewModelForm" model="ir.ui.view">
+            <field name="model">ir.model</field>
+            <field name="arch" type="xml">
+                <form string="Model Description">
+                  <header><!-- used for override --></header>
+                  <sheet>
+                    <group>
+                        <group>
+                            <field name="id" invisible="1"/>
+                            <field name="label"/>
+                            <field name="model" attrs="{'readonly': [['id', '!=', false]]}"/>
+                            <field name="order"/>
+                            <field name="transient" attrs="{'readonly': [['id', '!=', false]]}" groups="base.groupNoOne"/>
+                        </group>
+                        <group>
+                            <field name="state" readonly="1" groups="base.groupNoOne"/>
+                            <field name="modules" groups="base.groupNoOne"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Fields" label="fields">
+                            <field name="fieldId">
+                                <tree string="Fields Description">
+                                    <field name="label"/>
+                                    <field name="fieldDescription"/>
+                                    <field name="ttype"/>
+                                    <field name="required"/>
+                                    <field name="readonly"/>
+                                    <field name="index" groups="base.groupNoOne"/>
+                                    <field name="state" groups="base.groupNoOne"/>
+                                </tree>
+                                <form string="Fields Description">
+                                    <group>
+                                        <group>
+                                            <field name="label"/>
+                                            <field name="fieldDescription"/>
+                                        </group>
+                                        <group>
+                                            <field name="ttype"/>
+                                            <field name="help"/>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page name="base" string="Properties">
+                                            <group string="Base Properties">
+                                                <group>
+                                                    <field name="required"/>
+                                                    <field name="readonly"/>
+                                                    <field name="store" groups="base.groupNoOne"/>
+                                                    <field name="index" groups="base.groupNoOne"/>
+                                                    <field name="copied" groups="base.groupNoOne"/>
+                                                </group>
+                                                <group>
+                                                    <field name="translate"
+                                                        attrs="{'readonly': [['ttype','not in',['char','text','html']]],
+                                                                'invisible': [['ttype','not in',['char','text','html']]]}"/>
+                                                    <field name="len" groups="base.groupNoOne"
+                                                        attrs="{'readonly': [['ttype','not in',['char','reference']]],
+                                                                'invisible': [['ttype','not in',['char','reference']]]}"/>
+                                                    <field name="relation"
+                                                        attrs="{'required': [['ttype','in',['many2one','one2many','many2many']]],
+                                                                'readonly': [['ttype','not in',['many2one','one2many','many2many']]],
+                                                                'invisible': [['ttype','not in',['many2one','one2many','many2many']]]}"/>
+                                                    <field name="ondelete" groups="base.groupNoOne"
+                                                        attrs="{'readonly': [['ttype','!=','many2one']],
+                                                                'invisible': [['ttype','!=','many2one']]}"/>
+                                                    <field name="relationField"
+                                                        attrs="{'required': [['ttype','=','one2many']],
+                                                                'readonly': [['ttype','!=','one2many']],
+                                                                'invisible': [['ttype','!=','one2many']]}"/>
+                                                    <field name="relationTable" groups="base.groupNoOne"
+                                                        attrs="{'readonly': ['|', ['ttype','!=','many2many'], ['state','!=','manual']],
+                                                                'invisible': ['|', ['ttype','!=','many2many'], ['state','!=','manual']]}"/>
+                                                    <field name="column1" groups="base.groupNoOne"
+                                                        attrs="{'readonly': ['|', ['ttype','!=','many2many'], ['state','!=','manual']],
+                                                                'invisible': ['|', ['ttype','!=','many2many'], ['state','!=','manual']]}"/>
+                                                    <field name="column2" groups="base.groupNoOne"
+                                                        attrs="{'readonly': ['|', ['ttype','!=','many2many'], ['state','!=','manual']],
+                                                                'invisible': ['|', ['ttype','!=','many2many'], ['state','!=','manual']]}"/>
+                                                    <field name="domain" groups="base.groupNoOne"
+                                                        attrs="{'readonly': [['ttype','not in',['many2one','one2many','many2many']]],
+                                                                'invisible': [['ttype','not in',['many2one','one2many','many2many']]]}"/>
+                                                </group>
+                                            </group>
+                                            <group attrs="{'readonly': [['ttype','not in',['selection','reference']]],
+                                                           'invisible': [['ttype','not in',['selection','reference']]]}">
+                                                <field name="selectionIds">
+                                                    <tree editable="bottom">
+                                                        <field name="sequence" widget="handle"/>
+                                                        <field name="value"/>
+                                                        <field name="label"/>
+                                                    </tree>
+                                                </field>
+                                            </group>
+                                            <group string="Advanced Properties" groups="base.groupNoOne">
+                                                <field name="related"/>
+                                                <field name="depends" attrs="{'required': [['compute', 'not in', [false, '']]]}"/>
+                                                <field name="compute" widget="ace" options="{'mode': 'javascript'}"/>
+                                            </group>
+                                            <div groups="base.groupNoOne">
+                                                <h3>How to define a computed field</h3>
+                                                <p>Computed fields are defined with the fields
+                                                <strong>Dependencies</strong> and <strong>Compute</strong>.</p>
+                                                <p>The field <strong>Dependencies</strong> lists the fields that
+                                                the current field depends on. It is a comma-separated list of
+                                                field names, like <code>name, size</code>. You can also refer to
+                                                fields accessible through other relational fields, for instance
+                                                <code>partnerId.companyId.label</code>.</p>
+                                                <p>The field <strong>Compute</strong> is the Javascript code to
+                                                compute the value of the field on a set of records. The value of
+                                                the field must be assigned to each record with a dictionary-like
+                                                assignment.</p>
+                                                <pre>
+    for (const record of self)
+        record['size'] = len(await record.label)
+</pre>
+                                                <p>The only predefined variables are</p>
+                                                <ul>
+                                                    <li><code>self</code> (the set of records to compute)</li>
+                                                    <li><code>datetime</code> (Javascript module)</li>
+                                                    <li><code>dateutil</code> (Javascript module)</li>
+                                                    <li><code>time</code> (Javascript module)</li>
+                                                </ul>
+                                                <p>Other features are accessible through <code>self</code>, like
+                                                <code>self.env</code>, etc.</p>
+                                            </div>
+                                        </page>
+                                        <page name="groups" string="Access Rights">
+                                            <field name="groups"/>
+                                        </page>
+                                        <page name="misc" string="Miscellaneous" groups="base.groupNoOne">
+                                            <group>
+                                                <field name="state"/>
+                                                <field name="modules"/>
+                                            </group>
+                                        </page>
+                                    </notebook>
+                                </form>
+                            </field>
+                            <button groups="base.groupNoOne"
+                                icon="fa-align-justify"
+                                name="%(actMenuCreate)s"
+                                string="Create a Menu" type="action"
+                                target="new" />
+                        </page>
+                        <page string="Access Rights" name="accessRights">
+                            <field name="accessIds">
+                                <tree string="Access Rights" editable="top"
+                                      decoration-warning="!groupId &amp;&amp;
+                                                         (permRead || permWrite ||
+                                                          permCreate || permUnlink)">
+                                    <field name="label"/>
+                                    <field name="groupId"/>
+                                    <field name="permRead"/>
+                                    <field name="permWrite"/>
+                                    <field name="permCreate"/>
+                                    <field name="permUnlink"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Record Rules" label="recordRules">
+                            <field name="ruleIds">
+                                <tree string="Record Rules" editable="top" decoration-info="! bool(groups)">
+                                    <field name="label"/>
+                                    <field name="groups" widget="many2manyTags" options="{'noCreate':true}"/>
+                                    <field name="domainForce"/>
+                                    <field name="permRead"/>
+                                    <field name="permWrite"/>
+                                    <field name="permCreate"/>
+                                    <field name="permUnlink"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes" groups="base.groupNoOne">
+                            <field name="info"/>
+                        </page>
+                        <page string="Views" name="views" groups="base.groupNoOne">
+                            <field name="viewIds"/>
+                        </page>
+                    </notebook>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewModelTree" model="ir.ui.view">
+            <field name="model">ir.model</field>
+            <field name="arch" type="xml">
+                <tree string="Model Description">
+                    <field name="model"/>
+                    <field name="label"/>
+                    <field name="state"/>
+                    <field name="transient"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewModelSearch" model="ir.ui.view">
+            <field name="model">ir.model</field>
+            <field name="arch" type="xml">
+                <search string="Model Description">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['model','ilike',self]]" string="Model"/>
+                    <field name="model" filterDomain="[['model','ilike',self]]" string="Technical Name"/>
+                    <filter string="Transient" label="transient" domain="[['transient', '=', true]]"/>
+                    <separator/>
+                    <filter string="Custom" label="custom" domain="[['state', '=', 'manual']]"/>
+                    <filter string="Base" label="base" domain="[['state', '=', 'base']]"/>
+                </search>
+            </field>
+        </record>
+        <record id="actionModelModel" model="ir.actions.actwindow">
+            <field name="label">Models</field>
+            <field name="resModel">ir.model</field>
+            <field name="context">{}</field>
+            <field name="viewId" ref="viewModelTree"/>
+        </record>
+        <menuitem action="actionModelModel" id="irModelModelMenu" parent="nextId9"/>
+
+        <!-- ir model fields -->
+        <record id="viewModelFieldsForm" model="ir.ui.view">
+            <field name="model">ir.model.fields</field>
+            <field name="arch" type="xml">
+                <form string="Fields" duplicate="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="label"/>
+                                <field name="fieldDescription"/>
+                                <field name="modelId" attrs="{'readonly': [['state','!=', 'manual']]}"/>
+                            </group>
+                            <group>
+                                <field name="ttype"/>
+                                <field name="help"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="base" string="Properties">
+                                <group string="Base Properties">
+                                    <group>
+                                        <field name="required"/>
+                                        <field name="readonly"/>
+                                        <field name="store" groups="base.groupNoOne"/>
+                                        <field name="index" groups="base.groupNoOne"/>
+                                        <field name="copied" groups="base.groupNoOne"/>
+                                    </group>
+                                    <group>
+                                        <field name="translate"
+                                            attrs="{'readonly': [['ttype','not in',['char','text','html']]],
+                                                    'invisible': [['ttype','not in',['char','text','html']]]}"/>
+                                        <field name="len" groups="base.groupNoOne"
+                                            attrs="{'readonly': [['ttype','not in',['char','reference']]],
+                                                    'invisible': [['ttype','not in',['char','reference']]]}"/>
+                                        <field name="relation"
+                                            attrs="{'required': [['ttype','in',['many2one','one2many','many2many']]],
+                                                    'readonly': [['ttype','not in',['many2one','one2many','many2many']]],
+                                                    'invisible': [['ttype','not in',['many2one','one2many','many2many']]]}"/>
+                                        <field name="groupExpand" groups="base.groupNoOne"
+                                            attrs="{'readonly': [['ttype','not in', ['many2one', 'selection']]],
+                                                    'invisible': [['ttype','not in', ['many2one', 'selection']]]}"/>
+                                        <field name="ondelete" groups="base.groupNoOne"
+                                            attrs="{'readonly': [['ttype','!=','many2one']],
+                                                    'invisible': [['ttype','!=','many2one']]}"/>
+                                        <field name="relationField"
+                                            attrs="{'required': [['ttype','=','one2many']],
+                                                    'readonly': [['ttype','!=','one2many']],
+                                                    'invisible': [['ttype','!=','one2many']]}"/>
+                                        <field name="relationTable" groups="base.groupNoOne"
+                                            attrs="{'readonly': ['|', ['ttype','!=','many2many'], ['state','!=','manual']],
+                                                    'invisible': ['|', ['ttype','!=','many2many'], ['state','!=','manual']]}"/>
+                                        <field name="column1" groups="base.groupNoOne"
+                                            attrs="{'readonly': ['|', ['ttype','!=','many2many'], ['state','!=','manual']],
+                                                    'invisible': ['|', ['ttype','!=','many2many'], ['state','!=','manual']]}"/>
+                                        <field name="column2" groups="base.groupNoOne"
+                                            attrs="{'readonly': ['|', ['ttype','!=','many2many'], ['state','!=','manual']],
+                                                    'invisible': ['|', ['ttype','!=','many2many'], ['state','!=','manual']]}"/>
+                                        <field name="domain" groups="base.groupNoOne"
+                                            attrs="{'readonly': [['ttype','not in',['many2one','one2many','many2many']]],
+                                                    'invisible': [['ttype','not in',['many2one','one2many','many2many']]]}"/>
+                                    </group>
+                                </group>
+                                <group attrs="{'readonly': [['ttype','not in',['selection','reference']]],
+                                               'invisible': [['ttype','not in',['selection','reference']]]}">
+                                    <field name="selectionIds">
+                                        <tree editable="bottom">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="value"/>
+                                            <field name="label"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group string="Advanced Properties" groups="base.groupNoOne">
+                                    <field name="related"/>
+                                    <field name="depends" attrs="{'required': [['compute', 'not in', [false, '']]]}"/>
+                                    <field name="compute" widget="ace" options="{'mode': 'javascript'}"/>
+                                </group>
+                                <div groups="base.groupNoOne">
+                                    <h3>How to define a computed field</h3>
+                                    <p>Computed fields are defined with the fields
+                                    <strong>Dependencies</strong> and <strong>Compute</strong>.</p>
+                                    <p>The field <strong>Dependencies</strong> lists the fields that
+                                    the current field depends on. It is a comma-separated list of
+                                    field names, like <code>name, size</code>. You can also refer to
+                                    fields accessible through other relational fields, for instance
+                                    <code>partnerId.companyId.label</code>.</p>
+                                    <p>The field <strong>Compute</strong> is the Javascript code to
+                                    compute the value of the field on a set of records. The value of
+                                    the field must be assigned to each record with a dictionary-like
+                                    assignment.</p>
+                                    <pre>
+    for record of this) {
+        record['size'] = len(record.label)
+</pre>
+                                    <p>The only predefined variables are</p>
+                                    <ul>
+                                        <li><code>self</code> (the set of records to compute)</li>
+                                        <li><code>datetime</code> (Javascript module)</li>
+                                        <li><code>dateutil</code> (Javascript module)</li>
+                                        <li><code>time</code> (Javascript module)</li>
+                                    </ul>
+                                    <p>Other features are accessible through <code>self</code>, like
+                                    <code>self.env</code>, etc.</p>
+                                </div>
+                            </page>
+                            <page name="groups" string="Access Rights">
+                                <field name="groups"/>
+                            </page>
+                            <page name="misc" string="Miscellaneous" groups="base.groupNoOne">
+                                <group>
+                                    <field name="state"/>
+                                    <field name="modules"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewModelFieldsTree" model="ir.ui.view">
+            <field name="model">ir.model.fields</field>
+            <field name="arch" type="xml">
+                <tree string="Fields" duplicate="false">
+                    <field name="label"/>
+                    <field name="fieldDescription"/>
+                    <field name="modelId"/>
+                    <field name="ttype"/>
+                    <field name="state"/>
+                    <field name="index"/>
+                    <field name="store"/>
+                    <field name="readonly"/>
+                    <field name="relation"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewModelFieldsSearch" model="ir.ui.view">
+            <field name="model">ir.model.fields</field>
+            <field name="arch" type="xml">
+                <search string="Fields">
+                    <field name="label" filterDomain="['|', ['label','ilike',self], ['fieldDescription','ilike',self]]" string="Field"/>
+                    <filter string="Required" label="required" domain="[['required', '=', true]]"/>
+                    <separator/>
+                    <filter string="Readonly" label="readonly" domain="[['readonly', '=', true]]"/>
+                    <separator/>
+                    <filter string="Custom" name="custom" domain="[['state', '=', 'manual']]"/>
+                    <filter string="Base" name="base" domain="[['state', '=', 'base']]"/>
+                    <separator/>
+                    <filter string="Translate" name="translate" domain="[['translate', '=', true]]"/>
+                    <field name="modelId"/>
+                    <field name="ttype"/>
+                    <field name="required"/>
+                    <field name="readonly"/>
+                    <field name="relation"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Model" name="groupbyObject" domain="[]" context="{'groupby':'modelId'}"/>
+                        <filter string="Field Type" name="groupByTtype" domain="[]" context="{'groupby':'ttype'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="actionModelFields" model="ir.actions.actwindow">
+            <field name="label">Fields</field>
+            <field name="resModel">ir.model.fields</field>
+            <field name="context">{}</field>
+            <field name="viewId" ref="viewModelFieldsTree"/>
+        </record>
+        <menuitem action="actionModelFields" id="irModelModelFields" parent="base.nextId9"/>
+
+        <!-- ir model fields selection -->
+        <record id="viewModelFieldsSelectionForm" model="ir.ui.view">
+            <field name="model">ir.model.fields.selection</field>
+            <field name="arch" type="xml">
+                <form string="Fields" duplicate="false">
+                    <sheet>
+                        <group>
+                            <field name="fieldId"/>
+                            <field name="value" groups="base.groupNoOne"/>
+                            <field name="label"/>
+                            <field name="sequence" groups="base.groupNoOne"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewModelFieldsSelectionTree" model="ir.ui.view">
+            <field name="model">ir.model.fields.selection</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence" widget="handle"/>
+                    <field name="fieldId"/>
+                    <field name="value"/>
+                    <field name="label"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewModelFieldsSelectionSearch" model="ir.ui.view">
+            <field name="model">ir.model.fields.selection</field>
+            <field name="arch" type="xml">
+                <search string="Fields">
+                    <field name="fieldId" string="Field"/>
+                    <field name="label"
+                           filterDomain="['|', ['label','ilike',self], ['value','ilike',self]]"
+                           string="Selection" />
+                    <filter name="groupByField"
+                            context="{'groupby':'fieldId'}"
+                            string="Field"/>
+                </search>
+            </field>
+        </record>
+        <record id="actionModelFieldsSelection" model="ir.actions.actwindow">
+            <field name="label">Fields Selection</field>
+            <field name="resModel">ir.model.fields.selection</field>
+            <field name="viewId" ref="viewModelFieldsSelectionTree"/>
+        </record>
+        <menuitem action="actionModelFieldsSelection" id="irModelModelFieldsSelection" parent="base.nextId9"/>
+
+        <!-- ir model data -->
+        <record model="ir.ui.view" id="viewModelDataForm">
+            <field name="model">ir.model.data</field>
+            <field name="arch" type="xml">
+                <form string="External Identifiers">
+                    <sheet>
+                        <h1>
+                            <field name="completeName"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="module"/>
+                                <field name="label"/>
+                                <field name="noupdate"/>
+                                <field name="updatedAt" />
+                                <field name="createdAt" />
+                            </group>
+                            <group>
+                                <field name="displayName"/>
+                                <field name="model"/>
+                                <field name="resId"/>
+                                <field name="reference" widget="reference" string="Record"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewModelDataList" model="ir.ui.view">
+            <field name="model">ir.model.data</field>
+            <field name="arch" type="xml">
+                <tree string="External Identifiers">
+                    <field name="completeName"/>
+                    <field name="displayName"/>
+                    <field name="model" groups="base.groupNoOne"/>
+                    <field name="module" invisible="1"/>
+                    <field name="resId"/>
+                </tree>
+            </field>
+        </record>
+        <record id="viewModelDataSearch" model="ir.ui.view">
+            <field name="model">ir.model.data</field>
+            <field name="arch" type="xml">
+                <search string="External Identifiers">
+                    <field name="label" filterDomain="[['label','ilike',self]]" string="External Identifier"/>
+                    <filter string="Updatable" label="updatable" domain="[['noupdate', '=', false]]"/>
+                    <field name="module"/>
+                    <field name="model"/>
+                    <field name="resId"/>
+                    <field name="noupdate"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Module" name="groupByModule" domain="[]" context="{'groupby':'module'}"/>
+                        <filter string="Model" name="groupbyObject" domain="[]" context="{'groupby':'model'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="actionModelData" model="ir.actions.actwindow">
+            <field name="label">External Identifiers</field>
+            <field name="resModel">ir.model.data</field>
+            <field name="viewId" ref="viewModelDataList"/>
+        </record>
+        <menuitem id="nextId5" name="Sequences &amp; Identifiers" parent="base.menuCustom" sequence="21" groups="base.groupNoOne"/>
+        <menuitem action="actionModelData" id="irModelDataMenu" parent="base.nextId5"
+                  groups="base.groupNoOne"/>
+
+        <!-- ir model contraints -->
+        <record model="ir.ui.view" id="viewModelConstraintForm">
+            <field name="model">ir.model.constraint</field>
+            <field name="arch" type="xml">
+                <form string="Model Constraints">
+                <sheet>
+                    <group col="4">
+                        <field name="type"/>
+                        <field name="label"/>
+                        <field name="module" canCreate="false"/>
+                        <field name="model"/>
+                    </group>
+                    <group>
+                        <field name="message"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewModelConstraintList" model="ir.ui.view">
+            <field name="model">ir.model.constraint</field>
+            <field name="arch" type="xml">
+                <tree string="Model Constraints">
+                    <field name="type"/>
+                    <field name="label"/>
+                    <field name="module"/>
+                    <field name="model"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="viewModelConstraintSearch" model="ir.ui.view">
+            <field name="model">ir.model.constraint</field>
+            <field name="arch" type="xml">
+                <search string="Constraints">
+                    <field name="model"/>
+                    <field name="label"/>
+                    <field name="message"/>
+                    <group expand="1" string="Group By">
+                        <filter name="module" string="Module" context="{'groupby' : 'module'}"/>
+                        <filter name="model" string="Model" context="{'groupby': 'model'}"/>
+                        <filter name="type" string="Constraint type" context="{'groupby' : 'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="actionModelConstraint" model="ir.actions.actwindow">
+            <field name="label">Model Constraints</field>
+            <field name="resModel">ir.model.constraint</field>
+            <field name="viewId" ref="viewModelConstraintList"/>
+            <field name="searchViewId" ref="viewModelConstraintSearch"/>
+        </record>
+        <menuitem action="actionModelConstraint" id="irModelConstraintMenu" parent="base.nextId9"
+                  groups="base.groupNoOne"/>
+
+        <!-- ir model relations -->
+        <record model="ir.ui.view" id="viewModelRelationForm">
+            <field name="model">ir.model.relation</field>
+            <field name="arch" type="xml">
+                <form string="ManyToMany Relations">
+                <sheet>
+                    <group col="4">
+                        <field name="label"/>
+                        <field name="module" canCreate="false"/>
+                        <field name="model"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="viewModelRelationList" model="ir.ui.view">
+            <field name="model">ir.model.relation</field>
+            <field name="arch" type="xml">
+                <tree string="ManyToMany Relations">
+                    <field name="label"/>
+                    <field name="module"/>
+                    <field name="model"/>
+                </tree>
+            </field>
+        </record>
+        <record id="actionModelRelation" model="ir.actions.actwindow">
+            <field name="label">ManyToMany Relations</field>
+            <field name="resModel">ir.model.relation</field>
+            <field name="viewId" ref="viewModelRelationList"/>
+        </record>
+        <menuitem action="actionModelRelation" id="irModelRelationMenu" parent="base.nextId9"
+                  groups="base.groupNoOne"/>
+
+        <!-- ir.model.access -->
+        <record id="irAccessViewTree" model="ir.ui.view">
+            <field name="label">ir.model.access.view.tree</field>
+            <field name="model">ir.model.access</field>
+            <field name="arch" type="xml">
+                <tree string="Access Rights"
+                      decoration-warning="! groupId &amp;&amp;
+                                         (permRead || permWrite ||
+                                          permCreate || permUnlink)">
+                    <field name="label"/>
+                    <field name="modelId"/>
+                    <field name="groupId"/>
+                    <field name="permRead"/>
+                    <field name="permWrite"/>
+                    <field name="permCreate"/>
+                    <field name="permUnlink"/>
+                </tree>
+            </field>
+        </record>
+        <record id="irAccessViewTreeEdition" model="ir.ui.view">
+            <field name="label">ir.model.access.view.tree.edition</field>
+            <field name="model">ir.model.access</field>
+            <field name="arch" type="xml">
+                <tree string="Access Rights" editable="top"
+                      decoration-warning="! groupId &amp;&amp;
+                                         (permRead || permWrite ||
+                                          permCreate || permUnlink)">
+                    <field name="label"/>
+                    <field name="modelId"/>
+                    <field name="groupId"/>
+                    <field name="permRead"/>
+                    <field name="permWrite"/>
+                    <field name="permCreate"/>
+                    <field name="permUnlink"/>
+                </tree>
+            </field>
+        </record>
+        <record id="irAccessViewForm" model="ir.ui.view">
+            <field name="model">ir.model.access</field>
+            <field name="arch" type="xml">
+                <form string="Access Rights">
+                   <sheet>
+                    <div class="alert alert-warning text-center" role="alert">
+                        Please note that modifications will be applied for all users of the specified group
+                    </div>
+                    <group col="4">
+                        <field name="label"/>
+                        <field name="modelId"/>
+                        <field name="groupId"/>
+                        <field name="active" widget='booleanToggle'/>
+                    </group>
+                    <group string="Access" col="4">
+                        <field name="permRead"/>
+                        <field name="permWrite"/>
+                        <field name="permCreate"/>
+                        <field name="permUnlink"/>
+                    </group>
+                   </sheet> 
+                </form>
+            </field>
+        </record>
+        <record id="irAccessViewSearch" model="ir.ui.view">
+            <field name="model">ir.model.access</field>
+            <field name="arch" type="xml">
+                <search string="Access Rights">
+                    <field name="label" string="Access Rights"/>
+                    <filter string="Global" name="global" domain="[['groupId', '=', false]]"/>
+                    <separator/>
+                    <filter string="Full Access" name="fullAccess" domain="[['permRead', '=', true], ['permWrite', '=', true], ['permCreate', '=', true], ['permUnlink', '=', true]]"/>
+                    <filter string="Read Access" name="readAccess" domain="[['permRead', '=', true]]"/>
+                    <filter string="Write Access" name="writeAccess" domain="[['permWrite', '=', true]]"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[['active', '=', false]]"/>
+                    <field name="modelId"/>
+                    <field name="groupId"/>
+                    <group expand="0" string="Group By" colspan="11" col="11" groups="base.groupNoOne">
+                        <filter string="Group" name="group" domain="[]" context="{'groupby': 'groupId'}"/>
+                        <filter string="Model" name="groupbyObject" domain="[]" context="{'groupby': 'modelId'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="irAccessAct" model="ir.actions.actwindow">
+            <field name="label">Access Rights</field>
+            <field name="resModel">ir.model.access</field>
+            <field name="viewId" ref="irAccessViewTreeEdition"/>
+            <field name="searchViewId" ref="irAccessViewSearch"/>
+        </record>
+        <menuitem action="irAccessAct" id="menuIrAccessAct" parent="base.menuSecurity"/>
+
+</verp>

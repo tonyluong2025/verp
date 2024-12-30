@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data>
+        <template id="reportInvoiceDocument">
+            <t t-call="web.externalLayout">
+                <t t-set="o" t-value="await o.withContext({'lang': lang})" />
+                <t t-set="forcedVat" t-value="await (await o.fiscalPositionId).foreignVat"/> <!-- So that it appears in the footer of the report instead of the company VAT if it's set -->
+                <t t-set="address">
+                    <address t-field="o.partnerId" t-options='{"widget": "contact", "fields": ["address", "label"], "noMarker": true}' />
+                    <div t-if="await (await o.partnerId).vat" class="mt16">
+                        <t t-set="vatLabel" t-value="await (await (await o.companyId).accountFiscalCountryId).vatLabel" />
+                        <t t-if="vatLabel" t-esc="vatLabel" id="invTaxIdLabel"/>
+                        <t t-else="">Tax ID</t>: <span t-field="o.partnerId.vat"/></div>
+                </t>
+                <div class="page">
+                    <t t-set="moveType" t-value="await o.moveType"/>
+                    <t t-set="state" t-value="await o.state"/>
+                    <h2>
+                        <span t-if="moveType === 'outInvoice' &amp;&amp; state === 'posted'">Invoice</span>
+                        <span t-if="moveType === 'outInvoice' &amp;&amp; state === 'draft'">Draft Invoice</span>
+                        <span t-if="moveType === 'outInvoice' &amp;&amp; state === 'cancel'">Cancelled Invoice</span>
+                        <span t-if="moveType === 'outRefund'">Credit Note</span>
+                        <span t-if="moveType === 'inRefund'">Vendor Credit Note</span>
+                        <span t-if="moveType === 'inInvoice'">Vendor Bill</span>
+                        <span t-if="await o.label != '/'" t-field="o.label"/>
+                    </h2>
+
+                    <div id="informations" class="row mt32 mb32">
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="await o.invoiceDate" name="invoiceDate">
+                            <strong>Invoice Date:</strong>
+                            <p class="m-0" t-field="o.invoiceDate"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="await o.invoiceDateDue &amp;&amp; moveType === 'outInvoice' &amp;&amp; state === 'posted'" name="dueDate">
+                            <strong>Due Date:</strong>
+                            <p class="m-0" t-field="o.invoiceDateDue"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="await o.invoiceOrigin" name="origin">
+                            <strong>Source:</strong>
+                            <p class="m-0" t-field="o.invoiceOrigin"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="await (await o.partnerId).ref" name="customerCode">
+                            <strong>Customer Code:</strong>
+                            <p class="m-0" t-field="o.partnerId.ref"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="await o.ref" name="reference">
+                            <strong>Reference:</strong>
+                            <p class="m-0" t-field="o.ref"/>
+                        </div>
+                    </div>
+
+                    <t t-set="displayDiscount" t-value="await (await o.invoiceLineIds).some(l => l.discount)"/>
+
+                    <table class="table table-sm o-main-table" name="invoiceLineTable">
+                        <thead>
+                            <tr>
+                                <th name="thDescription" class="text-left"><span>Description</span></th>
+                                <th name="thQuantity" class="text-right"><span>Quantity</span></th>
+                                <th name="thPriceunit" t-attf-class="text-right {{ reportType === 'html' ? 'd-none d-md-table-cell' : '' }}"><span>Unit Price</span></th>
+                                <th name="thPriceUnit" t-if="displayDiscount" t-attf-class="text-right {{ reportType === 'html' ? 'd-none d-md-table-cell' : '' }}">
+                                    <span>Disc.%</span>
+                                </th>
+                                <th name="thTaxes" t-attf-class="text-left {{ reportType === 'html' ? 'd-none d-md-table-cell' : '' }}"><span>Taxes</span></th>
+                                <th name="thSubtotal" class="text-right">
+                                    <span groups="account.groupShowLineSubtotalsTaxExcluded">Amount</span>
+                                    <span groups="account.groupShowLineSubtotalsTaxIncluded">Total Price</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoiceTbody">
+                            <t t-set="currentSubtotal" t-value="0"/>
+                            <t t-set="lines" t-value="await (await o.invoiceLineIds).reversed(async (l) => [- await l.sequence, await l.date, await l.moveName, -l.id].join('.'))"/>
+
+                            <t t-foreach="lines" t-as="line">
+                                <t t-set="currentSubtotal" t-value="currentSubtotal + await line.priceSubtotal" groups="account.groupShowLineSubtotalsTaxExcluded"/>
+                                <t t-set="currentSubtotal" t-value="currentSubtotal + await line.priceTotal" groups="account.groupShowLineSubtotalsTaxIncluded"/>
+
+                                <tr t-att-class="await line.displayType === 'lineSection' ? 'bg-200 font-weight-bold o-line-section' : await line.displayType === 'lineNote' ? 'font-italic o-line-note' : ''">
+                                    <t t-if="! await line.displayType" name="accountInvoiceLineAccountable">
+                                        <td name="accountInvoiceLineName"><span t-field="line.label" t-options="{'widget': 'text'}"/></td>
+                                        <td class="text-right">
+                                            <span t-field="line.quantity"/>
+                                            <span t-field="line.productUomId"  groups="uom.groupUom"/>
+                                        </td>
+                                        <td t-attf-class="text-right {{ reportType === 'html' ? 'd-none d-md-table-cell' : '' }}">
+                                            <span class="text-nowrap" t-field="line.priceUnit"/>
+                                        </td>
+                                        <td t-if="displayDiscount" t-attf-class="text-right {{ reportType === 'html' ? 'd-none d-md-table-cell' : '' }}">
+                                            <span class="text-nowrap" t-field="line.discount"/>
+                                        </td>
+                                        <td t-attf-class="text-left {{ reportType === 'html' ? 'd-none d-md-table-cell' : '' }}">
+                                            <span t-esc="(await (await line.taxIds).map(async (x) => (await x.description || await x.label))).join(', ')" id="lineTaxIds"/>
+                                        </td>
+                                        <td class="text-right o-price-total">
+                                            <span class="text-nowrap" t-field="line.priceSubtotal" groups="account.groupShowLineSubtotalsTaxExcluded"/>
+                                            <span class="text-nowrap" t-field="line.priceTotal" groups="account.groupShowLineSubtotalsTaxIncluded"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="await line.displayType === 'lineSection'">
+                                        <td colspan="99">
+                                            <span t-field="line.label" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                        <t t-set="currentSection" t-value="line"/>
+                                        <t t-set="currentSubtotal" t-value="0"/>
+                                    </t>
+                                    <t t-if="await line.displayType === 'lineNote'">
+                                        <td colspan="99">
+                                            <span t-field="line.label" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                    </t>
+                                </tr>
+
+                                <t t-if="currentSection &amp;&amp; (line_last || await lines[line_index+1].displayType === 'lineSection')">
+                                    <tr class="is-subtotal text-right">
+                                        <td colspan="99">
+                                            <strong class="mr16">Subtotal</strong>
+                                            <span
+                                                t-esc="currentSubtotal"
+                                                t-options='{"widget": "monetary", "displayCurrency": await o.currencyId}'
+                                            />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{reportType !== 'html' ? 'col-6' : 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+
+                                    <!--Tax totals-->
+                                    <t t-set="taxTotals" t-value="JSON.parse(await o.taxTotalsJson)"/>
+                                    <t t-call="account.documentTaxTotals"/>
+
+                                    <!--Payments-->
+                                    <t t-if="printWithPayments">
+                                        <t t-if="await o.paymentState !== 'invoicingLegacy'">
+                                            <t t-set="paymentsVals" t-value="await (await o.sudo()).GetReconciledInfoJSONValues()"/>
+                                            <t t-foreach="paymentsVals" t-as="paymentVals">
+                                                <tr>
+                                                    <td>
+                                                        <i class="oe-form-field text-right oe-payment-label">Paid on <t t-esc="paymentVals['date']" t-options='{"widget": "date"}'/></i>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-esc="paymentVals['amount']" t-options='{"widget": "monetary", "displayCurrency": await o.currencyId}'/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <t t-if="len(paymentsVals) > 0">
+                                                <tr class="border-black">
+                                                    <td><strong>Amount Due</strong></td>
+                                                    <td class="text-right">
+                                                        <span t-field="o.amountResidual"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <p t-if="['outInvoice', 'inRefund'].includes(moveType) &amp;&amp; await o.paymentReference" name="paymentCommunication">
+                        Please use the following communication for your payment : <b><span t-field="o.paymentReference"/></b>
+                    </p>
+                    <p t-if="bool(await o.invoicePaymentTermId)" name="paymentTerm">
+                        <span t-field="o.invoicePaymentTermId.note"/>
+                    </p>
+                    <div t-if="! isHtmlEmpty(await o.narration)" name="comment">
+                        <span t-field="o.narration"/>
+                    </div>
+                    <p t-if="! isHtmlEmpty(await (await o.fiscalPositionId).note)" name="note">
+                        <span t-field="o.fiscalPositionId.note"/>
+                    </p>
+                    <p t-if="o.invoiceIncotermId" name="incoterm">
+                        <strong>Incoterm: </strong><span t-field="o.invoiceIncotermId.code"/> - <span t-field="o.invoiceIncotermId.label"/>
+                    </p>
+                    <div id="qrcode" t-if="await o.displayQrCode">
+                        <p t-if="qrCodeUrls[o.id]">
+                            <strong class="text-center">Scan me with your banking app.</strong><br/><br/>
+                            <img class="border border-dark rounded" t-att-src="qrCodeUrls[o.id]"/>
+                        </p>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="documentTaxTotals">
+            <!--
+                Generic template to display tax totals in pdf reports.
+                Used by invoices, SO &amp;&amp; PO.
+
+                ARGUMENTS:
+                - taxTotals: dict in the form generated by account.move's _getTaxTotals.
+            -->
+            <t t-foreach="taxTotals['subtotals']" t-as="subtotal">
+                <tr class="border-black o-subtotal">
+                    <td><strong t-esc="subtotal['label']"/></td>
+
+                    <td class="text-right">
+                        <span
+                            t-att-class="oe-subtotal-footer-separator"
+                            t-esc="subtotal['amount']"
+                        />
+                    </td>
+                </tr>
+
+                <t t-set="subtotalToShow" t-value="subtotal['label']"/>
+                <t t-call="account.taxGroupsTotals"/>
+            </t>
+
+            <!--Total amount with all taxes-->
+            <tr class="border-black o-total">
+                <td><strong>Total</strong></td>
+                <td class="text-right">
+                    <span t-esc="taxTotals['amountTotal']"/>
+                </td>
+            </tr>
+        </template>
+
+        <template id="taxGroupsTotals">
+            <!--
+                Generic template to display a list of tax groups with the related amounts.
+
+                ARGUMENTS:
+                - taxTotals: dict in the form generated by account.move's _getTaxTotals.
+                - subtotalToShow: The subtotal we need to render the groups from
+            -->
+            <t t-foreach="taxTotals['groupsBySubtotal'][subtotalToShow]" t-as="amountByGroup">
+                <tr>
+                    <t t-if="len(taxTotals['groupsBySubtotal'][subtotalToShow]) > 1">
+                        <td>
+                            <span t-esc="amountByGroup['taxGroupName']"/>
+                            <span class="text-nowrap"> on
+                                <t t-esc="amountByGroup['formattedTaxGroupBaseAmount']"/>
+                            </span>
+                        </td>
+                        <td class="text-right o-price-total">
+                            <span class="text-nowrap" t-esc="amountByGroup['formattedTaxGroupAmount']"/>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td><span class="text-nowrap" t-esc="amountByGroup['taxGroupName']"/></td>
+                        <td class="text-right o-price-total">
+                            <span class="text-nowrap" t-esc="amountByGroup['formattedTaxGroupAmount']" />
+                        </td>
+                    </t>
+                </tr>
+            </t>
+        </template>
+
+        <template id="reportInvoice">
+            <t t-call="web.htmlContainer">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="['inInvoice', 'inRefund'].includes(await o.moveType) ? await (await (await o.invoiceUserId).sudo()).lang : await (await o.partnerId).lang"/>
+                    <t t-if="await o._getNameInvoiceReport() == 'account.reportInvoiceDocument'"
+                        t-call="account.reportInvoiceDocument" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="reportInvoiceWithPayments">
+            <t t-call="web.htmlContainer">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="['inInvoice', 'inRefund'].includes(await o.moveType) ? await (await (await o.invoiceUserId).sudo()).lang : await (await o.partnerId).lang"/>
+                    <t t-set="printWithPayments" t-value="true"/>
+                    <t t-if="await o._getNameInvoiceReport() == 'account.reportInvoiceDocument'"
+                        t-call="account.reportInvoiceDocument" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+        <!--We need to create the following empty report template for the action report
+            "actionAccountOriginalVendorBill" to work. The action is merging the
+            original vendor bill(s) that were used to create the vendor bill(s) into one PDF. -->
+        <template id="reportOriginalVendorBill">
+            <t t-call="web.htmlContainer">
+                <t t-foreach="docs" t-as="o">
+                    <div class="article"  t-att-data-oe-model="o &amp;&amp; o._name" t-att-data-oe-id="o &amp;&amp; o.id" t-att-data-oe-lang="o &amp;&amp; o.env.context['lang']"></div>
+                </t>
+            </t>
+        </template>
+    </data>
+</verp>

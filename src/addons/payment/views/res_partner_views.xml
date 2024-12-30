@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<verp>
+
+    <!-- Add credit card to res.partner -->
+    <record id="viewPartnersFormPaymentDefaultcreditcard" model="ir.ui.view">
+        <field name="label">view.res.partner.form.payment.defaultcreditcard</field>
+        <field name="model">res.partner</field>
+        <field name="inheritId" ref="base.viewPartnerForm"/>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <div name="buttonBox" position="inside">
+                <button type="action" class="oe-stat-button"
+                        icon="fa-credit-card-alt"
+                        name="%(payment.actionPaymentToken)d"
+                        context="{'searchDefault_partnerId': activeId, 'create': false, 'edit': false}"
+                        attrs="{'invisible': [['paymentTokenCount', '=', 0]]}">
+                    <div class="o-form-field o-stat-info">
+                        <span class="o-stat-value">
+                            <field name="paymentTokenCount" widget="statinfo" nolabel="1"/>
+                        </span>
+                        <span class="o-stat-text">Saved Payment Methods</span>
+                    </div>
+                </button>
+            </div>
+        </field>
+    </record>
+
+</verp>

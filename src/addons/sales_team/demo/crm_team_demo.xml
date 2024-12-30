@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+    <data noupdate="1">
+        <record model="res.users" id="base.userDemo">
+            <field name="groupsId" eval="[[4,refId('sales_team.groupSaleSalesman')]]"/>
+        </record>
+
+        <record model="crm.team" id="teamSalesDepartment">
+            <field name="label">Sales</field>
+        </record>
+
+        <record model="crm.team" id="crmTeam1">
+            <field name="label">Pre-Sales</field>
+            <field name="companyId" eval="false"/>
+        </record>
+
+        <record id="crmTeamMemberDemoTeam1" model="crm.team.member">
+            <field name="userId" ref="base.userDemo"/>
+            <field name="crmTeamId" ref="sales_team.crmTeam1"/>
+        </record>
+    </data>
+</verp>

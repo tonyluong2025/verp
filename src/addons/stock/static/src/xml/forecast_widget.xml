@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="stock.forecastWidget">
+        <span t-if="['draft', 'partiallyAvailable', 'assigned', 'cancel', 'done'].includes(state)" t-esc="reservedAvailabilityStr"/>
+        <span t-elif="!forecastExpectedDateStr and willBeFulfilled" class="text-success">Available</span>
+        <span t-elif="forecastExpectedDateStr and willBeFulfilled" t-att-class="forecastIsLate ? 'text-danger' : 'text-warning'">Exp <t t-esc="forecastExpectedDateStr"/></span>
+        <span t-else="" class="text-danger">Not Available</span>
+        <button t-if="productType == 'product'" t-att="id ? {} : {'disabled': ''}" class="o-forecast-report-button btn btn-link o-icon-button ml-2" title="Forecasted Report">
+            <i t-attf-class="fa fa-fw fa-area-chart {{ state != 'draft' and (!willBeFulfilled or forecastIsLate) ? 'text-danger' : '' }}"/>
+        </button>
+    </t>
+</templates>

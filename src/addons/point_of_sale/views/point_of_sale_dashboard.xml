@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<verp>
+
+    <record id="actionPosSessionFiltered" model="ir.actions.actwindow">
+        <field name="label">Sessions</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.session</field>
+        <field name="viewMode">tree,form</field>
+        <field name="searchViewId" ref="viewPosSessionSearch" />
+        <field name="context">{
+            'searchDefault_configId': [activeId],
+            'default_configId': activeId}
+        </field>
+    </record>
+
+    <record id="actionPosOrderFiltered" model="ir.actions.actwindow">
+        <field name="label">Orders</field>
+        <field name="type">ir.actions.actwindow</field>
+        <field name="resModel">pos.order</field>
+        <field name="viewMode">tree,form</field>
+        <field name="searchViewId" ref="viewPosOrderSearch"/>
+        <field name="context">{
+            'searchDefault_configId': [activeId],
+            'default_configId': activeId}
+        </field>
+    </record>
+
+    <record id="actionReportPosOrderAllFiltered" model="ir.actions.actwindow">
+        <field name="label">Orders Analysis</field>
+        <field name="resModel">report.pos.order</field>
+        <field name="viewMode">graph,pivot</field>
+        <field name="searchViewId" ref="viewReportPosOrderSearch"/>
+        <field name="context">{
+            'searchDefault_configId': [activeId],
+            'default_configId': activeId}
+        </field>
+        <field name="help" type="html">
+            <p class="o-view-nocontent-smiling-face">
+                No data yet!
+            </p><p>
+                Create a new POS order
+            </p>
+        </field>
+    </record>
+
+    <!-- Dashboard -->
+
+    <record id="viewPosConfigKanban" model="ir.ui.view">
+        <field name="label">pos.config.kanban.view</field>
+        <field name="model">pos.config</field>
+        <field name="arch" type="xml">
+            <kanban create="false" class="o-kanban-dashboard o-pos-kanban">
+                <field name="currentUserId" invisible="1" />
+                <field name="cashControl" invisible="1"/>
+                <field name="label"/>
+                <field name="currentSessionId"/>
+                <field name="currentSessionState"/>
+                <field name="lastSessionClosingDate"/>
+                <field name="posSessionUsername"/>
+                <field name="posSessionState"/>
+                <field name="posSessionDuration"/>
+                <field name="currencyId"/>
+                <field name="numberOfOpenedSession"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o-kanban-card-header">
+                                <div class="o-kanban-card-header-title mb16">
+                                    <div class="o-primary">
+                                        <t t-esc="record.label.value"/>
+                                    </div>
+                                    <t t-if="!record.currentSessionId.rawValue &amp;&amp; record.posSessionUsername.value">
+                                        <div class="badge badge-info o-kanban-inline-block">Opened by <t t-esc="record.posSessionUsername.value"/></div>
+                                    </t>
+                                    <t t-if="record.posSessionState.rawValue == 'opening'">
+                                        <div class="badge badge-info o-kanban-inline-block">Opening Control</div>
+                                    </t>
+                                    <t t-if="record.posSessionState.rawValue == 'closing'">
+                                        <div class="badge badge-info o-kanban-inline-block">Closing Control</div>
+                                    </t>
+                                    <t t-if="record.posSessionState.rawValue == 'opened' &amp;&amp; record.posSessionDuration.rawValue > 1">
+                                        <div t-attf-class="badge badge-#{record.posSessionDuration.rawValue > 3 &amp;&amp; 'danger' || 'warning'} o-kanban-inline-block"
+                                             title="The session has been opened for an unusually long period. Please consider closing.">
+                                             To Close
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="o-kanban-manage-button-section">
+                                    <a class="o-kanban-manage-toggle-button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                </div>
+                            </div>
+                            <div class="container o-kanban-card-content">
+                                <div class="row">
+                                    <div class="col-6 o-kanban-primary-left">
+                                        <button t-if="record.currentSessionState.rawValue === 'opened'" class="btn btn-primary" name="openUi" type="object">Continue selling</button>
+
+                                        <button t-if="record.currentSessionState.rawValue === 'opening'" class="btn btn-primary" name="openExistingSessionCb" type="object">Open Session</button>
+
+                                        <button t-if="record.currentSessionState.rawValue === 'closing'" class="btn btn-secondary" name="openExistingSessionCb" type="object">Close</button>
+
+                                        <button t-if="!record.currentSessionId.rawValue &amp;&amp; !record.posSessionUsername.value" class="btn btn-primary" name="openSessionCb" type="object">New Session</button>
+
+                                    </div>
+                                    <div class="col-6 o-kanban-primary-right">
+
+                                        <div t-if="record.lastSessionClosingDate.value" class="row">
+                                            <div class="col-6">
+                                                <span>Last Closing Date</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span><t t-esc="record.lastSessionClosingDate.value"/></span>
+                                            </div>
+                                        </div>
+
+                                        <div t-if="record.lastSessionClosingDate.value" attrs='{"invisible": [["cashControl","=",false]]}' class="row">
+                                            <div class="col-6">
+                                                <span>Last Closing Cash Balance</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span><field name="lastSessionClosingCash" widget="monetary"/></span>
+                                            </div>
+                                        </div>
+
+                                        <button t-if="record.numberOfOpenedSession.value &gt; 1" class="btn btn-link" style="padding-left:0; text-decoration: underline" name="openOpenedSessionList" type="object">
+                                            There are <t t-esc="record.numberOfOpenedSession.value"/> open sessions
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style="text-align:right;">
+                                    <field name="currentUserId" widget="many2oneAvatarUser"/>
+                                </div>
+
+                            </div><div class="container o-kanban-card-manage-pane dropdown-menu" role="menu">
+                                <div class="row">
+                                    <div class="col-6 o-kanban-card-manage-section o-kanban-manage-view">
+                                        <div role="menuitem" class="o-kanban-card-manage-title">
+                                            <span>View</span>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a name="%(actionPosOrderFiltered)d" type="action">Orders</a>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a name="%(actionPosSessionFiltered)d" type="action">Sessions</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 o-kanban-card-manage-section o-kanban-manage-new">
+                                        <div role="menuitem" class="o-kanban-card-manage-title">
+                                            <span>Reporting</span>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a name="%(actionReportPosOrderAllFiltered)d" type="action">Orders</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div t-if="widget.editable" class="o-kanban-card-manage-settings row" groups="point_of_sale.groupPosManager">
+                                    <div role="menuitem" class="col-12">
+                                        <a type="edit">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</verp>
