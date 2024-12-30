@@ -13,7 +13,7 @@ Odoo/OpenERP, is an interesting inspiration, however it is written in Python for
 
 Through the efforts of applying, learning, inheriting and referencing Odoo/OpenERP and some other supporting packages of the community available on NPM, the author has tried to create the Verp platform to serve the above purpose and hopes that many people, especially the SME community, support with this idea. 
 
-In the early stages, many source codes are taken and converted from Python for the main purpose of easy experience, reference and bug fixing. In the near future, when the platform is stable enough, the architecture will be converted as appropriately as possible. Most of the web client packages are adopted from Odoo/OpenErp platform with compatibility tweaks to work smoothly with Nodejs server-side architecture. New improvements may need to be changed in the future to utilize the strengths of Nodejs as well as Javascript/Typescript.
+In the early stages, many source codes are taken and converted from Python for the main purpose of easy experience, reference and bug fixing. In the near future, when the platform is stable enough, the architecture will be converted as appropriately as possible. Most of the web client packages are adopted from Odoo/OpenErp platform with compatibility tweaks to work smoothly with Nodejs server-side architecture. New improvements may need to be updated to utilize the power of Nodejs as well as Javascript/Typescript.
 
 This is the first version, which will be continuously updated. I hope people are interested in experiencing and contributing positive comments to help the Verp become more complete.
 
