@@ -68,6 +68,6 @@ Bug patches, technical specifications and detailed instructions will be updated 
 
   ts-node ./src/index.ts
 
-9) Access
+8) Access
 
   http://localhost:7979
