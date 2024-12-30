@@ -47,7 +47,7 @@ Bug patches, technical specifications and detailed instructions will be updated 
 
 6) Config verp .\src\config.json
 
-  "addonsPath": "./src/core/addons,./src/addons",
+  > "addonsPath": "./src/core/addons,./src/addons",
   "chromePath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
   "dataDir": "C:\\Users\\Admin\\AppData\\Local\\Verp",
   "dbHost": "localhost",
