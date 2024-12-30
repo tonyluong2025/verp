@@ -47,22 +47,22 @@ Bug patches, technical specifications and detailed instructions will be updated 
 
 6) Config verp .\src\config.json
 
-  "addonsPath": "./src/core/addons,./src/addons",
-  "chromePath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-  "dataDir": "C:\\Users\\Admin\\AppData\\Local\\Verp",
-  "dbHost": "localhost",
-  "dbDialect": "postgres",
-  "dbPort": 5432,
-  "dbUser": "verp",
-  "dbPassword": "verp",
-  "httpHostname": "localhost",
-  "httpPort": 7979,
-  "langCodes": [["vi_VN", "Tiếng Việt"], ["en_US", "English"]],
-  "smtpServer": "smtp.ethereal.email",
-  "smtpPort": 587,
-  "smtpSsl": "STARTTLS",
-  "smtpUser": "???@ethereal.email",
-  "smtpPassword": "???",
+  "addonsPath": "./src/core/addons,./src/addons",\
+  "chromePath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",\
+  "dataDir": "C:\\Users\\Admin\\AppData\\Local\\Verp",\
+  "dbHost": "localhost",\
+  "dbDialect": "postgres",\
+  "dbPort": 5432,\
+  "dbUser": "verp",\
+  "dbPassword": "verp",\
+  "httpHostname": "localhost",\
+  "httpPort": 7979,\
+  "langCodes": [["vi_VN", "Tiếng Việt"], ["en_US", "English"]],\
+  "smtpServer": "smtp.ethereal.email",\
+  "smtpPort": 587,\
+  "smtpSsl": "STARTTLS",\
+  "smtpUser": "???@ethereal.email",\
+  "smtpPassword": "???",\
 
 7) Run
 
