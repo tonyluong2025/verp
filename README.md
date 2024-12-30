@@ -13,20 +13,20 @@ Bug fixes, specifications and detailed instructions will be updated in the near 
 
 1) Get the Verp 1.0
 
-  git clone https://github.com/tonyluong2025/verp.git
+  > git clone https://github.com/tonyluong2025/verp.git
 
 2) Install nodejs 20.15.1
 
-  https://nodejs.org/en/download/prebuilt-installer
+  > https://nodejs.org/en/download/prebuilt-installer
 
 3) Install typescript 5.3.3
 
-  https://www.typescriptlang.org/download/
+  > https://www.typescriptlang.org/download/
 
 4) Install postgres 12.20
   
-  https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
-> Create user with permission create/remove database: \
+  > https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+    Create user with permission create/remove database: \
     user: verp \
     pass: verp
 
@@ -61,7 +61,7 @@ Bug fixes, specifications and detailed instructions will be updated in the near 
 
   > ts-node ./src/index.ts
 
-8) Access by a browser
+9) Access by a browser
 
   > http://localhost:7979 \
   (default password of master: admin)
