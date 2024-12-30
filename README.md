@@ -1,21 +1,21 @@
 Verp (Very-easy Enterprise Resource Planning) is an ERP server platform running on Nodejs written in Typescript/Javascript, and the webclient side follows the standard of the trio of frontend development: JavaScript, HTML, and CSS.
 
-The author's point of view is that need a platform that can act as both an ERP and a more multi-purpose platform to serve small and medium-sized organizations and businesses with the following criteria:
+The author's point of view is that needs a platform which can run as both a multi-purpose ERP platform to serve small and medium-sized organizations and businesses with the following requirements:
 
-1) only needs to be written in a single programming language (basically Javascript/Typescript),
+1) only written in a single programming language (basically Javascript/Typescript),
 2) allows running on any operating system platform (Linux/Windows/MacOS),
 3) easy to use (private server/cloud, web client/smartdevice),
 4) easy to extend (install/uninstall modules on runtime).
 
-Through the aproaching of existing open source platforms, with my limitations, the author has not found any software that fully meets my requirements. The author has also combined various platforms and supporting software packages but found that those implementations are still limited.
+Through the aproaching of existing open source platforms, with my limitations, I has not found any software that fully meets my requirements. The author has also combined various platforms and supporting software packages but found that those implementations are still limited.
 
-Odoo/OpenERP, is an interesting inspiration, however it is written in Python for the server side, so the webclient needs to use some hybrid techniques to process the javascript language for some specifications defined on the server and client side. In some aspects, Python is a great programming language for the server and Javascript is also great but it is difficult to completely replace Python.
+Odoo/OpenERP, is an interesting inspiration, however it is written in Python for the server-side, so the webclient needs to use some hybrid techniques to process the language for some specifications defined on the server and client side. In some aspects, Python is a great programming language for the server and Javascript is also great but it is difficult to completely replace Python.
 
-Through the efforts of applying, learning, inheriting and referencing Odoo/OpenERP and some other supporting packages of the community available on NPM, the author has tried to create the Verp platform to serve the above purpose and hopes that many people, especially the SME community, support with that idea. 
+Through the efforts of applying, learning, inheriting and referencing Odoo/OpenERP and some other supporting packages of the community available on NPM, the author has tried to create the Verp platform to serve the above purpose and hopes that many people, especially the SME community, support with this idea. 
 
-In the early stages, many source codes are taken and converted from Python for the main purpose of easy experience, reference and bug fixing. In the future, when the platform is stable enough, the architecture will be converted as appropriately as possible. Most of the web client packages are adopted from Odoo/OpenErp platform with compatibility tweaks to work smoothly with Nodejs server-side architecture. New improvements may need to be changed in the future to utilize the strengths of Nodejs as well as Javascript/Typescript.
+In the early stages, many source codes are taken and converted from Python for the main purpose of easy experience, reference and bug fixing. In the near future, when the platform is stable enough, the architecture will be converted as appropriately as possible. Most of the web client packages are adopted from Odoo/OpenErp platform with compatibility tweaks to work smoothly with Nodejs server-side architecture. New improvements may need to be changed in the future to utilize the strengths of Nodejs as well as Javascript/Typescript.
 
-This is the first version, which will be continuously updated. I hope many people are interested in experiencing and contributing positive comments to help Verp become more complete.
+This is the first version, which will be continuously updated. I hope people are interested in experiencing and contributing positive comments to help the Verp become more complete.
 
 Bug patches, technical specifications and detailed instructions will be updated in the near future.
 
@@ -43,7 +43,7 @@ Bug patches, technical specifications and detailed instructions will be updated 
 
 5) Install Chrome to make report pdf
 
-  https://www.google.com/chrome
+  > https://www.google.com/chrome
 
 6) Config verp .\src\config.json
 
@@ -66,8 +66,9 @@ Bug patches, technical specifications and detailed instructions will be updated 
 
 7) Run
 
-  ts-node ./src/index.ts
+  > ts-node ./src/index.ts
 
 8) Access
 
-  http://localhost:7979
+  > http://localhost:7979\
+  (default password of master: admin)
