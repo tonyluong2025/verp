@@ -36,9 +36,8 @@ Bug patches, technical specifications and detailed instructions will be updated 
 4) Install postgres 12.20
   
   https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
-
-  * Create user with permission create/remove database 
-    user: verp
+> Create user with permission create/remove database: \
+    user: verp \
     pass: verp
 
 5) Install Chrome to make report pdf
