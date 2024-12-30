@@ -70,5 +70,5 @@ Bug patches, technical specifications and detailed instructions will be updated 
 
 8) Access
 
-  > http://localhost:7979\
+  > http://localhost:7979 \
   (default password of master: admin)
