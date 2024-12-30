@@ -2,7 +2,7 @@ Verp (Very-easy Enterprise Resource Planning) is an ERP server platform running 
 
 The author's point of view is that needs a platform which can run as a multi-purpose ERP platform to serve small and medium-sized organizations and businesses with the following requirements:
 
-1) only written in a single programming language (basically Javascript/Typescript),
+1) only written in a programming language (Javascript/Typescript),
 2) allows running on any operating system platform (Linux/Windows/MacOS),
 3) easy to use (private server/cloud, web client/smartdevice),
 4) easy to extend (install/uninstall modules on runtime).
