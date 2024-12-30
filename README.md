@@ -1,23 +1,13 @@
-Verp (Very-easy Enterprise Resource Planning) is an ERP server platform running on Nodejs written in Typescript/Javascript, and the webclient side follows the standard of the trio of frontend development: JavaScript, HTML, and CSS.
+Verp (Very-easy Enterprise Resource Planning) is an ERP platform written in Typescript/Javascript based on Nodejs, and the web client-side follows the frontend development trio standard: JavaScript, HTML and CSS
 
-The author's point of view is that needs a platform which can run as a multi-purpose ERP platform to serve small and medium-sized organizations and businesses with the following requirements:
-
-1) only written in a programming language (Javascript/Typescript),
+1) written in just one programming language (Javascript/Typescript),
 2) allows running on any operating system platform (Linux/Windows/MacOS),
-3) easy to use (private server/cloud, web client/smartdevice),
+3) easy to use (private server/cloud, web client/smart device),
 4) easy to extend (install/uninstall modules on runtime).
 
-Through the aproaching of existing open source platforms, with my limitations, I has not found any software that fully meets my requirements. The author has also combined various platforms and supporting software packages but found that those implementations are still limited.
+Verp is inspired by Odoo/OpenErp. This is the first version, will be updated continuously. I hope everyone is interested in experiencing and contributing positive comments to help Verp become more complete.
 
-Odoo/OpenERP, is an interesting inspiration, however it is written in Python for the server-side, so the webclient needs to use some hybrid techniques to process the language for some specifications defined on the server and client side. In some aspects, Python is a great programming language for the server and Javascript is also great but it is difficult to completely replace Python.
-
-Through the efforts of applying, learning, inheriting and referencing Odoo/OpenERP and some other supporting packages of the community available on NPM, the author has tried to create the Verp platform to serve the above purpose and hopes that many people, especially the SME community, support with this idea. 
-
-In the early stages, many source codes are taken and converted from Python for the main purpose of easy experience, reference and bug fixing. In the near future, when the platform is stable enough, the architecture will be converted as appropriately as possible. Most of the web client packages are adopted from Odoo/OpenErp platform with compatibility tweaks to work smoothly with Nodejs server-side architecture. New improvements may need to be updated to utilize the power of Nodejs as well as Javascript/Typescript.
-
-This is the first version, which will be continuously updated. I hope people are interested in experiencing and contributing positive comments to help the Verp become more complete.
-
-Bug patches, technical specifications and detailed instructions will be updated in the near future.
+Bug fixes, specifications and detailed instructions will be updated in the near future.
 
 ** Installation instructions:
 
@@ -63,11 +53,15 @@ Bug patches, technical specifications and detailed instructions will be updated 
   "smtpUser": "???@ethereal.email",\
   "smtpPassword": "???",\
 
-7) Run
+7) Isntall
+
+  > npm i
+
+8) Run a command line
 
   > ts-node ./src/index.ts
 
-8) Access
+8) Access by a browser
 
   > http://localhost:7979 \
   (default password of master: admin)
