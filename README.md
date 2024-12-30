@@ -47,7 +47,6 @@ Bug patches, technical specifications and detailed instructions will be updated 
 
 6) Config verp .\src\config.json
 
-<<<<<<< HEAD
   "addonsPath": "./src/core/addons,./src/addons",\
   "chromePath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",\
   "dataDir": "C:\\Users\\Admin\\AppData\\Local\\Verp",\
@@ -64,24 +63,6 @@ Bug patches, technical specifications and detailed instructions will be updated 
   "smtpSsl": "STARTTLS",\
   "smtpUser": "???@ethereal.email",\
   "smtpPassword": "???",\
-=======
-  > "addonsPath": "./src/core/addons,./src/addons",
-  "chromePath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-  "dataDir": "C:\\Users\\Admin\\AppData\\Local\\Verp",
-  "dbHost": "localhost",
-  "dbDialect": "postgres",
-  "dbPort": 5432,
-  "dbUser": "verp",
-  "dbPassword": "verp",
-  "httpHostname": "localhost",
-  "httpPort": 7979,
-  "langCodes": [["vi_VN", "Tiếng Việt"], ["en_US", "English"]],
-  "smtpServer": "smtp.ethereal.email",
-  "smtpPort": 587,
-  "smtpSsl": "STARTTLS",
-  "smtpUser": "???@ethereal.email",
-  "smtpPassword": "???",
->>>>>>> 3d6d3155fe9ab70250e47ee7cccdaea1b2e3e511
 
 7) Run
 
