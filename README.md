@@ -25,7 +25,7 @@ Bug fixes, specifications and detailed instructions will be updated in the near 
 
 4) Install postgres 12.20
   
-  > https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+  > https://www.enterprisedb.com/downloads/postgres-postgresql-downloads \
     Create user with permission create/remove database: \
     user: verp \
     pass: verp
