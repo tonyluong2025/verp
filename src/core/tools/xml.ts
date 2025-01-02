@@ -239,18 +239,12 @@ export function* iterlinks(self: Element) {
     else if (tag === 'param') {
       const valuetype = getAttribute(el, 'valuetype', '');
       if (valuetype.toLowerCase() === 'ref') {
-        // FIXME: while it's fine we *find* this link,
-        // according to the spec we aren't supposed to
-        // actually change the value, including resolving
-        // it.  It can also still be a link, even if it
-        // doesn't have a valuetype="ref" (which seems to be the norm)
         // http://www.w3.org/TR/html401/struct/objects.html#adef-valuetype
         yield [el, 'value', el.getAttribute('value'), 0];
       }
     }
     else if (tag === 'style' && el.textContent) {
       let urls =
-        // (startPos, url)
         Array.from(el.textContent.matchAll(_iterCssUrls)).map(match => _unquoteMatch(match[1], match.index + 1)).reverse().concat(Array.from(el.textContent.matchAll(_iterCssUrls)).map(match => [match.index + 1, match[1]]));
       if (urls.length) {
         // sort by start pos to bring both match sets back into order
@@ -306,7 +300,7 @@ export function getpath(el: Element, root?: Element) {
   if (root == null) {
     root = el.ownerDocument.documentElement;
   }
-  const paths = []
+  const paths = [];
   let _el = el;
   do {
     paths.push(_el)
@@ -484,12 +478,15 @@ export function popAttribute(el: any, name: string, value?: any) {
 }
 
 export function _elementName(el: Element) {
-  if (isComment(el))
-    return 'comment'
-  else if (isBasestring(el))
-    return 'string'
-  else
-    return _nons(el.tagName)
+  if (isComment(el)) {
+    return 'comment';
+  }
+  else if (isBasestring(el)) {
+    return 'string';
+  }
+  else {
+    return _nons(el.tagName);
+  }
 }
 
 function serializeAttrs(attrs = {}) {
@@ -501,71 +498,6 @@ function serializeAttrs(attrs = {}) {
 }
 
 export class ElementMaker {
-  /*
-  _namespace: string;
-  _nsmap: Dict<any>;
-  _makeelement: any;
-
-  constructor(typemap?:any, namespace?:string, nsmap?:any, makeelement?:any) {
-    super();
-
-    if (!namespace)
-      this._namespace = '{' + namespace + '}'
-    else
-      this._namespace = null
-
-    if (nsmap)
-      this._nsmap = new Dict(nsmap);
-    else
-      this._nsmap = null
-
-    if (makeelement) {
-      assert(isCallable(makeelement))
-      this._makeelement = makeelement
-    }
-    else
-      this._makeelement = (new DOMImplementation().createDocument);
-
-    if (typemap)
-      typemap = new Dict(typemap)
-    else
-      typemap = new Dict()
-
-    function addText(elem: Element, item) {
-      if (elem.previousSibling) {
-        elem.previousSibling.textContent = (elem.previousSibling.textContent || "") + item
-      } else {
-        elem.textContent = (elem.textContent || "") + item
-      }
-    }
-
-    function addCdata(elem: Element, cdata) {
-      if (elem.textContent)
-        throw new ValueError("Can't add a CDATA section. Element already has some text: %s", elem.textContent);
-      elem.textContent = cdata
-    }
-
-    if (!typemap['string'])
-        typemap['string'] = addText
-    if (!typemap['unicode'])
-        typemap['unicode'] = addText
-    if (!typemap['cdata'])
-        typemap['cdata'] = addCdata
-
-    return new Proxy(this, {
-      get(target, prop, receiver): any {
-        return Reflect.get(target, prop, receiver);
-      },
-      apply(target, thisArg, args: any[]) {
-        return target.__call__(...args);
-      }
-    })
-  }
-
-  __call__(...argumentsList: any[]) {
-
-  }
-  */
   static field(value?: string | {}, attrs = {}, children?: Element[]) {
     return ElementMaker.withType('field', value, attrs, children);
   }
@@ -692,52 +624,6 @@ export function _nons(tag: string) {
       return tag.split('}').slice(-1)[0];
   }
   return tag
-}
-
-/**
- * Parses several HTML elements, returning a list of elements.
-
-  The first item in the list may be a string.
-  If no_leading_text is true, then it will be an error if there is
-  leading text, and it will always be a list of only elements.
-
-  base_url will set the document's base_url attribute
-  (and the tree's docinfo.URL).
- * @param html 
- * @param noLeadingText 
- * @param baseUrl 
- * @param parser 
- * @param kw 
- * @returns 
- */
-export function fragmentsFromString(html, noLeadingText?: boolean, baseUrl?: any, parser?: any, kw?: {}) {
-  if (parser == null)
-    parser = parseXml
-  // FIXME: check what happens when you give html with a body, head, etc.
-  // if (isInstance(html, Uint8Array)) {
-  //   if not _looks_like_full_html_bytes(html):
-  //     # can't use %-formatting in early Py3 versions
-  //     html = ('<html><body>'.encode('ascii') + html +
-  //     '</body></html>'.encode('ascii'))
-  // }
-  // else:
-  //   if not _looks_like_full_html_unicode(html):
-  //     html = '<html><body>%s</body></html>' % html
-  // doc = document_fromstring(html, parser=parser, base_url=base_url, **kw)
-  // assert _nons(doc.tag) == 'html'
-  // bodies = [e for e in doc if _nons(e.tag) == 'body']
-  // assert len(bodies) == 1, ("too many bodies: %s in %s" % (bodies, html))
-  // body = bodies[0]
-  const elements = []
-  // if no_leading_text and body.text and body.text.strip():
-  // raise etree.ParserError(
-  // "There is leading text: %s" % body.text)
-  // if body.text and body.text.strip():
-  // elements.append(body.text)
-  // elements.extend(body)
-  // # FIXME: removing the reference to the parent artificial document
-  // # would be nice
-  return elements
 }
 
 export function markup(text: string) {

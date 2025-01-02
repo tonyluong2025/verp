@@ -1,0 +1,93 @@
+/** @verp-module **/
+
+import { registry } from "@web/core/registry";
+import { useAutofocus, useService } from "@web/core/utils/hooks";
+import { sprintf } from "@web/core/utils/strings";
+
+const { Component, useState } = owl;
+const favoriteMenuRegistry = registry.category("favoriteMenu");
+
+/**
+ * 'Add to board' menu
+ *
+ * Component consisiting of a toggle button, a text input and an 'Add' button.
+ * The first button is simply used to toggle the component and will determine
+ * whether the other elements should be rendered.
+ * The input will be given the name (or title) of the view that will be added.
+ * Finally, the last button will send the name as well as some of the action
+ * properties to the server to add the current view (and its context) to the
+ * user's dashboard.
+ * This component is only available in actions of type 'ir.actions.actwindow'.
+ * @extends Component
+ */
+export class AddToBoard extends Component {
+    setup() {
+        this.notification = useService("notification");
+        this.rpc = useService("rpc");
+        this.state = useState({ name: this.env.config.displayName });
+
+        useAutofocus();
+    }
+
+    //---------------------------------------------------------------------
+    // Protected
+    //---------------------------------------------------------------------
+
+    async addToBoard() {
+        const { domain, globalContext } = this.env.searchModel;
+        const { context } = this.env.searchModel.getIrFilterValues();
+        const contextToSave = {
+            ...globalContext,
+            ...context,
+            orderedBy: this.env.searchModel.orderBy,
+            dashboardMergeDomainsContexts: false,
+        };
+
+        const result = await this.rpc("/board/addToDashboard", {
+            actionId: this.env.config.actionId || false,
+            contextToSave: contextToSave,
+            domain,
+            name: this.state.name,
+            viewMode: this.env.config.viewType,
+        });
+
+        if (result) {
+            this.notification.add(
+                this.env._t("Please refresh your browser for the changes to take effect."),
+                {
+                    title: sprintf(this.env._t(`"%s" added to dashboard`), this.state.name),
+                    type: "warning",
+                }
+            );
+            this.state.name = this.env.config.displayName;
+        } else {
+            this.notification.add(this.env._t("Could not add filter to dashboard"), {
+                type: "danger",
+            });
+        }
+    }
+
+    //---------------------------------------------------------------------
+    // Handlers
+    //---------------------------------------------------------------------
+
+    /**
+     * @param {KeyboardEvent} ev
+     */
+    onInputKeydown(ev) {
+        if (ev.key === "Enter") {
+            ev.preventDefault();
+            this.addToBoard();
+        }
+    }
+}
+
+AddToBoard.template = "board.AddToBoard";
+
+export const addToBoardItem = {
+    Component: AddToBoard,
+    groupNumber: 4,
+    isDisplayed: ({ config }) => config.actionType === "ir.actions.actwindow" && config.actionId,
+};
+
+favoriteMenuRegistry.add("add-to-board", addToBoardItem, { sequence: 10 });

@@ -483,7 +483,7 @@ export class Registry {
     // no need to notify cache invalidation in case of registry invalidation,
     // because reloading the registry implies starting with an empty cache
     else if (this.cacheInvalidated && !this.inTestMode()) {
-      console.info("At least one model cache has been invalidated, signaling through the database.");
+      console.debug("At least one model cache has been invalidated, signaling through the database.");
       const cr = this.cursor();
       try {
         const res = await cr.execute(dbFactory.sqlSelectLastSequence(['base_cache_signaling']), { withoutTransaction: true });

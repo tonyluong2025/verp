@@ -223,7 +223,8 @@ export class Website extends Home {
     }
 
     @http.route(['/website/countryInfos/<model("res.country"):country>'], { type: 'json', auth: "public", methods: ['POST'], website: true })
-    async countryInfos(req, res, { country = null } = {}) {
+    async countryInfos(req, res, opts: { country?: any } = {}) {
+        const country = opts.country;
         const fields = await country.getAddressFields();
         return Object.assign({}, { fields: fields, states: await (await country.stateIds).map(async (st) => st('id', 'label', 'code')), phoneCode: await country.phoneCode });
     }

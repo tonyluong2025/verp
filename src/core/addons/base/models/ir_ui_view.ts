@@ -662,7 +662,7 @@ class View extends Model {
     // drop the corresponding view customizations (used for dashboards for example), otherwise
     // not all users would see the updated views
     const customView = await this.env.items('ir.ui.view.custom').search([['refId', 'in', this.ids]]);
-    if (customView.ok) {
+    if (bool(customView)) {
       await customView.unlink();
     }
     this.clearCaches();

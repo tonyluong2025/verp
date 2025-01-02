@@ -202,6 +202,7 @@ var BaseSettingRenderer = FormRenderer.extend({
             self._initModules();
             self._renderLeftPanel();
             self._initSearch();
+            console.log('base.settings >> self._initSearch();')
         });
     },
 

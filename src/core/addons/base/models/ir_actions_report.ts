@@ -7,7 +7,7 @@ import puppeteer from 'puppeteer';
 import temp from 'temp';
 import { encode } from 'utf8';
 import xpath from "xpath";
-import { api, models } from "../../..";
+import { api, models, tools } from "../../..";
 import { setdefault } from '../../../api';
 import { Fields, _Datetime } from "../../../fields";
 import { AccessError, OrderedDict, UserError, ValueError } from '../../../helper';
@@ -488,7 +488,7 @@ class IrActionsReport extends Model {
         temporaryFiles.push(pdfReport.path);
         try {
             const browser = await puppeteer.launch({
-                executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+                executablePath: tools.config.options['chromePath'],
                 headless: true,
                 args: ["--fast-start", "--disable-extensions", "--no-sandbox"],
                 // ignoreHTTPSErrors: true
@@ -497,8 +497,11 @@ class IrActionsReport extends Model {
             await page.setContent(bodies[0]); // Tony must check multi articles/bodies
             const pdfContent = await page.pdf({
                 format: 'A4',
-                headerTemplate: header,
-                footerTemplate: footer,
+                displayHeaderFooter : true,
+                headerTemplate: '<div id="header-template" style="font-size:10px !important; color:#808080; padding-left:10px"><span class="date"></span><span class="title">Bao cao</span><span class="url">link</span><span class="pageNumber">01</span><span class="totalPages">100</span></div>',
+                footerTemplate: '<span style="-webkit-print-color-adjust: exact;color:#000 !important;" class="page-footer">©2020, Some footer text.</span>',
+                // headerTemplate: header,
+                // footerTemplate: footer,
                 margin: {
                     top: "20px",
                     left: "20px",

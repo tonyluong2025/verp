@@ -316,6 +316,14 @@ export function strip(str: string, char?: string) {
   return str;
 }
 
+/**
+ * This function is difference to function stringify
+ * ex: d = {'a': 'text', 'b': 100, 'c': true, 'd': [1,1], 'e': {ee: 1}}
+ * stringify => '{"a":"text", "b": 100, "c": true, "d": [1,1], "e": {"ee": 1}}'
+ * this func => "{'a': 'text','b': 100, 'c': true, 'd': [1,1], 'e': {'ee': 1}}" 
+ * @param obj 
+ * @returns string
+ */
 export function objectToText(obj) {
   //create an array that will later be joined into a string.
   var result = [];
@@ -329,7 +337,7 @@ export function objectToText(obj) {
   if (typeof (obj) == "object" && (obj.join == undefined)) {
     result.push("{");
     for (const prop in obj) {
-      result.push(`"${prop}"`, ": ", objectToText(obj[prop]), ",");
+      result.push(`'${prop}'`, ": ", objectToText(obj[prop]), ",");
     };
     result.push("}");
 
@@ -347,7 +355,7 @@ export function objectToText(obj) {
 
   //quotes with string
   } else if (typeof (obj) == "string") {
-    result.push(`"${obj}"`);
+    result.push(`'${obj}'`);
 
   //all other values can be done with JSON.stringify
   } else {

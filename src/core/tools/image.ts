@@ -171,10 +171,10 @@ export class ImageProcess {
       return this.base64Source;
     }
 
-    const stream = await this.imageQuality(quality, outputFormat);
+    const img = await this.imageQuality(quality, outputFormat);
 
-    if (stream !== this.image) {
-      const buffer = await stream.toBuffer();
+    if (img !== this.image) {
+      const buffer = await img.toBuffer();
       return b64encode(buffer);
     }
     return this.base64Source;

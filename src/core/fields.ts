@@ -569,7 +569,7 @@ export class Field {
     try {
       value = env.cache.get(record, this);
     } catch (e) {
-      if (isInstance(e, KeyError)) {
+      if (isInstance(e, KeyError)) {// or MissingError
         /**
          *  behavior in case of cache miss:            
             on a real record:
@@ -596,12 +596,12 @@ export class Field {
           try {
             await recs._fetchField(this);
           } catch (e) {
-            // if (isInstance(e, AccessError)) {
-            await record._fetchField(this);
-            // }
-            // else {
-            //   throw e;
-            // }
+            if (isInstance(e, AccessError)) {
+              await record._fetchField(this);
+            }
+            else {
+              throw e;
+            }
           }
           if (!env.cache.contains(record, this)) {
             throw new MissingError(

@@ -1,0 +1,183 @@
+.o-dashboard {
+
+    // Dashboard layout
+    .oe-dashboard-layout-1 .oe-dashboard-column {
+        &.index-0 {
+            width: 100%;
+        }
+        &.index-1, &.index-2 {
+            display: none;
+        }
+    }
+    .oe-dashboard-layout-1-1 .oe-dashboard-column {
+        width: 50%;
+        &.index-2 {
+            display: none;
+        }
+    }
+    .oe-dashboard-layout-1-1-1 .oe-dashboard-column {
+        width: 33%;
+    }
+    .oe-dashboard-layout-2-1 .oe-dashboard-column {
+        &.index-0 {
+            width: 70%;
+        }
+        &.index-1 {
+            width: 30%;
+        }
+        &.index-2 {
+            display: none;
+        }
+    }
+    .oe-dashboard-layout-1-2 .oe-dashboard-column {
+        &.index-0 {
+            width: 30%;
+        }
+        &.index-1 {
+            width: 70%;
+        }
+        &.index-2 {
+            display: none;
+        }
+    }
+    .oe-dashboard-column {
+        vertical-align: top;
+    }
+
+    // Layout selector
+    .oe-dashboard-links {
+        text-align: right;
+        margin: 0 4px 6px 0;
+    }
+
+    // Dashboard content
+    .oe-dashboard {
+        width: 100%;
+        .oe-action {
+            margin: 0 8px 8px 0;
+            background-color: white;
+            border: 1px solid;
+            border-color: #e5e5e5 #dbdbdb #d2d2d2;
+            margin: 0 8px 8px 0;
+           .oe-header {
+                font-size: 16px;
+                vertical-align: middle;
+                margin: 0;
+                padding: 12px;
+                &:hover {
+                    cursor: move;
+                }
+                .oe-icon {
+                    float: right;
+                    cursor: pointer;
+                    color: #b3b3b3;
+                    &:hover {
+                        color: #666;
+                        text-decoration: none;
+                    }
+                }
+                .oe-close:after {
+                    content: "×";
+                    margin-left: 4px;
+                }
+                .oe-minimize:after {
+                    content: "-";
+                    margin-left: 4px;
+                }
+                .oe-maximize:after {
+                    content: "+";
+                    margin-left: 4px;
+                }
+                .oe-header-text {
+                    width: auto;
+                    visibility: hidden;
+                    display: inline-block;
+                    cursor: text;
+                }
+                span {
+                    cursor: pointer;
+                }
+            }
+            .oe-header-empty {
+                padding-top: 0;
+                padding-bottom: 2px;
+            }
+            .oe-button-create {
+                margin-left: 4px;
+                padding: 0 4px 0 4px;
+                height: 16px !important;
+            }
+            .oe-content {
+                padding: 0 12px 12px 12px;
+                &.oe-folded {
+                    display: none;
+                }
+                .o-view-nocontent {
+                    display: none; // we don't have a create button on the dashboard, so no need to display that
+                }
+            }
+
+            // Override border of many2manytags defined for form-views
+            .o-kanban-view .o-kanban-record .oe-kanban-list-many2many .o-field-many2manytags {
+                border: none;
+            }
+
+            // Override height of graph. min-height doesn't do the trick
+            .o-legacy-graph-renderer canvas {
+                height: 300px;
+            }
+
+            // Override height for calendar view to be displayed properly
+            .o-calendar-view {
+                height: 100vh;
+            }
+
+            // Override height for map view to be displayed properly
+            .o-map-view {
+                .o-map-container, .o-pin-list-container {
+                    height: calc(100vh - #{$o-navbar-height});
+                }
+            }
+
+            //Add padding to the old dashboard view (To remove when board is converted to OWL)
+            .o-dashboard-view {
+                padding: $o-sheet-vpadding 0;
+            }
+        }
+    }
+}
+
+// Layout selector modal
+.oe-dashboard-layout-selector {
+    ul {
+        white-space: nowrap;
+    }
+    li {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        float: left;
+    }
+    .oe-dashboard-selected-layout {
+        margin-left: -30px;
+        vertical-align: bottom;
+        margin-bottom: 10px;
+    }
+}
+
+// Favorites menu in control panel
+.o-add-to-dashboard {
+    display: none; // hidden by default
+    max-width: 250px;
+    width: auto;
+}
+
+@include media-breakpoint-down(sm) {
+    .o-dashboard .oe-dashboard {
+        table-layout: fixed;
+
+        .oe-action .oe-header .oe-header-text {
+            display: none;
+        }
+    }
+}

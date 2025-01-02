@@ -1,0 +1,31 @@
+{
+    "label": "Dashboards",
+    "version": "1.0",
+    "category": "Productivity",
+    "sequence": 225,
+    "summary": "Build your own dashboards",
+    "description": "Lets the user create a custom dashboard.\n========================================\n\nAllows users to create custom dashboard.",
+    "depends": ["base", "web"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/board_views.xml"
+        ],
+    "application": true,
+    "assets": {
+        "web.assetsBackend": [
+            "board/static/src/**/*.scss",
+            "board/static/src/**/*.js"
+        ],
+        "web.qunitSuiteTests": [
+            "board/static/tests/**/*",
+            ["remove", "board/static/tests/mobile/**/*"]
+        ],
+        "web.qunitMobileSuiteTests": [
+            "board/static/tests/mobile/**/*"
+        ],
+        "web.assetsQweb": [
+            "board/static/src/**/*.xml"
+        ]
+    },
+    "license": "MIT Expat"
+}

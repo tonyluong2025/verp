@@ -1,0 +1,2 @@
+id,label,modelId:id,groupId:id,permRead,permWrite,permCreate,permUnlink
+access_board_board_all,board.board,model_boardBoard,,1,0,0,0

@@ -17,7 +17,7 @@ import { registry } from "@web/core/registry";
 import AbstractModel from "web.AbstractModel";
 import AbstractView from "web.AbstractView";
 import { controlPanel as cpHelpers, mock } from "web.testUtils";
-import legacyViewRegistry from "web.view_registry";
+import legacyViewRegistry from "web.viewRegistry";
 import { browser } from "@web/core/browser/browser";
 
 const patchDate = mock.patchDate;
